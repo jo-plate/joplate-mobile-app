@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "907242765194",
+    "project_id": "joplate",
+    "storage_bucket": "joplate.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:907242765194:android:4d4b09700f84bebea7e673",
+        "android_client_info": {
+          "package_name": "com.joplate.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9CU6-A8fkmsdLk5051EmvEjAwFFGuEbk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
