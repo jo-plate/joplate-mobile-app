@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:joplate/presentation/routes/pages/homescreen.dart';
+import 'package:joplate/presentation/routes/pages/HomeScreen/homescreen.dart';
 import 'package:joplate/presentation/routes/pages/tabs/dashboard_page.dart';
 import 'package:joplate/presentation/routes/pages/tabs/profile_screen.dart';
 import 'package:joplate/presentation/routes/pages/tabs/settings_page.dart';
