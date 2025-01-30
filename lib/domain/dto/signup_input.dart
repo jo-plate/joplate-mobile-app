@@ -22,4 +22,14 @@ class SignupInput with _$SignupInput {
 
   // TODO: Add validation
   bool get isValid => displayName.isNotEmpty && email.isNotEmpty && password.isNotEmpty && phonenumber.isNotEmpty;
+
+
+  Map<String, dynamic> toMap() {
+    return {
+      'displayName': displayName,
+      'email': email,
+      'password': password,
+      'phonenumber': phonenumber,
+    };
+  }
 }

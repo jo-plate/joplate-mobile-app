@@ -17,7 +17,7 @@ class PlateCard extends StatelessWidget {
     );
 
     // Method to convert plate number string to a list of image widgets
-    List<Widget> _buildPlateNumberImages() {
+    List<Widget> buildPlateNumberImages() {
       return plateNumber.split('-').expand((part) {
         return part.split('').map((digit) {
           final index = int.tryParse(digit);
@@ -43,7 +43,7 @@ class PlateCard extends StatelessWidget {
         alignment: Alignment.center,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: _buildPlateNumberImages(),
+          children: buildPlateNumberImages(),
         ),
       ),
     );
