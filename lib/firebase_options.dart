@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'joplate.firebasestorage.app',
     iosBundleId: 'com.joplate.app',
   );
+
 }

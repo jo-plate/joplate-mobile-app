@@ -6,6 +6,8 @@ class AuthService {
 
   User? get currentUser => _auth.currentUser;
 
+  bool get isLoggedIn => _auth.currentUser != null;
+
   Future<void> signInWithEmailAndPassword(LoginInput input) async {
     try {
       await _auth.signInWithEmailAndPassword(
