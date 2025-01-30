@@ -2,7 +2,7 @@ name: joplate
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -30,7 +30,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -68,19 +67,6 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   uses-material-design: true
-
-  assets:
-    - assets/images/number_0.jpg
-    - assets/images/number_1.jpg
-    - assets/images/number_2.jpg
-    - assets/images/number_3.jpg
-    - assets/images/number_4.jpg
-    - assets/images/number_5.jpg
-    - assets/images/number_6.jpg
-    - assets/images/number_7.jpg
-    - assets/images/number_8.jpg
-    - assets/images/number_9.jpg
-    - assets/images/place_holder.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
