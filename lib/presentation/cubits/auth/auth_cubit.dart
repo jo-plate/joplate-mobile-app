@@ -12,12 +12,16 @@ class AuthCubit extends Cubit<AuthState> {
 
   AuthCubit() : super(const AuthState());
 
+
+
+
   Future<void> loginWithEmailAndPassword(String email, String password) async {
     try {
       await _authService.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      emit(state.copyWith(user: _authService.currentUser));
     } catch (e) {
       print(e);
     }

@@ -1,5 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:joplate/injection/injector.dart';
+import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
 
 @RoutePage()
 class AuthPage extends StatefulWidget {
@@ -9,10 +12,23 @@ class AuthPage extends StatefulWidget {
   State<AuthPage> createState() => _AuthPageState();
 }
 
-class _AuthPageState extends State<AuthPage> {
+class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // 2 tabs, tab for login tab for register. login with email and password, or continue as guest, register with email password fullname and phone number
-    return const Placeholder();
+    return BlocProvider.value(
+      value: injector<AuthCubit>(),
+      child: const Scaffold(
+        body: Center(
+          child: Column(
+            children: [],
+          ),
+        ),
+      ),
+    );
   }
 }
