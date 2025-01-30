@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
-import './ui/logo_section.dart';
-import './ui/category_section.dart';
-import './ui/plates_grid.dart';
+import 'ui/logo_section.dart';
+import 'ui/category_section.dart';
+import 'ui/plates_grid.dart';
 
 @RoutePage()
 class HomePage extends StatelessWidget {
