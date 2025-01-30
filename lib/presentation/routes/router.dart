@@ -3,6 +3,7 @@ import 'package:joplate/presentation/routes/pages/home_screen/homescreen.dart';
 import 'package:joplate/presentation/routes/pages/tabs/dashboard_page.dart';
 import 'package:joplate/presentation/routes/pages/tabs/profile_screen.dart';
 import 'package:joplate/presentation/routes/pages/tabs/settings_page.dart';
+import 'package:joplate/presentation/routes/pages/auth_page.dart';
 
 part 'router.gr.dart';
 
@@ -13,7 +14,6 @@ class AppRouter extends RootStackRouter {
 
   @override
   List<AutoRoute> get routes => [
-    
         AutoRoute(
           path: '/',
           page: DashboardRoute.page,
@@ -21,8 +21,8 @@ class AppRouter extends RootStackRouter {
             AutoRoute(path: 'home', page: HomeRoute.page),
             AutoRoute(path: 'profile', page: ProfileRoute.page),
             AutoRoute(path: 'favorite', page: FavoritesRoute.page),
-            
           ],
         ),
+        AutoRoute(page: AuthRoute.page)
       ];
 }

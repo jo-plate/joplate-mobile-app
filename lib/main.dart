@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/injection/dependencies.dart';
+import 'package:joplate/injection/injector.dart';
+import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -14,9 +16,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
-
   await DependencyManager.inject();
+
   // COMMENT IN PROD
   if (kDebugMode) await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
 
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [],
+      providers: [BlocProvider(create: (_) => injector<AuthCubit>())],
       child: MaterialApp.router(
         title: 'JoPlate',
         theme: ThemeData(

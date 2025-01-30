@@ -10,7 +10,7 @@ part 'auth_cubit.freezed.dart';
 class AuthCubit extends Cubit<AuthState> {
   final FirebaseAuth _authService = FirebaseAuth.instance;
 
-  AuthCubit(super.initialState);
+  AuthCubit() : super(const AuthState());
 
   Future<void> loginWithEmailAndPassword(String email, String password) async {
     try {

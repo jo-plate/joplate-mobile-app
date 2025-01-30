@@ -28,6 +28,6 @@ _i174.GetIt $initGetIt(
   );
   gh.factory<_i457.LoginWithEmailAndPasswordUseCase>(
       () => _i457.LoginWithEmailAndPasswordUseCase());
-  gh.singleton<_i352.AuthCubit>(() => _i352.AuthCubit(gh<_i352.AuthState>()));
+  gh.singleton<_i352.AuthCubit>(() => _i352.AuthCubit());
   return getIt;
 }
