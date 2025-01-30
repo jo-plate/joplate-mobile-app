@@ -10,4 +10,11 @@ class User with _$User {
     required String email,
     required String password,
   }) = _User;
+
+  factory User.empty() => const User(
+        id: '',
+        name: '',
+        email: '',
+        password: '',
+      );
 }

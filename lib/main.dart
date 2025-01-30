@@ -7,7 +7,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-// Ideal time to initialize
+  // Ideal time to initialize
+  // COMMENT IN PRODUCTION
   await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
 
   runApp(const MyApp());
