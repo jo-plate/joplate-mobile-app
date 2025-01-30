@@ -3,7 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
-import 'package:joplate/presentation/routes/pages/tabs/profile_tab/ui/anon_user_view.dart';
+import 'package:joplate/presentation/routes/pages/home_page/profile_tab/ui/anon_user_view.dart';
 
 @RoutePage()
 class ProfilePage extends StatelessWidget {
