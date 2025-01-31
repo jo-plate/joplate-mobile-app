@@ -12,7 +12,7 @@
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
-import '../domain/repositories/firestore.dart' as _i156;
+import '../domain/repositories/firestore_user_repository.dart' as _i832;
 import '../domain/usecases/auth/login_with_email.dart' as _i457;
 import '../presentation/cubits/auth/auth_cubit.dart' as _i352;
 
@@ -29,9 +29,9 @@ _i174.GetIt $initGetIt(
   );
   gh.factory<_i457.LoginWithEmailAndPasswordUseCase>(
       () => _i457.LoginWithEmailAndPasswordUseCase());
-  gh.factory<_i156.FirestoreUserRepository>(
-      () => _i156.FirestoreUserRepository());
+  gh.singleton<_i832.FirestoreUserRepository>(
+      () => _i832.FirestoreUserRepository());
   gh.singleton<_i352.AuthCubit>(
-      () => _i352.AuthCubit(gh<_i156.FirestoreUserRepository>()));
+      () => _i352.AuthCubit(gh<_i832.FirestoreUserRepository>()));
   return getIt;
 }

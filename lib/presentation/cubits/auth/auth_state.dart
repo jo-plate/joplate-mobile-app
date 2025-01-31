@@ -6,13 +6,14 @@ class AuthState with _$AuthState {
 
   const factory AuthState({
     User? user,
-    bool? isLoading,
+    UserProfile? userProfile,
+    @Default(false) bool isLoading,
     String? errorMessage,
   }) = _AuthState;
 
   factory AuthState.initial() => const AuthState(
         user: null,
-        isLoading: false,
+        userProfile: null,
         errorMessage: null,
       );
 

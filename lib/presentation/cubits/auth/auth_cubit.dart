@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,7 +7,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:joplate/domain/dto/login_input.dart';
 import 'package:joplate/domain/dto/signup_input.dart';
-import 'package:joplate/domain/repositories/firestore.dart';
+import 'package:joplate/domain/entities/user_profile.dart';
+import 'package:joplate/domain/repositories/firestore_user_repository.dart';
 
 part 'auth_state.dart';
 part 'auth_cubit.freezed.dart';
@@ -15,7 +18,12 @@ class AuthCubit extends Cubit<AuthState> {
   final FirebaseAuth _authService = FirebaseAuth.instance;
   final FirestoreUserRepository _firestoreUserRepository;
 
-  AuthCubit(this._firestoreUserRepository) : super(AuthState.initial());
+  AuthCubit(this._firestoreUserRepository) : super(AuthState.initial()) {
+    _authService.authStateChanges().listen((user) {
+      if (user == state.user) return;
+      emit(state.copyWith(user: user, userProfile: user == null ? null : state.userProfile));
+    });
+  }
 
   Future<void> signUpWithEmailAndPassword(SignupInput input) async {
     try {
@@ -26,20 +34,16 @@ class AuthCubit extends Cubit<AuthState> {
         password: input.password,
       );
 
-      final user = userCredential.user;
-      if (user == null) throw Exception('User creation failed');
-
+      final user = userCredential.user!;
       await _firestoreUserRepository.createUserProfile(user.uid, input);
 
       emit(state.copyWith(user: user, isLoading: false));
     } on FirebaseAuthException catch (e) {
-      print(e);
       emit(state.copyWith(
         isLoading: false,
         errorMessage: _getFirebaseErrorMessage(e),
       ));
     } catch (e) {
-      print(e);
       emit(state.copyWith(
         isLoading: false,
         errorMessage: 'An unexpected error occurred',
@@ -78,7 +82,6 @@ class AuthCubit extends Cubit<AuthState> {
       emit(state.copyWith(isLoading: true, errorMessage: null));
 
       final userCredential = await _authService.signInAnonymously();
-
       emit(state.copyWith(
         user: userCredential.user,
         isLoading: false,
@@ -99,8 +102,13 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> logout() async {
     try {
       emit(state.copyWith(isLoading: true, errorMessage: null));
-      await _authService.signOut();
-      emit(state.copyWith(user: null, isLoading: false));
+      _authService.signOut();
+
+      emit(state.copyWith(
+        user: null,
+        userProfile: null,
+        isLoading: false,
+      ));
     } catch (e) {
       emit(state.copyWith(
         isLoading: false,
@@ -111,18 +119,16 @@ class AuthCubit extends Cubit<AuthState> {
 
   String _getFirebaseErrorMessage(FirebaseAuthException e) {
     switch (e.code) {
+      case 'network-request-failed':
+        return 'No internet connection';
       case 'email-already-in-use':
-        return 'This email is already registered';
+        return 'Email already registered';
       case 'invalid-email':
-        return 'Please enter a valid email address';
-      case 'operation-not-allowed':
-        return 'This operation is not allowed';
+        return 'Invalid email address';
       case 'weak-password':
-        return 'Password is too weak';
-      case 'user-disabled':
-        return 'This account has been disabled';
+        return 'Password too weak';
       case 'user-not-found':
-        return 'No account found for this email';
+        return 'Account not found';
       case 'wrong-password':
         return 'Incorrect password';
       default:

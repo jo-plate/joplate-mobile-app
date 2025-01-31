@@ -28,4 +28,13 @@ class UserProfile with _$UserProfile {
       'phonenumber': phonenumber,
     };
   }
+
+  factory UserProfile.fromMap(Map<String, dynamic> map) {
+    return UserProfile(
+      id: map['id'] as String,
+      displayName: map['displayName'] as String,
+      email: map['email'] as String,
+      phonenumber: map['phonenumber'] as String,
+    );
+  }
 }

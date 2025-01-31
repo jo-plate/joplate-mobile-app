@@ -17,7 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$AuthState {
   User? get user => throw _privateConstructorUsedError;
-  bool? get isLoading => throw _privateConstructorUsedError;
+  UserProfile? get userProfile => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
 
   /// Create a copy of AuthState
@@ -32,7 +33,13 @@ abstract class $AuthStateCopyWith<$Res> {
   factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) then) =
       _$AuthStateCopyWithImpl<$Res, AuthState>;
   @useResult
-  $Res call({User? user, bool? isLoading, String? errorMessage});
+  $Res call(
+      {User? user,
+      UserProfile? userProfile,
+      bool isLoading,
+      String? errorMessage});
+
+  $UserProfileCopyWith<$Res>? get userProfile;
 }
 
 /// @nodoc
@@ -51,7 +58,8 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
   @override
   $Res call({
     Object? user = freezed,
-    Object? isLoading = freezed,
+    Object? userProfile = freezed,
+    Object? isLoading = null,
     Object? errorMessage = freezed,
   }) {
     return _then(_value.copyWith(
@@ -59,15 +67,33 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
-      isLoading: freezed == isLoading
+      userProfile: freezed == userProfile
+          ? _value.userProfile
+          : userProfile // ignore: cast_nullable_to_non_nullable
+              as UserProfile?,
+      isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as bool,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
+  }
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $UserProfileCopyWith<$Res>? get userProfile {
+    if (_value.userProfile == null) {
+      return null;
+    }
+
+    return $UserProfileCopyWith<$Res>(_value.userProfile!, (value) {
+      return _then(_value.copyWith(userProfile: value) as $Val);
+    });
   }
 }
 
@@ -79,7 +105,14 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       __$$AuthStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({User? user, bool? isLoading, String? errorMessage});
+  $Res call(
+      {User? user,
+      UserProfile? userProfile,
+      bool isLoading,
+      String? errorMessage});
+
+  @override
+  $UserProfileCopyWith<$Res>? get userProfile;
 }
 
 /// @nodoc
@@ -96,7 +129,8 @@ class __$$AuthStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? user = freezed,
-    Object? isLoading = freezed,
+    Object? userProfile = freezed,
+    Object? isLoading = null,
     Object? errorMessage = freezed,
   }) {
     return _then(_$AuthStateImpl(
@@ -104,10 +138,14 @@ class __$$AuthStateImplCopyWithImpl<$Res>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
-      isLoading: freezed == isLoading
+      userProfile: freezed == userProfile
+          ? _value.userProfile
+          : userProfile // ignore: cast_nullable_to_non_nullable
+              as UserProfile?,
+      isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as bool,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -119,19 +157,23 @@ class __$$AuthStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$AuthStateImpl extends _AuthState {
-  const _$AuthStateImpl({this.user, this.isLoading, this.errorMessage})
+  const _$AuthStateImpl(
+      {this.user, this.userProfile, this.isLoading = false, this.errorMessage})
       : super._();
 
   @override
   final User? user;
   @override
-  final bool? isLoading;
+  final UserProfile? userProfile;
+  @override
+  @JsonKey()
+  final bool isLoading;
   @override
   final String? errorMessage;
 
   @override
   String toString() {
-    return 'AuthState(user: $user, isLoading: $isLoading, errorMessage: $errorMessage)';
+    return 'AuthState(user: $user, userProfile: $userProfile, isLoading: $isLoading, errorMessage: $errorMessage)';
   }
 
   @override
@@ -140,6 +182,8 @@ class _$AuthStateImpl extends _AuthState {
         (other.runtimeType == runtimeType &&
             other is _$AuthStateImpl &&
             (identical(other.user, user) || other.user == user) &&
+            (identical(other.userProfile, userProfile) ||
+                other.userProfile == userProfile) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             (identical(other.errorMessage, errorMessage) ||
@@ -147,7 +191,8 @@ class _$AuthStateImpl extends _AuthState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, user, isLoading, errorMessage);
+  int get hashCode =>
+      Object.hash(runtimeType, user, userProfile, isLoading, errorMessage);
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
@@ -161,14 +206,17 @@ class _$AuthStateImpl extends _AuthState {
 abstract class _AuthState extends AuthState {
   const factory _AuthState(
       {final User? user,
-      final bool? isLoading,
+      final UserProfile? userProfile,
+      final bool isLoading,
       final String? errorMessage}) = _$AuthStateImpl;
   const _AuthState._() : super._();
 
   @override
   User? get user;
   @override
-  bool? get isLoading;
+  UserProfile? get userProfile;
+  @override
+  bool get isLoading;
   @override
   String? get errorMessage;
 
