@@ -3,7 +3,7 @@ import 'package:joplate/presentation/routes/pages/home_page/home_tab/homescreen.
 import 'package:joplate/presentation/routes/pages/home_page/dashboard_page.dart';
 import 'package:joplate/presentation/routes/pages/home_page/profile_tab/profile_screen.dart';
 import 'package:joplate/presentation/routes/pages/home_page/favorites_tab/favorites_page.dart';
-import 'package:joplate/presentation/routes/pages/auth_page.dart';
+import 'package:joplate/presentation/routes/pages/auth_screen/auth_page.dart';
 
 part 'router.gr.dart';
 
