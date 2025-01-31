@@ -17,6 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$AuthState {
   User? get user => throw _privateConstructorUsedError;
+  bool? get isLoading => throw _privateConstructorUsedError;
+  String? get errorMessage => throw _privateConstructorUsedError;
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
@@ -30,7 +32,7 @@ abstract class $AuthStateCopyWith<$Res> {
   factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) then) =
       _$AuthStateCopyWithImpl<$Res, AuthState>;
   @useResult
-  $Res call({User? user});
+  $Res call({User? user, bool? isLoading, String? errorMessage});
 }
 
 /// @nodoc
@@ -49,12 +51,22 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
   @override
   $Res call({
     Object? user = freezed,
+    Object? isLoading = freezed,
+    Object? errorMessage = freezed,
   }) {
     return _then(_value.copyWith(
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
+      isLoading: freezed == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      errorMessage: freezed == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -67,7 +79,7 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       __$$AuthStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({User? user});
+  $Res call({User? user, bool? isLoading, String? errorMessage});
 }
 
 /// @nodoc
@@ -84,12 +96,22 @@ class __$$AuthStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? user = freezed,
+    Object? isLoading = freezed,
+    Object? errorMessage = freezed,
   }) {
     return _then(_$AuthStateImpl(
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
+      isLoading: freezed == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      errorMessage: freezed == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -97,14 +119,19 @@ class __$$AuthStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$AuthStateImpl extends _AuthState {
-  const _$AuthStateImpl({this.user}) : super._();
+  const _$AuthStateImpl({this.user, this.isLoading, this.errorMessage})
+      : super._();
 
   @override
   final User? user;
+  @override
+  final bool? isLoading;
+  @override
+  final String? errorMessage;
 
   @override
   String toString() {
-    return 'AuthState(user: $user)';
+    return 'AuthState(user: $user, isLoading: $isLoading, errorMessage: $errorMessage)';
   }
 
   @override
@@ -112,11 +139,15 @@ class _$AuthStateImpl extends _AuthState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AuthStateImpl &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.user, user) || other.user == user) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, user);
+  int get hashCode => Object.hash(runtimeType, user, isLoading, errorMessage);
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
@@ -128,11 +159,18 @@ class _$AuthStateImpl extends _AuthState {
 }
 
 abstract class _AuthState extends AuthState {
-  const factory _AuthState({final User? user}) = _$AuthStateImpl;
+  const factory _AuthState(
+      {final User? user,
+      final bool? isLoading,
+      final String? errorMessage}) = _$AuthStateImpl;
   const _AuthState._() : super._();
 
   @override
   User? get user;
+  @override
+  bool? get isLoading;
+  @override
+  String? get errorMessage;
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.

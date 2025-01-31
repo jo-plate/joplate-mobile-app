@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:joplate/domain/dto/login_input.dart';
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({super.key, this.onPressed});
+  const LoginForm({super.key, this.onPressed, this.isLoading = false});
 
   final Function(LoginInput input)? onPressed;
+  final bool isLoading;
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -12,86 +13,53 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final TextEditingController emailController = TextEditingController();
-
   final TextEditingController passwordController = TextEditingController();
+  bool _obscurePassword = true;
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 30.0), // Reduced top padding
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Email Field
-
           TextField(
             controller: emailController,
             keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Email',
-              labelStyle: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: Colors.black,
-              ),
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Colors.grey),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Color(0xFF981C1E), width: 2),
-              ),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             ),
           ),
           const SizedBox(height: 20),
-
-          // Password Field
           TextField(
             controller: passwordController,
-            obscureText: true,
+            obscureText: _obscurePassword,
             decoration: InputDecoration(
               labelText: 'Password',
-              labelStyle: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: Colors.black,
-              ),
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Colors.grey),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Color(0xFF981C1E), width: 2),
-              ),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               suffixIcon: IconButton(
-                icon: const Icon(Icons.visibility_off, color: Color(0xFF981C1E)),
-                onPressed: () {
-                  // Handle password visibility toggle
-                },
+                icon: Icon(
+                  _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                  color: const Color(0xFF981C1E),
+                ),
+                onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
               ),
             ),
           ),
           const SizedBox(height: 10),
-
-          // Reset Password Link
           Align(
             alignment: Alignment.centerRight,
             child: TextButton(
-              onPressed: () {
-                // Handle reset password action
-              },
+              onPressed: widget.isLoading ? null : _handlePasswordReset,
               child: const Text(
                 'Reset password',
                 style: TextStyle(
-                  fontSize: 14,
                   color: Color(0xFF981C1E),
                   fontWeight: FontWeight.w500,
                 ),
@@ -99,56 +67,47 @@ class _LoginFormState extends State<LoginForm> {
             ),
           ),
           const SizedBox(height: 20),
-
-          // Sign In Button
           ElevatedButton(
-            onPressed: () {
-              final input = LoginInput(
-                email: emailController.text,
-                password: passwordController.text,
-              );
-              widget.onPressed?.call(input);
-              debugPrint('Login attempt: $input');
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF981C1E),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              padding: const EdgeInsets.symmetric(vertical: 16),
-            ),
-            child: const Text(
+            onPressed: widget.isLoading ? null : _handleSubmit,
+            child: Text(
               'Sign in',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w900,
-                color: Colors.white,
-              ),
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w900,
+                  ),
             ),
           ),
           const SizedBox(height: 20),
-
-          // Login as Guest Button
           OutlinedButton(
-            onPressed: null, // Static button, no action
-            style: OutlinedButton.styleFrom(
-              side: const BorderSide(color: Color(0xFF981C1E), width: 1.5),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              padding: const EdgeInsets.symmetric(vertical: 16),
-            ),
+            onPressed: widget.isLoading ? null : _handleGuestLogin,
             child: const Text(
               'Continue as a guest',
               style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
                 color: Color(0xFF981C1E),
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  void _handleSubmit() {
+    final input = LoginInput(
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
+    );
+    widget.onPressed?.call(input);
+  }
+
+  void _handleGuestLogin() {
+    // Call your guest login method here
+    // Example: context.read<AuthCubit>().loginAnonymously();
+  }
+
+  void _handlePasswordReset() {
+    // Implement password reset logic here
+    // Example: context.read<AuthCubit>().resetPassword(emailController.text.trim());
   }
 }
