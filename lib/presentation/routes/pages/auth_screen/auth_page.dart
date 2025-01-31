@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
 import 'package:joplate/presentation/routes/pages/auth_screen/ui/login_form.dart';
@@ -27,77 +28,82 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 251, 251, 251), // Unified background color
-        appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-          elevation: 0,
-          automaticallyImplyLeading: false,
-          flexibleSpace: SafeArea(
-            child: Column(
-              children: [
-                // Back Button
-                Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back_ios, color: Color(0xFF981C1E)),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20), // Space below the back button
-
-                // JOPLATE Logo
-                const Text(
-                  'JOPLATE',
-                  style: TextStyle(
-                    fontSize: 50,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF981C1E), // Red color
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state.isLoggedIn) AutoRouter.of(context).maybePopTop();
+      },
+      child: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          backgroundColor: const Color.fromARGB(255, 251, 251, 251), // Unified background color
+          appBar: AppBar(
+            backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+            elevation: 0,
+            automaticallyImplyLeading: false,
+            flexibleSpace: SafeArea(
+              child: Column(
+                children: [
+                  // Back Button
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back_ios, color: Color(0xFF981C1E)),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  const SizedBox(height: 20), // Space below the back button
+
+                  // JOPLATE Logo
+                  const Text(
+                    'JOPLATE',
+                    style: TextStyle(
+                      fontSize: 50,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF981C1E), // Red color
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(200), // Height of TabBar
+              child: TabBar(
+                controller: _tabController,
+                indicator: BoxDecoration(),
+                dividerColor: Colors.transparent,
+                tabs: [
+                  // Custom Tabs
+                  _buildCustomTab(
+                    text: 'Sign in',
+                    isActive: _tabController.index == 0,
+                  ),
+                  _buildCustomTab(
+                    text: 'Sign up',
+                    isActive: _tabController.index == 1,
+                  ),
+                ],
+              ),
             ),
           ),
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(200), // Height of TabBar
-            child: TabBar(
-              controller: _tabController,
-              indicator: BoxDecoration(),
-              dividerColor: Colors.transparent,
-              tabs: [
-                // Custom Tabs
-                _buildCustomTab(
-                  text: 'Sign in',
-                  isActive: _tabController.index == 0,
-                ),
-                _buildCustomTab(
-                  text: 'Sign up',
-                  isActive: _tabController.index == 1,
-                ),
-              ],
-            ),
+
+          // TabBarView for Sign in and Sign up tabs
+          body: TabBarView(
+            controller: _tabController,
+            children: [
+              // Sign in Tab Content
+              LoginForm(
+                onPressed: injector<AuthCubit>().loginWithEmailAndPassword,
+              ),
+
+              // Sign up Tab Placeholder
+              SignupForm(
+                onPressed: injector<AuthCubit>().signUpWithEmailAndPassword,
+              ),
+            ],
           ),
-        ),
-
-        // TabBarView for Sign in and Sign up tabs
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            // Sign in Tab Content
-            LoginForm(
-              onPressed: injector<AuthCubit>().loginWithEmailAndPassword,
-            ),
-
-            // Sign up Tab Placeholder
-            SignupForm(
-              onPressed: injector<AuthCubit>().signUpWithEmailAndPassword,
-            ),
-          ],
         ),
       ),
     );
