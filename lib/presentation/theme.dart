@@ -10,23 +10,40 @@ final appTheme = ThemeData(
 
   // Input decoration theme for text fields
   inputDecorationTheme: InputDecorationTheme(
+    filled: true,
+    fillColor: Colors.white,
+    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
-      borderSide: BorderSide(color: Colors.grey.shade300),
-    ),
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10),
-      borderSide: BorderSide(color: Colors.grey.shade400),
+      borderSide: const BorderSide(color: Colors.grey),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
-      borderSide: BorderSide(color: Color(0xFF981C1E), width: 2),
+      borderSide: const BorderSide(color: Color(0xFF981C1E), width: 2),
     ),
-    filled: true,
-    fillColor: Colors.white,
-    contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-    labelStyle: const TextStyle(fontSize: 14, color: Colors.grey),
-    hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
+    labelStyle: const TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+      color: Colors.black,
+    ),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: const Color(0xFF981C1E),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 16),
+    ),
+  ),
+  outlinedButtonTheme: OutlinedButtonThemeData(
+    style: OutlinedButton.styleFrom(
+      side: const BorderSide(color: Color(0xFF981C1E), width: 1.5),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 16),
+    ),
   ),
 
   // Button themes
@@ -43,15 +60,6 @@ final appTheme = ThemeData(
       padding: MaterialStateProperty.all(
         const EdgeInsets.symmetric(vertical: 15),
       ),
-    ),
-  ),
-  outlinedButtonTheme: OutlinedButtonThemeData(
-    style: OutlinedButton.styleFrom(
-      foregroundColor: Color(0xFF981C1E),
-      side: const BorderSide(color: Color(0xFF981C1E), width: 1.5),
-      textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      padding: const EdgeInsets.symmetric(vertical: 15),
     ),
   ),
 

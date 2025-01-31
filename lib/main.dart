@@ -5,7 +5,7 @@ import 'package:joplate/injection/dependencies.dart';
 import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
 import 'package:joplate/presentation/routes/router.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:joplate/presentation/theme.dart';
 
@@ -20,7 +20,7 @@ void main() async {
   await DependencyManager.inject();
 
   // COMMENT IN PROD
-  if (kDebugMode) await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  // if (kDebugMode) await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
 
   runApp(const MyApp());
 }
