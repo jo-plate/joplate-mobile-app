@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:joplate/domain/entities/plate_number.dart';
+import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_widget.dart';
 import 'ui/logo_section.dart';
 import 'ui/category_section.dart';
 import 'ui/plates_grid.dart';

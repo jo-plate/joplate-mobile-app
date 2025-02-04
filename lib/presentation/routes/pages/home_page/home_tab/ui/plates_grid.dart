@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
-import '../../../../../widgets/app_bar.dart/plate_card.dart';
+import '../../../../../widgets/app_bar.dart/plate_number_widget.dart';
 
 class PlatesGrid extends StatelessWidget {
   PlatesGrid({super.key});
@@ -18,12 +18,12 @@ class PlatesGrid extends StatelessWidget {
       child: GridView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: 4, // Two rows, two columns
+        itemCount: 6, // Two rows, two columns
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, // Two columns
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
-          childAspectRatio: 3, // Adjust aspect ratio as needed
+          childAspectRatio: 3.6, // Adjust aspect ratio as needed
         ),
         itemBuilder: (context, index) {
           return PlateNumberWidget(

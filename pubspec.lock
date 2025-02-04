@@ -411,6 +411,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.0"
+  flutter_sfs:
+    dependency: "direct main"
+    description:
+      name: flutter_sfs
+      sha256: "5bf615f270ba7cf3b74a0599c3e3491c77b074c187fddfe6ad297961e317cf0b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
