@@ -23,7 +23,7 @@ class PlatesGrid extends StatelessWidget {
           crossAxisCount: 2, // Two columns
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
-          childAspectRatio: 3.6, // Adjust aspect ratio as needed
+          childAspectRatio: verticalPlateAspectRatio, // Adjust aspect ratio as needed
         ),
         itemBuilder: (context, index) {
           return PlateNumberWidget(

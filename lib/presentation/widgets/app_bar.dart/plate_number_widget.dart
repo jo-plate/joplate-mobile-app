@@ -3,6 +3,9 @@ import 'package:joplate/domain/entities/plate_number.dart';
 
 enum PlateShape { horizontal, vertical }
 
+const double horizontalPlateAspectRatio = 3.6;
+const double verticalPlateAspectRatio = 1 / 1.3;
+
 class PlateNumberWidget extends StatelessWidget {
   final PlateNumber plate;
   final PlateShape shape;
@@ -26,7 +29,7 @@ class PlateNumberWidget extends StatelessWidget {
         double borderRadius = constraints.maxWidth * 0.04;
 
         return AspectRatio(
-          aspectRatio: isVertical ? 1 / 1.3 : 3.6,
+          aspectRatio: isVertical ? verticalPlateAspectRatio : horizontalPlateAspectRatio,
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white,
