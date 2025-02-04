@@ -10,12 +10,12 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
         children: [
           // Top section (60% of the screen)
-          Expanded(
+          const Expanded(
             flex: 6, // 60% of the screen
             child: SingleChildScrollView(
               child: Column(

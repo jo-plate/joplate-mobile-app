@@ -18,7 +18,12 @@ class LoggedInUserView extends StatelessWidget {
       body: BlocProvider.value(
         value: injector<AuthCubit>(),
         child: Builder(builder: (context) {
-          return BlocBuilder<AuthCubit, AuthState>(
+          return BlocConsumer<AuthCubit, AuthState>(
+            listener: (context, state) {
+              if (state.isLoggedIn && state.userProfile == null) {
+                Navigator.of(context).pop();
+              }
+            },
             builder: (context, state) {
               if (state.isLoading) {
                 return const Center(child: CircularProgressIndicator());
@@ -28,7 +33,8 @@ class LoggedInUserView extends StatelessWidget {
                 return const AnonUserView();
               }
 
-              return _UserProfileView(profile: state.userProfile!);
+
+              return _UserProfileView(profile: state.userProfile ?? UserProfile.empty());
             },
           );
         }),

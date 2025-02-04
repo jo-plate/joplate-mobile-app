@@ -7,15 +7,15 @@ class UserProfile with _$UserProfile {
   const UserProfile._();
 
   const factory UserProfile({
-    required String displayName,
-    required String id,
-    required String email,
-    required String phonenumber,
+    @Default('') String displayName,
+    @Default('') String id,
+    @Default('') String email,
+    @Default('') String phonenumber,
   }) = _UserProfile;
 
   factory UserProfile.empty() => const UserProfile(
-        id: '',
-        displayName: '',
+        id: '-1',
+        displayName: 'Guest',
         phonenumber: '',
         email: '',
       );

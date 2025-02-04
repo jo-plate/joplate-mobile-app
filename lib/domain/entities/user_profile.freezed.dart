@@ -132,19 +132,23 @@ class __$$UserProfileImplCopyWithImpl<$Res>
 
 class _$UserProfileImpl extends _UserProfile {
   const _$UserProfileImpl(
-      {required this.displayName,
-      required this.id,
-      required this.email,
-      required this.phonenumber})
+      {this.displayName = '',
+      this.id = '',
+      this.email = '',
+      this.phonenumber = ''})
       : super._();
 
   @override
+  @JsonKey()
   final String displayName;
   @override
+  @JsonKey()
   final String id;
   @override
+  @JsonKey()
   final String email;
   @override
+  @JsonKey()
   final String phonenumber;
 
   @override
@@ -180,10 +184,10 @@ class _$UserProfileImpl extends _UserProfile {
 
 abstract class _UserProfile extends UserProfile {
   const factory _UserProfile(
-      {required final String displayName,
-      required final String id,
-      required final String email,
-      required final String phonenumber}) = _$UserProfileImpl;
+      {final String displayName,
+      final String id,
+      final String email,
+      final String phonenumber}) = _$UserProfileImpl;
   const _UserProfile._() : super._();
 
   @override

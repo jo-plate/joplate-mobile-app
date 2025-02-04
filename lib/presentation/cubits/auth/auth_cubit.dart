@@ -59,9 +59,11 @@ class AuthCubit extends Cubit<AuthState> {
         email: input.email,
         password: input.password,
       );
+      final userProfile = await _firestoreUserRepository.getUserProfile(userCredential.user!.uid);
 
       emit(state.copyWith(
         user: userCredential.user,
+        userProfile: userProfile,
         isLoading: false,
       ));
     } on FirebaseAuthException catch (e) {

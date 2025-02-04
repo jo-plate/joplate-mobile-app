@@ -17,5 +17,5 @@ class AuthState with _$AuthState {
         errorMessage: null,
       );
 
-  bool get isLoggedIn => user != null;
+  bool get isLoggedIn => user != null || userProfile != null;
 }

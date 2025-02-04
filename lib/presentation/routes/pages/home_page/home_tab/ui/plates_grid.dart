@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'plate_card.dart';
+import 'package:joplate/domain/entities/plate_number.dart';
+import '../../../../../widgets/app_bar.dart/plate_card.dart';
 
 class PlatesGrid extends StatelessWidget {
-  const PlatesGrid({super.key});
+  PlatesGrid({super.key});
+
+  final List<PlateNumber> plates = PlateNumber.mockList(6);
 
   @override
   Widget build(BuildContext context) {
@@ -20,17 +23,11 @@ class PlatesGrid extends StatelessWidget {
           crossAxisCount: 2, // Two columns
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
-          childAspectRatio: 1.5, // Adjust aspect ratio as needed
+          childAspectRatio: 3, // Adjust aspect ratio as needed
         ),
         itemBuilder: (context, index) {
-          final plates = [
-            {'code': '20', 'price': 'AED 135,000', 'number': '22232'},
-            {'code': '12', 'price': 'AED 156,000', 'number': '2322'},
-            {'code': 'AUD', 'price': 'AUD 158,000', 'number': '77776'},
-            {'code': 'AUD', 'price': 'AUD 15,500', 'number': '55099'},
-          ];
-          return PlateCard(
-            plateNumber: plates[index]['number']!,
+          return PlateNumberWidget(
+            plate: plates[index],
           );
         },
       ),
