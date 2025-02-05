@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -32,7 +31,7 @@ class AuthCubit extends Cubit<AuthState> {
     _authService.authStateChanges().listen((user) async {
       if (user == state.user) return;
       if (user != null) {
-        final userProfile = await _firestoreUserRepository.getUserProfile(user!.uid);
+        final userProfile = await _firestoreUserRepository.getUserProfile(user.uid);
         emit(state.copyWith(user: user, userProfile: userProfile));
       } else {
         emit(state.copyWith(user: null, userProfile: null));
