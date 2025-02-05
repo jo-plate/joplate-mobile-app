@@ -19,9 +19,24 @@ class AuthCubit extends Cubit<AuthState> {
   final FirestoreUserRepository _firestoreUserRepository;
 
   AuthCubit(this._firestoreUserRepository) : super(AuthState.initial()) {
-    _authService.authStateChanges().listen((user) {
+    if (_authService.currentUser != null) {
+      _initAuthStateListener(_authService.currentUser!.uid);
+
+      _firestoreUserRepository
+          .getUserProfile(_authService.currentUser!.uid)
+          .then((value) => emit(state.copyWith(user: _authService.currentUser, userProfile: value)));
+    }
+  }
+
+  Future<void> _initAuthStateListener(String userId) async {
+    _authService.authStateChanges().listen((user) async {
       if (user == state.user) return;
-      emit(state.copyWith(user: user, userProfile: user == null ? null : state.userProfile));
+      if (user != null) {
+        final userProfile = await _firestoreUserRepository.getUserProfile(user!.uid);
+        emit(state.copyWith(user: user, userProfile: userProfile));
+      } else {
+        emit(state.copyWith(user: null, userProfile: null));
+      }
     });
   }
 

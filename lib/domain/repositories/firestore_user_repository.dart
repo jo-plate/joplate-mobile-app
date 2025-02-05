@@ -10,6 +10,7 @@ class FirestoreUserRepository {
   Stream<UserProfile>? _userProfileStream;
   String? _currentUserId;
 
+
   Stream<UserProfile> get userProfileStream {
     _userProfileStream ??= _createProfileStream();
     return _userProfileStream!;
