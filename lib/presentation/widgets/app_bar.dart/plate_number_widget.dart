@@ -61,9 +61,7 @@ class PlateNumberWidget extends StatelessWidget {
           "${plate.code} - ${plate.number}",
           style: TextStyle(
             fontSize: fontSize,
-            // fontWeight: FontWeight.w600,
             fontFamily: 'Mandatory',
-            // letterSpacing: 2,
           ),
         ),
       ],

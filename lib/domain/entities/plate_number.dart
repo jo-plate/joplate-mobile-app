@@ -1,8 +1,7 @@
-// freezed model with the strings code, number, price
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'plate_number.freezed.dart';
+part 'plate_number.g.dart';
 
 @freezed
 class PlateNumber with _$PlateNumber {
@@ -14,7 +13,6 @@ class PlateNumber with _$PlateNumber {
     required String price,
   }) = _PlateNumber;
 
-  // mock list generator takes in a number and returns a list of PlateNumber
   static List<PlateNumber> mockList(int number) {
     return List.generate(
       number,
@@ -25,4 +23,7 @@ class PlateNumber with _$PlateNumber {
       ),
     );
   }
+
+  factory PlateNumber.fromJson(Map<String, dynamic> json) => _$PlateNumberFromJson(json);
+
 }

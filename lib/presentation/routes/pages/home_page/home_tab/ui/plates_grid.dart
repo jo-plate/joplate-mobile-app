@@ -12,22 +12,23 @@ class PlatesGrid extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
       decoration: BoxDecoration(
-        color: Colors.grey.shade100, // Background color for plates section
+        color: Colors.grey.shade100,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: GridView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: 6, // Two rows, two columns
+        itemCount: 6,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // Two columns
+          crossAxisCount: 2,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
-          childAspectRatio: horizontalPlateAspectRatio, // Adjust aspect ratio as needed
+          childAspectRatio: verticalPlateAspectRatio,
         ),
         itemBuilder: (context, index) {
           return PlateNumberWidget(
             plate: plates[index],
+            shape: PlateShape.vertical,
           );
         },
       ),

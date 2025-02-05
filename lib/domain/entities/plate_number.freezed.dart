@@ -14,11 +14,18 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+PlateNumber _$PlateNumberFromJson(Map<String, dynamic> json) {
+  return _PlateNumber.fromJson(json);
+}
+
 /// @nodoc
 mixin _$PlateNumber {
   String get code => throw _privateConstructorUsedError;
   String get number => throw _privateConstructorUsedError;
   String get price => throw _privateConstructorUsedError;
+
+  /// Serializes this PlateNumber to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of PlateNumber
   /// with the given fields replaced by the non-null parameter values.
@@ -118,11 +125,14 @@ class __$$PlateNumberImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$PlateNumberImpl extends _PlateNumber {
   const _$PlateNumberImpl(
       {required this.code, required this.number, required this.price})
       : super._();
+
+  factory _$PlateNumberImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PlateNumberImplFromJson(json);
 
   @override
   final String code;
@@ -146,6 +156,7 @@ class _$PlateNumberImpl extends _PlateNumber {
             (identical(other.price, price) || other.price == price));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, code, number, price);
 
@@ -156,6 +167,13 @@ class _$PlateNumberImpl extends _PlateNumber {
   @pragma('vm:prefer-inline')
   _$$PlateNumberImplCopyWith<_$PlateNumberImpl> get copyWith =>
       __$$PlateNumberImplCopyWithImpl<_$PlateNumberImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PlateNumberImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _PlateNumber extends PlateNumber {
@@ -164,6 +182,9 @@ abstract class _PlateNumber extends PlateNumber {
       required final String number,
       required final String price}) = _$PlateNumberImpl;
   const _PlateNumber._() : super._();
+
+  factory _PlateNumber.fromJson(Map<String, dynamic> json) =
+      _$PlateNumberImpl.fromJson;
 
   @override
   String get code;
