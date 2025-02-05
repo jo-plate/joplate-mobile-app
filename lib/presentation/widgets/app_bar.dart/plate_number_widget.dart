@@ -16,17 +16,17 @@ class PlateNumberWidget extends StatelessWidget {
   const PlateNumberWidget({
     super.key,
     required this.plate,
-    this.shape = PlateShape.vertical,
+    this.shape = PlateShape.horizontal,
   });
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        double fontSize = constraints.maxWidth * (isHorizontal ? 0.13 : 0.2);
+        double fontSize = constraints.maxWidth * (isHorizontal ? 0.14 : 0.2);
         double labelFontSize = constraints.maxWidth * (isHorizontal ? 0.07 : 0.12);
 
-        double padding = constraints.maxWidth * 0.03;
+        double padding = constraints.maxWidth * (isHorizontal ? 0.05 : 0.03);
         double borderWidth = constraints.maxWidth * 0.01;
         double borderRadius = constraints.maxWidth * 0.04;
 
@@ -60,7 +60,9 @@ class PlateNumberWidget extends StatelessWidget {
           "${plate.code} - ${plate.number}",
           style: TextStyle(
             fontSize: fontSize,
-            fontWeight: FontWeight.bold,
+            // fontWeight: FontWeight.w600,
+            fontFamily: 'Mandatory',
+            // letterSpacing: 2,
           ),
         ),
       ],
@@ -73,14 +75,32 @@ class PlateNumberWidget extends StatelessWidget {
       children: [
         Positioned(top: 0, child: _buildJordanLabel(labelFontSize)),
         Align(
-          alignment: Alignment.bottomRight,
-          child: Text(
-            "  ${plate.code}\n${plate.number}",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.w900,
-              height: 1.2,
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
+            child: RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                style: TextStyle(
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.w800,
+                  height: 1.2,
+                  color: Colors.black,
+                  letterSpacing: 4,
+                  fontFamily: 'Mandatory',
+                ),
+                children: [
+                  TextSpan(text: "${plate.code} \n"),
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    child: Text(
+                      plate.number,
+                      style: TextStyle(
+                          fontFamily: 'Mandatory', letterSpacing: 4, fontSize: fontSize, fontWeight: FontWeight.w800),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -91,7 +111,7 @@ class PlateNumberWidget extends StatelessWidget {
   Widget _buildJordanLabel(double fontSize) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: isHorizontal ? MainAxisAlignment.spaceBetween : MainAxisAlignment.center,
       children: [
         Text(
           "الأردن",
@@ -99,7 +119,7 @@ class PlateNumberWidget extends StatelessWidget {
         ),
         Text(
           "JORDAN",
-          style: TextStyle(fontSize: fontSize * 0.5, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: fontSize * 0.6, fontWeight: FontWeight.bold),
         ),
       ],
     );
