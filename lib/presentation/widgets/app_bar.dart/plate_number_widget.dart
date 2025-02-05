@@ -52,10 +52,11 @@ class PlateNumberWidget extends StatelessWidget {
   Widget _buildHorizontalLayout(double fontSize, double labelFontSize) {
     return Row(
       mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         _buildJordanLabel(labelFontSize),
+        SizedBox(width: fontSize * 0.5),
         Text(
           "${plate.code} - ${plate.number}",
           style: TextStyle(
@@ -119,7 +120,7 @@ class PlateNumberWidget extends StatelessWidget {
         ),
         Text(
           "JORDAN",
-          style: TextStyle(fontSize: fontSize * 0.6, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: fontSize * 0.5, fontWeight: FontWeight.bold),
         ),
       ],
     );
