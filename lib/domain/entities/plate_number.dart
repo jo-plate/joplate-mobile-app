@@ -10,7 +10,6 @@ class PlateNumber with _$PlateNumber {
   const factory PlateNumber({
     required String code,
     required String number,
-    required String price,
   }) = _PlateNumber;
 
   static List<PlateNumber> mockList(int number) {
@@ -19,7 +18,6 @@ class PlateNumber with _$PlateNumber {
       (index) => PlateNumber(
         code: (10 + index).toString(),
         number: (10044 + index).toString(),
-        price: (10000 + index).toString(),
       ),
     );
   }

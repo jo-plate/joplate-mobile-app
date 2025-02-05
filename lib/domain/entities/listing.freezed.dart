@@ -21,6 +21,7 @@ Listing<T> _$ListingFromJson<T>(
 
 /// @nodoc
 mixin _$Listing<T> {
+  @ItemTypeConverter()
   T get item => throw _privateConstructorUsedError;
   ItemType get itemType => throw _privateConstructorUsedError;
   ListingType get listingType => throw _privateConstructorUsedError;
@@ -47,7 +48,7 @@ abstract class $ListingCopyWith<T, $Res> {
       _$ListingCopyWithImpl<T, $Res, Listing<T>>;
   @useResult
   $Res call(
-      {T item,
+      {@ItemTypeConverter() T item,
       ItemType itemType,
       ListingType listingType,
       String price,
@@ -127,7 +128,7 @@ abstract class _$$ListingImplCopyWith<T, $Res>
   @override
   @useResult
   $Res call(
-      {T item,
+      {@ItemTypeConverter() T item,
       ItemType itemType,
       ListingType listingType,
       String price,
@@ -197,7 +198,7 @@ class __$$ListingImplCopyWithImpl<T, $Res>
 @JsonSerializable(genericArgumentFactories: true)
 class _$ListingImpl<T> extends _Listing<T> {
   const _$ListingImpl(
-      {required this.item,
+      {@ItemTypeConverter() required this.item,
       required this.itemType,
       required this.listingType,
       required this.price,
@@ -212,6 +213,7 @@ class _$ListingImpl<T> extends _Listing<T> {
       _$$ListingImplFromJson(json, fromJsonT);
 
   @override
+  @ItemTypeConverter()
   final T item;
   @override
   final ItemType itemType;
@@ -286,7 +288,7 @@ class _$ListingImpl<T> extends _Listing<T> {
 
 abstract class _Listing<T> extends Listing<T> {
   const factory _Listing(
-      {required final T item,
+      {@ItemTypeConverter() required final T item,
       required final ItemType itemType,
       required final ListingType listingType,
       required final String price,
@@ -301,6 +303,7 @@ abstract class _Listing<T> extends Listing<T> {
       _$ListingImpl<T>.fromJson;
 
   @override
+  @ItemTypeConverter()
   T get item;
   @override
   ItemType get itemType;

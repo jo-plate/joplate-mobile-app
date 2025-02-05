@@ -1,5 +1,5 @@
-// extract parent class from thhe commented code below
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 
 part 'listing.freezed.dart';
@@ -15,12 +15,38 @@ enum ItemType {
   phoneNumber,
 }
 
-@Freezed(genericArgumentFactories: true, fromJson: true, toJson: true)
+class ItemTypeConverter implements JsonConverter<dynamic, Map<String, dynamic>> {
+  const ItemTypeConverter();
+
+  @override
+  dynamic fromJson(Map<String, dynamic> json) {
+    if (json['itemType'] == ItemType.plateNumber.toString()) {
+      return PlateNumber.fromJson(json); // For PlateNumber type
+    } else if (json['itemType'] == ItemType.phoneNumber.toString()) {
+      return PhoneNumber.fromJson(json); // For PhoneNumber type
+    } else {
+      throw Exception('Unknown item type');
+    }
+  }
+
+  @override
+  Map<String, dynamic> toJson(dynamic object) {
+    if (object is PlateNumber) {
+      return object.toJson(); // Convert PlateNumber object to JSON
+    } else if (object is PhoneNumber) {
+      return object.toJson(); // Convert PhoneNumber object to JSON
+    } else {
+      throw Exception('Unknown item type');
+    }
+  }
+}
+
+@Freezed(fromJson: true, toJson: true, genericArgumentFactories: true)
 class Listing<T> with _$Listing {
   const Listing._();
 
   const factory Listing({
-    required T item,
+    @ItemTypeConverter() required T item,
     required ItemType itemType,
     required ListingType listingType,
     required String price,
@@ -42,8 +68,19 @@ class Listing<T> with _$Listing {
     );
   }
 
-  // generic fromJson
-  factory Listing.fromJson(Map<String, dynamic> json, T Function(Object?) fromJsonT) {
-    return _$ListingFromJson(json, fromJsonT);
+  static List<Listing<PhoneNumber>> mockPhoneNumberList(int number) {
+    return List.generate(
+      number,
+      (index) => Listing(
+        item: PhoneNumber.mockList(1).first,
+        listingType: ListingType.ad,
+        itemType: ItemType.phoneNumber,
+        price: (10000 + index).toString(),
+      ),
+    );
   }
+
+  factory Listing.fromJson(Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
+      _$ListingFromJson(json, fromJsonT);
+
 }
