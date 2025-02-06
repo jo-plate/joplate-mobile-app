@@ -14,7 +14,11 @@ class LoggedInUserView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Profile'),
         centerTitle: true,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 0,
       ),
+      backgroundColor: const Color.fromARGB(255, 244, 242, 242),
       body: BlocProvider.value(
         value: injector<AuthCubit>(),
         child: Builder(builder: (context) {
@@ -32,7 +36,6 @@ class LoggedInUserView extends StatelessWidget {
               if (!state.isLoggedIn) {
                 return const AnonUserView();
               }
-
 
               return _UserProfileView(profile: state.userProfile ?? UserProfile.empty());
             },
@@ -55,96 +58,358 @@ class _UserProfileView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSectionCard(
-            title: 'Account Information',
-            children: [
-              _buildProfileItem('Name', profile.displayName),
-              _buildProfileItem('Description', 'Premium user account'),
-              // _buildProfileItem('Location', profile.location ?? 'Not specified'),
-              _buildProfileItem('Location Description', 'Primary service area'),
-            ],
-          ),
-          const SizedBox(height: 24),
-          _buildSectionCard(
-            title: 'My Current Plan',
-            children: [
-              _buildProfileItem('Language', 'English'),
-              _buildProfileItem('Description', 'Premium subscription'),
-              _buildProfileItem('Location', 'Global Access'),
-              _buildProfileItem('Description', '24/7 support included'),
-            ],
-          ),
-          const SizedBox(height: 24),
-          _buildSectionCard(
-            title: 'About developer',
-            children: [
-              _buildClickableItem('About Us', Icons.info_outline),
-              _buildClickableItem('Privacy Policy', Icons.privacy_tip_outlined),
-              _buildClickableItem('Terms and conditions', Icons.description_outlined),
-              _buildClickableItem('Logout', Icons.logout, injector<AuthCubit>().logout),
-            ],
-          ),
+          _buildHeader(profile),
+          const SizedBox(height: 16),
+          _buildFeaturesSection(),
+          const SizedBox(height: 16),
+          _buildListTile('My Current Plan', Icons.description_outlined),
+          const SizedBox(height: 16),
+          _buildLanguageSection(),
+          const SizedBox(height: 16),
+          _buildDeveloperSection(),
+          const SizedBox(height: 16),
+          _buildLogOutSection(),
         ],
       ),
     );
   }
 
-  Widget _buildSectionCard({required String title, required List<Widget> children}) {
+  /// Header Section
+  Widget _buildHeader(UserProfile profile) {
     return Card(
+      color: const Color(0xFFFFF4F4),
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
           children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF981C1E),
+            const CircleAvatar(
+              radius: 36,
+              backgroundColor: Color(0xFFFFEDEE),
+              child: Icon(Icons.person, size: 36, color: Colors.white),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    profile.displayName,
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 4),
+                  const Text(
+                    'Basic',
+                    style: TextStyle(fontSize: 14, color: Colors.grey),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      _buildIconWithText(Icons.diamond, '6'),
+                      const SizedBox(width: 16),
+                      _buildIconWithText(Icons.attach_money, '0'),
+                    ],
+                  ),
+                ],
               ),
             ),
-            const Divider(height: 24, color: Colors.grey),
-            ...children,
           ],
         ),
       ),
     );
   }
 
-  Widget _buildProfileItem(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 14,
-              color: Colors.grey,
-            ),
+  Widget _buildFeaturesSection() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: _buildFeatureCard(
+            icon: Icons.notes_rounded,
+            label: 'Numbers',
+            onTap: () {
+              // Handle "Numbers" click
+            },
           ),
-          const SizedBox(height: 4),
-          Text(
-            value.isNotEmpty ? value : '-',
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: _buildFeatureCard(
+            icon: Icons.card_giftcard,
+            label: 'Packages',
+            onTap: () {
+              // Handle "Packages" click
+            },
           ),
-        ],
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: _buildFeatureCard(
+            icon: Icons.draw,
+            label: 'Requests',
+            onTap: () {
+              // Handle "Requests" click
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Feature Card
+  Widget _buildFeatureCard({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        color: Colors.white, // Set background color to white
+        elevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Column(
+            mainAxisSize: MainAxisSize.min,
+          children: [
+              CircleAvatar(
+                radius: 28,
+                backgroundColor: Colors.white,
+                child: Icon(icon, color: const Color(0xFF981C1E), size: 50), // Increased icon size
+              ),
+              const SizedBox(height: 8),
+            Text(
+                label,
+              style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+              ),
+                textAlign: TextAlign.center,
+              ),
+          ],
+        ),
+      ),
       ),
     );
   }
 
+/// List Tile
+  Widget _buildListTile(String title, IconData icon) {
+    return InkWell(
+      onTap: () {
+        // Handle tile click
+      },
+      child: Card(
+        color: Colors.white, // Set background color to white
+        elevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+          child: Row(
+            children: [
+              Icon(icon, color: const Color(0xFF981C1E), size: 28),
+              const SizedBox(width: 16),
+              Text(
+                title,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+              const Spacer(),
+              const Icon(Icons.chevron_right, color: Color(0xFF981C1E), size: 26),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Language Section
+  Widget _buildLanguageSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Divider(
+          height: 1,
+          thickness: 1,
+          color: Colors.grey, // Divider color
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+          child: Row(
+            children: [
+              const Icon(
+                Icons.translate,
+                color: Color(0xFF981C1E), // Icon color
+                size: 24,
+              ),
+              const SizedBox(width: 16),
+              const Text(
+                'Language',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                ),
+              ),
+              const Spacer(),
+              Row(
+                children: [
+                  _buildLanguageButton(
+                    'العربية',
+                    isSelected: false,
+                    onTap: () {
+                      // Handle Arabic selection
+                    },
+                  ),
+                  const SizedBox(width: 8),
+                  _buildLanguageButton(
+                    'English',
+                    isSelected: true,
+                    onTap: () {
+                      // Handle English selection
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        const Divider(
+          height: 1,
+          thickness: 1,
+          color: Colors.grey, // Divider color
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLanguageButton(String label, {required bool isSelected, required VoidCallback onTap}) {
+    return ElevatedButton(
+      onPressed: onTap,
+      style: ElevatedButton.styleFrom(
+        elevation: 0,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        foregroundColor: isSelected ? Colors.white : Colors.black,
+        backgroundColor: isSelected ? const Color(0xFF981C1E) : Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+          side: BorderSide(
+            color: isSelected ? Colors.transparent : const Color(0xFF981C1E),
+            width: 1,
+          ),
+        ),
+      ),
+      child: Text(
+        label,
+        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+      ),
+    );
+  }
+
+  /// Developer Section
+  Widget _buildDeveloperSection() {
+    return Column(
+      children: [
+        _buildClickableItem('About Developer', Icons.developer_mode),
+        _buildClickableItem('About Us', Icons.info_outline),
+        _buildClickableItem('Privacy Policy', Icons.privacy_tip_outlined),
+        _buildClickableItem('Terms and Conditions', Icons.description_outlined),
+        _buildClickableItem('Instructions', Icons.help_outline),
+      ],
+    );
+  }
+
+  Widget _buildLogOutSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // Log Out Button
+        ElevatedButton.icon(
+          onPressed: () {
+            // Handle log out action
+          },
+          style: ElevatedButton.styleFrom(
+            elevation: 0,
+            backgroundColor: const Color(0xFFFFF4F4), // Light pink background
+            foregroundColor: const Color(0xFF981C1E), // Red text and icon
+            padding: const EdgeInsets.symmetric(vertical: 12), // Adjust vertical padding
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12), // Rounded corners
+            ),
+          ),
+          icon: const Padding(
+            padding: EdgeInsets.only(left: 16), // Add left margin to the icon
+            child: Icon(Icons.logout, size: 20),
+          ),
+          label: const Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: EdgeInsets.only(left: 8), // Add left margin to the text
+              child: Text(
+                'Log Out',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 16), // Spacing between buttons
+
+        // Delete My Account Link
+        ElevatedButton(
+          onPressed: () {
+            // Handle delete account action
+          },
+          style: ElevatedButton.styleFrom(
+            elevation: 0,
+            backgroundColor: const Color.fromARGB(255, 244, 242, 242),
+            foregroundColor: Colors.black, // Black text and icon
+            padding: const EdgeInsets.symmetric(vertical: 12), // Adjust vertical padding
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12), // Rounded corners
+            ),
+          ),
+          child: const Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 16), // Add left margin to the icon
+                child: Icon(
+                  Icons.delete,
+                  size: 20,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(width: 8),
+              Text(
+                'Delete My Account',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Helper Methods
+  Widget _buildIconWithText(IconData icon, String text) {
+    return Row(
+      children: [
+        Icon(icon, size: 16, color: Colors.grey),
+        const SizedBox(width: 4),
+        Text(text, style: const TextStyle(fontSize: 14)),
+      ],
+    );
+  }
+
+ 
+
   Widget _buildClickableItem(String title, IconData icon, [void Function()? onTap]) {
     return InkWell(
-      onTap: () => onTap?.call(),
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12),
         child: Row(
@@ -153,13 +418,10 @@ class _UserProfileView extends StatelessWidget {
             const SizedBox(width: 16),
             Text(
               title,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             ),
             const Spacer(),
-            const Icon(Icons.chevron_right, color: Colors.grey),
+            const Icon(Icons.chevron_right, color: Color(0xFF981C1E), size: 26),
           ],
         ),
       ),

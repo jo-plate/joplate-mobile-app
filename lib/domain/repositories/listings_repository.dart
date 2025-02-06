@@ -12,7 +12,7 @@ class FirestoreListingRepository {
   // Methods for PlateNumber listings
   Future<void> createPlateNumberListing(Listing<PlateNumber> listing) async {
     final collection = _firestore.collection('plate_number_listings');
-    await collection.add(listing.toJson((item) => item.toJson()));
+    await collection.add(listing.toJson((item) => item.toJson() as Map<String, dynamic>?));
   }
 
   Future<void> updatePlateNumberListing(String id, Listing<PlateNumber> listing) async {
@@ -25,16 +25,16 @@ class FirestoreListingRepository {
     await collection.doc(id).delete();
   }
 
-  Stream<List<Listing<PlateNumber>>> getPlateNumberListings() {
-    final collection = _firestore.collection('plate_number_listings');
-    return collection.snapshots().map((snapshot) =>
-        snapshot.docs.map((doc) => Listing.fromJson(doc.data(), (json) => PlateNumber.fromJson(json))).toList());
-  }
+  // Stream<List<Listing<PlateNumber>>> getPlateNumberListings() {
+  //   final collection = _firestore.collection('plate_number_listings');
+  //   return collection.snapshots().map((snapshot) =>
+  //       snapshot.docs.map((doc) => Listing.fromJson(doc.data(), (json) => PlateNumber.fromJson(json))).toList());
+  // }
 
   // Methods for PhoneNumber listings
   Future<void> createPhoneNumberListing(Listing<PhoneNumber> listing) async {
     final collection = _firestore.collection('phone_number_listings');
-    await collection.add(listing.toJson((item) => item.toJson()));
+    await collection.add(listing.toJson((item) => item.toJson() as Map<String, dynamic>));
   }
 
   Future<void> updatePhoneNumberListing(String id, Listing<PhoneNumber> listing) async {
@@ -47,9 +47,9 @@ class FirestoreListingRepository {
     await collection.doc(id).delete();
   }
 
-  Stream<List<Listing<PhoneNumber>>> getPhoneNumberListings() {
-    final collection = _firestore.collection('phone_number_listings');
-    return collection.snapshots().map((snapshot) =>
-        snapshot.docs.map((doc) => Listing.fromJson(doc.data(), (json) => PhoneNumber.fromJson(json))).toList());
-  }
+  // Stream<List<Listing<PhoneNumber>>> getPhoneNumberListings() {
+  //   final collection = _firestore.collection('phone_number_listings');
+  //   return collection.snapshots().map((snapshot) =>
+  //       snapshot.docs.map((doc) => Listing.fromJson(doc.data(), (json) => PhoneNumber.fromJson(json))).toList());
+  // }
 }

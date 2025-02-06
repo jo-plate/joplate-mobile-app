@@ -23,12 +23,12 @@ class PlatesGrid extends StatelessWidget {
           crossAxisCount: 2,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
-          childAspectRatio: verticalPlateAspectRatio,
+          childAspectRatio: horizontalPlateAspectRatio,
         ),
         itemBuilder: (context, index) {
           return PlateNumberWidget(
             plate: plates[index],
-            shape: PlateShape.vertical,
+            shape: PlateShape.horizontal,
           );
         },
       ),
