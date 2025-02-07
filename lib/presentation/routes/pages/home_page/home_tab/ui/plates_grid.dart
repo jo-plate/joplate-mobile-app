@@ -15,22 +15,24 @@ class PlatesGrid extends StatelessWidget {
         color: Colors.grey.shade100,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20), bottom: Radius.circular(20)),
       ),
-      child: GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: itemList.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-          childAspectRatio: horizontalPlateAspectRatio,
+      child: Center(
+        child: GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: itemList.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 16,
+            childAspectRatio: horizontalPlateAspectRatio,
+          ),
+          itemBuilder: (context, index) {
+            return PlateNumberWidget(
+              plate: itemList[index],
+              shape: PlateShape.horizontal,
+            );
+          },
         ),
-        itemBuilder: (context, index) {
-          return PlateNumberWidget(
-            plate: itemList[index],
-            shape: PlateShape.horizontal,
-          );
-        },
       ),
     );
   }
