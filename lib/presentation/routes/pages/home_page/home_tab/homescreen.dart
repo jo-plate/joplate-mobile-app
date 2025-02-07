@@ -1,5 +1,7 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:joplate/domain/entities/plate_number.dart';
 import 'ui/logo_section.dart';
 import 'ui/category_section.dart';
 import 'ui/plates_grid.dart';
@@ -10,30 +12,54 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          // Top section (60% of the screen)
-          const Expanded(
-            flex: 6, // 60% of the screen
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(height: 80), // Increased top spacing to push content down
-                  LogoSection(),
-                  SizedBox(height: 10), // Reduced spacing
-                  CategorySection(), // Category section
-                ],
+    final plateNumbers = PlateNumber.mockList(24); // Increased plate numbers
+    final chunkedPlates = List.generate(
+      (plateNumbers.length / 10).ceil(),
+      (index) => plateNumbers.skip(index * 8).take(8).toList(),
+    );
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Expanded(
+                flex: 6,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 10),
+                      LogoSection(),
+                      SizedBox(height: 10),
+                      CategorySection(),
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-          // Bottom section (40% of the screen)
-          Expanded(
-            flex: 4, // 40% of the screen
-            child: PlatesGrid(), // Plates section
-          ),
-        ],
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
+              child: Text('Featured', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            ),
+            Expanded(
+              flex: 4,
+              child: CarouselSlider(
+                options: CarouselOptions(
+                  autoPlay: true,
+                  padEnds: true,
+                  viewportFraction: 0.9,
+                  aspectRatio: 1,
+                  enlargeCenterPage: true,
+                ),
+                items: chunkedPlates.map((plates) => PlatesGrid(itemList: plates)).toList(),
+              ),
+            ),
+            const SizedBox(height: 16),
+          ],
+        ),
       ),
     );
   }

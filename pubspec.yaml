@@ -53,6 +53,7 @@ dependencies:
   flutter_sfs: ^1.1.0
   json_annotation: ^4.9.0
   json_serializable: ^6.9.3
+  carousel_slider: ^5.0.0
 
 dev_dependencies:
   flutter_test:

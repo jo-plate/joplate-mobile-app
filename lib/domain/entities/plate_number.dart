@@ -17,7 +17,7 @@ class PlateNumber with _$PlateNumber {
       number,
       (index) => PlateNumber(
         code: (10 + index).toString(),
-        number: (10044 + index).toString(),
+        number: (1004 + index).toString(),
       ),
     );
   }

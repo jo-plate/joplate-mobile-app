@@ -3,9 +3,9 @@ import 'package:joplate/domain/entities/plate_number.dart';
 import '../../../../../widgets/app_bar.dart/plate_number_widget.dart';
 
 class PlatesGrid extends StatelessWidget {
-  PlatesGrid({super.key});
+  const PlatesGrid({super.key, this.itemList = const []});
 
-  final List<PlateNumber> plates = PlateNumber.mockList(6);
+  final List<PlateNumber> itemList;
 
   @override
   Widget build(BuildContext context) {
@@ -13,12 +13,12 @@ class PlatesGrid extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
       decoration: BoxDecoration(
         color: Colors.grey.shade100,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20), bottom: Radius.circular(20)),
       ),
       child: GridView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: 6,
+        itemCount: itemList.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 16,
@@ -27,7 +27,7 @@ class PlatesGrid extends StatelessWidget {
         ),
         itemBuilder: (context, index) {
           return PlateNumberWidget(
-            plate: plates[index],
+            plate: itemList[index],
             shape: PlateShape.horizontal,
           );
         },
