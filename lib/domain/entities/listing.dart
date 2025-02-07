@@ -49,7 +49,8 @@ class Listing<T> with _$Listing {
     @ItemTypeConverter() required T item,
     required ItemType itemType,
     required ListingType listingType,
-    required String price,
+    required double price,
+    double? discountPrice,
     @Default('') String userId,
     @Default('') String description,
     @Default(false) bool priceNegotiable,
@@ -63,7 +64,7 @@ class Listing<T> with _$Listing {
         item: PlateNumber.mockList(1).first,
         listingType: ListingType.ad,
         itemType: ItemType.plateNumber,
-        price: (10000 + index).toString(),
+        price: 10000.0 + index,
       ),
     );
   }
@@ -75,12 +76,11 @@ class Listing<T> with _$Listing {
         item: PhoneNumber.mockList(1).first,
         listingType: ListingType.ad,
         itemType: ItemType.phoneNumber,
-        price: (10000 + index).toString(),
+        price: 10000.0 + index,
       ),
     );
   }
 
   factory Listing.fromJson(Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
       _$ListingFromJson(json, fromJsonT);
-
 }

@@ -25,7 +25,8 @@ mixin _$Listing<T> {
   T get item => throw _privateConstructorUsedError;
   ItemType get itemType => throw _privateConstructorUsedError;
   ListingType get listingType => throw _privateConstructorUsedError;
-  String get price => throw _privateConstructorUsedError;
+  double get price => throw _privateConstructorUsedError;
+  double? get discountPrice => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   bool get priceNegotiable => throw _privateConstructorUsedError;
@@ -51,7 +52,8 @@ abstract class $ListingCopyWith<T, $Res> {
       {@ItemTypeConverter() T item,
       ItemType itemType,
       ListingType listingType,
-      String price,
+      double price,
+      double? discountPrice,
       String userId,
       String description,
       bool priceNegotiable,
@@ -77,6 +79,7 @@ class _$ListingCopyWithImpl<T, $Res, $Val extends Listing<T>>
     Object? itemType = null,
     Object? listingType = null,
     Object? price = null,
+    Object? discountPrice = freezed,
     Object? userId = null,
     Object? description = null,
     Object? priceNegotiable = null,
@@ -98,7 +101,11 @@ class _$ListingCopyWithImpl<T, $Res, $Val extends Listing<T>>
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as String,
+              as double,
+      discountPrice: freezed == discountPrice
+          ? _value.discountPrice
+          : discountPrice // ignore: cast_nullable_to_non_nullable
+              as double?,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -131,7 +138,8 @@ abstract class _$$ListingImplCopyWith<T, $Res>
       {@ItemTypeConverter() T item,
       ItemType itemType,
       ListingType listingType,
-      String price,
+      double price,
+      double? discountPrice,
       String userId,
       String description,
       bool priceNegotiable,
@@ -155,6 +163,7 @@ class __$$ListingImplCopyWithImpl<T, $Res>
     Object? itemType = null,
     Object? listingType = null,
     Object? price = null,
+    Object? discountPrice = freezed,
     Object? userId = null,
     Object? description = null,
     Object? priceNegotiable = null,
@@ -176,7 +185,11 @@ class __$$ListingImplCopyWithImpl<T, $Res>
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as String,
+              as double,
+      discountPrice: freezed == discountPrice
+          ? _value.discountPrice
+          : discountPrice // ignore: cast_nullable_to_non_nullable
+              as double?,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -202,6 +215,7 @@ class _$ListingImpl<T> extends _Listing<T> {
       required this.itemType,
       required this.listingType,
       required this.price,
+      this.discountPrice,
       this.userId = '',
       this.description = '',
       this.priceNegotiable = false,
@@ -220,7 +234,9 @@ class _$ListingImpl<T> extends _Listing<T> {
   @override
   final ListingType listingType;
   @override
-  final String price;
+  final double price;
+  @override
+  final double? discountPrice;
   @override
   @JsonKey()
   final String userId;
@@ -236,7 +252,7 @@ class _$ListingImpl<T> extends _Listing<T> {
 
   @override
   String toString() {
-    return 'Listing<$T>(item: $item, itemType: $itemType, listingType: $listingType, price: $price, userId: $userId, description: $description, priceNegotiable: $priceNegotiable, priceHidden: $priceHidden)';
+    return 'Listing<$T>(item: $item, itemType: $itemType, listingType: $listingType, price: $price, discountPrice: $discountPrice, userId: $userId, description: $description, priceNegotiable: $priceNegotiable, priceHidden: $priceHidden)';
   }
 
   @override
@@ -250,6 +266,8 @@ class _$ListingImpl<T> extends _Listing<T> {
             (identical(other.listingType, listingType) ||
                 other.listingType == listingType) &&
             (identical(other.price, price) || other.price == price) &&
+            (identical(other.discountPrice, discountPrice) ||
+                other.discountPrice == discountPrice) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.description, description) ||
                 other.description == description) &&
@@ -267,6 +285,7 @@ class _$ListingImpl<T> extends _Listing<T> {
       itemType,
       listingType,
       price,
+      discountPrice,
       userId,
       description,
       priceNegotiable,
@@ -291,7 +310,8 @@ abstract class _Listing<T> extends Listing<T> {
       {@ItemTypeConverter() required final T item,
       required final ItemType itemType,
       required final ListingType listingType,
-      required final String price,
+      required final double price,
+      final double? discountPrice,
       final String userId,
       final String description,
       final bool priceNegotiable,
@@ -310,7 +330,9 @@ abstract class _Listing<T> extends Listing<T> {
   @override
   ListingType get listingType;
   @override
-  String get price;
+  double get price;
+  @override
+  double? get discountPrice;
   @override
   String get userId;
   @override
