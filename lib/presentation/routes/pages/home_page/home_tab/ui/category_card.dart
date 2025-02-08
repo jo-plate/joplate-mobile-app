@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:joplate/presentation/widgets/pill.dart';
 
 class CategoryCard extends StatelessWidget {
   final IconData icon;
@@ -15,14 +16,13 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 140, // Increased height
-      width: 140, // Increased width
+      height: 140,
+      width: 140,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            // ignore: deprecated_member_use
             color: Colors.grey.withOpacity(0.2),
             blurRadius: 8,
             spreadRadius: 2,
@@ -35,39 +35,21 @@ class CategoryCard extends StatelessWidget {
         children: [
           Icon(
             icon,
-            size: 50, // Increased icon size
+            size: 50,
             color: Colors.black,
           ),
-          const SizedBox(height: 8), // Spacing
+          const SizedBox(height: 8),
           Text(
             title,
             style: const TextStyle(
-              fontSize: 16, // Increased font size
+              fontSize: 16,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 8), // Spacing
-          if (count.isNotEmpty)
-            Container(
-              width: 50,
-              height: 25,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.red, width: 1.5),
-                color: Colors.white,
-              ),
-              child: Text(
-                count,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+          const SizedBox(height: 8),
+          if (count.isNotEmpty) Pill(text: count)
         ],
       ),
     );

@@ -23,6 +23,7 @@ class HomePage extends StatelessWidget {
           title: const LogoSection(),
           centerTitle: true,
           elevation: 0,
+          backgroundColor: Colors.grey[100],
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
