@@ -11,15 +11,16 @@ _$ListingImpl<T> _$$ListingImplFromJson<T>(
   T Function(Object? json) fromJsonT,
 ) =>
     _$ListingImpl<T>(
-      item: fromJsonT(json['item']),
+      data: fromJsonT(json['data']),
       itemType: $enumDecode(_$ItemTypeEnumMap, json['itemType']),
       listingType: $enumDecode(_$ListingTypeEnumMap, json['listingType']),
-      price: (json['price'] as num).toDouble(),
+      price: (json['price'] as num?)?.toDouble(),
       discountPrice: (json['discountPrice'] as num?)?.toDouble(),
       userId: json['userId'] as String? ?? '',
       description: json['description'] as String? ?? '',
       priceNegotiable: json['priceNegotiable'] as bool? ?? false,
-      priceHidden: json['priceHidden'] ?? false,
+      priceHidden: json['priceHidden'] as bool? ?? false,
+      isFeatured: json['isFeatured'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$ListingImplToJson<T>(
@@ -27,7 +28,7 @@ Map<String, dynamic> _$$ListingImplToJson<T>(
   Object? Function(T value) toJsonT,
 ) =>
     <String, dynamic>{
-      'item': toJsonT(instance.item),
+      'data': toJsonT(instance.data),
       'itemType': _$ItemTypeEnumMap[instance.itemType]!,
       'listingType': _$ListingTypeEnumMap[instance.listingType]!,
       'price': instance.price,
@@ -36,6 +37,7 @@ Map<String, dynamic> _$$ListingImplToJson<T>(
       'description': instance.description,
       'priceNegotiable': instance.priceNegotiable,
       'priceHidden': instance.priceHidden,
+      'isFeatured': instance.isFeatured,
     };
 
 const _$ItemTypeEnumMap = {

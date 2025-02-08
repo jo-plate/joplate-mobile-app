@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 final appTheme = ThemeData(
   colorScheme: ColorScheme.fromSeed(
-    seedColor: Color(0xFF981C1E),
-    primary: Color(0xFF981C1E),
+    seedColor: const Color(0xFF981C1E),
+    primary: const Color(0xFF981C1E),
     secondary: Colors.black,
   ),
   useMaterial3: true,
@@ -49,15 +49,15 @@ final appTheme = ThemeData(
   // Button themes
   filledButtonTheme: FilledButtonThemeData(
     style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all(Color(0xFF981C1E)),
-      foregroundColor: MaterialStateProperty.all(Colors.white),
-      textStyle: MaterialStateProperty.all(
+      backgroundColor: WidgetStateProperty.all(const Color(0xFF981C1E)),
+      foregroundColor: WidgetStateProperty.all(Colors.white),
+      textStyle: WidgetStateProperty.all(
         const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
       ),
-      shape: MaterialStateProperty.all(
+      shape: WidgetStateProperty.all(
         RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
-      padding: MaterialStateProperty.all(
+      padding: WidgetStateProperty.all(
         const EdgeInsets.symmetric(vertical: 15),
       ),
     ),
@@ -96,7 +96,7 @@ final appTheme = ThemeData(
   // TextButton styles
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
-      foregroundColor: Color(0xFF981C1E),
+      foregroundColor: const Color(0xFF981C1E),
       textStyle: const TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w500,

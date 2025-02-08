@@ -46,26 +46,27 @@ class Listing<T> with _$Listing {
   const Listing._();
 
   const factory Listing({
-    @ItemTypeConverter() required T item,
+    @ItemTypeConverter() required T data,
     required ItemType itemType,
     required ListingType listingType,
-    required double price,
+    double? price,
     double? discountPrice,
     @Default('') String userId,
     @Default('') String description,
     @Default(false) bool priceNegotiable,
-    @Default(false) priceHidden,
+    @Default(false) bool priceHidden,
+    @Default(false) bool isFeatured,
   }) = _Listing;
 
   static List<Listing<PlateNumber>> mockPlateNumberList(int number) {
     return List.generate(
       number,
       (index) => Listing(
-        item: PlateNumber.mockList(1).first,
-        listingType: ListingType.ad,
-        itemType: ItemType.plateNumber,
-        price: 10000.0 + index,
-      ),
+          data: PlateNumber.mockList(1).first,
+          listingType: ListingType.ad,
+          itemType: ItemType.plateNumber,
+          price: 10000.0 + index,
+          discountPrice: 20),
     );
   }
 
@@ -73,7 +74,7 @@ class Listing<T> with _$Listing {
     return List.generate(
       number,
       (index) => Listing(
-        item: PhoneNumber.mockList(1).first,
+        data: PhoneNumber.mockList(1).first,
         listingType: ListingType.ad,
         itemType: ItemType.phoneNumber,
         price: 10000.0 + index,
