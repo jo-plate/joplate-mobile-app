@@ -11,30 +11,23 @@ class PlatesListingsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade100,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(20), bottom: Radius.circular(20)),
-      ),
-      child: Center(
-        child: GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: itemList.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
-            childAspectRatio: 1,
-          ),
-          itemBuilder: (context, index) {
-            return PlateNumberListingWidget(
-              item: itemList[index],
-              shape: PlateShape.horizontal,
-            );
-          },
+    return Center(
+      child: GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: itemList.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 16,
+          mainAxisSpacing: 16,
+          childAspectRatio: 1.27,
         ),
+        itemBuilder: (context, index) {
+          return PlateNumberListingWidget(
+            item: itemList[index],
+            shape: PlateShape.horizontal,
+          );
+        },
       ),
     );
   }

@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:joplate/domain/entities/listing.dart';
-import 'package:joplate/domain/entities/plate_number.dart';
 import 'ui/logo_section.dart';
 import 'ui/category_section.dart';
 import 'ui/plates_listing_grid.dart';
@@ -38,10 +37,10 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
-              child: Text('Featured', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            ),
+            // const Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
+            //   child: Text('Featured', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            // ),
             Expanded(
               flex: 4,
               child: CarouselSlider(
