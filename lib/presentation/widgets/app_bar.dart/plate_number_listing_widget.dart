@@ -12,7 +12,7 @@ class PlateNumberListingWidget extends StatelessWidget {
     super.key,
     required this.item,
     this.shape = PlateShape.horizontal,
-    this.isFeatured = false,
+    this.isFeatured = true,
   });
 
   bool get isVertical => shape == PlateShape.vertical;
@@ -45,16 +45,17 @@ class PlateNumberListingWidget extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       _buildPriceLabel(),
-                      const SizedBox(height: 8),
-                      _buildFavoriteIcon(),
+                      if (!isFeatured) ...[
+                        const SizedBox(height: 8),
+                        _buildFavoriteIcon(),
+                      ]
                     ],
                   ),
                 ),
               ],
             ),
           ),
-          // if (isFeatured)
-          _buildFeaturedRibbon(),
+          if (isFeatured) _buildFeaturedRibbon(),
         ],
       ),
     );

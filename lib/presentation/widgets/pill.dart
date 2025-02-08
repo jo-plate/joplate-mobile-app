@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 
+enum PillSize { small, large }
+
 class Pill extends StatelessWidget {
-  const Pill({super.key, required this.text});
+  const Pill({super.key, required this.text, this.size = PillSize.large});
 
   final String text;
+  final PillSize size;
+
+  bool get isSmall => size == PillSize.small;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 60,
-      height: 25,
+      width: isSmall ? 40 : 60,
+      height: isSmall ? 18 : 25,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -18,8 +23,8 @@ class Pill extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: const TextStyle(
-          fontSize: 12,
+        style: TextStyle(
+          fontSize: isSmall ? 10 : 12,
           color: Colors.red,
           fontWeight: FontWeight.bold,
         ),

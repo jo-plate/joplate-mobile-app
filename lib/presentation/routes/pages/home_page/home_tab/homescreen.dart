@@ -24,26 +24,38 @@ class HomePage extends StatelessWidget {
           centerTitle: true,
           elevation: 0,
           backgroundColor: Colors.grey[100],
+
+          // leading: IconButton(
+          //   icon: const ,
+
+          //   onPressed: () {},
+          // )
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const CategorySection(),
-                const SizedBox(height: 16),
-                CarouselSlider(
-                  options: CarouselOptions(
-                      autoPlay: true, padEnds: true, viewportFraction: 1, aspectRatio: 1, enlargeCenterPage: false),
-                  items: chunkedPlates
-                      .map((plates) => Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: PlatesListingsGrid(itemList: plates),
-                          ))
-                      .toList(),
-                ),
-              ],
-            ),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              const CategorySection(),
+              const SizedBox(height: 24),
+              const Text(
+                "Featured Numbers",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              CarouselSlider(
+                options: CarouselOptions(
+                    autoPlay: true, padEnds: true, viewportFraction: 1, aspectRatio: 1, enlargeCenterPage: false),
+                items: chunkedPlates
+                    .map((plates) => Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: PlatesListingsGrid(
+                            itemList: plates,
+                            isFeatured: true,
+                          ),
+                        ))
+                    .toList(),
+              ),
+            ],
           ),
         ),
       ),

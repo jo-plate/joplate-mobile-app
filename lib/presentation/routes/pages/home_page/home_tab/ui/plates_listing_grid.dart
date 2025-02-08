@@ -5,8 +5,8 @@ import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_listing_w
 import '../../../../../widgets/app_bar.dart/plate_number_widget.dart';
 
 class PlatesListingsGrid extends StatelessWidget {
-  const PlatesListingsGrid({super.key, this.itemList = const []});
-
+  const PlatesListingsGrid({super.key, this.itemList = const [], this.isFeatured = false});
+  final bool isFeatured;
   final List<Listing<PlateNumber>> itemList;
 
   @override
@@ -16,14 +16,15 @@ class PlatesListingsGrid extends StatelessWidget {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: itemList.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
-          childAspectRatio: 1.27,
+          childAspectRatio: isFeatured ? 1.6 : 1.27,
         ),
         itemBuilder: (context, index) {
           return PlateNumberListingWidget(
+            isFeatured: isFeatured,
             item: itemList[index],
             shape: PlateShape.horizontal,
           );

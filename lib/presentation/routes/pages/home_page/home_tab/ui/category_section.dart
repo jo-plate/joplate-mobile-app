@@ -6,40 +6,45 @@ class CategorySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            CategoryCard(
-              icon: Icons.directions_car,
-              title: "Car Numbers",
-              count: "8529",
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Column(
+        children: [
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              CategoryCard(
+                icon: Icons.directions_car,
+                title: "Car Numbers",
+                count: "8529",
+              ),
+              CategoryCard(
+                icon: Icons.phone,
+                title: "Phone Numbers",
+                count: "130",
+              ),
+              CategoryCard(
+                icon: Icons.request_page,
+                title: "Requests",
+                count: "2451",
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          OutlinedButton.icon(
+            onPressed: () {},
+            label: const Text(
+              "Quick Sale",
+              style: TextStyle(fontSize: 16),
             ),
-            CategoryCard(
-              icon: Icons.phone,
-              title: "Phone Numbers",
-              count: "130",
+            icon: Icon(
+              Icons.speed,
+              color: Colors.red.shade700,
+              size: 26,
             ),
-          ],
-        ),
-        SizedBox(height: 16), // Spacing between rows
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            CategoryCard(
-              icon: Icons.speed,
-              title: "Quick sale",
-              count: "2216",
-            ),
-            CategoryCard(
-              icon: Icons.request_page,
-              title: "Requests",
-              count: "2451",
-            ),
-          ],
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
 }

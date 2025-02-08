@@ -39,11 +39,11 @@ final appTheme = ThemeData(
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
-      side: const BorderSide(color: Color(0xFF981C1E), width: 1.5),
+      side: const BorderSide(color: Color(0xFF981C1E), width: 1),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
     ),
   ),
 

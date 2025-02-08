@@ -169,33 +169,33 @@ class _UserProfileView extends StatelessWidget {
         color: Colors.white, // Set background color to white
         elevation: 2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
+        child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16),
-        child: Column(
+          child: Column(
             mainAxisSize: MainAxisSize.min,
-          children: [
+            children: [
               CircleAvatar(
                 radius: 28,
                 backgroundColor: Colors.white,
                 child: Icon(icon, color: const Color(0xFF981C1E), size: 50), // Increased icon size
               ),
               const SizedBox(height: 8),
-            Text(
+              Text(
                 label,
-              style: const TextStyle(
+                style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
-              ),
+                ),
                 textAlign: TextAlign.center,
               ),
-          ],
+            ],
+          ),
         ),
-      ),
       ),
     );
   }
 
-/// List Tile
+  /// List Tile
   Widget _buildListTile(String title, IconData icon) {
     return InkWell(
       onTap: () {
@@ -327,7 +327,7 @@ class _UserProfileView extends StatelessWidget {
         // Log Out Button
         ElevatedButton.icon(
           onPressed: () {
-            // Handle log out action
+            injector<AuthCubit>().logout();
           },
           style: ElevatedButton.styleFrom(
             elevation: 0,
@@ -404,8 +404,6 @@ class _UserProfileView extends StatelessWidget {
       ],
     );
   }
-
- 
 
   Widget _buildClickableItem(String title, IconData icon, [void Function()? onTap]) {
     return InkWell(
