@@ -7,6 +7,7 @@ final appTheme = ThemeData(
     secondary: Colors.black,
   ),
   useMaterial3: true,
+  scaffoldBackgroundColor: Colors.grey[100],
 
   // Input decoration theme for text fields
   inputDecorationTheme: InputDecorationTheme(
