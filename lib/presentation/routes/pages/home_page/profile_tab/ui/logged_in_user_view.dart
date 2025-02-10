@@ -4,6 +4,8 @@ import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
 import 'package:joplate/presentation/routes/pages/home_page/profile_tab/ui/anon_user_view.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
+import 'package:joplate/presentation/widgets/menu_item.dart';
+import 'package:joplate/presentation/widgets/profile_banner.dart';
 
 class LoggedInUserView extends StatelessWidget {
   const LoggedInUserView({super.key});
@@ -58,11 +60,11 @@ class _UserProfileView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildHeader(profile),
+          ProfileBanner(profile: profile),
           const SizedBox(height: 16),
           _buildFeaturesSection(),
           const SizedBox(height: 16),
-          _buildListTile('My Current Plan', Icons.description_outlined),
+          const MenuItem(title: 'My Current Plan', icon: Icons.description_outlined),
           const SizedBox(height: 16),
           _buildLanguageSection(),
           const SizedBox(height: 16),
@@ -70,52 +72,6 @@ class _UserProfileView extends StatelessWidget {
           const SizedBox(height: 16),
           _buildLogOutSection(),
         ],
-      ),
-    );
-  }
-
-  /// Header Section
-  Widget _buildHeader(UserProfile profile) {
-    return Card(
-      color: const Color(0xFFFFF4F4),
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            const CircleAvatar(
-              radius: 36,
-              backgroundColor: Color(0xFFFFEDEE),
-              child: Icon(Icons.person, size: 36, color: Colors.white),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    profile.displayName,
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 4),
-                  const Text(
-                    'Basic',
-                    style: TextStyle(fontSize: 14, color: Colors.grey),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      _buildIconWithText(Icons.diamond, '6'),
-                      const SizedBox(width: 16),
-                      _buildIconWithText(Icons.attach_money, '0'),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -188,35 +144,6 @@ class _UserProfileView extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  /// List Tile
-  Widget _buildListTile(String title, IconData icon) {
-    return InkWell(
-      onTap: () {
-        // Handle tile click
-      },
-      child: Card(
-        color: Colors.white, // Set background color to white
-        elevation: 2,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-          child: Row(
-            children: [
-              Icon(icon, color: const Color(0xFF981C1E), size: 28),
-              const SizedBox(width: 16),
-              Text(
-                title,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-              ),
-              const Spacer(),
-              const Icon(Icons.chevron_right, color: Color(0xFF981C1E), size: 26),
             ],
           ),
         ),
@@ -390,17 +317,6 @@ class _UserProfileView extends StatelessWidget {
             ],
           ),
         ),
-      ],
-    );
-  }
-
-  /// Helper Methods
-  Widget _buildIconWithText(IconData icon, String text) {
-    return Row(
-      children: [
-        Icon(icon, size: 16, color: Colors.grey),
-        const SizedBox(width: 4),
-        Text(text, style: const TextStyle(fontSize: 14)),
       ],
     );
   }

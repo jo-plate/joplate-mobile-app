@@ -11,6 +11,22 @@
 part of 'router.dart';
 
 /// generated route for
+/// [AccountPage]
+class AccountRoute extends PageRouteInfo<void> {
+  const AccountRoute({List<PageRouteInfo>? children})
+    : super(AccountRoute.name, initialChildren: children);
+
+  static const String name = 'AccountRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const AccountPage();
+    },
+  );
+}
+
+/// generated route for
 /// [AuthPage]
 class AuthRoute extends PageRouteInfo<void> {
   const AuthRoute({List<PageRouteInfo>? children})
@@ -38,6 +54,22 @@ class DashboardRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return const DashboardPage();
+    },
+  );
+}
+
+/// generated route for
+/// [EditProfilePage]
+class EditProfileRoute extends PageRouteInfo<void> {
+  const EditProfileRoute({List<PageRouteInfo>? children})
+    : super(EditProfileRoute.name, initialChildren: children);
+
+  static const String name = 'EditProfileRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const EditProfilePage();
     },
   );
 }

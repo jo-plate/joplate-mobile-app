@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:joplate/presentation/routes/pages/account_screen/edit_profile_page.dart';
 import 'package:joplate/presentation/routes/pages/home_page/home_tab/homescreen.dart';
 import 'package:joplate/presentation/routes/pages/home_page/dashboard_page.dart';
 import 'package:joplate/presentation/routes/pages/home_page/profile_tab/profile_screen.dart';
 import 'package:joplate/presentation/routes/pages/home_page/favorites_tab/favorites_page.dart';
 import 'package:joplate/presentation/routes/pages/auth_screen/auth_page.dart';
+import 'package:joplate/presentation/routes/pages/account_screen/account_page.dart';
 
 part 'router.gr.dart';
 
@@ -23,6 +25,8 @@ class AppRouter extends RootStackRouter {
             AutoRoute(path: 'favorite', page: FavoritesRoute.page),
           ],
         ),
-        AutoRoute(page: AuthRoute.page)
+        AutoRoute(page: AuthRoute.page),
+        AutoRoute(page: AccountRoute.page),
+        AutoRoute(page: EditProfileRoute.page)
       ];
 }
