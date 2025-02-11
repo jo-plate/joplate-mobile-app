@@ -108,42 +108,18 @@ class EditFullNameRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [EditPhoneNumberPage]
-class EditPhoneNumberRoute extends PageRouteInfo<EditPhoneNumberRouteArgs> {
-  EditPhoneNumberRoute({
-    Key? key,
-    required String currentPhone,
-    List<PageRouteInfo>? children,
-  }) : super(
-         EditPhoneNumberRoute.name,
-         args: EditPhoneNumberRouteArgs(key: key, currentPhone: currentPhone),
-         initialChildren: children,
-       );
+class EditPhoneNumberRoute extends PageRouteInfo<void> {
+  const EditPhoneNumberRoute({List<PageRouteInfo>? children})
+    : super(EditPhoneNumberRoute.name, initialChildren: children);
 
   static const String name = 'EditPhoneNumberRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      final args = data.argsAs<EditPhoneNumberRouteArgs>();
-      return EditPhoneNumberPage(
-        key: args.key,
-        currentPhone: args.currentPhone,
-      );
+      return const EditPhoneNumberPage();
     },
   );
-}
-
-class EditPhoneNumberRouteArgs {
-  const EditPhoneNumberRouteArgs({this.key, required this.currentPhone});
-
-  final Key? key;
-
-  final String currentPhone;
-
-  @override
-  String toString() {
-    return 'EditPhoneNumberRouteArgs{key: $key, currentPhone: $currentPhone}';
-  }
 }
 
 /// generated route for
