@@ -5,6 +5,7 @@ import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
 import 'package:joplate/presentation/routes/pages/home_page/profile_tab/ui/anon_user_view.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
+import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/menu_item.dart';
 import 'package:joplate/presentation/widgets/profile_banner.dart';
 
@@ -36,28 +37,37 @@ class AccountPage extends StatelessWidget {
               if (state.isLoading) {
                 return const Center(child: CircularProgressIndicator());
               }
-
-              if (!state.isLoggedIn) {
-                return const AnonUserView();
-              }
-
               return SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ProfileBanner(
-                      profile: state.userProfile ?? UserProfile.empty(),
+                    const ProfileBanner(
                       clickable: false,
                     ),
                     const SizedBox(height: 16),
-                    const MenuItem(title: 'Full name', icon: Icons.person),
+                    MenuItem(
+                        title: 'Full name',
+                        icon: Icons.person,
+                        onTap: () => AutoRouter.of(context).push(const EditFullNameRoute())),
                     const SizedBox(height: 16),
-                    const MenuItem(title: 'Phone number', icon: Icons.phone_outlined),
+                    MenuItem(
+                      title: 'Phone number',
+                      icon: Icons.phone_outlined,
+                      onTap: () => AutoRouter.of(context)
+                          .push(EditPhoneNumberRoute(currentPhone: state.userProfile?.phonenumber ?? '')),
+                    ),
                     const SizedBox(height: 16),
-                    const MenuItem(title: 'Email', icon: Icons.email_outlined),
+                    MenuItem(
+                        title: 'Email',
+                        icon: Icons.email_outlined,
+                        onTap: () => AutoRouter.of(context).push(const EditEmailRoute())),
                     const SizedBox(height: 16),
-                    const MenuItem(title: 'Change Password', icon: Icons.password_outlined),
+                    MenuItem(
+                      title: 'Change Password',
+                      icon: Icons.password_outlined,
+                      onTap: () => AutoRouter.of(context).push(const ChangePasswordRoute()),
+                    ),
                   ],
                 ),
               );

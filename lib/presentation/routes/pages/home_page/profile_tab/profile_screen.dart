@@ -1,30 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:joplate/injection/injector.dart';
-import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:joplate/presentation/routes/pages/home_page/profile_tab/ui/anon_user_view.dart';
 import 'package:joplate/presentation/routes/pages/home_page/profile_tab/ui/logged_in_user_view.dart';
 
 @RoutePage()
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  late Stream<User?> _authStateChanges;
+
+  @override
+  void initState() {
+    super.initState();
+    _authStateChanges = FirebaseAuth.instance.authStateChanges();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider.value(
-        value: injector<AuthCubit>(),
-        child: Builder(builder: (context) {
-          return BlocBuilder<AuthCubit, AuthState>(
-            builder: (context, state) {
-              if (state.user == null) {
-                return const AnonUserView();
-              }
-              return const LoggedInUserView();
-            },
-          );
-        }),
+      body: StreamBuilder<User?>(
+        stream: _authStateChanges,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (!snapshot.hasData || snapshot.data == null) {
+            return const AnonUserView();
+          }
+          return const LoggedInUserView();
+        },
       ),
     );
   }

@@ -60,7 +60,7 @@ class _UserProfileView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ProfileBanner(profile: profile),
+          ProfileBanner(),
           const SizedBox(height: 16),
           _buildFeaturesSection(),
           const SizedBox(height: 16),

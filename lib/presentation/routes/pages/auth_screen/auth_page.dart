@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/injection/injector.dart';
@@ -99,9 +100,17 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
               ),
 
               // Sign up Tab Placeholder
-              SignupForm(
-                onPressed: injector<AuthCubit>().signUpWithEmailAndPassword,
-              ),
+              SignupForm(onPressed: (input) async {
+                try {
+                  final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                    email: input.email,
+                    password: input.password,
+                  );
+
+                  final user = userCredential.user!;
+                  await user.updateDisplayName(input.displayName);
+                } catch (e) {}
+              }),
             ],
           ),
         ),

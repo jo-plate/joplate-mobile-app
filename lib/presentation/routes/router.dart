@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 import 'package:joplate/presentation/routes/pages/account_screen/edit-pages/change_password_page.dart';
 import 'package:joplate/presentation/routes/pages/account_screen/edit-pages/edit_email_page.dart';
 import 'package:joplate/presentation/routes/pages/account_screen/edit-pages/edit_phone_number_page.dart';
 import 'package:joplate/presentation/routes/pages/account_screen/edit-pages/edit_full_name_page.dart';
-import 'package:joplate/presentation/routes/pages/account_screen/edit_profile_page.dart';
 import 'package:joplate/presentation/routes/pages/home_page/home_tab/homescreen.dart';
 import 'package:joplate/presentation/routes/pages/home_page/dashboard_page.dart';
 import 'package:joplate/presentation/routes/pages/home_page/profile_tab/profile_screen.dart';
@@ -31,10 +31,9 @@ class AppRouter extends RootStackRouter {
         ),
         AutoRoute(page: AuthRoute.page),
         AutoRoute(page: AccountRoute.page),
-        AutoRoute(page: EditProfileRoute.page),
-        // AutoRoute(page: EditFullNameRoute.page),
-        // AutoRoute(page: EditEmailRoute.page),
-        // AutoRoute(page: EditPhoneNumberRoute.page),
-        // AutoRoute(page: ChangePasswordRoute.page)
+        AutoRoute(page: EditFullNameRoute.page),
+        AutoRoute(page: EditEmailRoute.page),
+        AutoRoute(page: EditPhoneNumberRoute.page),
+        AutoRoute(page: ChangePasswordRoute.page)
       ];
 }

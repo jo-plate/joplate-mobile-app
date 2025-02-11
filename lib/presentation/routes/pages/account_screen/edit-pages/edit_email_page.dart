@@ -1,71 +1,120 @@
-// import 'package:auto_route/auto_route.dart';
-// import 'package:flutter/material.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
-// @RoutePage()
-// class EditEmailPage extends StatefulWidget {
-//   final String currentEmail;
+@RoutePage()
+class EditEmailPage extends StatefulWidget {
+  const EditEmailPage({super.key});
 
-//   const EditEmailPage({super.key, required this.currentEmail});
+  @override
+  State<EditEmailPage> createState() => _EditEmailPageState();
+}
 
-//   @override
-//   State<EditEmailPage> createState() => _EditEmailPageState();
-// }
+class _EditEmailPageState extends State<EditEmailPage> {
+  late TextEditingController _emailController;
+  late TextEditingController _verificationController;
 
-// class _EditEmailPageState extends State<EditEmailPage> {
-//   late TextEditingController _emailController;
+  bool emailVerificationVisible = false;
+  String? verificationId;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-//   @override
-//   void initState() {
-//     super.initState();
-//     _emailController = TextEditingController(text: widget.currentEmail);
-//   }
+  @override
+  void initState() {
+    super.initState();
+    _emailController = TextEditingController(text: _auth.currentUser?.email ?? '');
+    _verificationController = TextEditingController();
+  }
 
-//   @override
-//   void dispose() {
-//     _emailController.dispose();
-//     super.dispose();
-//   }
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _verificationController.dispose();
+    super.dispose();
+  }
 
-//   void _saveEmail() {
-//     String newEmail = _emailController.text.trim();
+  Future<void> _sendVerification() async {
+    String newEmail = _emailController.text.trim();
 
-//     if (newEmail.isEmpty || !RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(newEmail)) {
-//       // Show an error message if email is invalid
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         const SnackBar(content: Text("Please enter a valid email address")),
-//       );
-//       return;
-//     }
+    if (newEmail.isEmpty || !RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(newEmail)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please enter a valid email address")),
+      );
+      return;
+    }
 
-//     // Implement email update logic
-//     Navigator.pop(context, newEmail); // Returning new email
-//   }
+    try {
+      await _auth.currentUser?.verifyBeforeUpdateEmail(newEmail);
+      setState(() {
+        emailVerificationVisible = true;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Verification email sent to $newEmail. Please check your inbox.")),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Failed to send verification email: ${e.toString()}")),
+      );
+    }
+  }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Edit Email'),
-//         backgroundColor: Colors.white,
-//         foregroundColor: Colors.black,
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Column(
-//           children: [
-//             TextField(
-//               controller: _emailController,
-//               decoration: const InputDecoration(labelText: 'Email Address'),
-//               keyboardType: TextInputType.emailAddress,
-//             ),
-//             const SizedBox(height: 20),
-//             ElevatedButton(
-//               onPressed: _saveEmail,
-//               child: const Text('Save'),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+  Future<void> _updateEmail() async {
+    try {
+      await _auth.currentUser?.reload();
+      if (_auth.currentUser?.email == _emailController.text.trim()) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Email updated successfully!")),
+        );
+        Navigator.pop(context);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Email update not verified yet.")),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error updating email: ${e.toString()}")),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Edit Email'),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextField(
+              controller: _emailController,
+              decoration: const InputDecoration(labelText: 'Email Address'),
+              keyboardType: TextInputType.emailAddress,
+            ),
+            const SizedBox(height: 16),
+            if (emailVerificationVisible)
+              TextField(
+                controller: _verificationController,
+                decoration: const InputDecoration(labelText: 'Enter verification code from email'),
+              ),
+            const SizedBox(height: 20),
+            FilledButton(
+              onPressed: () {
+                if (!emailVerificationVisible) {
+                  _sendVerification();
+                } else {
+                  _updateEmail();
+                }
+              },
+              child: Text(emailVerificationVisible ? 'Verify & Save' : 'Send Verification'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
