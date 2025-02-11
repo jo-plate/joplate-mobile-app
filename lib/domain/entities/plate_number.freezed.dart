@@ -128,11 +128,6 @@ class _$PlateNumberImpl extends _PlateNumber {
   final String number;
 
   @override
-  String toString() {
-    return 'PlateNumber(code: $code, number: $number)';
-  }
-
-  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&

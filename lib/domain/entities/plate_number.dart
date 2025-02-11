@@ -24,4 +24,11 @@ class PlateNumber with _$PlateNumber {
 
   factory PlateNumber.fromJson(Map<String, dynamic> json) => _$PlateNumberFromJson(json);
 
+  factory PlateNumber.fromString(String plateNumber) {
+    final parts = plateNumber.split('-');
+    return PlateNumber(code: parts[0], number: parts[1]);
+  }
+
+  @override
+  String toString() => '$code-$number';
 }

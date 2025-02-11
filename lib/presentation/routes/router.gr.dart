@@ -155,6 +155,43 @@ class HomeRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [PlatesDetailsPage]
+class PlatesDetailsRoute extends PageRouteInfo<PlatesDetailsRouteArgs> {
+  PlatesDetailsRoute({
+    Key? key,
+    required PlateNumber plateNumber,
+    List<PageRouteInfo>? children,
+  }) : super(
+         PlatesDetailsRoute.name,
+         args: PlatesDetailsRouteArgs(key: key, plateNumber: plateNumber),
+         initialChildren: children,
+       );
+
+  static const String name = 'PlatesDetailsRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<PlatesDetailsRouteArgs>();
+      return PlatesDetailsPage(key: args.key, plateNumber: args.plateNumber);
+    },
+  );
+}
+
+class PlatesDetailsRouteArgs {
+  const PlatesDetailsRouteArgs({this.key, required this.plateNumber});
+
+  final Key? key;
+
+  final PlateNumber plateNumber;
+
+  @override
+  String toString() {
+    return 'PlatesDetailsRouteArgs{key: $key, plateNumber: $plateNumber}';
+  }
+}
+
+/// generated route for
 /// [ProfilePage]
 class ProfileRoute extends PageRouteInfo<void> {
   const ProfileRoute({List<PageRouteInfo>? children})

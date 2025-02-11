@@ -31,10 +31,10 @@ class UserProfile with _$UserProfile {
 
   factory UserProfile.fromMap(Map<String, dynamic> map) {
     return UserProfile(
-      id: map['id'] as String,
-      displayName: map['displayName'] as String,
-      email: map['email'] as String,
-      phonenumber: map['phonenumber'] as String,
+      id: map['id'] ?? '',
+      displayName: map['displayName'] ?? '',
+      email: map['email'] ?? '',
+      phonenumber: map['phonenumber'] ?? '',
     );
   }
 }
