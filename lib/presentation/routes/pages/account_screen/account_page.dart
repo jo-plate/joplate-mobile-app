@@ -51,6 +51,8 @@ class AccountPage extends StatelessWidget {
                       clickable: false,
                     ),
                     const SizedBox(height: 16),
+                    const MenuItem(title: 'Full name', icon: Icons.person),
+                    const SizedBox(height: 16),
                     const MenuItem(title: 'Phone number', icon: Icons.phone_outlined),
                     const SizedBox(height: 16),
                     const MenuItem(title: 'Email', icon: Icons.email_outlined),

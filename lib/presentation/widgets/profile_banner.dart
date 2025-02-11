@@ -17,58 +17,86 @@ class ProfileBanner extends StatelessWidget {
           AutoRouter.of(context).push(const AccountRoute());
         }
       },
-      child: Card(
-        color: const Color(0xFFFFF4F4),
-        elevation: 2,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              const CircleAvatar(
-                radius: 36,
-                backgroundColor: Color(0xFFFFEDEE),
-                child: Icon(Icons.person, size: 36, color: Colors.white),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      profile.displayName,
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      child: Container(
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 255, 214, 214), // Light beige background
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: const Color.fromARGB(255, 180, 37, 27), width: 1), // Brown border
+        ),
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          children: [
+            // Profile Image + Membership Tag
+            Column(
+              children: [
+                Container(
+                  width: 68, // Match CircleAvatar size
+                  height: 68,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white, // Background color
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/avatar3.jpg'),
+                      fit: BoxFit.contain, // Ensures full image fits inside the circle
                     ),
-                    const SizedBox(height: 4),
-                    const Text(
-                      'Basic',
-                      style: TextStyle(fontSize: 14, color: Colors.grey),
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        _buildIconWithText(Icons.diamond, '6'),
-                        const SizedBox(width: 16),
-                        _buildIconWithText(Icons.attach_money, '0'),
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
+                const SizedBox(height: 6),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 153, 31, 22),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Text(
+                    'Basic',
+                    style: TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(width: 14),
+
+            // User Info & Icons
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    profile.displayName,
+                    style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 10),
+
+                  // Currency Info Row with Images
+                  Row(
+                    children: [
+                      _buildImageWithText('assets/images/Number.png', "3"), // Custom image
+                      const SizedBox(width: 6),
+                      const Icon(Icons.add_circle_outline, size: 13, color: Colors.red), // Bigger plus icon
+                      const SizedBox(width: 12),
+                      _buildImageWithText('assets/images/Number2.png', "3"), // Custom image
+                    ],
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+
+            // Arrow Icon
+            const Icon(Icons.arrow_forward_ios, size: 22, color: Colors.brown), // Increased arrow size
+          ],
         ),
       ),
     );
   }
 
-  /// Helper Methods
-  Widget _buildIconWithText(IconData icon, String text) {
+  /// Helper Method for Image with Text
+  Widget _buildImageWithText(String imagePath, String text) {
     return Row(
       children: [
-        Icon(icon, size: 16, color: Colors.grey),
-        const SizedBox(width: 4),
-        Text(text, style: const TextStyle(fontSize: 14)),
+        Image.asset(imagePath, width: 28, height: 28), // Adjust image size
+        const SizedBox(width: 6),
+        Text(text, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)), // Slightly larger text
       ],
     );
   }

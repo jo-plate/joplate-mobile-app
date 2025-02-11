@@ -238,7 +238,6 @@ class _UserProfileView extends StatelessWidget {
   Widget _buildDeveloperSection() {
     return Column(
       children: [
-        _buildClickableItem('About Developer', Icons.developer_mode),
         _buildClickableItem('About Us', Icons.info_outline),
         _buildClickableItem('Privacy Policy', Icons.privacy_tip_outlined),
         _buildClickableItem('Terms and Conditions', Icons.description_outlined),

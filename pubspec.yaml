@@ -79,6 +79,16 @@ flutter:
       fonts:
         - asset: assets/fonts/Mandatory.otf
 
+  assets:
+        - assets/images/Number.png
+        - assets/images/Number2.png
+        - assets/images/License.png
+        - assets/images/avatar1.jpg
+        - assets/images/avatar2.jpg
+        - assets/images/avatar3.jpg
+
+
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 
