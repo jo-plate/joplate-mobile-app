@@ -26,14 +26,20 @@ class _EditPhoneNumberPageState extends State<EditPhoneNumberPage> {
 
   Future<void> _loadPhoneNumber() async {
     final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return;
 
     try {
-      final doc = await FirebaseFirestore.instance.collection(userProfileCollectionId).doc(user.uid).get();
+      final doc = await FirebaseFirestore.instance.collection(userProfileCollectionId).doc(user?.uid).get();
 
       if (doc.exists) {
         setState(() {
           _phoneController.text = doc.data()?['phonenumber'] ?? '';
+          _isLoading = false;
+        });
+      } else {
+        // create doc
+        await FirebaseFirestore.instance.collection(userProfileCollectionId).doc(user?.uid).set({'phonenumber': ''});
+        setState(() {
+          _phoneController.text = '';
           _isLoading = false;
         });
       }
@@ -86,7 +92,7 @@ class _EditPhoneNumberPageState extends State<EditPhoneNumberPage> {
                     keyboardType: TextInputType.phone,
                   ),
                   const SizedBox(height: 20),
-                  ElevatedButton(
+                  FilledButton(
                     onPressed: _isSaving ? null : _savePhoneNumber,
                     child: _isSaving ? const CircularProgressIndicator() : const Text('Save'),
                   ),

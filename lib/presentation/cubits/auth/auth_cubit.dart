@@ -39,6 +39,31 @@ class AuthCubit extends Cubit<AuthState> {
     });
   }
 
+  Future<void> signUpWithEmailAndPassword(SignupInput input) async {
+    try {
+      emit(state.copyWith(isLoading: true, errorMessage: null));
+
+      final userCredential = await _authService.createUserWithEmailAndPassword(
+        email: input.email,
+        password: input.password,
+      );
+
+      final user = userCredential.user!;
+      await _firestoreUserRepository.createUserProfile(user.uid, input);
+
+      emit(state.copyWith(user: user, isLoading: false));
+    } on FirebaseAuthException catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        errorMessage: _getFirebaseErrorMessage(e),
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        errorMessage: 'An unexpected error occurred',
+      ));
+    }
+  }
 
   Future<void> loginWithEmailAndPassword(LoginInput input) async {
     try {
@@ -108,46 +133,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> updateProfile(UserProfile updatedProfile) async {
-    try {
-      emit(state.copyWith(isLoading: true, errorMessage: null));
-
-      final updated = await _firestoreUserRepository.updateUserProfile(updatedProfile);
-      emit(state.copyWith(
-        userProfile: updated,
-        isLoading: false,
-      ));
-    } catch (e) {
-      emit(state.copyWith(
-        isLoading: false,
-        errorMessage: 'Profile update failed: ${e.toString()}',
-      ));
-    }
-  }
-
-  Future<void> setDisplayName(String newName) async {
-    try {
-      emit(state.copyWith(isLoading: true, errorMessage: null));
-
-      final user = _authService.currentUser;
-      await user?.updateDisplayName(newName);
-
-      emit(state.copyWith(
-        user: user,
-        isLoading: false,
-      ));
-    } on FirebaseAuthException catch (e) {
-      emit(state.copyWith(
-        isLoading: false,
-        errorMessage: _getFirebaseErrorMessage(e),
-      ));
-    } catch (e) {
-      emit(state.copyWith(
-        isLoading: false,
-        errorMessage: 'Display name update failed: ${e.toString()}',
-      ));
-    }
-  }
 
   Future<void> sendVerifyNewEmailCode(String newEmail) async {
     try {
@@ -170,34 +155,6 @@ class AuthCubit extends Cubit<AuthState> {
       ));
     }
   }
-
-  // Future<void> changeEmail(String newEmail) async {
-  //   try {
-  //     emit(state.copyWith(isLoading: true, errorMessage: null));
-
-  //     final user = _authService.currentUser!.s;
-  //     await user.verifyBeforeUpdateEmail(
-  //       newEmail,
-  //     );
-
-  //     final updatedProfile = await _firestoreUserRepository.getUserProfile(user.uid);
-  //     emit(state.copyWith(
-  //       user: user,
-  //       userProfile: updatedProfile,
-  //       isLoading: false,
-  //     ));
-  //   } on FirebaseAuthException catch (e) {
-  //     emit(state.copyWith(
-  //       isLoading: false,
-  //       errorMessage: _getFirebaseErrorMessage(e),
-  //     ));
-  //   } catch (e) {
-  //     emit(state.copyWith(
-  //       isLoading: false,
-  //       errorMessage: 'Email change failed: ${e.toString()}',
-  //     ));
-  //   }
-  // }
 
   String _getFirebaseErrorMessage(FirebaseAuthException e) {
     switch (e.code) {
