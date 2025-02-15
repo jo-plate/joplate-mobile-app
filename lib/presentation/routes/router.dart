@@ -38,6 +38,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: EditPhoneNumberRoute.page),
         AutoRoute(page: ChangePasswordRoute.page),
         AutoRoute(page: PlatesDetailsRoute.page, path: '/plate-details/:plateNumber'),
+
         
       ];
 }

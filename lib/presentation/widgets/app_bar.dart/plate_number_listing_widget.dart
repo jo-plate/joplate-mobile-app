@@ -22,47 +22,49 @@ class PlateNumberListingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        AutoRouter.of(context).push(PlatesDetailsRoute(plateNumber: item.data));
-      },
+    return Center(
       child: AspectRatio(
-        aspectRatio: 1.2,
-        child: Stack(
-          clipBehavior: Clip.hardEdge,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.yellow[700]!, width: 2),
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        PlateNumberWidget(
-                          plate: item.data,
-                          shape: shape,
-                        ),
-                        const SizedBox(height: 8),
-                        _buildPriceLabel(),
-                        if (!isFeatured) ...[
+        aspectRatio: 1.6,
+        child: GestureDetector(
+          onTap: () {
+            AutoRouter.of(context).push(PlatesDetailsRoute(plateNumber: item.data));
+          },
+          child: Stack(
+            clipBehavior: Clip.hardEdge,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.yellow[700]!, width: 2),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          PlateNumberWidget(
+                            plate: item.data,
+                            shape: shape,
+                          ),
                           const SizedBox(height: 8),
-                          _buildFavoriteIcon(),
-                        ]
-                      ],
+                          _buildPriceLabel(),
+                          if (!isFeatured) ...[
+                            const SizedBox(height: 8),
+                            _buildFavoriteIcon(),
+                          ]
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            if (isFeatured) _buildFeaturedRibbon(),
-          ],
+              if (isFeatured) _buildFeaturedRibbon(),
+            ],
+          ),
         ),
       ),
     );

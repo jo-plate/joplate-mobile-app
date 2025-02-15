@@ -23,7 +23,7 @@ class PlateNumberWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        double fontSize = constraints.maxWidth * (isHorizontal ? 0.14 : 0.2);
+        double fontSize = constraints.maxWidth * (isHorizontal ? 0.15 : 0.2);
         double labelFontSize = constraints.maxWidth * (isHorizontal ? 0.07 : 0.12);
 
         double padding = constraints.maxWidth * (isHorizontal ? 0.05 : 0.03);
@@ -34,7 +34,7 @@ class PlateNumberWidget extends StatelessWidget {
           aspectRatio: isVertical ? verticalPlateAspectRatio : horizontalPlateAspectRatio,
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: const Color(0xFFEFEFEF),
               border: Border.all(color: Colors.black, width: borderWidth),
               borderRadius: BorderRadius.circular(borderRadius),
             ),
@@ -87,6 +87,10 @@ class PlateNumberWidget extends StatelessWidget {
                   color: Colors.black,
                   letterSpacing: 4,
                   fontFamily: 'Mandatory',
+                  shadows: [
+                    Shadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.white),
+                    Shadow(offset: Offset(-1, -1), blurRadius: 2, color: Colors.white),
+                  ],
                 ),
                 children: [
                   TextSpan(text: "${plate.code} \n"),
@@ -95,7 +99,15 @@ class PlateNumberWidget extends StatelessWidget {
                     child: Text(
                       plate.number,
                       style: TextStyle(
-                          fontFamily: 'Mandatory', letterSpacing: 4, fontSize: fontSize, fontWeight: FontWeight.w800),
+                        fontFamily: 'Mandatory',
+                        letterSpacing: 4,
+                        fontSize: fontSize,
+                        fontWeight: FontWeight.w800,
+                        shadows: [
+                          Shadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.white),
+                          Shadow(offset: Offset(-1, -1), blurRadius: 2, color: Colors.white),
+                        ],
+                      ),
                     ),
                   ),
                 ],
