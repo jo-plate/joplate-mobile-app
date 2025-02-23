@@ -57,14 +57,14 @@ class _MyPlanPageState extends State<MyPlanPage> {
                               height: 8,
                             ),
                             RichText(
-                              text: TextSpan(
+                              text: const TextSpan(
                                   text: "0",
                                   style: TextStyle(
                                       fontFamily: 'Mandatory',
                                       fontWeight: FontWeight.w700,
-                                      color: Colors.red[700],
+                                      color: Color(0xFF981C1E),
                                       fontSize: 28.0),
-                                  children: const [
+                                  children: [
                                     TextSpan(
                                       text: " /  JOD",
                                       style: TextStyle(

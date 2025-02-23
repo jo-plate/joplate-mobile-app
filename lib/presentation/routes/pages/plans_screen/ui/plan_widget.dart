@@ -76,7 +76,39 @@ class PlanWidget extends StatelessWidget {
                               fontSize: 16.0,
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 8),
+                          if (plan.price > 0)
+                            RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                  text: plan.price.toDouble().toString(),
+                                  style: const TextStyle(
+                                      fontFamily: 'Mandatory',
+                                      fontWeight: FontWeight.w700,
+                                      color: Color(0xFF981C1E),
+                                      fontSize: 24.0),
+                                  children: const [
+                                    TextSpan(
+                                      text: " /  JOD",
+                                      style: TextStyle(
+                                          fontFamily: 'Mandatory',
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.black,
+                                          fontSize: 16.0),
+                                    )
+                                  ]),
+                            )
+                          else
+                            const Text(
+                              "Free",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20.0,
+                              ),
+                            ),
+                          // const SizedBox(height: 16),
                           Divider(
                             color: Colors.grey[400],
                             thickness: 1,
