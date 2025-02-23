@@ -26,10 +26,10 @@ class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
-          // path: '/',
+          path: '/',
           page: DashboardRoute.page,
           children: [
-            // AutoRoute(path: 'home', page: HomeRoute.page, initial: true),
+            AutoRoute(path: 'home', page: HomeRoute.page, initial: true),
             AutoRoute(path: 'profile', page: ProfileRoute.page),
             AutoRoute(path: 'favorite', page: FavoritesRoute.page),
           ],
@@ -43,6 +43,6 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: PlatesDetailsRoute.page, path: '/plate-details/:plateNumber'),
         AutoRoute(page: MyPlanRoute.page, path: '/myplan'),
         AutoRoute(page: PlansRoute.page, path: '/plans'),
-        AutoRoute(page: AddPlateNumberRoute.page, initial: true),
+        AutoRoute(page: AddPlateNumberRoute.page),
       ];
 }
