@@ -5,6 +5,7 @@ import 'package:joplate/presentation/routes/pages/account_screen/edit-pages/chan
 import 'package:joplate/presentation/routes/pages/account_screen/edit-pages/edit_email_page.dart';
 import 'package:joplate/presentation/routes/pages/account_screen/edit-pages/edit_phone_number_page.dart';
 import 'package:joplate/presentation/routes/pages/account_screen/edit-pages/edit_full_name_page.dart';
+import 'package:joplate/presentation/routes/pages/add_plate_number_screen/add_plate_number_page.dart';
 import 'package:joplate/presentation/routes/pages/home_page/home_tab/homescreen.dart';
 import 'package:joplate/presentation/routes/pages/home_page/dashboard_page.dart';
 import 'package:joplate/presentation/routes/pages/home_page/profile_tab/profile_screen.dart';
@@ -25,10 +26,10 @@ class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
-          path: '/',
+          // path: '/',
           page: DashboardRoute.page,
           children: [
-            AutoRoute(path: 'home', page: HomeRoute.page, initial: true),
+            // AutoRoute(path: 'home', page: HomeRoute.page, initial: true),
             AutoRoute(path: 'profile', page: ProfileRoute.page),
             AutoRoute(path: 'favorite', page: FavoritesRoute.page),
           ],
@@ -42,5 +43,6 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: PlatesDetailsRoute.page, path: '/plate-details/:plateNumber'),
         AutoRoute(page: MyPlanRoute.page, path: '/myplan'),
         AutoRoute(page: PlansRoute.page, path: '/plans'),
+        AutoRoute(page: AddPlateNumberRoute.page, initial: true),
       ];
 }

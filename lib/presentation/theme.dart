@@ -8,23 +8,27 @@ final appTheme = ThemeData(
   ),
   useMaterial3: true,
   scaffoldBackgroundColor: Colors.grey[100],
-  // Input decoration theme for text fields
+
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
     fillColor: Colors.white,
     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+      borderSide: const BorderSide(color: Colors.black54),
+    ),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
-      borderSide: const BorderSide(color: Colors.grey),
+      borderSide: const BorderSide(color: Colors.black54),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
-      borderSide: const BorderSide(color: Color(0xFF981C1E), width: 2),
+      borderSide: const BorderSide(color: Color(0xFF981C1E)),
     ),
-    labelStyle: const TextStyle(
+    labelStyle: TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w400,
-      color: Colors.black,
+      color: Colors.grey.shade500,
     ),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
@@ -94,7 +98,7 @@ final appTheme = ThemeData(
       fontSize: 20,
       fontWeight: FontWeight.bold,
     ),
-    iconTheme: IconThemeData(color: Colors.black),
+    iconTheme: const IconThemeData(color: Colors.black),
   ),
 
   // TextButton styles
@@ -107,6 +111,12 @@ final appTheme = ThemeData(
         decoration: TextDecoration.underline,
       ),
     ),
+  ),
+  switchTheme: SwitchThemeData(
+    thumbColor: MaterialStateProperty.all(const Color(0xFF981C1E)),
+    trackColor: MaterialStateProperty.all(Colors.red.shade100),
+    trackOutlineColor: MaterialStateProperty.all(const Color(0xFF981C1E)),
+
   ),
 );
 

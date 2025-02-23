@@ -27,6 +27,22 @@ class AccountRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [AddPlateNumberPage]
+class AddPlateNumberRoute extends PageRouteInfo<void> {
+  const AddPlateNumberRoute({List<PageRouteInfo>? children})
+    : super(AddPlateNumberRoute.name, initialChildren: children);
+
+  static const String name = 'AddPlateNumberRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const AddPlateNumberPage();
+    },
+  );
+}
+
+/// generated route for
 /// [AuthPage]
 class AuthRoute extends PageRouteInfo<void> {
   const AuthRoute({List<PageRouteInfo>? children})
