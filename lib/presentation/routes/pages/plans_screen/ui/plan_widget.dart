@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:joplate/domain/entities/plan.dart';
 import 'package:joplate/presentation/widgets/icons/plan_icon.dart';
 
 class PlanWidget extends StatelessWidget {
   const PlanWidget({
     super.key,
-    required this.color,
+    required this.plan,
   });
 
-  final Color color;
+  final Plan plan;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -39,7 +41,7 @@ class PlanWidget extends StatelessWidget {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [color.withAlpha(170), color.withAlpha(130), color.withAlpha(255)],
+                        colors: [plan.color.withAlpha(170), plan.color.withAlpha(130), plan.color.withAlpha(255)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
@@ -47,7 +49,7 @@ class PlanWidget extends StatelessWidget {
                           const BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
                     ),
                     child: Center(
-                      child: PlateIcon(size: 75, color: color),
+                      child: PlateIcon(size: 75, color: plan.color),
                     ),
                   ),
                   Expanded(
@@ -56,26 +58,34 @@ class PlanWidget extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          const Text(
-                            "Plan Name",
+                          Text(
+                            plan.displayName,
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w700,
-                              fontSize: 20.0,
+                              fontSize: 24.0,
                             ),
                           ),
+                          const SizedBox(height: 8),
                           Text(
                             "you can cancel or downgrade/upgrade your subscription at any time",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.grey[600],
-                              fontSize: 14.0,
+                              fontSize: 16.0,
                             ),
                           ),
+                          const SizedBox(height: 16),
+                          Divider(
+                            color: Colors.grey[400],
+                            thickness: 1,
+                          ),
+                          _buildActivePerks(),
+                          _buildDisabledPerks(),
                           const Spacer(),
                           Divider(
-                            color: Colors.grey[600],
+                            color: Colors.grey[400],
                             thickness: 1,
                           ),
                           FilledButton(
@@ -92,6 +102,48 @@ class PlanWidget extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+
+  Widget _buildPerk(String perk, bool isActive) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: Row(
+        children: [
+          Icon(
+            Icons.check_circle,
+            color: isActive ? const Color(0xFF981C1E) : Colors.grey,
+            size: 26,
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              perk,
+              style: const TextStyle(fontSize: 18),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActivePerks() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        ...plan.activePerks.map((perk) => _buildPerk(perk, true)),
+      ],
+    );
+  }
+
+  Widget _buildDisabledPerks() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        ...plan.disabledPerks.map((perk) => _buildPerk(perk, false)),
+      ],
     );
   }
 }
