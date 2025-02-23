@@ -171,6 +171,22 @@ class MyPlanRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [PlansPage]
+class PlansRoute extends PageRouteInfo<void> {
+  const PlansRoute({List<PageRouteInfo>? children})
+    : super(PlansRoute.name, initialChildren: children);
+
+  static const String name = 'PlansRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const PlansPage();
+    },
+  );
+}
+
+/// generated route for
 /// [PlatesDetailsPage]
 class PlatesDetailsRoute extends PageRouteInfo<PlatesDetailsRouteArgs> {
   PlatesDetailsRoute({

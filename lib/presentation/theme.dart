@@ -109,3 +109,16 @@ final appTheme = ThemeData(
     ),
   ),
 );
+
+final cardContainerStyle = BoxDecoration(
+  borderRadius: BorderRadius.circular(10),
+  color: Colors.white,
+  boxShadow: [
+    BoxShadow(
+      color: Colors.grey.withOpacity(0.2),
+      blurRadius: 8,
+      spreadRadius: 2,
+      offset: const Offset(0, 4),
+    ),
+  ],
+);
