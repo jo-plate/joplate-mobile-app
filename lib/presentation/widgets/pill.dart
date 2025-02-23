@@ -13,7 +13,7 @@ class Pill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: isSmall ? 40 : 60,
+      // width: isSmall ? 40 : 60,
       height: isSmall ? 18 : 25,
       alignment: Alignment.center,
       decoration: BoxDecoration(

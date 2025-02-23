@@ -36,7 +36,7 @@ class CategoryCard extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Icon(
                   icon,
@@ -61,9 +61,12 @@ class CategoryCard extends StatelessWidget {
                   height: 4,
                 ),
                 if (count.isNotEmpty)
-                  Pill(
-                    text: count,
-                    size: PillSize.small,
+                  SizedBox(
+                    width: 60,
+                    child: Pill(
+                      text: count,
+                      size: PillSize.small,
+                    ),
                   )
               ],
             ),

@@ -8,7 +8,6 @@ final appTheme = ThemeData(
   ),
   useMaterial3: true,
   scaffoldBackgroundColor: Colors.grey[100],
-
   // Input decoration theme for text fields
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
@@ -63,7 +62,7 @@ final appTheme = ThemeData(
         RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
       padding: WidgetStateProperty.all(
-        const EdgeInsets.symmetric(vertical: 15),
+        const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
       ),
     ),
   ),
@@ -86,11 +85,11 @@ final appTheme = ThemeData(
   ),
 
   // AppBar theme
-  appBarTheme: const AppBarTheme(
-    backgroundColor: Colors.white,
+  appBarTheme: AppBarTheme(
+    backgroundColor: Colors.grey[100],
     elevation: 0,
     centerTitle: true,
-    titleTextStyle: TextStyle(
+    titleTextStyle: const TextStyle(
       color: Colors.black,
       fontSize: 20,
       fontWeight: FontWeight.bold,
