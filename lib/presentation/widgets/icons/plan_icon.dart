@@ -35,9 +35,10 @@ class PlatePainter extends CustomPainter {
     final double holeRadius = size.width * 0.065;
 
     final gradient = LinearGradient(
-      colors: [color, Colors.white.withAlpha(90), color],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
+      colors: [color.withAlpha(120), HSLColor.fromColor(color).withLightness(0.8).toColor(), color.withAlpha(120)],
+      stops: const [0.0, 0.5, 1.0],
+      begin: Alignment.centerLeft,
+      end: Alignment.centerRight,
     );
 
     final rect = Rect.fromLTWH(0, 0, size.width, size.height);

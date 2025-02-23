@@ -12,6 +12,8 @@ class PlansPage extends StatefulWidget {
 }
 
 class _PlansPageState extends State<PlansPage> {
+  List<Color> get colors => const [Color(0xFF6D4C41), Color(0xFFD4AF37), Color.fromARGB(255, 0, 109, 142)];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +33,7 @@ class _PlansPageState extends State<PlansPage> {
             ),
             itemCount: 3,
             itemBuilder: (BuildContext context, int index, int realIndex) {
-              return PlanWidget();
+              return PlanWidget(color: colors[index]);
             }));
   }
 }
