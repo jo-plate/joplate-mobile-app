@@ -12,7 +12,7 @@ class PlansPage extends StatefulWidget {
 }
 
 class _PlansPageState extends State<PlansPage> {
-  List<Color> get colors => const [Color(0xFF6D4C41), Color(0xFFD4AF37), Color.fromARGB(255, 0, 109, 142)];
+  List<Color> get colors => const [Color(0xFF6D4C41), Color(0xFFD4AF37), Color.fromARGB(255, 75, 140, 160)];
 
   @override
   Widget build(BuildContext context) {
@@ -23,17 +23,19 @@ class _PlansPageState extends State<PlansPage> {
           backgroundColor: Colors.grey[100],
           foregroundColor: Colors.black,
         ),
-        body: CarouselSlider.builder(
-            options: CarouselOptions(
-              autoPlay: true,
-              padEnds: true,
-              viewportFraction: 1,
-              aspectRatio: 9 / 16,
-              enlargeCenterPage: false,
-            ),
-            itemCount: 3,
-            itemBuilder: (BuildContext context, int index, int realIndex) {
-              return PlanWidget(color: colors[index]);
-            }));
+        body: SafeArea(
+          child: CarouselSlider.builder(
+              options: CarouselOptions(
+                autoPlay: true,
+                padEnds: true,
+                viewportFraction: 1,
+                height: MediaQuery.of(context).size.height,
+                enlargeCenterPage: false,
+              ),
+              itemCount: 3,
+              itemBuilder: (BuildContext context, int index, int realIndex) {
+                return Expanded(child: PlanWidget(color: colors[index]));
+              }),
+        ));
   }
 }

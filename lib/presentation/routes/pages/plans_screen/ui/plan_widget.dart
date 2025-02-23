@@ -10,15 +10,14 @@ class PlanWidget extends StatelessWidget {
   final Color color;
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Container(
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.white,
@@ -34,7 +33,6 @@ class PlanWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
                 children: [
                   Container(
                     height: 130,
@@ -52,66 +50,48 @@ class PlanWidget extends StatelessWidget {
                       child: PlateIcon(size: 75, color: color),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        const Text("Plan Name",
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const Text(
+                            "Plan Name",
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 20.0)),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Text("you can cancel or downgrade/upgrade your subscription at any time",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20.0,
+                            ),
+                          ),
+                          Text(
+                            "you can cancel or downgrade/upgrade your subscription at any time",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.grey[600],
                               fontSize: 14.0,
-                            )),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        RichText(
-                          textAlign: TextAlign.center,
-                          text: TextSpan(children: [
-                            TextSpan(
-                                text: "0",
-                                style: TextStyle(
-                                    fontFamily: 'Mandatory',
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.red[700],
-                                    fontSize: 28.0)),
-                            const TextSpan(
-                              text: " JOD / monthly",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black,
-                                fontSize: 16.0,
-                              ),
-                            )
-                          ]),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Divider(
-                          color: Colors.grey[600],
-                          thickness: 1,
-                        ),
-                        FilledButton(onPressed: () {}, child: const Text("Subscribe"))
-                      ],
+                            ),
+                          ),
+                          const Spacer(),
+                          Divider(
+                            color: Colors.grey[600],
+                            thickness: 1,
+                          ),
+                          FilledButton(
+                            onPressed: () {},
+                            child: const Text("Subscribe"),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ],
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
-    ;
   }
 }
