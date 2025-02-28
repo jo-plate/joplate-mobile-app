@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:joplate/presentation/routes/router.dart';
+import 'package:joplate/presentation/widgets/icons/plan_icon.dart';
 
 class ProfileBanner extends StatefulWidget {
   const ProfileBanner({super.key, this.clickable = true});
@@ -92,13 +93,29 @@ class _ProfileBannerState extends State<ProfileBanner> {
                         const SizedBox(height: 10),
 
                         // Currency Info Row with Images
-                        Row(
+                        const Row(
                           children: [
-                            _buildImageWithText('assets/images/Number.png', "3"), // Custom image
-                            const SizedBox(width: 6),
-                            const Icon(Icons.add_circle_outline, size: 13, color: Colors.red), // Bigger plus icon
-                            const SizedBox(width: 12),
-                            _buildImageWithText('assets/images/Number2.png', "3"), // Custom image
+                            Row(
+                              children: [
+                                PlanIcon(size: 26, color: Colors.white, borderColor: Colors.black), // Custom icon
+                                SizedBox(width: 6),
+                                Text("3",
+                                    style:
+                                        TextStyle(fontSize: 16, fontWeight: FontWeight.w600)), // Slightly larger text
+                              ],
+                            ),
+                            SizedBox(width: 6),
+                            Icon(Icons.add_circle_outline, size: 20, color: Color(0xFF981C1E)), // Bigger plus icon
+                            SizedBox(width: 12),
+                            Row(
+                              children: [
+                                PlanIcon(size: 30, color: Color(0xFFD4AF37), borderColor: Colors.black), // Custom icon
+                                SizedBox(width: 6),
+                                Text("3",
+                                    style:
+                                        TextStyle(fontSize: 16, fontWeight: FontWeight.w600)), // Slightly larger text
+                              ],
+                            ),
                           ],
                         ),
                       ],
@@ -112,16 +129,5 @@ class _ProfileBannerState extends State<ProfileBanner> {
             ),
           );
         });
-  }
-
-  /// Helper Method for Image with Text
-  Widget _buildImageWithText(String imagePath, String text) {
-    return Row(
-      children: [
-        Image.asset(imagePath, width: 28, height: 28), // Adjust image size
-        const SizedBox(width: 6),
-        Text(text, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)), // Slightly larger text
-      ],
-    );
   }
 }

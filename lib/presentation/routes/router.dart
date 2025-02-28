@@ -15,6 +15,7 @@ import 'package:joplate/presentation/routes/pages/account_screen/account_page.da
 import 'package:joplate/presentation/routes/pages/my_plan_screen/my_plan_page.dart';
 import 'package:joplate/presentation/routes/pages/plans_screen/plans_page.dart';
 import 'package:joplate/presentation/routes/pages/plate_details_screen/plates_details_page.dart';
+import 'package:joplate/presentation/routes/pages/privacy_policy_screen/privacy_policy_page.dart';
 
 part 'router.gr.dart';
 
@@ -22,6 +23,7 @@ part 'router.gr.dart';
 class AppRouter extends RootStackRouter {
   @override
   RouteType get defaultRouteType => const RouteType.material();
+
 
   @override
   List<AutoRoute> get routes => [
@@ -44,5 +46,6 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: MyPlanRoute.page, path: '/myplan'),
         AutoRoute(page: PlansRoute.page, path: '/plans'),
         AutoRoute(page: AddPlateNumberRoute.page),
+        AutoRoute(page: PrivacyPolicyRoute.page, path: '/privacy-policy'),
       ];
 }

@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 
-class PlateIcon extends StatelessWidget {
+class PlanIcon extends StatelessWidget {
   final double size;
   final Color color;
+  final Color? borderColor;
 
-  const PlateIcon({
-    super.key,
-    this.size = 80,
-    this.color = Colors.black,
-  });
+  const PlanIcon({super.key, this.size = 80, this.color = Colors.black, this.borderColor});
 
   double get width => size;
   double get height => size * 0.6;
@@ -17,17 +14,18 @@ class PlateIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomPaint(
       size: Size(width, height),
-      painter: PlatePainter(color, width, height),
+      painter: PlatePainter(color, width, height, borderColor),
     );
   }
 }
 
 class PlatePainter extends CustomPainter {
   final Color color;
+  final Color? borderColor;
   final double width;
   final double height;
 
-  PlatePainter(this.color, this.width, this.height);
+  PlatePainter(this.color, this.width, this.height, this.borderColor);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -52,7 +50,7 @@ class PlatePainter extends CustomPainter {
     );
 
     final borderPaint = Paint()
-      ..color = color
+      ..color = (borderColor ?? color)
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.045;
 
@@ -61,7 +59,7 @@ class PlatePainter extends CustomPainter {
       borderPaint,
     );
 
-    final holePaint = Paint()..color = color;
+    final holePaint = Paint()..color = (borderColor ?? color);
 
     canvas.drawCircle(Offset(holePadding, holePadding), holeRadius, holePaint);
     canvas.drawCircle(Offset(size.width - holePadding, holePadding), holeRadius, holePaint);

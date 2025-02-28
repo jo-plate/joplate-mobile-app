@@ -9,9 +9,14 @@ import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/menu_item.dart';
 import 'package:joplate/presentation/widgets/profile_banner.dart';
 
-class LoggedInUserView extends StatelessWidget {
+class LoggedInUserView extends StatefulWidget {
   const LoggedInUserView({super.key});
 
+  @override
+  State<LoggedInUserView> createState() => _LoggedInUserViewState();
+}
+
+class _LoggedInUserViewState extends State<LoggedInUserView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +76,7 @@ class _UserProfileView extends StatelessWidget {
           const SizedBox(height: 16),
           _buildLanguageSection(),
           const SizedBox(height: 16),
-          _buildDeveloperSection(),
+          _buildDeveloperSection(context),
           const SizedBox(height: 16),
           _buildLogOutSection(),
         ],
@@ -238,11 +243,13 @@ class _UserProfileView extends StatelessWidget {
   }
 
   /// Developer Section
-  Widget _buildDeveloperSection() {
+  Widget _buildDeveloperSection(BuildContext context) {
     return Column(
       children: [
         _buildClickableItem('About Us', Icons.info_outline),
-        _buildClickableItem('Privacy Policy', Icons.privacy_tip_outlined),
+        _buildClickableItem('Privacy Policy', Icons.privacy_tip_outlined, () {
+          AutoRouter.of(context).push(const PrivacyPolicyRoute());
+        }),
         _buildClickableItem('Terms and Conditions', Icons.description_outlined),
         _buildClickableItem('Instructions', Icons.help_outline),
       ],

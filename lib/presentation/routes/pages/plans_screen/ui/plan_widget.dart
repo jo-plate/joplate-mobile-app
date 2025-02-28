@@ -49,7 +49,7 @@ class PlanWidget extends StatelessWidget {
                           const BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
                     ),
                     child: Center(
-                      child: PlateIcon(size: 75, color: plan.color),
+                      child: PlanIcon(size: 75, color: plan.color),
                     ),
                   ),
                   Expanded(
