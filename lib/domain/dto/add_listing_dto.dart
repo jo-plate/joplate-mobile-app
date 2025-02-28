@@ -1,13 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:joplate/domain/entities/listing.dart';
-import 'package:joplate/domain/entities/phone_number.dart';
-import 'package:joplate/domain/entities/plate_number.dart';
 
 part 'add_listing_dto.freezed.dart';
 part 'add_listing_dto.g.dart';
 
 enum ListingType { request, ad }
-
 enum ItemType { plateNumber, phoneNumber }
 
 @freezed
@@ -25,18 +22,29 @@ class AddListingDto with _$AddListingDto {
   }) = _AddListingDto;
 
   factory AddListingDto.fromJson(Map<String, dynamic> json) => _$AddListingDtoFromJson(json);
-
-  static AddListingDto mockAd(ItemType type) {
-    return AddListingDto(
-      price: 10000.0,
-      discountPrice: 9500.0,
-      userId: "mockUserId",
-      listingType: ListingType.ad,
-      itemType: type,
-      priceNegotiable: true,
-      priceHidden: false,
-      isFeatured: true,
-      itemData: type == ItemType.phoneNumber ? PhoneNumber.mockList(1).first : PlateNumber.mockList(1).first,
-    );
-  }
 }
+
+@freezed
+class UpdateListingDto with _$UpdateListingDto {
+  const factory UpdateListingDto({
+    required String listingId,
+    double? price,
+    double? discountPrice,
+    bool? priceNegotiable,
+    bool? priceHidden,
+    bool? isFeatured,
+  }) = _UpdateListingDto;
+
+  factory UpdateListingDto.fromJson(Map<String, dynamic> json) => _$UpdateListingDtoFromJson(json);
+}
+
+@freezed
+class DeleteListingDto with _$DeleteListingDto {
+  const factory DeleteListingDto({
+    required String listingId,
+    required bool disabled,
+  }) = _DeleteListingDto;
+
+  factory DeleteListingDto.fromJson(Map<String, dynamic> json) => _$DeleteListingDtoFromJson(json);
+}
+
