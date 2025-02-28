@@ -5,36 +5,31 @@ import 'package:joplate/domain/entities/plate_number.dart';
 part 'listing.freezed.dart';
 part 'listing.g.dart';
 
-enum ListingType {
-  request,
-  ad,
-}
+enum ListingType { request, ad }
 
-enum ItemType {
-  plateNumber,
-  phoneNumber,
-}
+enum ItemType { plateNumber, phoneNumber }
 
-class ItemTypeConverter implements JsonConverter<dynamic, Map<String, dynamic>> {
-  const ItemTypeConverter();
+class PhoneOrPlateConverter implements JsonConverter<dynamic, Map<String, dynamic>> {
+  const PhoneOrPlateConverter();
 
   @override
   dynamic fromJson(Map<String, dynamic> json) {
-    if (json['itemType'] == ItemType.plateNumber.toString()) {
-      return PlateNumber.fromJson(json); // For PlateNumber type
-    } else if (json['itemType'] == ItemType.phoneNumber.toString()) {
-      return PhoneNumber.fromJson(json); // For PhoneNumber type
-    } else {
-      throw Exception('Unknown item type');
+    switch (json['itemType']) {
+      case 'plateNumber':
+        return PlateNumber.fromJson(json);
+      case 'phoneNumber':
+        return PhoneNumber.fromJson(json);
+      default:
+        throw Exception('Unknown item type');
     }
   }
 
   @override
   Map<String, dynamic> toJson(dynamic object) {
     if (object is PlateNumber) {
-      return object.toJson(); // Convert PlateNumber object to JSON
+      return object.toJson()..addAll({'itemType': 'plateNumber'});
     } else if (object is PhoneNumber) {
-      return object.toJson(); // Convert PhoneNumber object to JSON
+      return object.toJson()..addAll({'itemType': 'phoneNumber'});
     } else {
       throw Exception('Unknown item type');
     }
@@ -46,42 +41,47 @@ class Listing<T> with _$Listing {
   const Listing._();
 
   const factory Listing({
-    @ItemTypeConverter() required T data,
-    required ItemType itemType,
+    required String id,
+    required double price,
+    required double discountPrice,
+    required String userId,
     required ListingType listingType,
-    double? price,
-    double? discountPrice,
-    @Default('') String userId,
-    @Default('') String description,
-    @Default(false) bool priceNegotiable,
-    @Default(false) bool priceHidden,
-    @Default(false) bool isFeatured,
+    required ItemType itemType,
+    required bool priceNegotiable,
+    required bool priceHidden,
+    required bool isFeatured,
+    @PhoneOrPlateConverter() required T itemData,
   }) = _Listing;
-
-  static List<Listing<PlateNumber>> mockPlateNumberList(int number) {
-    return List.generate(
-      number,
-      (index) => Listing(
-          data: PlateNumber.mockList(1).first,
-          listingType: ListingType.ad,
-          itemType: ItemType.plateNumber,
-          price: 10000.0 + index,
-          discountPrice: 20),
-    );
-  }
-
-  static List<Listing<PhoneNumber>> mockPhoneNumberList(int number) {
-    return List.generate(
-      number,
-      (index) => Listing(
-        data: PhoneNumber.mockList(1).first,
-        listingType: ListingType.ad,
-        itemType: ItemType.phoneNumber,
-        price: 10000.0 + index,
-      ),
-    );
-  }
 
   factory Listing.fromJson(Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
       _$ListingFromJson(json, fromJsonT);
+
+  static Listing<PlateNumber> mockPlateAd() {
+    return Listing(
+      id: "mockPlateId",
+      price: 15000.0,
+      discountPrice: 14000.0,
+      userId: "mockUserId",
+      listingType: ListingType.ad,
+      itemType: ItemType.plateNumber,
+      priceNegotiable: true,
+      priceHidden: false,
+      isFeatured: true,
+      itemData: PlateNumber.mockList(1).first,
+    );
+  }
+
+  static Listing<PhoneNumber> mockPhoneAd() {
+    return Listing(
+        id: "mockPhoneId",
+        price: 5000.0,
+        discountPrice: 4500.0,
+        userId: "mockUserId",
+        listingType: ListingType.ad,
+        itemType: ItemType.phoneNumber,
+        priceNegotiable: true,
+        priceHidden: false,
+        isFeatured: false,
+        itemData: PhoneNumber.mockList(1).first);
+  }
 }

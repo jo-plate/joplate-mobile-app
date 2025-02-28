@@ -1,17 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'listing.dart';
+part of 'add_listing_dto.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ListingImpl<T> _$$ListingImplFromJson<T>(
-  Map<String, dynamic> json,
-  T Function(Object? json) fromJsonT,
-) =>
-    _$ListingImpl<T>(
-      id: json['id'] as String,
+_$AddListingDtoImpl _$$AddListingDtoImplFromJson(Map<String, dynamic> json) =>
+    _$AddListingDtoImpl(
       price: (json['price'] as num).toDouble(),
       discountPrice: (json['discountPrice'] as num).toDouble(),
       userId: json['userId'] as String,
@@ -20,15 +16,12 @@ _$ListingImpl<T> _$$ListingImplFromJson<T>(
       priceNegotiable: json['priceNegotiable'] as bool,
       priceHidden: json['priceHidden'] as bool,
       isFeatured: json['isFeatured'] as bool,
-      itemData: fromJsonT(json['itemData']),
+      itemData: _$JsonConverterFromJson<Map<String, dynamic>, dynamic>(
+          json['itemData'], const PhoneOrPlateConverter().fromJson),
     );
 
-Map<String, dynamic> _$$ListingImplToJson<T>(
-  _$ListingImpl<T> instance,
-  Object? Function(T value) toJsonT,
-) =>
+Map<String, dynamic> _$$AddListingDtoImplToJson(_$AddListingDtoImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'price': instance.price,
       'discountPrice': instance.discountPrice,
       'userId': instance.userId,
@@ -37,7 +30,7 @@ Map<String, dynamic> _$$ListingImplToJson<T>(
       'priceNegotiable': instance.priceNegotiable,
       'priceHidden': instance.priceHidden,
       'isFeatured': instance.isFeatured,
-      'itemData': toJsonT(instance.itemData),
+      'itemData': const PhoneOrPlateConverter().toJson(instance.itemData),
     };
 
 const _$ListingTypeEnumMap = {
@@ -49,3 +42,9 @@ const _$ItemTypeEnumMap = {
   ItemType.plateNumber: 'plateNumber',
   ItemType.phoneNumber: 'phoneNumber',
 };
+
+Value? _$JsonConverterFromJson<Json, Value>(
+  Object? json,
+  Value? Function(Json json) fromJson,
+) =>
+    json == null ? null : fromJson(json as Json);

@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:joplate/domain/entities/listing.dart';
+import 'package:joplate/domain/entities/plate_number.dart';
 import 'ui/logo_section.dart';
 import 'ui/category_section.dart';
 import 'ui/plates_listing_grid.dart';
@@ -10,9 +11,16 @@ import 'ui/plates_listing_grid.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  List<Listing<PlateNumber>> get mockPlateNumberList {
+    return List.generate(
+      24,
+      (index) => Listing.mockPlateAd(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final plateNumbers = Listing.mockPlateNumberList(24);
+    final plateNumbers = mockPlateNumberList;
     final chunkedPlates = List.generate(
       (plateNumbers.length / 6).ceil(),
       (index) => plateNumbers.skip(index * 6).take(6).toList(),

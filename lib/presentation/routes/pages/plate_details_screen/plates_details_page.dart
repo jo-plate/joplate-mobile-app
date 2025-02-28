@@ -8,9 +8,7 @@ import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_listing_w
 class PlatesDetailsPage extends StatefulWidget {
   const PlatesDetailsPage({super.key, required this.plateNumber});
 // add autorouter annotation plate is a string in the format of {int}-{int} '/plate-details/:plateNumber
-  
 
-  
   final PlateNumber plateNumber;
 
   @override
@@ -27,11 +25,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            PlateNumberListingWidget(
-                item:
-                    Listing(data: widget.plateNumber, itemType: ItemType.plateNumber, listingType: ListingType.request))
-          ],
+          children: [PlateNumberListingWidget(item: Listing.mockPlateAd())],
         ),
       ),
     );

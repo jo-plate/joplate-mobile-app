@@ -27,7 +27,7 @@ class PlateNumberListingWidget extends StatelessWidget {
         aspectRatio: 1.6,
         child: GestureDetector(
           onTap: () {
-            AutoRouter.of(context).push(PlatesDetailsRoute(plateNumber: item.data));
+            AutoRouter.of(context).push(PlatesDetailsRoute(plateNumber: item.itemData));
           },
           child: Stack(
             clipBehavior: Clip.hardEdge,
@@ -47,7 +47,7 @@ class PlateNumberListingWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           PlateNumberWidget(
-                            plate: item.data,
+                            plate: item.itemData,
                             shape: shape,
                           ),
                           const SizedBox(height: 8),
