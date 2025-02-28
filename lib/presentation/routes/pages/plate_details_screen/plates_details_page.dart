@@ -20,7 +20,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Plate Details'),
+        title: const Text('Plate Details'),
       ),
       body: Center(
         child: Column(

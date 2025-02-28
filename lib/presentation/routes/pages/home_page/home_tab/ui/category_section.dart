@@ -1,8 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'category_card.dart';
 
 class CategorySection extends StatelessWidget {
   const CategorySection({super.key});
+
+  Stream<int> _getListingCount(String itemType) {
+    return FirebaseFirestore.instance
+        .collection("listings")
+        .where("itemType", isEqualTo: itemType)
+        .snapshots()
+        .map((snapshot) => snapshot.size);
+  }
+
+  Stream<int> _getRequestsCount() {
+    return FirebaseFirestore.instance.collection("requests").snapshots().map((snapshot) => snapshot.size);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -10,23 +23,22 @@ class CategorySection extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              CategoryCard(
+              _buildCategoryCard(
                 icon: Icons.directions_car,
                 title: "Car Numbers",
-                count: "8529",
+                itemType: "plateNumber",
               ),
-              CategoryCard(
+              _buildCategoryCard(
                 icon: Icons.phone,
                 title: "Phone Numbers",
-                count: "130",
+                itemType: "phoneNumber",
               ),
-              CategoryCard(
+              _buildRequestCategoryCard(
                 icon: Icons.request_page,
                 title: "Requests",
-                count: "2451",
               ),
             ],
           ),
@@ -45,6 +57,30 @@ class CategorySection extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildCategoryCard({
+    required IconData icon,
+    required String title,
+    required String itemType,
+  }) {
+    return StreamBuilder<int>(
+      stream: _getListingCount(itemType),
+      builder: (context, snapshot) {
+        final count = snapshot.hasData ? snapshot.data.toString() : "Loading";
+        return CategoryCard(icon: icon, title: title, count: count);
+      },
+    );
+  }
+
+  Widget _buildRequestCategoryCard({required IconData icon, required String title}) {
+    return StreamBuilder<int>(
+      stream: _getRequestsCount(),
+      builder: (context, snapshot) {
+        final count = snapshot.hasData ? snapshot.data.toString() : "Loading";
+        return CategoryCard(icon: icon, title: title, count: count);
+      },
     );
   }
 }
