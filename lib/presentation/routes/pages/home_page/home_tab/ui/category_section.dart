@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:joplate/data/constants.dart';
 import 'category_card.dart';
 
 class CategorySection extends StatelessWidget {
@@ -7,7 +8,7 @@ class CategorySection extends StatelessWidget {
 
   Stream<int> _getListingCount(String itemType) {
     return FirebaseFirestore.instance
-        .collection("listings")
+        .collection(listingsCollectionId)
         .where("itemType", isEqualTo: itemType)
         .snapshots()
         .map((snapshot) => snapshot.size);

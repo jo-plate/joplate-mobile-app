@@ -11,6 +11,9 @@ class UserProfile with _$UserProfile {
     @Default('') String id,
     @Default('') String email,
     @Default('') String phonenumber,
+    @Default(0) int tickets,
+    @Default(0) int goldenTickets,
+    @Default("free_plan") String plan,
   }) = _UserProfile;
 
   factory UserProfile.empty() => const UserProfile(

@@ -20,6 +20,9 @@ mixin _$UserProfile {
   String get id => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get phonenumber => throw _privateConstructorUsedError;
+  int get tickets => throw _privateConstructorUsedError;
+  int get goldenTickets => throw _privateConstructorUsedError;
+  String get plan => throw _privateConstructorUsedError;
 
   /// Create a copy of UserProfile
   /// with the given fields replaced by the non-null parameter values.
@@ -34,7 +37,14 @@ abstract class $UserProfileCopyWith<$Res> {
           UserProfile value, $Res Function(UserProfile) then) =
       _$UserProfileCopyWithImpl<$Res, UserProfile>;
   @useResult
-  $Res call({String displayName, String id, String email, String phonenumber});
+  $Res call(
+      {String displayName,
+      String id,
+      String email,
+      String phonenumber,
+      int tickets,
+      int goldenTickets,
+      String plan});
 }
 
 /// @nodoc
@@ -56,6 +66,9 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
     Object? id = null,
     Object? email = null,
     Object? phonenumber = null,
+    Object? tickets = null,
+    Object? goldenTickets = null,
+    Object? plan = null,
   }) {
     return _then(_value.copyWith(
       displayName: null == displayName
@@ -74,6 +87,18 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
           ? _value.phonenumber
           : phonenumber // ignore: cast_nullable_to_non_nullable
               as String,
+      tickets: null == tickets
+          ? _value.tickets
+          : tickets // ignore: cast_nullable_to_non_nullable
+              as int,
+      goldenTickets: null == goldenTickets
+          ? _value.goldenTickets
+          : goldenTickets // ignore: cast_nullable_to_non_nullable
+              as int,
+      plan: null == plan
+          ? _value.plan
+          : plan // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -86,7 +111,14 @@ abstract class _$$UserProfileImplCopyWith<$Res>
       __$$UserProfileImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String displayName, String id, String email, String phonenumber});
+  $Res call(
+      {String displayName,
+      String id,
+      String email,
+      String phonenumber,
+      int tickets,
+      int goldenTickets,
+      String plan});
 }
 
 /// @nodoc
@@ -106,6 +138,9 @@ class __$$UserProfileImplCopyWithImpl<$Res>
     Object? id = null,
     Object? email = null,
     Object? phonenumber = null,
+    Object? tickets = null,
+    Object? goldenTickets = null,
+    Object? plan = null,
   }) {
     return _then(_$UserProfileImpl(
       displayName: null == displayName
@@ -124,6 +159,18 @@ class __$$UserProfileImplCopyWithImpl<$Res>
           ? _value.phonenumber
           : phonenumber // ignore: cast_nullable_to_non_nullable
               as String,
+      tickets: null == tickets
+          ? _value.tickets
+          : tickets // ignore: cast_nullable_to_non_nullable
+              as int,
+      goldenTickets: null == goldenTickets
+          ? _value.goldenTickets
+          : goldenTickets // ignore: cast_nullable_to_non_nullable
+              as int,
+      plan: null == plan
+          ? _value.plan
+          : plan // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -135,7 +182,10 @@ class _$UserProfileImpl extends _UserProfile {
       {this.displayName = '',
       this.id = '',
       this.email = '',
-      this.phonenumber = ''})
+      this.phonenumber = '',
+      this.tickets = 0,
+      this.goldenTickets = 0,
+      this.plan = "free_plan"})
       : super._();
 
   @override
@@ -150,10 +200,19 @@ class _$UserProfileImpl extends _UserProfile {
   @override
   @JsonKey()
   final String phonenumber;
+  @override
+  @JsonKey()
+  final int tickets;
+  @override
+  @JsonKey()
+  final int goldenTickets;
+  @override
+  @JsonKey()
+  final String plan;
 
   @override
   String toString() {
-    return 'UserProfile(displayName: $displayName, id: $id, email: $email, phonenumber: $phonenumber)';
+    return 'UserProfile(displayName: $displayName, id: $id, email: $email, phonenumber: $phonenumber, tickets: $tickets, goldenTickets: $goldenTickets, plan: $plan)';
   }
 
   @override
@@ -166,12 +225,16 @@ class _$UserProfileImpl extends _UserProfile {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.phonenumber, phonenumber) ||
-                other.phonenumber == phonenumber));
+                other.phonenumber == phonenumber) &&
+            (identical(other.tickets, tickets) || other.tickets == tickets) &&
+            (identical(other.goldenTickets, goldenTickets) ||
+                other.goldenTickets == goldenTickets) &&
+            (identical(other.plan, plan) || other.plan == plan));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, displayName, id, email, phonenumber);
+  int get hashCode => Object.hash(runtimeType, displayName, id, email,
+      phonenumber, tickets, goldenTickets, plan);
 
   /// Create a copy of UserProfile
   /// with the given fields replaced by the non-null parameter values.
@@ -187,7 +250,10 @@ abstract class _UserProfile extends UserProfile {
       {final String displayName,
       final String id,
       final String email,
-      final String phonenumber}) = _$UserProfileImpl;
+      final String phonenumber,
+      final int tickets,
+      final int goldenTickets,
+      final String plan}) = _$UserProfileImpl;
   const _UserProfile._() : super._();
 
   @override
@@ -198,6 +264,12 @@ abstract class _UserProfile extends UserProfile {
   String get email;
   @override
   String get phonenumber;
+  @override
+  int get tickets;
+  @override
+  int get goldenTickets;
+  @override
+  String get plan;
 
   /// Create a copy of UserProfile
   /// with the given fields replaced by the non-null parameter values.
