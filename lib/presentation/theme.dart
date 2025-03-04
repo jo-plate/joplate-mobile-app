@@ -113,9 +113,9 @@ final appTheme = ThemeData(
     ),
   ),
   switchTheme: SwitchThemeData(
-    thumbColor: MaterialStateProperty.all(const Color(0xFF981C1E)),
-    trackColor: MaterialStateProperty.all(Colors.red.shade100),
-    trackOutlineColor: MaterialStateProperty.all(const Color(0xFF981C1E)),
+    thumbColor: WidgetStateProperty.all(const Color(0xFF981C1E)),
+    trackColor: WidgetStateProperty.all(Colors.red.shade100),
+    trackOutlineColor: WidgetStateProperty.all(const Color(0xFF981C1E)),
 
   ),
 );

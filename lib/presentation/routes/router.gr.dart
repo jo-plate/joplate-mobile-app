@@ -59,6 +59,22 @@ class AuthRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [CarNumbersPage]
+class CarNumbersRoute extends PageRouteInfo<void> {
+  const CarNumbersRoute({List<PageRouteInfo>? children})
+    : super(CarNumbersRoute.name, initialChildren: children);
+
+  static const String name = 'CarNumbersRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const CarNumbersPage();
+    },
+  );
+}
+
+/// generated route for
 /// [ChangePasswordPage]
 class ChangePasswordRoute extends PageRouteInfo<void> {
   const ChangePasswordRoute({List<PageRouteInfo>? children})

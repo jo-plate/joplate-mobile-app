@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
+import 'package:joplate/presentation/routes/router.dart';
 import 'category_card.dart';
 
 class CategorySection extends StatelessWidget {
@@ -15,7 +17,10 @@ class CategorySection extends StatelessWidget {
   }
 
   Stream<int> _getRequestsCount() {
-    return FirebaseFirestore.instance.collection("requests").snapshots().map((snapshot) => snapshot.size);
+    return FirebaseFirestore.instance
+        .collection("requests")
+        .snapshots()
+        .map((snapshot) => snapshot.size);
   }
 
   @override
@@ -31,6 +36,8 @@ class CategorySection extends StatelessWidget {
                 icon: Icons.directions_car,
                 title: "Car Numbers",
                 itemType: "plateNumber",
+                onTap: () =>
+                    AutoRouter.of(context).push(const CarNumbersRoute()),
               ),
               _buildCategoryCard(
                 icon: Icons.phone,
@@ -61,21 +68,23 @@ class CategorySection extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoryCard({
-    required IconData icon,
-    required String title,
-    required String itemType,
-  }) {
+  Widget _buildCategoryCard(
+      {required IconData icon,
+      required String title,
+      required String itemType,
+      Function()? onTap}) {
     return StreamBuilder<int>(
       stream: _getListingCount(itemType),
       builder: (context, snapshot) {
         final count = snapshot.hasData ? snapshot.data.toString() : "Loading";
-        return CategoryCard(icon: icon, title: title, count: count);
+        return CategoryCard(
+            icon: icon, title: title, count: count, onTap: onTap);
       },
     );
   }
 
-  Widget _buildRequestCategoryCard({required IconData icon, required String title}) {
+  Widget _buildRequestCategoryCard(
+      {required IconData icon, required String title}) {
     return StreamBuilder<int>(
       stream: _getRequestsCount(),
       builder: (context, snapshot) {

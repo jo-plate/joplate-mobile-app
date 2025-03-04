@@ -72,7 +72,7 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
               preferredSize: const Size.fromHeight(200), // Height of TabBar
               child: TabBar(
                 controller: _tabController,
-                indicator: BoxDecoration(),
+                indicator: const BoxDecoration(),
                 dividerColor: Colors.transparent,
                 tabs: [
                   // Custom Tabs

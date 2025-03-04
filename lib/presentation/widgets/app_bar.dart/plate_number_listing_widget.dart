@@ -9,14 +9,12 @@ class PlateNumberListingWidget extends StatelessWidget {
   final Listing<PlateNumber> item;
   final PlateShape shape;
   final bool isFeatured;
-
   const PlateNumberListingWidget({
     super.key,
     required this.item,
     this.shape = PlateShape.horizontal,
-    this.isFeatured = true,
+    required this.isFeatured,
   });
-
   bool get isVertical => shape == PlateShape.vertical;
   bool get isHorizontal => shape == PlateShape.horizontal;
 
@@ -27,7 +25,8 @@ class PlateNumberListingWidget extends StatelessWidget {
         aspectRatio: 1.6,
         child: GestureDetector(
           onTap: () {
-            AutoRouter.of(context).push(PlatesDetailsRoute(plateNumber: item.itemData));
+            AutoRouter.of(context)
+                .push(PlatesDetailsRoute(plateNumber: item.itemData));
           },
           child: Stack(
             clipBehavior: Clip.hardEdge,
@@ -52,17 +51,20 @@ class PlateNumberListingWidget extends StatelessWidget {
                           ),
                           const SizedBox(height: 8),
                           _buildPriceLabel(),
-                          if (!isFeatured) ...[
-                            const SizedBox(height: 8),
-                            _buildFavoriteIcon(),
-                          ]
                         ],
                       ),
                     ),
                   ],
                 ),
               ),
-              if (isFeatured) _buildFeaturedRibbon(),
+              if (isFeatured)
+                _buildFeaturedRibbon()
+              else ...[
+                const SizedBox(height: 8),
+                Align(
+                    alignment: Alignment.bottomRight,
+                    child: _buildFavoriteIcon()),
+              ],
             ],
           ),
         ),
@@ -98,16 +100,6 @@ class PlateNumberListingWidget extends StatelessWidget {
   }
 
   Widget _buildPriceLabel() {
-    if (item.price == null) {
-      return Text(
-        'Call for Price',
-        style: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w700,
-          color: Colors.red[700],
-        ),
-      );
-    }
     if (item.discountPrice == null) {
       return Text(
         '${item.price} JOD',

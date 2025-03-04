@@ -25,7 +25,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [PlateNumberListingWidget(item: Listing.mockPlateAd())],
+          children: [PlateNumberListingWidget(item: Listing.mockPlateAd(), isFeatured: true,)],
         ),
       ),
     );
