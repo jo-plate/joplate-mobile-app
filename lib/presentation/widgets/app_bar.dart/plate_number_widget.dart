@@ -87,7 +87,7 @@ class PlateNumberWidget extends StatelessWidget {
                   color: Colors.black,
                   letterSpacing: 4,
                   fontFamily: 'Mandatory',
-                  shadows: [
+                  shadows: const [
                     Shadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.white),
                     Shadow(offset: Offset(-1, -1), blurRadius: 2, color: Colors.white),
                   ],
@@ -103,7 +103,7 @@ class PlateNumberWidget extends StatelessWidget {
                         letterSpacing: 4,
                         fontSize: fontSize,
                         fontWeight: FontWeight.w800,
-                        shadows: [
+                        shadows: const [
                           Shadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.white),
                           Shadow(offset: Offset(-1, -1), blurRadius: 2, color: Colors.white),
                         ],

@@ -16,7 +16,8 @@ import 'package:joplate/presentation/routes/pages/my_plan_screen/my_plan_page.da
 import 'package:joplate/presentation/routes/pages/plans_screen/plans_page.dart';
 import 'package:joplate/presentation/routes/pages/plate_details_screen/plates_details_page.dart';
 import 'package:joplate/presentation/routes/pages/privacy_policy_screen/privacy_policy_page.dart';
-import 'package:joplate/presentation/routes/pages/main_page/main_page.dart';
+import 'package:joplate/presentation/routes/pages/main_Plates_page/main_page.dart';
+import 'package:joplate/presentation/routes/pages/main_Numbers_page/main_numbers_page.dart';
 part 'router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Page,Route')
@@ -47,6 +48,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: PlansRoute.page, path: '/plans'),
         AutoRoute(page: AddPlateNumberRoute.page),
         AutoRoute(page: PrivacyPolicyRoute.page, path: '/privacy-policy'),
-        AutoRoute(page: CarNumbersRoute.page, path: "/plates")
+        AutoRoute(page: CarNumbersRoute.page, path: "/plates"),
+        AutoRoute(page: PhoneNumbersRoute.page,path:"/phones")
       ];
 }

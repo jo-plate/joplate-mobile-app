@@ -203,6 +203,22 @@ class MyPlanRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [PhoneNumbersPage]
+class PhoneNumbersRoute extends PageRouteInfo<void> {
+  const PhoneNumbersRoute({List<PageRouteInfo>? children})
+    : super(PhoneNumbersRoute.name, initialChildren: children);
+
+  static const String name = 'PhoneNumbersRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const PhoneNumbersPage();
+    },
+  );
+}
+
+/// generated route for
 /// [PlansPage]
 class PlansRoute extends PageRouteInfo<void> {
   const PlansRoute({List<PageRouteInfo>? children})

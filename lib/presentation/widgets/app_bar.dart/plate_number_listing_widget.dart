@@ -9,12 +9,13 @@ class PlateNumberListingWidget extends StatelessWidget {
   final Listing<PlateNumber> item;
   final PlateShape shape;
   final bool isFeatured;
-  const PlateNumberListingWidget({
-    super.key,
-    required this.item,
-    this.shape = PlateShape.horizontal,
-    required this.isFeatured,
-  });
+  final double aspectRatio;
+  const PlateNumberListingWidget(
+      {super.key,
+      required this.item,
+      this.shape = PlateShape.horizontal,
+      required this.isFeatured,
+      this.aspectRatio = 1.6});
   bool get isVertical => shape == PlateShape.vertical;
   bool get isHorizontal => shape == PlateShape.horizontal;
 
@@ -22,7 +23,7 @@ class PlateNumberListingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: AspectRatio(
-        aspectRatio: 1.6,
+        aspectRatio: aspectRatio,
         child: GestureDetector(
           onTap: () {
             AutoRouter.of(context)
@@ -100,17 +101,6 @@ class PlateNumberListingWidget extends StatelessWidget {
   }
 
   Widget _buildPriceLabel() {
-    if (item.discountPrice == null) {
-      return Text(
-        '${item.price} JOD',
-        style: const TextStyle(
-          fontSize: 12,
-          fontFamily: 'Mandatory',
-          fontWeight: FontWeight.w600,
-          color: Colors.black,
-        ),
-      );
-    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
