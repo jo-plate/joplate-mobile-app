@@ -3,20 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/listing.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_listing_widget.dart';
+import 'package:joplate/presentation/widgets/favorite_button.dart';
+import 'package:share_plus/share_plus.dart';
 
 @RoutePage()
 class PlatesDetailsPage extends StatefulWidget {
-  const PlatesDetailsPage({super.key, required this.plateNumber});
+  const PlatesDetailsPage({super.key, required this.plateNumberListing});
 
-  final PlateNumber plateNumber;
+  final Listing<PlateNumber> plateNumberListing;
 
   @override
   State<PlatesDetailsPage> createState() => _PlatesDetailsPageState();
 }
 
 class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
-    bool isFavorite = false; // State to track favorite
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,22 +24,12 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
         title: const Text('Plate Details'),
         actions: [
           // Favorite Icon
-          IconButton(
-            icon: Icon(
-              isFavorite ? Icons.favorite : Icons.favorite_border,
-              color: Color(0xFF981C1E)
-            ),
-            onPressed: () {
-              setState(() {
-                isFavorite = !isFavorite;
-              });
-            },
-          ),
+          const FavoriteButton.plate(),
           // Share Icon
           IconButton(
             icon: const Icon(Icons.share_outlined),
             onPressed: () {
-              // Implement share functionality
+              Share.share('Check out this plate number: ${widget.plateNumberListing.itemData.toString()}');
             },
           ),
         ],
@@ -51,7 +41,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
           children: [
             // 1. Plate Number Listing (Top)
             PlateNumberListingWidget(
-              item: Listing.mockPlateAd(),
+              item: widget.plateNumberListing,
               isFeatured: true,
               aspectRatio: 2.1,
             ),
@@ -64,8 +54,6 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12.0),
-                
-                
               ),
               child: Column(
                 children: [
@@ -126,8 +114,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                       Expanded(
                         child: Text(
                           'محمد احمد',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
@@ -190,7 +177,6 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
               padding: const EdgeInsets.all(12.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12.0),
-                
               ),
               child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

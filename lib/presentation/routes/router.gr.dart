@@ -239,11 +239,14 @@ class PlansRoute extends PageRouteInfo<void> {
 class PlatesDetailsRoute extends PageRouteInfo<PlatesDetailsRouteArgs> {
   PlatesDetailsRoute({
     Key? key,
-    required PlateNumber plateNumber,
+    required Listing<PlateNumber> plateNumberListing,
     List<PageRouteInfo>? children,
   }) : super(
          PlatesDetailsRoute.name,
-         args: PlatesDetailsRouteArgs(key: key, plateNumber: plateNumber),
+         args: PlatesDetailsRouteArgs(
+           key: key,
+           plateNumberListing: plateNumberListing,
+         ),
          initialChildren: children,
        );
 
@@ -253,21 +256,24 @@ class PlatesDetailsRoute extends PageRouteInfo<PlatesDetailsRouteArgs> {
     name,
     builder: (data) {
       final args = data.argsAs<PlatesDetailsRouteArgs>();
-      return PlatesDetailsPage(key: args.key, plateNumber: args.plateNumber);
+      return PlatesDetailsPage(
+        key: args.key,
+        plateNumberListing: args.plateNumberListing,
+      );
     },
   );
 }
 
 class PlatesDetailsRouteArgs {
-  const PlatesDetailsRouteArgs({this.key, required this.plateNumber});
+  const PlatesDetailsRouteArgs({this.key, required this.plateNumberListing});
 
   final Key? key;
 
-  final PlateNumber plateNumber;
+  final Listing<PlateNumber> plateNumberListing;
 
   @override
   String toString() {
-    return 'PlatesDetailsRouteArgs{key: $key, plateNumber: $plateNumber}';
+    return 'PlatesDetailsRouteArgs{key: $key, plateNumberListing: $plateNumberListing}';
   }
 }
 

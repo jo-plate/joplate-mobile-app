@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:joplate/domain/entities/listing.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/presentation/routes/pages/account_screen/edit-pages/change_password_page.dart';
 import 'package:joplate/presentation/routes/pages/account_screen/edit-pages/edit_email_page.dart';

@@ -39,4 +39,9 @@ class PhoneNumber with _$PhoneNumber {
   }
 
   factory PhoneNumber.fromJson(Map<String, dynamic> json) => _$PhoneNumberFromJson(json);
+
+  @override
+  String toString() {
+    return number;
+  }
 }

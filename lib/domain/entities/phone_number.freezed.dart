@@ -114,11 +114,6 @@ class _$PhoneNumberImpl extends _PhoneNumber {
   final String number;
 
   @override
-  String toString() {
-    return 'PhoneNumber(number: $number)';
-  }
-
-  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
