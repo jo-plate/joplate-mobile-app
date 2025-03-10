@@ -47,7 +47,7 @@ class PlateNumberListingWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           PlateNumberWidget(
-                            plate: item.itemData,
+                            plate: item.plateNumber!,
                             shape: shape,
                           ),
                           const SizedBox(height: 8),

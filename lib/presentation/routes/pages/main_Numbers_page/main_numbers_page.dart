@@ -74,7 +74,7 @@ class _PhoneNumbersPageState extends State<PhoneNumbersPage> {
   void _onSearch() {
     setState(() {
       _filteredPlates = _allPlates.where((plateListing) {
-        final plate = plateListing.itemData;
+        final plate = plateListing.plateNumber!;
         final matchesCode = (_selectedCode == null || _selectedCode!.isEmpty)
             ? true
             : plate.code.toLowerCase() == _selectedCode!.toLowerCase();

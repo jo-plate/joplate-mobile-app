@@ -1,18 +1,20 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/listing.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/presentation/routes/pages/home_page/home_tab/ui/plates_listing_grid.dart';
 
 @RoutePage()
-class CarNumbersPage extends StatefulWidget {
-  const CarNumbersPage({super.key});
+class PlatesListingsPage extends StatefulWidget {
+  const PlatesListingsPage({super.key});
 
   @override
-  State<CarNumbersPage> createState() => _CarNumbersPageState();
+  State<PlatesListingsPage> createState() => _PlatesListingsPageState();
 }
 
-class _CarNumbersPageState extends State<CarNumbersPage> {
+class _PlatesListingsPageState extends State<PlatesListingsPage> {
   String? _selectedCode;
   String? _selectedDigits;
   String? _selectedFormat;
@@ -25,13 +27,7 @@ class _CarNumbersPageState extends State<CarNumbersPage> {
   final _maxPriceController = TextEditingController();
 
   final List<String> _codes = ['10', '20', '30', '40', '50', '60', '70', '80'];
-  final List<String> _digitCounts = [
-    '1 Digit',
-    '2 Digits',
-    '3 Digits',
-    '4 Digits',
-    '5 Digits'
-  ];
+  final List<String> _digitCounts = ['1 Digit', '2 Digits', '3 Digits', '4 Digits', '5 Digits'];
   final List<String> formatList = [
     "Format",
     "Contains Digit Repeated 2 Times",
@@ -60,33 +56,21 @@ class _CarNumbersPageState extends State<CarNumbersPage> {
     "XXX (3 Digits)",
   ];
 
-  final List<Listing<PlateNumber>> _allPlates =
-      List.generate(20, (e) => Listing.mockPlateAd());
+  // final List<Listing<PlateNumber>> _allPlates = List.generate(20, (e) => Listing.mockPlateAd());
 
-  late List<Listing<PlateNumber>> _filteredPlates;
+  // late List<Listing<PlateNumber>> _filteredPlates;
+
+  // firestore collection stream
+  late final Stream<List<Listing<PlateNumber>>> _platesStream;
 
   @override
   void initState() {
     super.initState();
-    _filteredPlates = _allPlates;
-  }
-
-  void _onSearch() {
-    setState(() {
-      _filteredPlates = _allPlates.where((plateListing) {
-        final plate = plateListing.itemData;
-        final matchesCode = (_selectedCode == null || _selectedCode!.isEmpty)
-            ? true
-            : plate.code.toLowerCase() == _selectedCode!.toLowerCase();
-
-        bool matchesDigits = true;
-        if (_selectedDigits == '4 Digits') {
-          matchesDigits = plate.number.length == 4;
-        } else if (_selectedDigits == '5 Digits') {
-          matchesDigits = plate.number.length == 5;
-        }
-
-        return matchesCode && matchesDigits;
+    _platesStream = FirebaseFirestore.instance.collection(platesListingsCollectionId).snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) {
+        final data = doc.data();
+        data['id'] = doc.id;
+        return Listing<PlateNumber>.fromJson(data);
       }).toList();
     });
   }
@@ -173,54 +157,96 @@ class _CarNumbersPageState extends State<CarNumbersPage> {
             if (_isExpanded) ...[
               Row(
                 children: [
-                  Expanded(child: TextFormField(controller: _containsController, decoration: inputFieldStyle.copyWith(labelText: 'Contains'))),
+                  Expanded(
+                      child: TextFormField(
+                          controller: _containsController,
+                          decoration: inputFieldStyle.copyWith(labelText: 'Contains'))),
                   const SizedBox(width: 8),
-                  Expanded(child: TextFormField(controller: _startsWithController, decoration: inputFieldStyle.copyWith(labelText: 'Starts With'))),
+                  Expanded(
+                      child: TextFormField(
+                          controller: _startsWithController,
+                          decoration: inputFieldStyle.copyWith(labelText: 'Starts With'))),
                   const SizedBox(width: 8),
-                  Expanded(child: TextFormField(controller: _endsWithController, decoration: inputFieldStyle.copyWith(labelText: 'Ends With'))),
+                  Expanded(
+                      child: TextFormField(
+                          controller: _endsWithController,
+                          decoration: inputFieldStyle.copyWith(labelText: 'Ends With'))),
                 ],
               ),
               const SizedBox(height: 8),
-
               Row(
                 children: [
-                  Expanded(child: TextFormField(controller: _minPriceController, keyboardType: TextInputType.number, decoration: inputFieldStyle.copyWith(labelText: 'Min Price'))),
+                  Expanded(
+                      child: TextFormField(
+                          controller: _minPriceController,
+                          keyboardType: TextInputType.number,
+                          decoration: inputFieldStyle.copyWith(labelText: 'Min Price'))),
                   const SizedBox(width: 8),
-                  Expanded(child: TextFormField(controller: _maxPriceController, keyboardType: TextInputType.number, decoration: inputFieldStyle.copyWith(labelText: 'Max Price'))),
+                  Expanded(
+                      child: TextFormField(
+                          controller: _maxPriceController,
+                          keyboardType: TextInputType.number,
+                          decoration: inputFieldStyle.copyWith(labelText: 'Max Price'))),
                   const SizedBox(width: 8),
                   ElevatedButton(
-                    onPressed: _onSearch,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                    minimumSize: const Size(80, 40), // Smaller button size
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      minimumSize: const Size(80, 40), // Smaller button size
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
-                  ),
-                  child: const Text(
-                    "Search",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold), // Smaller text
-                  ),
+                    child: const Text(
+                      "Search",
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold), // Smaller text
+                    ),
                   )
                 ],
               ),
-              const SizedBox(height: 8),  
+              const SizedBox(height: 8),
             ],
 
             GestureDetector(
               onTap: () => setState(() => _isExpanded = !_isExpanded),
               child: Row(
                 children: [
-                  Text(_isExpanded ? 'Show Less' : 'See More', style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                  Text(_isExpanded ? 'Show Less' : 'See More',
+                      style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
                   Icon(_isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down, color: Colors.red),
                 ],
               ),
             ),
 
             const SizedBox(height: 8),
-            PlatesListingsGrid(itemList: _filteredPlates, isFeatured: false),
+            StreamBuilder<List<Listing<PlateNumber>>>(
+                stream: _platesStream,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  final plates = snapshot.data ?? [];
+                  final filteredPlates = plates.where((plateListing) {
+                    final plate = plateListing.plateNumber!;
+                    final matchesCode = (_selectedCode == null || _selectedCode!.isEmpty)
+                        ? true
+                        : plate.code.toLowerCase() == _selectedCode!.toLowerCase();
+
+                    bool matchesDigits = true;
+                    if (_selectedDigits == '4 Digits') {
+                      matchesDigits = plate.number.length == 4;
+                    } else if (_selectedDigits == '5 Digits') {
+                      matchesDigits = plate.number.length == 5;
+                    }
+
+                    return matchesCode && matchesDigits;
+                  }).toList();
+
+                  return PlatesListingsGrid(itemList: filteredPlates, isFeatured: false);
+                }),
           ],
         ),
       ),

@@ -12,12 +12,12 @@ class FirestoreListingRepository {
   // Methods for PlateNumber listings
   Future<void> createPlateNumberListing(Listing<PlateNumber> listing) async {
     final collection = _firestore.collection('plate_number_listings');
-    await collection.add(listing.toJson((item) => item.toJson() as Map<String, dynamic>?));
+    await collection.add(listing.toJson());
   }
 
   Future<void> updatePlateNumberListing(String id, Listing<PlateNumber> listing) async {
     final collection = _firestore.collection('plate_number_listings');
-    await collection.doc(id).update(listing.toJson((item) => item.toJson()));
+    await collection.doc(id).update(listing.toJson());
   }
 
   Future<void> deletePlateNumberListing(String id) async {
@@ -34,12 +34,12 @@ class FirestoreListingRepository {
   // Methods for PhoneNumber listings
   Future<void> createPhoneNumberListing(Listing<PhoneNumber> listing) async {
     final collection = _firestore.collection('phone_number_listings');
-    await collection.add(listing.toJson((item) => item.toJson() as Map<String, dynamic>));
+    await collection.add(listing.toJson());
   }
 
   Future<void> updatePhoneNumberListing(String id, Listing<PhoneNumber> listing) async {
     final collection = _firestore.collection('phone_number_listings');
-    await collection.doc(id).update(listing.toJson((item) => item.toJson()));
+    await collection.doc(id).update(listing.toJson());
   }
 
   Future<void> deletePhoneNumberListing(String id) async {

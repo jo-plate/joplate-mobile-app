@@ -6,10 +6,7 @@ part of 'listing.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ListingImpl<T> _$$ListingImplFromJson<T>(
-  Map<String, dynamic> json,
-  T Function(Object? json) fromJsonT,
-) =>
+_$ListingImpl<T> _$$ListingImplFromJson<T>(Map<String, dynamic> json) =>
     _$ListingImpl<T>(
       id: json['id'] as String,
       price: (json['price'] as num).toDouble(),
@@ -21,13 +18,15 @@ _$ListingImpl<T> _$$ListingImplFromJson<T>(
       priceHidden: json['priceHidden'] as bool,
       isFeatured: json['isFeatured'] as bool,
       seller: UserProfile.fromJson(json['seller'] as Map<String, dynamic>),
-      itemData: fromJsonT(json['itemData']),
+      phoneNumber: json['phoneNumber'] == null
+          ? null
+          : PhoneNumber.fromJson(json['phoneNumber'] as Map<String, dynamic>),
+      plateNumber: json['plateNumber'] == null
+          ? null
+          : PlateNumber.fromJson(json['plateNumber'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$ListingImplToJson<T>(
-  _$ListingImpl<T> instance,
-  Object? Function(T value) toJsonT,
-) =>
+Map<String, dynamic> _$$ListingImplToJson<T>(_$ListingImpl<T> instance) =>
     <String, dynamic>{
       'id': instance.id,
       'price': instance.price,
@@ -39,7 +38,8 @@ Map<String, dynamic> _$$ListingImplToJson<T>(
       'priceHidden': instance.priceHidden,
       'isFeatured': instance.isFeatured,
       'seller': instance.seller,
-      'itemData': toJsonT(instance.itemData),
+      'phoneNumber': instance.phoneNumber,
+      'plateNumber': instance.plateNumber,
     };
 
 const _$ListingTypeEnumMap = {

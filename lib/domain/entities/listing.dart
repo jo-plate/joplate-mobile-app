@@ -37,7 +37,7 @@ class PhoneOrPlateConverter implements JsonConverter<dynamic, Map<String, dynami
   }
 }
 
-@Freezed(fromJson: true, toJson: true, genericArgumentFactories: true)
+@Freezed(fromJson: true, toJson: true)
 class Listing<T> with _$Listing {
   const Listing._();
 
@@ -52,11 +52,11 @@ class Listing<T> with _$Listing {
     required bool priceHidden,
     required bool isFeatured,
     required UserProfile seller,
-    @PhoneOrPlateConverter() required T itemData,
+    PhoneNumber? phoneNumber,
+    PlateNumber? plateNumber,
   }) = _Listing;
 
-  factory Listing.fromJson(Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
-      _$ListingFromJson(json, fromJsonT);
+  factory Listing.fromJson(Map<String, dynamic> json) => _$ListingFromJson(json);
 
   static Listing<PlateNumber> mockPlateAd() {
     return Listing(
@@ -69,7 +69,7 @@ class Listing<T> with _$Listing {
         priceNegotiable: true,
         priceHidden: false,
         isFeatured: true,
-        itemData: PlateNumber.mockList(1).first,
+        plateNumber: PlateNumber.mockList(1).first,
         seller: UserProfile.empty()
             .copyWith(displayName: "mockUser", email: "anasmk9@outlook.com", phonenumber: "+962787940864"));
   }
@@ -85,7 +85,7 @@ class Listing<T> with _$Listing {
         priceNegotiable: true,
         priceHidden: false,
         isFeatured: false,
-        itemData: PhoneNumber.mockList(1).first,
+        phoneNumber: PhoneNumber.mockList(1).first,
         seller: UserProfile.empty()
             .copyWith(displayName: "mockUser", email: "anasmk9@outlook.com", phonenumber: "+962787940864"));
   }

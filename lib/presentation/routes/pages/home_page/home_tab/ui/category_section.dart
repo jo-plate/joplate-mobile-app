@@ -10,7 +10,7 @@ class CategorySection extends StatelessWidget {
 
   Stream<int> _getListingCount(String itemType) {
     return FirebaseFirestore.instance
-        .collection(listingsCollectionId)
+        .collection(platesListingsCollectionId)
         .where("itemType", isEqualTo: itemType)
         .snapshots()
         .map((snapshot) => snapshot.size);
@@ -37,7 +37,7 @@ class CategorySection extends StatelessWidget {
                 title: "Car Numbers",
                 itemType: "plateNumber",
                 onTap: () =>
-                    AutoRouter.of(context).push(const CarNumbersRoute()),
+                    AutoRouter.of(context).push(const PlatesListingsRoute()),
               ),
               _buildCategoryCard(
                 icon: Icons.phone,

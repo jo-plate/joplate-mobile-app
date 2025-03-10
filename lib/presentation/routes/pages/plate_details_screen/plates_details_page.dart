@@ -31,7 +31,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
           IconButton(
             icon: const Icon(Icons.share_outlined),
             onPressed: () {
-              Share.share('Check out this plate number: ${widget.plateNumberListing.itemData.toString()}');
+              Share.share('Check out this plate number: ${widget.plateNumberListing.plateNumber.toString()}');
             },
           ),
         ],
@@ -91,7 +91,6 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                 borderRadius: BorderRadius.circular(12.0),
                 boxShadow: [
                   BoxShadow(
-                    // ignore: deprecated_member_use
                     color: Colors.grey.withOpacity(0.2),
                     blurRadius: 5,
                     spreadRadius: 2,
