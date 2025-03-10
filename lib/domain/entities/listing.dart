@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
+import 'package:joplate/domain/entities/user_profile.dart';
 
 part 'listing.freezed.dart';
 part 'listing.g.dart';
@@ -50,6 +51,7 @@ class Listing<T> with _$Listing {
     required bool priceNegotiable,
     required bool priceHidden,
     required bool isFeatured,
+    required UserProfile seller,
     @PhoneOrPlateConverter() required T itemData,
   }) = _Listing;
 
@@ -58,17 +60,18 @@ class Listing<T> with _$Listing {
 
   static Listing<PlateNumber> mockPlateAd() {
     return Listing(
-      id: "mockPlateId",
-      price: 15000.0,
-      discountPrice: 14000.0,
-      userId: "mockUserId",
-      listingType: ListingType.ad,
-      itemType: ItemType.plateNumber,
-      priceNegotiable: true,
-      priceHidden: false,
-      isFeatured: true,
-      itemData: PlateNumber.mockList(1).first,
-    );
+        id: "mockPlateId",
+        price: 15000.0,
+        discountPrice: 14000.0,
+        userId: "mockUserId",
+        listingType: ListingType.ad,
+        itemType: ItemType.plateNumber,
+        priceNegotiable: true,
+        priceHidden: false,
+        isFeatured: true,
+        itemData: PlateNumber.mockList(1).first,
+        seller: UserProfile.empty()
+            .copyWith(displayName: "mockUser", email: "anasmk9@outlook.com", phonenumber: "+962787940864"));
   }
 
   static Listing<PhoneNumber> mockPhoneAd() {
@@ -82,6 +85,8 @@ class Listing<T> with _$Listing {
         priceNegotiable: true,
         priceHidden: false,
         isFeatured: false,
-        itemData: PhoneNumber.mockList(1).first);
+        itemData: PhoneNumber.mockList(1).first,
+        seller: UserProfile.empty()
+            .copyWith(displayName: "mockUser", email: "anasmk9@outlook.com", phonenumber: "+962787940864"));
   }
 }

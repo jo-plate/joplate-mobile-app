@@ -30,6 +30,7 @@ mixin _$Listing<T> {
   bool get priceNegotiable => throw _privateConstructorUsedError;
   bool get priceHidden => throw _privateConstructorUsedError;
   bool get isFeatured => throw _privateConstructorUsedError;
+  UserProfile get seller => throw _privateConstructorUsedError;
   @PhoneOrPlateConverter()
   T get itemData => throw _privateConstructorUsedError;
 
@@ -59,7 +60,10 @@ abstract class $ListingCopyWith<T, $Res> {
       bool priceNegotiable,
       bool priceHidden,
       bool isFeatured,
+      UserProfile seller,
       @PhoneOrPlateConverter() T itemData});
+
+  $UserProfileCopyWith<$Res> get seller;
 }
 
 /// @nodoc
@@ -86,6 +90,7 @@ class _$ListingCopyWithImpl<T, $Res, $Val extends Listing<T>>
     Object? priceNegotiable = null,
     Object? priceHidden = null,
     Object? isFeatured = null,
+    Object? seller = null,
     Object? itemData = freezed,
   }) {
     return _then(_value.copyWith(
@@ -125,11 +130,25 @@ class _$ListingCopyWithImpl<T, $Res, $Val extends Listing<T>>
           ? _value.isFeatured
           : isFeatured // ignore: cast_nullable_to_non_nullable
               as bool,
+      seller: null == seller
+          ? _value.seller
+          : seller // ignore: cast_nullable_to_non_nullable
+              as UserProfile,
       itemData: freezed == itemData
           ? _value.itemData
           : itemData // ignore: cast_nullable_to_non_nullable
               as T,
     ) as $Val);
+  }
+
+  /// Create a copy of Listing
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $UserProfileCopyWith<$Res> get seller {
+    return $UserProfileCopyWith<$Res>(_value.seller, (value) {
+      return _then(_value.copyWith(seller: value) as $Val);
+    });
   }
 }
 
@@ -151,7 +170,11 @@ abstract class _$$ListingImplCopyWith<T, $Res>
       bool priceNegotiable,
       bool priceHidden,
       bool isFeatured,
+      UserProfile seller,
       @PhoneOrPlateConverter() T itemData});
+
+  @override
+  $UserProfileCopyWith<$Res> get seller;
 }
 
 /// @nodoc
@@ -176,6 +199,7 @@ class __$$ListingImplCopyWithImpl<T, $Res>
     Object? priceNegotiable = null,
     Object? priceHidden = null,
     Object? isFeatured = null,
+    Object? seller = null,
     Object? itemData = freezed,
   }) {
     return _then(_$ListingImpl<T>(
@@ -215,6 +239,10 @@ class __$$ListingImplCopyWithImpl<T, $Res>
           ? _value.isFeatured
           : isFeatured // ignore: cast_nullable_to_non_nullable
               as bool,
+      seller: null == seller
+          ? _value.seller
+          : seller // ignore: cast_nullable_to_non_nullable
+              as UserProfile,
       itemData: freezed == itemData
           ? _value.itemData
           : itemData // ignore: cast_nullable_to_non_nullable
@@ -236,6 +264,7 @@ class _$ListingImpl<T> extends _Listing<T> {
       required this.priceNegotiable,
       required this.priceHidden,
       required this.isFeatured,
+      required this.seller,
       @PhoneOrPlateConverter() required this.itemData})
       : super._();
 
@@ -262,12 +291,14 @@ class _$ListingImpl<T> extends _Listing<T> {
   @override
   final bool isFeatured;
   @override
+  final UserProfile seller;
+  @override
   @PhoneOrPlateConverter()
   final T itemData;
 
   @override
   String toString() {
-    return 'Listing<$T>(id: $id, price: $price, discountPrice: $discountPrice, userId: $userId, listingType: $listingType, itemType: $itemType, priceNegotiable: $priceNegotiable, priceHidden: $priceHidden, isFeatured: $isFeatured, itemData: $itemData)';
+    return 'Listing<$T>(id: $id, price: $price, discountPrice: $discountPrice, userId: $userId, listingType: $listingType, itemType: $itemType, priceNegotiable: $priceNegotiable, priceHidden: $priceHidden, isFeatured: $isFeatured, seller: $seller, itemData: $itemData)';
   }
 
   @override
@@ -290,6 +321,7 @@ class _$ListingImpl<T> extends _Listing<T> {
                 other.priceHidden == priceHidden) &&
             (identical(other.isFeatured, isFeatured) ||
                 other.isFeatured == isFeatured) &&
+            (identical(other.seller, seller) || other.seller == seller) &&
             const DeepCollectionEquality().equals(other.itemData, itemData));
   }
 
@@ -306,6 +338,7 @@ class _$ListingImpl<T> extends _Listing<T> {
       priceNegotiable,
       priceHidden,
       isFeatured,
+      seller,
       const DeepCollectionEquality().hash(itemData));
 
   /// Create a copy of Listing
@@ -333,6 +366,7 @@ abstract class _Listing<T> extends Listing<T> {
       required final bool priceNegotiable,
       required final bool priceHidden,
       required final bool isFeatured,
+      required final UserProfile seller,
       @PhoneOrPlateConverter() required final T itemData}) = _$ListingImpl<T>;
   const _Listing._() : super._();
 
@@ -358,6 +392,8 @@ abstract class _Listing<T> extends Listing<T> {
   bool get priceHidden;
   @override
   bool get isFeatured;
+  @override
+  UserProfile get seller;
   @override
   @PhoneOrPlateConverter()
   T get itemData;

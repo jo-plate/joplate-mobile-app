@@ -27,7 +27,7 @@ class PlateNumberListingWidget extends StatelessWidget {
         child: GestureDetector(
           onTap: () {
             AutoRouter.of(context)
-                .push(PlatesDetailsRoute(plateNumberListing: item.itemData));
+                .push(PlatesDetailsRoute(plateNumberListing: item));
           },
           child: Stack(
             clipBehavior: Clip.hardEdge,

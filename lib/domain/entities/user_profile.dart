@@ -23,7 +23,7 @@ class UserProfile with _$UserProfile {
         email: '',
       );
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
       'displayName': displayName,
@@ -32,7 +32,7 @@ class UserProfile with _$UserProfile {
     };
   }
 
-  factory UserProfile.fromMap(Map<String, dynamic> map) {
+  factory UserProfile.fromJson(Map<String, dynamic> map) {
     return UserProfile(
       id: map['id'] ?? '',
       displayName: map['displayName'] ?? '',

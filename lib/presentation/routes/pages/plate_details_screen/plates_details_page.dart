@@ -1,10 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:joplate/domain/entities/listing.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_listing_widget.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 @RoutePage()
 class PlatesDetailsPage extends StatefulWidget {
@@ -104,17 +106,17 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                     style: TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 10),
-                  const Row(
+                  Row(
                     children: [
-                      CircleAvatar(
+                      const CircleAvatar(
                         radius: 25,
                         child: Icon(Icons.person, color: Colors.white),
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Expanded(
                         child: Text(
-                          'محمد احمد',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          widget.plateNumberListing.seller.displayName,
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
@@ -123,11 +125,10 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      // WhatsApp Button
                       Expanded(
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            // Open WhatsApp
+                            launchUrlString("https://wa.me/${widget.plateNumberListing.seller.phonenumber}");
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,
@@ -136,7 +137,10 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                           ),
-                          icon: const Icon(Icons.phone_android_rounded, color: Colors.white),
+                          icon: const FaIcon(
+                            FontAwesomeIcons.whatsapp,
+                            color: Colors.white,
+                          ),
                           label: const Text(
                             'Whatsapp',
                             style: TextStyle(color: Colors.white, fontSize: 16),
@@ -158,9 +162,9 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                             ),
                           ),
                           icon: const Icon(Icons.phone, color: Colors.white),
-                          label: const Text(
-                            '+971542661661',
-                            style: TextStyle(color: Colors.white, fontSize: 14),
+                          label: Text(
+                            widget.plateNumberListing.seller.phonenumber,
+                            style: const TextStyle(color: Colors.white, fontSize: 14),
                           ),
                         ),
                       ),

@@ -20,6 +20,7 @@ _$ListingImpl<T> _$$ListingImplFromJson<T>(
       priceNegotiable: json['priceNegotiable'] as bool,
       priceHidden: json['priceHidden'] as bool,
       isFeatured: json['isFeatured'] as bool,
+      seller: UserProfile.fromJson(json['seller'] as Map<String, dynamic>),
       itemData: fromJsonT(json['itemData']),
     );
 
@@ -37,6 +38,7 @@ Map<String, dynamic> _$$ListingImplToJson<T>(
       'priceNegotiable': instance.priceNegotiable,
       'priceHidden': instance.priceHidden,
       'isFeatured': instance.isFeatured,
+      'seller': instance.seller,
       'itemData': toJsonT(instance.itemData),
     };
 

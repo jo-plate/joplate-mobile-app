@@ -29,7 +29,7 @@ class FirestoreUserRepository {
       );
     }).asyncMap((snapshot) {
       if (!snapshot.exists) return UserProfile.empty();
-      return UserProfile.fromMap(snapshot.data()!);
+      return UserProfile.fromJson(snapshot.data()!);
     });
   }
 
@@ -45,11 +45,11 @@ class FirestoreUserRepository {
       phonenumber: input.phonenumber,
     );
 
-    await _firestore.collection(_collectionName).doc(userId).set(userProfile.toMap());
+    await _firestore.collection(_collectionName).doc(userId).set(userProfile.toJson());
   }
 
   Future<UserProfile> updateUserProfile(UserProfile updatedProfile) async {
-    await _firestore.collection(_collectionName).doc(updatedProfile.id).update(updatedProfile.toMap());
+    await _firestore.collection(_collectionName).doc(updatedProfile.id).update(updatedProfile.toJson());
 
     return updatedProfile;
   }
@@ -65,7 +65,7 @@ class FirestoreUserRepository {
       return UserProfile.empty();
     }
 
-    return UserProfile.fromMap(snapshot.data()!);
+    return UserProfile.fromJson(snapshot.data()!);
   }
 
   void dispose() {
