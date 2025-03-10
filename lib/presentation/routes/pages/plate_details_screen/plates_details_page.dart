@@ -153,7 +153,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                       Expanded(
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            // Open Phone Dialer
+                            launchUrlString("tel:${widget.plateNumberListing.seller.phonenumber}");
                           },
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 12),
