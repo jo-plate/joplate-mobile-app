@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_dialer/flutter_phone_dialer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:joplate/domain/entities/listing.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
@@ -127,7 +128,8 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                       Expanded(
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            launchUrlString("https://wa.me/${widget.plateNumberListing.seller.phonenumber}");
+                            launchUrlString("https://wa.me/${widget.plateNumberListing.seller.phonenumber}",
+                                mode: LaunchMode.externalApplication);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,
@@ -152,7 +154,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                       Expanded(
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            launchUrlString("tel:${widget.plateNumberListing.seller.phonenumber}");
+                            FlutterPhoneDialer.dialNumber(widget.plateNumberListing.seller.phonenumber);
                           },
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 12),
