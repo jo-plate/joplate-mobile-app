@@ -11,6 +11,11 @@ class PlatesListingsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    if (itemList.isEmpty) {
+      return const Center(child: Text('No items found!'));
+    }
+
     return Center(
       child: GridView.builder(
         shrinkWrap: true,
