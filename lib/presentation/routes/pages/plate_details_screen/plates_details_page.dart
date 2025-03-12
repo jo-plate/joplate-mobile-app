@@ -27,7 +27,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
         title: const Text('Plate Details'),
         actions: [
           // Favorite Icon
-          const FavoriteButton.plate(),
+          FavoriteButton.plate(listingId: widget.plateNumberListing.id),
           // Share Icon
           IconButton(
             icon: const Icon(Icons.share_outlined),

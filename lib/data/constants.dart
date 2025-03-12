@@ -1,4 +1,4 @@
 const userProfileCollectionId = 'user_profiles';
 const platesListingsCollectionId = 'platesListings';
-const phoneListingsCollectionId = 'phoneListings';
-const favoritesCollectionId = 'phoneListings';
+const phoneListingsCollectionId = 'phonesListings';
+const favoritesCollectionId = 'favorites';
