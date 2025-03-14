@@ -308,3 +308,19 @@ class ProfileRoute extends PageRouteInfo<void> {
     },
   );
 }
+
+/// generated route for
+/// [RequestsPage]
+class RequestsRoute extends PageRouteInfo<void> {
+  const RequestsRoute({List<PageRouteInfo>? children})
+    : super(RequestsRoute.name, initialChildren: children);
+
+  static const String name = 'RequestsRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const RequestsPage();
+    },
+  );
+}

@@ -12,7 +12,6 @@ class AddListingDto with _$AddListingDto {
   const factory AddListingDto({
     required double price,
     required double discountPrice,
-    required String userId,
     required ListingType listingType,
     required ItemType itemType,
     required bool priceNegotiable,

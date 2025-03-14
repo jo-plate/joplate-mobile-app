@@ -11,9 +11,9 @@ enum ListingType { request, ad }
 enum ItemType { plateNumber, phoneNumber }
 
 class PhoneOrPlateConverter implements JsonConverter<dynamic, Map<String, dynamic>> {
-  const PhoneOrPlateConverter();
+const PhoneOrPlateConverter();
 
-  @override
+@override
   dynamic fromJson(Map<String, dynamic> json) {
     switch (json['itemType']) {
       case 'plateNumber':
@@ -25,7 +25,7 @@ class PhoneOrPlateConverter implements JsonConverter<dynamic, Map<String, dynami
     }
   }
 
-  @override
+@override
   Map<String, dynamic> toJson(dynamic object) {
     if (object is PlateNumber) {
       return object.toJson()..addAll({'itemType': 'plateNumber'});
@@ -37,56 +37,58 @@ class PhoneOrPlateConverter implements JsonConverter<dynamic, Map<String, dynami
   }
 }
 
-@Freezed(fromJson: true, toJson: true)
+@Freezed(
+  fromJson: true,
+  toJson: true,
+)
 class Listing<T> with _$Listing {
-  const Listing._();
+Listing._();
 
-  const factory Listing({
+factory Listing({
     required String id,
-    required double price,
-    required double discountPrice,
-    required String userId,
-    required ListingType listingType,
+    @Default(0) double price,
+    double? discountPrice,
+    @Default(ListingType.ad) ListingType listingType,
     required ItemType itemType,
-    required bool priceNegotiable,
-    required bool priceHidden,
-    required bool isFeatured,
-    required UserProfile seller,
+    @Default(false) bool priceNegotiable,
+    @Default(false) bool priceHidden,
+    @Default(false) bool isFeatured,
+    @Default(UserProfile()) UserProfile postedBy,
     PhoneNumber? phoneNumber,
     PlateNumber? plateNumber,
   }) = _Listing;
 
-  factory Listing.fromJson(Map<String, dynamic> json) => _$ListingFromJson(json);
+factory Listing.fromJson(Map<String, dynamic> json) => _$ListingFromJson(json);
 
-  static Listing<PlateNumber> mockPlateAd() {
+static Listing<PlateNumber> mockPlateAd() {
     return Listing(
         id: "mockPlateId",
         price: 15000.0,
         discountPrice: 14000.0,
-        userId: "mockUserId",
         listingType: ListingType.ad,
         itemType: ItemType.plateNumber,
         priceNegotiable: true,
         priceHidden: false,
         isFeatured: true,
         plateNumber: PlateNumber.mockList(1).first,
-        seller: UserProfile.empty()
+        postedBy: UserProfile.empty()
             .copyWith(displayName: "mockUser", email: "anasmk9@outlook.com", phonenumber: "+962787940864"));
   }
 
-  static Listing<PhoneNumber> mockPhoneAd() {
+static Listing<PhoneNumber> mockPhoneAd() {
     return Listing(
         id: "mockPhoneId",
         price: 5000.0,
         discountPrice: 4500.0,
-        userId: "mockUserId",
         listingType: ListingType.ad,
         itemType: ItemType.phoneNumber,
         priceNegotiable: true,
         priceHidden: false,
         isFeatured: false,
         phoneNumber: PhoneNumber.mockList(1).first,
-        seller: UserProfile.empty()
+        postedBy: UserProfile.empty()
             .copyWith(displayName: "mockUser", email: "anasmk9@outlook.com", phonenumber: "+962787940864"));
   }
+
+Map<String, dynamic> toJson() => toJson();
 }

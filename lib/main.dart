@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/injection/dependencies.dart';
@@ -15,12 +16,12 @@ void main() async {
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-);
+  );
   await DependencyManager.inject();
 
   // COMMENT IN PROD
   // if (kDebugMode) await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-
+  print(await FirebaseAuth.instance.currentUser?.getIdToken(false));
   runApp(const MyApp());
 }
 

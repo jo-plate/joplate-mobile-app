@@ -22,7 +22,6 @@ AddListingDto _$AddListingDtoFromJson(Map<String, dynamic> json) {
 mixin _$AddListingDto {
   double get price => throw _privateConstructorUsedError;
   double get discountPrice => throw _privateConstructorUsedError;
-  String get userId => throw _privateConstructorUsedError;
   ListingType get listingType => throw _privateConstructorUsedError;
   ItemType get itemType => throw _privateConstructorUsedError;
   bool get priceNegotiable => throw _privateConstructorUsedError;
@@ -50,7 +49,6 @@ abstract class $AddListingDtoCopyWith<$Res> {
   $Res call(
       {double price,
       double discountPrice,
-      String userId,
       ListingType listingType,
       ItemType itemType,
       bool priceNegotiable,
@@ -76,7 +74,6 @@ class _$AddListingDtoCopyWithImpl<$Res, $Val extends AddListingDto>
   $Res call({
     Object? price = null,
     Object? discountPrice = null,
-    Object? userId = null,
     Object? listingType = null,
     Object? itemType = null,
     Object? priceNegotiable = null,
@@ -93,10 +90,6 @@ class _$AddListingDtoCopyWithImpl<$Res, $Val extends AddListingDto>
           ? _value.discountPrice
           : discountPrice // ignore: cast_nullable_to_non_nullable
               as double,
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as String,
       listingType: null == listingType
           ? _value.listingType
           : listingType // ignore: cast_nullable_to_non_nullable
@@ -136,7 +129,6 @@ abstract class _$$AddListingDtoImplCopyWith<$Res>
   $Res call(
       {double price,
       double discountPrice,
-      String userId,
       ListingType listingType,
       ItemType itemType,
       bool priceNegotiable,
@@ -160,7 +152,6 @@ class __$$AddListingDtoImplCopyWithImpl<$Res>
   $Res call({
     Object? price = null,
     Object? discountPrice = null,
-    Object? userId = null,
     Object? listingType = null,
     Object? itemType = null,
     Object? priceNegotiable = null,
@@ -177,10 +168,6 @@ class __$$AddListingDtoImplCopyWithImpl<$Res>
           ? _value.discountPrice
           : discountPrice // ignore: cast_nullable_to_non_nullable
               as double,
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as String,
       listingType: null == listingType
           ? _value.listingType
           : listingType // ignore: cast_nullable_to_non_nullable
@@ -215,7 +202,6 @@ class _$AddListingDtoImpl implements _AddListingDto {
   const _$AddListingDtoImpl(
       {required this.price,
       required this.discountPrice,
-      required this.userId,
       required this.listingType,
       required this.itemType,
       required this.priceNegotiable,
@@ -230,8 +216,6 @@ class _$AddListingDtoImpl implements _AddListingDto {
   final double price;
   @override
   final double discountPrice;
-  @override
-  final String userId;
   @override
   final ListingType listingType;
   @override
@@ -248,7 +232,7 @@ class _$AddListingDtoImpl implements _AddListingDto {
 
   @override
   String toString() {
-    return 'AddListingDto(price: $price, discountPrice: $discountPrice, userId: $userId, listingType: $listingType, itemType: $itemType, priceNegotiable: $priceNegotiable, priceHidden: $priceHidden, isFeatured: $isFeatured, itemData: $itemData)';
+    return 'AddListingDto(price: $price, discountPrice: $discountPrice, listingType: $listingType, itemType: $itemType, priceNegotiable: $priceNegotiable, priceHidden: $priceHidden, isFeatured: $isFeatured, itemData: $itemData)';
   }
 
   @override
@@ -259,7 +243,6 @@ class _$AddListingDtoImpl implements _AddListingDto {
             (identical(other.price, price) || other.price == price) &&
             (identical(other.discountPrice, discountPrice) ||
                 other.discountPrice == discountPrice) &&
-            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.listingType, listingType) ||
                 other.listingType == listingType) &&
             (identical(other.itemType, itemType) ||
@@ -279,7 +262,6 @@ class _$AddListingDtoImpl implements _AddListingDto {
       runtimeType,
       price,
       discountPrice,
-      userId,
       listingType,
       itemType,
       priceNegotiable,
@@ -307,7 +289,6 @@ abstract class _AddListingDto implements AddListingDto {
   const factory _AddListingDto(
           {required final double price,
           required final double discountPrice,
-          required final String userId,
           required final ListingType listingType,
           required final ItemType itemType,
           required final bool priceNegotiable,
@@ -323,8 +304,6 @@ abstract class _AddListingDto implements AddListingDto {
   double get price;
   @override
   double get discountPrice;
-  @override
-  String get userId;
   @override
   ListingType get listingType;
   @override

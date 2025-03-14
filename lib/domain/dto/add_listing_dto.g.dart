@@ -10,7 +10,6 @@ _$AddListingDtoImpl _$$AddListingDtoImplFromJson(Map<String, dynamic> json) =>
     _$AddListingDtoImpl(
       price: (json['price'] as num).toDouble(),
       discountPrice: (json['discountPrice'] as num).toDouble(),
-      userId: json['userId'] as String,
       listingType: $enumDecode(_$ListingTypeEnumMap, json['listingType']),
       itemType: $enumDecode(_$ItemTypeEnumMap, json['itemType']),
       priceNegotiable: json['priceNegotiable'] as bool,
@@ -24,7 +23,6 @@ Map<String, dynamic> _$$AddListingDtoImplToJson(_$AddListingDtoImpl instance) =>
     <String, dynamic>{
       'price': instance.price,
       'discountPrice': instance.discountPrice,
-      'userId': instance.userId,
       'listingType': _$ListingTypeEnumMap[instance.listingType]!,
       'itemType': _$ItemTypeEnumMap[instance.itemType]!,
       'priceNegotiable': instance.priceNegotiable,

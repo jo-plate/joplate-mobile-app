@@ -19,13 +19,13 @@ import 'package:joplate/presentation/routes/pages/plate_details_screen/plates_de
 import 'package:joplate/presentation/routes/pages/privacy_policy_screen/privacy_policy_page.dart';
 import 'package:joplate/presentation/routes/pages/plates_listings_screen/plates_listings_page.dart';
 import 'package:joplate/presentation/routes/pages/main_Numbers_page/main_numbers_page.dart';
+import 'package:joplate/presentation/routes/pages/requests_screen/requests_page.dart';
 part 'router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Page,Route')
 class AppRouter extends RootStackRouter {
   @override
   RouteType get defaultRouteType => const RouteType.material();
-
 
   @override
   List<AutoRoute> get routes => [
@@ -50,6 +50,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: AddPlateNumberRoute.page),
         AutoRoute(page: PrivacyPolicyRoute.page, path: '/privacy-policy'),
         AutoRoute(page: PlatesListingsRoute.page, path: "/plates"),
-        AutoRoute(page: PhoneNumbersRoute.page,path:"/phones")
+        AutoRoute(page: PhoneNumbersRoute.page, path: "/phones"),
+        AutoRoute(page: RequestsRoute.page, path: "/requests")
       ];
 }

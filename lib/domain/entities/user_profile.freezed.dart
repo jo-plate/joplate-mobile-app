@@ -179,8 +179,8 @@ class __$$UserProfileImplCopyWithImpl<$Res>
 
 class _$UserProfileImpl extends _UserProfile {
   const _$UserProfileImpl(
-      {this.displayName = '',
-      this.id = '',
+      {this.displayName = 'Guest',
+      this.id = '-1',
       this.email = '',
       this.phonenumber = '',
       this.tickets = 0,

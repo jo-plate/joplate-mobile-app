@@ -84,7 +84,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
 
             const SizedBox(height: 20),
 
-            // 3. Seller Info Card
+            // 3. postedBy Info Card
             Container(
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
@@ -102,7 +102,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'About Seller',
+                    'About postedBy',
                     style: TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 10),
@@ -115,7 +115,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
-                          widget.plateNumberListing.seller.displayName,
+                          widget.plateNumberListing.postedBy.displayName,
                           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -128,7 +128,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                       Expanded(
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            launchUrlString("https://wa.me/${widget.plateNumberListing.seller.phonenumber}",
+                            launchUrlString("https://wa.me/${widget.plateNumberListing.postedBy.phonenumber}",
                                 mode: LaunchMode.externalApplication);
                           },
                           style: ElevatedButton.styleFrom(
@@ -154,7 +154,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                       Expanded(
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            FlutterPhoneDialer.dialNumber(widget.plateNumberListing.seller.phonenumber);
+                            FlutterPhoneDialer.dialNumber(widget.plateNumberListing.postedBy.phonenumber);
                           },
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 12),
@@ -164,7 +164,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                           ),
                           icon: const Icon(Icons.phone, color: Colors.white),
                           label: Text(
-                            widget.plateNumberListing.seller.phonenumber,
+                            widget.plateNumberListing.postedBy.phonenumber,
                             style: const TextStyle(color: Colors.white, fontSize: 14),
                           ),
                         ),
@@ -210,7 +210,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                       SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          "Meet the seller in person",
+                          "Meet the postedBy in person",
                           style: TextStyle(fontSize: 16),
                         ),
                       ),

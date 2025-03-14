@@ -7,8 +7,8 @@ class UserProfile with _$UserProfile {
   const UserProfile._();
 
   const factory UserProfile({
-    @Default('') String displayName,
-    @Default('') String id,
+    @Default('Guest') String displayName,
+    @Default('-1') String id,
     @Default('') String email,
     @Default('') String phonenumber,
     @Default(0) int tickets,
@@ -18,18 +18,13 @@ class UserProfile with _$UserProfile {
 
   factory UserProfile.empty() => const UserProfile(
         id: '-1',
-        displayName: 'Guest',
+        displayName: '',
         phonenumber: '',
         email: '',
       );
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'displayName': displayName,
-      'email': email,
-      'phonenumber': phonenumber,
-    };
+    return toJson();
   }
 
   factory UserProfile.fromJson(Map<String, dynamic> map) {
