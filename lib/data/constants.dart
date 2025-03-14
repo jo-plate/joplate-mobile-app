@@ -5,4 +5,9 @@ const favoritesCollectionId = 'favorites';
 const platesRequestsCollectionId = 'platesRequests';
 const phonesRequestsCollectionId = 'phonesRequests';
 const plansCollectionId = 'plans';
+const userPlansCollectionId = 'userPlans';
 
+
+
+// cloud functions
+const signupCF = 'signUpUser';

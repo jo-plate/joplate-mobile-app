@@ -4,6 +4,7 @@ import 'package:joplate/domain/entities/listing.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_widget.dart';
+import 'package:joplate/presentation/widgets/favorite_button.dart';
 
 class PlateNumberListingWidget extends StatelessWidget {
   final Listing<PlateNumber> item;
@@ -26,8 +27,7 @@ class PlateNumberListingWidget extends StatelessWidget {
         aspectRatio: aspectRatio,
         child: GestureDetector(
           onTap: () {
-            AutoRouter.of(context)
-                .push(PlatesDetailsRoute(plateNumberListing: item));
+            AutoRouter.of(context).push(PlatesDetailsRoute(plateNumberListing: item));
           },
           child: Stack(
             clipBehavior: Clip.hardEdge,
@@ -64,7 +64,9 @@ class PlateNumberListingWidget extends StatelessWidget {
                 const SizedBox(height: 8),
                 Align(
                     alignment: Alignment.bottomRight,
-                    child: _buildFavoriteIcon()),
+                    child: FavoriteButton.plate(
+                      listingId: item.id,
+                    )),
               ],
             ],
           ),
@@ -127,17 +129,6 @@ class PlateNumberListingWidget extends StatelessWidget {
           maxLines: 1,
         ),
       ],
-    );
-  }
-
-  Widget _buildFavoriteIcon() {
-    return GestureDetector(
-      child: Icon(
-        Icons.favorite_border,
-        color: Colors.red[700],
-        size: 18,
-      ),
-      onTap: () {},
     );
   }
 }

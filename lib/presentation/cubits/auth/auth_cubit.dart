@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -43,25 +44,19 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       emit(state.copyWith(isLoading: true, errorMessage: null));
 
-      final userCredential = await _authService.createUserWithEmailAndPassword(
-        email: input.email,
-        password: input.password,
-      );
+      // Call Cloud Function to create user profile
+      final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('signUpUser');
+      final result = await callable.call(input.toJson());
 
-      final user = userCredential.user!;
-      await _firestoreUserRepository.createUserProfile(user.uid, input);
-
-      emit(state.copyWith(user: user, isLoading: false));
-    } on FirebaseAuthException catch (e) {
-      emit(state.copyWith(
-        isLoading: false,
-        errorMessage: _getFirebaseErrorMessage(e),
-      ));
+      if (result.data != null && result.data['success'] == true) {
+        emit(state.copyWith(user: FirebaseAuth.instance.currentUser, isLoading: false));
+      } else {
+        emit(state.copyWith(isLoading: false, errorMessage: "Signup failed."));
+      }
+    } on FirebaseFunctionsException catch (e) {
+      emit(state.copyWith(isLoading: false, errorMessage: e.message));
     } catch (e) {
-      emit(state.copyWith(
-        isLoading: false,
-        errorMessage: 'An unexpected error occurred',
-      ));
+      emit(state.copyWith(isLoading: false, errorMessage: "An unexpected error occurred."));
     }
   }
 
@@ -132,7 +127,6 @@ class AuthCubit extends Cubit<AuthState> {
       ));
     }
   }
-
 
   Future<void> sendVerifyNewEmailCode(String newEmail) async {
     try {

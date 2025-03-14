@@ -22,6 +22,7 @@ PlateNumber _$PlateNumberFromJson(Map<String, dynamic> json) {
 mixin _$PlateNumber {
   String get code => throw _privateConstructorUsedError;
   String get number => throw _privateConstructorUsedError;
+  List<ListingV2> get ads => throw _privateConstructorUsedError;
 
   /// Serializes this PlateNumber to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,7 +40,7 @@ abstract class $PlateNumberCopyWith<$Res> {
           PlateNumber value, $Res Function(PlateNumber) then) =
       _$PlateNumberCopyWithImpl<$Res, PlateNumber>;
   @useResult
-  $Res call({String code, String number});
+  $Res call({String code, String number, List<ListingV2> ads});
 }
 
 /// @nodoc
@@ -59,6 +60,7 @@ class _$PlateNumberCopyWithImpl<$Res, $Val extends PlateNumber>
   $Res call({
     Object? code = null,
     Object? number = null,
+    Object? ads = null,
   }) {
     return _then(_value.copyWith(
       code: null == code
@@ -69,6 +71,10 @@ class _$PlateNumberCopyWithImpl<$Res, $Val extends PlateNumber>
           ? _value.number
           : number // ignore: cast_nullable_to_non_nullable
               as String,
+      ads: null == ads
+          ? _value.ads
+          : ads // ignore: cast_nullable_to_non_nullable
+              as List<ListingV2>,
     ) as $Val);
   }
 }
@@ -81,7 +87,7 @@ abstract class _$$PlateNumberImplCopyWith<$Res>
       __$$PlateNumberImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String code, String number});
+  $Res call({String code, String number, List<ListingV2> ads});
 }
 
 /// @nodoc
@@ -99,6 +105,7 @@ class __$$PlateNumberImplCopyWithImpl<$Res>
   $Res call({
     Object? code = null,
     Object? number = null,
+    Object? ads = null,
   }) {
     return _then(_$PlateNumberImpl(
       code: null == code
@@ -109,6 +116,10 @@ class __$$PlateNumberImplCopyWithImpl<$Res>
           ? _value.number
           : number // ignore: cast_nullable_to_non_nullable
               as String,
+      ads: null == ads
+          ? _value._ads
+          : ads // ignore: cast_nullable_to_non_nullable
+              as List<ListingV2>,
     ));
   }
 }
@@ -116,8 +127,12 @@ class __$$PlateNumberImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$PlateNumberImpl extends _PlateNumber {
-  const _$PlateNumberImpl({required this.code, required this.number})
-      : super._();
+  const _$PlateNumberImpl(
+      {required this.code,
+      required this.number,
+      final List<ListingV2> ads = const []})
+      : _ads = ads,
+        super._();
 
   factory _$PlateNumberImpl.fromJson(Map<String, dynamic> json) =>
       _$$PlateNumberImplFromJson(json);
@@ -126,6 +141,14 @@ class _$PlateNumberImpl extends _PlateNumber {
   final String code;
   @override
   final String number;
+  final List<ListingV2> _ads;
+  @override
+  @JsonKey()
+  List<ListingV2> get ads {
+    if (_ads is EqualUnmodifiableListView) return _ads;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_ads);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -133,12 +156,14 @@ class _$PlateNumberImpl extends _PlateNumber {
         (other.runtimeType == runtimeType &&
             other is _$PlateNumberImpl &&
             (identical(other.code, code) || other.code == code) &&
-            (identical(other.number, number) || other.number == number));
+            (identical(other.number, number) || other.number == number) &&
+            const DeepCollectionEquality().equals(other._ads, _ads));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, code, number);
+  int get hashCode => Object.hash(
+      runtimeType, code, number, const DeepCollectionEquality().hash(_ads));
 
   /// Create a copy of PlateNumber
   /// with the given fields replaced by the non-null parameter values.
@@ -159,7 +184,8 @@ class _$PlateNumberImpl extends _PlateNumber {
 abstract class _PlateNumber extends PlateNumber {
   const factory _PlateNumber(
       {required final String code,
-      required final String number}) = _$PlateNumberImpl;
+      required final String number,
+      final List<ListingV2> ads}) = _$PlateNumberImpl;
   const _PlateNumber._() : super._();
 
   factory _PlateNumber.fromJson(Map<String, dynamic> json) =
@@ -169,6 +195,8 @@ abstract class _PlateNumber extends PlateNumber {
   String get code;
   @override
   String get number;
+  @override
+  List<ListingV2> get ads;
 
   /// Create a copy of PlateNumber
   /// with the given fields replaced by the non-null parameter values.

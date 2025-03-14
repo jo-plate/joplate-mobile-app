@@ -20,11 +20,10 @@ class SignupInput with _$SignupInput {
         phonenumber: '',
       );
 
-  // TODO: Add validation
   bool get isValid => displayName.isNotEmpty && email.isNotEmpty && password.isNotEmpty && phonenumber.isNotEmpty;
 
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'displayName': displayName,
       'email': email,

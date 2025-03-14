@@ -57,6 +57,8 @@ dependencies:
   url_launcher: ^6.3.1
   font_awesome_flutter: ^10.8.0
   flutter_phone_dialer: ^0.0.5
+  rxdart: ^0.28.0
+  cloud_functions: ^5.3.4
 
 dev_dependencies:
   flutter_test:

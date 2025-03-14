@@ -67,22 +67,25 @@ class _RequestsPageState extends State<RequestsPage> with SingleTickerProviderSt
           ],
         ),
       ),
-      body: TabBarView(
-        controller: tabController,
-        children: [
-          StreamBuilder(
-            stream: platesRequestsStream,
-            builder: (context, snapshot) {
-              return SingleChildScrollView(child: PlatesListingsGrid(itemList: snapshot.data ?? []));
-            },
-          ),
-          StreamBuilder(
-            stream: platesRequestsStream,
-            builder: (context, snapshot) {
-              return SingleChildScrollView(child: PlatesListingsGrid(itemList: snapshot.data ?? []));
-            },
-          ),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+        child: TabBarView(
+          controller: tabController,
+          children: [
+            StreamBuilder(
+              stream: platesRequestsStream,
+              builder: (context, snapshot) {
+                return SingleChildScrollView(child: PlatesListingsGrid(itemList: snapshot.data ?? []));
+              },
+            ),
+            StreamBuilder(
+              stream: platesRequestsStream,
+              builder: (context, snapshot) {
+                return SingleChildScrollView(child: PlatesListingsGrid(itemList: snapshot.data ?? []));
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

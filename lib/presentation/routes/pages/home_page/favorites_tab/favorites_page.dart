@@ -26,21 +26,20 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
   void initState() {
     super.initState();
     favoritesStream = FirebaseFirestore.instance
-        .collection('user_favorites')
+        .collection(favoritesCollectionId)
         .doc(FirebaseAuth.instance.currentUser?.uid)
         .snapshots()
         .map((snapshot) {
       print(snapshot.data());
       return UserFavorites.fromJson(snapshot.data() ?? {});
     })
-        // get a listing by id for plates and numbers arrays
         .asyncMap((snapshot) async {
       print(snapshot);
       final List<Listing<PlateNumber>> plates = await Future.wait(
         snapshot.favoritePlates.map((id) async {
           final plate = await FirebaseFirestore.instance.collection(platesListingsCollectionId).doc(id).get();
 
-          final plateDict = plate.data()!;
+          final plateDict = plate.data() ?? {};
           plateDict['id'] = id;
           return Listing<PlateNumber>.fromJson(plateDict);
         }),

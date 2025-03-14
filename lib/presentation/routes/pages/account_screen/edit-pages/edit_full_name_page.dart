@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:joplate/data/constants.dart';
 
 @RoutePage()
 class EditFullNamePage extends StatefulWidget {
@@ -45,9 +47,12 @@ class _EditFullNamePageState extends State<EditFullNamePage> {
             const SizedBox(height: 20),
             FilledButton(
               onPressed: () async {
-                await FirebaseAuth.instance.currentUser?.updateDisplayName(_nameController.text).then((_) {
-                  if (context.mounted) Navigator.of(context).pop();
-                });
+                await FirebaseAuth.instance.currentUser?.updateDisplayName(_nameController.text);
+                await FirebaseFirestore.instance
+                    .collection(userProfileCollectionId)
+                    .doc(FirebaseAuth.instance.currentUser?.uid)
+                    .set({'name': _nameController.text}, SetOptions(merge: true));
+                if (context.mounted) Navigator.of(context).pop();
               },
               child: const Text('Save'),
             ),

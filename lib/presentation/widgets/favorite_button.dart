@@ -65,11 +65,13 @@ class _FavoriteButtonState extends State<FavoriteButton> {
         widget.itemType == ItemType.plateNumber ? 'favoritePlates' : 'favoritePhones':
             FieldValue.arrayUnion([widget.listingId])
       }, SetOptions(merge: true));
+      print('added to favorites for user ${user.uid}');
     } else {
       await FirebaseFirestore.instance.collection(favoritesCollectionId).doc(user.uid).set({
         widget.itemType == ItemType.plateNumber ? 'favoritePlates' : 'favoritePhones':
             FieldValue.arrayRemove([widget.listingId])
       }, SetOptions(merge: true));
+      print('removed from favorites for user ${user.uid}');
     }
   }
 

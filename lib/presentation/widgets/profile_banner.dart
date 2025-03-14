@@ -1,6 +1,10 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:joplate/data/constants.dart';
+import 'package:joplate/domain/entities/user_plans.dart';
+import 'package:joplate/domain/entities/user_profile.dart';
 
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/icons/plan_icon.dart';
@@ -15,12 +19,23 @@ class ProfileBanner extends StatefulWidget {
 }
 
 class _ProfileBannerState extends State<ProfileBanner> {
-  late final Stream<User?> userStream;
+  late final Stream<UserProfile?> userStream;
+  late final Stream<UserPlans> userPlansStream;
 
   @override
   void initState() {
     super.initState();
-    userStream = FirebaseAuth.instance.userChanges();
+    userStream = FirebaseFirestore.instance
+        .collection(userProfileCollectionId)
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .snapshots()
+        .map((snapshot) => snapshot.data() == null ? UserProfile.empty() : UserProfile.fromJson(snapshot.data()!));
+
+    userPlansStream = FirebaseFirestore.instance
+        .collection(userPlansCollectionId)
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .snapshots()
+        .map((snapshot) => UserPlans.fromJson(snapshot.data()!));
   }
 
   @override
@@ -43,25 +58,24 @@ class _ProfileBannerState extends State<ProfileBanner> {
             },
             child: Container(
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 255, 214, 214), // Light beige background
+                color: const Color.fromARGB(255, 255, 214, 214),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: const Color.fromARGB(255, 180, 37, 27), width: 1), // Brown border
+                border: Border.all(color: const Color.fromARGB(255, 180, 37, 27), width: 1),
               ),
               padding: const EdgeInsets.all(12),
               child: Row(
                 children: [
-                  // Profile Image + Membership Tag
                   Column(
                     children: [
                       Container(
-                        width: 68, // Match CircleAvatar size
+                        width: 68,
                         height: 68,
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.white, // Background color
+                          color: Colors.white,
                           image: DecorationImage(
                             image: AssetImage('assets/images/avatar3.jpg'),
-                            fit: BoxFit.contain, // Ensures full image fits inside the circle
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ),
@@ -80,8 +94,6 @@ class _ProfileBannerState extends State<ProfileBanner> {
                     ],
                   ),
                   const SizedBox(width: 14),
-
-                  // User Info & Icons
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,39 +103,46 @@ class _ProfileBannerState extends State<ProfileBanner> {
                           style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                         ),
                         const SizedBox(height: 10),
+                        StreamBuilder<UserPlans>(
+                            stream: userPlansStream,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                return const CircularProgressIndicator();
+                              }
 
-                        // Currency Info Row with Images
-                        const Row(
-                          children: [
-                            Row(
-                              children: [
-                                PlanIcon(size: 26, color: Colors.white, borderColor: Colors.black), // Custom icon
-                                SizedBox(width: 6),
-                                Text("3",
-                                    style:
-                                        TextStyle(fontSize: 16, fontWeight: FontWeight.w600)), // Slightly larger text
-                              ],
-                            ),
-                            SizedBox(width: 6),
-                            Icon(Icons.add_circle_outline, size: 20, color: Color(0xFF981C1E)), // Bigger plus icon
-                            SizedBox(width: 12),
-                            Row(
-                              children: [
-                                PlanIcon(size: 30, color: Color(0xFFD4AF37), borderColor: Colors.black), // Custom icon
-                                SizedBox(width: 6),
-                                Text("3",
-                                    style:
-                                        TextStyle(fontSize: 16, fontWeight: FontWeight.w600)), // Slightly larger text
-                              ],
-                            ),
-                          ],
-                        ),
+                              if (snapshot.hasError) {
+                                return const Text('An error occurred');
+                              }
+
+                              return Row(
+                                children: [
+                                  Row(
+                                    children: [
+                                      const PlanIcon(size: 26, color: Colors.white, borderColor: Colors.black),
+                                      const SizedBox(width: 6),
+                                      Text((snapshot.data?.tickets ?? 0).toString(),
+                                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                                    ],
+                                  ),
+                                  const SizedBox(width: 6),
+                                  const Icon(Icons.add_circle_outline, size: 20, color: Color(0xFF981C1E)),
+                                  const SizedBox(width: 12),
+                                  Row(
+                                    children: [
+                                      const PlanIcon(
+                                          size: 30, color: const Color(0xFFD4AF37), borderColor: Colors.black),
+                                      const SizedBox(width: 6),
+                                      Text((snapshot.data?.goldenTickets ?? 0).toString(),
+                                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                                    ],
+                                  ),
+                                ],
+                              );
+                            }),
                       ],
                     ),
                   ),
-
-                  // Arrow Icon
-                  const Icon(Icons.arrow_forward_ios, size: 22, color: Colors.brown), // Increased arrow size
+                  const Icon(Icons.arrow_forward_ios, size: 22, color: Colors.brown),
                 ],
               ),
             ),
