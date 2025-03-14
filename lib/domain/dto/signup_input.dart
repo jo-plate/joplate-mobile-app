@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:joplate/domain/dto/login_input.dart';
 
 part 'signup_input.freezed.dart';
 
@@ -22,7 +23,6 @@ class SignupInput with _$SignupInput {
 
   bool get isValid => displayName.isNotEmpty && email.isNotEmpty && password.isNotEmpty && phonenumber.isNotEmpty;
 
-
   Map<String, dynamic> toJson() {
     return {
       'displayName': displayName,
@@ -30,5 +30,12 @@ class SignupInput with _$SignupInput {
       'password': password,
       'phonenumber': phonenumber,
     };
+  }
+
+  LoginInput toLoginInput() {
+    return LoginInput(
+      email: email,
+      password: password,
+    );
   }
 }

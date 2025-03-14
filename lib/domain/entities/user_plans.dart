@@ -10,7 +10,7 @@ class UserPlans with _$UserPlans {
   const factory UserPlans({
     @Default(0) int tickets,
     @Default(0) int goldenTickets,
-    @Default("free_plan") String plan,
+    @Default(PlanType.free_plan) PlanType plan,
   }) = _UserPlans;
 
   factory UserPlans.fromJson(Map<String, dynamic> json) => _$UserPlansFromJson(json);
@@ -19,7 +19,30 @@ class UserPlans with _$UserPlans {
     return const UserPlans(
       tickets: 10,
       goldenTickets: 2,
-      plan: "diamond_plan",
+      plan: PlanType.gold_plan,
     );
+  }
+}
+
+@JsonEnum(alwaysCreate: true)
+enum PlanType {
+  @JsonValue("free_plan")
+  free_plan,
+  @JsonValue("gold_plan")
+  gold_plan,
+  @JsonValue("diamond_plan")
+  diamond_plan,
+}
+
+extension PlanTypeExtension on PlanType {
+  String get name {
+    switch (this) {
+      case PlanType.free_plan:
+        return "Basic";
+      case PlanType.gold_plan:
+        return "Gold";
+      case PlanType.diamond_plan:
+        return "Diamond";
+    }
   }
 }

@@ -22,7 +22,7 @@ UserPlans _$UserPlansFromJson(Map<String, dynamic> json) {
 mixin _$UserPlans {
   int get tickets => throw _privateConstructorUsedError;
   int get goldenTickets => throw _privateConstructorUsedError;
-  String get plan => throw _privateConstructorUsedError;
+  PlanType get plan => throw _privateConstructorUsedError;
 
   /// Serializes this UserPlans to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,7 +39,7 @@ abstract class $UserPlansCopyWith<$Res> {
   factory $UserPlansCopyWith(UserPlans value, $Res Function(UserPlans) then) =
       _$UserPlansCopyWithImpl<$Res, UserPlans>;
   @useResult
-  $Res call({int tickets, int goldenTickets, String plan});
+  $Res call({int tickets, int goldenTickets, PlanType plan});
 }
 
 /// @nodoc
@@ -73,7 +73,7 @@ class _$UserPlansCopyWithImpl<$Res, $Val extends UserPlans>
       plan: null == plan
           ? _value.plan
           : plan // ignore: cast_nullable_to_non_nullable
-              as String,
+              as PlanType,
     ) as $Val);
   }
 }
@@ -86,7 +86,7 @@ abstract class _$$UserPlansImplCopyWith<$Res>
       __$$UserPlansImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int tickets, int goldenTickets, String plan});
+  $Res call({int tickets, int goldenTickets, PlanType plan});
 }
 
 /// @nodoc
@@ -118,7 +118,7 @@ class __$$UserPlansImplCopyWithImpl<$Res>
       plan: null == plan
           ? _value.plan
           : plan // ignore: cast_nullable_to_non_nullable
-              as String,
+              as PlanType,
     ));
   }
 }
@@ -127,7 +127,9 @@ class __$$UserPlansImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserPlansImpl extends _UserPlans {
   const _$UserPlansImpl(
-      {this.tickets = 0, this.goldenTickets = 0, this.plan = "free_plan"})
+      {this.tickets = 0,
+      this.goldenTickets = 0,
+      this.plan = PlanType.free_plan})
       : super._();
 
   factory _$UserPlansImpl.fromJson(Map<String, dynamic> json) =>
@@ -141,7 +143,7 @@ class _$UserPlansImpl extends _UserPlans {
   final int goldenTickets;
   @override
   @JsonKey()
-  final String plan;
+  final PlanType plan;
 
   @override
   String toString() {
@@ -183,7 +185,7 @@ abstract class _UserPlans extends UserPlans {
   const factory _UserPlans(
       {final int tickets,
       final int goldenTickets,
-      final String plan}) = _$UserPlansImpl;
+      final PlanType plan}) = _$UserPlansImpl;
   const _UserPlans._() : super._();
 
   factory _UserPlans.fromJson(Map<String, dynamic> json) =
@@ -194,7 +196,7 @@ abstract class _UserPlans extends UserPlans {
   @override
   int get goldenTickets;
   @override
-  String get plan;
+  PlanType get plan;
 
   /// Create a copy of UserPlans
   /// with the given fields replaced by the non-null parameter values.

@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/dto/login_input.dart';
 import 'package:joplate/domain/dto/signup_input.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
@@ -43,12 +44,14 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> signUpWithEmailAndPassword(SignupInput input) async {
     try {
       emit(state.copyWith(isLoading: true, errorMessage: null));
-
+      print("signup");
       // Call Cloud Function to create user profile
-      final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('signUpUser');
+      final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(signupCF);
       final result = await callable.call(input.toJson());
-
+      print(result);
+      print(result.data);
       if (result.data != null && result.data['success'] == true) {
+        loginWithEmailAndPassword(input.toLoginInput());
         emit(state.copyWith(user: FirebaseAuth.instance.currentUser, isLoading: false));
       } else {
         emit(state.copyWith(isLoading: false, errorMessage: "Signup failed."));
@@ -56,6 +59,7 @@ class AuthCubit extends Cubit<AuthState> {
     } on FirebaseFunctionsException catch (e) {
       emit(state.copyWith(isLoading: false, errorMessage: e.message));
     } catch (e) {
+      print(e);
       emit(state.copyWith(isLoading: false, errorMessage: "An unexpected error occurred."));
     }
   }
