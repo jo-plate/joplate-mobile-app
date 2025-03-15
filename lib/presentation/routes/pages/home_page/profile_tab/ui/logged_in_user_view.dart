@@ -53,11 +53,16 @@ class _LoggedInUserViewState extends State<LoggedInUserView> {
   }
 }
 
-class _UserProfileView extends StatelessWidget {
+class _UserProfileView extends StatefulWidget {
   final UserProfile profile;
 
   const _UserProfileView({required this.profile});
 
+  @override
+  State<_UserProfileView> createState() => _UserProfileViewState();
+}
+
+class _UserProfileViewState extends State<_UserProfileView> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -93,7 +98,7 @@ class _UserProfileView extends StatelessWidget {
             icon: Icons.notes_rounded,
             label: 'Numbers',
             onTap: () {
-              // Handle "Numbers" click
+              AutoRouter.of(context).push(const MyNumbersRoute());
             },
           ),
         ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:joplate/domain/entities/listing.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_listing_widget.dart';
 import '../../../../../widgets/app_bar.dart/plate_number_widget.dart';
@@ -7,11 +6,10 @@ import '../../../../../widgets/app_bar.dart/plate_number_widget.dart';
 class PlatesListingsGrid extends StatelessWidget {
   const PlatesListingsGrid({super.key, this.itemList = const [], this.isFeatured = false});
   final bool isFeatured;
-  final List<Listing<PlateNumber>> itemList;
+  final List<PlateNumber> itemList;
 
   @override
   Widget build(BuildContext context) {
-
     if (itemList.isEmpty) {
       return const Center(child: Text('No items found!'));
     }
@@ -29,7 +27,7 @@ class PlatesListingsGrid extends StatelessWidget {
         ),
         itemBuilder: (context, index) {
           return PlateNumberListingWidget(
-            isFeatured: itemList[index].isFeatured,
+            isFeatured: itemList[index].ads.any((element) => element.isFeatured),
             item: itemList[index],
             shape: PlateShape.horizontal,
           );

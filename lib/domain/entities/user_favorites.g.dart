@@ -8,30 +8,28 @@ part of 'user_favorites.dart';
 
 _$UserFavoritesImpl _$$UserFavoritesImplFromJson(Map<String, dynamic> json) =>
     _$UserFavoritesImpl(
-      favoritePhones: (json['favoritePhones'] as List<dynamic>?)
+      favoritePhonesIds: (json['favoritePhonesIds'] as List<dynamic>?)
               ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      favoritePlatesIds: (json['favoritePlatesIds'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      favoritePhones: (json['favoritePhones'] as List<dynamic>?)
+              ?.map((e) => PhoneNumber.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
       favoritePlates: (json['favoritePlates'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          const [],
-      favoritePhoneListings: (json['favoritePhoneListings'] as List<dynamic>?)
-              ?.map((e) =>
-                  Listing<PhoneNumber>.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
-      favoritePlateListings: (json['favoritePlateListings'] as List<dynamic>?)
-              ?.map((e) =>
-                  Listing<PlateNumber>.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => PlateNumber.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
     );
 
 Map<String, dynamic> _$$UserFavoritesImplToJson(_$UserFavoritesImpl instance) =>
     <String, dynamic>{
+      'favoritePhonesIds': instance.favoritePhonesIds,
+      'favoritePlatesIds': instance.favoritePlatesIds,
       'favoritePhones': instance.favoritePhones,
       'favoritePlates': instance.favoritePlates,
-      'favoritePhoneListings': instance.favoritePhoneListings,
-      'favoritePlateListings': instance.favoritePlateListings,
     };

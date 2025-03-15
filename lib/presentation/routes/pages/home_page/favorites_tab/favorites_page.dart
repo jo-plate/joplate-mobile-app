@@ -32,27 +32,26 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
         .map((snapshot) {
       print(snapshot.data());
       return UserFavorites.fromJson(snapshot.data() ?? {});
-    })
-        .asyncMap((snapshot) async {
+    }).asyncMap((snapshot) async {
       print(snapshot);
-      final List<Listing<PlateNumber>> plates = await Future.wait(
+      final List<PlateNumber> plates = await Future.wait(
         snapshot.favoritePlates.map((id) async {
-          final plate = await FirebaseFirestore.instance.collection(platesListingsCollectionId).doc(id).get();
+          final plate = await FirebaseFirestore.instance.collection(carPlatesCollectionId).doc(id.toString()).get();
 
           final plateDict = plate.data() ?? {};
-          plateDict['id'] = id;
-          return Listing<PlateNumber>.fromJson(plateDict);
+          plateDict['id'] = id.toString();
+          return PlateNumber.fromJson(plateDict);
         }),
       );
-      final List<Listing<PhoneNumber>> phones = await Future.wait(
+      final List<PhoneNumber> phones = await Future.wait(
         snapshot.favoritePhones.map((id) async {
-          final phone = await FirebaseFirestore.instance.collection(phoneListingsCollectionId).doc(id).get();
+          final phone = await FirebaseFirestore.instance.collection(phoneNumbersCollectionId).doc(id.number).get();
           final phoneDict = phone.data()!;
           phoneDict['id'] = id;
-          return Listing<PhoneNumber>.fromJson(phoneDict);
+          return PhoneNumber.fromJson(phoneDict);
         }),
       );
-      return snapshot.copyWith(favoritePlateListings: plates, favoritePhoneListings: phones);
+      return snapshot.copyWith(favoritePlates: plates, favoritePhones: phones);
     });
 
     tabController = TabController(length: 2, vsync: this);
@@ -105,8 +104,8 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
             return TabBarView(
               controller: tabController,
               children: [
-                SingleChildScrollView(child: PlatesListingsGrid(itemList: snapshot.data?.favoritePlateListings ?? [])),
-                SingleChildScrollView(child: PlatesListingsGrid(itemList: snapshot.data?.favoritePlateListings ?? [])),
+                SingleChildScrollView(child: PlatesListingsGrid(itemList: snapshot.data?.favoritePlates ?? [])),
+                SingleChildScrollView(child: PlatesListingsGrid(itemList: snapshot.data?.favoritePlates ?? [])),
               ],
             );
           }),

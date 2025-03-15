@@ -1,13 +1,10 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:joplate/domain/entities/listing.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
-import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_widget.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
 
 class PlateNumberListingWidget extends StatelessWidget {
-  final Listing<PlateNumber> item;
+  final PlateNumber item;
   final PlateShape shape;
   final bool isFeatured;
   final double aspectRatio;
@@ -27,7 +24,7 @@ class PlateNumberListingWidget extends StatelessWidget {
         aspectRatio: aspectRatio,
         child: GestureDetector(
           onTap: () {
-            AutoRouter.of(context).push(PlatesDetailsRoute(plateNumberListing: item));
+            // AutoRouter.of(context).push(PlatesDetailsRoute(plateNumberListing: item));
           },
           child: Stack(
             clipBehavior: Clip.hardEdge,
@@ -47,7 +44,7 @@ class PlateNumberListingWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           PlateNumberWidget(
-                            plate: item.plateNumber!,
+                            plate: item,
                             shape: shape,
                           ),
                           const SizedBox(height: 8),
@@ -65,7 +62,7 @@ class PlateNumberListingWidget extends StatelessWidget {
                 Align(
                     alignment: Alignment.bottomRight,
                     child: FavoriteButton.plate(
-                      listingId: item.id,
+                      listingId: item.toString(),
                     )),
               ],
             ],
@@ -102,12 +99,18 @@ class PlateNumberListingWidget extends StatelessWidget {
     );
   }
 
+
+
+  
+
   Widget _buildPriceLabel() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '${item.discountPrice} JOD',
+          item.ads.length == 1
+              ? '${item.originalListing.discountPrice} JOD'
+              : 'Starting from ${item.originalListing.discountPrice} JOD', 
           style: TextStyle(
             fontSize: 14,
             fontFamily: 'Mandatory',
@@ -117,7 +120,7 @@ class PlateNumberListingWidget extends StatelessWidget {
           maxLines: 1,
         ),
         Text(
-          '${item.price} JOD',
+          '${item.originalListing.price} JOD',
           style: const TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w600,

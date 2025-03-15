@@ -11,12 +11,7 @@ import 'ui/plates_listing_grid.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  List<Listing<PlateNumber>> get mockPlateNumberList {
-    return List.generate(
-      24,
-      (index) => Listing.mockPlateAd(),
-    );
-  }
+  List<PlateNumber> get mockPlateNumberList => PlateNumber.mockList(24);
 
   @override
   Widget build(BuildContext context) {

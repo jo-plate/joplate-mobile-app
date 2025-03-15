@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:joplate/domain/entities/listing.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 
@@ -11,10 +10,10 @@ class UserFavorites with _$UserFavorites {
   const UserFavorites._();
 
   const factory UserFavorites({
-    @Default([]) List<String> favoritePhones,
-    @Default([]) List<String> favoritePlates,
-    @Default([]) List<Listing<PhoneNumber>> favoritePhoneListings,
-    @Default([]) List<Listing<PlateNumber>> favoritePlateListings,
+    @Default([]) List<String> favoritePhonesIds,
+    @Default([]) List<String> favoritePlatesIds,
+    @Default([]) List<PhoneNumber> favoritePhones,
+    @Default([]) List<PlateNumber> favoritePlates,
   }) = _UserFavorites;
 
   factory UserFavorites.fromJson(Map<String, dynamic> json) => _$UserFavoritesFromJson(json);

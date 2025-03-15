@@ -245,7 +245,8 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                     return matchesCode && matchesDigits;
                   }).toList();
 
-                  return PlatesListingsGrid(itemList: filteredPlates, isFeatured: false);
+                  return PlatesListingsGrid(
+                      itemList: filteredPlates.map((e) => e.plateNumber!).toList(), isFeatured: false);
                 }),
           ],
         ),

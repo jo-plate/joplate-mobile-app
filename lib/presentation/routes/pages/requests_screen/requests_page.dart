@@ -75,13 +75,15 @@ class _RequestsPageState extends State<RequestsPage> with SingleTickerProviderSt
             StreamBuilder(
               stream: platesRequestsStream,
               builder: (context, snapshot) {
-                return SingleChildScrollView(child: PlatesListingsGrid(itemList: snapshot.data ?? []));
+                return SingleChildScrollView(
+                    child: PlatesListingsGrid(itemList: snapshot.data?.map((e) => e.plateNumber!).toList() ?? []));
               },
             ),
             StreamBuilder(
               stream: platesRequestsStream,
               builder: (context, snapshot) {
-                return SingleChildScrollView(child: PlatesListingsGrid(itemList: snapshot.data ?? []));
+                return SingleChildScrollView(
+                    child: PlatesListingsGrid(itemList: snapshot.data?.map((e) => e.plateNumber!).toList() ?? []));
               },
             ),
           ],

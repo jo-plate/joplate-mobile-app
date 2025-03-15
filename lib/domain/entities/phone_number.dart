@@ -1,6 +1,7 @@
 // phone number model
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:joplate/domain/entities/listing_v2.dart';
 
 part 'phone_number.freezed.dart';
 part 'phone_number.g.dart';
@@ -17,6 +18,7 @@ class PhoneNumber with _$PhoneNumber {
 
   const factory PhoneNumber({
     required String number,
+    @Default([]) List<ListingV2> ads,
   }) = _PhoneNumber;
 
   static List<PhoneNumber> mockList(int number) {

@@ -21,6 +21,7 @@ PhoneNumber _$PhoneNumberFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PhoneNumber {
   String get number => throw _privateConstructorUsedError;
+  List<ListingV2> get ads => throw _privateConstructorUsedError;
 
   /// Serializes this PhoneNumber to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,7 +39,7 @@ abstract class $PhoneNumberCopyWith<$Res> {
           PhoneNumber value, $Res Function(PhoneNumber) then) =
       _$PhoneNumberCopyWithImpl<$Res, PhoneNumber>;
   @useResult
-  $Res call({String number});
+  $Res call({String number, List<ListingV2> ads});
 }
 
 /// @nodoc
@@ -57,12 +58,17 @@ class _$PhoneNumberCopyWithImpl<$Res, $Val extends PhoneNumber>
   @override
   $Res call({
     Object? number = null,
+    Object? ads = null,
   }) {
     return _then(_value.copyWith(
       number: null == number
           ? _value.number
           : number // ignore: cast_nullable_to_non_nullable
               as String,
+      ads: null == ads
+          ? _value.ads
+          : ads // ignore: cast_nullable_to_non_nullable
+              as List<ListingV2>,
     ) as $Val);
   }
 }
@@ -75,7 +81,7 @@ abstract class _$$PhoneNumberImplCopyWith<$Res>
       __$$PhoneNumberImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String number});
+  $Res call({String number, List<ListingV2> ads});
 }
 
 /// @nodoc
@@ -92,12 +98,17 @@ class __$$PhoneNumberImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? number = null,
+    Object? ads = null,
   }) {
     return _then(_$PhoneNumberImpl(
       number: null == number
           ? _value.number
           : number // ignore: cast_nullable_to_non_nullable
               as String,
+      ads: null == ads
+          ? _value._ads
+          : ads // ignore: cast_nullable_to_non_nullable
+              as List<ListingV2>,
     ));
   }
 }
@@ -105,25 +116,38 @@ class __$$PhoneNumberImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$PhoneNumberImpl extends _PhoneNumber {
-  const _$PhoneNumberImpl({required this.number}) : super._();
+  const _$PhoneNumberImpl(
+      {required this.number, final List<ListingV2> ads = const []})
+      : _ads = ads,
+        super._();
 
   factory _$PhoneNumberImpl.fromJson(Map<String, dynamic> json) =>
       _$$PhoneNumberImplFromJson(json);
 
   @override
   final String number;
+  final List<ListingV2> _ads;
+  @override
+  @JsonKey()
+  List<ListingV2> get ads {
+    if (_ads is EqualUnmodifiableListView) return _ads;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_ads);
+  }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PhoneNumberImpl &&
-            (identical(other.number, number) || other.number == number));
+            (identical(other.number, number) || other.number == number) &&
+            const DeepCollectionEquality().equals(other._ads, _ads));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, number);
+  int get hashCode => Object.hash(
+      runtimeType, number, const DeepCollectionEquality().hash(_ads));
 
   /// Create a copy of PhoneNumber
   /// with the given fields replaced by the non-null parameter values.
@@ -142,8 +166,9 @@ class _$PhoneNumberImpl extends _PhoneNumber {
 }
 
 abstract class _PhoneNumber extends PhoneNumber {
-  const factory _PhoneNumber({required final String number}) =
-      _$PhoneNumberImpl;
+  const factory _PhoneNumber(
+      {required final String number,
+      final List<ListingV2> ads}) = _$PhoneNumberImpl;
   const _PhoneNumber._() : super._();
 
   factory _PhoneNumber.fromJson(Map<String, dynamic> json) =
@@ -151,6 +176,8 @@ abstract class _PhoneNumber extends PhoneNumber {
 
   @override
   String get number;
+  @override
+  List<ListingV2> get ads;
 
   /// Create a copy of PhoneNumber
   /// with the given fields replaced by the non-null parameter values.

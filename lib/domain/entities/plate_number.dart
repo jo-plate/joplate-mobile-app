@@ -20,6 +20,7 @@ class PlateNumber with _$PlateNumber {
       (index) => PlateNumber(
         code: (10 + index).toString(),
         number: (1004 + index).toString(),
+        ads: [ListingV2.mockPlateAd()],
       ),
     );
   }
@@ -30,6 +31,9 @@ class PlateNumber with _$PlateNumber {
     final parts = plateNumber.split('-');
     return PlateNumber(code: parts[0], number: parts[1]);
   }
+
+// first active listing in the list by createdAt
+  ListingV2 get originalListing => ads.firstWhere((element) => element.isActive);
 
   @override
   String toString() => '$code-$number';

@@ -24,14 +24,8 @@ class _PhoneNumbersPageState extends State<PhoneNumbersPage> {
   final _minPriceController = TextEditingController();
   final _maxPriceController = TextEditingController();
 
-  final List<String> _company = ['Zain','Orange','Umniah'];
-  final List<String> _digitCounts = [
-    '1 Digit',
-    '2 Digits',
-    '3 Digits',
-    '4 Digits',
-    '5 Digits'
-  ];
+  final List<String> _company = ['Zain', 'Orange', 'Umniah'];
+  final List<String> _digitCounts = ['1 Digit', '2 Digits', '3 Digits', '4 Digits', '5 Digits'];
   final List<String> formatList = [
     "Format",
     "Contains Digit Repeated 2 Times",
@@ -60,8 +54,7 @@ class _PhoneNumbersPageState extends State<PhoneNumbersPage> {
     "XXX (3 Digits)",
   ];
 
-  final List<Listing<PlateNumber>> _allPlates =
-      List.generate(20, (e) => Listing.mockPlateAd());
+  final List<Listing<PlateNumber>> _allPlates = List.generate(20, (e) => Listing.mockPlateAd());
 
   late List<Listing<PlateNumber>> _filteredPlates;
 
@@ -137,7 +130,6 @@ class _PhoneNumbersPageState extends State<PhoneNumbersPage> {
                   ),
                 ),
                 const SizedBox(width: 8),
-                
               ],
             ),
             const SizedBox(height: 8),
@@ -146,54 +138,71 @@ class _PhoneNumbersPageState extends State<PhoneNumbersPage> {
             if (_isExpanded) ...[
               Row(
                 children: [
-                  Expanded(child: TextFormField(controller: _containsController, decoration: inputFieldStyle.copyWith(labelText: 'Contains'))),
+                  Expanded(
+                      child: TextFormField(
+                          controller: _containsController,
+                          decoration: inputFieldStyle.copyWith(labelText: 'Contains'))),
                   const SizedBox(width: 8),
-                  Expanded(child: TextFormField(controller: _startsWithController, decoration: inputFieldStyle.copyWith(labelText: 'Starts With'))),
+                  Expanded(
+                      child: TextFormField(
+                          controller: _startsWithController,
+                          decoration: inputFieldStyle.copyWith(labelText: 'Starts With'))),
                   const SizedBox(width: 8),
-                  Expanded(child: TextFormField(controller: _endsWithController, decoration: inputFieldStyle.copyWith(labelText: 'Ends With'))),
+                  Expanded(
+                      child: TextFormField(
+                          controller: _endsWithController,
+                          decoration: inputFieldStyle.copyWith(labelText: 'Ends With'))),
                 ],
               ),
               const SizedBox(height: 8),
-
               Row(
                 children: [
-                  Expanded(child: TextFormField(controller: _minPriceController, keyboardType: TextInputType.number, decoration: inputFieldStyle.copyWith(labelText: 'Min Price'))),
+                  Expanded(
+                      child: TextFormField(
+                          controller: _minPriceController,
+                          keyboardType: TextInputType.number,
+                          decoration: inputFieldStyle.copyWith(labelText: 'Min Price'))),
                   const SizedBox(width: 8),
-                  Expanded(child: TextFormField(controller: _maxPriceController, keyboardType: TextInputType.number, decoration: inputFieldStyle.copyWith(labelText: 'Max Price'))),
+                  Expanded(
+                      child: TextFormField(
+                          controller: _maxPriceController,
+                          keyboardType: TextInputType.number,
+                          decoration: inputFieldStyle.copyWith(labelText: 'Max Price'))),
                   const SizedBox(width: 8),
                   ElevatedButton(
                     onPressed: _onSearch,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                    minimumSize: const Size(80, 40), // Smaller button size
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      minimumSize: const Size(80, 40), // Smaller button size
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
-                  ),
-                  child: const Text(
-                    "Search",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold), // Smaller text
-                  ),
+                    child: const Text(
+                      "Search",
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold), // Smaller text
+                    ),
                   )
                 ],
               ),
-              const SizedBox(height: 8),  
+              const SizedBox(height: 8),
             ],
 
             GestureDetector(
               onTap: () => setState(() => _isExpanded = !_isExpanded),
               child: Row(
                 children: [
-                  Text(_isExpanded ? 'Show Less' : 'See More', style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                  Text(_isExpanded ? 'Show Less' : 'See More',
+                      style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
                   Icon(_isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down, color: Colors.red),
                 ],
               ),
             ),
 
             const SizedBox(height: 8),
-            PlatesListingsGrid(itemList: _filteredPlates, isFeatured: false),
+            PlatesListingsGrid(itemList: _filteredPlates.map((e) => e.plateNumber!).toList(), isFeatured: false),
           ],
         ),
       ),

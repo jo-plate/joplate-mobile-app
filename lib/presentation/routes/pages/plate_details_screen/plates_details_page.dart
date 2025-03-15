@@ -27,7 +27,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
         title: const Text('Plate Details'),
         actions: [
           // Favorite Icon
-          FavoriteButton.plate(listingId: widget.plateNumberListing.id),
+          FavoriteButton.plate(listingId: widget.plateNumberListing.plateNumber.toString()),
           // Share Icon
           IconButton(
             icon: const Icon(Icons.share_outlined),
@@ -44,7 +44,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
           children: [
             // 1. Plate Number Listing (Top)
             PlateNumberListingWidget(
-              item: widget.plateNumberListing,
+              item: widget.plateNumberListing.plateNumber!,
               isFeatured: true,
               aspectRatio: 2.1,
             ),
