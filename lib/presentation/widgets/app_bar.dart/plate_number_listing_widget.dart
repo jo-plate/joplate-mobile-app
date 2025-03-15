@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
+import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_widget.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
 
@@ -24,7 +26,7 @@ class PlateNumberListingWidget extends StatelessWidget {
         aspectRatio: aspectRatio,
         child: GestureDetector(
           onTap: () {
-            // AutoRouter.of(context).push(PlatesDetailsRoute(plateNumberListing: item));
+            AutoRouter.of(context).push(PlatesDetailsRoute(plateNumber: item));
           },
           child: Stack(
             clipBehavior: Clip.hardEdge,
@@ -99,18 +101,12 @@ class PlateNumberListingWidget extends StatelessWidget {
     );
   }
 
-
-
-  
-
   Widget _buildPriceLabel() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          item.ads.length == 1
-              ? '${item.originalListing.discountPrice} JOD'
-              : 'Starting from ${item.originalListing.discountPrice} JOD', 
+          '${item.originalListing.discountPrice} JOD',
           style: TextStyle(
             fontSize: 14,
             fontFamily: 'Mandatory',

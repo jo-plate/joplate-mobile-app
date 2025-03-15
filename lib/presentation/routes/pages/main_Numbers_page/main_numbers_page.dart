@@ -54,9 +54,9 @@ class _PhoneNumbersPageState extends State<PhoneNumbersPage> {
     "XXX (3 Digits)",
   ];
 
-  final List<Listing<PlateNumber>> _allPlates = List.generate(20, (e) => Listing.mockPlateAd());
+  final List<PlateNumber> _allPlates = PlateNumber.mockList(20);
 
-  late List<Listing<PlateNumber>> _filteredPlates;
+  late List<PlateNumber> _filteredPlates;
 
   @override
   void initState() {
@@ -66,8 +66,7 @@ class _PhoneNumbersPageState extends State<PhoneNumbersPage> {
 
   void _onSearch() {
     setState(() {
-      _filteredPlates = _allPlates.where((plateListing) {
-        final plate = plateListing.plateNumber!;
+      _filteredPlates = _allPlates.where((plate) {
         final matchesCode = (_selectedCode == null || _selectedCode!.isEmpty)
             ? true
             : plate.code.toLowerCase() == _selectedCode!.toLowerCase();
@@ -202,7 +201,7 @@ class _PhoneNumbersPageState extends State<PhoneNumbersPage> {
             ),
 
             const SizedBox(height: 8),
-            PlatesListingsGrid(itemList: _filteredPlates.map((e) => e.plateNumber!).toList(), isFeatured: false),
+            PlatesListingsGrid(itemList: _filteredPlates, isFeatured: false),
           ],
         ),
       ),

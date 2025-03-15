@@ -17,8 +17,8 @@ class ListingV2 with _$ListingV2 {
     @Default(false) bool isFeatured,
     @Default(true) bool isActive,
     @Default(false) bool isSold,
-    required DateTime createdAt,
-    DateTime? expiresAt,
+    required String createdAt,
+    String? expiresAt,
     UserProfile? postedBy,
   }) = _ListingV2;
 
@@ -34,8 +34,8 @@ class ListingV2 with _$ListingV2 {
       isFeatured: true,
       isActive: true,
       isSold: false,
-      createdAt: DateTime.now(),
-      expiresAt: DateTime.now().add(Duration(days: 7)), // Expiry in 7 days
+      createdAt: DateTime.now().toIso8601String(),
+      expiresAt: DateTime.now().add(Duration(days: 7)).toIso8601String(), 
       postedBy: UserProfile.empty().copyWith(
         displayName: "mockUser",
         email: "anasmk9@outlook.com",

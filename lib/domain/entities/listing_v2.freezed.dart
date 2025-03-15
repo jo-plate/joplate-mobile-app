@@ -28,8 +28,8 @@ mixin _$ListingV2 {
   bool get isFeatured => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
   bool get isSold => throw _privateConstructorUsedError;
-  DateTime get createdAt => throw _privateConstructorUsedError;
-  DateTime? get expiresAt => throw _privateConstructorUsedError;
+  String get createdAt => throw _privateConstructorUsedError;
+  String? get expiresAt => throw _privateConstructorUsedError;
   UserProfile? get postedBy => throw _privateConstructorUsedError;
 
   /// Serializes this ListingV2 to a JSON map.
@@ -56,8 +56,8 @@ abstract class $ListingV2CopyWith<$Res> {
       bool isFeatured,
       bool isActive,
       bool isSold,
-      DateTime createdAt,
-      DateTime? expiresAt,
+      String createdAt,
+      String? expiresAt,
       UserProfile? postedBy});
 
   $UserProfileCopyWith<$Res>? get postedBy;
@@ -126,11 +126,11 @@ class _$ListingV2CopyWithImpl<$Res, $Val extends ListingV2>
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as String,
       expiresAt: freezed == expiresAt
           ? _value.expiresAt
           : expiresAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
       postedBy: freezed == postedBy
           ? _value.postedBy
           : postedBy // ignore: cast_nullable_to_non_nullable
@@ -170,8 +170,8 @@ abstract class _$$ListingV2ImplCopyWith<$Res>
       bool isFeatured,
       bool isActive,
       bool isSold,
-      DateTime createdAt,
-      DateTime? expiresAt,
+      String createdAt,
+      String? expiresAt,
       UserProfile? postedBy});
 
   @override
@@ -239,11 +239,11 @@ class __$$ListingV2ImplCopyWithImpl<$Res>
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as String,
       expiresAt: freezed == expiresAt
           ? _value.expiresAt
           : expiresAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
       postedBy: freezed == postedBy
           ? _value.postedBy
           : postedBy // ignore: cast_nullable_to_non_nullable
@@ -294,9 +294,9 @@ class _$ListingV2Impl extends _ListingV2 {
   @JsonKey()
   final bool isSold;
   @override
-  final DateTime createdAt;
+  final String createdAt;
   @override
-  final DateTime? expiresAt;
+  final String? expiresAt;
   @override
   final UserProfile? postedBy;
 
@@ -373,8 +373,8 @@ abstract class _ListingV2 extends ListingV2 {
       final bool isFeatured,
       final bool isActive,
       final bool isSold,
-      required final DateTime createdAt,
-      final DateTime? expiresAt,
+      required final String createdAt,
+      final String? expiresAt,
       final UserProfile? postedBy}) = _$ListingV2Impl;
   const _ListingV2._() : super._();
 
@@ -398,9 +398,9 @@ abstract class _ListingV2 extends ListingV2 {
   @override
   bool get isSold;
   @override
-  DateTime get createdAt;
+  String get createdAt;
   @override
-  DateTime? get expiresAt;
+  String? get expiresAt;
   @override
   UserProfile? get postedBy;
 

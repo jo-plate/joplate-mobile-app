@@ -33,7 +33,9 @@ class PlateNumber with _$PlateNumber {
   }
 
 // first active listing in the list by createdAt
-  ListingV2 get originalListing => ads.firstWhere((element) => element.isActive);
+  ListingV2 get originalListing => ads.firstOrNull ?? ListingV2.mockPlateAd();
+
+  int get adsCount => ads.length;
 
   @override
   String toString() => '$code-$number';

@@ -27,7 +27,7 @@ class PlatesListingsGrid extends StatelessWidget {
         ),
         itemBuilder: (context, index) {
           return PlateNumberListingWidget(
-            isFeatured: itemList[index].ads.any((element) => element.isFeatured),
+            isFeatured: itemList[index].originalListing.isFeatured,
             item: itemList[index],
             shape: PlateShape.horizontal,
           );

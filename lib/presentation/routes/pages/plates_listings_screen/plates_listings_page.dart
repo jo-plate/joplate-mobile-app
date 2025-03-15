@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
-import 'package:joplate/domain/entities/listing.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/presentation/routes/pages/home_page/home_tab/ui/plates_listing_grid.dart';
 
@@ -56,22 +55,16 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
     "XXX (3 Digits)",
   ];
 
-  // final List<Listing<PlateNumber>> _allPlates = List.generate(20, (e) => Listing.mockPlateAd());
-
-  // late List<Listing<PlateNumber>> _filteredPlates;
-
-  // firestore collection stream
-  late final Stream<List<Listing<PlateNumber>>> _platesStream;
+  late final Stream<List<PlateNumber>> _platesStream;
 
   @override
   void initState() {
     super.initState();
-    _platesStream = FirebaseFirestore.instance.collection(platesListingsCollectionId).snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) {
-        final data = doc.data();
-        data['id'] = doc.id;
-        return Listing<PlateNumber>.fromJson(data);
-      }).toList();
+    // where ads array size > 0
+    _platesStream = FirebaseFirestore.instance.collection(carPlatesCollectionId).snapshots().map((snapshot) {
+      print(snapshot.docs);
+      print(snapshot.docs.map((doc) => doc.data()).toList());
+      return snapshot.docs.map((doc) => PlateNumber.fromJson(doc.data())).toList();
     });
   }
 
@@ -221,32 +214,16 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
             ),
 
             const SizedBox(height: 8),
-            StreamBuilder<List<Listing<PlateNumber>>>(
+            StreamBuilder<List<PlateNumber>>(
                 stream: _platesStream,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   }
+                  print(snapshot.connectionState);
+                  print(snapshot.data);
 
-                  final plates = snapshot.data ?? [];
-                  final filteredPlates = plates.where((plateListing) {
-                    final plate = plateListing.plateNumber!;
-                    final matchesCode = (_selectedCode == null || _selectedCode!.isEmpty)
-                        ? true
-                        : plate.code.toLowerCase() == _selectedCode!.toLowerCase();
-
-                    bool matchesDigits = true;
-                    if (_selectedDigits == '4 Digits') {
-                      matchesDigits = plate.number.length == 4;
-                    } else if (_selectedDigits == '5 Digits') {
-                      matchesDigits = plate.number.length == 5;
-                    }
-
-                    return matchesCode && matchesDigits;
-                  }).toList();
-
-                  return PlatesListingsGrid(
-                      itemList: filteredPlates.map((e) => e.plateNumber!).toList(), isFeatured: false);
+                  return PlatesListingsGrid(itemList: snapshot.data ?? [], isFeatured: false);
                 }),
           ],
         ),

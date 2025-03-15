@@ -11,7 +11,7 @@ class CategorySection extends StatelessWidget {
 // plates listing count
   Stream<int> _getPlatesListingCount(String itemType) {
     return FirebaseFirestore.instance
-        .collection(platesListingsCollectionId)
+        .collection(carPlatesCollectionId)
         .snapshots()
         .map((snapshot) => snapshot.size);
   }
