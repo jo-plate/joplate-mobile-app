@@ -125,7 +125,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                       SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          "Meet the postedBy in person",
+                          "Meet the seller in person",
                           style: TextStyle(fontSize: 16),
                         ),
                       ),

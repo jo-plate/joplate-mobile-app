@@ -18,14 +18,14 @@ class Pill extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.red, width: 1.5),
+        border: Border.all(color: const Color(0xFF981C1E), width: 1.5),
         color: Colors.white,
       ),
       child: Text(
         text,
         style: TextStyle(
           fontSize: isSmall ? 10 : 12,
-          color: Colors.red,
+          color: const Color(0xFF981C1E),
           fontWeight: FontWeight.bold,
         ),
       ),

@@ -6,12 +6,15 @@ import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/entities/user_favorites.dart';
 
 class FavoriteButton extends StatefulWidget {
-  const FavoriteButton({super.key, required this.itemType, required this.listingId});
+  const FavoriteButton({super.key, required this.itemType, required this.listingId, this.iconSize = 24});
 
   final ItemType itemType;
+  final double iconSize;
 
-  const FavoriteButton.plate({super.key, required this.listingId}) : itemType = ItemType.plateNumber;
-  const FavoriteButton.phone({super.key, required this.listingId}) : itemType = ItemType.phoneNumber;
+  const FavoriteButton.plate({super.key, required this.listingId, this.iconSize = 24})
+      : itemType = ItemType.plateNumber;
+  const FavoriteButton.phone({super.key, required this.listingId, this.iconSize = 24})
+      : itemType = ItemType.phoneNumber;
 
   final String listingId;
 
@@ -46,9 +49,13 @@ class _FavoriteButtonState extends State<FavoriteButton> {
       stream: _isFavorite,
       builder: (context, snapshot) {
         final isFavorite = snapshot.data ?? false;
-        return IconButton(
-          icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border, color: const Color(0xFF981C1E)),
-          onPressed: () async {
+        return GestureDetector(
+          child: Icon(
+            size: widget.iconSize,
+            isFavorite ? Icons.favorite : Icons.favorite_border,
+            color: const Color(0xFF981C1E),
+          ),
+          onTap: () async {
             final user = FirebaseAuth.instance.currentUser;
 
             if (user == null) return;
@@ -58,13 +65,11 @@ class _FavoriteButtonState extends State<FavoriteButton> {
                 widget.itemType == ItemType.plateNumber ? 'favoritePlatesIds' : 'favoritePhonesIds':
                     FieldValue.arrayUnion([widget.listingId])
               }, SetOptions(merge: true));
-              print('added to favorites for user ${user.uid}');
             } else {
               await FirebaseFirestore.instance.collection(favoritesCollectionId).doc(user.uid).set({
                 widget.itemType == ItemType.plateNumber ? 'favoritePlatesIds' : 'favoritePhonesIds':
                     FieldValue.arrayRemove([widget.listingId])
               }, SetOptions(merge: true));
-              print('removed from favorites for user ${user.uid}');
             }
 
             setState(() {});

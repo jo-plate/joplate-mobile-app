@@ -10,12 +10,15 @@ class PlateNumberListingWidget extends StatelessWidget {
   final PlateShape shape;
   final bool isFeatured;
   final double aspectRatio;
-  const PlateNumberListingWidget(
-      {super.key,
-      required this.item,
-      this.shape = PlateShape.horizontal,
-      required this.isFeatured,
-      this.aspectRatio = 1.5});
+
+  const PlateNumberListingWidget({
+    super.key,
+    required this.item,
+    this.shape = PlateShape.horizontal,
+    required this.isFeatured,
+    this.aspectRatio = 1.5,
+  });
+
   bool get isVertical => shape == PlateShape.vertical;
   bool get isHorizontal => shape == PlateShape.horizontal;
 
@@ -50,35 +53,19 @@ class PlateNumberListingWidget extends StatelessWidget {
                             shape: shape,
                           ),
                           const SizedBox(height: 8),
-                          if (item.originalListing.priceHidden)
-                            const Text(
-                              'Call for Price',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'Mandatory',
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xFF981C1E),
-                              ),
-                              maxLines: 1,
-                            )
-                          else
-                            _buildPriceLabel(),
+                          _buildPriceLabel(),
+                          const SizedBox(height: 2),
+                          FavoriteButton.plate(
+                            listingId: item.toString(),
+                            iconSize: 20,
+                          ),
                         ],
                       ),
                     ),
                   ],
                 ),
               ),
-              if (isFeatured)
-                _buildFeaturedRibbon()
-              else ...[
-                const SizedBox(height: 8),
-                Align(
-                    alignment: Alignment.bottomRight,
-                    child: FavoriteButton.plate(
-                      listingId: item.toString(),
-                    )),
-              ],
+              if (isFeatured) _buildFeaturedRibbon()
             ],
           ),
         ),
@@ -86,15 +73,69 @@ class PlateNumberListingWidget extends StatelessWidget {
     );
   }
 
+  Widget _buildPriceLabel() {
+    if (item.originalListing.priceHidden) {
+      return const Text(
+        'Call for Price',
+        style: TextStyle(
+          fontSize: 16,
+          fontFamily: 'Mandatory',
+          fontWeight: FontWeight.w700,
+          color: Color(0xFF981C1E),
+        ),
+        maxLines: 1,
+      );
+    } else if (item.originalListing.discountPrice! > 0 &&
+        item.originalListing.discountPrice! < item.originalListing.price) {
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'JOD ${item.originalListing.discountPrice} ',
+            style: const TextStyle(
+              fontSize: 16,
+              fontFamily: 'Mandatory',
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF981C1E),
+            ),
+            maxLines: 1,
+          ),
+          Text(
+            '${item.originalListing.price}',
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              decoration: TextDecoration.lineThrough,
+              decorationStyle: TextDecorationStyle.solid,
+              color: Colors.black,
+            ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
+        ],
+      );
+    } else {
+      return Text(
+        '${item.originalListing.price} JOD',
+        style: const TextStyle(
+          fontSize: 15,
+          fontFamily: 'Mandatory',
+          fontWeight: FontWeight.w700,
+          color: Color(0xFF981C1E),
+        ),
+        maxLines: 1,
+      );
+    }
+  }
+
   Widget _buildFeaturedRibbon() {
     return Positioned(
       bottom: 20,
       right: -20,
       child: Transform.rotate(
-        angle: -0.7854, // -45 degrees in radians
+        angle: -0.7854,
         child: Container(
           width: 100,
-          // height: 30,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: Colors.yellow[700],
@@ -110,36 +151,6 @@ class PlateNumberListingWidget extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildPriceLabel() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '${item.originalListing.discountPrice} JOD',
-          style: const TextStyle(
-            fontSize: 15,
-            fontFamily: 'Mandatory',
-            fontWeight: FontWeight.w700,
-            color: Color(0xFF981C1E),
-          ),
-          maxLines: 1,
-        ),
-        Text(
-          '${item.originalListing.price} JOD',
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-            decoration: TextDecoration.lineThrough,
-            decorationStyle: TextDecorationStyle.solid,
-            color: Colors.black,
-          ),
-          overflow: TextOverflow.ellipsis,
-          maxLines: 1,
-        ),
-      ],
     );
   }
 }

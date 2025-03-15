@@ -46,7 +46,7 @@ class HomePage extends StatelessWidget {
               ),
               CarouselSlider(
                 options: CarouselOptions(
-                    autoPlay: true, padEnds: true, viewportFraction: 1, aspectRatio: 1, enlargeCenterPage: false),
+                    autoPlay: false, padEnds: true, viewportFraction: 1, aspectRatio: 1, enlargeCenterPage: false),
                 items: chunkedPlates
                     .map((plates) => Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
