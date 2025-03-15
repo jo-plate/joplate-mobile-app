@@ -27,7 +27,6 @@ mixin _$AddListingDto {
   bool get priceNegotiable => throw _privateConstructorUsedError;
   bool get priceHidden => throw _privateConstructorUsedError;
   bool get isFeatured => throw _privateConstructorUsedError;
-  @PhoneOrPlateConverter()
   dynamic get itemData => throw _privateConstructorUsedError;
 
   /// Serializes this AddListingDto to a JSON map.
@@ -54,7 +53,7 @@ abstract class $AddListingDtoCopyWith<$Res> {
       bool priceNegotiable,
       bool priceHidden,
       bool isFeatured,
-      @PhoneOrPlateConverter() dynamic itemData});
+      dynamic itemData});
 }
 
 /// @nodoc
@@ -134,7 +133,7 @@ abstract class _$$AddListingDtoImplCopyWith<$Res>
       bool priceNegotiable,
       bool priceHidden,
       bool isFeatured,
-      @PhoneOrPlateConverter() dynamic itemData});
+      dynamic itemData});
 }
 
 /// @nodoc
@@ -207,7 +206,7 @@ class _$AddListingDtoImpl implements _AddListingDto {
       required this.priceNegotiable,
       required this.priceHidden,
       required this.isFeatured,
-      @PhoneOrPlateConverter() required this.itemData});
+      required this.itemData});
 
   factory _$AddListingDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$AddListingDtoImplFromJson(json);
@@ -227,7 +226,6 @@ class _$AddListingDtoImpl implements _AddListingDto {
   @override
   final bool isFeatured;
   @override
-  @PhoneOrPlateConverter()
   final dynamic itemData;
 
   @override
@@ -287,15 +285,14 @@ class _$AddListingDtoImpl implements _AddListingDto {
 
 abstract class _AddListingDto implements AddListingDto {
   const factory _AddListingDto(
-          {required final double price,
-          required final double discountPrice,
-          required final ListingType listingType,
-          required final ItemType itemType,
-          required final bool priceNegotiable,
-          required final bool priceHidden,
-          required final bool isFeatured,
-          @PhoneOrPlateConverter() required final dynamic itemData}) =
-      _$AddListingDtoImpl;
+      {required final double price,
+      required final double discountPrice,
+      required final ListingType listingType,
+      required final ItemType itemType,
+      required final bool priceNegotiable,
+      required final bool priceHidden,
+      required final bool isFeatured,
+      required final dynamic itemData}) = _$AddListingDtoImpl;
 
   factory _AddListingDto.fromJson(Map<String, dynamic> json) =
       _$AddListingDtoImpl.fromJson;
@@ -315,7 +312,6 @@ abstract class _AddListingDto implements AddListingDto {
   @override
   bool get isFeatured;
   @override
-  @PhoneOrPlateConverter()
   dynamic get itemData;
 
   /// Create a copy of AddListingDto

@@ -22,7 +22,7 @@ ListingV2 _$ListingV2FromJson(Map<String, dynamic> json) {
 mixin _$ListingV2 {
   String get id => throw _privateConstructorUsedError;
   double get price => throw _privateConstructorUsedError;
-  double? get discountPrice => throw _privateConstructorUsedError;
+  double get discountPrice => throw _privateConstructorUsedError;
   bool get priceNegotiable => throw _privateConstructorUsedError;
   bool get priceHidden => throw _privateConstructorUsedError;
   bool get isFeatured => throw _privateConstructorUsedError;
@@ -50,7 +50,7 @@ abstract class $ListingV2CopyWith<$Res> {
   $Res call(
       {String id,
       double price,
-      double? discountPrice,
+      double discountPrice,
       bool priceNegotiable,
       bool priceHidden,
       bool isFeatured,
@@ -80,7 +80,7 @@ class _$ListingV2CopyWithImpl<$Res, $Val extends ListingV2>
   $Res call({
     Object? id = null,
     Object? price = null,
-    Object? discountPrice = freezed,
+    Object? discountPrice = null,
     Object? priceNegotiable = null,
     Object? priceHidden = null,
     Object? isFeatured = null,
@@ -99,10 +99,10 @@ class _$ListingV2CopyWithImpl<$Res, $Val extends ListingV2>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as double,
-      discountPrice: freezed == discountPrice
+      discountPrice: null == discountPrice
           ? _value.discountPrice
           : discountPrice // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as double,
       priceNegotiable: null == priceNegotiable
           ? _value.priceNegotiable
           : priceNegotiable // ignore: cast_nullable_to_non_nullable
@@ -164,7 +164,7 @@ abstract class _$$ListingV2ImplCopyWith<$Res>
   $Res call(
       {String id,
       double price,
-      double? discountPrice,
+      double discountPrice,
       bool priceNegotiable,
       bool priceHidden,
       bool isFeatured,
@@ -193,7 +193,7 @@ class __$$ListingV2ImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? price = null,
-    Object? discountPrice = freezed,
+    Object? discountPrice = null,
     Object? priceNegotiable = null,
     Object? priceHidden = null,
     Object? isFeatured = null,
@@ -212,10 +212,10 @@ class __$$ListingV2ImplCopyWithImpl<$Res>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as double,
-      discountPrice: freezed == discountPrice
+      discountPrice: null == discountPrice
           ? _value.discountPrice
           : discountPrice // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as double,
       priceNegotiable: null == priceNegotiable
           ? _value.priceNegotiable
           : priceNegotiable // ignore: cast_nullable_to_non_nullable
@@ -258,7 +258,7 @@ class _$ListingV2Impl extends _ListingV2 {
   const _$ListingV2Impl(
       {required this.id,
       required this.price,
-      this.discountPrice,
+      this.discountPrice = 0.0,
       this.priceNegotiable = false,
       this.priceHidden = false,
       this.isFeatured = false,
@@ -277,7 +277,8 @@ class _$ListingV2Impl extends _ListingV2 {
   @override
   final double price;
   @override
-  final double? discountPrice;
+  @JsonKey()
+  final double discountPrice;
   @override
   @JsonKey()
   final bool priceNegotiable;
@@ -367,7 +368,7 @@ abstract class _ListingV2 extends ListingV2 {
   const factory _ListingV2(
       {required final String id,
       required final double price,
-      final double? discountPrice,
+      final double discountPrice,
       final bool priceNegotiable,
       final bool priceHidden,
       final bool isFeatured,
@@ -386,7 +387,7 @@ abstract class _ListingV2 extends ListingV2 {
   @override
   double get price;
   @override
-  double? get discountPrice;
+  double get discountPrice;
   @override
   bool get priceNegotiable;
   @override

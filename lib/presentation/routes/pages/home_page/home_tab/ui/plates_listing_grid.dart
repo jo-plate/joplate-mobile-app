@@ -21,9 +21,9 @@ class PlatesListingsGrid extends StatelessWidget {
         itemCount: itemList.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-          childAspectRatio: isFeatured ? 1.6 : 1.27,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          childAspectRatio: isFeatured ? 1.5 : 1.27,
         ),
         itemBuilder: (context, index) {
           return PlateNumberListingWidget(

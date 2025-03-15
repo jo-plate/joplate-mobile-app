@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
@@ -8,43 +9,14 @@ part 'listing.g.dart';
 
 enum ListingType { request, ad }
 
-enum ItemType { plateNumber, phoneNumber }
-
-class PhoneOrPlateConverter implements JsonConverter<dynamic, Map<String, dynamic>> {
-const PhoneOrPlateConverter();
-
-@override
-  dynamic fromJson(Map<String, dynamic> json) {
-    switch (json['itemType']) {
-      case 'plateNumber':
-        return PlateNumber.fromJson(json);
-      case 'phoneNumber':
-        return PhoneNumber.fromJson(json);
-      default:
-        throw Exception('Unknown item type');
-    }
-  }
-
-@override
-  Map<String, dynamic> toJson(dynamic object) {
-    if (object is PlateNumber) {
-      return object.toJson()..addAll({'itemType': 'plateNumber'});
-    } else if (object is PhoneNumber) {
-      return object.toJson()..addAll({'itemType': 'phoneNumber'});
-    } else {
-      throw Exception('Unknown item type');
-    }
-  }
-}
-
 @Freezed(
   fromJson: true,
   toJson: true,
 )
 class Listing<T> with _$Listing {
-Listing._();
+  Listing._();
 
-factory Listing({
+  factory Listing({
     required String id,
     @Default(0) double price,
     double? discountPrice,
@@ -58,9 +30,9 @@ factory Listing({
     PlateNumber? plateNumber,
   }) = _Listing;
 
-factory Listing.fromJson(Map<String, dynamic> json) => _$ListingFromJson(json);
+  factory Listing.fromJson(Map<String, dynamic> json) => _$ListingFromJson(json);
 
-static Listing<PlateNumber> mockPlateAd() {
+  static Listing<PlateNumber> mockPlateAd() {
     return Listing(
         id: "mockPlateId",
         price: 15000.0,
@@ -75,7 +47,7 @@ static Listing<PlateNumber> mockPlateAd() {
             .copyWith(displayName: "mockUser", email: "anasmk9@outlook.com", phonenumber: "+962787940864"));
   }
 
-static Listing<PhoneNumber> mockPhoneAd() {
+  static Listing<PhoneNumber> mockPhoneAd() {
     return Listing(
         id: "mockPhoneId",
         price: 5000.0,
@@ -90,5 +62,5 @@ static Listing<PhoneNumber> mockPhoneAd() {
             .copyWith(displayName: "mockUser", email: "anasmk9@outlook.com", phonenumber: "+962787940864"));
   }
 
-Map<String, dynamic> toJson() => toJson();
+  Map<String, dynamic> toJson() => toJson();
 }

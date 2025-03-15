@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
-import 'package:joplate/domain/entities/listing.dart';
+import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'category_card.dart';
 
@@ -71,9 +71,9 @@ class CategorySection extends StatelessWidget {
               "Quick Sale",
               style: TextStyle(fontSize: 16),
             ),
-            icon: Icon(
+            icon: const Icon(
               Icons.speed,
-              color: Colors.red.shade700,
+              color: Color(0xFF981C1E),
               size: 26,
             ),
           ),

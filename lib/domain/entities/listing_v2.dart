@@ -11,7 +11,7 @@ class ListingV2 with _$ListingV2 {
   const factory ListingV2({
     required String id,
     required double price,
-    double? discountPrice,
+    @Default(0.0) double discountPrice,
     @Default(false) bool priceNegotiable,
     @Default(false) bool priceHidden,
     @Default(false) bool isFeatured,

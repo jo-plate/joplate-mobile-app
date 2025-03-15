@@ -4,8 +4,26 @@ import 'package:joplate/domain/entities/listing.dart';
 part 'add_listing_dto.freezed.dart';
 part 'add_listing_dto.g.dart';
 
-enum ListingType { request, ad }
-enum ItemType { plateNumber, phoneNumber }
+@JsonEnum(alwaysCreate: true)
+enum ItemType {
+  @JsonValue("plateNumber")
+  plateNumber,
+  @JsonValue("phoneNumber")
+  phoneNumber,
+}
+
+@JsonEnum(alwaysCreate: true)
+enum ListingType {
+  @JsonValue("request")
+  request,
+  @JsonValue("ad")
+  ad,
+}
+
+extension ItemTypeX on ItemType {
+  String toJson() => _$ItemTypeEnumMap[this]!;
+  static ItemType fromJson(String json) => _$ItemTypeEnumMap.entries.firstWhere((e) => e.value == json).key;
+}
 
 @freezed
 class AddListingDto with _$AddListingDto {
@@ -17,7 +35,7 @@ class AddListingDto with _$AddListingDto {
     required bool priceNegotiable,
     required bool priceHidden,
     required bool isFeatured,
-    @PhoneOrPlateConverter() required dynamic itemData,
+    required dynamic itemData,
   }) = _AddListingDto;
 
   factory AddListingDto.fromJson(Map<String, dynamic> json) => _$AddListingDtoFromJson(json);
@@ -46,4 +64,3 @@ class DeleteListingDto with _$DeleteListingDto {
 
   factory DeleteListingDto.fromJson(Map<String, dynamic> json) => _$DeleteListingDtoFromJson(json);
 }
-

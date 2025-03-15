@@ -15,7 +15,7 @@ class PlateNumberListingWidget extends StatelessWidget {
       required this.item,
       this.shape = PlateShape.horizontal,
       required this.isFeatured,
-      this.aspectRatio = 1.6});
+      this.aspectRatio = 1.5});
   bool get isVertical => shape == PlateShape.vertical;
   bool get isHorizontal => shape == PlateShape.horizontal;
 
@@ -50,7 +50,19 @@ class PlateNumberListingWidget extends StatelessWidget {
                             shape: shape,
                           ),
                           const SizedBox(height: 8),
-                          _buildPriceLabel(),
+                          if (item.originalListing.priceHidden)
+                            const Text(
+                              'Call for Price',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'Mandatory',
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFF981C1E),
+                              ),
+                              maxLines: 1,
+                            )
+                          else
+                            _buildPriceLabel(),
                         ],
                       ),
                     ),
@@ -107,11 +119,11 @@ class PlateNumberListingWidget extends StatelessWidget {
       children: [
         Text(
           '${item.originalListing.discountPrice} JOD',
-          style: TextStyle(
-            fontSize: 14,
+          style: const TextStyle(
+            fontSize: 15,
             fontFamily: 'Mandatory',
             fontWeight: FontWeight.w700,
-            color: Colors.red[700],
+            color: Color(0xFF981C1E),
           ),
           maxLines: 1,
         ),

@@ -10,7 +10,7 @@ _$ListingV2Impl _$$ListingV2ImplFromJson(Map<String, dynamic> json) =>
     _$ListingV2Impl(
       id: json['id'] as String,
       price: (json['price'] as num).toDouble(),
-      discountPrice: (json['discountPrice'] as num?)?.toDouble(),
+      discountPrice: (json['discountPrice'] as num?)?.toDouble() ?? 0.0,
       priceNegotiable: json['priceNegotiable'] as bool? ?? false,
       priceHidden: json['priceHidden'] as bool? ?? false,
       isFeatured: json['isFeatured'] as bool? ?? false,

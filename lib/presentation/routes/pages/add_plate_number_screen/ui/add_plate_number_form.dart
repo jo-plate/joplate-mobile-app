@@ -1,33 +1,96 @@
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:joplate/data/constants.dart';
+import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/dto/add_plate_number_input.dart';
 import 'package:joplate/presentation/theme.dart';
 
 class AddPlateNumberForm extends StatefulWidget {
-  const AddPlateNumberForm({
-    super.key,
-    this.onSubmit,
-  });
+  const AddPlateNumberForm({super.key, this.onSuccess});
 
-  final Function(AddPlateNumberInput input)? onSubmit;
+  final Function(AddPlateNumberInput input)? onSuccess;
 
   @override
   State<AddPlateNumberForm> createState() => _AddPlateNumberFormState();
 }
 
 class _AddPlateNumberFormState extends State<AddPlateNumberForm> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController codeController = TextEditingController();
+  final TextEditingController numberController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController discountController = TextEditingController();
   bool _withDiscount = false;
+  bool _isLoading = false;
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
+    codeController.dispose();
+    numberController.dispose();
     priceController.dispose();
     discountController.dispose();
     super.dispose();
+  }
+
+  Future<void> _submit() async {
+    if (codeController.text.isEmpty || numberController.text.isEmpty || priceController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill all required fields')),
+      );
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    final input = AddPlateNumberInput(
+      code: codeController.text,
+      number: numberController.text,
+      price: int.parse(priceController.text),
+      discountPrice: _withDiscount ? int.tryParse(discountController.text) : null,
+    );
+
+    final addListingDto = AddListingDto(
+      price: input.price.toDouble(),
+      discountPrice: input.discountPrice?.toDouble() ?? 0,
+      listingType: ListingType.ad,
+      itemType: ItemType.plateNumber,
+      priceNegotiable: true,
+      priceHidden: false,
+      isFeatured: false,
+      itemData: {
+        "code": input.code,
+        "number": input.number,
+      },
+    );
+
+    try {
+      final callable = FirebaseFunctions.instance.httpsCallable(createListingCF);
+      final response = await callable.call(addListingDto.toJson());
+
+      if (response.data != null && response.data['success'] == true) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Listing added successfully!')),
+        );
+        widget.onSuccess?.call(input);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to add listing.')),
+        );
+      }
+    } on FirebaseFunctionsException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: ${e.message}')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -39,36 +102,27 @@ class _AddPlateNumberFormState extends State<AddPlateNumberForm> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           TextField(
-            controller: emailController,
+            controller: codeController,
             keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
-              labelText: 'Code',
-            ),
+            decoration: const InputDecoration(labelText: 'Code'),
           ),
           const SizedBox(height: 30),
           TextField(
-            controller: passwordController,
+            controller: numberController,
             keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
-              labelText: 'Number',
-            ),
+            decoration: const InputDecoration(labelText: 'Number'),
           ),
           const SizedBox(height: 30),
           TextField(
             controller: priceController,
             keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
-              labelText: 'Price',
-            ),
+            decoration: const InputDecoration(labelText: 'Price'),
           ),
           const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                "With Discount?",
-                style: TextStyle(fontSize: 16),
-              ),
+              const Text("With Discount?", style: TextStyle(fontSize: 16)),
               Switch(
                 value: _withDiscount,
                 onChanged: (value) {
@@ -79,18 +133,25 @@ class _AddPlateNumberFormState extends State<AddPlateNumberForm> {
               ),
             ],
           ),
-          if (_withDiscount) ...[
-            const SizedBox(
-              height: 10,
-            ),
+          if (_withDiscount)
             TextField(
               controller: discountController,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: 'Discount price',
-              ),
+              decoration: const InputDecoration(labelText: 'Discount Price'),
             ),
-          ]
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(child: FilledButton(onPressed: _isLoading ? null : () {}, child: const Text("Add another"))),
+              const SizedBox(width: 16),
+              Expanded(
+                child: FilledButton(
+                  onPressed: _isLoading ? null : _submit,
+                  child: _isLoading ? const CircularProgressIndicator() : const Text("Next"),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
