@@ -63,6 +63,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
     // where ads array size > 0
     _platesStream = FirebaseFirestore.instance
         .collection(carPlatesCollectionId)
+        .where('adsCount', isGreaterThan: 0)
         .snapshots()
         .map((snapshot) => snapshot.docs.map((doc) => PlateNumber.fromJson(doc.data())).toList());
   }
@@ -219,8 +220,6 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   }
-                  print(snapshot.connectionState);
-                  print(snapshot.data);
 
                   return PlatesListingsGrid(itemList: snapshot.data ?? [], isFeatured: false);
                 }),
