@@ -61,11 +61,10 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
   void initState() {
     super.initState();
     // where ads array size > 0
-    _platesStream = FirebaseFirestore.instance.collection(carPlatesCollectionId).snapshots().map((snapshot) {
-      print(snapshot.docs);
-      print(snapshot.docs.map((doc) => doc.data()).toList());
-      return snapshot.docs.map((doc) => PlateNumber.fromJson(doc.data())).toList();
-    });
+    _platesStream = FirebaseFirestore.instance
+        .collection(carPlatesCollectionId)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((doc) => PlateNumber.fromJson(doc.data())).toList());
   }
 
   InputDecoration get inputFieldStyle => InputDecoration(
