@@ -5,6 +5,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/presentation/routes/pages/home_page/home_tab/ui/plates_listing_grid.dart';
+import 'package:joplate/presentation/routes/router.dart';
 
 @RoutePage()
 class MyNumbersPage extends StatefulWidget {
@@ -45,6 +46,16 @@ class _MyNumbersPageState extends State<MyNumbersPage> with SingleTickerProvider
       appBar: AppBar(
         title: const Text('My Numbers'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            iconSize: 30,
+            color: const Color(0xFF981C1E),
+            onPressed: () {
+              context.router.push(const AddPlateNumberRoute());
+            },
+          ),
+        ],
         bottom: TabBar(
           controller: tabController,
           // indicator: BoxDecoration(
