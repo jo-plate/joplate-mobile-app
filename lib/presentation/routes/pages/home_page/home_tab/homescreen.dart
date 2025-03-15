@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:joplate/domain/entities/listing.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'ui/logo_section.dart';
 import 'ui/category_section.dart';
@@ -32,7 +31,7 @@ class HomePage extends StatelessWidget {
           //   icon: const ,
 
           //   onPressed: () {},
-          // )
+          // )p
         ),
         body: SingleChildScrollView(
           child: Column(

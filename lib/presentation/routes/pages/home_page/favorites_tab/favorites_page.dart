@@ -3,11 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:joplate/data/constants.dart';
-import 'package:joplate/domain/entities/listing.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/domain/entities/user_favorites.dart';
 import 'package:joplate/presentation/routes/pages/home_page/home_tab/ui/plates_listing_grid.dart';
+import 'package:joplate/presentation/utils/firebase_utils.dart';
 
 @RoutePage()
 class FavoritesPage extends StatefulWidget {
@@ -30,14 +30,11 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
         .doc(FirebaseAuth.instance.currentUser?.uid)
         .snapshots()
         .map((snapshot) {
-      print(snapshot.data());
       return UserFavorites.fromJson(snapshot.data() ?? {});
     }).asyncMap((snapshot) async {
-      print(snapshot);
       final List<PlateNumber> plates = await Future.wait(
         snapshot.favoritePlates.map((id) async {
           final plate = await FirebaseFirestore.instance.collection(carPlatesCollectionId).doc(id.toString()).get();
-
           final plateDict = plate.data() ?? {};
           plateDict['id'] = id.toString();
           return PlateNumber.fromJson(plateDict);
@@ -62,8 +59,7 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
     super.dispose();
     favoritesStream.drain();
   }
-
-  @override
+@override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -71,44 +67,68 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
         centerTitle: true,
         bottom: TabBar(
           controller: tabController,
-          // indicator: BoxDecoration(
-          //   borderRadius: BorderRadius.circular(50),
-          //   color: const Color(0xFF981C1E),
-          // ),
-          // tabAlignment: TabAlignment.center,
           tabs: const [
-            Tab(
-              text: 'Car Numbers',
-            ),
-            Tab(
-              text: 'Phone Numbers',
-            ),
+            Tab(text: 'Car Numbers'),
+            Tab(text: 'Phone Numbers'),
           ],
         ),
       ),
-      body: StreamBuilder<UserFavorites>(
-          stream: favoritesStream,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: StreamBuilder<DocumentSnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection(favoritesCollectionId)
+              .doc(FirebaseAuth.instance.currentUser?.uid)
+              .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             }
-
-            if (snapshot.hasError) {
-              return const Center(child: Text('An error occurred'));
-            }
-
-            if (snapshot.data == null) {
+        
+            if (snapshot.hasError || !snapshot.hasData || snapshot.data?.data() == null) {
               return const Center(child: Text('No favorites found'));
             }
 
-            return TabBarView(
-              controller: tabController,
-              children: [
-                SingleChildScrollView(child: PlatesListingsGrid(itemList: snapshot.data?.favoritePlates ?? [])),
-                SingleChildScrollView(child: PlatesListingsGrid(itemList: snapshot.data?.favoritePlates ?? [])),
-              ],
+            // Convert snapshot to UserFavorites
+            final userFavorites = UserFavorites.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+
+            return FutureBuilder<List<PlateNumber>>(
+              future: fetchPlates(userFavorites.favoritePlatesIds),
+              builder: (context, plateSnapshot) {
+                if (plateSnapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (plateSnapshot.hasError || plateSnapshot.data == null) {
+                  return const Center(child: Text('Failed to load plates.'));
+                }
+
+                return FutureBuilder<List<PhoneNumber>>(
+                  future: fetchPhones(userFavorites.favoritePhones),
+                  builder: (context, phoneSnapshot) {
+                    if (phoneSnapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    if (phoneSnapshot.hasError || phoneSnapshot.data == null) {
+                      return const Center(child: Text('Failed to load phone numbers.'));
+                    }
+
+                    return TabBarView(
+                      controller: tabController,
+                      children: [
+                        SingleChildScrollView(child: PlatesListingsGrid(itemList: plateSnapshot.data ?? [])),
+                        SingleChildScrollView(child: PlatesListingsGrid(itemList: plateSnapshot.data ?? [])),
+                      ],
+                    );
+                  },
+                );
+              },
             );
-          }),
+          },
+        ),
+      ),
     );
   }
+
 }

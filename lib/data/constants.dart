@@ -10,8 +10,7 @@ const userPlansCollectionId = 'userPlans';
 const carPlatesCollectionId = 'carPlates';
 const phoneNumbersCollectionId = 'phoneNumbers';
 
-
-
-
 // cloud functions
 const signupCF = 'signUpUser';
+const createListingCF = 'createListing';
+const postRequestCF = 'postRequest';

@@ -35,44 +35,9 @@ class _FavoriteButtonState extends State<FavoriteButton> {
       final favorites = UserFavorites.fromJson(data);
 
       return widget.itemType == ItemType.plateNumber
-          ? favorites.favoritePlates.contains(widget.listingId)
-          : favorites.favoritePhones.contains(widget.listingId);
+          ? favorites.favoritePlatesIds.contains(widget.listingId)
+          : favorites.favoritePhonesIds.contains(widget.listingId);
     });
-  }
-
-  Future<bool> _checkFavorite() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return false;
-
-    final snapshot = await FirebaseFirestore.instance.collection(favoritesCollectionId).doc(user.uid).get();
-    final data = snapshot.data();
-    if (data == null) return false;
-    final favorites = UserFavorites.fromJson(data);
-
-    return widget.itemType == ItemType.plateNumber
-        ? favorites.favoritePlates.contains(widget.listingId)
-        : favorites.favoritePhones.contains(widget.listingId);
-  }
-
-  Future<void> _toggleFavorite() async {
-    final user = FirebaseAuth.instance.currentUser;
-
-    if (user == null) return;
-
-    final isFavorite = await _checkFavorite();
-    if (!isFavorite) {
-      await FirebaseFirestore.instance.collection(favoritesCollectionId).doc(user.uid).set({
-        widget.itemType == ItemType.plateNumber ? 'favoritePlates' : 'favoritePhones':
-            FieldValue.arrayUnion([widget.listingId])
-      }, SetOptions(merge: true));
-      print('added to favorites for user ${user.uid}');
-    } else {
-      await FirebaseFirestore.instance.collection(favoritesCollectionId).doc(user.uid).set({
-        widget.itemType == ItemType.plateNumber ? 'favoritePlates' : 'favoritePhones':
-            FieldValue.arrayRemove([widget.listingId])
-      }, SetOptions(merge: true));
-      print('removed from favorites for user ${user.uid}');
-    }
   }
 
   @override
@@ -84,7 +49,25 @@ class _FavoriteButtonState extends State<FavoriteButton> {
         return IconButton(
           icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border, color: const Color(0xFF981C1E)),
           onPressed: () async {
-            await _toggleFavorite();
+            final user = FirebaseAuth.instance.currentUser;
+
+            if (user == null) return;
+
+            if (!isFavorite) {
+              await FirebaseFirestore.instance.collection(favoritesCollectionId).doc(user.uid).set({
+                widget.itemType == ItemType.plateNumber ? 'favoritePlatesIds' : 'favoritePhonesIds':
+                    FieldValue.arrayUnion([widget.listingId])
+              }, SetOptions(merge: true));
+              print('added to favorites for user ${user.uid}');
+            } else {
+              await FirebaseFirestore.instance.collection(favoritesCollectionId).doc(user.uid).set({
+                widget.itemType == ItemType.plateNumber ? 'favoritePlatesIds' : 'favoritePhonesIds':
+                    FieldValue.arrayRemove([widget.listingId])
+              }, SetOptions(merge: true));
+              print('removed from favorites for user ${user.uid}');
+            }
+
+            setState(() {});
           },
         );
       },

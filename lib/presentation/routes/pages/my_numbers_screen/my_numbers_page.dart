@@ -24,10 +24,9 @@ class _MyNumbersPageState extends State<MyNumbersPage> with SingleTickerProvider
   void initState() {
     super.initState();
 
-    // filter by 'ads' array contains user's uid
     myPlateListingsStream = FirebaseFirestore.instance
         .collection(carPlatesCollectionId)
-        .where('ads', arrayContains: FirebaseAuth.instance.currentUser?.uid)
+        .where('adsUserIds', arrayContains: FirebaseAuth.instance.currentUser?.uid)
         .snapshots()
         .map((snapshot) => snapshot.docs.map((doc) => PlateNumber.fromJson(doc.data())).toList());
 
@@ -63,29 +62,32 @@ class _MyNumbersPageState extends State<MyNumbersPage> with SingleTickerProvider
           ],
         ),
       ),
-      body: StreamBuilder<List<PlateNumber>>(
-          stream: myPlateListingsStream,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: StreamBuilder<List<PlateNumber>>(
+            stream: myPlateListingsStream,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
 
-            if (snapshot.hasError) {
-              return const Center(child: Text('An error occurred'));
-            }
+              if (snapshot.hasError) {
+                return const Center(child: Text('An error occurred'));
+              }
 
-            if (snapshot.data == null) {
-              return const Center(child: Text('No favorites found'));
-            }
+              if (snapshot.data == null) {
+                return const Center(child: Text('No favorites found'));
+              }
 
-            return TabBarView(
-              controller: tabController,
-              children: [
-                SingleChildScrollView(child: PlatesListingsGrid(itemList: snapshot.data ?? [])),
-                SingleChildScrollView(child: PlatesListingsGrid(itemList: snapshot.data ?? [])),
-              ],
-            );
-          }),
+              return TabBarView(
+                controller: tabController,
+                children: [
+                  SingleChildScrollView(child: PlatesListingsGrid(itemList: snapshot.data ?? [])),
+                  SingleChildScrollView(child: PlatesListingsGrid(itemList: snapshot.data ?? [])),
+                ],
+              );
+            }),
+      ),
     );
   }
 }
