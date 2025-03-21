@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:joplate/domain/entities/listing.dart';
 
 part 'add_listing_dto.freezed.dart';
 part 'add_listing_dto.g.dart';

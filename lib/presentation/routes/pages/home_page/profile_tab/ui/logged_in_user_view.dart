@@ -30,12 +30,7 @@ class _LoggedInUserViewState extends State<LoggedInUserView> {
       body: BlocProvider.value(
         value: injector<AuthCubit>(),
         child: Builder(builder: (context) {
-          return BlocConsumer<AuthCubit, AuthState>(
-            listener: (context, state) {
-              if (state.isLoggedIn && state.userProfile == null) {
-                Navigator.of(context).pop();
-              }
-            },
+          return BlocBuilder<AuthCubit, AuthState>(
             builder: (context, state) {
               if (state.isLoading) {
                 return const Center(child: CircularProgressIndicator());
@@ -130,7 +125,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
             icon: Icons.draw,
             label: 'Requests',
             onTap: () {
-              // Handle "Requests" click
+              AutoRouter.of(context).push(const MyRequestsRoute());
             },
           ),
         ),

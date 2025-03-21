@@ -219,6 +219,22 @@ class MyPlanRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [MyRequestsPage]
+class MyRequestsRoute extends PageRouteInfo<void> {
+  const MyRequestsRoute({List<PageRouteInfo>? children})
+    : super(MyRequestsRoute.name, initialChildren: children);
+
+  static const String name = 'MyRequestsRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const MyRequestsPage();
+    },
+  );
+}
+
+/// generated route for
 /// [PhoneDetailsPage]
 class PhoneDetailsRoute extends PageRouteInfo<PhoneDetailsRouteArgs> {
   PhoneDetailsRoute({

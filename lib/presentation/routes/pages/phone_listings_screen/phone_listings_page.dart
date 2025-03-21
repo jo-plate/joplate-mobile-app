@@ -14,8 +14,6 @@ class PhoneListingsPage extends StatefulWidget {
 
 class _PhoneListingsPageState extends State<PhoneListingsPage> {
   String? _selectedCode;
-  String? _selectedDigits;
-  String? _selectedFormat;
   bool _isExpanded = false;
 
   final _containsController = TextEditingController();
@@ -25,7 +23,6 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
   final _maxPriceController = TextEditingController();
 
   final List<String> _company = ['Zain', 'Orange', 'Umniah'];
-  final List<String> _digitCounts = ['1 Digit', '2 Digits', '3 Digits', '4 Digits', '5 Digits'];
   final List<String> formatList = [
     "Format",
     "Contains Digit Repeated 2 Times",
