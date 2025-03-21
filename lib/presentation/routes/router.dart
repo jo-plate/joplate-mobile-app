@@ -1,12 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:joplate/domain/entities/listing.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
-import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/presentation/routes/pages/account_screen/edit-pages/change_password_page.dart';
 import 'package:joplate/presentation/routes/pages/account_screen/edit-pages/edit_email_page.dart';
 import 'package:joplate/presentation/routes/pages/account_screen/edit-pages/edit_phone_number_page.dart';
 import 'package:joplate/presentation/routes/pages/account_screen/edit-pages/edit_full_name_page.dart';
+import 'package:joplate/presentation/routes/pages/add_phone_number_screen/add_phone_number_page.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_number_screen/add_plate_number_page.dart';
 import 'package:joplate/presentation/routes/pages/home_page/home_tab/homescreen.dart';
 import 'package:joplate/presentation/routes/pages/home_page/dashboard_page.dart';
@@ -52,6 +51,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: MyPlanRoute.page, path: '/myplan'),
         AutoRoute(page: PlansRoute.page, path: '/plans'),
         AutoRoute(page: AddPlateNumberRoute.page),
+        AutoRoute(page: AddPhoneNumberRoute.page),
         AutoRoute(page: PrivacyPolicyRoute.page, path: '/privacy-policy'),
         AutoRoute(page: PlatesListingsRoute.page, path: "/plates"),
         AutoRoute(page: PhoneListingsRoute.page, path: "/phones"),

@@ -5,17 +5,16 @@ import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/dto/add_number_input.dart';
 import 'package:joplate/presentation/theme.dart';
 
-class AddPlateNumberForm extends StatefulWidget {
-  const AddPlateNumberForm({super.key, this.onSuccess});
+class AddPhoneNumberForm extends StatefulWidget {
+  const AddPhoneNumberForm({super.key, this.onSuccess});
 
-  final Function(AddPlateNumberInput input)? onSuccess;
+  final Function(AddPhoneNumberInput input)? onSuccess;
 
   @override
-  State<AddPlateNumberForm> createState() => _AddPlateNumberFormState();
+  State<AddPhoneNumberForm> createState() => _AddPhoneNumberFormState();
 }
 
-class _AddPlateNumberFormState extends State<AddPlateNumberForm> {
-  final TextEditingController codeController = TextEditingController();
+class _AddPhoneNumberFormState extends State<AddPhoneNumberForm> {
   final TextEditingController numberController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController discountController = TextEditingController();
@@ -24,7 +23,6 @@ class _AddPlateNumberFormState extends State<AddPlateNumberForm> {
 
   @override
   void dispose() {
-    codeController.dispose();
     numberController.dispose();
     priceController.dispose();
     discountController.dispose();
@@ -32,7 +30,7 @@ class _AddPlateNumberFormState extends State<AddPlateNumberForm> {
   }
 
   Future<void> _submit() async {
-    if (codeController.text.isEmpty || numberController.text.isEmpty || priceController.text.isEmpty) {
+    if (numberController.text.isEmpty || priceController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please fill all required fields')),
       );
@@ -43,8 +41,7 @@ class _AddPlateNumberFormState extends State<AddPlateNumberForm> {
       _isLoading = true;
     });
 
-    final input = AddPlateNumberInput(
-      code: codeController.text,
+    final input = AddPhoneNumberInput(
       number: numberController.text,
       price: int.parse(priceController.text),
       discountPrice: _withDiscount ? int.tryParse(discountController.text) : null,
@@ -54,12 +51,11 @@ class _AddPlateNumberFormState extends State<AddPlateNumberForm> {
       price: input.price.toDouble(),
       discountPrice: input.discountPrice?.toDouble() ?? 0,
       listingType: ListingType.ad,
-      itemType: ItemType.plateNumber,
+      itemType: ItemType.phoneNumber,
       priceNegotiable: true,
       priceHidden: false,
       isFeatured: false,
       itemData: {
-        "code": input.code,
         "number": input.number,
       },
     );
@@ -101,12 +97,6 @@ class _AddPlateNumberFormState extends State<AddPlateNumberForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          TextField(
-            controller: codeController,
-            keyboardType: TextInputType.number,
-            decoration: const InputDecoration(labelText: 'Code'),
-          ),
-          const SizedBox(height: 30),
           TextField(
             controller: numberController,
             keyboardType: TextInputType.number,

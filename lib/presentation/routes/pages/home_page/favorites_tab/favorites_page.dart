@@ -119,7 +119,7 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
                       controller: tabController,
                       children: [
                         SingleChildScrollView(child: PlatesListingsGrid(itemList: plateSnapshot.data ?? [])),
-                        SingleChildScrollView(child: PhonesListingGrid(itemList: PhoneNumber.mockList(10) ?? [])),
+                        SingleChildScrollView(child: PhonesListingGrid(itemList: phoneSnapshot.data ?? [])),
                       ],
                     );
                   },

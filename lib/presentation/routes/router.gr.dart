@@ -27,6 +27,22 @@ class AccountRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [AddPhoneNumberPage]
+class AddPhoneNumberRoute extends PageRouteInfo<void> {
+  const AddPhoneNumberRoute({List<PageRouteInfo>? children})
+    : super(AddPhoneNumberRoute.name, initialChildren: children);
+
+  static const String name = 'AddPhoneNumberRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const AddPhoneNumberPage();
+    },
+  );
+}
+
+/// generated route for
 /// [AddPlateNumberPage]
 class AddPlateNumberRoute extends PageRouteInfo<void> {
   const AddPlateNumberRoute({List<PageRouteInfo>? children})

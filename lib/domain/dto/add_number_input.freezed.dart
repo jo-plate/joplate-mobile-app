@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'add_plate_number_input.dart';
+part of 'add_number_input.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -198,5 +198,171 @@ abstract class _AddPlateNumberInput implements AddPlateNumberInput {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AddPlateNumberInputImplCopyWith<_$AddPlateNumberInputImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$AddPhoneNumberInput {
+  String get number => throw _privateConstructorUsedError;
+  int get price => throw _privateConstructorUsedError;
+  int? get discountPrice => throw _privateConstructorUsedError;
+
+  /// Create a copy of AddPhoneNumberInput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $AddPhoneNumberInputCopyWith<AddPhoneNumberInput> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AddPhoneNumberInputCopyWith<$Res> {
+  factory $AddPhoneNumberInputCopyWith(
+          AddPhoneNumberInput value, $Res Function(AddPhoneNumberInput) then) =
+      _$AddPhoneNumberInputCopyWithImpl<$Res, AddPhoneNumberInput>;
+  @useResult
+  $Res call({String number, int price, int? discountPrice});
+}
+
+/// @nodoc
+class _$AddPhoneNumberInputCopyWithImpl<$Res, $Val extends AddPhoneNumberInput>
+    implements $AddPhoneNumberInputCopyWith<$Res> {
+  _$AddPhoneNumberInputCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of AddPhoneNumberInput
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? number = null,
+    Object? price = null,
+    Object? discountPrice = freezed,
+  }) {
+    return _then(_value.copyWith(
+      number: null == number
+          ? _value.number
+          : number // ignore: cast_nullable_to_non_nullable
+              as String,
+      price: null == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as int,
+      discountPrice: freezed == discountPrice
+          ? _value.discountPrice
+          : discountPrice // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$AddPhoneNumberInputImplCopyWith<$Res>
+    implements $AddPhoneNumberInputCopyWith<$Res> {
+  factory _$$AddPhoneNumberInputImplCopyWith(_$AddPhoneNumberInputImpl value,
+          $Res Function(_$AddPhoneNumberInputImpl) then) =
+      __$$AddPhoneNumberInputImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String number, int price, int? discountPrice});
+}
+
+/// @nodoc
+class __$$AddPhoneNumberInputImplCopyWithImpl<$Res>
+    extends _$AddPhoneNumberInputCopyWithImpl<$Res, _$AddPhoneNumberInputImpl>
+    implements _$$AddPhoneNumberInputImplCopyWith<$Res> {
+  __$$AddPhoneNumberInputImplCopyWithImpl(_$AddPhoneNumberInputImpl _value,
+      $Res Function(_$AddPhoneNumberInputImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of AddPhoneNumberInput
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? number = null,
+    Object? price = null,
+    Object? discountPrice = freezed,
+  }) {
+    return _then(_$AddPhoneNumberInputImpl(
+      number: null == number
+          ? _value.number
+          : number // ignore: cast_nullable_to_non_nullable
+              as String,
+      price: null == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as int,
+      discountPrice: freezed == discountPrice
+          ? _value.discountPrice
+          : discountPrice // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$AddPhoneNumberInputImpl implements _AddPhoneNumberInput {
+  const _$AddPhoneNumberInputImpl(
+      {required this.number, required this.price, this.discountPrice});
+
+  @override
+  final String number;
+  @override
+  final int price;
+  @override
+  final int? discountPrice;
+
+  @override
+  String toString() {
+    return 'AddPhoneNumberInput(number: $number, price: $price, discountPrice: $discountPrice)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AddPhoneNumberInputImpl &&
+            (identical(other.number, number) || other.number == number) &&
+            (identical(other.price, price) || other.price == price) &&
+            (identical(other.discountPrice, discountPrice) ||
+                other.discountPrice == discountPrice));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, number, price, discountPrice);
+
+  /// Create a copy of AddPhoneNumberInput
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AddPhoneNumberInputImplCopyWith<_$AddPhoneNumberInputImpl> get copyWith =>
+      __$$AddPhoneNumberInputImplCopyWithImpl<_$AddPhoneNumberInputImpl>(
+          this, _$identity);
+}
+
+abstract class _AddPhoneNumberInput implements AddPhoneNumberInput {
+  const factory _AddPhoneNumberInput(
+      {required final String number,
+      required final int price,
+      final int? discountPrice}) = _$AddPhoneNumberInputImpl;
+
+  @override
+  String get number;
+  @override
+  int get price;
+  @override
+  int? get discountPrice;
+
+  /// Create a copy of AddPhoneNumberInput
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$AddPhoneNumberInputImplCopyWith<_$AddPhoneNumberInputImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

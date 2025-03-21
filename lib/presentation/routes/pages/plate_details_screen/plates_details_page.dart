@@ -53,17 +53,15 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
           stream: _plateStream,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Text(
-                    'Error getteing data for Plate Number: ${widget.plateNumber}',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.red[800],
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+              return Padding(
+                padding: EdgeInsets.only(left: 24.0, right: 24, top: MediaQuery.of(context).size.height / 4),
+                child: Text(
+                  'Error getteing data for Plate Number: ${widget.plateNumber}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.red[800],
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               );
@@ -220,7 +218,7 @@ class _SellerDetailsState extends State<SellerDetails> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'About Seller',
+                  'Originally posted by',
                   style: TextStyle(fontSize: 16),
                 ),
                 const SizedBox(height: 10),

@@ -1,10 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:joplate/data/constants.dart';
-import 'package:joplate/domain/entities/plate_number.dart';
-import 'package:joplate/presentation/widgets/app_bar.dart/plates_listing_grid.dart';
+import 'package:joplate/presentation/routes/pages/my_numbers_screen/ui/phone_listings_by_user_id.dart';
+import 'package:joplate/presentation/routes/pages/my_numbers_screen/ui/plate_listings_by_user_id.dart';
 import 'package:joplate/presentation/routes/router.dart';
 
 @RoutePage()
@@ -16,20 +14,11 @@ class MyNumbersPage extends StatefulWidget {
 }
 
 class _MyNumbersPageState extends State<MyNumbersPage> with SingleTickerProviderStateMixin {
-// init firestore streams
-  late final Stream<List<PlateNumber>> myPlateListingsStream;
-
   late final TabController tabController;
 
   @override
   void initState() {
     super.initState();
-
-    myPlateListingsStream = FirebaseFirestore.instance
-        .collection(carPlatesCollectionId)
-        .where('adsUserIds', arrayContains: FirebaseAuth.instance.currentUser?.uid)
-        .snapshots()
-        .map((snapshot) => snapshot.docs.map((doc) => PlateNumber.fromJson(doc.data())).toList());
 
     tabController = TabController(length: 2, vsync: this);
   }
@@ -37,7 +26,7 @@ class _MyNumbersPageState extends State<MyNumbersPage> with SingleTickerProvider
   @override
   void dispose() {
     super.dispose();
-    myPlateListingsStream.drain();
+    tabController.dispose();
   }
 
   @override
@@ -52,7 +41,11 @@ class _MyNumbersPageState extends State<MyNumbersPage> with SingleTickerProvider
             iconSize: 30,
             color: const Color(0xFF981C1E),
             onPressed: () {
-              context.router.push(const AddPlateNumberRoute());
+              if (tabController.index == 0) {
+                context.router.push(const AddPlateNumberRoute());
+              } else {
+                context.router.push(const AddPhoneNumberRoute());
+              }
             },
           ),
         ],
@@ -75,29 +68,13 @@ class _MyNumbersPageState extends State<MyNumbersPage> with SingleTickerProvider
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: StreamBuilder<List<PlateNumber>>(
-            stream: myPlateListingsStream,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
-              if (snapshot.hasError) {
-                return const Center(child: Text('An error occurred'));
-              }
-
-              if (snapshot.data == null) {
-                return const Center(child: Text('No favorites found'));
-              }
-
-              return TabBarView(
-                controller: tabController,
-                children: [
-                  SingleChildScrollView(child: PlatesListingsGrid(itemList: snapshot.data ?? [])),
-                  SingleChildScrollView(child: PlatesListingsGrid(itemList: snapshot.data ?? [])),
-                ],
-              );
-            }),
+        child: TabBarView(
+          controller: tabController,
+          children: [
+            PlateListingsByUserId(userId: FirebaseAuth.instance.currentUser?.uid ?? ''),
+            PhoneListingsByUserId(userId: FirebaseAuth.instance.currentUser?.uid ?? ''),
+          ],
+        ),
       ),
     );
   }

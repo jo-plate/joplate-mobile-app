@@ -18,7 +18,7 @@ class CategorySection extends StatelessWidget {
 
   Stream<int> _getNumbersListingCount(String itemType) {
     return FirebaseFirestore.instance
-        .collection(phoneListingsCollectionId)
+        .collection(phoneNumbersCollectionId)
         .snapshots()
         .map((snapshot) => snapshot.size);
   }
