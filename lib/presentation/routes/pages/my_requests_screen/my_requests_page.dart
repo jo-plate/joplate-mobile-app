@@ -42,9 +42,9 @@ class _MyRequestsPageState extends State<MyRequestsPage> with SingleTickerProvid
             color: const Color(0xFF981C1E),
             onPressed: () {
               if (tabController.index == 0) {
-                context.router.push(const AddPlateNumberRoute());
+                context.router.push(const AddPlateRequestRoute());
               } else {
-                context.router.push(const AddPhoneNumberRoute());
+                context.router.push(const AddPhoneRequestRoute());
               }
             },
           ),

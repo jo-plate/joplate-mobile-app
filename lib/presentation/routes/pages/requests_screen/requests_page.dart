@@ -5,6 +5,7 @@ import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/listing.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
+import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plates_listing_grid.dart';
 
 @RoutePage()
@@ -66,6 +67,20 @@ class _RequestsPageState extends State<RequestsPage> with SingleTickerProviderSt
             ),
           ],
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            iconSize: 30,
+            color: const Color(0xFF981C1E),
+            onPressed: () {
+              if (tabController.index == 0) {
+                context.router.push(const AddPlateRequestRoute());
+              } else {
+                context.router.push(const AddPhoneRequestRoute());
+              }
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),

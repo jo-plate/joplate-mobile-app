@@ -46,7 +46,7 @@ class AddPlateRequestPage extends StatelessWidget {
                                 AutoRouter.of(context).replace(const MyNumbersRoute());
                               }
                             },
-                      child: const Text("Submit"),
+                      child: const Text("Submit", style: TextStyle(color: Colors.white)),
                     );
                   },
                 ),
