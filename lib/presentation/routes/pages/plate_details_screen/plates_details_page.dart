@@ -45,16 +45,16 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 1. Plate Number Listing (Top)
             PlateNumberListingWidget(
               item: widget.plateNumber,
               isFeatured: true,
               aspectRatio: 2.1,
+              hideLikeButton: true,
+              priceLabelFontSize: 24,
             ),
 
             const SizedBox(height: 10),
 
-            // 2. Preview Section
             Container(
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
@@ -209,7 +209,7 @@ class _SellerDetailsState extends State<SellerDetails> {
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        userProfile.displayName!,
+                        userProfile.displayName,
                         style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),

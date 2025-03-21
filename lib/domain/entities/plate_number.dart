@@ -20,7 +20,7 @@ class PlateNumber with _$PlateNumber {
       (index) => PlateNumber(
         code: (10 + index).toString(),
         number: (1004 + index).toString(),
-        ads: [ListingV2.mockPlateAd()],
+        ads: [ListingV2.mockAd()],
       ),
     );
   }
@@ -33,7 +33,7 @@ class PlateNumber with _$PlateNumber {
   }
 
 // first active listing in the list by createdAt
-  ListingV2 get originalListing => ads.firstOrNull ?? ListingV2.mockPlateAd();
+  ListingV2 get originalListing => ads.firstOrNull ?? ListingV2.mockAd();
 
   int get adsCount => ads.length;
 

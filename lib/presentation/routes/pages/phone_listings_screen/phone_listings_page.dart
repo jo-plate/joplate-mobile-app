@@ -1,17 +1,19 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
-import 'package:joplate/presentation/routes/pages/home_page/home_tab/ui/plates_listing_grid.dart';
+import 'package:joplate/presentation/widgets/app_bar.dart/phones_listing_grid.dart';
+import 'package:joplate/presentation/widgets/app_bar.dart/plates_listing_grid.dart';
 
 @RoutePage()
-class PhoneNumbersPage extends StatefulWidget {
-  const PhoneNumbersPage({super.key});
+class PhoneListingsPage extends StatefulWidget {
+  const PhoneListingsPage({super.key});
 
   @override
-  State<PhoneNumbersPage> createState() => _PhoneNumbersPageState();
+  State<PhoneListingsPage> createState() => _PhoneListingsPageState();
 }
 
-class _PhoneNumbersPageState extends State<PhoneNumbersPage> {
+class _PhoneListingsPageState extends State<PhoneListingsPage> {
   String? _selectedCode;
   String? _selectedDigits;
   String? _selectedFormat;
@@ -53,33 +55,29 @@ class _PhoneNumbersPageState extends State<PhoneNumbersPage> {
     "XXX (3 Digits)",
   ];
 
-  final List<PlateNumber> _allPlates = PlateNumber.mockList(20);
+  final List<PhoneNumber> _allPhones = PhoneNumber.mockList(20);
 
-  late List<PlateNumber> _filteredPlates;
+  late List<PhoneNumber> _filteredPhones;
 
   @override
   void initState() {
     super.initState();
-    _filteredPlates = _allPlates;
+    _filteredPhones = _allPhones;
   }
 
   void _onSearch() {
-    setState(() {
-      _filteredPlates = _allPlates.where((plate) {
-        final matchesCode = (_selectedCode == null || _selectedCode!.isEmpty)
-            ? true
-            : plate.code.toLowerCase() == _selectedCode!.toLowerCase();
+    // setState(() {
+    //   _filteredPhones = _allPhones.where((plate) {
+    //     bool matchesDigits = true;
+    //     if (_selectedDigits == '4 Digits') {
+    //       matchesDigits = plate.number.length == 4;
+    //     } else if (_selectedDigits == '5 Digits') {
+    //       matchesDigits = plate.number.length == 5;
+    //     }
 
-        bool matchesDigits = true;
-        if (_selectedDigits == '4 Digits') {
-          matchesDigits = plate.number.length == 4;
-        } else if (_selectedDigits == '5 Digits') {
-          matchesDigits = plate.number.length == 5;
-        }
-
-        return matchesCode && matchesDigits;
-      }).toList();
-    });
+    //     return matchesDigits;
+    //   }).toList();
+    // });
   }
 
   InputDecoration get inputFieldStyle => InputDecoration(
@@ -200,7 +198,7 @@ class _PhoneNumbersPageState extends State<PhoneNumbersPage> {
             ),
 
             const SizedBox(height: 8),
-            PlatesListingsGrid(itemList: _filteredPlates, isFeatured: false),
+            PhonesListingGrid(itemList: _filteredPhones, isFeatured: false),
           ],
         ),
       ),

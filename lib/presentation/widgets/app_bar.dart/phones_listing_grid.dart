@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:joplate/domain/entities/plate_number.dart';
-import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_listing_widget.dart';
-import '../../../../../widgets/app_bar.dart/plate_number_widget.dart';
+import 'package:joplate/domain/entities/phone_number.dart';
+import 'package:joplate/presentation/widgets/app_bar.dart/phone_number_listing_widget.dart';
+import 'plate_number_widget.dart';
 
-class PlatesListingsGrid extends StatelessWidget {
-  const PlatesListingsGrid({super.key, this.itemList = const [], this.isFeatured = false});
+class PhonesListingGrid extends StatelessWidget {
+  const PhonesListingGrid({super.key, this.itemList = const [], this.isFeatured = false});
   final bool isFeatured;
-  final List<PlateNumber> itemList;
+  final List<PhoneNumber> itemList;
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +26,7 @@ class PlatesListingsGrid extends StatelessWidget {
           childAspectRatio: isFeatured ? 1.5 : 1.27,
         ),
         itemBuilder: (context, index) {
-          return PlateNumberListingWidget(
-            isFeatured: itemList[index].originalListing.isFeatured,
-            item: itemList[index],
-            shape: PlateShape.horizontal,
-          );
+          return PhoneNumberListingWidget(isFeatured: itemList[index].ad.isFeatured, item: itemList[index]);
         },
       ),
     );

@@ -18,14 +18,16 @@ class PhoneNumber with _$PhoneNumber {
 
   const factory PhoneNumber({
     required String number,
-    @Default([]) List<ListingV2> ads,
+    required ListingV2 ad,
   }) = _PhoneNumber;
 
   static List<PhoneNumber> mockList(int number) {
     return List.generate(
       number,
       (index) => PhoneNumber(
-        number: (10044 + index).toString(),
+        // 079xxxxxxx
+        number: '079${index.toString().padLeft(7, '5')}',
+        ad: ListingV2.mockAd(),
       ),
     );
   }

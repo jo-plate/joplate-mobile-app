@@ -6,7 +6,8 @@ import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/domain/entities/user_favorites.dart';
-import 'package:joplate/presentation/routes/pages/home_page/home_tab/ui/plates_listing_grid.dart';
+import 'package:joplate/presentation/widgets/app_bar.dart/phones_listing_grid.dart';
+import 'package:joplate/presentation/widgets/app_bar.dart/plates_listing_grid.dart';
 import 'package:joplate/presentation/utils/firebase_utils.dart';
 
 @RoutePage()
@@ -118,7 +119,7 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
                       controller: tabController,
                       children: [
                         SingleChildScrollView(child: PlatesListingsGrid(itemList: plateSnapshot.data ?? [])),
-                        SingleChildScrollView(child: PlatesListingsGrid(itemList: plateSnapshot.data ?? [])),
+                        SingleChildScrollView(child: PhonesListingGrid(itemList: PhoneNumber.mockList(10) ?? [])),
                       ],
                     );
                   },

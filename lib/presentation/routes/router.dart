@@ -19,7 +19,7 @@ import 'package:joplate/presentation/routes/pages/plans_screen/plans_page.dart';
 import 'package:joplate/presentation/routes/pages/plate_details_screen/plates_details_page.dart';
 import 'package:joplate/presentation/routes/pages/privacy_policy_screen/privacy_policy_page.dart';
 import 'package:joplate/presentation/routes/pages/plates_listings_screen/plates_listings_page.dart';
-import 'package:joplate/presentation/routes/pages/main_Numbers_page/main_numbers_page.dart';
+import 'package:joplate/presentation/routes/pages/phone_listings_screen/phone_listings_page.dart';
 import 'package:joplate/presentation/routes/pages/requests_screen/requests_page.dart';
 part 'router.gr.dart';
 
@@ -51,9 +51,8 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: AddPlateNumberRoute.page),
         AutoRoute(page: PrivacyPolicyRoute.page, path: '/privacy-policy'),
         AutoRoute(page: PlatesListingsRoute.page, path: "/plates"),
-        AutoRoute(page: PhoneNumbersRoute.page, path: "/phones"),
+        AutoRoute(page: PhoneListingsRoute.page, path: "/phones"),
         AutoRoute(page: RequestsRoute.page, path: "/requests"),
         AutoRoute(page: MyNumbersRoute.page, path: "/my_numbers")
-
       ];
 }

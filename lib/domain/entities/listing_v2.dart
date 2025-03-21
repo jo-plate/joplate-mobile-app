@@ -24,7 +24,7 @@ class ListingV2 with _$ListingV2 {
 
   factory ListingV2.fromJson(Map<String, dynamic> json) => _$ListingV2FromJson(json);
 
-  static ListingV2 mockPlateAd() {
+  static ListingV2 mockAd() {
     return ListingV2(
       id: "mockUserId",
       price: 15000.0,

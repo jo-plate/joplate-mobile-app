@@ -1,29 +1,21 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:joplate/domain/entities/plate_number.dart';
-import 'package:joplate/presentation/routes/router.dart';
-import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_widget.dart';
+import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
 
-class PlateNumberListingWidget extends StatelessWidget {
-  final PlateNumber item;
-  final PlateShape shape;
+class PhoneNumberListingWidget extends StatelessWidget {
+  final PhoneNumber item;
   final bool isFeatured;
   final double aspectRatio;
   final double priceLabelFontSize;
   final bool hideLikeButton;
 
-  const PlateNumberListingWidget(
+  const PhoneNumberListingWidget(
       {super.key,
       required this.item,
-      this.shape = PlateShape.horizontal,
       required this.isFeatured,
       this.aspectRatio = 1.5,
       this.priceLabelFontSize = 16,
       this.hideLikeButton = false});
-
-  bool get isVertical => shape == PlateShape.vertical;
-  bool get isHorizontal => shape == PlateShape.horizontal;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +24,7 @@ class PlateNumberListingWidget extends StatelessWidget {
         aspectRatio: aspectRatio,
         child: GestureDetector(
           onTap: () {
-            AutoRouter.of(context).push(PlatesDetailsRoute(plateNumber: item));
+            // AutoRouter.of(context).push(PlatesDetailsRoute(plateNumber: item));
           },
           child: Stack(
             clipBehavior: Clip.hardEdge,
@@ -52,10 +44,7 @@ class PlateNumberListingWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          PlateNumberWidget(
-                            plate: item,
-                            shape: shape,
-                          ),
+                          Text((item).number, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                           const SizedBox(height: 8),
                           _buildPriceLabel(),
                           const SizedBox(height: 2),
@@ -79,7 +68,7 @@ class PlateNumberListingWidget extends StatelessWidget {
   }
 
   Widget _buildPriceLabel() {
-    if (item.originalListing.priceHidden) {
+    if (item.ad.priceHidden) {
       return Text(
         'Call for Price',
         style: TextStyle(
@@ -90,13 +79,12 @@ class PlateNumberListingWidget extends StatelessWidget {
         ),
         maxLines: 1,
       );
-    } else if (item.originalListing.discountPrice > 0 &&
-        item.originalListing.discountPrice < item.originalListing.price) {
+    } else if (item.ad.discountPrice > 0 && item.ad.discountPrice < item.ad.price) {
       return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'JOD ${item.originalListing.discountPrice} ',
+            'JOD ${item.ad.discountPrice} ',
             style: TextStyle(
               fontSize: priceLabelFontSize,
               fontFamily: 'Mandatory',
@@ -106,7 +94,7 @@ class PlateNumberListingWidget extends StatelessWidget {
             maxLines: 1,
           ),
           Text(
-            '${item.originalListing.price}',
+            '${item.ad.price}',
             style: TextStyle(
               fontSize: priceLabelFontSize * 0.875,
               fontWeight: FontWeight.w600,
@@ -121,7 +109,7 @@ class PlateNumberListingWidget extends StatelessWidget {
       );
     } else {
       return Text(
-        '${item.originalListing.price} JOD',
+        '${item.ad.price} JOD',
         style: TextStyle(
           fontSize: priceLabelFontSize,
           fontFamily: 'Mandatory',

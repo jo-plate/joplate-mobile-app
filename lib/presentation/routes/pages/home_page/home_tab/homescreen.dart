@@ -4,7 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'ui/logo_section.dart';
 import 'ui/category_section.dart';
-import 'ui/plates_listing_grid.dart';
+import '../../../../widgets/app_bar.dart/plates_listing_grid.dart';
 
 @RoutePage()
 class HomePage extends StatelessWidget {

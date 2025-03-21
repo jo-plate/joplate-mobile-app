@@ -58,7 +58,7 @@ class CategorySection extends StatelessWidget {
                 icon: Icons.phone,
                 title: "Phone Numbers",
                 itemType: ItemType.phoneNumber,
-                onTap: () => AutoRouter.of(context).push(const PhoneNumbersRoute())),
+                onTap: () => AutoRouter.of(context).push(const PhoneListingsRoute())),
             _buildCategoryCard(
                 icon: Icons.request_page,
                 title: "Requests",
