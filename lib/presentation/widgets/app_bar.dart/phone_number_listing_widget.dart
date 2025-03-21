@@ -4,7 +4,6 @@ import 'package:joplate/presentation/widgets/favorite_button.dart';
 
 class PhoneNumberListingWidget extends StatelessWidget {
   final PhoneNumber item;
-  final bool isFeatured;
   final double aspectRatio;
   final double priceLabelFontSize;
   final bool hideLikeButton;
@@ -12,7 +11,6 @@ class PhoneNumberListingWidget extends StatelessWidget {
   const PhoneNumberListingWidget(
       {super.key,
       required this.item,
-      required this.isFeatured,
       this.aspectRatio = 1.5,
       this.priceLabelFontSize = 16,
       this.hideLikeButton = false});
@@ -46,7 +44,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
                         children: [
                           Text((item).number, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                           const SizedBox(height: 8),
-                          _buildPriceLabel(),
+                          if (item.ad != null) _buildPriceLabel(),
                           const SizedBox(height: 2),
                           if (!hideLikeButton)
                             FavoriteButton.plate(
@@ -59,7 +57,10 @@ class PhoneNumberListingWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              if (isFeatured) _buildFeaturedRibbon()
+              if (item.ad != null) ...[
+                if (item.ad!.isFeatured) _buildFeaturedRibbon(),
+                if (item.ad!.isSold) _buildSoldRibbon()
+              ]
             ],
           ),
         ),
@@ -68,7 +69,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
   }
 
   Widget _buildPriceLabel() {
-    if (item.ad.priceHidden) {
+    if (item.ad!.priceHidden) {
       return Text(
         'Call for Price',
         style: TextStyle(
@@ -79,12 +80,12 @@ class PhoneNumberListingWidget extends StatelessWidget {
         ),
         maxLines: 1,
       );
-    } else if (item.ad.discountPrice > 0 && item.ad.discountPrice < item.ad.price) {
+    } else if (item.ad!.discountPrice > 0 && item.ad!.discountPrice < item.ad!.price) {
       return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'JOD ${item.ad.discountPrice} ',
+            'JOD ${item.ad!.discountPrice} ',
             style: TextStyle(
               fontSize: priceLabelFontSize,
               fontFamily: 'Mandatory',
@@ -94,7 +95,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
             maxLines: 1,
           ),
           Text(
-            '${item.ad.price}',
+            '${item.ad!.price}',
             style: TextStyle(
               fontSize: priceLabelFontSize * 0.875,
               fontWeight: FontWeight.w600,
@@ -109,7 +110,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
       );
     } else {
       return Text(
-        '${item.ad.price} JOD',
+        '${item.ad!.price} JOD',
         style: TextStyle(
           fontSize: priceLabelFontSize,
           fontFamily: 'Mandatory',
@@ -136,6 +137,32 @@ class PhoneNumberListingWidget extends StatelessWidget {
           ),
           child: const Text(
             'FEATURED',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSoldRibbon() {
+    return Positioned(
+      top: 20,
+      left: -20,
+      child: Transform.rotate(
+        angle: -0.7854,
+        child: Container(
+          width: 100,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: const Color(0xFF981C1E),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: const Text(
+            'SOLD',
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,

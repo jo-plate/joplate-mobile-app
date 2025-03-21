@@ -8,8 +8,7 @@ import 'package:joplate/presentation/widgets/favorite_button.dart';
 class PlateNumberListingWidget extends StatelessWidget {
   final PlateNumber item;
   final PlateShape shape;
-  final bool isFeatured;
-  final double aspectRatio;
+  final bool isSold;
   final double priceLabelFontSize;
   final bool hideLikeButton;
 
@@ -17,8 +16,7 @@ class PlateNumberListingWidget extends StatelessWidget {
       {super.key,
       required this.item,
       this.shape = PlateShape.horizontal,
-      required this.isFeatured,
-      this.aspectRatio = 1.5,
+      this.isSold = false,
       this.priceLabelFontSize = 16,
       this.hideLikeButton = false});
 
@@ -28,51 +26,50 @@ class PlateNumberListingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: AspectRatio(
-        aspectRatio: aspectRatio,
-        child: GestureDetector(
-          onTap: () {
-            AutoRouter.of(context).push(PlatesDetailsRoute(plateNumber: item));
-          },
-          child: Stack(
-            clipBehavior: Clip.hardEdge,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.yellow[700]!, width: 2),
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          PlateNumberWidget(
-                            plate: item,
-                            shape: shape,
-                          ),
-                          const SizedBox(height: 8),
-                          _buildPriceLabel(),
-                          const SizedBox(height: 2),
-                          if (!hideLikeButton)
-                            FavoriteButton.plate(
-                              listingId: item.toString(),
-                              iconSize: 20,
-                            ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+      child: GestureDetector(
+        onTap: () {
+          AutoRouter.of(context).push(PlatesDetailsRoute(plateNumber: item.toString()));
+        },
+        child: Stack(
+          fit: StackFit.passthrough,
+          clipBehavior: Clip.hardEdge,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: item.isFeatured ? Colors.yellow[700]! : Colors.grey[500]!, width: 2),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
               ),
-              if (isFeatured) _buildFeaturedRibbon()
-            ],
-          ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        PlateNumberWidget(
+                          plate: item,
+                          shape: shape,
+                        ),
+                        const SizedBox(height: 8),
+                        _buildPriceLabel(),
+                        const SizedBox(height: 2),
+                        if (!hideLikeButton)
+                          FavoriteButton.plate(
+                            listingId: item.toString(),
+                            iconSize: 20,
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (item.isFeatured) _buildFeaturedRibbon(),
+            if (item.isSold) _buildSoldRibbon()
+          ],
         ),
       ),
     );
@@ -148,6 +145,31 @@ class PlateNumberListingWidget extends StatelessWidget {
           ),
           child: const Text(
             'FEATURED',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+  Widget _buildSoldRibbon() {
+    return Positioned(
+      top: 20,
+      left: -20,
+      child: Transform.rotate(
+        angle: -0.7854,
+        child: Container(
+          width: 100,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: const Color(0xFF981C1E),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: const Text(
+            'SOLD',
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,

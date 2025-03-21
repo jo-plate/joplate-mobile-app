@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/listing.dart';
+import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/presentation/routes/pages/account_screen/edit-pages/change_password_page.dart';
 import 'package:joplate/presentation/routes/pages/account_screen/edit-pages/edit_email_page.dart';
@@ -15,6 +16,7 @@ import 'package:joplate/presentation/routes/pages/auth_screen/auth_page.dart';
 import 'package:joplate/presentation/routes/pages/account_screen/account_page.dart';
 import 'package:joplate/presentation/routes/pages/my_numbers_screen/my_numbers_page.dart';
 import 'package:joplate/presentation/routes/pages/my_plan_screen/my_plan_page.dart';
+import 'package:joplate/presentation/routes/pages/phone_details_screen/phone_details_page.dart';
 import 'package:joplate/presentation/routes/pages/plans_screen/plans_page.dart';
 import 'package:joplate/presentation/routes/pages/plate_details_screen/plates_details_page.dart';
 import 'package:joplate/presentation/routes/pages/privacy_policy_screen/privacy_policy_page.dart';
@@ -46,6 +48,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: EditPhoneNumberRoute.page),
         AutoRoute(page: ChangePasswordRoute.page),
         AutoRoute(page: PlatesDetailsRoute.page, path: '/plate-details/:plateNumber'),
+        AutoRoute(page: PhoneDetailsRoute.page, path: '/number-details/:phoneNumber'),
         AutoRoute(page: MyPlanRoute.page, path: '/myplan'),
         AutoRoute(page: PlansRoute.page, path: '/plans'),
         AutoRoute(page: AddPlateNumberRoute.page),

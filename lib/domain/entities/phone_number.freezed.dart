@@ -21,7 +21,7 @@ PhoneNumber _$PhoneNumberFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PhoneNumber {
   String get number => throw _privateConstructorUsedError;
-  ListingV2 get ad => throw _privateConstructorUsedError;
+  ListingV2? get ad => throw _privateConstructorUsedError;
 
   /// Serializes this PhoneNumber to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,9 +39,9 @@ abstract class $PhoneNumberCopyWith<$Res> {
           PhoneNumber value, $Res Function(PhoneNumber) then) =
       _$PhoneNumberCopyWithImpl<$Res, PhoneNumber>;
   @useResult
-  $Res call({String number, ListingV2 ad});
+  $Res call({String number, ListingV2? ad});
 
-  $ListingV2CopyWith<$Res> get ad;
+  $ListingV2CopyWith<$Res>? get ad;
 }
 
 /// @nodoc
@@ -60,17 +60,17 @@ class _$PhoneNumberCopyWithImpl<$Res, $Val extends PhoneNumber>
   @override
   $Res call({
     Object? number = null,
-    Object? ad = null,
+    Object? ad = freezed,
   }) {
     return _then(_value.copyWith(
       number: null == number
           ? _value.number
           : number // ignore: cast_nullable_to_non_nullable
               as String,
-      ad: null == ad
+      ad: freezed == ad
           ? _value.ad
           : ad // ignore: cast_nullable_to_non_nullable
-              as ListingV2,
+              as ListingV2?,
     ) as $Val);
   }
 
@@ -78,8 +78,12 @@ class _$PhoneNumberCopyWithImpl<$Res, $Val extends PhoneNumber>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $ListingV2CopyWith<$Res> get ad {
-    return $ListingV2CopyWith<$Res>(_value.ad, (value) {
+  $ListingV2CopyWith<$Res>? get ad {
+    if (_value.ad == null) {
+      return null;
+    }
+
+    return $ListingV2CopyWith<$Res>(_value.ad!, (value) {
       return _then(_value.copyWith(ad: value) as $Val);
     });
   }
@@ -93,10 +97,10 @@ abstract class _$$PhoneNumberImplCopyWith<$Res>
       __$$PhoneNumberImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String number, ListingV2 ad});
+  $Res call({String number, ListingV2? ad});
 
   @override
-  $ListingV2CopyWith<$Res> get ad;
+  $ListingV2CopyWith<$Res>? get ad;
 }
 
 /// @nodoc
@@ -113,17 +117,17 @@ class __$$PhoneNumberImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? number = null,
-    Object? ad = null,
+    Object? ad = freezed,
   }) {
     return _then(_$PhoneNumberImpl(
       number: null == number
           ? _value.number
           : number // ignore: cast_nullable_to_non_nullable
               as String,
-      ad: null == ad
+      ad: freezed == ad
           ? _value.ad
           : ad // ignore: cast_nullable_to_non_nullable
-              as ListingV2,
+              as ListingV2?,
     ));
   }
 }
@@ -131,7 +135,7 @@ class __$$PhoneNumberImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$PhoneNumberImpl extends _PhoneNumber {
-  const _$PhoneNumberImpl({required this.number, required this.ad}) : super._();
+  const _$PhoneNumberImpl({required this.number, this.ad}) : super._();
 
   factory _$PhoneNumberImpl.fromJson(Map<String, dynamic> json) =>
       _$$PhoneNumberImplFromJson(json);
@@ -139,7 +143,7 @@ class _$PhoneNumberImpl extends _PhoneNumber {
   @override
   final String number;
   @override
-  final ListingV2 ad;
+  final ListingV2? ad;
 
   @override
   bool operator ==(Object other) {
@@ -172,8 +176,7 @@ class _$PhoneNumberImpl extends _PhoneNumber {
 
 abstract class _PhoneNumber extends PhoneNumber {
   const factory _PhoneNumber(
-      {required final String number,
-      required final ListingV2 ad}) = _$PhoneNumberImpl;
+      {required final String number, final ListingV2? ad}) = _$PhoneNumberImpl;
   const _PhoneNumber._() : super._();
 
   factory _PhoneNumber.fromJson(Map<String, dynamic> json) =
@@ -182,7 +185,7 @@ abstract class _PhoneNumber extends PhoneNumber {
   @override
   String get number;
   @override
-  ListingV2 get ad;
+  ListingV2? get ad;
 
   /// Create a copy of PhoneNumber
   /// with the given fields replaced by the non-null parameter values.

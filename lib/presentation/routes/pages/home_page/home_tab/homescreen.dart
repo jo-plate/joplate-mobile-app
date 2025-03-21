@@ -52,7 +52,6 @@ class HomePage extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: PlatesListingsGrid(
                             itemList: plates,
-                            isFeatured: true,
                           ),
                         ))
                     .toList(),

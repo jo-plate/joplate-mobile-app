@@ -221,7 +221,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                     return const Center(child: CircularProgressIndicator());
                   }
 
-                  return PlatesListingsGrid(itemList: snapshot.data ?? [], isFeatured: false);
+                  return PlatesListingsGrid(itemList: snapshot.data ?? []);
                 }),
           ],
         ),

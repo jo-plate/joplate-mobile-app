@@ -203,6 +203,43 @@ class MyPlanRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [PhoneDetailsPage]
+class PhoneDetailsRoute extends PageRouteInfo<PhoneDetailsRouteArgs> {
+  PhoneDetailsRoute({
+    Key? key,
+    required PhoneNumber phoneNumber,
+    List<PageRouteInfo>? children,
+  }) : super(
+         PhoneDetailsRoute.name,
+         args: PhoneDetailsRouteArgs(key: key, phoneNumber: phoneNumber),
+         initialChildren: children,
+       );
+
+  static const String name = 'PhoneDetailsRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<PhoneDetailsRouteArgs>();
+      return PhoneDetailsPage(key: args.key, phoneNumber: args.phoneNumber);
+    },
+  );
+}
+
+class PhoneDetailsRouteArgs {
+  const PhoneDetailsRouteArgs({this.key, required this.phoneNumber});
+
+  final Key? key;
+
+  final PhoneNumber phoneNumber;
+
+  @override
+  String toString() {
+    return 'PhoneDetailsRouteArgs{key: $key, phoneNumber: $phoneNumber}';
+  }
+}
+
+/// generated route for
 /// [PhoneListingsPage]
 class PhoneListingsRoute extends PageRouteInfo<void> {
   const PhoneListingsRoute({List<PageRouteInfo>? children})
@@ -239,11 +276,12 @@ class PlansRoute extends PageRouteInfo<void> {
 class PlatesDetailsRoute extends PageRouteInfo<PlatesDetailsRouteArgs> {
   PlatesDetailsRoute({
     Key? key,
-    required PlateNumber plateNumber,
+    required String plateNumber,
     List<PageRouteInfo>? children,
   }) : super(
          PlatesDetailsRoute.name,
          args: PlatesDetailsRouteArgs(key: key, plateNumber: plateNumber),
+         rawPathParams: {'plateNumber': plateNumber},
          initialChildren: children,
        );
 
@@ -252,7 +290,13 @@ class PlatesDetailsRoute extends PageRouteInfo<PlatesDetailsRouteArgs> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      final args = data.argsAs<PlatesDetailsRouteArgs>();
+      final pathParams = data.inheritedPathParams;
+      final args = data.argsAs<PlatesDetailsRouteArgs>(
+        orElse:
+            () => PlatesDetailsRouteArgs(
+              plateNumber: pathParams.getString('plateNumber'),
+            ),
+      );
       return PlatesDetailsPage(key: args.key, plateNumber: args.plateNumber);
     },
   );
@@ -263,7 +307,7 @@ class PlatesDetailsRouteArgs {
 
   final Key? key;
 
-  final PlateNumber plateNumber;
+  final String plateNumber;
 
   @override
   String toString() {

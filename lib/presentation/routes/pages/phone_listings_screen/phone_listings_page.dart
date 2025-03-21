@@ -1,9 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
-import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phones_listing_grid.dart';
-import 'package:joplate/presentation/widgets/app_bar.dart/plates_listing_grid.dart';
 
 @RoutePage()
 class PhoneListingsPage extends StatefulWidget {
@@ -32,27 +30,6 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
     "Contains Digit Repeated 2 Times",
     "Contains Digit Repeated 3 Times",
     "Contains Digit Repeated 4 Times",
-    "X???X (5 Digits)",
-    "XYZYX (5 Digits)",
-    "XXXZX (5 Digits)",
-    "?XXX? (5 Digits)",
-    "XYXYX (5 Digits)",
-    "XYYYX (5 Digits)",
-    "??XXX (5 Digits)",
-    "XXX?? (5 Digits)",
-    "XXXXX (5 Digits)",
-    "X??X (4 Digits)",
-    "XYXX (4 Digits)",
-    "XYXY (4 Digits)",
-    "?XX? (4 Digits)",
-    "XXXY (4 Digits)",
-    "XYYY (4 Digits)",
-    "XXXX (4 Digits)",
-    "XYX (3 Digits)",
-    "XYZ (3 Digits)",
-    "XYY (3 Digits)",
-    "XXY (3 Digits)",
-    "XXX (3 Digits)",
   ];
 
   final List<PhoneNumber> _allPhones = PhoneNumber.mockList(20);
@@ -198,7 +175,7 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
             ),
 
             const SizedBox(height: 8),
-            PhonesListingGrid(itemList: _filteredPhones, isFeatured: false),
+            PhonesListingGrid(itemList: _filteredPhones),
           ],
         ),
       ),

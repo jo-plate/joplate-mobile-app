@@ -4,165 +4,140 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phone_dialer/flutter_phone_dialer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:joplate/data/constants.dart';
-import 'package:joplate/domain/entities/plate_number.dart';
+import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
-import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_listing_widget.dart';
+import 'package:joplate/presentation/widgets/app_bar.dart/phone_number_listing_widget.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 @RoutePage()
-class PlatesDetailsPage extends StatefulWidget {
-  const PlatesDetailsPage({super.key, @PathParam('plateNumber') required this.plateNumber});
+class PhoneDetailsPage extends StatefulWidget {
+  const PhoneDetailsPage({super.key, required this.phoneNumber});
 
-  final String plateNumber;
+  final PhoneNumber phoneNumber;
 
   @override
-  State<PlatesDetailsPage> createState() => _PlatesDetailsPageState();
+  State<PhoneDetailsPage> createState() => _PhoneDetailsPageState();
 }
 
-class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
-  late final Stream<PlateNumber> _plateStream;
-
-  @override
-  void initState() {
-    super.initState();
-    _plateStream = FirebaseFirestore.instance
-        .collection(carPlatesCollectionId)
-        .doc(widget.plateNumber.toString())
-        .snapshots()
-        .map((snapshot) => PlateNumber.fromJson(snapshot.data()!));
-  }
-
+class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Plate Details'),
         actions: [
-          FavoriteButton.plate(listingId: widget.plateNumber.toString()),
+          // Favorite Icon
+          FavoriteButton.plate(listingId: widget.phoneNumber.toString()),
+          // Share Icon
           IconButton(
             icon: const Icon(Icons.share_outlined),
             onPressed: () {
-              Share.share('Check out this plate number: ${widget.plateNumber.toString()}');
+              Share.share('Check out this plate number: ${widget.phoneNumber.toString()}');
             },
           ),
         ],
       ),
-      body: StreamBuilder<PlateNumber>(
-          stream: _plateStream,
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Text(
-                    'Error getteing data for Plate Number: ${widget.plateNumber}',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.red[800],
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              );
-            }
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 180,
+              child: PhoneNumberListingWidget(
+                item: widget.phoneNumber,
+                hideLikeButton: true,
+                priceLabelFontSize: 24,
+              ),
+            ),
 
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
+            const SizedBox(height: 10),
 
-            return SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12.0),
+              ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 180,
-                    child: PlateNumberListingWidget(
-                      item: snapshot.data!,
-                      hideLikeButton: true,
-                      priceLabelFontSize: 24,
-                    ),
+                  const Text(
+                    'Do you want to preview this plate on a vehicle?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
-                  Container(
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    child: Column(
-                      children: [
-                        const Text(
-                          'Do you want to preview this plate on a vehicle?',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 10),
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            child: const Text(
-                              'Preview Plates',
-                              style: TextStyle(color: Colors.white, fontSize: 16),
-                            ),
-                          ),
-                        ),
-                      ],
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Implement preview functionality
+                      },
+                      child: const Text(
+                        'Preview Plates',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  SellerDetails(userId: snapshot.data!.originalListing.id),
-                  const SizedBox(height: 20),
-                  Container(
-                    padding: const EdgeInsets.all(12.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    child: const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Important Note:',
-                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          children: [
-                            Icon(Icons.payments, color: Color(0xFF981C1E)),
-                            SizedBox(width: 8),
-                            Expanded(
-                              child: Text(
-                                "Don't transfer money online",
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Icon(Icons.location_on, color: Color(0xFF981C1E)),
-                            SizedBox(width: 8),
-                            Expanded(
-                              child: Text(
-                                "Meet the seller in person",
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 20),
                 ],
               ),
-            );
-          }),
+            ),
+
+            const SizedBox(height: 20),
+
+            if (widget.phoneNumber.ad != null) SellerDetails(userId: widget.phoneNumber.ad!.id),
+
+            const SizedBox(height: 20),
+
+            // 4. Important Notes
+            Container(
+              padding: const EdgeInsets.all(12.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Important Note:',
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Icon(Icons.payments, color: Color(0xFF981C1E)),
+                      SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          "Don't transfer money online",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Icon(Icons.location_on, color: Color(0xFF981C1E)),
+                      SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          "Meet the seller in person",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -267,6 +242,8 @@ class _SellerDetailsState extends State<SellerDetails> {
                       ),
                     ),
                     const SizedBox(width: 10),
+
+                    // Phone Call Button
                     Expanded(
                       child: ElevatedButton.icon(
                         onPressed: () {

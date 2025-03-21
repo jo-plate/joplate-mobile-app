@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phone_number_listing_widget.dart';
-import 'plate_number_widget.dart';
 
 class PhonesListingGrid extends StatelessWidget {
-  const PhonesListingGrid({super.key, this.itemList = const [], this.isFeatured = false});
-  final bool isFeatured;
+  const PhonesListingGrid({
+    super.key,
+    required this.itemList,
+  });
+
   final List<PhoneNumber> itemList;
 
   @override
@@ -15,18 +18,17 @@ class PhonesListingGrid extends StatelessWidget {
     }
 
     return Center(
-      child: GridView.builder(
+      child: MasonryGridView.count(
+        crossAxisCount: 2,
+        mainAxisSpacing: 12,
+        crossAxisSpacing: 12,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: itemList.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 12,
-          mainAxisSpacing: 12,
-          childAspectRatio: isFeatured ? 1.5 : 1.27,
-        ),
         itemBuilder: (context, index) {
-          return PhoneNumberListingWidget(isFeatured: itemList[index].ad.isFeatured, item: itemList[index]);
+          return PhoneNumberListingWidget(
+            item: itemList[index],
+          );
         },
       ),
     );

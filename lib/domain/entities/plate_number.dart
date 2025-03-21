@@ -35,6 +35,9 @@ class PlateNumber with _$PlateNumber {
 // first active listing in the list by createdAt
   ListingV2 get originalListing => ads.firstOrNull ?? ListingV2.mockAd();
 
+  bool get isFeatured => ads.any((ad) => ad.isFeatured);
+  bool get isSold => ads.any((ad) => ad.isSold);
+
   int get adsCount => ads.length;
 
   @override
