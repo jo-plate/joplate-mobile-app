@@ -43,6 +43,22 @@ class AddPhoneNumberRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [AddPhoneRequestPage]
+class AddPhoneRequestRoute extends PageRouteInfo<void> {
+  const AddPhoneRequestRoute({List<PageRouteInfo>? children})
+    : super(AddPhoneRequestRoute.name, initialChildren: children);
+
+  static const String name = 'AddPhoneRequestRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const AddPhoneRequestPage();
+    },
+  );
+}
+
+/// generated route for
 /// [AddPlateNumberPage]
 class AddPlateNumberRoute extends PageRouteInfo<void> {
   const AddPlateNumberRoute({List<PageRouteInfo>? children})
@@ -54,6 +70,22 @@ class AddPlateNumberRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return const AddPlateNumberPage();
+    },
+  );
+}
+
+/// generated route for
+/// [AddPlateRequestPage]
+class AddPlateRequestRoute extends PageRouteInfo<void> {
+  const AddPlateRequestRoute({List<PageRouteInfo>? children})
+    : super(AddPlateRequestRoute.name, initialChildren: children);
+
+  static const String name = 'AddPlateRequestRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const AddPlateRequestPage();
     },
   );
 }

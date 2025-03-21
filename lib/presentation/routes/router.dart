@@ -6,7 +6,9 @@ import 'package:joplate/presentation/routes/pages/account_screen/edit-pages/edit
 import 'package:joplate/presentation/routes/pages/account_screen/edit-pages/edit_phone_number_page.dart';
 import 'package:joplate/presentation/routes/pages/account_screen/edit-pages/edit_full_name_page.dart';
 import 'package:joplate/presentation/routes/pages/add_phone_number_screen/add_phone_number_page.dart';
+import 'package:joplate/presentation/routes/pages/add_phone_request_screen/add_phone_request_page.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_number_screen/add_plate_number_page.dart';
+import 'package:joplate/presentation/routes/pages/add_plate_request_screen/add_plate_request_page.dart';
 import 'package:joplate/presentation/routes/pages/home_page/home_tab/homescreen.dart';
 import 'package:joplate/presentation/routes/pages/home_page/dashboard_page.dart';
 import 'package:joplate/presentation/routes/pages/home_page/profile_tab/profile_screen.dart';
@@ -38,7 +40,7 @@ class AppRouter extends RootStackRouter {
           children: [
             AutoRoute(path: 'home', page: HomeRoute.page, initial: true),
             AutoRoute(path: 'profile', page: ProfileRoute.page),
-            AutoRoute(path: 'favorite', page: FavoritesRoute.page),
+            AutoRoute(path: 'favorites', page: FavoritesRoute.page)
           ],
         ),
         AutoRoute(page: AuthRoute.page),
@@ -53,6 +55,8 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: PlansRoute.page, path: '/plans'),
         AutoRoute(page: AddPlateNumberRoute.page),
         AutoRoute(page: AddPhoneNumberRoute.page),
+        AutoRoute(page: AddPhoneRequestRoute.page),
+        AutoRoute(page: AddPlateRequestRoute.page),
         AutoRoute(page: PrivacyPolicyRoute.page, path: '/privacy-policy'),
         AutoRoute(page: PlatesListingsRoute.page, path: "/plates"),
         AutoRoute(page: PhoneListingsRoute.page, path: "/phones"),
