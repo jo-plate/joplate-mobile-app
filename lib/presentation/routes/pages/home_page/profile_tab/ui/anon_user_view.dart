@@ -10,7 +10,7 @@ class AnonUserView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(100.0),
+      padding: const EdgeInsets.symmetric(horizontal: 100.0, vertical: 10.0),
       child: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

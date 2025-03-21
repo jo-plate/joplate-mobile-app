@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/injection/injector.dart';
@@ -40,10 +42,6 @@ class _LoggedInUserViewState extends State<LoggedInUserView> {
                 return const Center(child: CircularProgressIndicator());
               }
 
-              if (!state.isLoggedIn) {
-                return const AnonUserView();
-              }
-
               return _UserProfileView(profile: state.userProfile ?? UserProfile.empty());
             },
           );
@@ -63,30 +61,46 @@ class _UserProfileView extends StatefulWidget {
 }
 
 class _UserProfileViewState extends State<_UserProfileView> {
+// firebase  auth state changes
+  late final Stream<User?> _authStateStream;
+
+  @override
+  void initState() {
+    super.initState();
+    _authStateStream = FirebaseAuth.instance.authStateChanges();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const ProfileBanner(),
-          const SizedBox(height: 16),
-          _buildFeaturesSection(),
-          const SizedBox(height: 16),
-          MenuItem(
-              title: 'My Current Plan',
-              icon: Icons.description_outlined,
-              onTap: () => AutoRouter.of(context).push(const MyPlanRoute())),
-          const SizedBox(height: 16),
-          _buildLanguageSection(),
-          const SizedBox(height: 16),
-          _buildDeveloperSection(context),
-          const SizedBox(height: 16),
-          _buildLogOutSection(),
-        ],
-      ),
-    );
+    return StreamBuilder<User?>(
+        stream: _authStateStream,
+        builder: (context, snapshot) {
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (snapshot.data != null) ...[
+                  const ProfileBanner(),
+                  const SizedBox(height: 16),
+                  _buildFeaturesSection(),
+                  const SizedBox(height: 16),
+                  MenuItem(
+                      title: 'My Current Plan',
+                      icon: Icons.description_outlined,
+                      onTap: () => AutoRouter.of(context).push(const MyPlanRoute())),
+                ] else
+                  const AnonUserView(),
+                const SizedBox(height: 16),
+                _buildLanguageSection(),
+                const SizedBox(height: 16),
+                _buildDeveloperSection(context),
+                const SizedBox(height: 16),
+                _buildLogOutSection(),
+              ],
+            ),
+          );
+        });
   }
 
   Widget _buildFeaturesSection() {
