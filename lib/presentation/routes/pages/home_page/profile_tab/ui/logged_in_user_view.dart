@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/injection/injector.dart';
@@ -61,7 +60,6 @@ class _UserProfileView extends StatefulWidget {
 }
 
 class _UserProfileViewState extends State<_UserProfileView> {
-// firebase  auth state changes
   late final Stream<User?> _authStateStream;
 
   @override
