@@ -46,7 +46,7 @@ class AddPhoneRequestPage extends StatelessWidget {
                                   cubit.state.phoneNumber.isEmpty &&
                                   (cubit.state.price ?? '').isEmpty) {
                                 // e.g. navigate away
-                                AutoRouter.of(context).replace(const MyNumbersRoute());
+                                AutoRouter.of(context).replace(const MyRequestsRoute());
                               }
                             },
                       child: const Text("Submit", style: TextStyle(color: Colors.white)),
