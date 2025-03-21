@@ -5,13 +5,13 @@ class LogoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text(
         'JOPLATE',
         style: TextStyle(
           fontSize: 28,
           fontWeight: FontWeight.bold,
-          color: Colors.red.shade700,
+          color: Color(0xFF981C1E),
         ),
       ),
     );

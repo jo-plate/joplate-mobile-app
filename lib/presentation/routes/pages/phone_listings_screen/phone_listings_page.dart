@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
+import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phones_listing_grid.dart';
 
 @RoutePage()
@@ -80,6 +81,16 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
       appBar: AppBar(
         title: const Text('Phone Numbers'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            iconSize: 30,
+            color: const Color(0xFF981C1E),
+            onPressed: () {
+              context.router.push(const AddPhoneNumberRoute());
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),

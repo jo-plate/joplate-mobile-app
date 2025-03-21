@@ -40,6 +40,7 @@ final appTheme = ThemeData(
       padding: const EdgeInsets.symmetric(vertical: 16),
       textStyle: const TextStyle(
         fontSize: 16,
+        color: Colors.white,
         fontWeight: FontWeight.bold,
       ),
     ),
@@ -58,9 +59,8 @@ final appTheme = ThemeData(
   filledButtonTheme: FilledButtonThemeData(
     style: ButtonStyle(
       backgroundColor: WidgetStateProperty.all(const Color(0xFF981C1E)),
-      foregroundColor: WidgetStateProperty.all(Colors.white),
       textStyle: WidgetStateProperty.all(
-        const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
       ),
       shape: WidgetStateProperty.all(
         RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

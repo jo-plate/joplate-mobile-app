@@ -51,11 +51,6 @@ class _MyNumbersPageState extends State<MyNumbersPage> with SingleTickerProvider
         ],
         bottom: TabBar(
           controller: tabController,
-          // indicator: BoxDecoration(
-          //   borderRadius: BorderRadius.circular(50),
-          //   color: const Color(0xFF981C1E),
-          // ),
-          // tabAlignment: TabAlignment.center,
           tabs: const [
             Tab(
               text: 'Car Numbers',

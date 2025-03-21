@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
+import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plates_listing_grid.dart';
 
 @RoutePage()
@@ -91,6 +92,16 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
       appBar: AppBar(
         title: const Text('Car Numbers'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            iconSize: 30,
+            color: const Color(0xFF981C1E),
+            onPressed: () {
+              context.router.push(const AddPlateNumberRoute());
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
