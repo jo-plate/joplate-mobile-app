@@ -25,6 +25,7 @@ import 'package:joplate/presentation/routes/pages/privacy_policy_screen/privacy_
 import 'package:joplate/presentation/routes/pages/plates_listings_screen/plates_listings_page.dart';
 import 'package:joplate/presentation/routes/pages/phone_listings_screen/phone_listings_page.dart';
 import 'package:joplate/presentation/routes/pages/requests_screen/requests_page.dart';
+import 'package:joplate/presentation/routes/pages/terms_and_conditions_screen/terms_and_conditions_page.dart';
 part 'router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Page,Route')
@@ -58,6 +59,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: AddPhoneRequestRoute.page),
         AutoRoute(page: AddPlateRequestRoute.page),
         AutoRoute(page: PrivacyPolicyRoute.page, path: '/privacy-policy'),
+        AutoRoute(page: TermsAndConditionsRoute.page, path: '/terms-and-conditions'),
         AutoRoute(page: PlatesListingsRoute.page, path: "/plates"),
         AutoRoute(page: PhoneListingsRoute.page, path: "/phones"),
         AutoRoute(page: RequestsRoute.page, path: "/requests"),

@@ -30,9 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
-          if (!snapshot.hasData || snapshot.data == null) {
-            return const AnonUserView();
-          }
+
           return const LoggedInUserView();
         },
       ),

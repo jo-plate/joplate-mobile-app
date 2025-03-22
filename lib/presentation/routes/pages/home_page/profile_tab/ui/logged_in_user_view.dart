@@ -32,10 +32,6 @@ class _LoggedInUserViewState extends State<LoggedInUserView> {
         child: Builder(builder: (context) {
           return BlocBuilder<AuthCubit, AuthState>(
             builder: (context, state) {
-              if (state.isLoading) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
               return _UserProfileView(profile: state.userProfile ?? UserProfile.empty());
             },
           );
@@ -262,7 +258,8 @@ class _UserProfileViewState extends State<_UserProfileView> {
         _buildClickableItem('Privacy Policy', Icons.privacy_tip_outlined, () {
           AutoRouter.of(context).push(const PrivacyPolicyRoute());
         }),
-        _buildClickableItem('Terms and Conditions', Icons.description_outlined),
+        _buildClickableItem('Terms and Conditions', Icons.description_outlined,
+            () => AutoRouter.of(context).push(const TermsAndConditionsRoute())),
         _buildClickableItem('Instructions', Icons.help_outline),
       ],
     );

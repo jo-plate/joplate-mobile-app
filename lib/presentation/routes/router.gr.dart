@@ -442,3 +442,19 @@ class RequestsRoute extends PageRouteInfo<void> {
     },
   );
 }
+
+/// generated route for
+/// [TermsAndConditionsPage]
+class TermsAndConditionsRoute extends PageRouteInfo<void> {
+  const TermsAndConditionsRoute({List<PageRouteInfo>? children})
+    : super(TermsAndConditionsRoute.name, initialChildren: children);
+
+  static const String name = 'TermsAndConditionsRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const TermsAndConditionsPage();
+    },
+  );
+}
