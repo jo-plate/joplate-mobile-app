@@ -35,12 +35,17 @@ class ListingV2 with _$ListingV2 {
       isActive: true,
       isSold: false,
       createdAt: DateTime.now().toIso8601String(),
-      expiresAt: DateTime.now().add(Duration(days: 7)).toIso8601String(), 
+      expiresAt: DateTime.now().add(Duration(days: 7)).toIso8601String(),
       postedBy: UserProfile.empty().copyWith(
         displayName: "mockUser",
         email: "anasmk9@outlook.com",
         phonenumber: "+962787940864",
       ),
     );
+  }
+
+  bool get isExpired {
+    if (expiresAt == null) return false;
+    return DateTime.parse(expiresAt!).isBefore(DateTime.now());
   }
 }

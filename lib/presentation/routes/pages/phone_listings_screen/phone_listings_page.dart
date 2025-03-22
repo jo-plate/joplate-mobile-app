@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
+import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phones_listing_grid.dart';
 
@@ -32,12 +35,15 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
 
   final List<PhoneNumber> _allPhones = PhoneNumber.mockList(20);
 
-  late List<PhoneNumber> _filteredPhones;
+  late final Stream<List<PhoneNumber>> _phonesStream;
 
   @override
   void initState() {
     super.initState();
-    _filteredPhones = _allPhones;
+    _phonesStream = FirebaseFirestore.instance
+        .collection(phoneNumbersCollectionId)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((doc) => PhoneNumber.fromJson(doc.data())).toList());
   }
 
   void _onSearch() {
@@ -183,7 +189,15 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
             ),
 
             const SizedBox(height: 8),
-            PhonesListingGrid(itemList: _filteredPhones),
+            StreamBuilder<List<PhoneNumber>>(
+                stream: _phonesStream,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  return PhonesListingGrid(itemList: snapshot.data ?? []);
+                }),
           ],
         ),
       ),

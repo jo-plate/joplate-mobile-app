@@ -43,7 +43,7 @@ class AddPlateRequestPage extends StatelessWidget {
                                   cubit.state.number.isEmpty &&
                                   (cubit.state.price ?? '').isEmpty) {
                                 // e.g., navigate away
-                                AutoRouter.of(context).replace(const MyRequestsRoute());
+                                AutoRouter.of(context).maybePop();
 
                               }
                             },

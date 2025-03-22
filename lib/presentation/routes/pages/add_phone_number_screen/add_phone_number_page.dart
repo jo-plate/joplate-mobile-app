@@ -65,8 +65,7 @@ class AddPhoneNumberPage extends StatelessWidget {
 
                         // If after submission, forms is empty -> success
                         if (cubit.state.forms.isEmpty) {
-                          // For example, navigate to your MyNumbersRoute
-                          AutoRouter.of(context).replace(const MyNumbersRoute());
+                          AutoRouter.of(context).maybePop();
                         }
                       },
                     ),

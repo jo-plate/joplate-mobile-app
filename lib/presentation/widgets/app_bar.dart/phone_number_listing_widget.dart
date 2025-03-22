@@ -1,5 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
+import 'package:joplate/presentation/routes/pages/phone_details_screen/phone_details_page.dart';
+import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
 
 class PhoneNumberListingWidget extends StatelessWidget {
@@ -22,7 +25,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
         aspectRatio: aspectRatio,
         child: GestureDetector(
           onTap: () {
-            // AutoRouter.of(context).push(PlatesDetailsRoute(plateNumber: item));
+            AutoRouter.of(context).push(PhoneDetailsRoute(phoneNumber: item));
           },
           child: Stack(
             clipBehavior: Clip.hardEdge,
