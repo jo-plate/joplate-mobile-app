@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:joplate/presentation/routes/pages/home_page/profile_tab/ui/anon_user_view.dart';
 import 'package:joplate/presentation/routes/pages/home_page/profile_tab/ui/logged_in_user_view.dart';
 
 @RoutePage()

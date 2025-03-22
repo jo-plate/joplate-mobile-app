@@ -8,7 +8,6 @@ import 'package:joplate/data/constants.dart';
 class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
   AddPhoneNumbersCubit() : super(const AddPhoneNumbersState(forms: []));
 
-  /// Add a blank phone form to the list
   void addNewForm() {
     const newForm = PhoneFormState(
       number: '',
@@ -21,7 +20,6 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
     emit(state.copyWith(forms: [...state.forms, newForm]));
   }
 
-  /// Update phone number text for a form at [index]
   void updateNumber(int index, String newNumber) {
     _updateForm(
         index,
@@ -31,7 +29,6 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
         ));
   }
 
-  /// Update price text for a form at [index]
   void updatePrice(int index, String newPrice) {
     _updateForm(
         index,
@@ -41,7 +38,6 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
         ));
   }
 
-  /// Toggle discount for the form at [index]
   void toggleDiscount(int index, bool enable) {
     final oldForm = state.forms[index];
     _updateForm(
@@ -54,7 +50,6 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
         ));
   }
 
-  /// Update discount price for the form at [index]
   void updateDiscountPrice(int index, String discount) {
     _updateForm(
         index,
@@ -64,10 +59,6 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
         ));
   }
 
-  /// Submit all phone forms in sequence.
-  ///
-  /// - If successful, remove that form from the list.
-  /// - If failure, keep it in the list with an [errorMessage].
   Future<void> submitAllForms() async {
     final forms = [...state.forms];
 
@@ -85,11 +76,10 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
       forms[i] = form.copyWith(isSubmitting: true, errorMessage: null);
       emit(state.copyWith(forms: forms));
 
-      // Build input and request
       final input = AddPhoneNumberInput(
         number: form.number,
         price: int.parse(form.price),
-        discountPrice: form.withDiscount ? int.tryParse(form.discountPrice ?? '') : null,
+        discountPrice: form.withDiscount ? int.tryParse(form.discountPrice!) : null,
       );
 
       final addListingDto = AddListingDto(

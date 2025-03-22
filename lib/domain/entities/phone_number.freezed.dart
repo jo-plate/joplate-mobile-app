@@ -21,7 +21,7 @@ PhoneNumber _$PhoneNumberFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PhoneNumber {
   String get number => throw _privateConstructorUsedError;
-  ListingV2? get ad => throw _privateConstructorUsedError;
+  List<ListingV2> get ads => throw _privateConstructorUsedError;
 
   /// Serializes this PhoneNumber to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,9 +39,7 @@ abstract class $PhoneNumberCopyWith<$Res> {
           PhoneNumber value, $Res Function(PhoneNumber) then) =
       _$PhoneNumberCopyWithImpl<$Res, PhoneNumber>;
   @useResult
-  $Res call({String number, ListingV2? ad});
-
-  $ListingV2CopyWith<$Res>? get ad;
+  $Res call({String number, List<ListingV2> ads});
 }
 
 /// @nodoc
@@ -60,32 +58,18 @@ class _$PhoneNumberCopyWithImpl<$Res, $Val extends PhoneNumber>
   @override
   $Res call({
     Object? number = null,
-    Object? ad = freezed,
+    Object? ads = null,
   }) {
     return _then(_value.copyWith(
       number: null == number
           ? _value.number
           : number // ignore: cast_nullable_to_non_nullable
               as String,
-      ad: freezed == ad
-          ? _value.ad
-          : ad // ignore: cast_nullable_to_non_nullable
-              as ListingV2?,
+      ads: null == ads
+          ? _value.ads
+          : ads // ignore: cast_nullable_to_non_nullable
+              as List<ListingV2>,
     ) as $Val);
-  }
-
-  /// Create a copy of PhoneNumber
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $ListingV2CopyWith<$Res>? get ad {
-    if (_value.ad == null) {
-      return null;
-    }
-
-    return $ListingV2CopyWith<$Res>(_value.ad!, (value) {
-      return _then(_value.copyWith(ad: value) as $Val);
-    });
   }
 }
 
@@ -97,10 +81,7 @@ abstract class _$$PhoneNumberImplCopyWith<$Res>
       __$$PhoneNumberImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String number, ListingV2? ad});
-
-  @override
-  $ListingV2CopyWith<$Res>? get ad;
+  $Res call({String number, List<ListingV2> ads});
 }
 
 /// @nodoc
@@ -117,17 +98,17 @@ class __$$PhoneNumberImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? number = null,
-    Object? ad = freezed,
+    Object? ads = null,
   }) {
     return _then(_$PhoneNumberImpl(
       number: null == number
           ? _value.number
           : number // ignore: cast_nullable_to_non_nullable
               as String,
-      ad: freezed == ad
-          ? _value.ad
-          : ad // ignore: cast_nullable_to_non_nullable
-              as ListingV2?,
+      ads: null == ads
+          ? _value._ads
+          : ads // ignore: cast_nullable_to_non_nullable
+              as List<ListingV2>,
     ));
   }
 }
@@ -135,15 +116,24 @@ class __$$PhoneNumberImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$PhoneNumberImpl extends _PhoneNumber {
-  const _$PhoneNumberImpl({required this.number, this.ad}) : super._();
+  const _$PhoneNumberImpl(
+      {required this.number, final List<ListingV2> ads = const []})
+      : _ads = ads,
+        super._();
 
   factory _$PhoneNumberImpl.fromJson(Map<String, dynamic> json) =>
       _$$PhoneNumberImplFromJson(json);
 
   @override
   final String number;
+  final List<ListingV2> _ads;
   @override
-  final ListingV2? ad;
+  @JsonKey()
+  List<ListingV2> get ads {
+    if (_ads is EqualUnmodifiableListView) return _ads;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_ads);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -151,12 +141,13 @@ class _$PhoneNumberImpl extends _PhoneNumber {
         (other.runtimeType == runtimeType &&
             other is _$PhoneNumberImpl &&
             (identical(other.number, number) || other.number == number) &&
-            (identical(other.ad, ad) || other.ad == ad));
+            const DeepCollectionEquality().equals(other._ads, _ads));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, number, ad);
+  int get hashCode => Object.hash(
+      runtimeType, number, const DeepCollectionEquality().hash(_ads));
 
   /// Create a copy of PhoneNumber
   /// with the given fields replaced by the non-null parameter values.
@@ -176,7 +167,8 @@ class _$PhoneNumberImpl extends _PhoneNumber {
 
 abstract class _PhoneNumber extends PhoneNumber {
   const factory _PhoneNumber(
-      {required final String number, final ListingV2? ad}) = _$PhoneNumberImpl;
+      {required final String number,
+      final List<ListingV2> ads}) = _$PhoneNumberImpl;
   const _PhoneNumber._() : super._();
 
   factory _PhoneNumber.fromJson(Map<String, dynamic> json) =
@@ -185,7 +177,7 @@ abstract class _PhoneNumber extends PhoneNumber {
   @override
   String get number;
   @override
-  ListingV2? get ad;
+  List<ListingV2> get ads;
 
   /// Create a copy of PhoneNumber
   /// with the given fields replaced by the non-null parameter values.

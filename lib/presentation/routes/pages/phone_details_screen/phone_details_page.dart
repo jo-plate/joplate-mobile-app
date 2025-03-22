@@ -87,7 +87,7 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
 
             const SizedBox(height: 20),
 
-            if (widget.phoneNumber.ad != null) SellerDetails(userId: widget.phoneNumber.ad!.id),
+            if (widget.phoneNumber.ads.firstOrNull != null) SellerDetails(userId: widget.phoneNumber.ads.first.id),
 
             const SizedBox(height: 20),
 

@@ -44,7 +44,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
                         children: [
                           Text((item).number, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                           const SizedBox(height: 8),
-                          if (item.ad != null) _buildPriceLabel(),
+                          if (item.ads.firstOrNull != null) _buildPriceLabel(),
                           const SizedBox(height: 2),
                           if (!hideLikeButton)
                             FavoriteButton.plate(
@@ -57,9 +57,9 @@ class PhoneNumberListingWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              if (item.ad != null) ...[
-                if (item.ad!.isFeatured) _buildFeaturedRibbon(),
-                if (item.ad!.isSold) _buildSoldRibbon()
+              if (item.ads.firstOrNull != null) ...[
+                if (item.ads.first.isFeatured) _buildFeaturedRibbon(),
+                if (item.ads.first.isSold) _buildSoldRibbon()
               ]
             ],
           ),
@@ -69,7 +69,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
   }
 
   Widget _buildPriceLabel() {
-    if (item.ad!.priceHidden) {
+    if (item.ads.first.priceHidden) {
       return Text(
         'Call for Price',
         style: TextStyle(
@@ -80,12 +80,12 @@ class PhoneNumberListingWidget extends StatelessWidget {
         ),
         maxLines: 1,
       );
-    } else if (item.ad!.discountPrice > 0 && item.ad!.discountPrice < item.ad!.price) {
+    } else if (item.ads.first.discountPrice > 0 && item.ads.first.discountPrice < item.ads.first.price) {
       return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'JOD ${item.ad!.discountPrice} ',
+            'JOD ${item.ads.first.discountPrice} ',
             style: TextStyle(
               fontSize: priceLabelFontSize,
               fontFamily: 'Mandatory',
@@ -95,7 +95,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
             maxLines: 1,
           ),
           Text(
-            '${item.ad!.price}',
+            '${item.ads.first.price}',
             style: TextStyle(
               fontSize: priceLabelFontSize * 0.875,
               fontWeight: FontWeight.w600,
@@ -110,7 +110,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
       );
     } else {
       return Text(
-        '${item.ad!.price} JOD',
+        '${item.ads.first.price} JOD',
         style: TextStyle(
           fontSize: priceLabelFontSize,
           fontFamily: 'Mandatory',

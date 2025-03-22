@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:joplate/presentation/routes/pages/add_phone_number_screen/cubit/phone_form_state.dart';
 
-class SinglePhoneForm extends StatelessWidget {
+class SinglePhoneForm extends StatefulWidget {
   const SinglePhoneForm({
     super.key,
     required this.index,
@@ -21,11 +21,24 @@ class SinglePhoneForm extends StatelessWidget {
   final ValueChanged<bool> onDiscountToggle;
 
   @override
-  Widget build(BuildContext context) {
-    final numberController = TextEditingController(text: formState.number);
-    final priceController = TextEditingController(text: formState.price);
-    final discountController = TextEditingController(text: formState.discountPrice ?? '');
+  State<SinglePhoneForm> createState() => _SinglePhoneFormState();
+}
 
+class _SinglePhoneFormState extends State<SinglePhoneForm> {
+  @override
+  initState() {
+    numberController = TextEditingController(text: widget.formState.number);
+    priceController = TextEditingController(text: widget.formState.price);
+    discountController = TextEditingController(text: widget.formState.discountPrice ?? '');
+    super.initState();
+  }
+
+  late final TextEditingController numberController;
+  late final TextEditingController priceController;
+  late final TextEditingController discountController;
+
+  @override
+  Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: Padding(
@@ -33,25 +46,25 @@ class SinglePhoneForm extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (formState.errorMessage != null)
+            if (widget.formState.errorMessage != null)
               Text(
-                formState.errorMessage!,
+                widget.formState.errorMessage!,
                 style: const TextStyle(color: Colors.red),
               ),
             TextField(
               controller: numberController,
               keyboardType: TextInputType.number,
-              onChanged: onNumberChanged,
+              onChanged: widget.onNumberChanged,
               decoration: const InputDecoration(labelText: 'Number'),
-              enabled: !formState.isSubmitting,
+              enabled: !widget.formState.isSubmitting,
             ),
             const SizedBox(height: 16),
             TextField(
               controller: priceController,
               keyboardType: TextInputType.number,
-              onChanged: onPriceChanged,
+              onChanged: widget.onPriceChanged,
               decoration: const InputDecoration(labelText: 'Price'),
-              enabled: !formState.isSubmitting,
+              enabled: !widget.formState.isSubmitting,
             ),
             const SizedBox(height: 16),
             Row(
@@ -59,21 +72,21 @@ class SinglePhoneForm extends StatelessWidget {
               children: [
                 const Text("With Discount?", style: TextStyle(fontSize: 16)),
                 Switch(
-                  value: formState.withDiscount,
-                  onChanged: formState.isSubmitting ? null : onDiscountToggle,
+                  value: widget.formState.withDiscount,
+                  onChanged: widget.formState.isSubmitting ? null : widget.onDiscountToggle,
                 ),
               ],
             ),
-            if (formState.withDiscount)
+            if (widget.formState.withDiscount)
               TextField(
                 controller: discountController,
                 keyboardType: TextInputType.number,
-                onChanged: onDiscountChanged,
+                onChanged: widget.onDiscountChanged,
                 decoration: const InputDecoration(labelText: 'Discount Price'),
-                enabled: !formState.isSubmitting,
+                enabled: !widget.formState.isSubmitting,
               ),
             const SizedBox(height: 16),
-            if (formState.isSubmitting) const Center(child: CircularProgressIndicator()),
+            if (widget.formState.isSubmitting) const Center(child: CircularProgressIndicator()),
           ],
         ),
       ),

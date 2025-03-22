@@ -18,7 +18,7 @@ class PhoneNumber with _$PhoneNumber {
 
   const factory PhoneNumber({
     required String number,
-    ListingV2? ad,
+    @Default([]) List<ListingV2> ads,
   }) = _PhoneNumber;
 
   static List<PhoneNumber> mockList(int number) {
@@ -27,7 +27,7 @@ class PhoneNumber with _$PhoneNumber {
       (index) => PhoneNumber(
         // 079xxxxxxx
         number: '079${index.toString().padLeft(7, '5')}',
-        ad: ListingV2.mockAd(),
+        ads: [ListingV2.mockAd()],
       ),
     );
   }
@@ -43,7 +43,7 @@ class PhoneNumber with _$PhoneNumber {
   }
 
   factory PhoneNumber.fromJson(Map<String, dynamic> json) => _$PhoneNumberFromJson(json);
-  
+
   factory PhoneNumber.fromString(String phoneNumber) {
     return PhoneNumber(number: phoneNumber);
   }
