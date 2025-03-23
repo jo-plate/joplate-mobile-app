@@ -5,14 +5,14 @@ import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phones_requests_grid.dart';
 
-class PhonesRequestsWidget extends StatefulWidget {
-  const PhonesRequestsWidget({super.key});
+class PhonesRequestsListWidget extends StatefulWidget {
+  const PhonesRequestsListWidget({super.key});
 
   @override
-  State<PhonesRequestsWidget> createState() => _PhonesRequestsWidgetState();
+  State<PhonesRequestsListWidget> createState() => _PhonesRequestsListWidgetState();
 }
 
-class _PhonesRequestsWidgetState extends State<PhonesRequestsWidget> {
+class _PhonesRequestsListWidgetState extends State<PhonesRequestsListWidget> {
   late final Stream<List<Request<PhoneNumber>>> phonesRequestsStream;
 
   @override

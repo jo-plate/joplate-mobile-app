@@ -5,8 +5,8 @@ import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
-import 'package:joplate/presentation/routes/pages/requests_screen/ui/phones_requests_widget.dart';
-import 'package:joplate/presentation/routes/pages/requests_screen/ui/plates_requests_widget.dart';
+import 'package:joplate/presentation/routes/pages/requests_screen/ui/phones_requests_list_widget.dart';
+import 'package:joplate/presentation/routes/pages/requests_screen/ui/plates_requests_list_widget.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plates_listing_grid.dart';
 
@@ -89,8 +89,8 @@ class _RequestsPageState extends State<RequestsPage> with SingleTickerProviderSt
         child: TabBarView(
           controller: tabController,
           children: const [
-            PlatesRequestsWidget(),
-            PhonesRequestsWidget(),
+            PlatesRequestsListWidget(),
+            PhonesRequestsListWidget(),
           ],
         ),
       ),

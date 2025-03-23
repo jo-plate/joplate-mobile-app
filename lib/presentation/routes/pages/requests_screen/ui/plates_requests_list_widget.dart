@@ -5,14 +5,14 @@ import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plates_request_grid.dart';
 
-class PlatesRequestsWidget extends StatefulWidget {
-  const PlatesRequestsWidget({super.key});
+class PlatesRequestsListWidget extends StatefulWidget {
+  const PlatesRequestsListWidget({super.key});
 
   @override
-  State<PlatesRequestsWidget> createState() => _PlatesRequestsWidgetState();
+  State<PlatesRequestsListWidget> createState() => _PlatesRequestsListWidgetState();
 }
 
-class _PlatesRequestsWidgetState extends State<PlatesRequestsWidget> {
+class _PlatesRequestsListWidgetState extends State<PlatesRequestsListWidget> {
   late final Stream<List<Request<PlateNumber>>> platesRequestsStream;
 
   @override
