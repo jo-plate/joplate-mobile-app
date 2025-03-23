@@ -16,8 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PhoneRequestState {
-  String get phoneNumber => throw _privateConstructorUsedError;
-  String? get price => throw _privateConstructorUsedError;
+  String get phoneNumber =>
+      throw _privateConstructorUsedError; // required field
+  String? get price => throw _privateConstructorUsedError; // optional
   bool get isSubmitting => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
 
@@ -148,8 +149,10 @@ class _$PhoneRequestStateImpl implements _PhoneRequestState {
   @override
   @JsonKey()
   final String phoneNumber;
+// required field
   @override
   final String? price;
+// optional
   @override
   @JsonKey()
   final bool isSubmitting;
@@ -197,9 +200,9 @@ abstract class _PhoneRequestState implements PhoneRequestState {
       final String? errorMessage}) = _$PhoneRequestStateImpl;
 
   @override
-  String get phoneNumber;
+  String get phoneNumber; // required field
   @override
-  String? get price;
+  String? get price; // optional
   @override
   bool get isSubmitting;
   @override

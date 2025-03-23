@@ -112,12 +112,13 @@ final appTheme = ThemeData(
       ),
     ),
   ),
-  switchTheme: SwitchThemeData(
-    thumbColor: WidgetStateProperty.all(const Color(0xFF981C1E)),
-    trackColor: WidgetStateProperty.all(Colors.red.shade100),
-    trackOutlineColor: WidgetStateProperty.all(const Color(0xFF981C1E)),
+  // switchTheme: SwitchThemeData(
+  //   thumbColor: WidgetStateProperty.d(const Color(0xFF981C1E)),
+  //   trackColor: WidgetStateProperty.all(Colors.red.shade100),
+  //   trackOutlineColor: WidgetStateProperty.all(const Color(0xFF981C1E))
+  //   ,
 
-  ),
+  // ),
 );
 
 final cardContainerStyle = BoxDecoration(

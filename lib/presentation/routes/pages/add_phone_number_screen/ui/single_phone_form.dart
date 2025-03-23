@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:joplate/presentation/routes/pages/add_phone_number_screen/cubit/phone_form_state.dart';
+import 'package:joplate/presentation/theme.dart';
 
 class SinglePhoneForm extends StatefulWidget {
   const SinglePhoneForm({
@@ -79,8 +80,9 @@ class _SinglePhoneFormState extends State<SinglePhoneForm> {
     final hasError = widget.formState.errorMessage != null;
     final errorText = widget.formState.errorMessage ?? '';
 
-    return Card(
+    return Container(
       margin: const EdgeInsets.symmetric(vertical: 12),
+      decoration: cardContainerStyle,
       child: Stack(
         clipBehavior: Clip.none,
         children: [

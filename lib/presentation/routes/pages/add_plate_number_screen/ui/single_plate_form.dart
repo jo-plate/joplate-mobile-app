@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_number_screen/cubit/plate_form_state.dart';
+import 'package:joplate/presentation/theme.dart';
 
 /// A single plate form row, with an optional remove button in the top-right corner.
 class SinglePlateForm extends StatefulWidget {
@@ -85,8 +86,9 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
     final hasError = widget.formState.errorMessage != null;
     final errorText = widget.formState.errorMessage ?? '';
 
-    return Card(
+    return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
+      decoration: cardContainerStyle,
       clipBehavior: Clip.none,
       child: Stack(
         clipBehavior: Clip.none,

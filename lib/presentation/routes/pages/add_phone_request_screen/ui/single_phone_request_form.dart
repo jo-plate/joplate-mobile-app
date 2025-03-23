@@ -2,22 +2,57 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:joplate/presentation/routes/pages/add_phone_request_screen/cubit/add_phone_request_cubit.dart';
-import 'package:joplate/presentation/routes/pages/add_phone_request_screen/cubit/phone_request_state.dart';
+import '../cubit/add_phone_request_cubit.dart';
+import '../cubit/phone_request_state.dart';
 import 'package:joplate/presentation/theme.dart';
 
-class SinglePhoneRequestForm extends StatelessWidget {
+class SinglePhoneRequestForm extends StatefulWidget {
   const SinglePhoneRequestForm({super.key});
+
+  @override
+  State<SinglePhoneRequestForm> createState() => _SinglePhoneRequestFormState();
+}
+
+class _SinglePhoneRequestFormState extends State<SinglePhoneRequestForm> {
+  late final TextEditingController phoneController;
+  late final TextEditingController priceController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Read initial state
+    final state = context.read<AddPhoneRequestCubit>().state;
+    phoneController = TextEditingController(text: state.phoneNumber);
+    priceController = TextEditingController(text: state.price ?? '');
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // If the cubit updates the data from outside, we can sync the controllers
+    final state = context.read<AddPhoneRequestCubit>().state;
+    _maybeSyncText(phoneController, state.phoneNumber);
+    _maybeSyncText(priceController, state.price ?? '');
+  }
+
+  void _maybeSyncText(TextEditingController controller, String newText) {
+    if (controller.text != newText) {
+      final selection = controller.selection;
+      controller.text = newText;
+      final length = newText.length;
+      controller.selection = selection.copyWith(
+        baseOffset: length,
+        extentOffset: length,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AddPhoneRequestCubit, PhoneRequestState>(
       builder: (context, state) {
         final cubit = context.read<AddPhoneRequestCubit>();
-
-        // Build controllers from state
-        final phoneController = TextEditingController(text: state.phoneNumber);
-        final priceController = TextEditingController(text: state.price ?? '');
 
         return Container(
           decoration: cardContainerStyle,
@@ -31,6 +66,8 @@ class SinglePhoneRequestForm extends StatelessWidget {
                   style: const TextStyle(color: Colors.red),
                 ),
               const SizedBox(height: 8),
+
+              // Required phone number
               TextField(
                 controller: phoneController,
                 keyboardType: TextInputType.number,
@@ -39,6 +76,8 @@ class SinglePhoneRequestForm extends StatelessWidget {
                 enabled: !state.isSubmitting,
               ),
               const SizedBox(height: 16),
+
+              // Optional Price
               TextField(
                 controller: priceController,
                 keyboardType: TextInputType.number,
@@ -47,6 +86,7 @@ class SinglePhoneRequestForm extends StatelessWidget {
                 enabled: !state.isSubmitting,
               ),
               const SizedBox(height: 16),
+
               if (state.isSubmitting) const Center(child: CircularProgressIndicator()),
             ],
           ),

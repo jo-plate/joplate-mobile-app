@@ -1,5 +1,7 @@
+// lib/presentation/routes/pages/add_phone_request_screen/cubit/add_phone_request_cubit.dart
+
+import 'package:bloc/bloc.dart';
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'phone_request_state.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/data/constants.dart';
@@ -7,7 +9,7 @@ import 'package:joplate/data/constants.dart';
 class AddPhoneRequestCubit extends Cubit<PhoneRequestState> {
   AddPhoneRequestCubit() : super(const PhoneRequestState());
 
-  // Update phone number text
+  // Update phone number text (required field)
   void updatePhoneNumber(String phoneNumber) {
     emit(state.copyWith(
       phoneNumber: phoneNumber,
@@ -15,7 +17,7 @@ class AddPhoneRequestCubit extends Cubit<PhoneRequestState> {
     ));
   }
 
-  // Update price (optional)
+  // Update price (optional field)
   void updatePrice(String? price) {
     emit(state.copyWith(
       price: price,
@@ -34,12 +36,12 @@ class AddPhoneRequestCubit extends Cubit<PhoneRequestState> {
     emit(state.copyWith(isSubmitting: true, errorMessage: null));
 
     try {
-      // Build the AddListingDto
+      // Convert optional price
       final priceVal = (state.price?.isNotEmpty == true) ? double.tryParse(state.price!) : 0.0;
 
       final addListingDto = AddListingDto(
         price: priceVal ?? 0.0,
-        discountPrice: 0, // no discount field for requests
+        discountPrice: 0, // no discount for requests
         listingType: ListingType.request,
         itemType: ItemType.phoneNumber,
         priceNegotiable: true,
@@ -54,7 +56,7 @@ class AddPhoneRequestCubit extends Cubit<PhoneRequestState> {
       final response = await callable.call(addListingDto.toJson());
 
       if (response.data != null && response.data['success'] == true) {
-        // success -> reset the form or handle success
+        // success -> reset the form
         emit(const PhoneRequestState());
       } else {
         emit(state.copyWith(
