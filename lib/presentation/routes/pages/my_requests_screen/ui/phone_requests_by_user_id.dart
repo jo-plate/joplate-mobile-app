@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
-import 'package:joplate/presentation/widgets/app_bar.dart/phones_listing_grid.dart';
+import 'package:joplate/domain/entities/request.dart';
+import 'package:joplate/presentation/widgets/app_bar.dart/phones_requests_grid.dart';
 
 class PhoneRequestsByUserId extends StatefulWidget {
   const PhoneRequestsByUserId({super.key, required this.userId});
@@ -19,23 +20,27 @@ class _PhoneRequestsByUserIdState extends State<PhoneRequestsByUserId> {
     super.initState();
     userPhonesStream = FirebaseFirestore.instance
         .collection(phonesRequestsCollectionId)
-        .where('adsUserIds', arrayContains: widget.userId)
+        .where('userId', isEqualTo: widget.userId)
         .snapshots()
-        .map((snapshot) => snapshot.docs.map((doc) => PhoneNumber.fromJson(doc.data())).toList());
+        .map((snapshot) => snapshot.docs.map((doc) {
+              final data = doc.data();
+              data['id'] = doc.id;
+              return Request<PhoneNumber>.fromJson(data);
+            }).toList());
   }
 
-  late final Stream<List<PhoneNumber>> userPhonesStream;
+  late final Stream<List<Request<PhoneNumber>>> userPhonesStream;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-        child: StreamBuilder<List<PhoneNumber>>(
+        child: StreamBuilder<List<Request<PhoneNumber>>>(
             stream: userPhonesStream,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               }
-              return PhonesListingGrid(itemList: snapshot.data ?? []);
+              return PhonesRequestsGrid(itemList: snapshot.data ?? []);
             }));
   }
 }

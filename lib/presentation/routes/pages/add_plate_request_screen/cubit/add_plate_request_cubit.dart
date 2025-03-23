@@ -49,7 +49,7 @@ class AddPlateRequestCubit extends Cubit<PlateRequestState> {
         },
       );
 
-      final callable = FirebaseFunctions.instance.httpsCallable(createListingCF);
+      final callable = FirebaseFunctions.instance.httpsCallable(postRequestCF);
       final response = await callable.call(addListingDto.toJson());
 
       if (response.data != null && response.data['success'] == true) {
