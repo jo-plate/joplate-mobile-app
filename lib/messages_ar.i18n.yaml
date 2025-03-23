@@ -1,0 +1,8 @@
+app:
+  title: Joplate
+  greeting(String name): "مرحبًا، $name!"
+
+home:
+  welcome: "مرحبًا بك في Joplate!"
+  button_list_item: "أضف إعلان"
+  button_view_items: "عرض الإعلانات"

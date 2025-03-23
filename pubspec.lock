@@ -613,6 +613,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.2"
+  i18n:
+    dependency: "direct main"
+    description:
+      name: i18n
+      sha256: c7710503f85d9347e2daddf5332177bcb7ad7971855a2385dbc96045e5dc7752
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.4"
   image_size_getter:
     dependency: transitive
     description:
@@ -893,6 +901,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.0"
+  quick_log:
+    dependency: transitive
+    description:
+      name: quick_log
+      sha256: "94b0db8fe600c27788a8057496f0b51fdb799b5b35d8740ca141c9faf349dc48"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.5.3"
   recase:
     dependency: transitive
     description:

@@ -1,0 +1,8 @@
+app:
+  title: Joplate
+  greeting(String name): "Hello, $name!"
+
+home:
+  welcome: "Welcome to Joplate!"
+  button_list_item: "List an Item"
+  button_view_items: "View Listings"

@@ -16,6 +16,7 @@ import '../domain/repositories/firestore_user_repository.dart' as _i832;
 import '../domain/repositories/listings_repository.dart' as _i871;
 import '../domain/usecases/auth/login_with_email.dart' as _i457;
 import '../presentation/cubits/auth/auth_cubit.dart' as _i352;
+import '../presentation/cubits/localization/localization_cubit.dart' as _i340;
 
 // initializes the registration of main-scope dependencies inside of GetIt
 _i174.GetIt $initGetIt(
@@ -34,6 +35,7 @@ _i174.GetIt $initGetIt(
       () => _i832.FirestoreUserRepository());
   gh.lazySingleton<_i871.FirestoreListingRepository>(
       () => _i871.FirestoreListingRepository());
+  gh.lazySingleton<_i340.LocalizationCubit>(() => _i340.LocalizationCubit());
   gh.singleton<_i352.AuthCubit>(
       () => _i352.AuthCubit(gh<_i832.FirestoreUserRepository>()));
   return getIt;

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
+import 'package:joplate/presentation/cubits/localization/localization_cubit.dart';
 import 'package:joplate/presentation/routes/pages/home_page/profile_tab/ui/anon_user_view.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/presentation/routes/router.dart';
@@ -196,25 +197,31 @@ class _UserProfileViewState extends State<_UserProfileView> {
                 ),
               ),
               const Spacer(),
-              Row(
-                children: [
-                  _buildLanguageButton(
-                    'العربية',
-                    isSelected: false,
-                    onTap: () {
-                      // Handle Arabic selection
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  _buildLanguageButton(
-                    'English',
-                    isSelected: true,
-                    onTap: () {
-                      // Handle English selection
-                    },
-                  ),
-                ],
-              ),
+              BlocBuilder<LocalizationCubit, Locale>(
+                builder: (context, locale) {
+                  final isEnglish = locale.languageCode == 'en';
+
+                  return Row(
+                    children: [
+                      _buildLanguageButton(
+                        label: 'العربية',
+                        isSelected: !isEnglish,
+                        onTap: () {
+                          context.read<LocalizationCubit>().setLocale(const Locale('ar'));
+                        },
+                      ),
+                      const SizedBox(width: 8),
+                      _buildLanguageButton(
+                        label: 'English',
+                        isSelected: isEnglish,
+                        onTap: () {
+                          context.read<LocalizationCubit>().setLocale(const Locale('en'));
+                        },
+                      ),
+                    ],
+                  );
+                },
+              )
             ],
           ),
         ),
@@ -227,7 +234,11 @@ class _UserProfileViewState extends State<_UserProfileView> {
     );
   }
 
-  Widget _buildLanguageButton(String label, {required bool isSelected, required VoidCallback onTap}) {
+  Widget _buildLanguageButton({
+    required String label,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
     return ElevatedButton(
       onPressed: onTap,
       style: ElevatedButton.styleFrom(
