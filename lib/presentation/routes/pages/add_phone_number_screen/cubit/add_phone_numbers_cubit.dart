@@ -20,43 +20,55 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
     emit(state.copyWith(forms: [...state.forms, newForm]));
   }
 
+  /// Remove a single form from the list
+  void removeForm(int index) {
+    final updated = [...state.forms];
+    if (index >= 0 && index < updated.length) {
+      updated.removeAt(index);
+      emit(state.copyWith(forms: updated));
+    }
+  }
+
   void updateNumber(int index, String newNumber) {
     _updateForm(
-        index,
-        state.forms[index].copyWith(
-          number: newNumber,
-          errorMessage: null, // clear old error
-        ));
+      index,
+      state.forms[index].copyWith(
+        number: newNumber,
+        errorMessage: null, // clear old error
+      ),
+    );
   }
 
   void updatePrice(int index, String newPrice) {
     _updateForm(
-        index,
-        state.forms[index].copyWith(
-          price: newPrice,
-          errorMessage: null,
-        ));
+      index,
+      state.forms[index].copyWith(
+        price: newPrice,
+        errorMessage: null,
+      ),
+    );
   }
 
   void toggleDiscount(int index, bool enable) {
     final oldForm = state.forms[index];
     _updateForm(
-        index,
-        oldForm.copyWith(
-          withDiscount: enable,
-          // If discount was turned off, reset the discount price
-          discountPrice: enable ? oldForm.discountPrice : null,
-          errorMessage: null,
-        ));
+      index,
+      oldForm.copyWith(
+        withDiscount: enable,
+        discountPrice: enable ? oldForm.discountPrice : null,
+        errorMessage: null,
+      ),
+    );
   }
 
   void updateDiscountPrice(int index, String discount) {
     _updateForm(
-        index,
-        state.forms[index].copyWith(
-          discountPrice: discount,
-          errorMessage: null,
-        ));
+      index,
+      state.forms[index].copyWith(
+        discountPrice: discount,
+        errorMessage: null,
+      ),
+    );
   }
 
   Future<void> submitAllForms() async {
@@ -79,7 +91,7 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
       final input = AddPhoneNumberInput(
         number: form.number,
         price: int.parse(form.price),
-        discountPrice: form.withDiscount ? int.tryParse(form.discountPrice!) : null,
+        discountPrice: form.withDiscount ? int.tryParse(form.discountPrice ?? '') : null,
       );
 
       final addListingDto = AddListingDto(
@@ -126,6 +138,7 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
 
   void _updateForm(int index, PhoneFormState newForm) {
     final updated = [...state.forms];
+    if (index < 0 || index >= updated.length) return;
     updated[index] = newForm;
     emit(state.copyWith(forms: updated));
   }

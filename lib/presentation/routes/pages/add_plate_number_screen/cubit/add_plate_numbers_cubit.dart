@@ -1,3 +1,5 @@
+// lib/presentation/routes/pages/add_plate_number_screen/cubit/add_plate_numbers_cubit.dart
+
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'plate_form_state.dart';
@@ -22,6 +24,16 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
     emit(state.copyWith(forms: [...state.forms, newForm]));
   }
 
+  /// Remove the form at [index].
+  void removeForm(int index) {
+    final updated = [...state.forms];
+    if (index >= 0 && index < updated.length) {
+      updated.removeAt(index);
+      emit(state.copyWith(forms: updated));
+    }
+  }
+
+  // Update fields
   void updateCode(int index, String newCode) {
     _updateForm(index, state.forms[index].copyWith(code: newCode, errorMessage: null));
   }
@@ -37,23 +49,29 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
   void toggleDiscount(int index, bool enable) {
     final oldForm = state.forms[index];
     _updateForm(
-        index,
-        oldForm.copyWith(
-          withDiscount: enable,
-          discountPrice: enable ? oldForm.discountPrice : null,
-          errorMessage: null,
-        ));
+      index,
+      oldForm.copyWith(
+        withDiscount: enable,
+        discountPrice: enable ? oldForm.discountPrice : null,
+        errorMessage: null,
+      ),
+    );
   }
 
   void updateDiscountPrice(int index, String discount) {
-    _updateForm(index, state.forms[index].copyWith(discountPrice: discount, errorMessage: null));
+    _updateForm(
+      index,
+      state.forms[index].copyWith(discountPrice: discount, errorMessage: null),
+    );
   }
 
+  /// Submit all forms in sequence
   Future<void> submitAllForms() async {
     final forms = [...state.forms];
 
     for (int i = 0; i < forms.length; i++) {
       final form = forms[i];
+
       // Basic validation
       if (form.code.isEmpty || form.number.isEmpty || form.price.isEmpty) {
         forms[i] = form.copyWith(errorMessage: 'Please fill all required fields');
@@ -65,7 +83,6 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
       forms[i] = form.copyWith(isSubmitting: true, errorMessage: null);
       emit(state.copyWith(forms: forms));
 
-      // Build your input
       final input = AddPlateNumberInput(
         code: form.code,
         number: form.number,
@@ -92,7 +109,7 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
         final response = await callable.call(addListingDto.toJson());
 
         if (response.data != null && response.data['success'] == true) {
-          // Success
+          // Success -> remove that form from the list
           forms.removeAt(i);
           i--;
         } else {
@@ -119,6 +136,7 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
 
   void _updateForm(int index, PlateFormState newForm) {
     final updated = [...state.forms];
+    if (index < 0 || index >= updated.length) return;
     updated[index] = newForm;
     emit(state.copyWith(forms: updated));
   }

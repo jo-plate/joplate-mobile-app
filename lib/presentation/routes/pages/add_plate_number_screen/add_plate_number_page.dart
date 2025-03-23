@@ -1,3 +1,5 @@
+// lib/presentation/routes/pages/add_plate_number_screen/ui/add_plate_number_page.dart
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,7 +39,10 @@ class _AddPlateNumberPageState extends State<AddPlateNumberPage> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         final form = state.forms[index];
+
+                        // Provide a stable key => preserve the same State object
                         return SinglePlateForm(
+                          key: ValueKey('PlateForm-$index'), // Or use a unique ID
                           index: index,
                           formState: form,
                           onCodeChanged: (val) => cubit.updateCode(index, val),
@@ -45,41 +50,37 @@ class _AddPlateNumberPageState extends State<AddPlateNumberPage> {
                           onPriceChanged: (val) => cubit.updatePrice(index, val),
                           onDiscountChanged: (val) => cubit.updateDiscountPrice(index, val),
                           onDiscountToggle: (val) => cubit.toggleDiscount(index, val),
+                          onRemoveForm: () => cubit.removeForm(index),
                         );
                       },
                     ),
-
                     const SizedBox(height: 24),
+
+                    // "Add More" + "Submit"
                     Row(
                       children: [
                         Expanded(
                           child: ElevatedButton.icon(
-                            icon: const Icon(
-                              Icons.add,
-                              color: Colors.white,
-                            ),
-                            label: const Text(
-                              "Add more",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                            icon: const Icon(Icons.add, color: Colors.white),
+                            label: const Text("Add more", style: TextStyle(color: Colors.white)),
                             onPressed: () => cubit.addNewForm(),
                           ),
                         ),
                         const SizedBox(width: 16),
                         Expanded(
                           child: ElevatedButton(
-                            child: const Text("Submit", style: TextStyle(color: Colors.white)),
                             onPressed: () async {
                               await cubit.submitAllForms();
                               if (cubit.state.forms.isEmpty) {
-                                // e.g., go to MyNumbersRoute on success
+                                // e.g., navigate away on success
                                 AutoRouter.of(context).replace(const MyNumbersRoute());
                               }
                             },
+                            child: const Text("Submit", style: TextStyle(color: Colors.white)),
                           ),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               );

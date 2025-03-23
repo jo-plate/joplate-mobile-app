@@ -7,8 +7,6 @@ import 'package:joplate/presentation/routes/pages/add_phone_number_screen/cubit/
 import 'package:joplate/presentation/routes/pages/add_phone_number_screen/cubit/phone_form_state.dart';
 import 'package:joplate/presentation/routes/pages/add_phone_number_screen/ui/single_phone_form.dart';
 
-import 'package:joplate/presentation/routes/router.dart';
-
 @RoutePage()
 class AddPhoneNumberPage extends StatelessWidget {
   const AddPhoneNumberPage({super.key});
@@ -27,6 +25,7 @@ class AddPhoneNumberPage extends StatelessWidget {
               return SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     // Render a SinglePhoneForm for each item
                     ListView.builder(
@@ -34,14 +33,14 @@ class AddPhoneNumberPage extends StatelessWidget {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        final form = state.forms[index];
                         return SinglePhoneForm(
                           index: index,
-                          formState: form,
                           onNumberChanged: (val) => cubit.updateNumber(index, val),
                           onPriceChanged: (val) => cubit.updatePrice(index, val),
                           onDiscountChanged: (val) => cubit.updateDiscountPrice(index, val),
                           onDiscountToggle: (val) => cubit.toggleDiscount(index, val),
+                          onRemoveForm: () => cubit.removeForm(index),
+
                         );
                       },
                     ),
@@ -51,7 +50,10 @@ class AddPhoneNumberPage extends StatelessWidget {
                     // Button to add another phone form
                     ElevatedButton.icon(
                       icon: const Icon(Icons.add),
-                      label: const Text("Add Another"),
+                      label: const Text(
+                        "Add Another",
+                        style: TextStyle(color: Colors.white),
+                      ),
                       onPressed: () => cubit.addNewForm(),
                     ),
 
@@ -59,7 +61,10 @@ class AddPhoneNumberPage extends StatelessWidget {
 
                     // Button to submit all forms
                     ElevatedButton(
-                      child: const Text("Submit All"),
+                      child: const Text(
+                        "Submit All",
+                        style: TextStyle(color: Colors.white),
+                      ),
                       onPressed: () async {
                         await cubit.submitAllForms();
 

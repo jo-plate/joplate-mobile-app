@@ -6,10 +6,10 @@ class LocalizationProvider extends InheritedWidget {
   final Messages messages;
 
   const LocalizationProvider({
-    Key? key,
+    super.key,
     required this.messages,
-    required Widget child,
-  }) : super(key: key, child: child);
+    required super.child,
+  });
 
   @override
   bool updateShouldNotify(LocalizationProvider oldWidget) {

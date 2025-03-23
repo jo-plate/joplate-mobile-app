@@ -1,5 +1,3 @@
-// lib/presentation/routes/pages/add_plate_number_screen/bloc/plate_form_state.dart
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'plate_form_state.freezed.dart';
