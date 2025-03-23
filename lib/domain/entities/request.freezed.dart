@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'listing.dart';
+part of 'request.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,81 +14,71 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-Listing<T> _$ListingFromJson<T>(Map<String, dynamic> json) {
-  return _Listing<T>.fromJson(json);
+Request<T> _$RequestFromJson<T>(Map<String, dynamic> json) {
+  return _Request<T>.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Listing<T> {
+mixin _$Request<T> {
   String get id => throw _privateConstructorUsedError;
   double get price => throw _privateConstructorUsedError;
-  double? get discountPrice => throw _privateConstructorUsedError;
-  ListingType get listingType => throw _privateConstructorUsedError;
   ItemType get itemType => throw _privateConstructorUsedError;
-  bool get priceNegotiable => throw _privateConstructorUsedError;
   bool get priceHidden => throw _privateConstructorUsedError;
-  bool get isFeatured => throw _privateConstructorUsedError;
-  UserProfile get postedBy => throw _privateConstructorUsedError;
+  bool get isSold => throw _privateConstructorUsedError;
+  String get userId => throw _privateConstructorUsedError;
   PhoneNumber? get phoneNumber => throw _privateConstructorUsedError;
   PlateNumber? get plateNumber => throw _privateConstructorUsedError;
 
-  /// Serializes this Listing to a JSON map.
+  /// Serializes this Request to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of Listing
+  /// Create a copy of Request
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $ListingCopyWith<T, Listing<T>> get copyWith =>
+  $RequestCopyWith<T, Request<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ListingCopyWith<T, $Res> {
-  factory $ListingCopyWith(Listing<T> value, $Res Function(Listing<T>) then) =
-      _$ListingCopyWithImpl<T, $Res, Listing<T>>;
+abstract class $RequestCopyWith<T, $Res> {
+  factory $RequestCopyWith(Request<T> value, $Res Function(Request<T>) then) =
+      _$RequestCopyWithImpl<T, $Res, Request<T>>;
   @useResult
   $Res call(
       {String id,
       double price,
-      double? discountPrice,
-      ListingType listingType,
       ItemType itemType,
-      bool priceNegotiable,
       bool priceHidden,
-      bool isFeatured,
-      UserProfile postedBy,
+      bool isSold,
+      String userId,
       PhoneNumber? phoneNumber,
       PlateNumber? plateNumber});
 
-  $UserProfileCopyWith<$Res> get postedBy;
   $PhoneNumberCopyWith<$Res>? get phoneNumber;
   $PlateNumberCopyWith<$Res>? get plateNumber;
 }
 
 /// @nodoc
-class _$ListingCopyWithImpl<T, $Res, $Val extends Listing<T>>
-    implements $ListingCopyWith<T, $Res> {
-  _$ListingCopyWithImpl(this._value, this._then);
+class _$RequestCopyWithImpl<T, $Res, $Val extends Request<T>>
+    implements $RequestCopyWith<T, $Res> {
+  _$RequestCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Listing
+  /// Create a copy of Request
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? id = null,
     Object? price = null,
-    Object? discountPrice = freezed,
-    Object? listingType = null,
     Object? itemType = null,
-    Object? priceNegotiable = null,
     Object? priceHidden = null,
-    Object? isFeatured = null,
-    Object? postedBy = null,
+    Object? isSold = null,
+    Object? userId = null,
     Object? phoneNumber = freezed,
     Object? plateNumber = freezed,
   }) {
@@ -101,34 +91,22 @@ class _$ListingCopyWithImpl<T, $Res, $Val extends Listing<T>>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as double,
-      discountPrice: freezed == discountPrice
-          ? _value.discountPrice
-          : discountPrice // ignore: cast_nullable_to_non_nullable
-              as double?,
-      listingType: null == listingType
-          ? _value.listingType
-          : listingType // ignore: cast_nullable_to_non_nullable
-              as ListingType,
       itemType: null == itemType
           ? _value.itemType
           : itemType // ignore: cast_nullable_to_non_nullable
               as ItemType,
-      priceNegotiable: null == priceNegotiable
-          ? _value.priceNegotiable
-          : priceNegotiable // ignore: cast_nullable_to_non_nullable
-              as bool,
       priceHidden: null == priceHidden
           ? _value.priceHidden
           : priceHidden // ignore: cast_nullable_to_non_nullable
               as bool,
-      isFeatured: null == isFeatured
-          ? _value.isFeatured
-          : isFeatured // ignore: cast_nullable_to_non_nullable
+      isSold: null == isSold
+          ? _value.isSold
+          : isSold // ignore: cast_nullable_to_non_nullable
               as bool,
-      postedBy: null == postedBy
-          ? _value.postedBy
-          : postedBy // ignore: cast_nullable_to_non_nullable
-              as UserProfile,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
       phoneNumber: freezed == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
@@ -140,17 +118,7 @@ class _$ListingCopyWithImpl<T, $Res, $Val extends Listing<T>>
     ) as $Val);
   }
 
-  /// Create a copy of Listing
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $UserProfileCopyWith<$Res> get postedBy {
-    return $UserProfileCopyWith<$Res>(_value.postedBy, (value) {
-      return _then(_value.copyWith(postedBy: value) as $Val);
-    });
-  }
-
-  /// Create a copy of Listing
+  /// Create a copy of Request
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -164,7 +132,7 @@ class _$ListingCopyWithImpl<T, $Res, $Val extends Listing<T>>
     });
   }
 
-  /// Create a copy of Listing
+  /// Create a copy of Request
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -180,28 +148,23 @@ class _$ListingCopyWithImpl<T, $Res, $Val extends Listing<T>>
 }
 
 /// @nodoc
-abstract class _$$ListingImplCopyWith<T, $Res>
-    implements $ListingCopyWith<T, $Res> {
-  factory _$$ListingImplCopyWith(
-          _$ListingImpl<T> value, $Res Function(_$ListingImpl<T>) then) =
-      __$$ListingImplCopyWithImpl<T, $Res>;
+abstract class _$$RequestImplCopyWith<T, $Res>
+    implements $RequestCopyWith<T, $Res> {
+  factory _$$RequestImplCopyWith(
+          _$RequestImpl<T> value, $Res Function(_$RequestImpl<T>) then) =
+      __$$RequestImplCopyWithImpl<T, $Res>;
   @override
   @useResult
   $Res call(
       {String id,
       double price,
-      double? discountPrice,
-      ListingType listingType,
       ItemType itemType,
-      bool priceNegotiable,
       bool priceHidden,
-      bool isFeatured,
-      UserProfile postedBy,
+      bool isSold,
+      String userId,
       PhoneNumber? phoneNumber,
       PlateNumber? plateNumber});
 
-  @override
-  $UserProfileCopyWith<$Res> get postedBy;
   @override
   $PhoneNumberCopyWith<$Res>? get phoneNumber;
   @override
@@ -209,31 +172,28 @@ abstract class _$$ListingImplCopyWith<T, $Res>
 }
 
 /// @nodoc
-class __$$ListingImplCopyWithImpl<T, $Res>
-    extends _$ListingCopyWithImpl<T, $Res, _$ListingImpl<T>>
-    implements _$$ListingImplCopyWith<T, $Res> {
-  __$$ListingImplCopyWithImpl(
-      _$ListingImpl<T> _value, $Res Function(_$ListingImpl<T>) _then)
+class __$$RequestImplCopyWithImpl<T, $Res>
+    extends _$RequestCopyWithImpl<T, $Res, _$RequestImpl<T>>
+    implements _$$RequestImplCopyWith<T, $Res> {
+  __$$RequestImplCopyWithImpl(
+      _$RequestImpl<T> _value, $Res Function(_$RequestImpl<T>) _then)
       : super(_value, _then);
 
-  /// Create a copy of Listing
+  /// Create a copy of Request
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? id = null,
     Object? price = null,
-    Object? discountPrice = freezed,
-    Object? listingType = null,
     Object? itemType = null,
-    Object? priceNegotiable = null,
     Object? priceHidden = null,
-    Object? isFeatured = null,
-    Object? postedBy = null,
+    Object? isSold = null,
+    Object? userId = null,
     Object? phoneNumber = freezed,
     Object? plateNumber = freezed,
   }) {
-    return _then(_$ListingImpl<T>(
+    return _then(_$RequestImpl<T>(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -242,34 +202,22 @@ class __$$ListingImplCopyWithImpl<T, $Res>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as double,
-      discountPrice: freezed == discountPrice
-          ? _value.discountPrice
-          : discountPrice // ignore: cast_nullable_to_non_nullable
-              as double?,
-      listingType: null == listingType
-          ? _value.listingType
-          : listingType // ignore: cast_nullable_to_non_nullable
-              as ListingType,
       itemType: null == itemType
           ? _value.itemType
           : itemType // ignore: cast_nullable_to_non_nullable
               as ItemType,
-      priceNegotiable: null == priceNegotiable
-          ? _value.priceNegotiable
-          : priceNegotiable // ignore: cast_nullable_to_non_nullable
-              as bool,
       priceHidden: null == priceHidden
           ? _value.priceHidden
           : priceHidden // ignore: cast_nullable_to_non_nullable
               as bool,
-      isFeatured: null == isFeatured
-          ? _value.isFeatured
-          : isFeatured // ignore: cast_nullable_to_non_nullable
+      isSold: null == isSold
+          ? _value.isSold
+          : isSold // ignore: cast_nullable_to_non_nullable
               as bool,
-      postedBy: null == postedBy
-          ? _value.postedBy
-          : postedBy // ignore: cast_nullable_to_non_nullable
-              as UserProfile,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
       phoneNumber: freezed == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
@@ -284,23 +232,20 @@ class __$$ListingImplCopyWithImpl<T, $Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ListingImpl<T> extends _Listing<T> {
-  _$ListingImpl(
+class _$RequestImpl<T> extends _Request<T> {
+  _$RequestImpl(
       {required this.id,
       this.price = 0,
-      this.discountPrice,
-      this.listingType = ListingType.ad,
       required this.itemType,
-      this.priceNegotiable = false,
       this.priceHidden = false,
-      this.isFeatured = false,
-      this.postedBy = const UserProfile(),
+      this.isSold = false,
+      required this.userId,
       this.phoneNumber,
       this.plateNumber})
       : super._();
 
-  factory _$ListingImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ListingImplFromJson(json);
+  factory _$RequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RequestImplFromJson(json);
 
   @override
   final String id;
@@ -308,24 +253,15 @@ class _$ListingImpl<T> extends _Listing<T> {
   @JsonKey()
   final double price;
   @override
-  final double? discountPrice;
-  @override
-  @JsonKey()
-  final ListingType listingType;
-  @override
   final ItemType itemType;
-  @override
-  @JsonKey()
-  final bool priceNegotiable;
   @override
   @JsonKey()
   final bool priceHidden;
   @override
   @JsonKey()
-  final bool isFeatured;
+  final bool isSold;
   @override
-  @JsonKey()
-  final UserProfile postedBy;
+  final String userId;
   @override
   final PhoneNumber? phoneNumber;
   @override
@@ -333,30 +269,22 @@ class _$ListingImpl<T> extends _Listing<T> {
 
   @override
   String toString() {
-    return 'Listing<$T>(id: $id, price: $price, discountPrice: $discountPrice, listingType: $listingType, itemType: $itemType, priceNegotiable: $priceNegotiable, priceHidden: $priceHidden, isFeatured: $isFeatured, postedBy: $postedBy, phoneNumber: $phoneNumber, plateNumber: $plateNumber)';
+    return 'Request<$T>(id: $id, price: $price, itemType: $itemType, priceHidden: $priceHidden, isSold: $isSold, userId: $userId, phoneNumber: $phoneNumber, plateNumber: $plateNumber)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ListingImpl<T> &&
+            other is _$RequestImpl<T> &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.price, price) || other.price == price) &&
-            (identical(other.discountPrice, discountPrice) ||
-                other.discountPrice == discountPrice) &&
-            (identical(other.listingType, listingType) ||
-                other.listingType == listingType) &&
             (identical(other.itemType, itemType) ||
                 other.itemType == itemType) &&
-            (identical(other.priceNegotiable, priceNegotiable) ||
-                other.priceNegotiable == priceNegotiable) &&
             (identical(other.priceHidden, priceHidden) ||
                 other.priceHidden == priceHidden) &&
-            (identical(other.isFeatured, isFeatured) ||
-                other.isFeatured == isFeatured) &&
-            (identical(other.postedBy, postedBy) ||
-                other.postedBy == postedBy) &&
+            (identical(other.isSold, isSold) || other.isSold == isSold) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.phoneNumber, phoneNumber) ||
                 other.phoneNumber == phoneNumber) &&
             (identical(other.plateNumber, plateNumber) ||
@@ -365,81 +293,61 @@ class _$ListingImpl<T> extends _Listing<T> {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      price,
-      discountPrice,
-      listingType,
-      itemType,
-      priceNegotiable,
-      priceHidden,
-      isFeatured,
-      postedBy,
-      phoneNumber,
-      plateNumber);
+  int get hashCode => Object.hash(runtimeType, id, price, itemType, priceHidden,
+      isSold, userId, phoneNumber, plateNumber);
 
-  /// Create a copy of Listing
+  /// Create a copy of Request
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ListingImplCopyWith<T, _$ListingImpl<T>> get copyWith =>
-      __$$ListingImplCopyWithImpl<T, _$ListingImpl<T>>(this, _$identity);
+  _$$RequestImplCopyWith<T, _$RequestImpl<T>> get copyWith =>
+      __$$RequestImplCopyWithImpl<T, _$RequestImpl<T>>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ListingImplToJson<T>(
+    return _$$RequestImplToJson<T>(
       this,
     );
   }
 }
 
-abstract class _Listing<T> extends Listing<T> {
-  factory _Listing(
+abstract class _Request<T> extends Request<T> {
+  factory _Request(
       {required final String id,
       final double price,
-      final double? discountPrice,
-      final ListingType listingType,
       required final ItemType itemType,
-      final bool priceNegotiable,
       final bool priceHidden,
-      final bool isFeatured,
-      final UserProfile postedBy,
+      final bool isSold,
+      required final String userId,
       final PhoneNumber? phoneNumber,
-      final PlateNumber? plateNumber}) = _$ListingImpl<T>;
-  _Listing._() : super._();
+      final PlateNumber? plateNumber}) = _$RequestImpl<T>;
+  _Request._() : super._();
 
-  factory _Listing.fromJson(Map<String, dynamic> json) =
-      _$ListingImpl<T>.fromJson;
+  factory _Request.fromJson(Map<String, dynamic> json) =
+      _$RequestImpl<T>.fromJson;
 
   @override
   String get id;
   @override
   double get price;
   @override
-  double? get discountPrice;
-  @override
-  ListingType get listingType;
-  @override
   ItemType get itemType;
-  @override
-  bool get priceNegotiable;
   @override
   bool get priceHidden;
   @override
-  bool get isFeatured;
+  bool get isSold;
   @override
-  UserProfile get postedBy;
+  String get userId;
   @override
   PhoneNumber? get phoneNumber;
   @override
   PlateNumber? get plateNumber;
 
-  /// Create a copy of Listing
+  /// Create a copy of Request
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ListingImplCopyWith<T, _$ListingImpl<T>> get copyWith =>
+  _$$RequestImplCopyWith<T, _$RequestImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }

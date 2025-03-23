@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_request_screen/cubit/add_plate_request_cubit.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_request_screen/cubit/add_plate_request_state.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_request_screen/ui/single_plate_request_form.dart';
-import 'package:joplate/presentation/routes/router.dart';
 
 @RoutePage()
 class AddPlateRequestPage extends StatelessWidget {
@@ -21,22 +20,27 @@ class AddPlateRequestPage extends StatelessWidget {
           title: const Text("Add Plate Request"),
         ),
         body: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                const SinglePlateRequestForm(),
-                const SizedBox(height: 24),
-                BlocBuilder<AddPlateRequestCubit, PlateRequestState>(
-                  builder: (context, state) {
-                    final cubit = context.read<AddPlateRequestCubit>();
+          child: BlocBuilder<AddPlateRequestCubit, PlateRequestState>(
+            builder: (context, state) {
+              final cubit = context.read<AddPlateRequestCubit>();
 
-                    return ElevatedButton(
+              return SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // The single request form
+                    const SinglePlateRequestForm(),
+                    const SizedBox(height: 24),
+
+                    // Submit button
+                    ElevatedButton(
                       onPressed: state.isSubmitting
                           ? null
                           : () async {
                               await cubit.submitRequest();
-                              // If submission succeeded, form is reset
+
+                              // If submission succeeded, the form is reset
                               if (cubit.state.errorMessage == null &&
                                   !cubit.state.isSubmitting &&
                                   cubit.state.code.isEmpty &&
@@ -44,15 +48,14 @@ class AddPlateRequestPage extends StatelessWidget {
                                   (cubit.state.price ?? '').isEmpty) {
                                 // e.g., navigate away
                                 AutoRouter.of(context).maybePop();
-
                               }
                             },
                       child: const Text("Submit", style: TextStyle(color: Colors.white)),
-                    );
-                  },
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              );
+            },
           ),
         ),
       ),

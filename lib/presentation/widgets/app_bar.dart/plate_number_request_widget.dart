@@ -1,22 +1,19 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
-import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_widget.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
 
-class PlateNumberListingWidget extends StatelessWidget {
-  final PlateNumber item;
+class PlateNumberRequestWidget extends StatelessWidget {
+  final Request<PlateNumber> item;
   final PlateShape shape;
-  final bool isSold;
   final double priceLabelFontSize;
   final bool hideLikeButton;
 
-  const PlateNumberListingWidget(
+  const PlateNumberRequestWidget(
       {super.key,
       required this.item,
       this.shape = PlateShape.horizontal,
-      this.isSold = false,
       this.priceLabelFontSize = 16,
       this.hideLikeButton = false});
 
@@ -28,7 +25,7 @@ class PlateNumberListingWidget extends StatelessWidget {
     return Center(
       child: GestureDetector(
         onTap: () {
-          AutoRouter.of(context).push(PlatesDetailsRoute(plateNumber: item.toString()));
+          // AutoRouter.of(context).push(PlatesDetailsRoute(plateNumber: item.toString()));
         },
         child: Stack(
           fit: StackFit.passthrough,
@@ -36,7 +33,7 @@ class PlateNumberListingWidget extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                border: Border.all(color: item.isFeatured ? Colors.yellow[700]! : Colors.grey[500]!, width: 2),
+                border: Border.all(color: Colors.grey[500]!, width: 2),
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -50,7 +47,7 @@ class PlateNumberListingWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         PlateNumberWidget(
-                          plate: item,
+                          plate: item.plateNumber!,
                           shape: shape,
                         ),
                         const SizedBox(height: 8),
@@ -61,14 +58,13 @@ class PlateNumberListingWidget extends StatelessWidget {
                             listingId: item.toString(),
                             iconSize: 20,
                           ),
+                        if (item.isSold) _buildSoldRibbon(),
                       ],
                     ),
                   ),
                 ],
               ),
             ),
-            if (item.isFeatured) _buildFeaturedRibbon(),
-            if (item.isSold) _buildSoldRibbon()
           ],
         ),
       ),
@@ -76,7 +72,7 @@ class PlateNumberListingWidget extends StatelessWidget {
   }
 
   Widget _buildPriceLabel() {
-    if (item.originalListing.priceHidden) {
+    if (item.priceHidden || item.price == 0) {
       return Text(
         'Call for Price',
         style: TextStyle(
@@ -87,38 +83,9 @@ class PlateNumberListingWidget extends StatelessWidget {
         ),
         maxLines: 1,
       );
-    } else if (item.originalListing.discountPrice > 0 &&
-        item.originalListing.discountPrice < item.originalListing.price) {
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'JOD ${item.originalListing.discountPrice} ',
-            style: TextStyle(
-              fontSize: priceLabelFontSize,
-              fontFamily: 'Mandatory',
-              fontWeight: FontWeight.w700,
-              color: const Color(0xFF981C1E),
-            ),
-            maxLines: 1,
-          ),
-          Text(
-            '${item.originalListing.price}',
-            style: TextStyle(
-              fontSize: priceLabelFontSize * 0.875,
-              fontWeight: FontWeight.w600,
-              decoration: TextDecoration.lineThrough,
-              decorationStyle: TextDecorationStyle.solid,
-              color: Colors.black,
-            ),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-          ),
-        ],
-      );
     } else {
       return Text(
-        'JOD ${item.originalListing.price}',
+        'JOD ${item.price}',
         style: TextStyle(
           fontSize: priceLabelFontSize,
           fontFamily: 'Mandatory',
@@ -155,6 +122,7 @@ class PlateNumberListingWidget extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildSoldRibbon() {
     return Positioned(
       top: 20,

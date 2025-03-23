@@ -1,21 +1,60 @@
+// lib/presentation/routes/pages/add_plate_request_screen/ui/single_plate_request_form.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:joplate/presentation/routes/pages/add_plate_request_screen/cubit/add_plate_request_cubit.dart';
-import 'package:joplate/presentation/routes/pages/add_plate_request_screen/cubit/add_plate_request_state.dart';
+import '../cubit/add_plate_request_cubit.dart';
+import '../cubit/add_plate_request_state.dart';
 import 'package:joplate/presentation/theme.dart';
 
-class SinglePlateRequestForm extends StatelessWidget {
+class SinglePlateRequestForm extends StatefulWidget {
   const SinglePlateRequestForm({super.key});
+
+  @override
+  State<SinglePlateRequestForm> createState() => _SinglePlateRequestFormState();
+}
+
+class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
+  late final TextEditingController codeController;
+  late final TextEditingController numberController;
+  late final TextEditingController priceController;
+
+  @override
+  void initState() {
+    super.initState();
+    final cubit = context.read<AddPlateRequestCubit>();
+    final state = cubit.state;
+
+    codeController = TextEditingController(text: state.code);
+    numberController = TextEditingController(text: state.number);
+    priceController = TextEditingController(text: state.price ?? '');
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final state = context.read<AddPlateRequestCubit>().state;
+    _maybeSyncText(codeController, state.code);
+    _maybeSyncText(numberController, state.number);
+    _maybeSyncText(priceController, state.price ?? '');
+  }
+
+  void _maybeSyncText(TextEditingController controller, String newText) {
+    if (controller.text != newText) {
+      final selection = controller.selection;
+      controller.text = newText;
+      final length = newText.length;
+      controller.selection = selection.copyWith(
+        baseOffset: length,
+        extentOffset: length,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AddPlateRequestCubit, PlateRequestState>(
       builder: (context, state) {
         final cubit = context.read<AddPlateRequestCubit>();
-
-        final codeController = TextEditingController(text: state.code);
-        final numberController = TextEditingController(text: state.number);
-        final priceController = TextEditingController(text: state.price ?? '');
 
         return Container(
           decoration: cardContainerStyle,
