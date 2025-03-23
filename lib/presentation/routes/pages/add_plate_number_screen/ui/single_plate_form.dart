@@ -13,6 +13,7 @@ class SinglePlateForm extends StatefulWidget {
     required this.onNumberChanged,
     required this.onPriceChanged,
     required this.onDiscountChanged,
+    required this.onFeaturedToggle,
     required this.onDiscountToggle,
     this.onRemoveForm,
   });
@@ -24,6 +25,7 @@ class SinglePlateForm extends StatefulWidget {
   final ValueChanged<String> onPriceChanged;
   final ValueChanged<String> onDiscountChanged;
   final ValueChanged<bool> onDiscountToggle;
+  final ValueChanged<bool> onFeaturedToggle;
   final VoidCallback? onRemoveForm;
 
   @override
@@ -116,13 +118,14 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
                   onChanged: widget.onPriceChanged,
                   keyboardType: TextInputType.number,
                   enabled: !isSubmitting,
-                  decoration: const InputDecoration(labelText: 'Price'),
+                  decoration:
+                      InputDecoration(labelText: widget.formState.withDiscount ? 'Price before discount ' : 'Price'),
                 ),
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("With Discount?", style: TextStyle(fontSize: 16)),
+                    const Text("With Discount", style: TextStyle(fontSize: 16)),
                     Switch(
                       value: widget.formState.withDiscount,
                       onChanged: isSubmitting ? null : widget.onDiscountToggle,
@@ -135,9 +138,19 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
                     onChanged: widget.onDiscountChanged,
                     keyboardType: TextInputType.number,
                     enabled: !isSubmitting,
-                    decoration: const InputDecoration(labelText: 'Discount Price'),
+                    decoration: const InputDecoration(labelText: 'Price after discount'),
                   ),
                 const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text("Featured", style: TextStyle(fontSize: 16)),
+                    Switch(
+                      value: widget.formState.isFeatured,
+                      onChanged: isSubmitting ? null : widget.onDiscountToggle,
+                    ),
+                  ],
+                ),
                 if (isSubmitting) const Center(child: CircularProgressIndicator()),
               ],
             ),

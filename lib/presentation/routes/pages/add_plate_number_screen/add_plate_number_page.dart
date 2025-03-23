@@ -50,6 +50,7 @@ class _AddPlateNumberPageState extends State<AddPlateNumberPage> {
                           onDiscountChanged: (val) => cubit.updateDiscountPrice(index, val),
                           onDiscountToggle: (val) => cubit.toggleDiscount(index, val),
                           onRemoveForm: () => cubit.removeForm(index),
+                          onFeaturedToggle: (val) => cubit.toggleFeatured(index, val),
                         );
                       },
                     ),

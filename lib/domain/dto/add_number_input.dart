@@ -9,6 +9,7 @@ class AddPlateNumberInput with _$AddPlateNumberInput {
     required String number,
     required int price,
     int? discountPrice,
+    @Default(false) bool isFeatured,
   }) = _AddPlateNumberInput;
 }
 

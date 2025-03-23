@@ -20,6 +20,7 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
       discountPrice: null,
       isSubmitting: false,
       errorMessage: null,
+      isFeatured: false,
     );
     emit(state.copyWith(forms: [...state.forms, newForm]));
   }
@@ -44,6 +45,10 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
 
   void updatePrice(int index, String newPrice) {
     _updateForm(index, state.forms[index].copyWith(price: newPrice, errorMessage: null));
+  }
+
+  void toggleFeatured(int index, bool enable) {
+    _updateForm(index, state.forms[index].copyWith(isFeatured: enable, errorMessage: null));
   }
 
   void toggleDiscount(int index, bool enable) {
@@ -88,6 +93,7 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
         number: form.number,
         price: int.parse(form.price),
         discountPrice: form.withDiscount ? int.tryParse(form.discountPrice ?? '') : null,
+        isFeatured: form.isFeatured,
       );
 
       final addListingDto = AddListingDto(
@@ -97,7 +103,7 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
         itemType: ItemType.plateNumber,
         priceNegotiable: true,
         priceHidden: false,
-        isFeatured: false,
+        isFeatured: input.isFeatured,
         itemData: {
           "code": input.code,
           "number": input.number,

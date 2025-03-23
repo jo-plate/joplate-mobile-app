@@ -20,6 +20,7 @@ mixin _$AddPlateNumberInput {
   String get number => throw _privateConstructorUsedError;
   int get price => throw _privateConstructorUsedError;
   int? get discountPrice => throw _privateConstructorUsedError;
+  bool get isFeatured => throw _privateConstructorUsedError;
 
   /// Create a copy of AddPlateNumberInput
   /// with the given fields replaced by the non-null parameter values.
@@ -34,7 +35,12 @@ abstract class $AddPlateNumberInputCopyWith<$Res> {
           AddPlateNumberInput value, $Res Function(AddPlateNumberInput) then) =
       _$AddPlateNumberInputCopyWithImpl<$Res, AddPlateNumberInput>;
   @useResult
-  $Res call({String code, String number, int price, int? discountPrice});
+  $Res call(
+      {String code,
+      String number,
+      int price,
+      int? discountPrice,
+      bool isFeatured});
 }
 
 /// @nodoc
@@ -56,6 +62,7 @@ class _$AddPlateNumberInputCopyWithImpl<$Res, $Val extends AddPlateNumberInput>
     Object? number = null,
     Object? price = null,
     Object? discountPrice = freezed,
+    Object? isFeatured = null,
   }) {
     return _then(_value.copyWith(
       code: null == code
@@ -74,6 +81,10 @@ class _$AddPlateNumberInputCopyWithImpl<$Res, $Val extends AddPlateNumberInput>
           ? _value.discountPrice
           : discountPrice // ignore: cast_nullable_to_non_nullable
               as int?,
+      isFeatured: null == isFeatured
+          ? _value.isFeatured
+          : isFeatured // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -86,7 +97,12 @@ abstract class _$$AddPlateNumberInputImplCopyWith<$Res>
       __$$AddPlateNumberInputImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String code, String number, int price, int? discountPrice});
+  $Res call(
+      {String code,
+      String number,
+      int price,
+      int? discountPrice,
+      bool isFeatured});
 }
 
 /// @nodoc
@@ -106,6 +122,7 @@ class __$$AddPlateNumberInputImplCopyWithImpl<$Res>
     Object? number = null,
     Object? price = null,
     Object? discountPrice = freezed,
+    Object? isFeatured = null,
   }) {
     return _then(_$AddPlateNumberInputImpl(
       code: null == code
@@ -124,6 +141,10 @@ class __$$AddPlateNumberInputImplCopyWithImpl<$Res>
           ? _value.discountPrice
           : discountPrice // ignore: cast_nullable_to_non_nullable
               as int?,
+      isFeatured: null == isFeatured
+          ? _value.isFeatured
+          : isFeatured // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -135,7 +156,8 @@ class _$AddPlateNumberInputImpl implements _AddPlateNumberInput {
       {required this.code,
       required this.number,
       required this.price,
-      this.discountPrice});
+      this.discountPrice,
+      this.isFeatured = false});
 
   @override
   final String code;
@@ -145,10 +167,13 @@ class _$AddPlateNumberInputImpl implements _AddPlateNumberInput {
   final int price;
   @override
   final int? discountPrice;
+  @override
+  @JsonKey()
+  final bool isFeatured;
 
   @override
   String toString() {
-    return 'AddPlateNumberInput(code: $code, number: $number, price: $price, discountPrice: $discountPrice)';
+    return 'AddPlateNumberInput(code: $code, number: $number, price: $price, discountPrice: $discountPrice, isFeatured: $isFeatured)';
   }
 
   @override
@@ -160,12 +185,14 @@ class _$AddPlateNumberInputImpl implements _AddPlateNumberInput {
             (identical(other.number, number) || other.number == number) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.discountPrice, discountPrice) ||
-                other.discountPrice == discountPrice));
+                other.discountPrice == discountPrice) &&
+            (identical(other.isFeatured, isFeatured) ||
+                other.isFeatured == isFeatured));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, code, number, price, discountPrice);
+      Object.hash(runtimeType, code, number, price, discountPrice, isFeatured);
 
   /// Create a copy of AddPlateNumberInput
   /// with the given fields replaced by the non-null parameter values.
@@ -182,7 +209,8 @@ abstract class _AddPlateNumberInput implements AddPlateNumberInput {
       {required final String code,
       required final String number,
       required final int price,
-      final int? discountPrice}) = _$AddPlateNumberInputImpl;
+      final int? discountPrice,
+      final bool isFeatured}) = _$AddPlateNumberInputImpl;
 
   @override
   String get code;
@@ -192,6 +220,8 @@ abstract class _AddPlateNumberInput implements AddPlateNumberInput {
   int get price;
   @override
   int? get discountPrice;
+  @override
+  bool get isFeatured;
 
   /// Create a copy of AddPlateNumberInput
   /// with the given fields replaced by the non-null parameter values.
