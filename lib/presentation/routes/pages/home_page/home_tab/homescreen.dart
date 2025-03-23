@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'ui/logo_section.dart';
 import 'ui/category_section.dart';
 import '../../../../widgets/app_bar.dart/plates_listing_grid.dart';
@@ -15,6 +16,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final plateNumbers = mockPlateNumberList;
+    final m = Localization.of(context);
     final chunkedPlates = List.generate(
       (plateNumbers.length / 6).ceil(),
       (index) => plateNumbers.skip(index * 6).take(6).toList(),
@@ -40,9 +42,9 @@ class HomePage extends StatelessWidget {
             children: [
               const CategorySection(),
               const SizedBox(height: 24),
-              const Text(
-                "Featured Numbers",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              Text(
+                m.home.featured_numbers,
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
               CarouselSlider(
                 options: CarouselOptions(

@@ -100,6 +100,11 @@ class HomeMessagesAr extends HomeMessages {
   /// "عرض الإعلانات"
   /// ```
   String get button_view_items => """عرض الإعلانات""";
+
+  /// ```dart
+  /// "الأرقام المميزة"
+  /// ```
+  String get featured_numbers => """الأرقام المميزة""";
 }
 
 Map<String, String> get messagesArMap => {
@@ -107,4 +112,5 @@ Map<String, String> get messagesArMap => {
   """home.welcome""": """مرحبًا بك في Joplate!""",
   """home.button_list_item""": """أضف إعلان""",
   """home.button_view_items""": """عرض الإعلانات""",
+  """home.featured_numbers""": """الأرقام المميزة""",
 };

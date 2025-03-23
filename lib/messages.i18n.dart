@@ -99,6 +99,11 @@ class HomeMessages {
   /// "View Listings"
   /// ```
   String get button_view_items => """View Listings""";
+
+  /// ```dart
+  /// "Featured Numbers"
+  /// ```
+  String get featured_numbers => """Featured Numbers""";
 }
 
 Map<String, String> get messagesMap => {
@@ -106,4 +111,5 @@ Map<String, String> get messagesMap => {
   """home.welcome""": """Welcome to Joplate!""",
   """home.button_list_item""": """List an Item""",
   """home.button_view_items""": """View Listings""",
+  """home.featured_numbers""": """Featured Numbers""",
 };
