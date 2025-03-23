@@ -1,4 +1,4 @@
-// lib/presentation/routes/pages/add_phone_number_screen/ui/add_multiple_phones_page.dart
+// lib/presentation/routes/pages/add_phone_number_screen/ui/add_phone_number_page.dart
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -33,46 +33,48 @@ class AddPhoneNumberPage extends StatelessWidget {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
+                        final form = state.forms[index];
+
+                        // Provide a stable key so each form retains its controller state
                         return SinglePhoneForm(
+                          key: ValueKey('PhoneForm-$index'),
                           index: index,
+                          formState: form,
                           onNumberChanged: (val) => cubit.updateNumber(index, val),
                           onPriceChanged: (val) => cubit.updatePrice(index, val),
                           onDiscountChanged: (val) => cubit.updateDiscountPrice(index, val),
                           onDiscountToggle: (val) => cubit.toggleDiscount(index, val),
                           onRemoveForm: () => cubit.removeForm(index),
-
                         );
                       },
                     ),
 
                     const SizedBox(height: 24),
 
-                    // Button to add another phone form
-                    ElevatedButton.icon(
-                      icon: const Icon(Icons.add),
-                      label: const Text(
-                        "Add Another",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () => cubit.addNewForm(),
-                    ),
-
-                    const SizedBox(height: 24),
-
-                    // Button to submit all forms
-                    ElevatedButton(
-                      child: const Text(
-                        "Submit All",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () async {
-                        await cubit.submitAllForms();
-
-                        // If after submission, forms is empty -> success
-                        if (cubit.state.forms.isEmpty) {
-                          AutoRouter.of(context).maybePop();
-                        }
-                      },
+                    // "Add More" + "Submit"
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            icon: const Icon(Icons.add, color: Colors.white),
+                            label: const Text("Add more", style: TextStyle(color: Colors.white)),
+                            onPressed: () => cubit.addNewForm(),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              await cubit.submitAllForms();
+                              if (cubit.state.forms.isEmpty) {
+                                // e.g., navigate away on success
+                                AutoRouter.of(context).maybePop();
+                              }
+                            },
+                            child: const Text("Submit", style: TextStyle(color: Colors.white)),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

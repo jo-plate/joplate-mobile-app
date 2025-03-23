@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_number_screen/cubit/add_plate_numbers_cubit.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_number_screen/cubit/plate_form_state.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_number_screen/ui/single_plate_form.dart';
-import 'package:joplate/presentation/routes/router.dart';
 
 @RoutePage()
 class AddPlateNumberPage extends StatefulWidget {
@@ -73,7 +72,7 @@ class _AddPlateNumberPageState extends State<AddPlateNumberPage> {
                               await cubit.submitAllForms();
                               if (cubit.state.forms.isEmpty) {
                                 // e.g., navigate away on success
-                                AutoRouter.of(context).replace(const MyNumbersRoute());
+                                AutoRouter.of(context).maybePop();
                               }
                             },
                             child: const Text("Submit", style: TextStyle(color: Colors.white)),

@@ -1,3 +1,5 @@
+// lib/presentation/routes/pages/add_phone_number_screen/cubit/add_phone_numbers_cubit.dart
+
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'phone_form_state.dart'; // import the freezed classes
@@ -8,6 +10,7 @@ import 'package:joplate/data/constants.dart';
 class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
   AddPhoneNumbersCubit() : super(const AddPhoneNumbersState(forms: []));
 
+  /// Add a blank phone form
   void addNewForm() {
     const newForm = PhoneFormState(
       number: '',
@@ -29,6 +32,7 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
     }
   }
 
+  // Update fields
   void updateNumber(int index, String newNumber) {
     _updateForm(
       index,
@@ -55,6 +59,7 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
       index,
       oldForm.copyWith(
         withDiscount: enable,
+        // If discount was turned off, reset the discountPrice
         discountPrice: enable ? oldForm.discountPrice : null,
         errorMessage: null,
       ),
@@ -71,6 +76,7 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
     );
   }
 
+  /// Submit all forms in sequence
   Future<void> submitAllForms() async {
     final forms = [...state.forms];
 
@@ -84,7 +90,7 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
         continue;
       }
 
-      // Mark form as submitting
+      // Mark this form as submitting
       forms[i] = form.copyWith(isSubmitting: true, errorMessage: null);
       emit(state.copyWith(forms: forms));
 
