@@ -61,15 +61,12 @@ class _MyRequestsPageState extends State<MyRequestsPage> with SingleTickerProvid
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: TabBarView(
-          controller: tabController,
-          children: [
-            PlateRequestsByUserId(userId: FirebaseAuth.instance.currentUser?.uid ?? ''),
-            PhoneRequestsByUserId(userId: FirebaseAuth.instance.currentUser?.uid ?? ''),
-          ],
-        ),
+      body: TabBarView(
+        controller: tabController,
+        children: [
+          PlateRequestsByUserId(userId: FirebaseAuth.instance.currentUser?.uid ?? ''),
+          PhoneRequestsByUserId(userId: FirebaseAuth.instance.currentUser?.uid ?? ''),
+        ],
       ),
     );
   }

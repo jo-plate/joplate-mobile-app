@@ -39,7 +39,9 @@ class _PhonesRequestsListWidgetState extends State<PhonesRequestsListWidget> {
     return StreamBuilder(
       stream: phonesRequestsStream,
       builder: (context, snapshot) {
-        return SingleChildScrollView(child: PhonesRequestsGrid(itemList: snapshot.data ?? []));
+        return SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: PhonesRequestsGrid(itemList: snapshot.data ?? []));
       },
     );
   }

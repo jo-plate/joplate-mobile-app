@@ -34,6 +34,7 @@ class _PlateRequestsByUserIdState extends State<PlateRequestsByUserId> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: StreamBuilder<List<Request<PlateNumber>>>(
             stream: userPlatesStream,
             builder: (context, snapshot) {

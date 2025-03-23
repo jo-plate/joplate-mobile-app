@@ -39,7 +39,9 @@ class _PlatesRequestsListWidgetState extends State<PlatesRequestsListWidget> {
     return StreamBuilder(
       stream: platesRequestsStream,
       builder: (context, snapshot) {
-        return SingleChildScrollView(child: PlatesRequestGrid(itemList: snapshot.data ?? []));
+        return SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: PlatesRequestGrid(itemList: snapshot.data ?? []));
       },
     );
   }
