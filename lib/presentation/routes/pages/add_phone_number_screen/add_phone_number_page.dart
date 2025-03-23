@@ -45,6 +45,7 @@ class AddPhoneNumberPage extends StatelessWidget {
                           onDiscountChanged: (val) => cubit.updateDiscountPrice(index, val),
                           onDiscountToggle: (val) => cubit.toggleDiscount(index, val),
                           onRemoveForm: () => cubit.removeForm(index),
+                          onFeaturedToggle: (val) => cubit.toggleFeatured(index, val),
                         );
                       },
                     ),

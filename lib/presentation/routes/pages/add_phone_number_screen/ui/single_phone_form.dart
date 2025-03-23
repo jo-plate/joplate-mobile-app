@@ -12,6 +12,7 @@ class SinglePhoneForm extends StatefulWidget {
     required this.onPriceChanged,
     required this.onDiscountChanged,
     required this.onDiscountToggle,
+    required this.onFeaturedToggle,
     this.onRemoveForm,
   });
 
@@ -22,6 +23,7 @@ class SinglePhoneForm extends StatefulWidget {
   final ValueChanged<String> onPriceChanged;
   final ValueChanged<String> onDiscountChanged;
   final ValueChanged<bool> onDiscountToggle;
+  final ValueChanged<bool> onFeaturedToggle;
 
   /// Callback to remove this form from the parent
   final VoidCallback? onRemoveForm;
@@ -78,7 +80,7 @@ class _SinglePhoneFormState extends State<SinglePhoneForm> {
     final errorText = widget.formState.errorMessage ?? '';
 
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8),
+      margin: const EdgeInsets.symmetric(vertical: 12),
       child: Stack(
         clipBehavior: Clip.none,
         children: [
@@ -102,13 +104,14 @@ class _SinglePhoneFormState extends State<SinglePhoneForm> {
                   onChanged: widget.onPriceChanged,
                   keyboardType: TextInputType.number,
                   enabled: !isSubmitting,
-                  decoration: const InputDecoration(labelText: 'Price'),
+                  decoration:
+                      InputDecoration(labelText: widget.formState.withDiscount ? "Price before Discount" : 'Price'),
                 ),
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("With Discount?", style: TextStyle(fontSize: 16)),
+                    const Text("With Discount", style: TextStyle(fontSize: 16)),
                     Switch(
                       value: widget.formState.withDiscount,
                       onChanged: isSubmitting ? null : widget.onDiscountToggle,
@@ -121,9 +124,18 @@ class _SinglePhoneFormState extends State<SinglePhoneForm> {
                     onChanged: widget.onDiscountChanged,
                     keyboardType: TextInputType.number,
                     enabled: !isSubmitting,
-                    decoration: const InputDecoration(labelText: 'Discount Price'),
+                    decoration: const InputDecoration(labelText: 'Price after Discount'),
                   ),
-                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text("Featured", style: TextStyle(fontSize: 16)),
+                    Switch(
+                      value: widget.formState.isFeatured,
+                      onChanged: isSubmitting ? null : widget.onFeaturedToggle,
+                    ),
+                  ],
+                ),
                 if (isSubmitting) const Center(child: CircularProgressIndicator()),
               ],
             ),

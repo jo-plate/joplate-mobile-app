@@ -18,6 +18,7 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
       withDiscount: false,
       discountPrice: null,
       isSubmitting: false,
+      isFeatured: false,
       errorMessage: null,
     );
     emit(state.copyWith(forms: [...state.forms, newForm]));
@@ -61,6 +62,16 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
         withDiscount: enable,
         // If discount was turned off, reset the discountPrice
         discountPrice: enable ? oldForm.discountPrice : null,
+        errorMessage: null,
+      ),
+    );
+  }
+
+  void toggleFeatured(int index, bool enable) {
+    _updateForm(
+      index,
+      state.forms[index].copyWith(
+        isFeatured: enable,
         errorMessage: null,
       ),
     );

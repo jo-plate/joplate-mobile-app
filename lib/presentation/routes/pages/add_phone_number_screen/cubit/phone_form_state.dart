@@ -12,6 +12,7 @@ class PhoneFormState with _$PhoneFormState {
     required String price,
     required bool withDiscount,
     String? discountPrice,
+    required bool isFeatured,
     @Default(false) bool isSubmitting,
     String? errorMessage,
   }) = _PhoneFormState;

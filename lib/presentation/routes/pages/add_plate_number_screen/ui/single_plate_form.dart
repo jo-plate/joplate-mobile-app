@@ -147,7 +147,7 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
                     const Text("Featured", style: TextStyle(fontSize: 16)),
                     Switch(
                       value: widget.formState.isFeatured,
-                      onChanged: isSubmitting ? null : widget.onDiscountToggle,
+                      onChanged: isSubmitting ? null : widget.onFeaturedToggle,
                     ),
                   ],
                 ),
