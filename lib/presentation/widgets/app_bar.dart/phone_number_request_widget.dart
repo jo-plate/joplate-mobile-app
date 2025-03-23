@@ -48,7 +48,7 @@ class PhoneNumberRequestWidget extends StatelessWidget {
                           const SizedBox(height: 8),
                           _buildPriceLabel(),
                           const SizedBox(height: 2),
-                          if (!hideLikeButton)
+                          if (!true)
                             FavoriteButton.plate(
                               listingId: item.toString(),
                               iconSize: 20,
