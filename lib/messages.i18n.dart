@@ -129,6 +129,16 @@ class HomeMessages {
   /// "Quick Sale"
   /// ```
   String get quick_sale => """Quick Sale""";
+
+  /// ```dart
+  /// "Featured"
+  /// ```
+  String get featured => """Featured""";
+
+  /// ```dart
+  /// "Sold"
+  /// ```
+  String get sold => """Sold""";
 }
 
 class ProfileMessages {
@@ -361,6 +371,8 @@ Map<String, String> get messagesMap => {
   """home.phone_numbers""": """Phone Numbers""",
   """home.requests""": """Requests""",
   """home.quick_sale""": """Quick Sale""",
+  """home.featured""": """Featured""",
+  """home.sold""": """Sold""",
   """profile.title""": """Profile""",
   """profile.Requests""": """Requests""",
   """profile.Numbers""": """Numbers""",
