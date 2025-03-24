@@ -6,6 +6,7 @@ import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/domain/entities/user_favorites.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phones_listing_grid.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plates_listing_grid.dart';
 import 'package:joplate/presentation/utils/firebase_utils.dart';
@@ -62,15 +63,16 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
   }
 @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Favorites'),
+        title: Text(m.footer.favorites),
         centerTitle: true,
         bottom: TabBar(
           controller: tabController,
-          tabs: const [
-            Tab(text: 'Car Numbers'),
-            Tab(text: 'Phone Numbers'),
+          tabs: [
+            Tab(text: m.home.car_number),
+            Tab(text: m.home.phone_numbers),
           ],
         ),
       ),
@@ -87,7 +89,7 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
             }
         
             if (snapshot.hasError || !snapshot.hasData || snapshot.data?.data() == null) {
-              return const Center(child: Text('No favorites found'));
+              return Center(child: Text(m.favoritesSc.no_favorites));
             }
 
             // Convert snapshot to UserFavorites
@@ -101,7 +103,7 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
                 }
 
                 if (plateSnapshot.hasError || plateSnapshot.data == null) {
-                  return const Center(child: Text('Failed to load plates.'));
+                  return Center(child: Text(m.favoritesSc.failed_to_load));
                 }
 
                 return FutureBuilder<List<PhoneNumber>>(
@@ -112,7 +114,7 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
                     }
 
                     if (phoneSnapshot.hasError || phoneSnapshot.data == null) {
-                      return const Center(child: Text('Failed to load phone numbers.'));
+                      return Center(child: Text(m.favoritesSc.failed_to_load));
                     }
 
                     return TabBarView(

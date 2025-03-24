@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/menu_item.dart';
 import 'package:joplate/presentation/widgets/profile_banner.dart';
@@ -13,9 +14,10 @@ class AccountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Account'),
+        title: Text(m.editProfile.header),
         centerTitle: true,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
@@ -45,24 +47,24 @@ class AccountPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     MenuItem(
-                        title: 'Full name',
+                        title: m.editProfile.Full_Name,
                         icon: Icons.person,
                         onTap: () => AutoRouter.of(context).push(const EditFullNameRoute())),
                     const SizedBox(height: 16),
                     MenuItem(
-                      title: 'Phone number',
+                      title: m.editProfile.phone_number,
                       icon: Icons.phone_outlined,
                       onTap: () => AutoRouter.of(context)
                           .push(const EditPhoneNumberRoute()),
                     ),
                     const SizedBox(height: 16),
                     MenuItem(
-                        title: 'Email',
+                        title: m.editProfile.email,
                         icon: Icons.email_outlined,
                         onTap: () => AutoRouter.of(context).push(const EditEmailRoute())),
                     const SizedBox(height: 16),
                     MenuItem(
-                      title: 'Change Password',
+                      title: m.editProfile.change_password,
                       icon: Icons.password_outlined,
                       onTap: () => AutoRouter.of(context).push(const ChangePasswordRoute()),
                     ),

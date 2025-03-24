@@ -7,4 +7,58 @@ home:
   button_list_item: "أضف إعلان"
   button_view_items: "عرض الإعلانات"
   featured_numbers: "الأرقام المميزة"
+  car_number : "ارقام السيارات"
+  phone_numbers : "ارقام الهواتف"
+  requests: "الطلبات" 
+  quick_sale: "البيع السريع"
 
+profile:
+  title: "الملف الشخصي"
+  Requests: "الطلبات"
+  Numbers: "الأرقام"
+  packages: "الباقات"
+  my_current_plan : "خطتي الحالية"
+  language: "اللغة"
+  aboutus: "من نحن"
+  privacy_policy: "سياسة الخصوصية"
+  terms_conditions: "الشروط والأحكام"
+  instructions: "التعليمات"
+  logout: "تسجيل الخروج"
+  delete_account: "حذف الحساب"
+  notsignedin: "غير مسجل الدخول"
+  signin: "تسجيل الدخول"
+
+footer:
+  home: "الرئيسية"
+  profile: "الملف الشخصي"
+  favorites: "المفضلة"
+
+edit profile:
+ header: " الملف الشخصي"
+ Full_Name: "الاسم الكامل"
+ phone_number: "رقم الهاتف"
+ email: "البريد الالكتروني"
+ change_password: "تغيير كلمة المرور"
+ edit_fullname: "تعديل الاسم الكامل"
+ edit_email: "تعديل البريد الالكتروني"
+ edit_phone: "تعديل رقم الهاتف"
+ save: "حفظ"
+ send_verification_code: "ارسال كود التحقق"
+ verifyandsave: "تحقق وحفظ"
+ oldpassword: "كلمة المرور القديمة"
+ newpassword: "كلمة المرور الجديدة"
+ confirmpassword: "تأكيد كلمة المرور"
+
+plan:
+  title: "خطتي الحالية"
+  plan_name: "اسم الخطة"
+  balance: "0 / JOD"
+  renewal_date: "تجديد في"
+  change_plan_button: "تغيير الخطة"
+  your_plan_label: "خطتك"
+
+favorites sc:
+ no_favorites: "لا يوجد عناصر في المفضلة"
+ failed_to_load: "فشل في تحميل المفضلة"
+
+  

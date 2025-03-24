@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 
 @RoutePage()
@@ -8,6 +9,7 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     return AutoTabsScaffold(
       routes: const [
         ProfileRoute(),
@@ -18,10 +20,10 @@ class DashboardPage extends StatelessWidget {
         return BottomNavigationBar(
           currentIndex: tabsRouter.activeIndex,
           onTap: tabsRouter.setActiveIndex,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
+          items: [
+            BottomNavigationBarItem(icon: const Icon(Icons.person), label: m.footer.profile),
+            BottomNavigationBarItem(icon: const Icon(Icons.home), label: m.footer.home),
+            BottomNavigationBarItem(icon: Icon(Icons.favorite), label: m.footer.favorites),
           ],
         );
       },

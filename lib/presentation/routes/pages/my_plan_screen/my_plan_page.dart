@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 
 @RoutePage()
@@ -13,9 +14,10 @@ class MyPlanPage extends StatefulWidget {
 class _MyPlanPageState extends State<MyPlanPage> {
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     return Scaffold(
         appBar: AppBar(
-          title: const Text('My Current Plan'),
+          title: Text(m.plan.title),
           centerTitle: true,
           backgroundColor: Colors.grey[100],
           foregroundColor: Colors.black,
@@ -52,13 +54,13 @@ class _MyPlanPageState extends State<MyPlanPage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text("Plan Name", style: TextStyle(color: Colors.black, fontSize: 16.0)),
+                            Text(m.plan.plan_name, style: TextStyle(color: Colors.black, fontSize: 16.0)),
                             const SizedBox(
                               height: 8,
                             ),
                             RichText(
                               text: const TextSpan(
-                                  text: "0",
+                                  text: "30",
                                   style: TextStyle(
                                       fontFamily: 'Mandatory',
                                       fontWeight: FontWeight.w700,
@@ -86,8 +88,8 @@ class _MyPlanPageState extends State<MyPlanPage> {
                             color: Colors.red.withOpacity(0.3),
                           ),
                           padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: const Text(
-                            "Your plan",
+                          child: Text(
+                            m.plan.your_plan_label,
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.red,
@@ -106,11 +108,11 @@ class _MyPlanPageState extends State<MyPlanPage> {
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Text("Renew on 3-8-2024"),
+                        Text(m.plan.renewal_date),
                         const Spacer(),
                         FilledButton(
                             onPressed: () => AutoRouter.of(context).push(const PlansRoute()),
-                            child: const Text("Change plan"))
+                            child: Text(m.plan.change_plan_button)),
                       ],
                     )
                   ],

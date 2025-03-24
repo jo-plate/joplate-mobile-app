@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
 import 'package:joplate/presentation/cubits/localization/localization_cubit.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/home_page/profile_tab/ui/anon_user_view.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/presentation/routes/router.dart';
@@ -21,9 +22,11 @@ class LoggedInUserView extends StatefulWidget {
 class _LoggedInUserViewState extends State<LoggedInUserView> {
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: Text(m.profile.title),
         centerTitle: true,
         foregroundColor: Colors.black,
         elevation: 0,
@@ -62,6 +65,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     return StreamBuilder<User?>(
         stream: _authStateStream,
         builder: (context, snapshot) {
@@ -76,7 +80,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
                   _buildFeaturesSection(),
                   const SizedBox(height: 16),
                   MenuItem(
-                      title: 'My Current Plan',
+                      title: m.profile.my_current_plan,
                       icon: Icons.description_outlined,
                       onTap: () => AutoRouter.of(context).push(const MyPlanRoute())),
                 ] else
@@ -94,13 +98,15 @@ class _UserProfileViewState extends State<_UserProfileView> {
   }
 
   Widget _buildFeaturesSection() {
+    final m = Localization.of(context);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
           child: _buildFeatureCard(
             icon: Icons.notes_rounded,
-            label: 'Numbers',
+            label: m.profile.Numbers,
             onTap: () {
               AutoRouter.of(context).push(const MyNumbersRoute());
             },
@@ -110,7 +116,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
         Expanded(
           child: _buildFeatureCard(
             icon: Icons.card_giftcard,
-            label: 'Packages',
+            label: m.profile.packages,
             onTap: () {
               // Handle "Packages" click
             },
@@ -120,7 +126,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
         Expanded(
           child: _buildFeatureCard(
             icon: Icons.draw,
-            label: 'Requests',
+            label: m.profile.Requests,
             onTap: () {
               AutoRouter.of(context).push(const MyRequestsRoute());
             },
@@ -170,6 +176,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
 
   /// Language Section
   Widget _buildLanguageSection() {
+    final m = Localization.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -188,8 +195,8 @@ class _UserProfileViewState extends State<_UserProfileView> {
                 size: 24,
               ),
               const SizedBox(width: 16),
-              const Text(
-                'Language',
+              Text(
+                m.profile.language,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
@@ -235,6 +242,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
   }
 
   Widget _buildLanguageButton({
+    
     required String label,
     required bool isSelected,
     required VoidCallback onTap,
@@ -263,20 +271,23 @@ class _UserProfileViewState extends State<_UserProfileView> {
 
   /// Developer Section
   Widget _buildDeveloperSection(BuildContext context) {
+    final m = Localization.of(context);
+
     return Column(
       children: [
-        _buildClickableItem('About Us', Icons.info_outline),
-        _buildClickableItem('Privacy Policy', Icons.privacy_tip_outlined, () {
+        _buildClickableItem(m.profile.aboutus, Icons.info_outline),
+        _buildClickableItem(m.profile.privacy_policy, Icons.privacy_tip_outlined, () {
           AutoRouter.of(context).push(const PrivacyPolicyRoute());
         }),
-        _buildClickableItem('Terms and Conditions', Icons.description_outlined,
+        _buildClickableItem(m.profile.terms_conditions, Icons.description_outlined,
             () => AutoRouter.of(context).push(const TermsAndConditionsRoute())),
-        _buildClickableItem('Instructions', Icons.help_outline),
+        _buildClickableItem(m.profile.instructions, Icons.help_outline),
       ],
     );
   }
 
   Widget _buildLogOutSection() {
+    final m = Localization.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -298,13 +309,13 @@ class _UserProfileViewState extends State<_UserProfileView> {
             padding: EdgeInsets.only(left: 16), // Add left margin to the icon
             child: Icon(Icons.logout, size: 20),
           ),
-          label: const Align(
+          label: Align(
             alignment: Alignment.centerLeft,
             child: Padding(
-              padding: EdgeInsets.only(left: 8), // Add left margin to the text
+              padding: const EdgeInsets.only(left: 8), // Add left margin to the text
               child: Text(
-                'Log Out',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                m.profile.logout,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
             ),
           ),
@@ -325,9 +336,9 @@ class _UserProfileViewState extends State<_UserProfileView> {
               borderRadius: BorderRadius.circular(12), // Rounded corners
             ),
           ),
-          child: const Row(
+          child: Row(
             children: [
-              Padding(
+              const Padding(
                 padding: EdgeInsets.only(left: 16), // Add left margin to the icon
                 child: Icon(
                   Icons.delete,
@@ -335,10 +346,10 @@ class _UserProfileViewState extends State<_UserProfileView> {
                   color: Colors.black,
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Text(
-                'Delete My Account',
-                style: TextStyle(
+                m.profile.delete_account,
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),

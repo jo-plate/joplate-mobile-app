@@ -7,3 +7,56 @@ home:
   button_list_item: "List an Item"
   button_view_items: "View Listings"
   featured_numbers: "Featured Numbers"
+  car_number : "Car Numbers"
+  phone_numbers : "Phone Numbers"
+  requests: "Requests" 
+  quick_sale: "Quick Sale"
+
+profile:
+  title: "Profile"
+  Requests: "Requests"
+  Numbers: "Numbers"
+  packages: "Packages"
+  my_current_plan : "My Current Plan"
+  language: "Language"
+  aboutus: "About Us"
+  privacy_policy: "Privacy Policy"
+  terms_conditions: "Terms & Conditions"
+  instructions: "Instructions"
+  logout: "Logout"
+  delete_account: "Delete Account"
+  notsignedin: "Not Signed In"
+  signin: "Sign In"
+
+footer:
+  home: "Home"
+  profile: "Profile"
+  favorites: "Favorites"
+
+edit profile:
+  header: "Profile"
+  Full_Name: "Full Name"
+  phone_number: "Phone Number"
+  email: "Email"
+  change_password: "Change Password"
+  edit_fullname: "Edit Full Name"
+  edit_email: "Edit Email"
+  edit_phone: "Edit Phone Number"
+  save: "Save"
+  send_verification_code: "Send Verification Code"
+  verifyandsave: "Verify & Save"
+  oldpassword: "Old Password"
+  newpassword: "New Password"
+  confirmpassword: "Confirm Password"
+
+plan:
+  title: "My Current Plan"
+  plan_name: "Plan Name"
+  balance: "0 / JOD"
+  renewal_date: "Renew on"
+  change_plan_button: "Change Plan"
+  your_plan_label: "Your Plan"
+
+favorites sc:
+  no_favorites: "You have no favorites yet"
+  failed_to_load: "Failed to load favorites"

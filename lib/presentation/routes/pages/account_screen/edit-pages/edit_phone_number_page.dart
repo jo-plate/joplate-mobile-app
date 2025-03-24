@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 
 @RoutePage()
 class EditPhoneNumberPage extends StatefulWidget {
@@ -78,8 +79,9 @@ class _EditPhoneNumberPageState extends State<EditPhoneNumberPage> {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Edit Phone Number')),
+      appBar: AppBar(title: Text(m.editProfile.edit_phone)),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : Padding(
@@ -88,13 +90,13 @@ class _EditPhoneNumberPageState extends State<EditPhoneNumberPage> {
                 children: [
                   TextField(
                     controller: _phoneController,
-                    decoration: const InputDecoration(labelText: 'Phone Number'),
+                    decoration: InputDecoration(labelText: m.editProfile.phone_number),
                     keyboardType: TextInputType.phone,
                   ),
                   const SizedBox(height: 20),
                   FilledButton(
                     onPressed: _isSaving ? null : _savePhoneNumber,
-                    child: _isSaving ? const CircularProgressIndicator() : const Text('Save'),
+                    child: _isSaving ? const CircularProgressIndicator() : Text(m.editProfile.save),
                   ),
                 ],
               ),

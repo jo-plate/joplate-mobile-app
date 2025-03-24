@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 
 @RoutePage()
 class EditEmailPage extends StatefulWidget {
@@ -79,9 +80,10 @@ class _EditEmailPageState extends State<EditEmailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Email'),
+        title: Text(m.editProfile.edit_email),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
       ),
@@ -92,7 +94,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
           children: [
             TextField(
               controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email Address'),
+              decoration: InputDecoration(labelText: m.editProfile.email),
               keyboardType: TextInputType.emailAddress,
             ),
             const SizedBox(height: 16),
@@ -110,7 +112,8 @@ class _EditEmailPageState extends State<EditEmailPage> {
                   _updateEmail();
                 }
               },
-              child: Text(emailVerificationVisible ? 'Verify & Save' : 'Send Verification'),
+              child:
+                  Text(emailVerificationVisible ? m.editProfile.verifyandsave : m.editProfile.send_verification_code),
             ),
           ],
         ),

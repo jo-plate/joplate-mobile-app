@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 
 @RoutePage()
 class EditFullNamePage extends StatefulWidget {
@@ -29,9 +30,10 @@ class _EditFullNamePageState extends State<EditFullNamePage> {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Full Name'),
+        title: Text(m.editProfile.edit_fullname),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
       ),
@@ -42,7 +44,7 @@ class _EditFullNamePageState extends State<EditFullNamePage> {
           children: [
             TextField(
               controller: _nameController,
-              decoration: const InputDecoration(labelText: 'Full Name'),
+              decoration: InputDecoration(labelText: m.editProfile.Full_Name),
             ),
             const SizedBox(height: 20),
             FilledButton(
@@ -54,7 +56,7 @@ class _EditFullNamePageState extends State<EditFullNamePage> {
                     .set({'name': _nameController.text}, SetOptions(merge: true));
                 if (context.mounted) Navigator.of(context).pop();
               },
-              child: const Text('Save'),
+              child: Text(m.editProfile.save),
             ),
           ],
         ),

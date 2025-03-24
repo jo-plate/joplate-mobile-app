@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 
 @RoutePage()
 class ChangePasswordPage extends StatefulWidget {
@@ -63,8 +64,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Change Password')),
+      appBar: AppBar(title: Text(m.editProfile.change_password)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -72,20 +74,20 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           children: [
             TextField(
               controller: _oldPasswordController,
-              decoration: const InputDecoration(labelText: 'Old Password'),
+              decoration: InputDecoration(labelText: m.editProfile.oldpassword),
               obscureText: true,
             ),
             const SizedBox(height: 16),
             TextField(
               controller: _newPasswordController,
-              decoration: const InputDecoration(labelText: 'New Password'),
+              decoration: InputDecoration(labelText: m.editProfile.newpassword),
               obscureText: true,
             ),
             const SizedBox(height: 16),
 
             TextField(
               controller: _confirmPasswordController,
-              decoration: const InputDecoration(labelText: 'Confirm Password'),
+              decoration: InputDecoration(labelText: m.editProfile.confirmpassword),
               obscureText: true,
             ),
             const SizedBox(height: 20),
@@ -93,7 +95,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 ? const CircularProgressIndicator()
                 : FilledButton(
                     onPressed: _changePassword,
-                    child: const Text('Save'),
+                    child: Text(m.editProfile.save),
                   ),
           ],
         ),

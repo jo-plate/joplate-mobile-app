@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 
 class AnonUserView extends StatelessWidget {
@@ -9,6 +10,7 @@ class AnonUserView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 100.0, vertical: 10.0),
       child: Center(
@@ -22,8 +24,8 @@ class AnonUserView extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          const Text(
-            'You are not logged in',
+          Text(
+            m.profile.notsignedin,
             textAlign: TextAlign.center,
           ),
           const SizedBox(
@@ -33,7 +35,7 @@ class AnonUserView extends StatelessWidget {
               onPressed: () {
                 AutoRouter.of(context).push(const AuthRoute());
               },
-              child: const Text('Sign in'))
+              child: Text(m.profile.signin)),
         ],
       )),
     );

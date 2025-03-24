@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'category_card.dart';
 
@@ -43,33 +44,35 @@ class CategorySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
+      child: Column(  
         children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             _buildCategoryCard(
               icon: Icons.directions_car,
-              title: "Car Numbers",
+              title: m.home.car_number,
               itemType: ItemType.plateNumber,
               onTap: () => AutoRouter.of(context).push(const PlatesListingsRoute()),
             ),
             _buildCategoryCard(
                 icon: Icons.phone,
-                title: "Phone Numbers",
+                title: m.home.phone_numbers,
                 itemType: ItemType.phoneNumber,
                 onTap: () => AutoRouter.of(context).push(const PhoneListingsRoute())),
             _buildCategoryCard(
                 icon: Icons.request_page,
-                title: "Requests",
+                title: m.home.requests,
                 onTap: () => AutoRouter.of(context).push(const RequestsRoute())),
           ]),
           const SizedBox(height: 16),
           OutlinedButton.icon(
             onPressed: () {},
-            label: const Text(
-              "Quick Sale",
-              style: TextStyle(fontSize: 16),
+            label: Text(
+              m.home.quick_sale,
+              style: const TextStyle(fontSize: 16),
             ),
             icon: const Icon(
               Icons.speed,
