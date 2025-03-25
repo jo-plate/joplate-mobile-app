@@ -143,6 +143,14 @@ class HomeMessages {
   /// "My Requests"
   /// ```
   String get myRequests => """My Requests""";
+  /// "Featured"
+  /// ```
+  String get featured => """Featured""";
+
+  /// ```dart
+  /// "Sold"
+  /// ```
+  String get sold => """Sold""";
 }
 
 class ProfileMessages {
@@ -662,6 +670,8 @@ Map<String, String> get messagesMap => {
   """home.quick_sale""": """Quick Sale""",
   """home.mynumbers""": """My Numbers""",
   """home.myRequests""": """My Requests""",
+   """home.featured""": """Featured""",
+  """home.sold""": """Sold""",
   """profile.title""": """Profile""",
   """profile.Requests""": """Requests""",
   """profile.Numbers""": """Numbers""",

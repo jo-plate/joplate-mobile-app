@@ -11,6 +11,8 @@ home:
   phone_numbers : "Phone Numbers"
   requests: "Requests" 
   quick_sale: "Quick Sale"
+  featured: "Featured"
+  sold: "Sold"
   mynumbers: "My Numbers"
   myRequests: "My Requests"
 

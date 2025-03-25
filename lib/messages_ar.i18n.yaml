@@ -11,6 +11,8 @@ home:
   phone_numbers : "ارقام الهواتف"
   requests: "الطلبات" 
   quick_sale: "البيع السريع"
+  featured: "مميز"
+  sold: "تم البيع"
   mynumbers: "أرقامي"
   myRequests: "طلباتي"
 

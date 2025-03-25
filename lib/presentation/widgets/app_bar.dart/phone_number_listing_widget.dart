@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
+import 'package:joplate/injection/injector.dart';
+import 'package:joplate/presentation/cubits/localization/localization_cubit.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
 
@@ -19,51 +22,54 @@ class PhoneNumberListingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: AspectRatio(
-        aspectRatio: aspectRatio,
-        child: GestureDetector(
-          onTap: () {
-            AutoRouter.of(context).push(PhoneDetailsRoute(phoneNumber: item));
-          },
-          child: Stack(
-            clipBehavior: Clip.hardEdge,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.yellow[700]!, width: 2),
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text((item).number, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                          const SizedBox(height: 8),
-                          if (item.ads.firstOrNull != null) _buildPriceLabel(),
-                          const SizedBox(height: 2),
-                          if (!hideLikeButton)
-                            FavoriteButton.plate(
-                              listingId: item.toString(),
-                              iconSize: 20,
-                            ),
-                        ],
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Center(
+        child: AspectRatio(
+          aspectRatio: aspectRatio,
+          child: GestureDetector(
+            onTap: () {
+              AutoRouter.of(context).push(PhoneDetailsRoute(phoneNumber: item));
+            },
+            child: Stack(
+              clipBehavior: Clip.hardEdge,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.yellow[700]!, width: 2),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text((item).number, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                            const SizedBox(height: 8),
+                            if (item.ads.firstOrNull != null) _buildPriceLabel(),
+                            const SizedBox(height: 2),
+                            if (!hideLikeButton)
+                              FavoriteButton.plate(
+                                listingId: item.toString(),
+                                iconSize: 20,
+                              ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              if (item.ads.firstOrNull != null) ...[
-                if (item.ads.first.isFeatured) _buildFeaturedRibbon(),
-                if (item.ads.first.isSold) _buildSoldRibbon()
-              ]
-            ],
+                if (item.ads.firstOrNull != null) ...[
+                  if (item.ads.first.isFeatured) _buildFeaturedRibbon(context),
+                  if (item.ads.first.isSold) _buildSoldRibbon(context)
+                ]
+              ],
+            ),
           ),
         ),
       ),
@@ -124,12 +130,14 @@ class PhoneNumberListingWidget extends StatelessWidget {
     }
   }
 
-  Widget _buildFeaturedRibbon() {
+  Widget _buildFeaturedRibbon(context) {
+    final m = Localization.of(context);
     return Positioned(
       bottom: 20,
-      right: -20,
+      right: injector<LocalizationCubit>().state.languageCode == 'en' ? -20 : null,
+      left: injector<LocalizationCubit>().state.languageCode == 'ar' ? -20 : null,
       child: Transform.rotate(
-        angle: -0.7854,
+        angle: injector<LocalizationCubit>().state.languageCode == 'en' ? -0.7854 : 0.7854,
         child: Container(
           width: 100,
           alignment: Alignment.center,
@@ -137,9 +145,9 @@ class PhoneNumberListingWidget extends StatelessWidget {
             color: Colors.yellow[700],
             borderRadius: BorderRadius.circular(4),
           ),
-          child: const Text(
-            'FEATURED',
-            style: TextStyle(
+          child: Text(
+            m.home.featured,
+            style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 12,
@@ -150,12 +158,14 @@ class PhoneNumberListingWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildSoldRibbon() {
+  Widget _buildSoldRibbon(BuildContext context) {
+    final m = Localization.of(context);
     return Positioned(
       top: 20,
-      left: -20,
+      left: injector<LocalizationCubit>().state.languageCode == 'en' ? -20 : null,
+      right: injector<LocalizationCubit>().state.languageCode == 'ar' ? -20 : null,
       child: Transform.rotate(
-        angle: -0.7854,
+        angle: injector<LocalizationCubit>().state.languageCode == 'en' ? -0.7854 : 0.7854,
         child: Container(
           width: 100,
           alignment: Alignment.center,
@@ -163,9 +173,9 @@ class PhoneNumberListingWidget extends StatelessWidget {
             color: const Color(0xFF981C1E),
             borderRadius: BorderRadius.circular(4),
           ),
-          child: const Text(
-            'SOLD',
-            style: TextStyle(
+          child: Text(
+            m.home.sold,
+            style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 12,
