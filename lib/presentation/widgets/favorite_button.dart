@@ -6,14 +6,20 @@ import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/entities/user_favorites.dart';
 
 class FavoriteButton extends StatefulWidget {
-  const FavoriteButton({super.key, required this.itemType, required this.listingId, this.iconSize = 24});
+  const FavoriteButton(
+      {super.key,
+      required this.itemType,
+      required this.listingId,
+      this.iconSize = 24});
 
   final ItemType itemType;
   final double iconSize;
 
-  const FavoriteButton.plate({super.key, required this.listingId, this.iconSize = 24})
+  const FavoriteButton.plate(
+      {super.key, required this.listingId, this.iconSize = 24})
       : itemType = ItemType.plateNumber;
-  const FavoriteButton.phone({super.key, required this.listingId, this.iconSize = 24})
+  const FavoriteButton.phone(
+      {super.key, required this.listingId, this.iconSize = 24})
       : itemType = ItemType.phoneNumber;
 
   final String listingId;
@@ -29,18 +35,24 @@ class _FavoriteButtonState extends State<FavoriteButton> {
   void initState() {
     super.initState();
     final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return;
+    if (user == null) {
+      _isFavorite = Stream.value(false);
+      return;
+    } else {
+      _isFavorite = FirebaseFirestore.instance
+          .collection(favoritesCollectionId)
+          .doc(user.uid)
+          .snapshots()
+          .map((snapshot) {
+        final data = snapshot.data();
+        if (data == null) return false;
+        final favorites = UserFavorites.fromJson(data);
 
-    _isFavorite =
-        FirebaseFirestore.instance.collection(favoritesCollectionId).doc(user.uid).snapshots().map((snapshot) {
-      final data = snapshot.data();
-      if (data == null) return false;
-      final favorites = UserFavorites.fromJson(data);
-
-      return widget.itemType == ItemType.plateNumber
-          ? favorites.favoritePlatesIds.contains(widget.listingId)
-          : favorites.favoritePhonesIds.contains(widget.listingId);
-    });
+        return widget.itemType == ItemType.plateNumber
+            ? favorites.favoritePlatesIds.contains(widget.listingId)
+            : favorites.favoritePhonesIds.contains(widget.listingId);
+      });
+    }
   }
 
   @override
@@ -61,13 +73,23 @@ class _FavoriteButtonState extends State<FavoriteButton> {
             if (user == null) return;
 
             if (!isFavorite) {
-              await FirebaseFirestore.instance.collection(favoritesCollectionId).doc(user.uid).set({
-                widget.itemType == ItemType.plateNumber ? 'favoritePlatesIds' : 'favoritePhonesIds':
+              await FirebaseFirestore.instance
+                  .collection(favoritesCollectionId)
+                  .doc(user.uid)
+                  .set({
+                widget.itemType == ItemType.plateNumber
+                        ? 'favoritePlatesIds'
+                        : 'favoritePhonesIds':
                     FieldValue.arrayUnion([widget.listingId])
               }, SetOptions(merge: true));
             } else {
-              await FirebaseFirestore.instance.collection(favoritesCollectionId).doc(user.uid).set({
-                widget.itemType == ItemType.plateNumber ? 'favoritePlatesIds' : 'favoritePhonesIds':
+              await FirebaseFirestore.instance
+                  .collection(favoritesCollectionId)
+                  .doc(user.uid)
+                  .set({
+                widget.itemType == ItemType.plateNumber
+                        ? 'favoritePlatesIds'
+                        : 'favoritePhonesIds':
                     FieldValue.arrayRemove([widget.listingId])
               }, SetOptions(merge: true));
             }
