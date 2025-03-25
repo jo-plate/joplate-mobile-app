@@ -70,6 +70,10 @@ class MessagesAr extends Messages {
   EditProfileMessagesAr get editProfile => EditProfileMessagesAr(this);
   PlanMessagesAr get plan => PlanMessagesAr(this);
   FavoritesScMessagesAr get favoritesSc => FavoritesScMessagesAr(this);
+  PhonesMessagesAr get phones => PhonesMessagesAr(this);
+  PlatesMessagesAr get plates => PlatesMessagesAr(this);
+  DigitcountsMessagesAr get digitcounts => DigitcountsMessagesAr(this);
+  FormatsMessagesAr get formats => FormatsMessagesAr(this);
 }
 
 class AppMessagesAr extends AppMessages {
@@ -130,6 +134,16 @@ class HomeMessagesAr extends HomeMessages {
   /// "البيع السريع"
   /// ```
   String get quick_sale => """البيع السريع""";
+
+  /// ```dart
+  /// "أرقامي"
+  /// ```
+  String get mynumbers => """أرقامي""";
+
+  /// ```dart
+  /// "طلباتي"
+  /// ```
+  String get myRequests => """طلباتي""";
 }
 
 class ProfileMessagesAr extends ProfileMessages {
@@ -352,6 +366,291 @@ class FavoritesScMessagesAr extends FavoritesScMessages {
   String get failed_to_load => """فشل في تحميل المفضلة""";
 }
 
+class PhonesMessagesAr extends PhonesMessages {
+  final MessagesAr _parent;
+  const PhonesMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "أرقام الهواتف"
+  /// ```
+  String get title => """أرقام الهواتف""";
+
+  /// ```dart
+  /// "إضافة"
+  /// ```
+  String get add_button => """إضافة""";
+
+  /// ```dart
+  /// "الشركة"
+  /// ```
+  String get company_label => """الشركة""";
+
+  /// ```dart
+  /// "يحتوي على"
+  /// ```
+  String get contains => """يحتوي على""";
+
+  /// ```dart
+  /// "يبدأ بـ"
+  /// ```
+  String get starts_with => """يبدأ بـ""";
+
+  /// ```dart
+  /// "ينتهي بـ"
+  /// ```
+  String get ends_with => """ينتهي بـ""";
+
+  /// ```dart
+  /// "أقل سعر"
+  /// ```
+  String get min_price => """أقل سعر""";
+
+  /// ```dart
+  /// "أعلى سعر"
+  /// ```
+  String get max_price => """أعلى سعر""";
+
+  /// ```dart
+  /// "بحث"
+  /// ```
+  String get search => """بحث""";
+
+  /// ```dart
+  /// "عرض المزيد"
+  /// ```
+  String get see_more => """عرض المزيد""";
+
+  /// ```dart
+  /// "عرض أقل"
+  /// ```
+  String get show_less => """عرض أقل""";
+}
+
+class PlatesMessagesAr extends PlatesMessages {
+  final MessagesAr _parent;
+  const PlatesMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "أرقام السيارات"
+  /// ```
+  String get title => """أرقام السيارات""";
+
+  /// ```dart
+  /// "الرمز"
+  /// ```
+  String get code => """الرمز""";
+
+  /// ```dart
+  /// "عدد الأرقام"
+  /// ```
+  String get digit_count => """عدد الأرقام""";
+
+  /// ```dart
+  /// "النمط"
+  /// ```
+  String get format => """النمط""";
+
+  /// ```dart
+  /// "يحتوي على"
+  /// ```
+  String get contains => """يحتوي على""";
+
+  /// ```dart
+  /// "يبدأ بـ"
+  /// ```
+  String get starts_with => """يبدأ بـ""";
+
+  /// ```dart
+  /// "ينتهي بـ"
+  /// ```
+  String get ends_with => """ينتهي بـ""";
+
+  /// ```dart
+  /// "أقل سعر"
+  /// ```
+  String get min_price => """أقل سعر""";
+
+  /// ```dart
+  /// "أعلى سعر"
+  /// ```
+  String get max_price => """أعلى سعر""";
+
+  /// ```dart
+  /// "بحث"
+  /// ```
+  String get search => """بحث""";
+
+  /// ```dart
+  /// "عرض المزيد"
+  /// ```
+  String get see_more => """عرض المزيد""";
+
+  /// ```dart
+  /// "عرض أقل"
+  /// ```
+  String get show_less => """عرض أقل""";
+}
+
+class DigitcountsMessagesAr extends DigitcountsMessages {
+  final MessagesAr _parent;
+  const DigitcountsMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "رقم واحد"
+  /// ```
+  String get d1 => """رقم واحد""";
+
+  /// ```dart
+  /// "رقمان"
+  /// ```
+  String get d2 => """رقمان""";
+
+  /// ```dart
+  /// "3 أرقام"
+  /// ```
+  String get d3 => """3 أرقام""";
+
+  /// ```dart
+  /// "4 أرقام"
+  /// ```
+  String get d4 => """4 أرقام""";
+
+  /// ```dart
+  /// "5 أرقام"
+  /// ```
+  String get d5 => """5 أرقام""";
+}
+
+class FormatsMessagesAr extends FormatsMessages {
+  final MessagesAr _parent;
+  const FormatsMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "النمط"
+  /// ```
+  String get title => """النمط""";
+
+  /// ```dart
+  /// "يحتوي على رقم مكرر مرتين"
+  /// ```
+  String get repeat_2 => """يحتوي على رقم مكرر مرتين""";
+
+  /// ```dart
+  /// "يحتوي على رقم مكرر ثلاث مرات"
+  /// ```
+  String get repeat_3 => """يحتوي على رقم مكرر ثلاث مرات""";
+
+  /// ```dart
+  /// "يحتوي على رقم مكرر أربع مرات"
+  /// ```
+  String get repeat_4 => """يحتوي على رقم مكرر أربع مرات""";
+
+  /// ```dart
+  /// "X???X (5 أرقام)"
+  /// ```
+  String get f_5_1 => """X???X (5 أرقام)""";
+
+  /// ```dart
+  /// "XYZYX (5 أرقام)"
+  /// ```
+  String get f_5_2 => """XYZYX (5 أرقام)""";
+
+  /// ```dart
+  /// "XXXZX (5 أرقام)"
+  /// ```
+  String get f_5_3 => """XXXZX (5 أرقام)""";
+
+  /// ```dart
+  /// "?XXX? (5 أرقام)"
+  /// ```
+  String get f_5_4 => """?XXX? (5 أرقام)""";
+
+  /// ```dart
+  /// "XYXYX (5 أرقام)"
+  /// ```
+  String get f_5_5 => """XYXYX (5 أرقام)""";
+
+  /// ```dart
+  /// "XYYYX (5 أرقام)"
+  /// ```
+  String get f_5_6 => """XYYYX (5 أرقام)""";
+
+  /// ```dart
+  /// "??XXX (5 أرقام)"
+  /// ```
+  String get f_5_7 => """??XXX (5 أرقام)""";
+
+  /// ```dart
+  /// "XXX?? (5 أرقام)"
+  /// ```
+  String get f_5_8 => """XXX?? (5 أرقام)""";
+
+  /// ```dart
+  /// "XXXXX (5 أرقام)"
+  /// ```
+  String get f_5_9 => """XXXXX (5 أرقام)""";
+
+  /// ```dart
+  /// "X??X (4 أرقام)"
+  /// ```
+  String get f_4_1 => """X??X (4 أرقام)""";
+
+  /// ```dart
+  /// "XYXX (4 أرقام)"
+  /// ```
+  String get f_4_2 => """XYXX (4 أرقام)""";
+
+  /// ```dart
+  /// "XYXY (4 أرقام)"
+  /// ```
+  String get f_4_3 => """XYXY (4 أرقام)""";
+
+  /// ```dart
+  /// "?XX? (4 أرقام)"
+  /// ```
+  String get f_4_4 => """?XX? (4 أرقام)""";
+
+  /// ```dart
+  /// "XXXY (4 أرقام)"
+  /// ```
+  String get f_4_5 => """XXXY (4 أرقام)""";
+
+  /// ```dart
+  /// "XYYY (4 أرقام)"
+  /// ```
+  String get f_4_6 => """XYYY (4 أرقام)""";
+
+  /// ```dart
+  /// "XXXX (4 أرقام)"
+  /// ```
+  String get f_4_7 => """XXXX (4 أرقام)""";
+
+  /// ```dart
+  /// "XYX (3 أرقام)"
+  /// ```
+  String get f_3_1 => """XYX (3 أرقام)""";
+
+  /// ```dart
+  /// "XYZ (3 أرقام)"
+  /// ```
+  String get f_3_2 => """XYZ (3 أرقام)""";
+
+  /// ```dart
+  /// "XYY (3 أرقام)"
+  /// ```
+  String get f_3_3 => """XYY (3 أرقام)""";
+
+  /// ```dart
+  /// "XXY (3 أرقام)"
+  /// ```
+  String get f_3_4 => """XXY (3 أرقام)""";
+
+  /// ```dart
+  /// "XXX (3 أرقام)"
+  /// ```
+  String get f_3_5 => """XXX (3 أرقام)""";
+}
+
 Map<String, String> get messagesArMap => {
   """app.title""": """Joplate""",
   """home.welcome""": """مرحبًا بك في Joplate!""",
@@ -362,6 +661,8 @@ Map<String, String> get messagesArMap => {
   """home.phone_numbers""": """ارقام الهواتف""",
   """home.requests""": """الطلبات""",
   """home.quick_sale""": """البيع السريع""",
+  """home.mynumbers""": """أرقامي""",
+  """home.myRequests""": """طلباتي""",
   """profile.title""": """الملف الشخصي""",
   """profile.Requests""": """الطلبات""",
   """profile.Numbers""": """الأرقام""",
@@ -401,4 +702,57 @@ Map<String, String> get messagesArMap => {
   """plan.your_plan_label""": """خطتك""",
   """favorites sc.no_favorites""": """لا يوجد عناصر في المفضلة""",
   """favorites sc.failed_to_load""": """فشل في تحميل المفضلة""",
+  """phones.title""": """أرقام الهواتف""",
+  """phones.add_button""": """إضافة""",
+  """phones.company_label""": """الشركة""",
+  """phones.contains""": """يحتوي على""",
+  """phones.starts_with""": """يبدأ بـ""",
+  """phones.ends_with""": """ينتهي بـ""",
+  """phones.min_price""": """أقل سعر""",
+  """phones.max_price""": """أعلى سعر""",
+  """phones.search""": """بحث""",
+  """phones.see_more""": """عرض المزيد""",
+  """phones.show_less""": """عرض أقل""",
+  """plates.title""": """أرقام السيارات""",
+  """plates.code""": """الرمز""",
+  """plates.digit_count""": """عدد الأرقام""",
+  """plates.format""": """النمط""",
+  """plates.contains""": """يحتوي على""",
+  """plates.starts_with""": """يبدأ بـ""",
+  """plates.ends_with""": """ينتهي بـ""",
+  """plates.min_price""": """أقل سعر""",
+  """plates.max_price""": """أعلى سعر""",
+  """plates.search""": """بحث""",
+  """plates.see_more""": """عرض المزيد""",
+  """plates.show_less""": """عرض أقل""",
+  """digitcounts.d1""": """رقم واحد""",
+  """digitcounts.d2""": """رقمان""",
+  """digitcounts.d3""": """3 أرقام""",
+  """digitcounts.d4""": """4 أرقام""",
+  """digitcounts.d5""": """5 أرقام""",
+  """formats.title""": """النمط""",
+  """formats.repeat_2""": """يحتوي على رقم مكرر مرتين""",
+  """formats.repeat_3""": """يحتوي على رقم مكرر ثلاث مرات""",
+  """formats.repeat_4""": """يحتوي على رقم مكرر أربع مرات""",
+  """formats.f_5_1""": """X???X (5 أرقام)""",
+  """formats.f_5_2""": """XYZYX (5 أرقام)""",
+  """formats.f_5_3""": """XXXZX (5 أرقام)""",
+  """formats.f_5_4""": """?XXX? (5 أرقام)""",
+  """formats.f_5_5""": """XYXYX (5 أرقام)""",
+  """formats.f_5_6""": """XYYYX (5 أرقام)""",
+  """formats.f_5_7""": """??XXX (5 أرقام)""",
+  """formats.f_5_8""": """XXX?? (5 أرقام)""",
+  """formats.f_5_9""": """XXXXX (5 أرقام)""",
+  """formats.f_4_1""": """X??X (4 أرقام)""",
+  """formats.f_4_2""": """XYXX (4 أرقام)""",
+  """formats.f_4_3""": """XYXY (4 أرقام)""",
+  """formats.f_4_4""": """?XX? (4 أرقام)""",
+  """formats.f_4_5""": """XXXY (4 أرقام)""",
+  """formats.f_4_6""": """XYYY (4 أرقام)""",
+  """formats.f_4_7""": """XXXX (4 أرقام)""",
+  """formats.f_3_1""": """XYX (3 أرقام)""",
+  """formats.f_3_2""": """XYZ (3 أرقام)""",
+  """formats.f_3_3""": """XYY (3 أرقام)""",
+  """formats.f_3_4""": """XXY (3 أرقام)""",
+  """formats.f_3_5""": """XXX (3 أرقام)""",
 };

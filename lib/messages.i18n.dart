@@ -69,6 +69,10 @@ class Messages {
   EditProfileMessages get editProfile => EditProfileMessages(this);
   PlanMessages get plan => PlanMessages(this);
   FavoritesScMessages get favoritesSc => FavoritesScMessages(this);
+  PhonesMessages get phones => PhonesMessages(this);
+  PlatesMessages get plates => PlatesMessages(this);
+  DigitcountsMessages get digitcounts => DigitcountsMessages(this);
+  FormatsMessages get formats => FormatsMessages(this);
 }
 
 class AppMessages {
@@ -129,6 +133,16 @@ class HomeMessages {
   /// "Quick Sale"
   /// ```
   String get quick_sale => """Quick Sale""";
+
+  /// ```dart
+  /// "My Numbers"
+  /// ```
+  String get mynumbers => """My Numbers""";
+
+  /// ```dart
+  /// "My Requests"
+  /// ```
+  String get myRequests => """My Requests""";
 }
 
 class ProfileMessages {
@@ -351,6 +365,291 @@ class FavoritesScMessages {
   String get failed_to_load => """Failed to load favorites""";
 }
 
+class PhonesMessages {
+  final Messages _parent;
+  const PhonesMessages(this._parent);
+
+  /// ```dart
+  /// "Phone Numbers"
+  /// ```
+  String get title => """Phone Numbers""";
+
+  /// ```dart
+  /// "Add"
+  /// ```
+  String get add_button => """Add""";
+
+  /// ```dart
+  /// "Company"
+  /// ```
+  String get company_label => """Company""";
+
+  /// ```dart
+  /// "Contains"
+  /// ```
+  String get contains => """Contains""";
+
+  /// ```dart
+  /// "Starts With"
+  /// ```
+  String get starts_with => """Starts With""";
+
+  /// ```dart
+  /// "Ends With"
+  /// ```
+  String get ends_with => """Ends With""";
+
+  /// ```dart
+  /// "Min Price"
+  /// ```
+  String get min_price => """Min Price""";
+
+  /// ```dart
+  /// "Max Price"
+  /// ```
+  String get max_price => """Max Price""";
+
+  /// ```dart
+  /// "Search"
+  /// ```
+  String get search => """Search""";
+
+  /// ```dart
+  /// "See More"
+  /// ```
+  String get see_more => """See More""";
+
+  /// ```dart
+  /// "Show Less"
+  /// ```
+  String get show_less => """Show Less""";
+}
+
+class PlatesMessages {
+  final Messages _parent;
+  const PlatesMessages(this._parent);
+
+  /// ```dart
+  /// "Car Numbers"
+  /// ```
+  String get title => """Car Numbers""";
+
+  /// ```dart
+  /// "Code"
+  /// ```
+  String get code => """Code""";
+
+  /// ```dart
+  /// "Digit Count"
+  /// ```
+  String get digit_count => """Digit Count""";
+
+  /// ```dart
+  /// "Format"
+  /// ```
+  String get format => """Format""";
+
+  /// ```dart
+  /// "Contains"
+  /// ```
+  String get contains => """Contains""";
+
+  /// ```dart
+  /// "Starts With"
+  /// ```
+  String get starts_with => """Starts With""";
+
+  /// ```dart
+  /// "Ends With"
+  /// ```
+  String get ends_with => """Ends With""";
+
+  /// ```dart
+  /// "Min Price"
+  /// ```
+  String get min_price => """Min Price""";
+
+  /// ```dart
+  /// "Max Price"
+  /// ```
+  String get max_price => """Max Price""";
+
+  /// ```dart
+  /// "Search"
+  /// ```
+  String get search => """Search""";
+
+  /// ```dart
+  /// "See More"
+  /// ```
+  String get see_more => """See More""";
+
+  /// ```dart
+  /// "Show Less"
+  /// ```
+  String get show_less => """Show Less""";
+}
+
+class DigitcountsMessages {
+  final Messages _parent;
+  const DigitcountsMessages(this._parent);
+
+  /// ```dart
+  /// "1 Digit"
+  /// ```
+  String get d1 => """1 Digit""";
+
+  /// ```dart
+  /// "2 Digits"
+  /// ```
+  String get d2 => """2 Digits""";
+
+  /// ```dart
+  /// "3 Digits"
+  /// ```
+  String get d3 => """3 Digits""";
+
+  /// ```dart
+  /// "4 Digits"
+  /// ```
+  String get d4 => """4 Digits""";
+
+  /// ```dart
+  /// "5 Digits"
+  /// ```
+  String get d5 => """5 Digits""";
+}
+
+class FormatsMessages {
+  final Messages _parent;
+  const FormatsMessages(this._parent);
+
+  /// ```dart
+  /// "Format"
+  /// ```
+  String get title => """Format""";
+
+  /// ```dart
+  /// "Contains Digit Repeated 2 Times"
+  /// ```
+  String get repeat_2 => """Contains Digit Repeated 2 Times""";
+
+  /// ```dart
+  /// "Contains Digit Repeated 3 Times"
+  /// ```
+  String get repeat_3 => """Contains Digit Repeated 3 Times""";
+
+  /// ```dart
+  /// "Contains Digit Repeated 4 Times"
+  /// ```
+  String get repeat_4 => """Contains Digit Repeated 4 Times""";
+
+  /// ```dart
+  /// "X???X (5 Digits)"
+  /// ```
+  String get f_5_1 => """X???X (5 Digits)""";
+
+  /// ```dart
+  /// "XYZYX (5 Digits)"
+  /// ```
+  String get f_5_2 => """XYZYX (5 Digits)""";
+
+  /// ```dart
+  /// "XXXZX (5 Digits)"
+  /// ```
+  String get f_5_3 => """XXXZX (5 Digits)""";
+
+  /// ```dart
+  /// "?XXX? (5 Digits)"
+  /// ```
+  String get f_5_4 => """?XXX? (5 Digits)""";
+
+  /// ```dart
+  /// "XYXYX (5 Digits)"
+  /// ```
+  String get f_5_5 => """XYXYX (5 Digits)""";
+
+  /// ```dart
+  /// "XYYYX (5 Digits)"
+  /// ```
+  String get f_5_6 => """XYYYX (5 Digits)""";
+
+  /// ```dart
+  /// "??XXX (5 Digits)"
+  /// ```
+  String get f_5_7 => """??XXX (5 Digits)""";
+
+  /// ```dart
+  /// "XXX?? (5 Digits)"
+  /// ```
+  String get f_5_8 => """XXX?? (5 Digits)""";
+
+  /// ```dart
+  /// "XXXXX (5 Digits)"
+  /// ```
+  String get f_5_9 => """XXXXX (5 Digits)""";
+
+  /// ```dart
+  /// "X??X (4 Digits)"
+  /// ```
+  String get f_4_1 => """X??X (4 Digits)""";
+
+  /// ```dart
+  /// "XYXX (4 Digits)"
+  /// ```
+  String get f_4_2 => """XYXX (4 Digits)""";
+
+  /// ```dart
+  /// "XYXY (4 Digits)"
+  /// ```
+  String get f_4_3 => """XYXY (4 Digits)""";
+
+  /// ```dart
+  /// "?XX? (4 Digits)"
+  /// ```
+  String get f_4_4 => """?XX? (4 Digits)""";
+
+  /// ```dart
+  /// "XXXY (4 Digits)"
+  /// ```
+  String get f_4_5 => """XXXY (4 Digits)""";
+
+  /// ```dart
+  /// "XYYY (4 Digits)"
+  /// ```
+  String get f_4_6 => """XYYY (4 Digits)""";
+
+  /// ```dart
+  /// "XXXX (4 Digits)"
+  /// ```
+  String get f_4_7 => """XXXX (4 Digits)""";
+
+  /// ```dart
+  /// "XYX (3 Digits)"
+  /// ```
+  String get f_3_1 => """XYX (3 Digits)""";
+
+  /// ```dart
+  /// "XYZ (3 Digits)"
+  /// ```
+  String get f_3_2 => """XYZ (3 Digits)""";
+
+  /// ```dart
+  /// "XYY (3 Digits)"
+  /// ```
+  String get f_3_3 => """XYY (3 Digits)""";
+
+  /// ```dart
+  /// "XXY (3 Digits)"
+  /// ```
+  String get f_3_4 => """XXY (3 Digits)""";
+
+  /// ```dart
+  /// "XXX (3 Digits)"
+  /// ```
+  String get f_3_5 => """XXX (3 Digits)""";
+}
+
 Map<String, String> get messagesMap => {
   """app.title""": """Joplate""",
   """home.welcome""": """Welcome to Joplate!""",
@@ -361,6 +660,8 @@ Map<String, String> get messagesMap => {
   """home.phone_numbers""": """Phone Numbers""",
   """home.requests""": """Requests""",
   """home.quick_sale""": """Quick Sale""",
+  """home.mynumbers""": """My Numbers""",
+  """home.myRequests""": """My Requests""",
   """profile.title""": """Profile""",
   """profile.Requests""": """Requests""",
   """profile.Numbers""": """Numbers""",
@@ -400,4 +701,57 @@ Map<String, String> get messagesMap => {
   """plan.your_plan_label""": """Your Plan""",
   """favorites sc.no_favorites""": """You have no favorites yet""",
   """favorites sc.failed_to_load""": """Failed to load favorites""",
+  """phones.title""": """Phone Numbers""",
+  """phones.add_button""": """Add""",
+  """phones.company_label""": """Company""",
+  """phones.contains""": """Contains""",
+  """phones.starts_with""": """Starts With""",
+  """phones.ends_with""": """Ends With""",
+  """phones.min_price""": """Min Price""",
+  """phones.max_price""": """Max Price""",
+  """phones.search""": """Search""",
+  """phones.see_more""": """See More""",
+  """phones.show_less""": """Show Less""",
+  """plates.title""": """Car Numbers""",
+  """plates.code""": """Code""",
+  """plates.digit_count""": """Digit Count""",
+  """plates.format""": """Format""",
+  """plates.contains""": """Contains""",
+  """plates.starts_with""": """Starts With""",
+  """plates.ends_with""": """Ends With""",
+  """plates.min_price""": """Min Price""",
+  """plates.max_price""": """Max Price""",
+  """plates.search""": """Search""",
+  """plates.see_more""": """See More""",
+  """plates.show_less""": """Show Less""",
+  """digitcounts.d1""": """1 Digit""",
+  """digitcounts.d2""": """2 Digits""",
+  """digitcounts.d3""": """3 Digits""",
+  """digitcounts.d4""": """4 Digits""",
+  """digitcounts.d5""": """5 Digits""",
+  """formats.title""": """Format""",
+  """formats.repeat_2""": """Contains Digit Repeated 2 Times""",
+  """formats.repeat_3""": """Contains Digit Repeated 3 Times""",
+  """formats.repeat_4""": """Contains Digit Repeated 4 Times""",
+  """formats.f_5_1""": """X???X (5 Digits)""",
+  """formats.f_5_2""": """XYZYX (5 Digits)""",
+  """formats.f_5_3""": """XXXZX (5 Digits)""",
+  """formats.f_5_4""": """?XXX? (5 Digits)""",
+  """formats.f_5_5""": """XYXYX (5 Digits)""",
+  """formats.f_5_6""": """XYYYX (5 Digits)""",
+  """formats.f_5_7""": """??XXX (5 Digits)""",
+  """formats.f_5_8""": """XXX?? (5 Digits)""",
+  """formats.f_5_9""": """XXXXX (5 Digits)""",
+  """formats.f_4_1""": """X??X (4 Digits)""",
+  """formats.f_4_2""": """XYXX (4 Digits)""",
+  """formats.f_4_3""": """XYXY (4 Digits)""",
+  """formats.f_4_4""": """?XX? (4 Digits)""",
+  """formats.f_4_5""": """XXXY (4 Digits)""",
+  """formats.f_4_6""": """XYYY (4 Digits)""",
+  """formats.f_4_7""": """XXXX (4 Digits)""",
+  """formats.f_3_1""": """XYX (3 Digits)""",
+  """formats.f_3_2""": """XYZ (3 Digits)""",
+  """formats.f_3_3""": """XYY (3 Digits)""",
+  """formats.f_3_4""": """XXY (3 Digits)""",
+  """formats.f_3_5""": """XXX (3 Digits)""",
 };

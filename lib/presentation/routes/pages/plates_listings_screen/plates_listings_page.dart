@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plates_listing_grid.dart';
 
@@ -88,9 +89,10 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final m=Localization.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Car Numbers'),
+        title:  Text(m.plates.title),
         centerTitle: true,
         actions: [
           IconButton(
@@ -112,7 +114,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
               children: [
                 Expanded(
                   child: DropdownButtonFormField<String>(
-                    decoration: inputFieldStyle.copyWith(labelText: 'Code'),
+                    decoration: inputFieldStyle.copyWith(labelText: m.plates.code),
                     value: _selectedCode,
                     icon: const Icon(Icons.arrow_drop_down, color: Colors.red),
                     items: _codes.map((c) {
@@ -127,7 +129,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: DropdownButtonFormField<String>(
-                    decoration: inputFieldStyle.copyWith(labelText: 'Digit Count'),
+                    decoration: inputFieldStyle.copyWith(labelText: m.plates.digit_count),
                     value: _selectedDigits,
                     icon: const Icon(Icons.arrow_drop_down, color: Colors.red),
                     items: _digitCounts.map((d) {
@@ -144,7 +146,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
             const SizedBox(height: 8),
 
             DropdownButtonFormField<String>(
-              decoration: inputFieldStyle.copyWith(labelText: 'Format'),
+              decoration: inputFieldStyle.copyWith(labelText: m.plates.format),
               value: _selectedFormat,
               icon: const Icon(Icons.arrow_drop_down, color: Colors.red),
               items: formatList.map((format) {
@@ -164,17 +166,17 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                   Expanded(
                       child: TextFormField(
                           controller: _containsController,
-                          decoration: inputFieldStyle.copyWith(labelText: 'Contains'))),
+                          decoration: inputFieldStyle.copyWith(labelText: m.plates.contains))),
                   const SizedBox(width: 8),
                   Expanded(
                       child: TextFormField(
                           controller: _startsWithController,
-                          decoration: inputFieldStyle.copyWith(labelText: 'Starts With'))),
+                          decoration: inputFieldStyle.copyWith(labelText: m.plates.starts_with))),
                   const SizedBox(width: 8),
                   Expanded(
                       child: TextFormField(
                           controller: _endsWithController,
-                          decoration: inputFieldStyle.copyWith(labelText: 'Ends With'))),
+                          decoration: inputFieldStyle.copyWith(labelText: m.plates.ends_with))),
                 ],
               ),
               const SizedBox(height: 8),
@@ -184,13 +186,13 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                       child: TextFormField(
                           controller: _minPriceController,
                           keyboardType: TextInputType.number,
-                          decoration: inputFieldStyle.copyWith(labelText: 'Min Price'))),
+                          decoration: inputFieldStyle.copyWith(labelText: m.plates.min_price))),
                   const SizedBox(width: 8),
                   Expanded(
                       child: TextFormField(
                           controller: _maxPriceController,
                           keyboardType: TextInputType.number,
-                          decoration: inputFieldStyle.copyWith(labelText: 'Max Price'))),
+                          decoration: inputFieldStyle.copyWith(labelText:m.plates.max_price))),
                   const SizedBox(width: 8),
                   ElevatedButton(
                     onPressed: () {},
@@ -217,7 +219,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
               onTap: () => setState(() => _isExpanded = !_isExpanded),
               child: Row(
                 children: [
-                  Text(_isExpanded ? 'Show Less' : 'See More',
+                  Text(_isExpanded ? m.plates.show_less : m.plates.see_more,
                       style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
                   Icon(_isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down, color: Colors.red),
                 ],

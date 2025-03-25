@@ -36,7 +36,8 @@ class _LoggedInUserViewState extends State<LoggedInUserView> {
         child: Builder(builder: (context) {
           return BlocBuilder<AuthCubit, AuthState>(
             builder: (context, state) {
-              return _UserProfileView(profile: state.userProfile ?? UserProfile.empty());
+              return _UserProfileView(
+                  profile: state.userProfile ?? UserProfile.empty());
             },
           );
         }),
@@ -82,7 +83,8 @@ class _UserProfileViewState extends State<_UserProfileView> {
                   MenuItem(
                       title: m.profile.my_current_plan,
                       icon: Icons.description_outlined,
-                      onTap: () => AutoRouter.of(context).push(const MyPlanRoute())),
+                      onTap: () =>
+                          AutoRouter.of(context).push(const MyPlanRoute())),
                 ] else
                   const AnonUserView(),
                 const SizedBox(height: 16),
@@ -90,7 +92,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
                 const SizedBox(height: 16),
                 _buildDeveloperSection(context),
                 const SizedBox(height: 16),
-                _buildLogOutSection(),
+                if (snapshot.data != null) _buildLogOutSection(),
               ],
             ),
           );
@@ -156,7 +158,9 @@ class _UserProfileViewState extends State<_UserProfileView> {
               CircleAvatar(
                 radius: 28,
                 backgroundColor: Colors.white,
-                child: Icon(icon, color: const Color(0xFF981C1E), size: 50), // Increased icon size
+                child: Icon(icon,
+                    color: const Color(0xFF981C1E),
+                    size: 50), // Increased icon size
               ),
               const SizedBox(height: 8),
               Text(
@@ -214,7 +218,9 @@ class _UserProfileViewState extends State<_UserProfileView> {
                         label: 'العربية',
                         isSelected: !isEnglish,
                         onTap: () {
-                          context.read<LocalizationCubit>().setLocale(const Locale('ar'));
+                          context
+                              .read<LocalizationCubit>()
+                              .setLocale(const Locale('ar'));
                         },
                       ),
                       const SizedBox(width: 8),
@@ -222,7 +228,9 @@ class _UserProfileViewState extends State<_UserProfileView> {
                         label: 'English',
                         isSelected: isEnglish,
                         onTap: () {
-                          context.read<LocalizationCubit>().setLocale(const Locale('en'));
+                          context
+                              .read<LocalizationCubit>()
+                              .setLocale(const Locale('en'));
                         },
                       ),
                     ],
@@ -242,7 +250,6 @@ class _UserProfileViewState extends State<_UserProfileView> {
   }
 
   Widget _buildLanguageButton({
-    
     required String label,
     required bool isSelected,
     required VoidCallback onTap,
@@ -276,10 +283,13 @@ class _UserProfileViewState extends State<_UserProfileView> {
     return Column(
       children: [
         _buildClickableItem(m.profile.aboutus, Icons.info_outline),
-        _buildClickableItem(m.profile.privacy_policy, Icons.privacy_tip_outlined, () {
+        _buildClickableItem(
+            m.profile.privacy_policy, Icons.privacy_tip_outlined, () {
           AutoRouter.of(context).push(const PrivacyPolicyRoute());
         }),
-        _buildClickableItem(m.profile.terms_conditions, Icons.description_outlined,
+        _buildClickableItem(
+            m.profile.terms_conditions,
+            Icons.description_outlined,
             () => AutoRouter.of(context).push(const TermsAndConditionsRoute())),
         _buildClickableItem(m.profile.instructions, Icons.help_outline),
       ],
@@ -300,7 +310,8 @@ class _UserProfileViewState extends State<_UserProfileView> {
             elevation: 0,
             backgroundColor: const Color(0xFFFFF4F4), // Light pink background
             foregroundColor: const Color(0xFF981C1E), // Red text and icon
-            padding: const EdgeInsets.symmetric(vertical: 12), // Adjust vertical padding
+            padding: const EdgeInsets.symmetric(
+                vertical: 12), // Adjust vertical padding
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12), // Rounded corners
             ),
@@ -312,10 +323,12 @@ class _UserProfileViewState extends State<_UserProfileView> {
           label: Align(
             alignment: Alignment.centerLeft,
             child: Padding(
-              padding: const EdgeInsets.only(left: 8), // Add left margin to the text
+              padding:
+                  const EdgeInsets.only(left: 8), // Add left margin to the text
               child: Text(
                 m.profile.logout,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
             ),
           ),
@@ -331,7 +344,8 @@ class _UserProfileViewState extends State<_UserProfileView> {
             elevation: 0,
             backgroundColor: const Color.fromARGB(255, 244, 242, 242),
             foregroundColor: Colors.black, // Black text and icon
-            padding: const EdgeInsets.symmetric(vertical: 12), // Adjust vertical padding
+            padding: const EdgeInsets.symmetric(
+                vertical: 12), // Adjust vertical padding
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12), // Rounded corners
             ),
@@ -339,7 +353,8 @@ class _UserProfileViewState extends State<_UserProfileView> {
           child: Row(
             children: [
               const Padding(
-                padding: EdgeInsets.only(left: 16), // Add left margin to the icon
+                padding:
+                    EdgeInsets.only(left: 16), // Add left margin to the icon
                 child: Icon(
                   Icons.delete,
                   size: 20,
@@ -361,7 +376,8 @@ class _UserProfileViewState extends State<_UserProfileView> {
     );
   }
 
-  Widget _buildClickableItem(String title, IconData icon, [void Function()? onTap]) {
+  Widget _buildClickableItem(String title, IconData icon,
+      [void Function()? onTap]) {
     return InkWell(
       onTap: onTap,
       child: Padding(

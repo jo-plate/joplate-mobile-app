@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/my_requests_screen/ui/phone_requests_by_user_id.dart';
 import 'package:joplate/presentation/routes/pages/my_requests_screen/ui/plate_requests_by_user_id.dart';
 import 'package:joplate/presentation/routes/router.dart';
@@ -31,9 +32,10 @@ class _MyRequestsPageState extends State<MyRequestsPage> with SingleTickerProvid
 
   @override
   Widget build(BuildContext context) {
+    final m=Localization.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Requests'),
+        title:  Text(m.home.myRequests),
         centerTitle: true,
         actions: [
           IconButton(
@@ -51,12 +53,12 @@ class _MyRequestsPageState extends State<MyRequestsPage> with SingleTickerProvid
         ],
         bottom: TabBar(
           controller: tabController,
-          tabs: const [
+          tabs:  [
             Tab(
-              text: 'Car Numbers',
+              text: m.home.car_number,
             ),
             Tab(
-              text: 'Phone Numbers',
+              text: m.home.phone_numbers,
             ),
           ],
         ),

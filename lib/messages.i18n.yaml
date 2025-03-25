@@ -11,6 +11,9 @@ home:
   phone_numbers : "Phone Numbers"
   requests: "Requests" 
   quick_sale: "Quick Sale"
+  mynumbers: "My Numbers"
+  myRequests: "My Requests"
+
 
 profile:
   title: "Profile"
@@ -60,3 +63,65 @@ plan:
 favorites sc:
   no_favorites: "You have no favorites yet"
   failed_to_load: "Failed to load favorites"
+
+phones:
+  title: "Phone Numbers"
+  add_button: "Add"
+  company_label: "Company"
+  contains: "Contains"
+  starts_with: "Starts With"
+  ends_with: "Ends With"
+  min_price: "Min Price"
+  max_price: "Max Price"
+  search: "Search"
+  see_more: "See More"
+  show_less: "Show Less"
+
+
+plates:
+  title: "Car Numbers"
+  code: "Code"
+  digit_count: "Digit Count"
+  format: "Format"
+  contains: "Contains"
+  starts_with: "Starts With"
+  ends_with: "Ends With"
+  min_price: "Min Price"
+  max_price: "Max Price"
+  search: "Search"
+  see_more: "See More"
+  show_less: "Show Less"
+
+digitcounts:
+    d1: "1 Digit"
+    d2: "2 Digits"
+    d3: "3 Digits"
+    d4: "4 Digits"
+    d5: "5 Digits"
+
+formats:
+    title: "Format"
+    repeat_2: "Contains Digit Repeated 2 Times"
+    repeat_3: "Contains Digit Repeated 3 Times"
+    repeat_4: "Contains Digit Repeated 4 Times"
+    f_5_1: "X???X (5 Digits)"
+    f_5_2: "XYZYX (5 Digits)"
+    f_5_3: "XXXZX (5 Digits)"
+    f_5_4: "?XXX? (5 Digits)"
+    f_5_5: "XYXYX (5 Digits)"
+    f_5_6: "XYYYX (5 Digits)"
+    f_5_7: "??XXX (5 Digits)"
+    f_5_8: "XXX?? (5 Digits)"
+    f_5_9: "XXXXX (5 Digits)"
+    f_4_1: "X??X (4 Digits)"
+    f_4_2: "XYXX (4 Digits)"
+    f_4_3: "XYXY (4 Digits)"
+    f_4_4: "?XX? (4 Digits)"
+    f_4_5: "XXXY (4 Digits)"
+    f_4_6: "XYYY (4 Digits)"
+    f_4_7: "XXXX (4 Digits)"
+    f_3_1: "XYX (3 Digits)"
+    f_3_2: "XYZ (3 Digits)"
+    f_3_3: "XYY (3 Digits)"
+    f_3_4: "XXY (3 Digits)"
+    f_3_5: "XXX (3 Digits)"

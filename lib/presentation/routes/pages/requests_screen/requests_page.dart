@@ -5,6 +5,7 @@ import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/requests_screen/ui/phones_requests_list_widget.dart';
 import 'package:joplate/presentation/routes/pages/requests_screen/ui/plates_requests_list_widget.dart';
 import 'package:joplate/presentation/routes/router.dart';
@@ -53,18 +54,19 @@ class _RequestsPageState extends State<RequestsPage> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
+    final m =Localization.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Requests'),
+        title:  Text(m.home.requests),
         centerTitle: true,
         bottom: TabBar(
           controller: tabController,
-          tabs: const [
+          tabs:  [
             Tab(
-              text: 'Car Numbers',
+              text: m.home.car_number,
             ),
             Tab(
-              text: 'Phone Numbers',
+              text: m.home.phone_numbers,
             ),
           ],
         ),
