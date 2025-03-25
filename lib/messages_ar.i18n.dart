@@ -134,6 +134,26 @@ class HomeMessagesAr extends HomeMessages {
   /// "البيع السريع"
   /// ```
   String get quick_sale => """البيع السريع""";
+
+  /// ```dart
+  /// "مميز"
+  /// ```
+  String get featured => """مميز""";
+
+  /// ```dart
+  /// "تم البيع"
+  /// ```
+  String get sold => """تم البيع""";
+
+  /// ```dart
+  /// "أرقامي"
+  /// ```
+  String get mynumbers => """أرقامي""";
+
+  /// ```dart
+  /// "طلباتي"
+  /// ```
+  String get myRequests => """طلباتي""";
 }
 
 class ProfileMessagesAr extends ProfileMessages {
@@ -651,6 +671,10 @@ Map<String, String> get messagesArMap => {
   """home.phone_numbers""": """ارقام الهواتف""",
   """home.requests""": """الطلبات""",
   """home.quick_sale""": """البيع السريع""",
+  """home.featured""": """مميز""",
+  """home.sold""": """تم البيع""",
+  """home.mynumbers""": """أرقامي""",
+  """home.myRequests""": """طلباتي""",
   """profile.title""": """الملف الشخصي""",
   """profile.Requests""": """الطلبات""",
   """profile.Numbers""": """الأرقام""",

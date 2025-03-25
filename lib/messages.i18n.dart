@@ -135,14 +135,6 @@ class HomeMessages {
   String get quick_sale => """Quick Sale""";
 
   /// ```dart
-  /// "My Numbers"
-  /// ```
-  String get mynumbers => """My Numbers""";
-
-  /// ```dart
-  /// "My Requests"
-  /// ```
-  String get myRequests => """My Requests""";
   /// "Featured"
   /// ```
   String get featured => """Featured""";
@@ -151,6 +143,16 @@ class HomeMessages {
   /// "Sold"
   /// ```
   String get sold => """Sold""";
+
+  /// ```dart
+  /// "My Numbers"
+  /// ```
+  String get mynumbers => """My Numbers""";
+
+  /// ```dart
+  /// "My Requests"
+  /// ```
+  String get myRequests => """My Requests""";
 }
 
 class ProfileMessages {
@@ -668,10 +670,10 @@ Map<String, String> get messagesMap => {
   """home.phone_numbers""": """Phone Numbers""",
   """home.requests""": """Requests""",
   """home.quick_sale""": """Quick Sale""",
+  """home.featured""": """Featured""",
+  """home.sold""": """Sold""",
   """home.mynumbers""": """My Numbers""",
   """home.myRequests""": """My Requests""",
-   """home.featured""": """Featured""",
-  """home.sold""": """Sold""",
   """profile.title""": """Profile""",
   """profile.Requests""": """Requests""",
   """profile.Numbers""": """Numbers""",
