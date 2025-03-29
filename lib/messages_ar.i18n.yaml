@@ -126,3 +126,55 @@ formats:
     f_3_4: "XXY (3 أرقام)"
     f_3_5: "XXX (3 أرقام)"
   
+addphonenumber:
+  title: "إضافة رقم هاتف"
+  company_label: "الشركة"
+  phone_number_label: "رقم الهاتف"
+  save_button: "حفظ"
+  cancel_button: "إلغاء"
+  addmore: "إضافة أكثر"
+  with_discount: "مع خصم"
+  without_discount: "بدون خصم"
+  featured: "مميز"
+  not_featured: "غير مميز"
+  number: "رقم"
+  price: "السعر"
+  price_before_discount: "السعر قبل الخصم"
+  price_after_discount: "السعر بعد الخصم"
+
+addplate:
+  title: "إضافة رقم سيارة"
+  company_label: "الشركة"
+  plate_number_label: "رقم السيارة"
+  save_button: "حفظ"
+  cancel_button: "إلغاء"
+  addmore: "إضافة أكثر"
+  with_discount: "مع خصم"
+  without_discount: "بدون خصم"
+  featured: "مميز"
+  not_featured: "غير مميز"
+  number: "رقم"
+  price: "السعر"
+  price_before_discount: "السعر قبل الخصم"
+  price_after_discount: "السعر بعد الخصم"
+  code: "الرمز"
+
+addphonerequest:
+  title: "إضافة طلب هاتف"
+  company_label: "الشركة"
+  phone_number_label: "رقم الهاتف"
+  save_button: "حفظ"
+  cancel_button: "إلغاء"
+  required_phone_number: "رقم الهاتف مطلوب"
+  optional_price: "السعر اختياري"
+
+
+addplaterequest:
+  title: "إضافة طلب رقم سيارة"
+  company_label: "الشركة"
+  plate_number_label: "رقم السيارة"
+  save_button: "حفظ"
+  cancel_button: "إلغاء"
+  required_plate_number: "رقم السيارة مطلوب"
+  optional_price: "السعر اختياري"
+

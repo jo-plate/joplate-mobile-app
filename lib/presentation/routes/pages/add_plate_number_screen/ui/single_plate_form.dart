@@ -1,6 +1,7 @@
 // lib/presentation/routes/pages/add_plate_number_screen/ui/single_plate_form.dart
 
 import 'package:flutter/material.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_number_screen/cubit/plate_form_state.dart';
 import 'package:joplate/presentation/theme.dart';
 
@@ -82,6 +83,7 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     final isSubmitting = widget.formState.isSubmitting;
     final hasError = widget.formState.errorMessage != null;
     final errorText = widget.formState.errorMessage ?? '';
@@ -104,7 +106,7 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
                   onChanged: widget.onCodeChanged,
                   keyboardType: TextInputType.text,
                   enabled: !isSubmitting,
-                  decoration: const InputDecoration(labelText: 'Code'),
+                  decoration: InputDecoration(labelText: m.addplate.code),
                 ),
                 const SizedBox(height: 16),
                 TextField(
@@ -112,7 +114,7 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
                   onChanged: widget.onNumberChanged,
                   keyboardType: TextInputType.number,
                   enabled: !isSubmitting,
-                  decoration: const InputDecoration(labelText: 'Number'),
+                  decoration: InputDecoration(labelText: m.addplate.number),
                 ),
                 const SizedBox(height: 16),
                 TextField(
@@ -121,13 +123,13 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
                   keyboardType: TextInputType.number,
                   enabled: !isSubmitting,
                   decoration:
-                      InputDecoration(labelText: widget.formState.withDiscount ? 'Price before discount ' : 'Price'),
+                      InputDecoration(labelText: widget.formState.withDiscount ? m.addplate.price_before_discount : m.addplate.price),
                 ),
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("With Discount", style: TextStyle(fontSize: 16)),
+                    Text(m.addplate.with_discount, style: TextStyle(fontSize: 16)),
                     Switch(
                       value: widget.formState.withDiscount,
                       onChanged: isSubmitting ? null : widget.onDiscountToggle,
@@ -140,13 +142,13 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
                     onChanged: widget.onDiscountChanged,
                     keyboardType: TextInputType.number,
                     enabled: !isSubmitting,
-                    decoration: const InputDecoration(labelText: 'Price after discount'),
+                    decoration: InputDecoration(labelText: m.addplate.price_after_discount),
                   ),
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("Featured", style: TextStyle(fontSize: 16)),
+                      Text(m.addplate.featured, style: TextStyle(fontSize: 16)),
                     Switch(
                       value: widget.formState.isFeatured,
                       onChanged: isSubmitting ? null : widget.onFeaturedToggle,

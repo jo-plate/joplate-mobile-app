@@ -73,6 +73,10 @@ class Messages {
   PlatesMessages get plates => PlatesMessages(this);
   DigitcountsMessages get digitcounts => DigitcountsMessages(this);
   FormatsMessages get formats => FormatsMessages(this);
+  AddphonenumberMessages get addphonenumber => AddphonenumberMessages(this);
+  AddplateMessages get addplate => AddplateMessages(this);
+  AddphonerequestMessages get addphonerequest => AddphonerequestMessages(this);
+  AddplaterequestMessages get addplaterequest => AddplaterequestMessages(this);
 }
 
 class AppMessages {
@@ -660,6 +664,241 @@ class FormatsMessages {
   String get f_3_5 => """XXX (3 Digits)""";
 }
 
+class AddphonenumberMessages {
+  final Messages _parent;
+  const AddphonenumberMessages(this._parent);
+
+  /// ```dart
+  /// "Add Phone Number"
+  /// ```
+  String get title => """Add Phone Number""";
+
+  /// ```dart
+  /// "Company"
+  /// ```
+  String get company_label => """Company""";
+
+  /// ```dart
+  /// "Phone Number"
+  /// ```
+  String get phone_number_label => """Phone Number""";
+
+  /// ```dart
+  /// "Save"
+  /// ```
+  String get save_button => """Save""";
+
+  /// ```dart
+  /// "Cancel"
+  /// ```
+  String get cancel_button => """Cancel""";
+
+  /// ```dart
+  /// "Add More"
+  /// ```
+  String get addmore => """Add More""";
+
+  /// ```dart
+  /// "With Discount"
+  /// ```
+  String get with_discount => """With Discount""";
+
+  /// ```dart
+  /// "Without Discount"
+  /// ```
+  String get without_discount => """Without Discount""";
+
+  /// ```dart
+  /// "Featured"
+  /// ```
+  String get featured => """Featured""";
+
+  /// ```dart
+  /// "Not Featured"
+  /// ```
+  String get not_featured => """Not Featured""";
+
+  /// ```dart
+  /// "Number"
+  /// ```
+  String get number => """Number""";
+
+  /// ```dart
+  /// "Price"
+  /// ```
+  String get price => """Price""";
+
+  /// ```dart
+  /// "Price before Discount"
+  /// ```
+  String get price_before_discount => """Price before Discount""";
+
+  /// ```dart
+  /// "Price after Discount"
+  /// ```
+  String get price_after_discount => """Price after Discount""";
+}
+
+class AddplateMessages {
+  final Messages _parent;
+  const AddplateMessages(this._parent);
+
+  /// ```dart
+  /// "Add Car Number"
+  /// ```
+  String get title => """Add Car Number""";
+
+  /// ```dart
+  /// "Company"
+  /// ```
+  String get company_label => """Company""";
+
+  /// ```dart
+  /// "Car Number"
+  /// ```
+  String get plate_number_label => """Car Number""";
+
+  /// ```dart
+  /// "Save"
+  /// ```
+  String get save_button => """Save""";
+
+  /// ```dart
+  /// "Cancel"
+  /// ```
+  String get cancel_button => """Cancel""";
+
+  /// ```dart
+  /// "Add More"
+  /// ```
+  String get addmore => """Add More""";
+
+  /// ```dart
+  /// "With Discount"
+  /// ```
+  String get with_discount => """With Discount""";
+
+  /// ```dart
+  /// "Without Discount"
+  /// ```
+  String get without_discount => """Without Discount""";
+
+  /// ```dart
+  /// "Featured"
+  /// ```
+  String get featured => """Featured""";
+
+  /// ```dart
+  /// "Not Featured"
+  /// ```
+  String get not_featured => """Not Featured""";
+
+  /// ```dart
+  /// "Number"
+  /// ```
+  String get number => """Number""";
+
+  /// ```dart
+  /// "Price"
+  /// ```
+  String get price => """Price""";
+
+  /// ```dart
+  /// "Price before Discount"
+  /// ```
+  String get price_before_discount => """Price before Discount""";
+
+  /// ```dart
+  /// "Price after Discount"
+  /// ```
+  String get price_after_discount => """Price after Discount""";
+
+  /// ```dart
+  /// "Code"
+  /// ```
+  String get code => """Code""";
+}
+
+class AddphonerequestMessages {
+  final Messages _parent;
+  const AddphonerequestMessages(this._parent);
+
+  /// ```dart
+  /// "Add Phone Request"
+  /// ```
+  String get title => """Add Phone Request""";
+
+  /// ```dart
+  /// "Company"
+  /// ```
+  String get company_label => """Company""";
+
+  /// ```dart
+  /// "Phone Number"
+  /// ```
+  String get phone_number_label => """Phone Number""";
+
+  /// ```dart
+  /// "Save"
+  /// ```
+  String get save_button => """Save""";
+
+  /// ```dart
+  /// "Cancel"
+  /// ```
+  String get cancel_button => """Cancel""";
+
+  /// ```dart
+  /// "Required Phone Number"
+  /// ```
+  String get required_phone_number => """Required Phone Number""";
+
+  /// ```dart
+  /// "Optional Price"
+  /// ```
+  String get optional_price => """Optional Price""";
+}
+
+class AddplaterequestMessages {
+  final Messages _parent;
+  const AddplaterequestMessages(this._parent);
+
+  /// ```dart
+  /// "Add Plate Request"
+  /// ```
+  String get title => """Add Plate Request""";
+
+  /// ```dart
+  /// "Company"
+  /// ```
+  String get company_label => """Company""";
+
+  /// ```dart
+  /// "Plate Number"
+  /// ```
+  String get plate_number_label => """Plate Number""";
+
+  /// ```dart
+  /// "Save"
+  /// ```
+  String get save_button => """Save""";
+
+  /// ```dart
+  /// "Cancel"
+  /// ```
+  String get cancel_button => """Cancel""";
+
+  /// ```dart
+  /// "Required Plate Number"
+  /// ```
+  String get required_plate_number => """Required Plate Number""";
+
+  /// ```dart
+  /// "Optional Price"
+  /// ```
+  String get optional_price => """Optional Price""";
+}
+
 Map<String, String> get messagesMap => {
   """app.title""": """Joplate""",
   """home.welcome""": """Welcome to Joplate!""",
@@ -766,4 +1005,47 @@ Map<String, String> get messagesMap => {
   """formats.f_3_3""": """XYY (3 Digits)""",
   """formats.f_3_4""": """XXY (3 Digits)""",
   """formats.f_3_5""": """XXX (3 Digits)""",
+  """addphonenumber.title""": """Add Phone Number""",
+  """addphonenumber.company_label""": """Company""",
+  """addphonenumber.phone_number_label""": """Phone Number""",
+  """addphonenumber.save_button""": """Save""",
+  """addphonenumber.cancel_button""": """Cancel""",
+  """addphonenumber.addmore""": """Add More""",
+  """addphonenumber.with_discount""": """With Discount""",
+  """addphonenumber.without_discount""": """Without Discount""",
+  """addphonenumber.featured""": """Featured""",
+  """addphonenumber.not_featured""": """Not Featured""",
+  """addphonenumber.number""": """Number""",
+  """addphonenumber.price""": """Price""",
+  """addphonenumber.price_before_discount""": """Price before Discount""",
+  """addphonenumber.price_after_discount""": """Price after Discount""",
+  """addplate.title""": """Add Car Number""",
+  """addplate.company_label""": """Company""",
+  """addplate.plate_number_label""": """Car Number""",
+  """addplate.save_button""": """Save""",
+  """addplate.cancel_button""": """Cancel""",
+  """addplate.addmore""": """Add More""",
+  """addplate.with_discount""": """With Discount""",
+  """addplate.without_discount""": """Without Discount""",
+  """addplate.featured""": """Featured""",
+  """addplate.not_featured""": """Not Featured""",
+  """addplate.number""": """Number""",
+  """addplate.price""": """Price""",
+  """addplate.price_before_discount""": """Price before Discount""",
+  """addplate.price_after_discount""": """Price after Discount""",
+  """addplate.code""": """Code""",
+  """addphonerequest.title""": """Add Phone Request""",
+  """addphonerequest.company_label""": """Company""",
+  """addphonerequest.phone_number_label""": """Phone Number""",
+  """addphonerequest.save_button""": """Save""",
+  """addphonerequest.cancel_button""": """Cancel""",
+  """addphonerequest.required_phone_number""": """Required Phone Number""",
+  """addphonerequest.optional_price""": """Optional Price""",
+  """addplaterequest.title""": """Add Plate Request""",
+  """addplaterequest.company_label""": """Company""",
+  """addplaterequest.plate_number_label""": """Plate Number""",
+  """addplaterequest.save_button""": """Save""",
+  """addplaterequest.cancel_button""": """Cancel""",
+  """addplaterequest.required_plate_number""": """Required Plate Number""",
+  """addplaterequest.optional_price""": """Optional Price""",
 };

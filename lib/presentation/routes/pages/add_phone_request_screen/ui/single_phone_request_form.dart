@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import '../cubit/add_phone_request_cubit.dart';
 import '../cubit/phone_request_state.dart';
 import 'package:joplate/presentation/theme.dart';
@@ -50,6 +51,7 @@ class _SinglePhoneRequestFormState extends State<SinglePhoneRequestForm> {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     return BlocBuilder<AddPhoneRequestCubit, PhoneRequestState>(
       builder: (context, state) {
         final cubit = context.read<AddPhoneRequestCubit>();
@@ -71,7 +73,7 @@ class _SinglePhoneRequestFormState extends State<SinglePhoneRequestForm> {
               TextField(
                 controller: phoneController,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(labelText: 'Phone Number (required)'),
+                decoration: InputDecoration(labelText: m.addphonerequest.required_phone_number),
                 onChanged: cubit.updatePhoneNumber,
                 enabled: !state.isSubmitting,
               ),
@@ -81,7 +83,7 @@ class _SinglePhoneRequestFormState extends State<SinglePhoneRequestForm> {
               TextField(
                 controller: priceController,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(labelText: 'Price (optional)'),
+                decoration: InputDecoration(labelText: m.addphonerequest.optional_price),
                 onChanged: cubit.updatePrice,
                 enabled: !state.isSubmitting,
               ),

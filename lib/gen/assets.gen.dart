@@ -30,6 +30,15 @@ class $AssetsImagesGen {
   /// File path: assets/images/avatar3.jpg
   AssetGenImage get avatar3 => const AssetGenImage('assets/images/avatar3.jpg');
 
+  /// File path: assets/images/orange.png
+  AssetGenImage get orange => const AssetGenImage('assets/images/orange.png');
+
+  /// File path: assets/images/umniah.png
+  AssetGenImage get umniah => const AssetGenImage('assets/images/umniah.png');
+
+  /// File path: assets/images/zain.png
+  AssetGenImage get zain => const AssetGenImage('assets/images/zain.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
     license,
@@ -38,6 +47,9 @@ class $AssetsImagesGen {
     avatar1,
     avatar2,
     avatar3,
+    orange,
+    umniah,
+    zain,
   ];
 }
 

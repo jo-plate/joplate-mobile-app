@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import '../cubit/add_plate_request_cubit.dart';
 import '../cubit/add_plate_request_state.dart';
 import 'package:joplate/presentation/theme.dart';
@@ -52,6 +53,7 @@ class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     return BlocBuilder<AddPlateRequestCubit, PlateRequestState>(
       builder: (context, state) {
         final cubit = context.read<AddPlateRequestCubit>();
@@ -71,7 +73,7 @@ class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
               TextField(
                 controller: codeController,
                 keyboardType: TextInputType.text,
-                decoration: const InputDecoration(labelText: 'Code (required)'),
+                decoration: InputDecoration(labelText: m.addplaterequest.required_plate_number),
                 onChanged: cubit.updateCode,
                 enabled: !state.isSubmitting,
               ),
@@ -79,7 +81,7 @@ class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
               TextField(
                 controller: numberController,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(labelText: 'Number (required)'),
+                decoration: InputDecoration(labelText: m.addplaterequest.required_plate_number),
                 onChanged: cubit.updateNumber,
                 enabled: !state.isSubmitting,
               ),
@@ -87,7 +89,7 @@ class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
               TextField(
                 controller: priceController,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(labelText: 'Price (optional)'),
+                decoration: InputDecoration(labelText: m.addplaterequest.optional_price),
                 onChanged: cubit.updatePrice,
                 enabled: !state.isSubmitting,
               ),

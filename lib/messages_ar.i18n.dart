@@ -74,6 +74,12 @@ class MessagesAr extends Messages {
   PlatesMessagesAr get plates => PlatesMessagesAr(this);
   DigitcountsMessagesAr get digitcounts => DigitcountsMessagesAr(this);
   FormatsMessagesAr get formats => FormatsMessagesAr(this);
+  AddphonenumberMessagesAr get addphonenumber => AddphonenumberMessagesAr(this);
+  AddplateMessagesAr get addplate => AddplateMessagesAr(this);
+  AddphonerequestMessagesAr get addphonerequest =>
+      AddphonerequestMessagesAr(this);
+  AddplaterequestMessagesAr get addplaterequest =>
+      AddplaterequestMessagesAr(this);
 }
 
 class AppMessagesAr extends AppMessages {
@@ -661,6 +667,241 @@ class FormatsMessagesAr extends FormatsMessages {
   String get f_3_5 => """XXX (3 أرقام)""";
 }
 
+class AddphonenumberMessagesAr extends AddphonenumberMessages {
+  final MessagesAr _parent;
+  const AddphonenumberMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "إضافة رقم هاتف"
+  /// ```
+  String get title => """إضافة رقم هاتف""";
+
+  /// ```dart
+  /// "الشركة"
+  /// ```
+  String get company_label => """الشركة""";
+
+  /// ```dart
+  /// "رقم الهاتف"
+  /// ```
+  String get phone_number_label => """رقم الهاتف""";
+
+  /// ```dart
+  /// "حفظ"
+  /// ```
+  String get save_button => """حفظ""";
+
+  /// ```dart
+  /// "إلغاء"
+  /// ```
+  String get cancel_button => """إلغاء""";
+
+  /// ```dart
+  /// "إضافة أكثر"
+  /// ```
+  String get addmore => """إضافة أكثر""";
+
+  /// ```dart
+  /// "مع خصم"
+  /// ```
+  String get with_discount => """مع خصم""";
+
+  /// ```dart
+  /// "بدون خصم"
+  /// ```
+  String get without_discount => """بدون خصم""";
+
+  /// ```dart
+  /// "مميز"
+  /// ```
+  String get featured => """مميز""";
+
+  /// ```dart
+  /// "غير مميز"
+  /// ```
+  String get not_featured => """غير مميز""";
+
+  /// ```dart
+  /// "رقم"
+  /// ```
+  String get number => """رقم""";
+
+  /// ```dart
+  /// "السعر"
+  /// ```
+  String get price => """السعر""";
+
+  /// ```dart
+  /// "السعر قبل الخصم"
+  /// ```
+  String get price_before_discount => """السعر قبل الخصم""";
+
+  /// ```dart
+  /// "السعر بعد الخصم"
+  /// ```
+  String get price_after_discount => """السعر بعد الخصم""";
+}
+
+class AddplateMessagesAr extends AddplateMessages {
+  final MessagesAr _parent;
+  const AddplateMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "إضافة رقم سيارة"
+  /// ```
+  String get title => """إضافة رقم سيارة""";
+
+  /// ```dart
+  /// "الشركة"
+  /// ```
+  String get company_label => """الشركة""";
+
+  /// ```dart
+  /// "رقم السيارة"
+  /// ```
+  String get plate_number_label => """رقم السيارة""";
+
+  /// ```dart
+  /// "حفظ"
+  /// ```
+  String get save_button => """حفظ""";
+
+  /// ```dart
+  /// "إلغاء"
+  /// ```
+  String get cancel_button => """إلغاء""";
+
+  /// ```dart
+  /// "إضافة أكثر"
+  /// ```
+  String get addmore => """إضافة أكثر""";
+
+  /// ```dart
+  /// "مع خصم"
+  /// ```
+  String get with_discount => """مع خصم""";
+
+  /// ```dart
+  /// "بدون خصم"
+  /// ```
+  String get without_discount => """بدون خصم""";
+
+  /// ```dart
+  /// "مميز"
+  /// ```
+  String get featured => """مميز""";
+
+  /// ```dart
+  /// "غير مميز"
+  /// ```
+  String get not_featured => """غير مميز""";
+
+  /// ```dart
+  /// "رقم"
+  /// ```
+  String get number => """رقم""";
+
+  /// ```dart
+  /// "السعر"
+  /// ```
+  String get price => """السعر""";
+
+  /// ```dart
+  /// "السعر قبل الخصم"
+  /// ```
+  String get price_before_discount => """السعر قبل الخصم""";
+
+  /// ```dart
+  /// "السعر بعد الخصم"
+  /// ```
+  String get price_after_discount => """السعر بعد الخصم""";
+
+  /// ```dart
+  /// "الرمز"
+  /// ```
+  String get code => """الرمز""";
+}
+
+class AddphonerequestMessagesAr extends AddphonerequestMessages {
+  final MessagesAr _parent;
+  const AddphonerequestMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "إضافة طلب هاتف"
+  /// ```
+  String get title => """إضافة طلب هاتف""";
+
+  /// ```dart
+  /// "الشركة"
+  /// ```
+  String get company_label => """الشركة""";
+
+  /// ```dart
+  /// "رقم الهاتف"
+  /// ```
+  String get phone_number_label => """رقم الهاتف""";
+
+  /// ```dart
+  /// "حفظ"
+  /// ```
+  String get save_button => """حفظ""";
+
+  /// ```dart
+  /// "إلغاء"
+  /// ```
+  String get cancel_button => """إلغاء""";
+
+  /// ```dart
+  /// "رقم الهاتف مطلوب"
+  /// ```
+  String get required_phone_number => """رقم الهاتف مطلوب""";
+
+  /// ```dart
+  /// "السعر اختياري"
+  /// ```
+  String get optional_price => """السعر اختياري""";
+}
+
+class AddplaterequestMessagesAr extends AddplaterequestMessages {
+  final MessagesAr _parent;
+  const AddplaterequestMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "إضافة طلب رقم سيارة"
+  /// ```
+  String get title => """إضافة طلب رقم سيارة""";
+
+  /// ```dart
+  /// "الشركة"
+  /// ```
+  String get company_label => """الشركة""";
+
+  /// ```dart
+  /// "رقم السيارة"
+  /// ```
+  String get plate_number_label => """رقم السيارة""";
+
+  /// ```dart
+  /// "حفظ"
+  /// ```
+  String get save_button => """حفظ""";
+
+  /// ```dart
+  /// "إلغاء"
+  /// ```
+  String get cancel_button => """إلغاء""";
+
+  /// ```dart
+  /// "رقم السيارة مطلوب"
+  /// ```
+  String get required_plate_number => """رقم السيارة مطلوب""";
+
+  /// ```dart
+  /// "السعر اختياري"
+  /// ```
+  String get optional_price => """السعر اختياري""";
+}
+
 Map<String, String> get messagesArMap => {
   """app.title""": """Joplate""",
   """home.welcome""": """مرحبًا بك في Joplate!""",
@@ -767,4 +1008,47 @@ Map<String, String> get messagesArMap => {
   """formats.f_3_3""": """XYY (3 أرقام)""",
   """formats.f_3_4""": """XXY (3 أرقام)""",
   """formats.f_3_5""": """XXX (3 أرقام)""",
+  """addphonenumber.title""": """إضافة رقم هاتف""",
+  """addphonenumber.company_label""": """الشركة""",
+  """addphonenumber.phone_number_label""": """رقم الهاتف""",
+  """addphonenumber.save_button""": """حفظ""",
+  """addphonenumber.cancel_button""": """إلغاء""",
+  """addphonenumber.addmore""": """إضافة أكثر""",
+  """addphonenumber.with_discount""": """مع خصم""",
+  """addphonenumber.without_discount""": """بدون خصم""",
+  """addphonenumber.featured""": """مميز""",
+  """addphonenumber.not_featured""": """غير مميز""",
+  """addphonenumber.number""": """رقم""",
+  """addphonenumber.price""": """السعر""",
+  """addphonenumber.price_before_discount""": """السعر قبل الخصم""",
+  """addphonenumber.price_after_discount""": """السعر بعد الخصم""",
+  """addplate.title""": """إضافة رقم سيارة""",
+  """addplate.company_label""": """الشركة""",
+  """addplate.plate_number_label""": """رقم السيارة""",
+  """addplate.save_button""": """حفظ""",
+  """addplate.cancel_button""": """إلغاء""",
+  """addplate.addmore""": """إضافة أكثر""",
+  """addplate.with_discount""": """مع خصم""",
+  """addplate.without_discount""": """بدون خصم""",
+  """addplate.featured""": """مميز""",
+  """addplate.not_featured""": """غير مميز""",
+  """addplate.number""": """رقم""",
+  """addplate.price""": """السعر""",
+  """addplate.price_before_discount""": """السعر قبل الخصم""",
+  """addplate.price_after_discount""": """السعر بعد الخصم""",
+  """addplate.code""": """الرمز""",
+  """addphonerequest.title""": """إضافة طلب هاتف""",
+  """addphonerequest.company_label""": """الشركة""",
+  """addphonerequest.phone_number_label""": """رقم الهاتف""",
+  """addphonerequest.save_button""": """حفظ""",
+  """addphonerequest.cancel_button""": """إلغاء""",
+  """addphonerequest.required_phone_number""": """رقم الهاتف مطلوب""",
+  """addphonerequest.optional_price""": """السعر اختياري""",
+  """addplaterequest.title""": """إضافة طلب رقم سيارة""",
+  """addplaterequest.company_label""": """الشركة""",
+  """addplaterequest.plate_number_label""": """رقم السيارة""",
+  """addplaterequest.save_button""": """حفظ""",
+  """addplaterequest.cancel_button""": """إلغاء""",
+  """addplaterequest.required_plate_number""": """رقم السيارة مطلوب""",
+  """addplaterequest.optional_price""": """السعر اختياري""",
 };

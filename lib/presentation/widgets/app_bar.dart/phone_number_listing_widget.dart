@@ -13,12 +13,24 @@ class PhoneNumberListingWidget extends StatelessWidget {
   final double priceLabelFontSize;
   final bool hideLikeButton;
 
-  const PhoneNumberListingWidget(
-      {super.key,
-      required this.item,
-      this.aspectRatio = 1.5,
-      this.priceLabelFontSize = 16,
-      this.hideLikeButton = false});
+  const PhoneNumberListingWidget({
+    super.key,
+    required this.item,
+    this.aspectRatio = 1.5,
+    this.priceLabelFontSize = 18,
+    this.hideLikeButton = false,
+  });
+
+  Color _getOperatorColor() {
+    if (item.number.startsWith('079')) {
+      return Colors.blue;
+    } else if (item.number.startsWith('078')) {
+      return const Color(0xFFCCDB37); // Greeny yellow for Umniah
+    } else if (item.number.startsWith('077')) {
+      return Colors.orange;
+    }
+    return Colors.grey[500]!;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,44 +43,105 @@ class PhoneNumberListingWidget extends StatelessWidget {
             onTap: () {
               AutoRouter.of(context).push(PhoneDetailsRoute(phoneNumber: item));
             },
-            child: Stack(
-              clipBehavior: Clip.hardEdge,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.yellow[700]!, width: 2),
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: _getOperatorColor(), width: 2),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFEFEFEF),
+                              border: Border.all(color: Colors.black, width: 1),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                            child: LayoutBuilder(
+                              builder: (context, constraints) {
+                                double fontSize = constraints.maxWidth * 0.14;
+                                return Text(
+                                  item.number,
+                                  style: TextStyle(
+                                    fontSize: fontSize,
+                                    fontFamily: 'Mandatory',
+                                    fontWeight: FontWeight.w600,
+                                    letterSpacing: 1.2,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                );
+                              }
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              _buildPriceLabel(),
+                              if (!hideLikeButton)
+                                FavoriteButton.plate(
+                                  listingId: item.toString(),
+                                  iconSize: 24,
+                                ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text((item).number, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                            const SizedBox(height: 8),
-                            if (item.ads.firstOrNull != null) _buildPriceLabel(),
-                            const SizedBox(height: 2),
-                            if (!hideLikeButton)
-                              FavoriteButton.plate(
-                                listingId: item.toString(),
-                                iconSize: 20,
-                              ),
-                          ],
+                  if (item.ads.firstOrNull != null) ...[
+                    if (item.ads.first.isFeatured)
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        decoration: BoxDecoration(
+                          color: Colors.amber[700],
+                          borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(8),
+                            bottomRight: Radius.circular(8),
+                          ),
+                        ),
+                        child: Text(
+                          Localization.of(context).home.featured,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w800,
+                            fontSize: 12,
+                          ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                if (item.ads.firstOrNull != null) ...[
-                  if (item.ads.first.isFeatured) _buildFeaturedRibbon(context),
-                  if (item.ads.first.isSold) _buildSoldRibbon(context)
-                ]
-              ],
+                    if (item.ads.first.isSold)
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF981C1E),
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(8),
+                            bottomRight: Radius.circular(8),
+                          ),
+                        ),
+                        child: Text(
+                          Localization.of(context).home.sold,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w800,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                  ],
+                ],
+              ),
             ),
           ),
         ),
@@ -77,7 +150,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
   }
 
   Widget _buildPriceLabel() {
-    if (item.ads.first.priceHidden) {
+    if (item.ads.isEmpty || item.ads.first.priceHidden) {
       return Text(
         'Call for Price',
         style: TextStyle(
@@ -90,10 +163,12 @@ class PhoneNumberListingWidget extends StatelessWidget {
       );
     } else if (item.ads.first.discountPrice > 0 && item.ads.first.discountPrice < item.ads.first.price) {
       return Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        textBaseline: TextBaseline.alphabetic,
         children: [
           Text(
-            'JOD ${item.ads.first.discountPrice} ',
+            'JOD ${item.ads.first.discountPrice}',
             style: TextStyle(
               fontSize: priceLabelFontSize,
               fontFamily: 'Mandatory',
@@ -102,14 +177,15 @@ class PhoneNumberListingWidget extends StatelessWidget {
             ),
             maxLines: 1,
           ),
+          const SizedBox(width: 8),
           Text(
-            '${item.ads.first.price}',
+            'JOD ${item.ads.first.price}',
             style: TextStyle(
               fontSize: priceLabelFontSize * 0.875,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
               decoration: TextDecoration.lineThrough,
-              decorationStyle: TextDecorationStyle.solid,
-              color: Colors.black,
+              decorationThickness: 2,
+              color: Colors.grey[600],
             ),
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
@@ -118,7 +194,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
       );
     } else {
       return Text(
-        '${item.ads.first.price} JOD',
+        'JOD ${item.ads.first.price}',
         style: TextStyle(
           fontSize: priceLabelFontSize,
           fontFamily: 'Mandatory',
@@ -128,61 +204,5 @@ class PhoneNumberListingWidget extends StatelessWidget {
         maxLines: 1,
       );
     }
-  }
-
-  Widget _buildFeaturedRibbon(context) {
-    final m = Localization.of(context);
-    return Positioned(
-      bottom: 20,
-      right: injector<LocalizationCubit>().state.languageCode == 'en' ? -20 : null,
-      left: injector<LocalizationCubit>().state.languageCode == 'ar' ? -20 : null,
-      child: Transform.rotate(
-        angle: injector<LocalizationCubit>().state.languageCode == 'en' ? -0.7854 : 0.7854,
-        child: Container(
-          width: 100,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: Colors.yellow[700],
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Text(
-            m.home.featured,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSoldRibbon(BuildContext context) {
-    final m = Localization.of(context);
-    return Positioned(
-      top: 20,
-      left: injector<LocalizationCubit>().state.languageCode == 'en' ? -20 : null,
-      right: injector<LocalizationCubit>().state.languageCode == 'ar' ? -20 : null,
-      child: Transform.rotate(
-        angle: injector<LocalizationCubit>().state.languageCode == 'en' ? -0.7854 : 0.7854,
-        child: Container(
-          width: 100,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: const Color(0xFF981C1E),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Text(
-            m.home.sold,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }

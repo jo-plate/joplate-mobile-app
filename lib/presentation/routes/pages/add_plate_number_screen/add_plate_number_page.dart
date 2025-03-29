@@ -3,6 +3,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_number_screen/cubit/add_plate_numbers_cubit.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_number_screen/cubit/plate_form_state.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_number_screen/ui/single_plate_form.dart';
@@ -18,10 +19,11 @@ class AddPlateNumberPage extends StatefulWidget {
 class _AddPlateNumberPageState extends State<AddPlateNumberPage> {
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     return BlocProvider<AddPlateNumbersCubit>(
       create: (_) => AddPlateNumbersCubit()..addNewForm(),
       child: Scaffold(
-        appBar: AppBar(title: const Text("Add Plate Numbers")),
+        appBar: AppBar(title: Text(m.addplate.title)),
         body: SafeArea(
           child: BlocBuilder<AddPlateNumbersCubit, AddPlateNumbersState>(
             builder: (context, state) {
@@ -62,7 +64,7 @@ class _AddPlateNumberPageState extends State<AddPlateNumberPage> {
                         Expanded(
                           child: ElevatedButton.icon(
                             icon: const Icon(Icons.add, color: Colors.white),
-                            label: const Text("Add more", style: TextStyle(color: Colors.white)),
+                            label: Text(m.addplate.addmore, style: TextStyle(color: Colors.white)),
                             onPressed: () => cubit.addNewForm(),
                           ),
                         ),
@@ -76,7 +78,7 @@ class _AddPlateNumberPageState extends State<AddPlateNumberPage> {
                                 AutoRouter.of(context).maybePop();
                               }
                             },
-                            child: const Text("Submit", style: TextStyle(color: Colors.white)),
+                            child: Text(m.addplate.save_button, style: TextStyle(color: Colors.white)),
                           ),
                         ),
                       ],

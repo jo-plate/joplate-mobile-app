@@ -3,6 +3,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/add_phone_request_screen/cubit/add_phone_request_cubit.dart';
 import 'package:joplate/presentation/routes/pages/add_phone_request_screen/cubit/phone_request_state.dart';
 import 'package:joplate/presentation/routes/pages/add_phone_request_screen/ui/single_phone_request_form.dart';
@@ -15,11 +16,12 @@ class AddPhoneRequestPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     return BlocProvider<AddPhoneRequestCubit>(
       create: (_) => AddPhoneRequestCubit(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Add Phone Request"),
+          title: Text(m.addphonerequest.title),
         ),
         body: SafeArea(
           child: BlocBuilder<AddPhoneRequestCubit, PhoneRequestState>(
@@ -50,7 +52,7 @@ class AddPhoneRequestPage extends StatelessWidget {
                                 AutoRouter.of(context).replace(const MyRequestsRoute());
                               }
                             },
-                      child: const Text("Submit", style: TextStyle(color: Colors.white)),
+                      child: Text(m.addphonerequest.save_button, style: TextStyle(color: Colors.white)),
                     ),
                   ],
                 ),

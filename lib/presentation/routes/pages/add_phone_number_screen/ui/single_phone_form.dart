@@ -1,6 +1,7 @@
 // lib/presentation/routes/pages/add_phone_number_screen/ui/single_phone_form.dart
 
 import 'package:flutter/material.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/add_phone_number_screen/cubit/phone_form_state.dart';
 import 'package:joplate/presentation/theme.dart';
 
@@ -76,6 +77,7 @@ class _SinglePhoneFormState extends State<SinglePhoneForm> {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     final isSubmitting = widget.formState.isSubmitting;
     final hasError = widget.formState.errorMessage != null;
     final errorText = widget.formState.errorMessage ?? '';
@@ -98,7 +100,7 @@ class _SinglePhoneFormState extends State<SinglePhoneForm> {
                   onChanged: widget.onNumberChanged,
                   keyboardType: TextInputType.number,
                   enabled: !isSubmitting,
-                  decoration: const InputDecoration(labelText: 'Number'),
+                  decoration: InputDecoration(labelText: m.addphonenumber.number),
                 ),
                 const SizedBox(height: 16),
                 TextField(
@@ -107,13 +109,13 @@ class _SinglePhoneFormState extends State<SinglePhoneForm> {
                   keyboardType: TextInputType.number,
                   enabled: !isSubmitting,
                   decoration:
-                      InputDecoration(labelText: widget.formState.withDiscount ? "Price before Discount" : 'Price'),
+                      InputDecoration(labelText: widget.formState.withDiscount ? m.addphonenumber.price_before_discount : m.addphonenumber.price),
                 ),
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("With Discount", style: TextStyle(fontSize: 16)),
+                    Text(m.addphonenumber.with_discount, style: TextStyle(fontSize: 16)),
                     Switch(
                       value: widget.formState.withDiscount,
                       onChanged: isSubmitting ? null : widget.onDiscountToggle,
@@ -126,12 +128,12 @@ class _SinglePhoneFormState extends State<SinglePhoneForm> {
                     onChanged: widget.onDiscountChanged,
                     keyboardType: TextInputType.number,
                     enabled: !isSubmitting,
-                    decoration: const InputDecoration(labelText: 'Price after Discount'),
+                    decoration: InputDecoration(labelText: m.addphonenumber.price_after_discount),
                   ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("Featured", style: TextStyle(fontSize: 16)),
+                    Text(m.addphonenumber.featured, style: TextStyle(fontSize: 16)),
                     Switch(
                       value: widget.formState.isFeatured,
                       onChanged: isSubmitting ? null : widget.onFeaturedToggle,
