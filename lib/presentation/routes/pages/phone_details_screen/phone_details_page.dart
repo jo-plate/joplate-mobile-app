@@ -26,7 +26,7 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Plate Details'),
+        title: const Text('Phone Number Details'),
         actions: [
           // Favorite Icon
           FavoriteButton.plate(listingId: widget.phoneNumber.toString()),

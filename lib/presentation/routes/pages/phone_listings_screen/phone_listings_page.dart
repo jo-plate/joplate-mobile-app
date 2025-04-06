@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
-import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phones_listing_grid.dart';
@@ -33,8 +32,6 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
     "Contains Digit Repeated 3 Times",
     "Contains Digit Repeated 4 Times",
   ];
-
-  final List<PhoneNumber> _allPhones = PhoneNumber.mockList(20);
 
   late final Stream<List<PhoneNumber>> _phonesStream;
 
@@ -81,10 +78,10 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final m=Localization.of(context);
+    final m = Localization.of(context);
     return Scaffold(
       appBar: AppBar(
-        title:  Text(m.phones.title),
+        title: Text(m.phones.title),
         centerTitle: true,
         actions: [
           IconButton(
@@ -156,7 +153,7 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
                       child: TextFormField(
                           controller: _maxPriceController,
                           keyboardType: TextInputType.number,
-                          decoration: inputFieldStyle.copyWith(labelText:m.phones.max_price))),
+                          decoration: inputFieldStyle.copyWith(labelText: m.phones.max_price))),
                   const SizedBox(width: 8),
                   ElevatedButton(
                     onPressed: _onSearch,
@@ -169,7 +166,7 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child:  Text(
+                    child: Text(
                       m.phones.search,
                       style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold), // Smaller text
                     ),

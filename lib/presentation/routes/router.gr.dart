@@ -171,6 +171,82 @@ class EditFullNameRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [EditPhoneListingPage]
+class EditPhoneListingRoute extends PageRouteInfo<EditPhoneListingRouteArgs> {
+  EditPhoneListingRoute({
+    Key? key,
+    required String listingId,
+    required String initialNumber,
+    required double initialPrice,
+    double? initialDiscountPrice,
+    bool initialWithDiscount = false,
+    bool initialIsFeatured = false,
+    List<PageRouteInfo>? children,
+  }) : super(
+         EditPhoneListingRoute.name,
+         args: EditPhoneListingRouteArgs(
+           key: key,
+           listingId: listingId,
+           initialNumber: initialNumber,
+           initialPrice: initialPrice,
+           initialDiscountPrice: initialDiscountPrice,
+           initialWithDiscount: initialWithDiscount,
+           initialIsFeatured: initialIsFeatured,
+         ),
+         initialChildren: children,
+       );
+
+  static const String name = 'EditPhoneListingRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<EditPhoneListingRouteArgs>();
+      return EditPhoneListingPage(
+        key: args.key,
+        listingId: args.listingId,
+        initialNumber: args.initialNumber,
+        initialPrice: args.initialPrice,
+        initialDiscountPrice: args.initialDiscountPrice,
+        initialWithDiscount: args.initialWithDiscount,
+        initialIsFeatured: args.initialIsFeatured,
+      );
+    },
+  );
+}
+
+class EditPhoneListingRouteArgs {
+  const EditPhoneListingRouteArgs({
+    this.key,
+    required this.listingId,
+    required this.initialNumber,
+    required this.initialPrice,
+    this.initialDiscountPrice,
+    this.initialWithDiscount = false,
+    this.initialIsFeatured = false,
+  });
+
+  final Key? key;
+
+  final String listingId;
+
+  final String initialNumber;
+
+  final double initialPrice;
+
+  final double? initialDiscountPrice;
+
+  final bool initialWithDiscount;
+
+  final bool initialIsFeatured;
+
+  @override
+  String toString() {
+    return 'EditPhoneListingRouteArgs{key: $key, listingId: $listingId, initialNumber: $initialNumber, initialPrice: $initialPrice, initialDiscountPrice: $initialDiscountPrice, initialWithDiscount: $initialWithDiscount, initialIsFeatured: $initialIsFeatured}';
+  }
+}
+
+/// generated route for
 /// [EditPhoneNumberPage]
 class EditPhoneNumberRoute extends PageRouteInfo<void> {
   const EditPhoneNumberRoute({List<PageRouteInfo>? children})
@@ -184,6 +260,210 @@ class EditPhoneNumberRoute extends PageRouteInfo<void> {
       return const EditPhoneNumberPage();
     },
   );
+}
+
+/// generated route for
+/// [EditPhoneRequestPage]
+class EditPhoneRequestRoute extends PageRouteInfo<EditPhoneRequestRouteArgs> {
+  EditPhoneRequestRoute({
+    Key? key,
+    required String requestId,
+    required String initialNumber,
+    double? initialPrice,
+    List<PageRouteInfo>? children,
+  }) : super(
+         EditPhoneRequestRoute.name,
+         args: EditPhoneRequestRouteArgs(
+           key: key,
+           requestId: requestId,
+           initialNumber: initialNumber,
+           initialPrice: initialPrice,
+         ),
+         initialChildren: children,
+       );
+
+  static const String name = 'EditPhoneRequestRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<EditPhoneRequestRouteArgs>();
+      return EditPhoneRequestPage(
+        key: args.key,
+        requestId: args.requestId,
+        initialNumber: args.initialNumber,
+        initialPrice: args.initialPrice,
+      );
+    },
+  );
+}
+
+class EditPhoneRequestRouteArgs {
+  const EditPhoneRequestRouteArgs({
+    this.key,
+    required this.requestId,
+    required this.initialNumber,
+    this.initialPrice,
+  });
+
+  final Key? key;
+
+  final String requestId;
+
+  final String initialNumber;
+
+  final double? initialPrice;
+
+  @override
+  String toString() {
+    return 'EditPhoneRequestRouteArgs{key: $key, requestId: $requestId, initialNumber: $initialNumber, initialPrice: $initialPrice}';
+  }
+}
+
+/// generated route for
+/// [EditPlateListingPage]
+class EditPlateListingRoute extends PageRouteInfo<EditPlateListingRouteArgs> {
+  EditPlateListingRoute({
+    Key? key,
+    required String listingId,
+    required String initialCode,
+    required String initialNumber,
+    required double initialPrice,
+    double? initialDiscountPrice,
+    bool initialWithDiscount = false,
+    bool initialIsFeatured = false,
+    List<PageRouteInfo>? children,
+  }) : super(
+         EditPlateListingRoute.name,
+         args: EditPlateListingRouteArgs(
+           key: key,
+           listingId: listingId,
+           initialCode: initialCode,
+           initialNumber: initialNumber,
+           initialPrice: initialPrice,
+           initialDiscountPrice: initialDiscountPrice,
+           initialWithDiscount: initialWithDiscount,
+           initialIsFeatured: initialIsFeatured,
+         ),
+         initialChildren: children,
+       );
+
+  static const String name = 'EditPlateListingRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<EditPlateListingRouteArgs>();
+      return EditPlateListingPage(
+        key: args.key,
+        listingId: args.listingId,
+        initialCode: args.initialCode,
+        initialNumber: args.initialNumber,
+        initialPrice: args.initialPrice,
+        initialDiscountPrice: args.initialDiscountPrice,
+        initialWithDiscount: args.initialWithDiscount,
+        initialIsFeatured: args.initialIsFeatured,
+      );
+    },
+  );
+}
+
+class EditPlateListingRouteArgs {
+  const EditPlateListingRouteArgs({
+    this.key,
+    required this.listingId,
+    required this.initialCode,
+    required this.initialNumber,
+    required this.initialPrice,
+    this.initialDiscountPrice,
+    this.initialWithDiscount = false,
+    this.initialIsFeatured = false,
+  });
+
+  final Key? key;
+
+  final String listingId;
+
+  final String initialCode;
+
+  final String initialNumber;
+
+  final double initialPrice;
+
+  final double? initialDiscountPrice;
+
+  final bool initialWithDiscount;
+
+  final bool initialIsFeatured;
+
+  @override
+  String toString() {
+    return 'EditPlateListingRouteArgs{key: $key, listingId: $listingId, initialCode: $initialCode, initialNumber: $initialNumber, initialPrice: $initialPrice, initialDiscountPrice: $initialDiscountPrice, initialWithDiscount: $initialWithDiscount, initialIsFeatured: $initialIsFeatured}';
+  }
+}
+
+/// generated route for
+/// [EditPlateRequestPage]
+class EditPlateRequestRoute extends PageRouteInfo<EditPlateRequestRouteArgs> {
+  EditPlateRequestRoute({
+    Key? key,
+    required String requestId,
+    required String initialCode,
+    required String initialNumber,
+    double? initialPrice,
+    List<PageRouteInfo>? children,
+  }) : super(
+         EditPlateRequestRoute.name,
+         args: EditPlateRequestRouteArgs(
+           key: key,
+           requestId: requestId,
+           initialCode: initialCode,
+           initialNumber: initialNumber,
+           initialPrice: initialPrice,
+         ),
+         initialChildren: children,
+       );
+
+  static const String name = 'EditPlateRequestRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<EditPlateRequestRouteArgs>();
+      return EditPlateRequestPage(
+        key: args.key,
+        requestId: args.requestId,
+        initialCode: args.initialCode,
+        initialNumber: args.initialNumber,
+        initialPrice: args.initialPrice,
+      );
+    },
+  );
+}
+
+class EditPlateRequestRouteArgs {
+  const EditPlateRequestRouteArgs({
+    this.key,
+    required this.requestId,
+    required this.initialCode,
+    required this.initialNumber,
+    this.initialPrice,
+  });
+
+  final Key? key;
+
+  final String requestId;
+
+  final String initialCode;
+
+  final String initialNumber;
+
+  final double? initialPrice;
+
+  @override
+  String toString() {
+    return 'EditPlateRequestRouteArgs{key: $key, requestId: $requestId, initialCode: $initialCode, initialNumber: $initialNumber, initialPrice: $initialPrice}';
+  }
 }
 
 /// generated route for

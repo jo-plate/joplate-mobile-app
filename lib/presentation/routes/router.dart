@@ -9,6 +9,10 @@ import 'package:joplate/presentation/routes/pages/add_phone_number_screen/add_ph
 import 'package:joplate/presentation/routes/pages/add_phone_request_screen/add_phone_request_page.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_number_screen/add_plate_number_page.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_request_screen/add_plate_request_page.dart';
+import 'package:joplate/presentation/routes/pages/edit_phone_listing_screen/edit_phone_listing_page.dart';
+import 'package:joplate/presentation/routes/pages/edit_phone_request_screen/edit_phone_request_page.dart';
+import 'package:joplate/presentation/routes/pages/edit_plate_listing_screen/edit_plate_listing_page.dart';
+import 'package:joplate/presentation/routes/pages/edit_plate_request_screen/edit_plate_request_page.dart';
 import 'package:joplate/presentation/routes/pages/home_page/home_tab/homescreen.dart';
 import 'package:joplate/presentation/routes/pages/home_page/dashboard_page.dart';
 import 'package:joplate/presentation/routes/pages/home_page/profile_tab/profile_screen.dart';
@@ -64,6 +68,10 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: PhoneListingsRoute.page, path: "/phones"),
         AutoRoute(page: RequestsRoute.page, path: "/requests"),
         AutoRoute(page: MyNumbersRoute.page, path: "/my_numbers"),
-        AutoRoute(page: MyRequestsRoute.page, path: "/my_requests")
+        AutoRoute(page: MyRequestsRoute.page, path: "/my_requests"),
+        AutoRoute(page: EditPlateListingRoute.page, path: "/edit_plate_listing"),
+        AutoRoute(page: EditPhoneListingRoute.page, path: "/edit_phone_listing"),
+        AutoRoute(page: EditPlateRequestRoute.page, path: "/edit_plate_request"),
+        AutoRoute(page: EditPhoneRequestRoute.page, path: "/edit_phone_request"),
       ];
 }

@@ -12,3 +12,4 @@ const phoneNumbersCollectionId = 'phoneNumbers';
 const signupCF = 'signUpUser';
 const createListingCF = 'createListing';
 const postRequestCF = 'postRequest';
+const updateListingCF = 'updateListing';
