@@ -23,7 +23,7 @@ class DashboardPage extends StatelessWidget {
           items: [
             BottomNavigationBarItem(icon: const Icon(Icons.person), label: m.footer.profile),
             BottomNavigationBarItem(icon: const Icon(Icons.home), label: m.footer.home),
-            BottomNavigationBarItem(icon: Icon(Icons.favorite), label: m.footer.favorites),
+            BottomNavigationBarItem(icon: const Icon(Icons.favorite), label: m.footer.favorites),
           ],
         );
       },

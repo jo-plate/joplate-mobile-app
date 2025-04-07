@@ -115,7 +115,7 @@ class _SinglePhoneFormState extends State<SinglePhoneForm> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(m.addphonenumber.with_discount, style: TextStyle(fontSize: 16)),
+                    Text(m.addphonenumber.with_discount, style: const TextStyle(fontSize: 16)),
                     Switch(
                       value: widget.formState.withDiscount,
                       onChanged: isSubmitting ? null : widget.onDiscountToggle,
@@ -133,7 +133,7 @@ class _SinglePhoneFormState extends State<SinglePhoneForm> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(m.addphonenumber.featured, style: TextStyle(fontSize: 16)),
+                    Text(m.addphonenumber.featured, style: const TextStyle(fontSize: 16)),
                     Switch(
                       value: widget.formState.isFeatured,
                       onChanged: isSubmitting ? null : widget.onFeaturedToggle,

@@ -49,5 +49,6 @@ class Request<T> with _$Request {
         userId: 'mockUser');
   }
 
+  @override
   Map<String, dynamic> toJson() => toJson();
 }

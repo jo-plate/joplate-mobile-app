@@ -201,7 +201,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
               const SizedBox(width: 16),
               Text(
                 m.profile.language,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                   color: Colors.black,

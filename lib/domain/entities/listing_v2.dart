@@ -35,7 +35,7 @@ class ListingV2 with _$ListingV2 {
       isActive: true,
       isSold: false,
       createdAt: DateTime.now().toIso8601String(),
-      expiresAt: DateTime.now().add(Duration(days: 7)).toIso8601String(),
+      expiresAt: DateTime.now().add(const Duration(days: 7)).toIso8601String(),
       postedBy: UserProfile.empty().copyWith(
         displayName: "mockUser",
         email: "anasmk9@outlook.com",

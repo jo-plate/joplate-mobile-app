@@ -54,7 +54,7 @@ class _MyPlanPageState extends State<MyPlanPage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(m.plan.plan_name, style: TextStyle(color: Colors.black, fontSize: 16.0)),
+                            Text(m.plan.plan_name, style: const TextStyle(color: Colors.black, fontSize: 16.0)),
                             const SizedBox(
                               height: 8,
                             ),
@@ -90,7 +90,7 @@ class _MyPlanPageState extends State<MyPlanPage> {
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Text(
                             m.plan.your_plan_label,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 12,
                               color: Colors.red,
                               fontWeight: FontWeight.bold,

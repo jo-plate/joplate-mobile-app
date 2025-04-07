@@ -130,7 +130,7 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                   Row(
                                     children: [
                                       const PlanIcon(
-                                          size: 30, color: const Color(0xFFD4AF37), borderColor: Colors.black),
+                                          size: 30, color: Color(0xFFD4AF37), borderColor: Colors.black),
                                       const SizedBox(width: 6),
                                       Text((snapshot.data?.goldenTickets ?? 0).toString(),
                                           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),

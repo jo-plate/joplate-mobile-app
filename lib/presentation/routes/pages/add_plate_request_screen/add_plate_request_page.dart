@@ -52,7 +52,7 @@ class AddPlateRequestPage extends StatelessWidget {
                                 AutoRouter.of(context).maybePop();
                               }
                             },
-                      child: Text(m.addplaterequest.save_button, style: TextStyle(color: Colors.white)),
+                      child: Text(m.addplaterequest.save_button, style: const TextStyle(color: Colors.white)),
                     ),
                   ],
                 ),

@@ -64,7 +64,7 @@ class _AddPlateNumberPageState extends State<AddPlateNumberPage> {
                         Expanded(
                           child: ElevatedButton.icon(
                             icon: const Icon(Icons.add, color: Colors.white),
-                            label: Text(m.addplate.addmore, style: TextStyle(color: Colors.white)),
+                            label: Text(m.addplate.addmore, style: const TextStyle(color: Colors.white)),
                             onPressed: () => cubit.addNewForm(),
                           ),
                         ),
@@ -78,7 +78,7 @@ class _AddPlateNumberPageState extends State<AddPlateNumberPage> {
                                 AutoRouter.of(context).maybePop();
                               }
                             },
-                            child: Text(m.addplate.save_button, style: TextStyle(color: Colors.white)),
+                            child: Text(m.addplate.save_button, style: const TextStyle(color: Colors.white)),
                           ),
                         ),
                       ],

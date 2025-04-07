@@ -129,7 +129,7 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(m.addplate.with_discount, style: TextStyle(fontSize: 16)),
+                    Text(m.addplate.with_discount, style: const TextStyle(fontSize: 16)),
                     Switch(
                       value: widget.formState.withDiscount,
                       onChanged: isSubmitting ? null : widget.onDiscountToggle,
@@ -148,7 +148,7 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                      Text(m.addplate.featured, style: TextStyle(fontSize: 16)),
+                    Text(m.addplate.featured, style: const TextStyle(fontSize: 16)),
                     Switch(
                       value: widget.formState.isFeatured,
                       onChanged: isSubmitting ? null : widget.onFeaturedToggle,

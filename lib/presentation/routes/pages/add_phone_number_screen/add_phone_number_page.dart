@@ -60,7 +60,7 @@ class AddPhoneNumberPage extends StatelessWidget {
                         Expanded(
                           child: ElevatedButton.icon(
                             icon: const Icon(Icons.add, color: Colors.white),
-                            label:  Text(m.addphonenumber.addmore, style: TextStyle(color: Colors.white)),
+                            label: Text(m.addphonenumber.addmore, style: const TextStyle(color: Colors.white)),
                             onPressed: () => cubit.addNewForm(),
                           ),
                         ),
@@ -74,7 +74,7 @@ class AddPhoneNumberPage extends StatelessWidget {
                                 AutoRouter.of(context).maybePop();
                               }
                             },
-                            child: Text(m.addphonenumber.save_button, style: TextStyle(color: Colors.white)),
+                            child: Text(m.addphonenumber.save_button, style: const TextStyle(color: Colors.white)),
                           ),
                         ),
                       ],

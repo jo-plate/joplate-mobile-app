@@ -14,7 +14,7 @@ class EditPlateListingPage extends StatelessWidget {
   final bool initialIsFeatured;
 
   const EditPlateListingPage({
-    Key? key,
+    super.key,
     required this.listingId,
     required this.initialCode,
     required this.initialNumber,
@@ -22,7 +22,7 @@ class EditPlateListingPage extends StatelessWidget {
     this.initialDiscountPrice,
     this.initialWithDiscount = false,
     this.initialIsFeatured = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

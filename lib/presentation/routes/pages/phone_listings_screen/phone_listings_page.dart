@@ -168,7 +168,7 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
                     ),
                     child: Text(
                       m.phones.search,
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold), // Smaller text
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold), // Smaller text
                     ),
                   )
                 ],

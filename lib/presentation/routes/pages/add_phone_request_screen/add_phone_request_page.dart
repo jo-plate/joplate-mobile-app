@@ -12,7 +12,7 @@ import 'package:joplate/presentation/routes/router.dart';
 
 @RoutePage()
 class AddPhoneRequestPage extends StatelessWidget {
-  const AddPhoneRequestPage({Key? key}) : super(key: key);
+  const AddPhoneRequestPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class AddPhoneRequestPage extends StatelessWidget {
                                 AutoRouter.of(context).replace(const MyRequestsRoute());
                               }
                             },
-                      child: Text(m.addphonerequest.save_button, style: TextStyle(color: Colors.white)),
+                      child: Text(m.addphonerequest.save_button, style: const TextStyle(color: Colors.white)),
                     ),
                   ],
                 ),
