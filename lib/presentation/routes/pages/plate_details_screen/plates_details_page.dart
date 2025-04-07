@@ -101,442 +101,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                         ),
                       ],
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF981C1E).withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: const Icon(
-                                Icons.people_outline,
-                                color: Color(0xFF981C1E),
-                                size: 20,
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            const Text(
-                              'Other Sellers',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF2C3E50),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        Table(
-                          columnWidths: const {
-                            0: FlexColumnWidth(2),
-                            1: FlexColumnWidth(1),
-                            2: FlexColumnWidth(1),
-                          },
-                          children: [
-                            const TableRow(
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color: Color(0xFFE0E0E0),
-                                    width: 1,
-                                  ),
-                                ),
-                              ),
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(bottom: 12.0),
-                                  child: Text(
-                                    'Seller',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF7F8C8D),
-                                      fontSize: 13,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(bottom: 12.0),
-                                  child: Text(
-                                    'Price',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF7F8C8D),
-                                      fontSize: 13,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(bottom: 12.0),
-                                  child: Text(
-                                    'Contact',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF7F8C8D),
-                                      fontSize: 13,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            TableRow(
-                              decoration: const BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color: Color(0xFFF5F5F5),
-                                    width: 1,
-                                  ),
-                                ),
-                              ),
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 12.0),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 32,
-                                        height: 32,
-                                        decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: const Icon(
-                                          Icons.person_outline,
-                                          size: 18,
-                                          color: Color(0xFF981C1E),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            const Text(
-                                              'Ahmed Hassan',
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w500,
-                                                color: Color(0xFF2C3E50),
-                                              ),
-                                            ),
-                                            const SizedBox(height: 2),
-                                            Text(
-                                              'Posted 2 days ago',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.grey[600],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 12.0),
-                                  child: Text(
-                                    '15,000',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      color: const Color(0xFF2C3E50),
-                                      fontFamily: 'Mandatory',
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 12.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Container(
-                                        width: 28,
-                                        height: 28,
-                                        decoration: BoxDecoration(
-                                          color: Colors.green.withOpacity(0.1),
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: IconButton(
-                                          padding: EdgeInsets.zero,
-                                          icon: const FaIcon(
-                                            FontAwesomeIcons.whatsapp,
-                                            size: 14,
-                                            color: Colors.green,
-                                          ),
-                                          onPressed: () {
-                                            launchUrlString(
-                                              "https://wa.me/+962787940864",
-                                              mode: LaunchMode.externalApplication,
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Container(
-                                        width: 28,
-                                        height: 28,
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFF981C1E).withOpacity(0.1),
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: IconButton(
-                                          padding: EdgeInsets.zero,
-                                          icon: const Icon(
-                                            Icons.phone,
-                                            size: 14,
-                                            color: Color(0xFF981C1E),
-                                          ),
-                                          onPressed: () {
-                                            FlutterPhoneDialer.dialNumber("+962787940864");
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            TableRow(
-                              decoration: const BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color: Color(0xFFF5F5F5),
-                                    width: 1,
-                                  ),
-                                ),
-                              ),
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 12.0),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 32,
-                                        height: 32,
-                                        decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: const Icon(
-                                          Icons.person_outline,
-                                          size: 18,
-                                          color: Color(0xFF981C1E),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            const Text(
-                                              'Mohammed Ali',
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w500,
-                                                color: Color(0xFF2C3E50),
-                                              ),
-                                            ),
-                                            const SizedBox(height: 2),
-                                            Text(
-                                              'Posted 5 days ago',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.grey[600],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 12.0),
-                                  child: Text(
-                                    'Call for Price',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      color: const Color(0xFF2C3E50),
-                                      fontFamily: 'Mandatory',
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 12.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Container(
-                                        width: 28,
-                                        height: 28,
-                                        decoration: BoxDecoration(
-                                          color: Colors.green.withOpacity(0.1),
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: IconButton(
-                                          padding: EdgeInsets.zero,
-                                          icon: const FaIcon(
-                                            FontAwesomeIcons.whatsapp,
-                                            size: 14,
-                                            color: Colors.green,
-                                          ),
-                                          onPressed: () {
-                                            launchUrlString(
-                                              "https://wa.me/+962787940865",
-                                              mode: LaunchMode.externalApplication,
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Container(
-                                        width: 28,
-                                        height: 28,
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFF981C1E).withOpacity(0.1),
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: IconButton(
-                                          padding: EdgeInsets.zero,
-                                          icon: const Icon(
-                                            Icons.phone,
-                                            size: 14,
-                                            color: Color(0xFF981C1E),
-                                          ),
-                                          onPressed: () {
-                                            FlutterPhoneDialer.dialNumber("+962787940865");
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            TableRow(
-                              decoration: const BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color: Color(0xFFF5F5F5),
-                                    width: 1,
-                                  ),
-                                ),
-                              ),
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 12.0),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 32,
-                                        height: 32,
-                                        decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: const Icon(
-                                          Icons.person_outline,
-                                          size: 18,
-                                          color: Color(0xFF981C1E),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            const Text(
-                                              'Sarah Johnson',
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w500,
-                                                color: Color(0xFF2C3E50),
-                                              ),
-                                            ),
-                                            const SizedBox(height: 2),
-                                            Text(
-                                              'Posted 1 week ago',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.grey[600],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 12.0),
-                                  child: Text(
-                                    '18,500',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      color: const Color(0xFF2C3E50),
-                                      fontFamily: 'Mandatory',
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 12.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Container(
-                                        width: 28,
-                                        height: 28,
-                                        decoration: BoxDecoration(
-                                          color: Colors.green.withOpacity(0.1),
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: IconButton(
-                                          padding: EdgeInsets.zero,
-                                          icon: const FaIcon(
-                                            FontAwesomeIcons.whatsapp,
-                                            size: 14,
-                                            color: Colors.green,
-                                          ),
-                                          onPressed: () {
-                                            launchUrlString(
-                                              "https://wa.me/+962787940866",
-                                              mode: LaunchMode.externalApplication,
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Container(
-                                        width: 28,
-                                        height: 28,
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFF981C1E).withOpacity(0.1),
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: IconButton(
-                                          padding: EdgeInsets.zero,
-                                          icon: const Icon(
-                                            Icons.phone,
-                                            size: 14,
-                                            color: Color(0xFF981C1E),
-                                          ),
-                                          onPressed: () {
-                                            FlutterPhoneDialer.dialNumber("+962787940866");
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                    child: const OtherSellersTable(),
                   ),
                   const SizedBox(height: 20),
                   Container(
@@ -786,6 +351,250 @@ class _SellerDetailsState extends State<SellerDetails> {
               ],
             );
           }),
+    );
+  }
+}
+
+class OtherSellersTable extends StatelessWidget {
+  const OtherSellersTable({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: const Color(0xFF981C1E).withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Icon(
+                Icons.people_outline,
+                color: Color(0xFF981C1E),
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 12),
+            const Text(
+              'Other Sellers',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF2C3E50),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        Table(
+          columnWidths: const {
+            0: FlexColumnWidth(2),
+            1: FlexColumnWidth(1),
+            2: FlexColumnWidth(1),
+          },
+          children: [
+            const TableRow(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Color(0xFFE0E0E0),
+                    width: 1,
+                  ),
+                ),
+              ),
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 12.0),
+                  child: Text(
+                    'Seller',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF7F8C8D),
+                      fontSize: 13,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 12.0),
+                  child: Text(
+                    'Price',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF7F8C8D),
+                      fontSize: 13,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 12.0),
+                  child: Text(
+                    'Contact',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF7F8C8D),
+                      fontSize: 13,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            _buildSellerRow(
+              name: 'Ahmed Hassan',
+              daysAgo: '2 days ago',
+              price: '15,000',
+              phoneNumber: '+962787940864',
+              isFeatured: true,
+            ),
+            _buildSellerRow(
+              name: 'Mohammed Ali',
+              daysAgo: '5 days ago',
+              price: 'Call for Price',
+              phoneNumber: '+962787940865',
+              isFeatured: false,
+            ),
+            _buildSellerRow(
+              name: 'Sarah Johnson',
+              daysAgo: '1 week ago',
+              price: '18,500',
+              phoneNumber: '+962787940866',
+              isFeatured: true,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  TableRow _buildSellerRow({
+    required String name,
+    required String daysAgo,
+    required String price,
+    required String phoneNumber,
+    required bool isFeatured,
+  }) {
+    return TableRow(
+      decoration: const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: Color(0xFFF5F5F5),
+            width: 1,
+          ),
+        ),
+      ),
+      children: [
+        Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: Row(
+                children: [
+                  Container(
+                    width: 32,
+                    height: 32,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.person_outline,
+                      size: 18,
+                      color: Color(0xFF981C1E),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          name,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF2C3E50),
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          daysAgo,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],),              
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
+          child: Text(
+            price,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF2C3E50),
+              fontFamily: 'Mandatory',
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                width: 28,
+                height: 28,
+                decoration: BoxDecoration(
+                  color: Colors.green.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  icon: const FaIcon(
+                    FontAwesomeIcons.whatsapp,
+                    size: 14,
+                    color: Colors.green,
+                  ),
+                  onPressed: () {
+                    launchUrlString(
+                      "https://wa.me/$phoneNumber",
+                      mode: LaunchMode.externalApplication,
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(width: 8),
+              Container(
+                width: 28,
+                height: 28,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF981C1E).withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  icon: const Icon(
+                    Icons.phone,
+                    size: 14,
+                    color: Color(0xFF981C1E),
+                  ),
+                  onPressed: () {
+                    FlutterPhoneDialer.dialNumber(phoneNumber);
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
