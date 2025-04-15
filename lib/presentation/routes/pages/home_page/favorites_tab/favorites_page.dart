@@ -7,6 +7,7 @@ import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/domain/entities/user_favorites.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
+import 'package:joplate/presentation/routes/pages/home_page/profile_tab/ui/anon_user_view.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phones_listing_grid.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plates_listing_grid.dart';
 import 'package:joplate/presentation/utils/firebase_utils.dart';
@@ -21,12 +22,19 @@ class FavoritesPage extends StatefulWidget {
 
 class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProviderStateMixin {
 // init firestore streams
-  late final Stream<UserFavorites> favoritesStream;
+  late Stream<UserFavorites> favoritesStream;
+  late final Stream<User?> userStream;
   late final TabController tabController;
 
   @override
   void initState() {
     super.initState();
+    userStream = FirebaseAuth.instance.userChanges();
+    setFavoritesStream();
+    tabController = TabController(length: 2, vsync: this);
+  }
+
+  void setFavoritesStream() {
     favoritesStream = FirebaseFirestore.instance
         .collection(favoritesCollectionId)
         .doc(FirebaseAuth.instance.currentUser?.uid)
@@ -52,8 +60,6 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
       );
       return snapshot.copyWith(favoritePlates: plates, favoritePhones: phones);
     });
-
-    tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -61,77 +67,94 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
     super.dispose();
     favoritesStream.drain();
   }
-@override
+
+  @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(m.footer.favorites),
-        centerTitle: true,
-        bottom: TabBar(
-          controller: tabController,
-          tabs: [
-            Tab(text: m.home.car_number),
-            Tab(text: m.home.phone_numbers),
-          ],
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: StreamBuilder<DocumentSnapshot>(
-          stream: FirebaseFirestore.instance
-              .collection(favoritesCollectionId)
-              .doc(FirebaseAuth.instance.currentUser?.uid)
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-        
-            if (snapshot.hasError || !snapshot.hasData || snapshot.data?.data() == null) {
-              return Center(child: Text(m.favoritesSc.no_favorites));
-            }
-
-            // Convert snapshot to UserFavorites
-            final userFavorites = UserFavorites.fromJson(snapshot.data!.data() as Map<String, dynamic>);
-
-            return FutureBuilder<List<PlateNumber>>(
-              future: fetchPlates(userFavorites.favoritePlatesIds),
-              builder: (context, plateSnapshot) {
-                if (plateSnapshot.connectionState == ConnectionState.waiting) {
+    return StreamBuilder<User?>(
+        stream: userStream,
+        builder: (context, snapshot) {
+          if (snapshot.data == null) {
+            return Scaffold(
+                appBar: AppBar(
+                  title: Text(m.footer.favorites),
+                  centerTitle: true,
+                ),
+                body: const AnonUserView());
+          }
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(m.footer.favorites),
+              centerTitle: true,
+              bottom: TabBar(
+                controller: tabController,
+                tabs: [
+                  Tab(text: m.home.car_number),
+                  Tab(text: m.home.phone_numbers),
+                ],
+              ),
+            ),
+            body: StreamBuilder<DocumentSnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection(favoritesCollectionId)
+                  .doc(FirebaseAuth.instance.currentUser?.uid)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
 
-                if (plateSnapshot.hasError || plateSnapshot.data == null) {
-                  return Center(child: Text(m.favoritesSc.failed_to_load));
+                if (snapshot.hasError || !snapshot.hasData || snapshot.data?.data() == null) {
+                  return Center(child: Text(m.favoritesSc.no_favorites));
                 }
 
-                return FutureBuilder<List<PhoneNumber>>(
-                  future: fetchPhones(userFavorites.favoritePhones),
-                  builder: (context, phoneSnapshot) {
-                    if (phoneSnapshot.connectionState == ConnectionState.waiting) {
+                // Convert snapshot to UserFavorites
+                final userFavorites = UserFavorites.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+
+                return FutureBuilder<List<PlateNumber>>(
+                  future: fetchPlates(userFavorites.favoritePlatesIds),
+                  builder: (context, plateSnapshot) {
+                    if (plateSnapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     }
 
-                    if (phoneSnapshot.hasError || phoneSnapshot.data == null) {
+                    if (plateSnapshot.hasError || plateSnapshot.data == null) {
                       return Center(child: Text(m.favoritesSc.failed_to_load));
                     }
 
-                    return TabBarView(
-                      controller: tabController,
-                      children: [
-                        SingleChildScrollView(child: PlatesListingsGrid(itemList: plateSnapshot.data ?? [])),
-                        SingleChildScrollView(child: PhonesListingGrid(itemList: phoneSnapshot.data ?? [])),
-                      ],
+                    return FutureBuilder<List<PhoneNumber>>(
+                      future: fetchPhones(userFavorites.favoritePhones),
+                      builder: (context, phoneSnapshot) {
+                        if (phoneSnapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(child: CircularProgressIndicator());
+                        }
+
+                        if (phoneSnapshot.hasError || phoneSnapshot.data == null) {
+                          return Center(child: Text(m.favoritesSc.failed_to_load));
+                        }
+
+                        return TabBarView(
+                          controller: tabController,
+                          children: [
+                            SingleChildScrollView(
+                                child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                              child: PlatesListingsGrid(itemList: plateSnapshot.data ?? []),
+                            )),
+                            SingleChildScrollView(
+                                child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                              child: PhonesListingGrid(itemList: phoneSnapshot.data ?? []),
+                            )),
+                          ],
+                        );
+                      },
                     );
                   },
                 );
               },
-            );
-          },
-        ),
-      ),
-    );
+            ),
+          );
+        });
   }
-
 }

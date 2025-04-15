@@ -1,20 +1,21 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
+import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
 
 class PhoneNumberRequestWidget extends StatelessWidget {
   final Request<PhoneNumber> item;
   final double aspectRatio;
   final double priceLabelFontSize;
-  final bool hideLikeButton;
 
-  const PhoneNumberRequestWidget(
-      {super.key,
-      required this.item,
-      this.aspectRatio = 1.5,
-      this.priceLabelFontSize = 16,
-      this.hideLikeButton = false});
+  const PhoneNumberRequestWidget({
+    super.key,
+    required this.item,
+    this.aspectRatio = 1.5,
+    this.priceLabelFontSize = 16,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class PhoneNumberRequestWidget extends StatelessWidget {
         aspectRatio: aspectRatio,
         child: GestureDetector(
           onTap: () {
-            // AutoRouter.of(context).push(PhoneDetailsRoute(phoneNumber: item));
+            AutoRouter.of(context).push(PhoneRequestDetailsRoute(phoneNumberRequest: item));
           },
           child: Stack(
             clipBehavior: Clip.hardEdge,

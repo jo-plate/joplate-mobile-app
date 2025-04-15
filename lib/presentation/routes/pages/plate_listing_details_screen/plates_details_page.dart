@@ -289,16 +289,16 @@ class _SellerDetailsState extends State<SellerDetails> {
                                 mode: LaunchMode.externalApplication);
                           },
                           borderRadius: BorderRadius.circular(8),
-                          child: Row(
+                          child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const FaIcon(
+                              FaIcon(
                                 FontAwesomeIcons.whatsapp,
                                 color: Colors.green,
                                 size: 16,
                               ),
-                              const SizedBox(width: 8),
-                              const Text(
+                              SizedBox(width: 8),
+                              Text(
                                 'WhatsApp',
                                 style: TextStyle(
                                   color: Colors.green,

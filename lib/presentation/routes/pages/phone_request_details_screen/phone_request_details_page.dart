@@ -5,36 +5,34 @@ import 'package:flutter_phone_dialer/flutter_phone_dialer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
+import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
-import 'package:joplate/presentation/widgets/app_bar.dart/phone_number_listing_widget.dart';
-import 'package:joplate/presentation/widgets/favorite_button.dart';
+import 'package:joplate/presentation/widgets/app_bar.dart/phone_number_request_widget.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 @RoutePage()
-class PhoneDetailsPage extends StatefulWidget {
-  const PhoneDetailsPage({super.key, required this.phoneNumber});
+class PhoneRequestDetailsPage extends StatefulWidget {
+  const PhoneRequestDetailsPage({super.key, required this.phoneNumberRequest});
 
-  final PhoneNumber phoneNumber;
+  final Request<PhoneNumber> phoneNumberRequest;
 
   @override
-  State<PhoneDetailsPage> createState() => _PhoneDetailsPageState();
+  State<PhoneRequestDetailsPage> createState() => _PhoneRequestDetailsPageState();
 }
 
-class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
+class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Phone Number Details'),
+        title: const Text('Phone Number Request Details'),
         actions: [
-          // Favorite Icon
-          FavoriteButton.plate(listingId: widget.phoneNumber.toString()),
           // Share Icon
           IconButton(
             icon: const Icon(Icons.share_outlined),
             onPressed: () {
-              Share.share('Check out this plate number: ${widget.phoneNumber.toString()}');
+              Share.share('Check out this plate number: ${widget.phoneNumberRequest.toString()}');
             },
           ),
         ],
@@ -46,48 +44,17 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
           children: [
             SizedBox(
               height: 180,
-              child: PhoneNumberListingWidget(
-                item: widget.phoneNumber,
-                hideLikeButton: true,
+              child: PhoneNumberRequestWidget(
+                item: widget.phoneNumberRequest,
                 priceLabelFontSize: 24,
               ),
             ),
 
             const SizedBox(height: 10),
 
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              child: Column(
-                children: [
-                  const Text(
-                    'Do you want to preview this plate on a vehicle?',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Implement preview functionality
-                      },
-                      child: const Text(
-                        'Preview Plates',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
             const SizedBox(height: 20),
 
-            if (widget.phoneNumber.ads.firstOrNull != null) SellerDetails(userId: widget.phoneNumber.ads.first.id),
+            RequestedByWidgget(userId: widget.phoneNumberRequest.userId),
 
             const SizedBox(height: 20),
 
@@ -142,15 +109,15 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
   }
 }
 
-class SellerDetails extends StatefulWidget {
-  const SellerDetails({super.key, required this.userId});
+class RequestedByWidgget extends StatefulWidget {
+  const RequestedByWidgget({super.key, required this.userId});
   final String userId;
 
   @override
-  State<SellerDetails> createState() => _SellerDetailsState();
+  State<RequestedByWidgget> createState() => _RequestedByWidggetState();
 }
 
-class _SellerDetailsState extends State<SellerDetails> {
+class _RequestedByWidggetState extends State<RequestedByWidgget> {
   late final Stream<UserProfile> userProfileStream;
 
   @override
@@ -195,7 +162,7 @@ class _SellerDetailsState extends State<SellerDetails> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'About Seller',
+                  'Requested by',
                   style: TextStyle(fontSize: 16),
                 ),
                 const SizedBox(height: 10),

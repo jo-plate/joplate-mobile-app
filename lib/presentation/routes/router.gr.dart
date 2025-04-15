@@ -600,6 +600,53 @@ class PhoneListingsRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [PhoneRequestDetailsPage]
+class PhoneRequestDetailsRoute
+    extends PageRouteInfo<PhoneRequestDetailsRouteArgs> {
+  PhoneRequestDetailsRoute({
+    Key? key,
+    required Request<PhoneNumber> phoneNumberRequest,
+    List<PageRouteInfo>? children,
+  }) : super(
+         PhoneRequestDetailsRoute.name,
+         args: PhoneRequestDetailsRouteArgs(
+           key: key,
+           phoneNumberRequest: phoneNumberRequest,
+         ),
+         initialChildren: children,
+       );
+
+  static const String name = 'PhoneRequestDetailsRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<PhoneRequestDetailsRouteArgs>();
+      return PhoneRequestDetailsPage(
+        key: args.key,
+        phoneNumberRequest: args.phoneNumberRequest,
+      );
+    },
+  );
+}
+
+class PhoneRequestDetailsRouteArgs {
+  const PhoneRequestDetailsRouteArgs({
+    this.key,
+    required this.phoneNumberRequest,
+  });
+
+  final Key? key;
+
+  final Request<PhoneNumber> phoneNumberRequest;
+
+  @override
+  String toString() {
+    return 'PhoneRequestDetailsRouteArgs{key: $key, phoneNumberRequest: $phoneNumberRequest}';
+  }
+}
+
+/// generated route for
 /// [PlansPage]
 class PlansRoute extends PageRouteInfo<void> {
   const PlansRoute({List<PageRouteInfo>? children})

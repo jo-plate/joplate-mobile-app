@@ -19,17 +19,6 @@ class PhoneNumberListingWidget extends StatelessWidget {
     this.hideLikeButton = false,
   });
 
-  Color _getOperatorColor() {
-    if (item.number.startsWith('079')) {
-      return Colors.blue;
-    } else if (item.number.startsWith('078')) {
-      return const Color(0xFFCCDB37); // Greeny yellow for Umniah
-    } else if (item.number.startsWith('077')) {
-      return Colors.orange;
-    }
-    return Colors.grey[500]!;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -43,42 +32,64 @@ class PhoneNumberListingWidget extends StatelessWidget {
             },
             child: Container(
               decoration: BoxDecoration(
-                border: Border.all(color: _getOperatorColor(), width: 2),
+                border: Border.all(color: item.isFeatured ? Colors.yellow[700]! : Colors.grey[500]!, width: 2),
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
                 children: [
                   Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFEFEFEF),
-                              border: Border.all(color: Colors.black, width: 1),
-                              borderRadius: BorderRadius.circular(8),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: item.operatorColor,
+                            gradient: LinearGradient(
+                              colors: [
+                                item.operatorColor.withOpacity(1),
+                                item.operatorColor.withOpacity(0.6),
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
                             ),
-                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                            child: LayoutBuilder(
-                              builder: (context, constraints) {
-                                double fontSize = constraints.maxWidth * 0.14;
-                                return Text(
+                            //bottom border only
+                            // border: Border(
+                            //   bottom: BorderSide(
+                            //     color: _getOperatorColor(),
+                            //     width: 2,
+                            //   ),
+                            // ),
+                            // borderRadius: BorderRadius.circular(8),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                          child: LayoutBuilder(builder: (context, constraints) {
+                            double fontSize = constraints.maxWidth * 0.15;
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // Image(image: _getOperatorLogo(), width: fontSize * 2),
+                                // const SizedBox(width: 8),
+                                Text(
                                   item.number,
                                   style: TextStyle(
                                     fontSize: fontSize,
-                                    fontFamily: 'Mandatory',
+                                    // not Mandatory
+                                    fontFamily: 'poppins',
+
                                     fontWeight: FontWeight.w600,
-                                    letterSpacing: 1.2,
+                                    color: Colors.black,
                                   ),
                                   textAlign: TextAlign.center,
-                                );
-                              }
-                            ),
-                          ),
-                          Row(
+                                ),
+                              ],
+                            );
+                          }),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
@@ -90,8 +101,8 @@ class PhoneNumberListingWidget extends StatelessWidget {
                                 ),
                             ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                   if (item.ads.firstOrNull != null) ...[

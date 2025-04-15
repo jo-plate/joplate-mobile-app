@@ -21,6 +21,8 @@ mixin _$Plan {
   List<String> get activePerks => throw _privateConstructorUsedError;
   List<String> get disabledPerks => throw _privateConstructorUsedError;
   Color get color => throw _privateConstructorUsedError;
+  Map<SubscriptionPlatform, String> get productIds =>
+      throw _privateConstructorUsedError;
 
   /// Create a copy of Plan
   /// with the given fields replaced by the non-null parameter values.
@@ -38,7 +40,8 @@ abstract class $PlanCopyWith<$Res> {
       int price,
       List<String> activePerks,
       List<String> disabledPerks,
-      Color color});
+      Color color,
+      Map<SubscriptionPlatform, String> productIds});
 }
 
 /// @nodoc
@@ -61,6 +64,7 @@ class _$PlanCopyWithImpl<$Res, $Val extends Plan>
     Object? activePerks = null,
     Object? disabledPerks = null,
     Object? color = null,
+    Object? productIds = null,
   }) {
     return _then(_value.copyWith(
       displayName: null == displayName
@@ -83,6 +87,10 @@ class _$PlanCopyWithImpl<$Res, $Val extends Plan>
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as Color,
+      productIds: null == productIds
+          ? _value.productIds
+          : productIds // ignore: cast_nullable_to_non_nullable
+              as Map<SubscriptionPlatform, String>,
     ) as $Val);
   }
 }
@@ -99,7 +107,8 @@ abstract class _$$PlanImplCopyWith<$Res> implements $PlanCopyWith<$Res> {
       int price,
       List<String> activePerks,
       List<String> disabledPerks,
-      Color color});
+      Color color,
+      Map<SubscriptionPlatform, String> productIds});
 }
 
 /// @nodoc
@@ -119,6 +128,7 @@ class __$$PlanImplCopyWithImpl<$Res>
     Object? activePerks = null,
     Object? disabledPerks = null,
     Object? color = null,
+    Object? productIds = null,
   }) {
     return _then(_$PlanImpl(
       displayName: null == displayName
@@ -141,6 +151,10 @@ class __$$PlanImplCopyWithImpl<$Res>
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as Color,
+      productIds: null == productIds
+          ? _value._productIds
+          : productIds // ignore: cast_nullable_to_non_nullable
+              as Map<SubscriptionPlatform, String>,
     ));
   }
 }
@@ -153,9 +167,11 @@ class _$PlanImpl extends _Plan {
       this.price = 0,
       final List<String> activePerks = const [],
       final List<String> disabledPerks = const [],
-      this.color = Colors.white})
+      this.color = Colors.white,
+      final Map<SubscriptionPlatform, String> productIds = const {}})
       : _activePerks = activePerks,
         _disabledPerks = disabledPerks,
+        _productIds = productIds,
         super._();
 
   @override
@@ -185,10 +201,18 @@ class _$PlanImpl extends _Plan {
   @override
   @JsonKey()
   final Color color;
+  final Map<SubscriptionPlatform, String> _productIds;
+  @override
+  @JsonKey()
+  Map<SubscriptionPlatform, String> get productIds {
+    if (_productIds is EqualUnmodifiableMapView) return _productIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_productIds);
+  }
 
   @override
   String toString() {
-    return 'Plan(displayName: $displayName, price: $price, activePerks: $activePerks, disabledPerks: $disabledPerks, color: $color)';
+    return 'Plan(displayName: $displayName, price: $price, activePerks: $activePerks, disabledPerks: $disabledPerks, color: $color, productIds: $productIds)';
   }
 
   @override
@@ -203,7 +227,9 @@ class _$PlanImpl extends _Plan {
                 .equals(other._activePerks, _activePerks) &&
             const DeepCollectionEquality()
                 .equals(other._disabledPerks, _disabledPerks) &&
-            (identical(other.color, color) || other.color == color));
+            (identical(other.color, color) || other.color == color) &&
+            const DeepCollectionEquality()
+                .equals(other._productIds, _productIds));
   }
 
   @override
@@ -213,7 +239,8 @@ class _$PlanImpl extends _Plan {
       price,
       const DeepCollectionEquality().hash(_activePerks),
       const DeepCollectionEquality().hash(_disabledPerks),
-      color);
+      color,
+      const DeepCollectionEquality().hash(_productIds));
 
   /// Create a copy of Plan
   /// with the given fields replaced by the non-null parameter values.
@@ -230,7 +257,8 @@ abstract class _Plan extends Plan {
       final int price,
       final List<String> activePerks,
       final List<String> disabledPerks,
-      final Color color}) = _$PlanImpl;
+      final Color color,
+      final Map<SubscriptionPlatform, String> productIds}) = _$PlanImpl;
   const _Plan._() : super._();
 
   @override
@@ -243,6 +271,8 @@ abstract class _Plan extends Plan {
   List<String> get disabledPerks;
   @override
   Color get color;
+  @override
+  Map<SubscriptionPlatform, String> get productIds;
 
   /// Create a copy of Plan
   /// with the given fields replaced by the non-null parameter values.

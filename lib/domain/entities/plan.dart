@@ -3,6 +3,32 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'plan.freezed.dart';
 
+// SubscriptionPlatform
+enum SubscriptionPlatform { ios, android }
+
+extension SubscriptionPlatformExtension on SubscriptionPlatform {
+  String get name {
+    switch (this) {
+      case SubscriptionPlatform.ios:
+        return "ios";
+      case SubscriptionPlatform.android:
+        return "android";
+    }
+  }
+
+  // fromstring
+  static SubscriptionPlatform fromString(String value) {
+    switch (value) {
+      case "ios":
+        return SubscriptionPlatform.ios;
+      case "android":
+        return SubscriptionPlatform.android;
+      default:
+        throw Exception("Unknown subscription platform: $value");
+    }
+  }
+}
+
 @freezed
 class Plan with _$Plan {
   const Plan._();
@@ -12,6 +38,7 @@ class Plan with _$Plan {
     @Default([]) List<String> activePerks,
     @Default([]) List<String> disabledPerks,
     @Default(Colors.white) Color color,
+    @Default({}) Map<SubscriptionPlatform, String> productIds,
   }) = _Plan;
 
   factory Plan.fromJson(Map<String, dynamic> json) {

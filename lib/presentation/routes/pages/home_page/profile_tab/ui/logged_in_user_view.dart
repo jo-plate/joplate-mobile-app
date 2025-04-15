@@ -115,15 +115,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
           ),
         ),
         const SizedBox(width: 8),
-        Expanded(
-          child: _buildFeatureCard(
-            icon: Icons.card_giftcard,
-            label: m.profile.packages,
-            onTap: () {
-              // Handle "Packages" click
-            },
-          ),
-        ),
+
         const SizedBox(width: 8),
         Expanded(
           child: _buildFeatureCard(
