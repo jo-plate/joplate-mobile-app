@@ -1,7 +1,5 @@
 // phone number model
 
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:joplate/domain/entities/listing_v2.dart';
@@ -14,6 +12,30 @@ enum PhoneOperator {
   orange,
   zain,
   umniah,
+}
+
+extension PhoneOperatorExtension on PhoneOperator {
+  String get name {
+    switch (this) {
+      case PhoneOperator.orange:
+        return 'Orange';
+      case PhoneOperator.zain:
+        return 'Zain';
+      case PhoneOperator.umniah:
+        return 'Umniah';
+    }
+  }
+
+  String get code {
+    switch (this) {
+      case PhoneOperator.orange:
+        return '077';
+      case PhoneOperator.zain:
+        return '079';
+      case PhoneOperator.umniah:
+        return '078';
+    }
+  }
 }
 
 @freezed
@@ -61,7 +83,7 @@ class PhoneNumber with _$PhoneNumber {
 
   Color get operatorColor {
     if (phoneOperator == PhoneOperator.umniah) {
-      return const Color(0xFFE0E622);
+      return const Color.fromARGB(255, 209, 214, 36);
     } else if (phoneOperator == PhoneOperator.orange) {
       return const Color(0xFFFF7900);
     } else if (phoneOperator == PhoneOperator.zain) {

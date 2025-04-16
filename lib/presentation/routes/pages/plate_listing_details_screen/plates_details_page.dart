@@ -41,12 +41,12 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
         title: const Text('Plate Details'),
         actions: [
           FavoriteButton.plate(listingId: widget.plateNumber.toString()),
-          IconButton(
-            icon: const Icon(Icons.share_outlined),
-            onPressed: () {
-              Share.share('Check out this plate number: ${widget.plateNumber.toString()}');
-            },
-          ),
+          // IconButton(
+          //   icon: const Icon(Icons.share_outlined),
+          //   onPressed: () {
+          //     Share.share('Check out this plate number: ${widget.plateNumber.toString()}');
+          //   },
+          // ),
         ],
       ),
       body: StreamBuilder<PlateNumber>(

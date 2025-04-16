@@ -8,9 +8,12 @@ class PlatesListingsGrid extends StatelessWidget {
   const PlatesListingsGrid({
     super.key,
     required this.itemList,
+    this.shrinkWrap = true,
+    
   });
 
   final List<PlateNumber> itemList;
+  final bool shrinkWrap;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +28,7 @@ class PlatesListingsGrid extends StatelessWidget {
         crossAxisCount: 2,
         mainAxisSpacing: 12,
         crossAxisSpacing: 12,
-        shrinkWrap: true,
+        shrinkWrap: shrinkWrap,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: itemList.length,
         itemBuilder: (context, index) {

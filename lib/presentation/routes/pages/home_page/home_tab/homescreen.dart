@@ -62,12 +62,32 @@ class _HomePageState extends State<HomePage> {
               StreamBuilder<List<PlateNumber>>(
                   stream: _platesStream,
                   builder: (context, snapshot) {
-                    final splitNumbers = snapshot.data?.where((plate) => plate.adsCount > 0).toList() ?? [];
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    }
+
+                    final data = snapshot.data ?? [];
+
+                    // Filter for plates where at least one ad is featured
+                    final featuredPlates = data.where((plate) => plate.ads.any((ad) => ad.isFeatured)).toList();
+
+                    // Split into chunks of 6 for the carousel
                     final chunkedPlates = <List<PlateNumber>>[];
-                    for (var i = 0; i < splitNumbers.length; i += 6) {
-                      // check
-                      chunkedPlates
-                          .add(splitNumbers.sublist(i, i + 6 > splitNumbers.length ? splitNumbers.length : i + 6));
+                    for (var i = 0; i < featuredPlates.length; i += 6) {
+                      chunkedPlates.add(
+                        featuredPlates.sublist(
+                          i,
+                          i + 6 > featuredPlates.length ? featuredPlates.length : i + 6,
+                        ),
+                      );
+                    }
+
+                    if (chunkedPlates.isEmpty) {
+                      return const SizedBox.shrink(); // Or show "No featured numbers"
                     }
 
                     return CarouselSlider(
@@ -75,13 +95,15 @@ class _HomePageState extends State<HomePage> {
                           autoPlay: false,
                           padEnds: true,
                           viewportFraction: 1,
+                          enableInfiniteScroll: chunkedPlates.length > 1,
                           aspectRatio: 1,
                           enlargeCenterPage: false),
                       items: chunkedPlates
                           .map((plates) => Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                 child: PlatesListingsGrid(
                                   itemList: plates,
+                                  shrinkWrap: false,
                                 ),
                               ))
                           .toList(),

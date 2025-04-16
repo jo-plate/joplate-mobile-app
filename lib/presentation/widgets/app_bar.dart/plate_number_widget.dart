@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
+import 'package:stroke_text/stroke_text.dart';
 
 enum PlateShape { horizontal, vertical }
 
@@ -99,9 +100,9 @@ class PlateNumberWidget extends StatelessWidget {
                   TextSpan(text: "${plate.code} \n"),
                   WidgetSpan(
                     alignment: PlaceholderAlignment.middle,
-                    child: Text(
-                      plate.number,
-                      style: TextStyle(
+                    child: StrokeText(
+                      text: plate.number,
+                      textStyle: TextStyle(
                         fontFamily: 'Mandatory',
                         letterSpacing: 4,
                         fontSize: fontSize,
@@ -111,6 +112,8 @@ class PlateNumberWidget extends StatelessWidget {
                           Shadow(offset: Offset(-1, -1), blurRadius: 2, color: Colors.white),
                         ],
                       ),
+                      strokeColor: Colors.white,
+                      strokeWidth: 4,
                     ),
                   ),
                 ],

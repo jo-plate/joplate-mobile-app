@@ -16,7 +16,7 @@ class PhoneListingsPage extends StatefulWidget {
 }
 
 class _PhoneListingsPageState extends State<PhoneListingsPage> {
-  String? _selectedCode;
+  PhoneOperator? _phoneOperator;
   bool _isExpanded = false;
 
   final _containsController = TextEditingController();
@@ -25,7 +25,6 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
   final _minPriceController = TextEditingController();
   final _maxPriceController = TextEditingController();
 
-  final List<String> _company = ['Zain', 'Orange', 'Umniah'];
   final List<String> formatList = [
     "Format",
     "Contains Digit Repeated 2 Times",
@@ -34,6 +33,7 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
   ];
 
   late final Stream<List<PhoneNumber>> _phonesStream;
+  List<PhoneNumber>? _filteredPhones;
 
   @override
   void initState() {
@@ -45,18 +45,58 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
   }
 
   void _onSearch() {
-    // setState(() {
-    //   _filteredPhones = _allPhones.where((plate) {
-    //     bool matchesDigits = true;
-    //     if (_selectedDigits == '4 Digits') {
-    //       matchesDigits = plate.number.length == 4;
-    //     } else if (_selectedDigits == '5 Digits') {
-    //       matchesDigits = plate.number.length == 5;
-    //     }
+    _phonesStream.first.then((phones) {
+      final filtered = phones.where((phone) {
+        final number = phone.number;
 
-    //     return matchesDigits;
-    //   }).toList();
-    // });
+        // Only consider active, unsold, non-expired ads
+        final validAds = phone.ads.where((ad) => ad.isActive && !ad.isSold && !ad.isExpired).toList();
+        if (validAds.isEmpty) return false;
+
+        // Operator filter
+        if (_phoneOperator != null && phone.phoneOperator != _phoneOperator) {
+          return false;
+        }
+
+        // Contains
+        if (_containsController.text.isNotEmpty && !number.contains(_containsController.text)) {
+          return false;
+        }
+
+        // Starts with
+        if (_startsWithController.text.isNotEmpty && !number.startsWith(_startsWithController.text)) {
+          return false;
+        }
+
+        // Ends with
+        if (_endsWithController.text.isNotEmpty && !number.endsWith(_endsWithController.text)) {
+          return false;
+        }
+
+        // Price check — use the first ad with priceHidden == false
+        final ad = validAds.firstWhere((ad) => !ad.priceHidden, orElse: () => validAds.first);
+
+        if (_minPriceController.text.isNotEmpty) {
+          final minPrice = double.tryParse(_minPriceController.text);
+          if (minPrice != null && !ad.priceHidden && ad.price < minPrice) {
+            return false;
+          }
+        }
+
+        if (_maxPriceController.text.isNotEmpty) {
+          final maxPrice = double.tryParse(_maxPriceController.text);
+          if (maxPrice != null && !ad.priceHidden && ad.price > maxPrice) {
+            return false;
+          }
+        }
+
+        return true;
+      }).toList();
+
+      setState(() {
+        _filteredPhones = filtered;
+      });
+    });
   }
 
   InputDecoration get inputFieldStyle => InputDecoration(
@@ -102,17 +142,20 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
             Row(
               children: [
                 Expanded(
-                  child: DropdownButtonFormField<String>(
+                  child: DropdownButtonFormField<PhoneOperator>(
                     decoration: inputFieldStyle.copyWith(labelText: m.phones.company_label),
-                    value: _selectedCode,
-                    icon: const Icon(Icons.arrow_drop_down, color: Colors.red),
-                    items: _company.map((c) {
+                    value: _phoneOperator,
+                    icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF981C1E)),
+                    items: PhoneOperator.values.map((c) {
                       return DropdownMenuItem(
                         value: c,
-                        child: Text(c, style: const TextStyle(fontSize: 14)),
+                        child: Text(c.name, style: const TextStyle(fontSize: 14)),
                       );
                     }).toList(),
-                    onChanged: (val) => setState(() => _selectedCode = val),
+                    onChanged: (val) {
+                      setState(() => _phoneOperator = val);
+                      _onSearch();
+                    },
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -194,8 +237,9 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   }
+                  final phones = _filteredPhones ?? snapshot.data ?? [];
 
-                  return PhonesListingGrid(itemList: snapshot.data ?? []);
+                  return PhonesListingGrid(itemList: phones);
                 }),
           ],
         ),

@@ -20,48 +20,82 @@ class PhoneNumberRequestWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: AspectRatio(
-        aspectRatio: aspectRatio,
-        child: GestureDetector(
-          onTap: () {
-            AutoRouter.of(context).push(PhoneRequestDetailsRoute(phoneNumberRequest: item));
-          },
-          child: Stack(
-            clipBehavior: Clip.hardEdge,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey[500]!, width: 2),
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(item.phoneNumber!.number,
-                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                          const SizedBox(height: 8),
-                          _buildPriceLabel(),
-                          const SizedBox(height: 2),
-                          if (!true)
-                            FavoriteButton.plate(
-                              listingId: item.toString(),
-                              iconSize: 20,
-                            ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+      child: GestureDetector(
+        onTap: () {
+          AutoRouter.of(context).push(PhoneRequestDetailsRoute(phoneNumberRequest: item));
+        },
+        child: Stack(
+          fit: StackFit.passthrough,
+          clipBehavior: Clip.hardEdge,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey[500]!, width: 2),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
               ),
-            ],
-          ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: item.phoneNumber!.operatorColor,
+                          gradient: LinearGradient(
+                            colors: [
+                              item.phoneNumber!.operatorColor.withOpacity(1),
+                              item.phoneNumber!.operatorColor.withOpacity(0.6),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          //bottom border only
+                          // border: Border(
+                          //   bottom: BorderSide(
+                          //     color: _getOperatorColor(),
+                          //     width: 2,
+                          //   ),
+                          // ),
+                          // borderRadius: BorderRadius.circular(8),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                        child: LayoutBuilder(builder: (context, constraints) {
+                          double fontSize = constraints.maxWidth * 0.15;
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // Image(image: _getOperatorLogo(), width: fontSize * 2),
+                              // const SizedBox(width: 8),
+                              Text(
+                                item.phoneNumber.toString(),
+                                style: TextStyle(
+                                  fontSize: fontSize,
+                                  // not Mandatory
+                                  fontFamily: 'poppins',
+
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          );
+                        }),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: _buildPriceLabel(),
+                      ),
+                      if (item.isSold) _buildSoldRibbon(),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

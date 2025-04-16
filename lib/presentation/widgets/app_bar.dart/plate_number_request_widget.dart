@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_widget.dart';
-import 'package:joplate/presentation/widgets/favorite_button.dart';
 
 class PlateNumberRequestWidget extends StatelessWidget {
   final Request<PlateNumber> item;
@@ -53,11 +52,6 @@ class PlateNumberRequestWidget extends StatelessWidget {
                         const SizedBox(height: 8),
                         _buildPriceLabel(),
                         const SizedBox(height: 2),
-                        if (!true)
-                          FavoriteButton.plate(
-                            listingId: item.toString(),
-                            iconSize: 20,
-                          ),
                         if (item.isSold) _buildSoldRibbon(),
                       ],
                     ),

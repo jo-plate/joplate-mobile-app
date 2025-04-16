@@ -63,6 +63,7 @@ dependencies:
   i18n: ^4.2.4
   pay: ^3.2.1
   firebase_data_connect: ^0.1.4
+  stroke_text: ^1.0.0
 
 dev_dependencies:
   flutter_test:

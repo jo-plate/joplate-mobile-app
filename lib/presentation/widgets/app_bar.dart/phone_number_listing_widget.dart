@@ -4,6 +4,7 @@ import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
+import 'package:stroke_text/stroke_text.dart';
 
 class PhoneNumberListingWidget extends StatelessWidget {
   final PhoneNumber item;
@@ -14,7 +15,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
   const PhoneNumberListingWidget({
     super.key,
     required this.item,
-    this.aspectRatio = 1.5,
+    this.aspectRatio = 1.6,
     this.priceLabelFontSize = 18,
     this.hideLikeButton = false,
   });
@@ -48,42 +49,27 @@ class PhoneNumberListingWidget extends StatelessWidget {
                             color: item.operatorColor,
                             gradient: LinearGradient(
                               colors: [
-                                item.operatorColor.withOpacity(1),
+                                item.operatorColor.withOpacity(0.9),
                                 item.operatorColor.withOpacity(0.6),
                               ],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
-                            //bottom border only
-                            // border: Border(
-                            //   bottom: BorderSide(
-                            //     color: _getOperatorColor(),
-                            //     width: 2,
-                            //   ),
-                            // ),
-                            // borderRadius: BorderRadius.circular(8),
                           ),
                           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
                           child: LayoutBuilder(builder: (context, constraints) {
-                            double fontSize = constraints.maxWidth * 0.15;
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                // Image(image: _getOperatorLogo(), width: fontSize * 2),
-                                // const SizedBox(width: 8),
-                                Text(
-                                  item.number,
-                                  style: TextStyle(
-                                    fontSize: fontSize,
-                                    // not Mandatory
-                                    fontFamily: 'poppins',
-
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
+                            double fontSize = constraints.maxWidth * 0.13;
+                            return StrokeText(
+                              text: item.number,
+                              textStyle: TextStyle(
+                                  fontSize: fontSize,
+                                  fontFamily: 'poppins',
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                  letterSpacing: 1.4),
+                              strokeColor: Colors.grey[800]!,
+                              strokeWidth: 3,
+                              textAlign: TextAlign.center,
                             );
                           }),
                         ),
