@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/presentation/routes/router.dart';
-import 'package:joplate/presentation/widgets/favorite_button.dart';
+import 'package:stroke_text/stroke_text.dart';
 
 class PhoneNumberRequestWidget extends StatelessWidget {
   final Request<PhoneNumber> item;
@@ -46,42 +46,27 @@ class PhoneNumberRequestWidget extends StatelessWidget {
                           color: item.phoneNumber!.operatorColor,
                           gradient: LinearGradient(
                             colors: [
-                              item.phoneNumber!.operatorColor.withOpacity(1),
+                              item.phoneNumber!.operatorColor.withOpacity(0.9),
                               item.phoneNumber!.operatorColor.withOpacity(0.6),
                             ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
-                          //bottom border only
-                          // border: Border(
-                          //   bottom: BorderSide(
-                          //     color: _getOperatorColor(),
-                          //     width: 2,
-                          //   ),
-                          // ),
-                          // borderRadius: BorderRadius.circular(8),
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
                         child: LayoutBuilder(builder: (context, constraints) {
-                          double fontSize = constraints.maxWidth * 0.15;
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              // Image(image: _getOperatorLogo(), width: fontSize * 2),
-                              // const SizedBox(width: 8),
-                              Text(
-                                item.phoneNumber.toString(),
-                                style: TextStyle(
-                                  fontSize: fontSize,
-                                  // not Mandatory
-                                  fontFamily: 'poppins',
-
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                          double fontSize = constraints.maxWidth * 0.13;
+                          return StrokeText(
+                            text: item.phoneNumber?.number ?? '',
+                            textStyle: TextStyle(
+                                fontSize: fontSize,
+                                fontFamily: 'poppins',
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                                letterSpacing: 1.4),
+                            strokeColor: Colors.grey[800]!,
+                            strokeWidth: 3,
+                            textAlign: TextAlign.center,
                           );
                         }),
                       ),
@@ -102,7 +87,7 @@ class PhoneNumberRequestWidget extends StatelessWidget {
   }
 
   Widget _buildPriceLabel() {
-    if (item.priceHidden) {
+    if (item.priceHidden || item.price == 0) {
       return Text(
         'Call for Price',
         style: TextStyle(

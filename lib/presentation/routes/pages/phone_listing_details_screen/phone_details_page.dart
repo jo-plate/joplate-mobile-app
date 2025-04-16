@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_dialer/flutter_phone_dialer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
+import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phone_number_listing_widget.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
 import 'package:share_plus/share_plus.dart';
@@ -36,6 +38,18 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
               Share.share('Check out this plate number: ${widget.phoneNumber.toString()}');
             },
           ),
+          if (widget.phoneNumber.ads.any((e) => e.id == FirebaseAuth.instance.currentUser?.uid))
+            IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () {
+                AutoRouter.of(context).push(EditPhoneListingRoute(
+                  listingId: FirebaseAuth.instance.currentUser!.uid,
+                  number: widget.phoneNumber.toString(),
+                  initialPrice: widget.phoneNumber.ads.first.price,
+                  initialDiscountPrice: widget.phoneNumber.ads.first.discountPrice,
+                ));
+              },
+            ),
         ],
       ),
       body: SingleChildScrollView(
@@ -48,13 +62,12 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
               child: PhoneNumberListingWidget(
                 item: widget.phoneNumber,
                 hideLikeButton: true,
+                aspectRatio: 2.1,
                 priceLabelFontSize: 24,
               ),
             ),
 
             const SizedBox(height: 10),
-
-            const SizedBox(height: 20),
 
             if (widget.phoneNumber.ads.firstOrNull != null) SellerDetails(userId: widget.phoneNumber.ads.first.id),
 

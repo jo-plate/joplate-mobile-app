@@ -7,7 +7,7 @@ import 'package:joplate/presentation/routes/pages/edit_phone_listing_screen/cubi
 @RoutePage()
 class EditPhoneListingPage extends StatelessWidget {
   final String listingId;
-  final String initialNumber;
+  final String number;
   final double initialPrice;
   final double? initialDiscountPrice;
   final bool initialWithDiscount;
@@ -16,7 +16,7 @@ class EditPhoneListingPage extends StatelessWidget {
   const EditPhoneListingPage({
     super.key,
     required this.listingId,
-    required this.initialNumber,
+    required this.number,
     required this.initialPrice,
     this.initialDiscountPrice,
     this.initialWithDiscount = false,
@@ -30,7 +30,7 @@ class EditPhoneListingPage extends StatelessWidget {
         final cubit = EditPhoneListingCubit();
         cubit.loadListingData(
           listingId: listingId,
-          number: initialNumber,
+          number: number,
           price: initialPrice,
           discountPrice: initialDiscountPrice,
           withDiscount: initialWithDiscount,
@@ -61,7 +61,7 @@ class EditPhoneListingPage extends StatelessWidget {
                     TextField(
                       decoration: const InputDecoration(labelText: 'Phone Number'),
                       onChanged: cubit.updateNumber,
-                      enabled: !state.isSubmitting,
+                      enabled: false,
                       controller: TextEditingController(text: state.number),
                     ),
                     const SizedBox(height: 16),
@@ -93,15 +93,24 @@ class EditPhoneListingPage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text("Featured?"),
+                        const Text("Feature this listing (Costs 1 golden ticket)"),
                         Switch(
                           value: state.isFeatured,
                           onChanged: state.isSubmitting ? null : cubit.toggleFeatured,
                         ),
                       ],
                     ),
+                    const SizedBox(height: 16),
                     if (state.isSubmitting) const Center(child: CircularProgressIndicator()),
-                    const SizedBox(height: 24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(child: OutlinedButton(onPressed: () {}, child: const Text("Delete"))),
+                        const SizedBox(width: 12),
+                        Expanded(child: OutlinedButton(onPressed: () {}, child: const Text("Mark as Sold"))),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
                     ElevatedButton(
                       onPressed: state.isSubmitting
                           ? null
@@ -112,7 +121,7 @@ class EditPhoneListingPage extends StatelessWidget {
                                 AutoRouter.of(context).maybePop();
                               }
                             },
-                      child: const Text("Save Changes"),
+                      child: const Text("Save Changes", style: TextStyle(color: Colors.white)),
                     ),
                   ],
                 ),

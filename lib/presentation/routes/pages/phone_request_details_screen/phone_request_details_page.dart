@@ -47,6 +47,8 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
               child: PhoneNumberRequestWidget(
                 item: widget.phoneNumberRequest,
                 priceLabelFontSize: 24,
+                aspectRatio: 2.1,
+
               ),
             ),
 

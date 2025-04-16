@@ -11,17 +11,11 @@ class CategorySection extends StatelessWidget {
   const CategorySection({super.key});
 // plates listing count
   Stream<int> _getPlatesListingCount(String itemType) {
-    return FirebaseFirestore.instance
-        .collection(carPlatesCollectionId)
-        .snapshots()
-        .map((snapshot) => snapshot.size);
+    return FirebaseFirestore.instance.collection(carPlatesCollectionId).snapshots().map((snapshot) => snapshot.size);
   }
 
   Stream<int> _getNumbersListingCount(String itemType) {
-    return FirebaseFirestore.instance
-        .collection(phoneNumbersCollectionId)
-        .snapshots()
-        .map((snapshot) => snapshot.size);
+    return FirebaseFirestore.instance.collection(phoneNumbersCollectionId).snapshots().map((snapshot) => snapshot.size);
   }
 
   Stream<int> _getPlatesRequestsCount() {
@@ -48,7 +42,7 @@ class CategorySection extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(  
+      child: Column(
         children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             _buildCategoryCard(
@@ -69,7 +63,9 @@ class CategorySection extends StatelessWidget {
           ]),
           const SizedBox(height: 16),
           OutlinedButton.icon(
-            onPressed: () {},
+            onPressed: () {
+              AutoRouter.of(context).push(const QuicksaleRoute());
+            },
             label: Text(
               m.home.quick_sale,
               style: const TextStyle(fontSize: 16),

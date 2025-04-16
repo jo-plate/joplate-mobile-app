@@ -30,6 +30,7 @@ import 'package:joplate/presentation/routes/pages/plate_listing_details_screen/p
 import 'package:joplate/presentation/routes/pages/privacy_policy_screen/privacy_policy_page.dart';
 import 'package:joplate/presentation/routes/pages/plates_listings_screen/plates_listings_page.dart';
 import 'package:joplate/presentation/routes/pages/phone_listings_screen/phone_listings_page.dart';
+import 'package:joplate/presentation/routes/pages/quicksale_screen/quicksale_page.dart';
 import 'package:joplate/presentation/routes/pages/requests_screen/requests_page.dart';
 import 'package:joplate/presentation/routes/pages/terms_and_conditions_screen/terms_and_conditions_page.dart';
 part 'router.gr.dart';
@@ -74,6 +75,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: MyRequestsRoute.page, path: "/my_requests"),
         AutoRoute(page: EditPlateListingRoute.page, path: "/edit_plate_listing"),
         AutoRoute(page: EditPhoneListingRoute.page, path: "/edit_phone_listing"),
+        AutoRoute(page: QuicksaleRoute.page, path: "/quicksale"),
         AutoRoute(page: EditPlateRequestRoute.page, path: "/edit_plate_request"),
         AutoRoute(page: EditPhoneRequestRoute.page, path: "/edit_phone_request"),
       ];

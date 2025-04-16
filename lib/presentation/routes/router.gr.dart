@@ -176,7 +176,7 @@ class EditPhoneListingRoute extends PageRouteInfo<EditPhoneListingRouteArgs> {
   EditPhoneListingRoute({
     Key? key,
     required String listingId,
-    required String initialNumber,
+    required String number,
     required double initialPrice,
     double? initialDiscountPrice,
     bool initialWithDiscount = false,
@@ -187,7 +187,7 @@ class EditPhoneListingRoute extends PageRouteInfo<EditPhoneListingRouteArgs> {
          args: EditPhoneListingRouteArgs(
            key: key,
            listingId: listingId,
-           initialNumber: initialNumber,
+           number: number,
            initialPrice: initialPrice,
            initialDiscountPrice: initialDiscountPrice,
            initialWithDiscount: initialWithDiscount,
@@ -205,7 +205,7 @@ class EditPhoneListingRoute extends PageRouteInfo<EditPhoneListingRouteArgs> {
       return EditPhoneListingPage(
         key: args.key,
         listingId: args.listingId,
-        initialNumber: args.initialNumber,
+        number: args.number,
         initialPrice: args.initialPrice,
         initialDiscountPrice: args.initialDiscountPrice,
         initialWithDiscount: args.initialWithDiscount,
@@ -219,7 +219,7 @@ class EditPhoneListingRouteArgs {
   const EditPhoneListingRouteArgs({
     this.key,
     required this.listingId,
-    required this.initialNumber,
+    required this.number,
     required this.initialPrice,
     this.initialDiscountPrice,
     this.initialWithDiscount = false,
@@ -230,7 +230,7 @@ class EditPhoneListingRouteArgs {
 
   final String listingId;
 
-  final String initialNumber;
+  final String number;
 
   final double initialPrice;
 
@@ -242,7 +242,7 @@ class EditPhoneListingRouteArgs {
 
   @override
   String toString() {
-    return 'EditPhoneListingRouteArgs{key: $key, listingId: $listingId, initialNumber: $initialNumber, initialPrice: $initialPrice, initialDiscountPrice: $initialDiscountPrice, initialWithDiscount: $initialWithDiscount, initialIsFeatured: $initialIsFeatured}';
+    return 'EditPhoneListingRouteArgs{key: $key, listingId: $listingId, number: $number, initialPrice: $initialPrice, initialDiscountPrice: $initialDiscountPrice, initialWithDiscount: $initialWithDiscount, initialIsFeatured: $initialIsFeatured}';
   }
 }
 
@@ -750,6 +750,22 @@ class ProfileRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return const ProfilePage();
+    },
+  );
+}
+
+/// generated route for
+/// [QuicksalePage]
+class QuicksaleRoute extends PageRouteInfo<void> {
+  const QuicksaleRoute({List<PageRouteInfo>? children})
+    : super(QuicksaleRoute.name, initialChildren: children);
+
+  static const String name = 'QuicksaleRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const QuicksalePage();
     },
   );
 }
