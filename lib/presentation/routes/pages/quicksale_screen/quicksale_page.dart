@@ -5,6 +5,7 @@ import 'package:flutter_phone_dialer/flutter_phone_dialer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -14,9 +15,10 @@ class QuicksalePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final m=Localization.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('QuickSale'),
+        title:  Text(m.quicksale.title),
       ),
       body: const SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
@@ -55,6 +57,7 @@ class _SellerDetailsState extends State<SellerDetails> {
 
   @override
   Widget build(BuildContext context) {
+        final m=Localization.of(context);
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
@@ -86,12 +89,12 @@ class _SellerDetailsState extends State<SellerDetails> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Row(
+                 Row(
                   children: [
                     SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        'Want us to find a buyer for your plate number? We can help you with that.',
+                        m.quicksale.description,
                         style: TextStyle(
                           // fontSize: 18,
                           // fontWeight: FontWeight.bold,

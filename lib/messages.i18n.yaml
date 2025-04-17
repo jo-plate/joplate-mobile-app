@@ -208,3 +208,11 @@ platesdetails:
   meet_in_person: "Meet the seller in person"
   days_ago: "{days} ago"
   call_for_price: "Call for Price"
+
+quicksale:
+  title: "Quick Sale"
+  description: "Want us to find a buyer for your plate number? We can help you with that."
+  whatsapp: "WhatsApp"
+  call: "Call"
+  user_not_found: "User not found"
+  requested_by: "Requested by"

@@ -80,6 +80,7 @@ class Messages {
   PhonedetailsMessages get phonedetails => PhonedetailsMessages(this);
   SellerdetailsMessages get sellerdetails => SellerdetailsMessages(this);
   PlatesdetailsMessages get platesdetails => PlatesdetailsMessages(this);
+  QuicksaleMessages get quicksale => QuicksaleMessages(this);
 }
 
 class AppMessages {
@@ -1038,6 +1039,42 @@ class PlatesdetailsMessages {
   String get call_for_price => """Call for Price""";
 }
 
+class QuicksaleMessages {
+  final Messages _parent;
+  const QuicksaleMessages(this._parent);
+
+  /// ```dart
+  /// "Quick Sale"
+  /// ```
+  String get title => """Quick Sale""";
+
+  /// ```dart
+  /// "Want us to find a buyer for your plate number? We can help you with that."
+  /// ```
+  String get description =>
+      """Want us to find a buyer for your plate number? We can help you with that.""";
+
+  /// ```dart
+  /// "WhatsApp"
+  /// ```
+  String get whatsapp => """WhatsApp""";
+
+  /// ```dart
+  /// "Call"
+  /// ```
+  String get call => """Call""";
+
+  /// ```dart
+  /// "User not found"
+  /// ```
+  String get user_not_found => """User not found""";
+
+  /// ```dart
+  /// "Requested by"
+  /// ```
+  String get requested_by => """Requested by""";
+}
+
 Map<String, String> get messagesMap => {
   """app.title""": """Joplate""",
   """home.welcome""": """Welcome to Joplate!""",
@@ -1212,4 +1249,11 @@ Map<String, String> get messagesMap => {
   """platesdetails.meet_in_person""": """Meet the seller in person""",
   """platesdetails.days_ago""": """{days} ago""",
   """platesdetails.call_for_price""": """Call for Price""",
+  """quicksale.title""": """Quick Sale""",
+  """quicksale.description""":
+      """Want us to find a buyer for your plate number? We can help you with that.""",
+  """quicksale.whatsapp""": """WhatsApp""",
+  """quicksale.call""": """Call""",
+  """quicksale.user_not_found""": """User not found""",
+  """quicksale.requested_by""": """Requested by""",
 };

@@ -83,6 +83,7 @@ class MessagesAr extends Messages {
   PhonedetailsMessagesAr get phonedetails => PhonedetailsMessagesAr(this);
   SellerdetailsMessagesAr get sellerdetails => SellerdetailsMessagesAr(this);
   PlatesdetailsMessagesAr get platesdetails => PlatesdetailsMessagesAr(this);
+  QuicksaleMessagesAr get quicksale => QuicksaleMessagesAr(this);
 }
 
 class AppMessagesAr extends AppMessages {
@@ -1041,6 +1042,42 @@ class PlatesdetailsMessagesAr extends PlatesdetailsMessages {
   String get call_for_price => """اتصل لمعرفة السعر""";
 }
 
+class QuicksaleMessagesAr extends QuicksaleMessages {
+  final MessagesAr _parent;
+  const QuicksaleMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "البيع السريع"
+  /// ```
+  String get title => """البيع السريع""";
+
+  /// ```dart
+  /// "هل ترغب بأن نجد لك مشتريًا لرقم سيارتك؟ يمكننا مساعدتك في ذلك."
+  /// ```
+  String get description =>
+      """هل ترغب بأن نجد لك مشتريًا لرقم سيارتك؟ يمكننا مساعدتك في ذلك.""";
+
+  /// ```dart
+  /// "واتساب"
+  /// ```
+  String get whatsapp => """واتساب""";
+
+  /// ```dart
+  /// "اتصال"
+  /// ```
+  String get call => """اتصال""";
+
+  /// ```dart
+  /// "لم يتم العثور على المستخدم"
+  /// ```
+  String get user_not_found => """لم يتم العثور على المستخدم""";
+
+  /// ```dart
+  /// "الطلب بواسطة"
+  /// ```
+  String get requested_by => """الطلب بواسطة""";
+}
+
 Map<String, String> get messagesArMap => {
   """app.title""": """Joplate""",
   """home.welcome""": """مرحبًا بك في Joplate!""",
@@ -1217,4 +1254,11 @@ Map<String, String> get messagesArMap => {
   """platesdetails.meet_in_person""": """قابل البائع شخصياً""",
   """platesdetails.days_ago""": """منذ {days}""",
   """platesdetails.call_for_price""": """اتصل لمعرفة السعر""",
+  """quicksale.title""": """البيع السريع""",
+  """quicksale.description""":
+      """هل ترغب بأن نجد لك مشتريًا لرقم سيارتك؟ يمكننا مساعدتك في ذلك.""",
+  """quicksale.whatsapp""": """واتساب""",
+  """quicksale.call""": """اتصال""",
+  """quicksale.user_not_found""": """لم يتم العثور على المستخدم""",
+  """quicksale.requested_by""": """الطلب بواسطة""",
 };

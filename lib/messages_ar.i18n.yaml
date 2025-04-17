@@ -207,3 +207,11 @@ platesdetails:
   meet_in_person: "قابل البائع شخصياً"
   days_ago: "منذ {days}"
   call_for_price: "اتصل لمعرفة السعر"
+
+quicksale:
+  title: "البيع السريع"
+  description: "هل ترغب بأن نجد لك مشتريًا لرقم سيارتك؟ يمكننا مساعدتك في ذلك."
+  whatsapp: "واتساب"
+  call: "اتصال"
+  user_not_found: "لم يتم العثور على المستخدم"
+  requested_by: "الطلب بواسطة"
