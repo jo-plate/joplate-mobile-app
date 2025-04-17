@@ -467,7 +467,7 @@ class MyRequestsRoute extends PageRouteInfo<void> {
 class PhoneDetailsRoute extends PageRouteInfo<PhoneDetailsRouteArgs> {
   PhoneDetailsRoute({
     Key? key,
-    required PhoneNumber phoneNumber,
+    required PhoneListing phoneNumber,
     List<PageRouteInfo>? children,
   }) : super(
          PhoneDetailsRoute.name,
@@ -491,7 +491,7 @@ class PhoneDetailsRouteArgs {
 
   final Key? key;
 
-  final PhoneNumber phoneNumber;
+  final PhoneListing phoneNumber;
 
   @override
   String toString() {

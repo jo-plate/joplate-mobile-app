@@ -43,6 +43,6 @@ class PhoneListing with _$PhoneListing {
 
   bool get isExpired {
     if (expiresAt == null) return false;
-    return false;
+    return expiresAt!.isBefore(DateTime.now());
   }
 }

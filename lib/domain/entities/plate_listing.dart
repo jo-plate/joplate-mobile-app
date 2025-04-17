@@ -41,6 +41,6 @@ class PlateListing with _$PlateListing {
 
   bool get isExpired {
     if (expiresAt == null) return false;
-    return false;
+    return expiresAt!.isBefore(DateTime.now());
   }
 }

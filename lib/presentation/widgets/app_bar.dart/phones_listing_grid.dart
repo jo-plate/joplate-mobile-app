@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:joplate/domain/entities/phone_number.dart';
+import 'package:joplate/domain/entities/phone_listing.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phone_number_listing_widget.dart';
 
 class PhonesListingGrid extends StatelessWidget {
@@ -9,7 +9,7 @@ class PhonesListingGrid extends StatelessWidget {
     required this.itemList,
   });
 
-  final List<PhoneNumber> itemList;
+  final List<PhoneListing> itemList;
 
   @override
   Widget build(BuildContext context) {

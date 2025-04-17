@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
-import 'package:joplate/domain/entities/phone_number.dart';
+import 'package:joplate/domain/entities/phone_listing.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phones_listing_grid.dart';
 
 class PhoneListingsByUserId extends StatefulWidget {
@@ -19,17 +19,19 @@ class _PhoneListingsByUserIdState extends State<PhoneListingsByUserId> {
     super.initState();
     userPhonesStream = FirebaseFirestore.instance
         .collection(phoneNumbersCollectionId)
-        .where('adsUserIds', arrayContains: widget.userId)
+        .where('userId', isEqualTo: widget.userId)
         .snapshots()
-        .map((snapshot) => snapshot.docs.map((doc) => PhoneNumber.fromJson(doc.data())).toList());
+        .map((snapshot) => snapshot.docs
+            .map((doc) => PhoneListing.fromJson({...doc.data(), 'id': doc.id}))
+            .toList());
   }
 
-  late final Stream<List<PhoneNumber>> userPhonesStream;
+  late final Stream<List<PhoneListing>> userPhonesStream;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-        child: StreamBuilder<List<PhoneNumber>>(
+        child: StreamBuilder<List<PhoneListing>>(
             stream: userPhonesStream,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

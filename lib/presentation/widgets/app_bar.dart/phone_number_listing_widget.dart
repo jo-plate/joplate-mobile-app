@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:joplate/domain/entities/phone_number.dart';
+import 'package:joplate/domain/entities/phone_listing.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
 import 'package:stroke_text/stroke_text.dart';
 
 class PhoneNumberListingWidget extends StatelessWidget {
-  final PhoneNumber item;
+  final PhoneListing item;
   final double aspectRatio;
   final double priceLabelFontSize;
   final bool hideLikeButton;
@@ -33,7 +33,11 @@ class PhoneNumberListingWidget extends StatelessWidget {
             },
             child: Container(
               decoration: BoxDecoration(
-                border: Border.all(color: item.isFeatured ? Colors.yellow[700]! : Colors.grey[500]!, width: 2),
+                border: Border.all(
+                    color: item.isFeatured
+                        ? Colors.yellow[700]!
+                        : Colors.grey[500]!,
+                    width: 2),
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -46,21 +50,22 @@ class PhoneNumberListingWidget extends StatelessWidget {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            color: item.operatorColor,
+                            color: item.item.operatorColor,
                             gradient: LinearGradient(
                               colors: [
-                                item.operatorColor.withOpacity(0.9),
-                                item.operatorColor.withOpacity(0.6),
+                                item.item.operatorColor.withOpacity(0.9),
+                                item.item.operatorColor.withOpacity(0.6),
                               ],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
                           ),
-                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 8),
                           child: LayoutBuilder(builder: (context, constraints) {
                             double fontSize = constraints.maxWidth * 0.13;
                             return StrokeText(
-                              text: item.number,
+                              text: item.item.number,
                               textStyle: TextStyle(
                                   fontSize: fontSize,
                                   fontFamily: 'poppins',
@@ -91,50 +96,48 @@ class PhoneNumberListingWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (item.ads.firstOrNull != null) ...[
-                    if (item.ads.first.isFeatured)
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(vertical: 2),
-                        decoration: BoxDecoration(
-                          color: Colors.amber[700],
-                          borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(8),
-                            bottomRight: Radius.circular(8),
-                          ),
-                        ),
-                        child: Text(
-                          Localization.of(context).home.featured,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w800,
-                            fontSize: 12,
-                          ),
+                  if (item.isFeatured)
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(vertical: 2),
+                      decoration: BoxDecoration(
+                        color: Colors.amber[700],
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(8),
+                          bottomRight: Radius.circular(8),
                         ),
                       ),
-                    if (item.ads.first.isSold)
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(vertical: 2),
-                        decoration: const BoxDecoration(
-                          color: Color(0xFF981C1E),
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(8),
-                            bottomRight: Radius.circular(8),
-                          ),
-                        ),
-                        child: Text(
-                          Localization.of(context).home.sold,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w800,
-                            fontSize: 12,
-                          ),
+                      child: Text(
+                        Localization.of(context).home.featured,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 12,
                         ),
                       ),
-                  ],
+                    ),
+                  if (item.isSold)
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(vertical: 2),
+                      decoration: const BoxDecoration(
+                        color: Color(0xFF981C1E),
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(8),
+                          bottomRight: Radius.circular(8),
+                        ),
+                      ),
+                      child: Text(
+                        Localization.of(context).home.sold,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),
@@ -145,7 +148,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
   }
 
   Widget _buildPriceLabel() {
-    if (item.ads.isEmpty || item.ads.first.priceHidden) {
+    if (item.price == 0) {
       return Text(
         'Call for Price',
         style: TextStyle(
@@ -156,14 +159,15 @@ class PhoneNumberListingWidget extends StatelessWidget {
         ),
         maxLines: 1,
       );
-    } else if (item.ads.first.discountPrice > 0 && item.ads.first.discountPrice < item.ads.first.price) {
+    } else if (item.discountPrice > 0 &&
+        item.discountPrice < item.price) {
       return Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.baseline,
         textBaseline: TextBaseline.alphabetic,
         children: [
           Text(
-            'JOD ${item.ads.first.discountPrice}',
+            'JOD ${item.discountPrice}',
             style: TextStyle(
               fontSize: priceLabelFontSize,
               fontFamily: 'Mandatory',
@@ -174,7 +178,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Text(
-            'JOD ${item.ads.first.price}',
+            'JOD ${item.price}',
             style: TextStyle(
               fontSize: priceLabelFontSize * 0.875,
               fontWeight: FontWeight.w500,
@@ -189,7 +193,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
       );
     } else {
       return Text(
-        'JOD ${item.ads.first.price}',
+        'JOD ${item.price}',
         style: TextStyle(
           fontSize: priceLabelFontSize,
           fontFamily: 'Mandatory',

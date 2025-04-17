@@ -17,7 +17,7 @@ _$UserFavoritesImpl _$$UserFavoritesImplFromJson(Map<String, dynamic> json) =>
               .toList() ??
           const [],
       favoritePhones: (json['favoritePhones'] as List<dynamic>?)
-              ?.map((e) => PhoneNumber.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => PhoneListing.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
       favoritePlates: (json['favoritePlates'] as List<dynamic>?)

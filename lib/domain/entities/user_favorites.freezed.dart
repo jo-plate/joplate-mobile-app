@@ -22,7 +22,7 @@ UserFavorites _$UserFavoritesFromJson(Map<String, dynamic> json) {
 mixin _$UserFavorites {
   List<String> get favoritePhonesIds => throw _privateConstructorUsedError;
   List<String> get favoritePlatesIds => throw _privateConstructorUsedError;
-  List<PhoneNumber> get favoritePhones => throw _privateConstructorUsedError;
+  List<PhoneListing> get favoritePhones => throw _privateConstructorUsedError;
   List<PlateNumber> get favoritePlates => throw _privateConstructorUsedError;
 
   /// Serializes this UserFavorites to a JSON map.
@@ -44,7 +44,7 @@ abstract class $UserFavoritesCopyWith<$Res> {
   $Res call(
       {List<String> favoritePhonesIds,
       List<String> favoritePlatesIds,
-      List<PhoneNumber> favoritePhones,
+      List<PhoneListing> favoritePhones,
       List<PlateNumber> favoritePlates});
 }
 
@@ -80,7 +80,7 @@ class _$UserFavoritesCopyWithImpl<$Res, $Val extends UserFavorites>
       favoritePhones: null == favoritePhones
           ? _value.favoritePhones
           : favoritePhones // ignore: cast_nullable_to_non_nullable
-              as List<PhoneNumber>,
+              as List<PhoneListing>,
       favoritePlates: null == favoritePlates
           ? _value.favoritePlates
           : favoritePlates // ignore: cast_nullable_to_non_nullable
@@ -100,7 +100,7 @@ abstract class _$$UserFavoritesImplCopyWith<$Res>
   $Res call(
       {List<String> favoritePhonesIds,
       List<String> favoritePlatesIds,
-      List<PhoneNumber> favoritePhones,
+      List<PhoneListing> favoritePhones,
       List<PlateNumber> favoritePlates});
 }
 
@@ -134,7 +134,7 @@ class __$$UserFavoritesImplCopyWithImpl<$Res>
       favoritePhones: null == favoritePhones
           ? _value._favoritePhones
           : favoritePhones // ignore: cast_nullable_to_non_nullable
-              as List<PhoneNumber>,
+              as List<PhoneListing>,
       favoritePlates: null == favoritePlates
           ? _value._favoritePlates
           : favoritePlates // ignore: cast_nullable_to_non_nullable
@@ -149,7 +149,7 @@ class _$UserFavoritesImpl extends _UserFavorites {
   const _$UserFavoritesImpl(
       {final List<String> favoritePhonesIds = const [],
       final List<String> favoritePlatesIds = const [],
-      final List<PhoneNumber> favoritePhones = const [],
+      final List<PhoneListing> favoritePhones = const [],
       final List<PlateNumber> favoritePlates = const []})
       : _favoritePhonesIds = favoritePhonesIds,
         _favoritePlatesIds = favoritePlatesIds,
@@ -180,10 +180,10 @@ class _$UserFavoritesImpl extends _UserFavorites {
     return EqualUnmodifiableListView(_favoritePlatesIds);
   }
 
-  final List<PhoneNumber> _favoritePhones;
+  final List<PhoneListing> _favoritePhones;
   @override
   @JsonKey()
-  List<PhoneNumber> get favoritePhones {
+  List<PhoneListing> get favoritePhones {
     if (_favoritePhones is EqualUnmodifiableListView) return _favoritePhones;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_favoritePhones);
@@ -247,7 +247,7 @@ abstract class _UserFavorites extends UserFavorites {
   const factory _UserFavorites(
       {final List<String> favoritePhonesIds,
       final List<String> favoritePlatesIds,
-      final List<PhoneNumber> favoritePhones,
+      final List<PhoneListing> favoritePhones,
       final List<PlateNumber> favoritePlates}) = _$UserFavoritesImpl;
   const _UserFavorites._() : super._();
 
@@ -259,7 +259,7 @@ abstract class _UserFavorites extends UserFavorites {
   @override
   List<String> get favoritePlatesIds;
   @override
-  List<PhoneNumber> get favoritePhones;
+  List<PhoneListing> get favoritePhones;
   @override
   List<PlateNumber> get favoritePlates;
 

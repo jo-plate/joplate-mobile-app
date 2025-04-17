@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:joplate/data/constants.dart';
-import 'package:joplate/domain/entities/phone_number.dart';
+import 'package:joplate/domain/entities/phone_listing.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/domain/entities/user_favorites.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
@@ -50,12 +50,12 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
           return PlateNumber.fromJson(plateDict);
         }),
       );
-      final List<PhoneNumber> phones = await Future.wait(
+      final List<PhoneListing> phones = await Future.wait(
         snapshot.favoritePhones.map((id) async {
-          final phone = await FirebaseFirestore.instance.collection(phoneNumbersCollectionId).doc(id.number).get();
+          final phone = await FirebaseFirestore.instance.collection(phoneNumbersCollectionId).doc(id.id).get();
           final phoneDict = phone.data()!;
           phoneDict['id'] = id;
-          return PhoneNumber.fromJson(phoneDict);
+          return PhoneListing.fromJson({...phoneDict, 'id': id});
         }),
       );
       return snapshot.copyWith(favoritePlates: plates, favoritePhones: phones);
@@ -122,7 +122,7 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
                       return Center(child: Text(m.favoritesSc.failed_to_load));
                     }
 
-                    return FutureBuilder<List<PhoneNumber>>(
+                    return FutureBuilder<List<PhoneListing>>(
                       future: fetchPhones(userFavorites.favoritePhones),
                       builder: (context, phoneSnapshot) {
                         if (phoneSnapshot.connectionState == ConnectionState.waiting) {

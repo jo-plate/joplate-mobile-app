@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
+import 'package:joplate/domain/entities/phone_listing.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
@@ -28,7 +29,7 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
   final _maxPriceCtrl = TextEditingController();
 
   late final StreamSubscription<QuerySnapshot<Map<String, dynamic>>> _sub;
-  List<PhoneNumber> _allPhones = [];
+  List<PhoneListing> _allPhones = [];
 
   @override
   void initState() {
@@ -39,8 +40,9 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
         .snapshots()
         .listen((snap) {
       setState(() {
-        _allPhones =
-            snap.docs.map((d) => PhoneNumber.fromJson(d.data())).toList();
+        _allPhones = snap.docs
+            .map((d) => PhoneListing.fromJson({'id': d.id, ...d.data()}))
+            .toList();
       });
     });
 
@@ -66,30 +68,32 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
     super.dispose();
   }
 
-  bool _matches(PhoneNumber phone) {
-    final number = phone.number;
+  bool _matches(PhoneListing phone) {
+    final number = phone.item.number;
 
-    if (_operator != null && phone.phoneOperator != _operator) return false;
-
-    if (_containsCtrl.text.isNotEmpty && !number.contains(_containsCtrl.text))
+    if (_operator != null && phone.item.phoneOperator != _operator) {
       return false;
+    }
+
+    if (_containsCtrl.text.isNotEmpty && !number.contains(_containsCtrl.text)) {
+      return false;
+    }
     if (_startsWithCtrl.text.isNotEmpty &&
-        !number.startsWith(_startsWithCtrl.text)) return false;
-    if (_endsWithCtrl.text.isNotEmpty && !number.endsWith(_endsWithCtrl.text))
+        !number.startsWith(_startsWithCtrl.text)) {
       return false;
+    }
+    if (_endsWithCtrl.text.isNotEmpty && !number.endsWith(_endsWithCtrl.text)) {
+      return false;
+    }
 
-    final validAds =
-        phone.ads.where((ad) => ad.isActive && !ad.isSold && !ad.isExpired);
-    if (validAds.isEmpty) return false;
-
-    final ad = validAds.firstWhere((a) => !a.priceHidden,
-        orElse: () => validAds.first);
+    final isValid = !phone.isDisabled && !phone.isSold && !phone.isExpired;
+    if (!isValid) return false;
 
     final min = double.tryParse(_minPriceCtrl.text);
     final max = double.tryParse(_maxPriceCtrl.text);
 
-    if (min != null && !ad.priceHidden && ad.price < min) return false;
-    if (max != null && !ad.priceHidden && ad.price > max) return false;
+    if (min != null && !phone.priceHidden && phone.price < min) return false;
+    if (max != null && !phone.priceHidden && phone.price > max) return false;
 
     return true;
   }

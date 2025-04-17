@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phone_dialer/flutter_phone_dialer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:joplate/data/constants.dart';
-import 'package:joplate/domain/entities/phone_number.dart';
+import 'package:joplate/domain/entities/phone_listing.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
@@ -18,7 +18,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 class PhoneDetailsPage extends StatefulWidget {
   const PhoneDetailsPage({super.key, required this.phoneNumber});
 
-  final PhoneNumber phoneNumber;
+  final PhoneListing phoneNumber;
 
   @override
   State<PhoneDetailsPage> createState() => _PhoneDetailsPageState();
@@ -27,29 +27,30 @@ class PhoneDetailsPage extends StatefulWidget {
 class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
   @override
   Widget build(BuildContext context) {
-    final m=Localization.of(context);
+    final m = Localization.of(context);
     return Scaffold(
       appBar: AppBar(
-        title:  Text(m.phonedetails.title),
+        title: Text(m.phonedetails.title),
         actions: [
           FavoriteButton.plate(listingId: widget.phoneNumber.toString()),
           // Share Icon
           IconButton(
             icon: const Icon(Icons.share_outlined),
             onPressed: () {
-              Share.share('Check out this plate number: ${widget.phoneNumber.toString()}');
+              Share.share(
+                  'Check out this plate number: ${widget.phoneNumber.toString()}');
             },
           ),
-          if (widget.phoneNumber.ads.any((e) => e.id == FirebaseAuth.instance.currentUser?.uid))
+          if (widget.phoneNumber.userId ==
+              FirebaseAuth.instance.currentUser?.uid)
             IconButton(
               icon: const Icon(Icons.edit),
               onPressed: () {
-                AutoRouter.of(context).push(EditPhoneListingRoute(
-                  listingId: FirebaseAuth.instance.currentUser!.uid,
-                  number: widget.phoneNumber.toString(),
-                  initialPrice: widget.phoneNumber.ads.first.price,
-                  initialDiscountPrice: widget.phoneNumber.ads.first.discountPrice,
-                ));
+                AutoRouter.of(context).push(
+                  EditPhoneListingRoute(
+                    listing: widget.phoneNumber,
+                  ),
+                );
               },
             ),
         ],
@@ -71,7 +72,7 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
 
             const SizedBox(height: 10),
 
-            if (widget.phoneNumber.ads.firstOrNull != null) SellerDetails(userId: widget.phoneNumber.ads.first.id),
+            SellerDetails(userId: widget.phoneNumber.userId),
 
             const SizedBox(height: 20),
 
@@ -81,35 +82,35 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12.0),
               ),
-              child:  Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     m.phonedetails.important_note,
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Row(
                     children: [
-                      Icon(Icons.payments, color: Color(0xFF981C1E)),
-                      SizedBox(width: 8),
+                      const Icon(Icons.payments, color: Color(0xFF981C1E)),
+                      const SizedBox(width: 8),
                       Expanded(
                         child: Text(
                           m.phonedetails.dont_transfer_money,
-                          style: TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 16),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Row(
                     children: [
-                      Icon(Icons.location_on, color: Color(0xFF981C1E)),
-                      SizedBox(width: 8),
+                      const Icon(Icons.location_on, color: Color(0xFF981C1E)),
+                      const SizedBox(width: 8),
                       Expanded(
                         child: Text(
                           m.phonedetails.meet_in_person,
-                          style: TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 16),
                         ),
                       ),
                     ],
@@ -140,15 +141,18 @@ class _SellerDetailsState extends State<SellerDetails> {
   @override
   void initState() {
     super.initState();
-    userProfileStream =
-        FirebaseFirestore.instance.collection(userProfileCollectionId).doc(widget.userId).snapshots().map((snapshot) {
+    userProfileStream = FirebaseFirestore.instance
+        .collection(userProfileCollectionId)
+        .doc(widget.userId)
+        .snapshots()
+        .map((snapshot) {
       return UserProfile.fromJson(snapshot.data() ?? {});
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final m=Localization.of(context);
+    final m = Localization.of(context);
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
@@ -179,9 +183,9 @@ class _SellerDetailsState extends State<SellerDetails> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                 Text(
+                Text(
                   m.sellerdetails.about_seller,
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
                 const SizedBox(height: 10),
                 Row(
@@ -194,7 +198,8 @@ class _SellerDetailsState extends State<SellerDetails> {
                     Expanded(
                       child: Text(
                         userProfile.displayName,
-                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -206,7 +211,8 @@ class _SellerDetailsState extends State<SellerDetails> {
                     Expanded(
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          launchUrlString("https://wa.me/${userProfile.phonenumber}",
+                          launchUrlString(
+                              "https://wa.me/${userProfile.phonenumber}",
                               mode: LaunchMode.externalApplication);
                         },
                         style: ElevatedButton.styleFrom(
@@ -232,7 +238,8 @@ class _SellerDetailsState extends State<SellerDetails> {
                     Expanded(
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          FlutterPhoneDialer.dialNumber(userProfile.phonenumber);
+                          FlutterPhoneDialer.dialNumber(
+                              userProfile.phonenumber);
                         },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 12),
@@ -243,7 +250,8 @@ class _SellerDetailsState extends State<SellerDetails> {
                         icon: const Icon(Icons.phone, color: Colors.white),
                         label: Text(
                           userProfile.phonenumber,
-                          style: const TextStyle(color: Colors.white, fontSize: 14),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 14),
                         ),
                       ),
                     ),
