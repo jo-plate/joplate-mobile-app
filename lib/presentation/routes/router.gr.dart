@@ -175,24 +175,11 @@ class EditFullNameRoute extends PageRouteInfo<void> {
 class EditPhoneListingRoute extends PageRouteInfo<EditPhoneListingRouteArgs> {
   EditPhoneListingRoute({
     Key? key,
-    required String listingId,
-    required String number,
-    required double initialPrice,
-    double? initialDiscountPrice,
-    bool initialWithDiscount = false,
-    bool initialIsFeatured = false,
+    required PhoneListing listing,
     List<PageRouteInfo>? children,
   }) : super(
          EditPhoneListingRoute.name,
-         args: EditPhoneListingRouteArgs(
-           key: key,
-           listingId: listingId,
-           number: number,
-           initialPrice: initialPrice,
-           initialDiscountPrice: initialDiscountPrice,
-           initialWithDiscount: initialWithDiscount,
-           initialIsFeatured: initialIsFeatured,
-         ),
+         args: EditPhoneListingRouteArgs(key: key, listing: listing),
          initialChildren: children,
        );
 
@@ -202,47 +189,21 @@ class EditPhoneListingRoute extends PageRouteInfo<EditPhoneListingRouteArgs> {
     name,
     builder: (data) {
       final args = data.argsAs<EditPhoneListingRouteArgs>();
-      return EditPhoneListingPage(
-        key: args.key,
-        listingId: args.listingId,
-        number: args.number,
-        initialPrice: args.initialPrice,
-        initialDiscountPrice: args.initialDiscountPrice,
-        initialWithDiscount: args.initialWithDiscount,
-        initialIsFeatured: args.initialIsFeatured,
-      );
+      return EditPhoneListingPage(key: args.key, listing: args.listing);
     },
   );
 }
 
 class EditPhoneListingRouteArgs {
-  const EditPhoneListingRouteArgs({
-    this.key,
-    required this.listingId,
-    required this.number,
-    required this.initialPrice,
-    this.initialDiscountPrice,
-    this.initialWithDiscount = false,
-    this.initialIsFeatured = false,
-  });
+  const EditPhoneListingRouteArgs({this.key, required this.listing});
 
   final Key? key;
 
-  final String listingId;
-
-  final String number;
-
-  final double initialPrice;
-
-  final double? initialDiscountPrice;
-
-  final bool initialWithDiscount;
-
-  final bool initialIsFeatured;
+  final PhoneListing listing;
 
   @override
   String toString() {
-    return 'EditPhoneListingRouteArgs{key: $key, listingId: $listingId, number: $number, initialPrice: $initialPrice, initialDiscountPrice: $initialDiscountPrice, initialWithDiscount: $initialWithDiscount, initialIsFeatured: $initialIsFeatured}';
+    return 'EditPhoneListingRouteArgs{key: $key, listing: $listing}';
   }
 }
 
@@ -325,26 +286,11 @@ class EditPhoneRequestRouteArgs {
 class EditPlateListingRoute extends PageRouteInfo<EditPlateListingRouteArgs> {
   EditPlateListingRoute({
     Key? key,
-    required String listingId,
-    required String initialCode,
-    required String initialNumber,
-    required double initialPrice,
-    double? initialDiscountPrice,
-    bool initialWithDiscount = false,
-    bool initialIsFeatured = false,
+    required PlateListing listing,
     List<PageRouteInfo>? children,
   }) : super(
          EditPlateListingRoute.name,
-         args: EditPlateListingRouteArgs(
-           key: key,
-           listingId: listingId,
-           initialCode: initialCode,
-           initialNumber: initialNumber,
-           initialPrice: initialPrice,
-           initialDiscountPrice: initialDiscountPrice,
-           initialWithDiscount: initialWithDiscount,
-           initialIsFeatured: initialIsFeatured,
-         ),
+         args: EditPlateListingRouteArgs(key: key, listing: listing),
          initialChildren: children,
        );
 
@@ -354,51 +300,21 @@ class EditPlateListingRoute extends PageRouteInfo<EditPlateListingRouteArgs> {
     name,
     builder: (data) {
       final args = data.argsAs<EditPlateListingRouteArgs>();
-      return EditPlateListingPage(
-        key: args.key,
-        listingId: args.listingId,
-        initialCode: args.initialCode,
-        initialNumber: args.initialNumber,
-        initialPrice: args.initialPrice,
-        initialDiscountPrice: args.initialDiscountPrice,
-        initialWithDiscount: args.initialWithDiscount,
-        initialIsFeatured: args.initialIsFeatured,
-      );
+      return EditPlateListingPage(key: args.key, listing: args.listing);
     },
   );
 }
 
 class EditPlateListingRouteArgs {
-  const EditPlateListingRouteArgs({
-    this.key,
-    required this.listingId,
-    required this.initialCode,
-    required this.initialNumber,
-    required this.initialPrice,
-    this.initialDiscountPrice,
-    this.initialWithDiscount = false,
-    this.initialIsFeatured = false,
-  });
+  const EditPlateListingRouteArgs({this.key, required this.listing});
 
   final Key? key;
 
-  final String listingId;
-
-  final String initialCode;
-
-  final String initialNumber;
-
-  final double initialPrice;
-
-  final double? initialDiscountPrice;
-
-  final bool initialWithDiscount;
-
-  final bool initialIsFeatured;
+  final PlateListing listing;
 
   @override
   String toString() {
-    return 'EditPlateListingRouteArgs{key: $key, listingId: $listingId, initialCode: $initialCode, initialNumber: $initialNumber, initialPrice: $initialPrice, initialDiscountPrice: $initialDiscountPrice, initialWithDiscount: $initialWithDiscount, initialIsFeatured: $initialIsFeatured}';
+    return 'EditPlateListingRouteArgs{key: $key, listing: $listing}';
   }
 }
 

@@ -1,15 +1,11 @@
-// lib/presentation/routes/pages/edit_plate_request_screen/cubit/edit_plate_request_cubit.dart
-
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
-import 'package:joplate/domain/dto/edit_listing_dto.dart';
-import 'package:joplate/domain/entities/plate_number.dart';
+import 'package:joplate/domain/dto/update_listing_dto.dart';
 import 'package:joplate/data/constants.dart';
 
 part 'edit_plate_request_state.dart';
 
-/// Cubit for editing an existing plate request
 class EditPlateRequestCubit extends Cubit<EditPlateRequestState> {
   EditPlateRequestCubit()
       : super(const EditPlateRequestState(
@@ -21,7 +17,6 @@ class EditPlateRequestCubit extends Cubit<EditPlateRequestState> {
           errorMessage: null,
         ));
 
-  /// Initialize with existing data
   void loadRequestData({
     required String requestId,
     required String code,
@@ -50,7 +45,6 @@ class EditPlateRequestCubit extends Cubit<EditPlateRequestState> {
     emit(state.copyWith(price: newPrice, errorMessage: null));
   }
 
-  /// Submit the edit changes
   Future<void> submitEdit() async {
     if (state.requestId.isEmpty || state.code.isEmpty || state.number.isEmpty) {
       emit(state.copyWith(errorMessage: 'Code and Number are required'));
@@ -59,19 +53,19 @@ class EditPlateRequestCubit extends Cubit<EditPlateRequestState> {
 
     emit(state.copyWith(isSubmitting: true, errorMessage: null));
 
-    final dto = EditListingDto(
+    final dto = UpdateListingDto(
       listingId: state.requestId,
       itemType: ItemType.plateNumber,
-      price: double.parse(state.price.isEmpty ? '0' : state.price),
-      itemData: PlateNumber(code: state.code, number: state.number).toJson(),
+      listingType: ListingType.request,
+      price: double.tryParse(state.price) ?? 0,
     );
 
     try {
-      final callable = FirebaseFunctions.instance.httpsCallable(updateListingCF);
+      final callable =
+          FirebaseFunctions.instance.httpsCallable(updateListingCF);
       final response = await callable.call(dto.toJson());
 
       if (response.data != null && response.data['success'] == true) {
-        // success
         emit(state.copyWith(isSubmitting: false));
       } else {
         emit(state.copyWith(

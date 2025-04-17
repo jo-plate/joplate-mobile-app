@@ -1,6 +1,5 @@
 part of 'edit_phone_listing_cubit.dart';
 
-/// State for editing a phone listing
 class EditPhoneListingState {
   final String listingId;
   final String number;
@@ -8,6 +7,8 @@ class EditPhoneListingState {
   final String? discountPrice;
   final bool withDiscount;
   final bool isFeatured;
+  final bool isDisabled;
+  final bool isSold;
   final bool isSubmitting;
   final String? errorMessage;
 
@@ -18,6 +19,8 @@ class EditPhoneListingState {
     this.discountPrice,
     required this.withDiscount,
     required this.isFeatured,
+    required this.isDisabled,
+    required this.isSold,
     required this.isSubmitting,
     this.errorMessage,
   });
@@ -29,6 +32,8 @@ class EditPhoneListingState {
     String? discountPrice,
     bool? withDiscount,
     bool? isFeatured,
+    bool? isDisabled,
+    bool? isSold,
     bool? isSubmitting,
     String? errorMessage,
   }) {
@@ -37,10 +42,12 @@ class EditPhoneListingState {
       number: number ?? this.number,
       price: price ?? this.price,
       discountPrice: discountPrice ?? this.discountPrice,
-      withDiscount: withDiscount ?? this.withDiscount,
       isFeatured: isFeatured ?? this.isFeatured,
+      isDisabled: isDisabled ?? this.isDisabled,
+      isSold: isSold ?? this.isSold,
       isSubmitting: isSubmitting ?? this.isSubmitting,
       errorMessage: errorMessage,
+      withDiscount: false,
     );
   }
 }

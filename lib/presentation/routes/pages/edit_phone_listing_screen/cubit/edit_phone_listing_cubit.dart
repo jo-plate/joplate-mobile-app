@@ -1,9 +1,9 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
-import 'package:joplate/domain/dto/edit_listing_dto.dart';
-import 'package:joplate/domain/entities/phone_number.dart';
+import 'package:joplate/domain/dto/update_listing_dto.dart';
 import 'package:joplate/data/constants.dart';
+import 'package:joplate/domain/entities/phone_listing.dart';
 
 part 'edit_phone_listing_state.dart';
 
@@ -16,32 +16,25 @@ class EditPhoneListingCubit extends Cubit<EditPhoneListingState> {
           discountPrice: null,
           withDiscount: false,
           isFeatured: false,
+          isDisabled: false,
+          isSold: false,
           isSubmitting: false,
           errorMessage: null,
         ));
 
-  void loadListingData({
-    required String listingId,
-    required String number,
-    required double price,
-    double? discountPrice,
-    bool? withDiscount,
-    bool? isFeatured,
-  }) {
-    emit(state.copyWith(
-      listingId: listingId,
-      number: number,
-      price: price.toString(),
-      discountPrice: discountPrice?.toString(),
-      withDiscount: withDiscount ?? false,
-      isFeatured: isFeatured ?? false,
+  void loadListing(PhoneListing listing) {
+    emit(EditPhoneListingState(
+      listingId: listing.id,
+      number: listing.item.number,
+      price: listing.price.toString(),
+      withDiscount: listing.discountPrice != 0,
+      discountPrice: listing.discountPrice.toString(),
+      isFeatured: listing.isFeatured,
+      isDisabled: listing.isDisabled,
+      isSold: listing.isSold,
       isSubmitting: false,
       errorMessage: null,
     ));
-  }
-
-  void updateNumber(String newNumber) {
-    emit(state.copyWith(number: newNumber, errorMessage: null));
   }
 
   void updatePrice(String newPrice) {
@@ -52,6 +45,10 @@ class EditPhoneListingCubit extends Cubit<EditPhoneListingState> {
     emit(state.copyWith(discountPrice: newDiscount, errorMessage: null));
   }
 
+  void toggleFeatured(bool enable) {
+    emit(state.copyWith(isFeatured: enable, errorMessage: null));
+  }
+
   void toggleDiscount(bool enable) {
     emit(state.copyWith(
       withDiscount: enable,
@@ -60,51 +57,53 @@ class EditPhoneListingCubit extends Cubit<EditPhoneListingState> {
     ));
   }
 
-  void toggleFeatured(bool enable) {
-    emit(state.copyWith(isFeatured: enable, errorMessage: null));
+  void toggleDisabled(bool enable) {
+    emit(state.copyWith(isDisabled: enable, errorMessage: null));
+  }
+
+  void toggleSold(bool enable) {
+    emit(state.copyWith(isSold: enable, errorMessage: null));
   }
 
   Future<void> submitEdit() async {
-    // Basic validation
-    if (state.listingId.isEmpty || state.number.isEmpty || state.price.isEmpty) {
-      emit(state.copyWith(errorMessage: 'Please fill required fields'));
+    if (state.listingId.isEmpty || state.price.isEmpty) {
+      emit(state.copyWith(errorMessage: 'Please fill all required fields.'));
       return;
     }
 
     emit(state.copyWith(isSubmitting: true, errorMessage: null));
 
-    final dto = EditListingDto(
+    final dto = UpdateListingDto(
       listingId: state.listingId,
-      price: double.parse(state.price),
-      discountPrice: state.withDiscount ? double.tryParse(state.discountPrice ?? '') : null,
-      isFeatured: state.isFeatured,
-      itemData: PhoneNumber(number: state.number).toJson(),
       itemType: ItemType.phoneNumber,
+      listingType: ListingType.ad,
+      price: double.tryParse(state.price),
+      discountPrice: state.discountPrice?.isNotEmpty == true
+          ? double.tryParse(state.discountPrice!)
+          : null,
+      isFeatured: state.isFeatured,
+      isDisabled: state.isDisabled,
+      isSold: state.isSold,
     );
 
     try {
-      final callable = FirebaseFunctions.instance.httpsCallable(updateListingCF);
+      final callable =
+          FirebaseFunctions.instance.httpsCallable(updateListingCF);
       final response = await callable.call(dto.toJson());
 
-      if (response.data != null && response.data['success'] == true) {
-        // success
+      if (response.data?['success'] == true) {
         emit(state.copyWith(isSubmitting: false));
       } else {
         emit(state.copyWith(
           isSubmitting: false,
-          errorMessage: 'Failed to edit phone listing',
+          errorMessage: 'Failed to update listing.',
         ));
       }
     } on FirebaseFunctionsException catch (e) {
       emit(state.copyWith(
-        isSubmitting: false,
-        errorMessage: 'Error: ${e.message}',
-      ));
+          isSubmitting: false, errorMessage: 'Error: ${e.message}'));
     } catch (e) {
-      emit(state.copyWith(
-        isSubmitting: false,
-        errorMessage: e.toString(),
-      ));
+      emit(state.copyWith(isSubmitting: false, errorMessage: e.toString()));
     }
   }
 }

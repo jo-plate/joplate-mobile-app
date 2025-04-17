@@ -1,13 +1,11 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
-import 'package:joplate/domain/dto/edit_listing_dto.dart';
-import 'package:joplate/domain/entities/plate_number.dart';
+import 'package:joplate/domain/dto/update_listing_dto.dart';
 import 'package:joplate/data/constants.dart';
+import 'package:joplate/presentation/routes/pages/edit_plate_listing_screen/cubit/edit_plate_listing_state.dart';
 
-part 'edit_plate_listing_state.dart';
 
-/// Cubit for editing an existing plate listing
 class EditPlateListingCubit extends Cubit<EditPlateListingState> {
   EditPlateListingCubit()
       : super(const EditPlateListingState(
@@ -16,8 +14,9 @@ class EditPlateListingCubit extends Cubit<EditPlateListingState> {
           plateNumber: '',
           price: '',
           discountPrice: null,
-          withDiscount: false,
           isFeatured: false,
+          isDisabled: false,
+          isSold: false,
           isSubmitting: false,
           errorMessage: null,
         ));
@@ -28,8 +27,9 @@ class EditPlateListingCubit extends Cubit<EditPlateListingState> {
     required String plateNumber,
     required double price,
     double? discountPrice,
-    bool? withDiscount,
-    bool? isFeatured,
+    bool isFeatured = false,
+    bool isDisabled = false,
+    bool isSold = false,
   }) {
     emit(state.copyWith(
       listingId: listingId,
@@ -37,60 +37,56 @@ class EditPlateListingCubit extends Cubit<EditPlateListingState> {
       plateNumber: plateNumber,
       price: price.toString(),
       discountPrice: discountPrice?.toString(),
-      withDiscount: withDiscount ?? false,
-      isFeatured: isFeatured ?? false,
+      isFeatured: isFeatured,
+      isDisabled: isDisabled,
+      isSold: isSold,
       isSubmitting: false,
       errorMessage: null,
     ));
   }
 
-  void updateCode(String newCode) {
-    emit(state.copyWith(code: newCode, errorMessage: null));
-  }
-
-  void updatePlateNumber(String newPlate) {
-    emit(state.copyWith(plateNumber: newPlate, errorMessage: null));
-  }
-
-  void updatePrice(String newPrice) {
-    emit(state.copyWith(price: newPrice, errorMessage: null));
-  }
-
-  void updateDiscountPrice(String newDiscount) {
-    emit(state.copyWith(discountPrice: newDiscount, errorMessage: null));
-  }
-
-  void toggleDiscount(bool enable) {
-    emit(state.copyWith(
-      withDiscount: enable,
-      discountPrice: enable ? state.discountPrice : null,
-      errorMessage: null,
-    ));
-  }
-
-  void toggleFeatured(bool enable) {
-    emit(state.copyWith(isFeatured: enable, errorMessage: null));
-  }
+  void updateCode(String value) =>
+      emit(state.copyWith(code: value, errorMessage: null));
+  void updatePlateNumber(String value) =>
+      emit(state.copyWith(plateNumber: value, errorMessage: null));
+  void updatePrice(String value) =>
+      emit(state.copyWith(price: value, errorMessage: null));
+  void updateDiscountPrice(String value) =>
+      emit(state.copyWith(discountPrice: value, errorMessage: null));
+  void toggleFeatured(bool value) =>
+      emit(state.copyWith(isFeatured: value, errorMessage: null));
+  void toggleDisabled(bool value) =>
+      emit(state.copyWith(isDisabled: value, errorMessage: null));
+  void toggleSold(bool value) =>
+      emit(state.copyWith(isSold: value, errorMessage: null));
 
   Future<void> submitEdit() async {
-    if (state.listingId.isEmpty || state.code.isEmpty || state.plateNumber.isEmpty || state.price.isEmpty) {
-      emit(state.copyWith(errorMessage: 'Please fill required fields'));
+    if (state.listingId.isEmpty ||
+        state.code.isEmpty ||
+        state.plateNumber.isEmpty ||
+        state.price.isEmpty) {
+      emit(state.copyWith(errorMessage: 'All fields are required'));
       return;
     }
 
     emit(state.copyWith(isSubmitting: true, errorMessage: null));
 
-    final dto = EditListingDto(
+    final dto = UpdateListingDto(
       listingId: state.listingId,
-      price: double.parse(state.price),
-      discountPrice: state.withDiscount ? double.tryParse(state.discountPrice ?? '') : null,
-      isFeatured: state.isFeatured,
-      itemData: PlateNumber(code: state.code, number: state.plateNumber).toJson(),
       itemType: ItemType.plateNumber,
+      listingType: ListingType.ad,
+      price: double.tryParse(state.price),
+      discountPrice: state.discountPrice?.isNotEmpty == true
+          ? double.tryParse(state.discountPrice!)
+          : null,
+      isFeatured: state.isFeatured,
+      isDisabled: state.isDisabled,
+      isSold: state.isSold,
     );
 
     try {
-      final callable = FirebaseFunctions.instance.httpsCallable(updateListingCF);
+      final callable =
+          FirebaseFunctions.instance.httpsCallable(updateListingCF);
       final response = await callable.call(dto.toJson());
 
       if (response.data != null && response.data['success'] == true) {
@@ -98,19 +94,14 @@ class EditPlateListingCubit extends Cubit<EditPlateListingState> {
       } else {
         emit(state.copyWith(
           isSubmitting: false,
-          errorMessage: 'Failed to edit plate listing',
+          errorMessage: 'Failed to update listing',
         ));
       }
     } on FirebaseFunctionsException catch (e) {
       emit(state.copyWith(
-        isSubmitting: false,
-        errorMessage: 'Error: ${e.message}',
-      ));
+          isSubmitting: false, errorMessage: 'Error: ${e.message}'));
     } catch (e) {
-      emit(state.copyWith(
-        isSubmitting: false,
-        errorMessage: e.toString(),
-      ));
+      emit(state.copyWith(isSubmitting: false, errorMessage: e.toString()));
     }
   }
 }

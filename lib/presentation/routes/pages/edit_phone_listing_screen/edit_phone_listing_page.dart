@@ -1,135 +1,128 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:joplate/domain/entities/phone_listing.dart';
 import 'package:joplate/presentation/routes/pages/edit_phone_listing_screen/cubit/edit_phone_listing_cubit.dart';
-// Suppose you have: EditPhoneListingState
 
 @RoutePage()
 class EditPhoneListingPage extends StatelessWidget {
-  final String listingId;
-  final String number;
-  final double initialPrice;
-  final double? initialDiscountPrice;
-  final bool initialWithDiscount;
-  final bool initialIsFeatured;
+  final PhoneListing listing;
 
-  const EditPhoneListingPage({
-    super.key,
-    required this.listingId,
-    required this.number,
-    required this.initialPrice,
-    this.initialDiscountPrice,
-    this.initialWithDiscount = false,
-    this.initialIsFeatured = false,
-  });
+  const EditPhoneListingPage({super.key, required this.listing});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<EditPhoneListingCubit>(
       create: (_) {
         final cubit = EditPhoneListingCubit();
-        cubit.loadListingData(
-          listingId: listingId,
-          number: number,
-          price: initialPrice,
-          discountPrice: initialDiscountPrice,
-          withDiscount: initialWithDiscount,
-          isFeatured: initialIsFeatured,
-        );
+        cubit.loadListing(listing);
         return cubit;
       },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Edit Phone Listing"),
-        ),
-        body: SafeArea(
-          child: BlocBuilder<EditPhoneListingCubit, EditPhoneListingState>(
-            builder: (context, state) {
-              final cubit = context.read<EditPhoneListingCubit>();
+      child: const _EditPhoneListingContent(),
+    );
+  }
+}
 
-              return SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    if (state.errorMessage != null)
-                      Text(
-                        state.errorMessage!,
-                        style: const TextStyle(color: Colors.red),
+class _EditPhoneListingContent extends StatelessWidget {
+  const _EditPhoneListingContent();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<EditPhoneListingCubit, EditPhoneListingState>(
+      builder: (context, state) {
+        final cubit = context.read<EditPhoneListingCubit>();
+
+        return Scaffold(
+          appBar: AppBar(title: const Text("Edit Phone Listing")),
+          body: SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  if (state.errorMessage != null)
+                    Text(state.errorMessage!,
+                        style: const TextStyle(color: Colors.red)),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: TextEditingController(text: state.number),
+                    enabled: false,
+                    decoration:
+                        const InputDecoration(labelText: "Phone Number"),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: TextEditingController(text: state.price),
+                    keyboardType: TextInputType.number,
+                    onChanged: cubit.updatePrice,
+                    enabled: !state.isSubmitting,
+                    decoration: const InputDecoration(labelText: "Price"),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text("With Discount?"),
+                      Switch(
+                        value: state.discountPrice != null,
+                        onChanged:
+                            state.isSubmitting ? null : cubit.toggleDiscount,
                       ),
-                    const SizedBox(height: 8),
+                    ],
+                  ),
+                  if (state.discountPrice != null)
                     TextField(
-                      decoration: const InputDecoration(labelText: 'Phone Number'),
-                      onChanged: cubit.updateNumber,
-                      enabled: false,
-                      controller: TextEditingController(text: state.number),
-                    ),
-                    const SizedBox(height: 16),
-                    TextField(
-                      decoration: const InputDecoration(labelText: 'Price'),
-                      onChanged: cubit.updatePrice,
+                      controller: TextEditingController(
+                          text: state.discountPrice ?? ''),
+                      keyboardType: TextInputType.number,
+                      onChanged: cubit.updateDiscountPrice,
                       enabled: !state.isSubmitting,
-                      controller: TextEditingController(text: state.price),
+                      decoration:
+                          const InputDecoration(labelText: "Discount Price"),
                     ),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text("With Discount?"),
-                        Switch(
-                          value: state.withDiscount,
-                          onChanged: state.isSubmitting ? null : cubit.toggleDiscount,
-                        ),
-                      ],
-                    ),
-                    if (state.withDiscount)
-                      TextField(
-                        decoration: const InputDecoration(labelText: 'Discount Price'),
-                        onChanged: cubit.updateDiscountPrice,
-                        enabled: !state.isSubmitting,
-                        controller: TextEditingController(text: state.discountPrice ?? ''),
-                      ),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text("Feature this listing (Costs 1 golden ticket)"),
-                        Switch(
-                          value: state.isFeatured,
-                          onChanged: state.isSubmitting ? null : cubit.toggleFeatured,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    if (state.isSubmitting) const Center(child: CircularProgressIndicator()),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(child: OutlinedButton(onPressed: () {}, child: const Text("Delete"))),
-                        const SizedBox(width: 12),
-                        Expanded(child: OutlinedButton(onPressed: () {}, child: const Text("Mark as Sold"))),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
+                  const SizedBox(height: 16),
+                  _buildSwitchRow("Feature this listing", state.isFeatured,
+                      cubit.toggleFeatured, state.isSubmitting),
+                  _buildSwitchRow("Mark as Sold", state.isSold,
+                      cubit.toggleSold, state.isSubmitting),
+                  _buildSwitchRow("Disable this listing", state.isDisabled,
+                      cubit.toggleDisabled, state.isSubmitting),
+                  const SizedBox(height: 24),
+                  if (state.isSubmitting)
+                    const Center(child: CircularProgressIndicator())
+                  else
                     ElevatedButton(
-                      onPressed: state.isSubmitting
-                          ? null
-                          : () async {
-                              await cubit.submitEdit();
-                              if (cubit.state.errorMessage == null && !cubit.state.isSubmitting) {
-                                // e.g. close or navigate away
-                                AutoRouter.of(context).maybePop();
-                              }
-                            },
-                      child: const Text("Save Changes", style: TextStyle(color: Colors.white)),
+                      onPressed: () async {
+                        await cubit.submitEdit();
+                        if (cubit.state.errorMessage == null &&
+                            !cubit.state.isSubmitting) {
+                          AutoRouter.of(context).maybePop();
+                        }
+                      },
+                      child: const Text("Save Changes",
+                          style: TextStyle(color: Colors.white)),
                     ),
-                  ],
-                ),
-              );
-            },
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
+    );
+  }
+
+  Widget _buildSwitchRow(
+    String label,
+    bool value,
+    void Function(bool) onChanged,
+    bool disabled,
+  ) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label),
+        Switch(value: value, onChanged: disabled ? null : onChanged),
+      ],
     );
   }
 }
