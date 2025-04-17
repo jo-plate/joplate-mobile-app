@@ -208,8 +208,8 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child: const Text(
-                        "Search",
+                      child:  Text(
+                        m.home.search,
                         style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold), // Smaller text
                       ),
                     )

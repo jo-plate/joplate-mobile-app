@@ -161,6 +161,11 @@ class HomeMessages {
   /// "My Requests"
   /// ```
   String get myRequests => """My Requests""";
+
+  /// ```dart
+  /// "Search"
+  /// ```
+  String get search => """Search""";
 }
 
 class ProfileMessages {
@@ -1089,6 +1094,7 @@ Map<String, String> get messagesMap => {
   """home.sold""": """Sold""",
   """home.mynumbers""": """My Numbers""",
   """home.myRequests""": """My Requests""",
+  """home.search""": """Search""",
   """profile.title""": """Profile""",
   """profile.Requests""": """Requests""",
   """profile.Numbers""": """Numbers""",

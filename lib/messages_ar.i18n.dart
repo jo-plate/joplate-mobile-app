@@ -164,6 +164,11 @@ class HomeMessagesAr extends HomeMessages {
   /// "طلباتي"
   /// ```
   String get myRequests => """طلباتي""";
+
+  /// ```dart
+  /// "بحث"
+  /// ```
+  String get search => """بحث""";
 }
 
 class ProfileMessagesAr extends ProfileMessages {
@@ -1092,6 +1097,7 @@ Map<String, String> get messagesArMap => {
   """home.sold""": """تم البيع""",
   """home.mynumbers""": """أرقامي""",
   """home.myRequests""": """طلباتي""",
+  """home.search""": """بحث""",
   """profile.title""": """الملف الشخصي""",
   """profile.Requests""": """الطلبات""",
   """profile.Numbers""": """الأرقام""",

@@ -34,13 +34,23 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
   void initState() {
     super.initState();
 
-    _sub = FirebaseFirestore.instance.collection(phoneNumbersCollectionId).snapshots().listen((snap) {
+    _sub = FirebaseFirestore.instance
+        .collection(phoneNumbersCollectionId)
+        .snapshots()
+        .listen((snap) {
       setState(() {
-        _allPhones = snap.docs.map((d) => PhoneNumber.fromJson(d.data())).toList();
+        _allPhones =
+            snap.docs.map((d) => PhoneNumber.fromJson(d.data())).toList();
       });
     });
 
-    for (final c in [_containsCtrl, _startsWithCtrl, _endsWithCtrl, _minPriceCtrl, _maxPriceCtrl]) {
+    for (final c in [
+      _containsCtrl,
+      _startsWithCtrl,
+      _endsWithCtrl,
+      _minPriceCtrl,
+      _maxPriceCtrl
+    ]) {
       c.addListener(() => setState(() {}));
     }
   }
@@ -61,14 +71,19 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
 
     if (_operator != null && phone.phoneOperator != _operator) return false;
 
-    if (_containsCtrl.text.isNotEmpty && !number.contains(_containsCtrl.text)) return false;
-    if (_startsWithCtrl.text.isNotEmpty && !number.startsWith(_startsWithCtrl.text)) return false;
-    if (_endsWithCtrl.text.isNotEmpty && !number.endsWith(_endsWithCtrl.text)) return false;
+    if (_containsCtrl.text.isNotEmpty && !number.contains(_containsCtrl.text))
+      return false;
+    if (_startsWithCtrl.text.isNotEmpty &&
+        !number.startsWith(_startsWithCtrl.text)) return false;
+    if (_endsWithCtrl.text.isNotEmpty && !number.endsWith(_endsWithCtrl.text))
+      return false;
 
-    final validAds = phone.ads.where((ad) => ad.isActive && !ad.isSold && !ad.isExpired);
+    final validAds =
+        phone.ads.where((ad) => ad.isActive && !ad.isSold && !ad.isExpired);
     if (validAds.isEmpty) return false;
 
-    final ad = validAds.firstWhere((a) => !a.priceHidden, orElse: () => validAds.first);
+    final ad = validAds.firstWhere((a) => !a.priceHidden,
+        orElse: () => validAds.first);
 
     final min = double.tryParse(_minPriceCtrl.text);
     final max = double.tryParse(_maxPriceCtrl.text);
@@ -92,7 +107,8 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
           borderRadius: BorderRadius.all(Radius.circular(8)),
           borderSide: BorderSide(color: Colors.red, width: 1.5),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       );
 
   @override
@@ -119,13 +135,16 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
               children: [
                 Expanded(
                   child: DropdownButtonFormField<PhoneOperator>(
-                    decoration: _inputDecoration.copyWith(labelText: m.phones.company_label),
+                    decoration: _inputDecoration.copyWith(
+                        labelText: m.phones.company_label),
                     value: _operator,
-                    icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF981C1E)),
+                    icon: const Icon(Icons.arrow_drop_down,
+                        color: Color(0xFF981C1E)),
                     items: PhoneOperator.values
                         .map((op) => DropdownMenuItem(
                               value: op,
-                              child: Text(op.name, style: const TextStyle(fontSize: 14)),
+                              child: Text(op.name,
+                                  style: const TextStyle(fontSize: 14)),
                             ))
                         .toList(),
                     onChanged: (val) => setState(() => _operator = val),
@@ -140,21 +159,24 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
                   Expanded(
                     child: TextField(
                       controller: _containsCtrl,
-                      decoration: _inputDecoration.copyWith(labelText: m.phones.contains),
+                      decoration: _inputDecoration.copyWith(
+                          labelText: m.phones.contains),
                     ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: TextField(
                       controller: _startsWithCtrl,
-                      decoration: _inputDecoration.copyWith(labelText: m.phones.starts_with),
+                      decoration: _inputDecoration.copyWith(
+                          labelText: m.phones.starts_with),
                     ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: TextField(
                       controller: _endsWithCtrl,
-                      decoration: _inputDecoration.copyWith(labelText: m.phones.ends_with),
+                      decoration: _inputDecoration.copyWith(
+                          labelText: m.phones.ends_with),
                     ),
                   ),
                 ],
@@ -166,7 +188,8 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
                     child: TextField(
                       controller: _minPriceCtrl,
                       keyboardType: TextInputType.number,
-                      decoration: _inputDecoration.copyWith(labelText: m.phones.min_price),
+                      decoration: _inputDecoration.copyWith(
+                          labelText: m.phones.min_price),
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -174,9 +197,30 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
                     child: TextField(
                       controller: _maxPriceCtrl,
                       keyboardType: TextInputType.number,
-                      decoration: _inputDecoration.copyWith(labelText: m.phones.max_price),
+                      decoration: _inputDecoration.copyWith(
+                          labelText: m.phones.max_price),
                     ),
                   ),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 16),
+                      minimumSize: const Size(80, 40), // Smaller button size
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child:  Text(
+                      m.home.search,
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold), // Smaller text
+                    ),
+                  )
                 ],
               ),
               const SizedBox(height: 8),
@@ -187,10 +231,13 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
                 children: [
                   Text(
                     _showAdvanced ? m.phones.show_less : m.phones.see_more,
-                    style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        color: Colors.red, fontWeight: FontWeight.bold),
                   ),
                   Icon(
-                    _showAdvanced ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                    _showAdvanced
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
                     color: Colors.red,
                   ),
                 ],
