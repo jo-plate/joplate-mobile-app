@@ -77,6 +77,9 @@ class Messages {
   AddplateMessages get addplate => AddplateMessages(this);
   AddphonerequestMessages get addphonerequest => AddphonerequestMessages(this);
   AddplaterequestMessages get addplaterequest => AddplaterequestMessages(this);
+  PhonedetailsMessages get phonedetails => PhonedetailsMessages(this);
+  SellerdetailsMessages get sellerdetails => SellerdetailsMessages(this);
+  PlatesdetailsMessages get platesdetails => PlatesdetailsMessages(this);
 }
 
 class AppMessages {
@@ -899,6 +902,142 @@ class AddplaterequestMessages {
   String get optional_price => """Optional Price""";
 }
 
+class PhonedetailsMessages {
+  final Messages _parent;
+  const PhonedetailsMessages(this._parent);
+
+  /// ```dart
+  /// "Phone Number Details"
+  /// ```
+  String get title => """Phone Number Details""";
+
+  /// ```dart
+  /// "Check out this plate number: {number}"
+  /// ```
+  String get share_message => """Check out this plate number: {number}""";
+
+  /// ```dart
+  /// "Important Note:"
+  /// ```
+  String get important_note => """Important Note:""";
+
+  /// ```dart
+  /// "Don't transfer money online"
+  /// ```
+  String get dont_transfer_money => """Don't transfer money online""";
+
+  /// ```dart
+  /// "Meet the seller in person"
+  /// ```
+  String get meet_in_person => """Meet the seller in person""";
+}
+
+class SellerdetailsMessages {
+  final Messages _parent;
+  const SellerdetailsMessages(this._parent);
+
+  /// ```dart
+  /// "About Seller"
+  /// ```
+  String get about_seller => """About Seller""";
+
+  /// ```dart
+  /// "User not found"
+  /// ```
+  String get user_not_found => """User not found""";
+
+  /// ```dart
+  /// "WhatsApp"
+  /// ```
+  String get whatsapp => """WhatsApp""";
+
+  /// ```dart
+  /// "Call"
+  /// ```
+  String get phone_call => """Call""";
+}
+
+class PlatesdetailsMessages {
+  final Messages _parent;
+  const PlatesdetailsMessages(this._parent);
+
+  /// ```dart
+  /// "Plate Details"
+  /// ```
+  String get title => """Plate Details""";
+
+  /// ```dart
+  /// "Error getting data for Plate Number: {plateNumber}"
+  /// ```
+  String get error_loading_data =>
+      """Error getting data for Plate Number: {plateNumber}""";
+
+  /// ```dart
+  /// "Originally posted by"
+  /// ```
+  String get originally_posted_by => """Originally posted by""";
+
+  /// ```dart
+  /// "Member since {year}"
+  /// ```
+  String get member_since => """Member since {year}""";
+
+  /// ```dart
+  /// "WhatsApp"
+  /// ```
+  String get whatsapp => """WhatsApp""";
+
+  /// ```dart
+  /// "Call"
+  /// ```
+  String get call => """Call""";
+
+  /// ```dart
+  /// "Other Sellers"
+  /// ```
+  String get other_sellers => """Other Sellers""";
+
+  /// ```dart
+  /// "Seller"
+  /// ```
+  String get seller => """Seller""";
+
+  /// ```dart
+  /// "Price"
+  /// ```
+  String get price => """Price""";
+
+  /// ```dart
+  /// "Contact"
+  /// ```
+  String get contact => """Contact""";
+
+  /// ```dart
+  /// "Important Note:"
+  /// ```
+  String get important_note => """Important Note:""";
+
+  /// ```dart
+  /// "Don't transfer money online"
+  /// ```
+  String get dont_transfer_money => """Don't transfer money online""";
+
+  /// ```dart
+  /// "Meet the seller in person"
+  /// ```
+  String get meet_in_person => """Meet the seller in person""";
+
+  /// ```dart
+  /// "{days} ago"
+  /// ```
+  String get days_ago => """{days} ago""";
+
+  /// ```dart
+  /// "Call for Price"
+  /// ```
+  String get call_for_price => """Call for Price""";
+}
+
 Map<String, String> get messagesMap => {
   """app.title""": """Joplate""",
   """home.welcome""": """Welcome to Joplate!""",
@@ -1048,4 +1187,29 @@ Map<String, String> get messagesMap => {
   """addplaterequest.cancel_button""": """Cancel""",
   """addplaterequest.required_plate_number""": """Required Plate Number""",
   """addplaterequest.optional_price""": """Optional Price""",
+  """phonedetails.title""": """Phone Number Details""",
+  """phonedetails.share_message""": """Check out this plate number: {number}""",
+  """phonedetails.important_note""": """Important Note:""",
+  """phonedetails.dont_transfer_money""": """Don't transfer money online""",
+  """phonedetails.meet_in_person""": """Meet the seller in person""",
+  """sellerdetails.about_seller""": """About Seller""",
+  """sellerdetails.user_not_found""": """User not found""",
+  """sellerdetails.whatsapp""": """WhatsApp""",
+  """sellerdetails.phone_call""": """Call""",
+  """platesdetails.title""": """Plate Details""",
+  """platesdetails.error_loading_data""":
+      """Error getting data for Plate Number: {plateNumber}""",
+  """platesdetails.originally_posted_by""": """Originally posted by""",
+  """platesdetails.member_since""": """Member since {year}""",
+  """platesdetails.whatsapp""": """WhatsApp""",
+  """platesdetails.call""": """Call""",
+  """platesdetails.other_sellers""": """Other Sellers""",
+  """platesdetails.seller""": """Seller""",
+  """platesdetails.price""": """Price""",
+  """platesdetails.contact""": """Contact""",
+  """platesdetails.important_note""": """Important Note:""",
+  """platesdetails.dont_transfer_money""": """Don't transfer money online""",
+  """platesdetails.meet_in_person""": """Meet the seller in person""",
+  """platesdetails.days_ago""": """{days} ago""",
+  """platesdetails.call_for_price""": """Call for Price""",
 };

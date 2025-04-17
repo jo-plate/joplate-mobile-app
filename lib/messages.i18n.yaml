@@ -178,3 +178,33 @@ addplaterequest:
   cancel_button: "Cancel"
   required_plate_number: "Required Plate Number"
   optional_price: "Optional Price"
+
+phonedetails:
+  title: "Phone Number Details"
+  share_message: "Check out this plate number: {number}"
+  important_note: "Important Note:"
+  dont_transfer_money: "Don't transfer money online"
+  meet_in_person: "Meet the seller in person"
+
+sellerdetails:
+  about_seller: "About Seller"
+  user_not_found: "User not found"
+  whatsapp: "WhatsApp"
+  phone_call: "Call"
+
+platesdetails:
+  title: "Plate Details"
+  error_loading_data: "Error getting data for Plate Number: {plateNumber}"
+  originally_posted_by: "Originally posted by"
+  member_since: "Member since {year}"
+  whatsapp: "WhatsApp"
+  call: "Call"
+  other_sellers: "Other Sellers"
+  seller: "Seller"
+  price: "Price"
+  contact: "Contact"
+  important_note: "Important Note:"
+  dont_transfer_money: "Don't transfer money online"
+  meet_in_person: "Meet the seller in person"
+  days_ago: "{days} ago"
+  call_for_price: "Call for Price"

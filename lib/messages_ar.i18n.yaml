@@ -178,3 +178,32 @@ addplaterequest:
   required_plate_number: "رقم السيارة مطلوب"
   optional_price: "السعر اختياري"
 
+phonedetails:
+  title: "تفاصيل رقم الهاتف"
+  share_message: "اطلع على رقم اللوحة هذا: {number}"
+  important_note: "ملاحظات هامة:"
+  dont_transfer_money: "لا تقم بتحويل الأموال عبر الإنترنت"
+  meet_in_person: "قابل البائع شخصياً"
+
+sellerdetails:
+  about_seller: "حول البائع"
+  user_not_found: "لم يتم العثور على المستخدم"
+  whatsapp: "واتساب"
+  phone_call: "اتصال"
+
+platesdetails:
+  title: "تفاصيل رقم السيارة"
+  error_loading_data: "حدث خطأ أثناء جلب بيانات الرقم: {plateNumber}"
+  originally_posted_by: "نُشر بواسطة"
+  member_since: "عضو منذ {year}"
+  whatsapp: "واتساب"
+  call: "اتصال"
+  other_sellers: "بائعون آخرون"
+  seller: "البائع"
+  price: "السعر"
+  contact: "تواصل"
+  important_note: "ملاحظة هامة:"
+  dont_transfer_money: "لا تقم بتحويل الأموال عبر الإنترنت"
+  meet_in_person: "قابل البائع شخصياً"
+  days_ago: "منذ {days}"
+  call_for_price: "اتصل لمعرفة السعر"

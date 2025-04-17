@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_listing_widget.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
 import 'package:share_plus/share_plus.dart';
@@ -36,9 +37,10 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final m=Localization.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Plate Details'),
+        title:  Text(m.platesdetails.title),
         actions: [
           FavoriteButton.plate(listingId: widget.plateNumber.toString()),
           // IconButton(
@@ -109,11 +111,11 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
-                    child: const Column(
+                    child:  Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Important Note:',
+                          m.platesdetails.important_note,
                           style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 10),
@@ -123,7 +125,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                             SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                "Don't transfer money online",
+                                m.platesdetails.dont_transfer_money,
                                 style: TextStyle(fontSize: 16),
                               ),
                             ),
@@ -136,7 +138,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                             SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                "Meet the seller in person",
+                                m.platesdetails.meet_in_person,
                                 style: TextStyle(fontSize: 16),
                               ),
                             ),
@@ -176,6 +178,7 @@ class _SellerDetailsState extends State<SellerDetails> {
 
   @override
   Widget build(BuildContext context) {
+    final m=Localization.of(context);
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
@@ -222,8 +225,8 @@ class _SellerDetailsState extends State<SellerDetails> {
                       ),
                     ),
                     const SizedBox(width: 12),
-                    const Text(
-                      'Originally posted by',
+                     Text(
+                      m.platesdetails.originally_posted_by,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -262,7 +265,7 @@ class _SellerDetailsState extends State<SellerDetails> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Member since ${DateTime.now().year - 2020}',
+                            m.platesdetails.member_since,
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.grey[600],
@@ -360,6 +363,7 @@ class OtherSellersTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final m=Localization.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -378,8 +382,8 @@ class OtherSellersTable extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 12),
-            const Text(
-              'Other Sellers',
+             Text(
+              m.platesdetails.other_sellers,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -396,8 +400,8 @@ class OtherSellersTable extends StatelessWidget {
             2: FlexColumnWidth(1),
           },
           children: [
-            const TableRow(
-              decoration: BoxDecoration(
+            TableRow(
+              decoration: const BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
                     color: Color(0xFFE0E0E0),
@@ -407,9 +411,20 @@ class OtherSellersTable extends StatelessWidget {
               ),
               children: [
                 Padding(
+                  padding: const EdgeInsets.only(bottom: 12.0),
+                  child: Text(
+                    m.platesdetails.seller,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF7F8C8D),
+                      fontSize: 13,
+                    ),
+                  ),
+                ),
+                 Padding(
                   padding: EdgeInsets.only(bottom: 12.0),
                   child: Text(
-                    'Seller',
+                    m.platesdetails.price,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: Color(0xFF7F8C8D),
@@ -417,21 +432,10 @@ class OtherSellersTable extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
+                 Padding(
                   padding: EdgeInsets.only(bottom: 12.0),
                   child: Text(
-                    'Price',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF7F8C8D),
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 12.0),
-                  child: Text(
-                    'Contact',
+                    m.platesdetails.contact,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: Color(0xFF7F8C8D),

@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phone_number_listing_widget.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
@@ -26,9 +27,10 @@ class PhoneDetailsPage extends StatefulWidget {
 class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
   @override
   Widget build(BuildContext context) {
+    final m=Localization.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Phone Number Details'),
+        title:  Text(m.phonedetails.title),
         actions: [
           FavoriteButton.plate(listingId: widget.phoneNumber.toString()),
           // Share Icon
@@ -79,11 +81,11 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12.0),
               ),
-              child: const Column(
+              child:  Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Important Note:',
+                    m.phonedetails.important_note,
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 10),
@@ -93,7 +95,7 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
                       SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          "Don't transfer money online",
+                          m.phonedetails.dont_transfer_money,
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
@@ -106,7 +108,7 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
                       SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          "Meet the seller in person",
+                          m.phonedetails.meet_in_person,
                           style: TextStyle(fontSize: 16),
                         ),
                       ),
@@ -146,6 +148,7 @@ class _SellerDetailsState extends State<SellerDetails> {
 
   @override
   Widget build(BuildContext context) {
+    final m=Localization.of(context);
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
@@ -176,8 +179,8 @@ class _SellerDetailsState extends State<SellerDetails> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'About Seller',
+                 Text(
+                  m.sellerdetails.about_seller,
                   style: TextStyle(fontSize: 16),
                 ),
                 const SizedBox(height: 10),

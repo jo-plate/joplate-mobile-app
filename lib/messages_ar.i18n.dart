@@ -80,6 +80,9 @@ class MessagesAr extends Messages {
       AddphonerequestMessagesAr(this);
   AddplaterequestMessagesAr get addplaterequest =>
       AddplaterequestMessagesAr(this);
+  PhonedetailsMessagesAr get phonedetails => PhonedetailsMessagesAr(this);
+  SellerdetailsMessagesAr get sellerdetails => SellerdetailsMessagesAr(this);
+  PlatesdetailsMessagesAr get platesdetails => PlatesdetailsMessagesAr(this);
 }
 
 class AppMessagesAr extends AppMessages {
@@ -902,6 +905,142 @@ class AddplaterequestMessagesAr extends AddplaterequestMessages {
   String get optional_price => """السعر اختياري""";
 }
 
+class PhonedetailsMessagesAr extends PhonedetailsMessages {
+  final MessagesAr _parent;
+  const PhonedetailsMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "تفاصيل رقم الهاتف"
+  /// ```
+  String get title => """تفاصيل رقم الهاتف""";
+
+  /// ```dart
+  /// "اطلع على رقم اللوحة هذا: {number}"
+  /// ```
+  String get share_message => """اطلع على رقم اللوحة هذا: {number}""";
+
+  /// ```dart
+  /// "ملاحظات هامة:"
+  /// ```
+  String get important_note => """ملاحظات هامة:""";
+
+  /// ```dart
+  /// "لا تقم بتحويل الأموال عبر الإنترنت"
+  /// ```
+  String get dont_transfer_money => """لا تقم بتحويل الأموال عبر الإنترنت""";
+
+  /// ```dart
+  /// "قابل البائع شخصياً"
+  /// ```
+  String get meet_in_person => """قابل البائع شخصياً""";
+}
+
+class SellerdetailsMessagesAr extends SellerdetailsMessages {
+  final MessagesAr _parent;
+  const SellerdetailsMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "حول البائع"
+  /// ```
+  String get about_seller => """حول البائع""";
+
+  /// ```dart
+  /// "لم يتم العثور على المستخدم"
+  /// ```
+  String get user_not_found => """لم يتم العثور على المستخدم""";
+
+  /// ```dart
+  /// "واتساب"
+  /// ```
+  String get whatsapp => """واتساب""";
+
+  /// ```dart
+  /// "اتصال"
+  /// ```
+  String get phone_call => """اتصال""";
+}
+
+class PlatesdetailsMessagesAr extends PlatesdetailsMessages {
+  final MessagesAr _parent;
+  const PlatesdetailsMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "تفاصيل رقم السيارة"
+  /// ```
+  String get title => """تفاصيل رقم السيارة""";
+
+  /// ```dart
+  /// "حدث خطأ أثناء جلب بيانات الرقم: {plateNumber}"
+  /// ```
+  String get error_loading_data =>
+      """حدث خطأ أثناء جلب بيانات الرقم: {plateNumber}""";
+
+  /// ```dart
+  /// "نُشر بواسطة"
+  /// ```
+  String get originally_posted_by => """نُشر بواسطة""";
+
+  /// ```dart
+  /// "عضو منذ {year}"
+  /// ```
+  String get member_since => """عضو منذ {year}""";
+
+  /// ```dart
+  /// "واتساب"
+  /// ```
+  String get whatsapp => """واتساب""";
+
+  /// ```dart
+  /// "اتصال"
+  /// ```
+  String get call => """اتصال""";
+
+  /// ```dart
+  /// "بائعون آخرون"
+  /// ```
+  String get other_sellers => """بائعون آخرون""";
+
+  /// ```dart
+  /// "البائع"
+  /// ```
+  String get seller => """البائع""";
+
+  /// ```dart
+  /// "السعر"
+  /// ```
+  String get price => """السعر""";
+
+  /// ```dart
+  /// "تواصل"
+  /// ```
+  String get contact => """تواصل""";
+
+  /// ```dart
+  /// "ملاحظة هامة:"
+  /// ```
+  String get important_note => """ملاحظة هامة:""";
+
+  /// ```dart
+  /// "لا تقم بتحويل الأموال عبر الإنترنت"
+  /// ```
+  String get dont_transfer_money => """لا تقم بتحويل الأموال عبر الإنترنت""";
+
+  /// ```dart
+  /// "قابل البائع شخصياً"
+  /// ```
+  String get meet_in_person => """قابل البائع شخصياً""";
+
+  /// ```dart
+  /// "منذ {days}"
+  /// ```
+  String get days_ago => """منذ {days}""";
+
+  /// ```dart
+  /// "اتصل لمعرفة السعر"
+  /// ```
+  String get call_for_price => """اتصل لمعرفة السعر""";
+}
+
 Map<String, String> get messagesArMap => {
   """app.title""": """Joplate""",
   """home.welcome""": """مرحبًا بك في Joplate!""",
@@ -1051,4 +1190,31 @@ Map<String, String> get messagesArMap => {
   """addplaterequest.cancel_button""": """إلغاء""",
   """addplaterequest.required_plate_number""": """رقم السيارة مطلوب""",
   """addplaterequest.optional_price""": """السعر اختياري""",
+  """phonedetails.title""": """تفاصيل رقم الهاتف""",
+  """phonedetails.share_message""": """اطلع على رقم اللوحة هذا: {number}""",
+  """phonedetails.important_note""": """ملاحظات هامة:""",
+  """phonedetails.dont_transfer_money""":
+      """لا تقم بتحويل الأموال عبر الإنترنت""",
+  """phonedetails.meet_in_person""": """قابل البائع شخصياً""",
+  """sellerdetails.about_seller""": """حول البائع""",
+  """sellerdetails.user_not_found""": """لم يتم العثور على المستخدم""",
+  """sellerdetails.whatsapp""": """واتساب""",
+  """sellerdetails.phone_call""": """اتصال""",
+  """platesdetails.title""": """تفاصيل رقم السيارة""",
+  """platesdetails.error_loading_data""":
+      """حدث خطأ أثناء جلب بيانات الرقم: {plateNumber}""",
+  """platesdetails.originally_posted_by""": """نُشر بواسطة""",
+  """platesdetails.member_since""": """عضو منذ {year}""",
+  """platesdetails.whatsapp""": """واتساب""",
+  """platesdetails.call""": """اتصال""",
+  """platesdetails.other_sellers""": """بائعون آخرون""",
+  """platesdetails.seller""": """البائع""",
+  """platesdetails.price""": """السعر""",
+  """platesdetails.contact""": """تواصل""",
+  """platesdetails.important_note""": """ملاحظة هامة:""",
+  """platesdetails.dont_transfer_money""":
+      """لا تقم بتحويل الأموال عبر الإنترنت""",
+  """platesdetails.meet_in_person""": """قابل البائع شخصياً""",
+  """platesdetails.days_ago""": """منذ {days}""",
+  """platesdetails.call_for_price""": """اتصل لمعرفة السعر""",
 };
