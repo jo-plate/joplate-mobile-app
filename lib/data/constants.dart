@@ -10,7 +10,7 @@ const phoneNumbersCollectionId = 'phoneNumbers';
 
 // cloud functions
 const signupCF = 'signUpUser';
-const createListingCF = 'createListing';
+const createListingCF = 'createListingV2';
 const postRequestCF = 'postRequest';
 const updateListingCF = 'updateListing';
 

@@ -91,8 +91,8 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
       final input = AddPlateNumberInput(
         code: form.code,
         number: form.number,
-        price: int.parse(form.price),
-        discountPrice: form.withDiscount ? int.tryParse(form.discountPrice ?? '') : null,
+        price: double.parse(form.price),
+        discountPrice: form.withDiscount ? double.tryParse(form.discountPrice ?? '') : null,
         isFeatured: form.isFeatured,
       );
 
@@ -104,7 +104,7 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
         priceNegotiable: true,
         priceHidden: false,
         isFeatured: input.isFeatured,
-        itemData: {
+        item: {
           "code": input.code,
           "number": input.number,
         },

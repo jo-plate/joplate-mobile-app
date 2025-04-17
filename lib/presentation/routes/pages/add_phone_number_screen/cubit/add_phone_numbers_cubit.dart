@@ -107,8 +107,8 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
 
       final input = AddPhoneNumberInput(
         number: form.number,
-        price: int.parse(form.price),
-        discountPrice: form.withDiscount ? int.tryParse(form.discountPrice ?? '') : null,
+        price: double.parse(form.price),
+        discountPrice: form.withDiscount ? double.tryParse(form.discountPrice ?? '') : null,
       );
 
       final addListingDto = AddListingDto(
@@ -119,7 +119,7 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
         priceNegotiable: true,
         priceHidden: false,
         isFeatured: false,
-        itemData: {"number": input.number},
+        item: {"number": input.number},
       );
 
       try {

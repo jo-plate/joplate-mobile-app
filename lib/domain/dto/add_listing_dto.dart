@@ -7,6 +7,7 @@ part 'add_listing_dto.g.dart';
 enum ItemType {
   @JsonValue("plateNumber")
   plateNumber,
+
   @JsonValue("phoneNumber")
   phoneNumber,
 }
@@ -15,6 +16,7 @@ enum ItemType {
 enum ListingType {
   @JsonValue("request")
   request,
+
   @JsonValue("ad")
   ad,
 }
@@ -34,32 +36,8 @@ class AddListingDto with _$AddListingDto {
     required bool priceNegotiable,
     required bool priceHidden,
     required bool isFeatured,
-    required dynamic itemData,
+    required Map<String, dynamic> item,
   }) = _AddListingDto;
 
   factory AddListingDto.fromJson(Map<String, dynamic> json) => _$AddListingDtoFromJson(json);
-}
-
-@freezed
-class UpdateListingDto with _$UpdateListingDto {
-  const factory UpdateListingDto({
-    required String listingId,
-    double? price,
-    double? discountPrice,
-    bool? priceNegotiable,
-    bool? priceHidden,
-    bool? isFeatured,
-  }) = _UpdateListingDto;
-
-  factory UpdateListingDto.fromJson(Map<String, dynamic> json) => _$UpdateListingDtoFromJson(json);
-}
-
-@freezed
-class DeleteListingDto with _$DeleteListingDto {
-  const factory DeleteListingDto({
-    required String listingId,
-    required bool disabled,
-  }) = _DeleteListingDto;
-
-  factory DeleteListingDto.fromJson(Map<String, dynamic> json) => _$DeleteListingDtoFromJson(json);
 }

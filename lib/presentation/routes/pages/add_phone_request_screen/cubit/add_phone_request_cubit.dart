@@ -41,13 +41,13 @@ class AddPhoneRequestCubit extends Cubit<PhoneRequestState> {
 
       final addListingDto = AddListingDto(
         price: priceVal ?? 0.0,
-        discountPrice: 0, // no discount for requests
+        discountPrice: 0, 
         listingType: ListingType.request,
         itemType: ItemType.phoneNumber,
         priceNegotiable: true,
         priceHidden: false,
         isFeatured: false,
-        itemData: {
+        item: {
           "number": state.phoneNumber,
         },
       );

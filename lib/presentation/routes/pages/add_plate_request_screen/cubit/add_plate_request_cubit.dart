@@ -1,5 +1,3 @@
-// lib/presentation/routes/pages/add_plate_request_screen/cubit/add_plate_request_cubit.dart
-
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'add_plate_request_state.dart';
@@ -21,9 +19,7 @@ class AddPlateRequestCubit extends Cubit<PlateRequestState> {
     emit(state.copyWith(price: price, errorMessage: null));
   }
 
-  /// Submit the plate request
   Future<void> submitRequest() async {
-    // Basic validation
     if (state.code.isEmpty || state.number.isEmpty) {
       emit(state.copyWith(errorMessage: 'Code and Number are required'));
       return;
@@ -32,28 +28,26 @@ class AddPlateRequestCubit extends Cubit<PlateRequestState> {
     emit(state.copyWith(isSubmitting: true, errorMessage: null));
 
     try {
-      // Convert optional price
       final priceVal = (state.price?.isNotEmpty == true) ? double.tryParse(state.price!) : 0.0;
 
-      final addListingDto = AddListingDto(
+      final dto = AddListingDto(
         price: priceVal ?? 0.0,
-        discountPrice: 0, // no discount for requests
+        discountPrice: 0,
         listingType: ListingType.request,
         itemType: ItemType.plateNumber,
         priceNegotiable: true,
         priceHidden: false,
         isFeatured: false,
-        itemData: {
+        item: {
           "code": state.code,
           "number": state.number,
         },
       );
 
       final callable = FirebaseFunctions.instance.httpsCallable(postRequestCF);
-      final response = await callable.call(addListingDto.toJson());
+      final response = await callable.call(dto.toJson());
 
       if (response.data != null && response.data['success'] == true) {
-        // success -> reset the form
         emit(const PlateRequestState());
       } else {
         emit(state.copyWith(
