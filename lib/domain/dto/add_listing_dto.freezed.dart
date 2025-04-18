@@ -24,8 +24,6 @@ mixin _$AddListingDto {
   double get discountPrice => throw _privateConstructorUsedError;
   ListingType get listingType => throw _privateConstructorUsedError;
   ItemType get itemType => throw _privateConstructorUsedError;
-  bool get priceNegotiable => throw _privateConstructorUsedError;
-  bool get priceHidden => throw _privateConstructorUsedError;
   bool get isFeatured => throw _privateConstructorUsedError;
   Map<String, dynamic> get item => throw _privateConstructorUsedError;
 
@@ -50,8 +48,6 @@ abstract class $AddListingDtoCopyWith<$Res> {
       double discountPrice,
       ListingType listingType,
       ItemType itemType,
-      bool priceNegotiable,
-      bool priceHidden,
       bool isFeatured,
       Map<String, dynamic> item});
 }
@@ -75,8 +71,6 @@ class _$AddListingDtoCopyWithImpl<$Res, $Val extends AddListingDto>
     Object? discountPrice = null,
     Object? listingType = null,
     Object? itemType = null,
-    Object? priceNegotiable = null,
-    Object? priceHidden = null,
     Object? isFeatured = null,
     Object? item = null,
   }) {
@@ -97,14 +91,6 @@ class _$AddListingDtoCopyWithImpl<$Res, $Val extends AddListingDto>
           ? _value.itemType
           : itemType // ignore: cast_nullable_to_non_nullable
               as ItemType,
-      priceNegotiable: null == priceNegotiable
-          ? _value.priceNegotiable
-          : priceNegotiable // ignore: cast_nullable_to_non_nullable
-              as bool,
-      priceHidden: null == priceHidden
-          ? _value.priceHidden
-          : priceHidden // ignore: cast_nullable_to_non_nullable
-              as bool,
       isFeatured: null == isFeatured
           ? _value.isFeatured
           : isFeatured // ignore: cast_nullable_to_non_nullable
@@ -130,8 +116,6 @@ abstract class _$$AddListingDtoImplCopyWith<$Res>
       double discountPrice,
       ListingType listingType,
       ItemType itemType,
-      bool priceNegotiable,
-      bool priceHidden,
       bool isFeatured,
       Map<String, dynamic> item});
 }
@@ -153,8 +137,6 @@ class __$$AddListingDtoImplCopyWithImpl<$Res>
     Object? discountPrice = null,
     Object? listingType = null,
     Object? itemType = null,
-    Object? priceNegotiable = null,
-    Object? priceHidden = null,
     Object? isFeatured = null,
     Object? item = null,
   }) {
@@ -175,14 +157,6 @@ class __$$AddListingDtoImplCopyWithImpl<$Res>
           ? _value.itemType
           : itemType // ignore: cast_nullable_to_non_nullable
               as ItemType,
-      priceNegotiable: null == priceNegotiable
-          ? _value.priceNegotiable
-          : priceNegotiable // ignore: cast_nullable_to_non_nullable
-              as bool,
-      priceHidden: null == priceHidden
-          ? _value.priceHidden
-          : priceHidden // ignore: cast_nullable_to_non_nullable
-              as bool,
       isFeatured: null == isFeatured
           ? _value.isFeatured
           : isFeatured // ignore: cast_nullable_to_non_nullable
@@ -203,8 +177,6 @@ class _$AddListingDtoImpl implements _AddListingDto {
       required this.discountPrice,
       required this.listingType,
       required this.itemType,
-      required this.priceNegotiable,
-      required this.priceHidden,
       required this.isFeatured,
       required final Map<String, dynamic> item})
       : _item = item;
@@ -221,10 +193,6 @@ class _$AddListingDtoImpl implements _AddListingDto {
   @override
   final ItemType itemType;
   @override
-  final bool priceNegotiable;
-  @override
-  final bool priceHidden;
-  @override
   final bool isFeatured;
   final Map<String, dynamic> _item;
   @override
@@ -236,7 +204,7 @@ class _$AddListingDtoImpl implements _AddListingDto {
 
   @override
   String toString() {
-    return 'AddListingDto(price: $price, discountPrice: $discountPrice, listingType: $listingType, itemType: $itemType, priceNegotiable: $priceNegotiable, priceHidden: $priceHidden, isFeatured: $isFeatured, item: $item)';
+    return 'AddListingDto(price: $price, discountPrice: $discountPrice, listingType: $listingType, itemType: $itemType, isFeatured: $isFeatured, item: $item)';
   }
 
   @override
@@ -251,10 +219,6 @@ class _$AddListingDtoImpl implements _AddListingDto {
                 other.listingType == listingType) &&
             (identical(other.itemType, itemType) ||
                 other.itemType == itemType) &&
-            (identical(other.priceNegotiable, priceNegotiable) ||
-                other.priceNegotiable == priceNegotiable) &&
-            (identical(other.priceHidden, priceHidden) ||
-                other.priceHidden == priceHidden) &&
             (identical(other.isFeatured, isFeatured) ||
                 other.isFeatured == isFeatured) &&
             const DeepCollectionEquality().equals(other._item, _item));
@@ -268,8 +232,6 @@ class _$AddListingDtoImpl implements _AddListingDto {
       discountPrice,
       listingType,
       itemType,
-      priceNegotiable,
-      priceHidden,
       isFeatured,
       const DeepCollectionEquality().hash(_item));
 
@@ -295,8 +257,6 @@ abstract class _AddListingDto implements AddListingDto {
       required final double discountPrice,
       required final ListingType listingType,
       required final ItemType itemType,
-      required final bool priceNegotiable,
-      required final bool priceHidden,
       required final bool isFeatured,
       required final Map<String, dynamic> item}) = _$AddListingDtoImpl;
 
@@ -311,10 +271,6 @@ abstract class _AddListingDto implements AddListingDto {
   ListingType get listingType;
   @override
   ItemType get itemType;
-  @override
-  bool get priceNegotiable;
-  @override
-  bool get priceHidden;
   @override
   bool get isFeatured;
   @override

@@ -33,8 +33,6 @@ class AddListingDto with _$AddListingDto {
     required double discountPrice,
     required ListingType listingType,
     required ItemType itemType,
-    required bool priceNegotiable,
-    required bool priceHidden,
     required bool isFeatured,
     required Map<String, dynamic> item,
   }) = _AddListingDto;

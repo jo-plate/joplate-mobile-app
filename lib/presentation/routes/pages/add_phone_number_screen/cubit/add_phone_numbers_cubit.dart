@@ -116,11 +116,10 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
         discountPrice: input.discountPrice?.toDouble() ?? 0,
         listingType: ListingType.ad,
         itemType: ItemType.phoneNumber,
-        priceNegotiable: true,
-        priceHidden: false,
         isFeatured: false,
         item: {"number": input.number},
       );
+      print('Adding phone number: ${addListingDto.toJson()}');
 
       try {
         final callable = FirebaseFunctions.instance.httpsCallable(createListingCF);

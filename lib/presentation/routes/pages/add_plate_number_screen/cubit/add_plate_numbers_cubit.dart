@@ -101,8 +101,6 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
         discountPrice: input.discountPrice?.toDouble() ?? 0,
         listingType: ListingType.ad,
         itemType: ItemType.plateNumber,
-        priceNegotiable: true,
-        priceHidden: false,
         isFeatured: input.isFeatured,
         item: {
           "code": input.code,

@@ -35,8 +35,6 @@ class AddPlateRequestCubit extends Cubit<PlateRequestState> {
         discountPrice: 0,
         listingType: ListingType.request,
         itemType: ItemType.plateNumber,
-        priceNegotiable: true,
-        priceHidden: false,
         isFeatured: false,
         item: {
           "code": state.code,

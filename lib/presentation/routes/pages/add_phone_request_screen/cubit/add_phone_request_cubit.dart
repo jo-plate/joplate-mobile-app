@@ -44,8 +44,6 @@ class AddPhoneRequestCubit extends Cubit<PhoneRequestState> {
         discountPrice: 0, 
         listingType: ListingType.request,
         itemType: ItemType.phoneNumber,
-        priceNegotiable: true,
-        priceHidden: false,
         isFeatured: false,
         item: {
           "number": state.phoneNumber,
