@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:joplate/domain/entities/listing_v2.dart';
 import 'package:joplate/gen/assets.gen.dart';
 
 part 'phone_number.freezed.dart';
@@ -44,10 +43,7 @@ class PhoneNumber with _$PhoneNumber {
 
   const factory PhoneNumber({
     required String number,
-    @Default([]) List<ListingV2> ads,
   }) = _PhoneNumber;
-
-  bool get isFeatured => ads.any((a) => a.isFeatured);
 
   static List<PhoneNumber> mockList(int number) {
     return List.generate(
@@ -55,7 +51,6 @@ class PhoneNumber with _$PhoneNumber {
       (index) => PhoneNumber(
         // 079xxxxxxx
         number: '079${index.toString().padLeft(7, '5')}',
-        ads: [ListingV2.mockAd()],
       ),
     );
   }
@@ -70,7 +65,8 @@ class PhoneNumber with _$PhoneNumber {
     }
   }
 
-  factory PhoneNumber.fromJson(Map<String, dynamic> json) => _$PhoneNumberFromJson(json);
+  factory PhoneNumber.fromJson(Map<String, dynamic> json) =>
+      _$PhoneNumberFromJson(json);
 
   factory PhoneNumber.fromString(String phoneNumber) {
     return PhoneNumber(number: phoneNumber);

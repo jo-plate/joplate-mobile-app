@@ -4,7 +4,7 @@ import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_widget.dart';
 
 class PlateNumberRequestWidget extends StatelessWidget {
-  final Request<PlateNumber> item;
+  final PlateRequest item;
   final PlateShape shape;
   final double priceLabelFontSize;
   final bool hideLikeButton;

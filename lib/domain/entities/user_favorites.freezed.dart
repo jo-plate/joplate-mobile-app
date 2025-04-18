@@ -23,7 +23,7 @@ mixin _$UserFavorites {
   List<String> get favoritePhonesIds => throw _privateConstructorUsedError;
   List<String> get favoritePlatesIds => throw _privateConstructorUsedError;
   List<PhoneListing> get favoritePhones => throw _privateConstructorUsedError;
-  List<PlateNumber> get favoritePlates => throw _privateConstructorUsedError;
+  List<PlateListing> get favoritePlates => throw _privateConstructorUsedError;
 
   /// Serializes this UserFavorites to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -45,7 +45,7 @@ abstract class $UserFavoritesCopyWith<$Res> {
       {List<String> favoritePhonesIds,
       List<String> favoritePlatesIds,
       List<PhoneListing> favoritePhones,
-      List<PlateNumber> favoritePlates});
+      List<PlateListing> favoritePlates});
 }
 
 /// @nodoc
@@ -84,7 +84,7 @@ class _$UserFavoritesCopyWithImpl<$Res, $Val extends UserFavorites>
       favoritePlates: null == favoritePlates
           ? _value.favoritePlates
           : favoritePlates // ignore: cast_nullable_to_non_nullable
-              as List<PlateNumber>,
+              as List<PlateListing>,
     ) as $Val);
   }
 }
@@ -101,7 +101,7 @@ abstract class _$$UserFavoritesImplCopyWith<$Res>
       {List<String> favoritePhonesIds,
       List<String> favoritePlatesIds,
       List<PhoneListing> favoritePhones,
-      List<PlateNumber> favoritePlates});
+      List<PlateListing> favoritePlates});
 }
 
 /// @nodoc
@@ -138,7 +138,7 @@ class __$$UserFavoritesImplCopyWithImpl<$Res>
       favoritePlates: null == favoritePlates
           ? _value._favoritePlates
           : favoritePlates // ignore: cast_nullable_to_non_nullable
-              as List<PlateNumber>,
+              as List<PlateListing>,
     ));
   }
 }
@@ -150,7 +150,7 @@ class _$UserFavoritesImpl extends _UserFavorites {
       {final List<String> favoritePhonesIds = const [],
       final List<String> favoritePlatesIds = const [],
       final List<PhoneListing> favoritePhones = const [],
-      final List<PlateNumber> favoritePlates = const []})
+      final List<PlateListing> favoritePlates = const []})
       : _favoritePhonesIds = favoritePhonesIds,
         _favoritePlatesIds = favoritePlatesIds,
         _favoritePhones = favoritePhones,
@@ -189,10 +189,10 @@ class _$UserFavoritesImpl extends _UserFavorites {
     return EqualUnmodifiableListView(_favoritePhones);
   }
 
-  final List<PlateNumber> _favoritePlates;
+  final List<PlateListing> _favoritePlates;
   @override
   @JsonKey()
-  List<PlateNumber> get favoritePlates {
+  List<PlateListing> get favoritePlates {
     if (_favoritePlates is EqualUnmodifiableListView) return _favoritePlates;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_favoritePlates);
@@ -248,7 +248,7 @@ abstract class _UserFavorites extends UserFavorites {
       {final List<String> favoritePhonesIds,
       final List<String> favoritePlatesIds,
       final List<PhoneListing> favoritePhones,
-      final List<PlateNumber> favoritePlates}) = _$UserFavoritesImpl;
+      final List<PlateListing> favoritePlates}) = _$UserFavoritesImpl;
   const _UserFavorites._() : super._();
 
   factory _UserFavorites.fromJson(Map<String, dynamic> json) =
@@ -261,7 +261,7 @@ abstract class _UserFavorites extends UserFavorites {
   @override
   List<PhoneListing> get favoritePhones;
   @override
-  List<PlateNumber> get favoritePlates;
+  List<PlateListing> get favoritePlates;
 
   /// Create a copy of UserFavorites
   /// with the given fields replaced by the non-null parameter values.

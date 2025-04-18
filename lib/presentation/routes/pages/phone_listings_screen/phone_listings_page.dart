@@ -42,7 +42,7 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
         .listen((snap) {
       setState(() {
         _allPhones = snap.docs
-            .map((d) => PhoneListing.fromJson({'id': d.id, ...d.data()}))
+            .map((d) => PhoneListing.fromSnapshot(d))
             .toList();
       });
     });

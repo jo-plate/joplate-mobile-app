@@ -25,17 +25,17 @@ class _PlateRequestsByUserIdState extends State<PlateRequestsByUserId> {
         .map((snapshot) => snapshot.docs.map((doc) {
               final data = doc.data();
               data['id'] = doc.id;
-              return Request<PlateNumber>.fromJson(data);
+              return PlateRequest.fromJson(data);
             }).toList());
   }
 
-  late final Stream<List<Request<PlateNumber>>> userPlatesStream;
+  late final Stream<List<PlateRequest>> userPlatesStream;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: StreamBuilder<List<Request<PlateNumber>>>(
+        child: StreamBuilder<List<PlateRequest>>(
             stream: userPlatesStream,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

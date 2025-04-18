@@ -6,35 +6,38 @@ part of 'request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$RequestImpl<T> _$$RequestImplFromJson<T>(Map<String, dynamic> json) =>
-    _$RequestImpl<T>(
+_$PhoneRequestImpl _$$PhoneRequestImplFromJson(Map<String, dynamic> json) =>
+    _$PhoneRequestImpl(
       id: json['id'] as String,
       price: (json['price'] as num?)?.toDouble() ?? 0,
-      itemType: $enumDecode(_$ItemTypeEnumMap, json['itemType']),
-      priceHidden: json['priceHidden'] as bool? ?? false,
-      isSold: json['isSold'] as bool? ?? false,
+      isDisabled: json['isDisabled'] as bool? ?? false,
       userId: json['userId'] as String,
-      phoneNumber: json['phoneNumber'] == null
-          ? null
-          : PhoneNumber.fromJson(json['phoneNumber'] as Map<String, dynamic>),
-      plateNumber: json['plateNumber'] == null
-          ? null
-          : PlateNumber.fromJson(json['plateNumber'] as Map<String, dynamic>),
+      item: PhoneNumber.fromJson(json['item'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$RequestImplToJson<T>(_$RequestImpl<T> instance) =>
+Map<String, dynamic> _$$PhoneRequestImplToJson(_$PhoneRequestImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'price': instance.price,
-      'itemType': _$ItemTypeEnumMap[instance.itemType]!,
-      'priceHidden': instance.priceHidden,
-      'isSold': instance.isSold,
+      'isDisabled': instance.isDisabled,
       'userId': instance.userId,
-      'phoneNumber': instance.phoneNumber,
-      'plateNumber': instance.plateNumber,
+      'item': instance.item,
     };
 
-const _$ItemTypeEnumMap = {
-  ItemType.plateNumber: 'plateNumber',
-  ItemType.phoneNumber: 'phoneNumber',
-};
+_$PlateRequestImpl _$$PlateRequestImplFromJson(Map<String, dynamic> json) =>
+    _$PlateRequestImpl(
+      id: json['id'] as String,
+      price: (json['price'] as num?)?.toDouble() ?? 0,
+      isDisabled: json['isDisabled'] as bool? ?? false,
+      userId: json['userId'] as String,
+      item: PlateNumber.fromJson(json['item'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$PlateRequestImplToJson(_$PlateRequestImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'price': instance.price,
+      'isDisabled': instance.isDisabled,
+      'userId': instance.userId,
+      'item': instance.item,
+    };

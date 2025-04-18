@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
-import 'package:joplate/domain/entities/plate_number.dart';
+import 'package:joplate/domain/entities/plate_listing.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plates_listing_grid.dart';
 
 class PlateListingsByUserId extends StatefulWidget {
@@ -19,17 +19,19 @@ class _PlateListingsByUserIdState extends State<PlateListingsByUserId> {
     super.initState();
     userPlatesStream = FirebaseFirestore.instance
         .collection(carPlatesCollectionId)
-        .where('adsUserIds', arrayContains: widget.userId)
+        .where('userId', isEqualTo: widget.userId)
         .snapshots()
-        .map((snapshot) => snapshot.docs.map((doc) => PlateNumber.fromJson(doc.data())).toList());
+        .map((snapshot) => snapshot.docs
+            .map((doc) => PlateListing.fromSnapshot(doc))
+            .toList());
   }
 
-  late final Stream<List<PlateNumber>> userPlatesStream;
+  late final Stream<List<PlateListing>> userPlatesStream;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-        child: StreamBuilder<List<PlateNumber>>(
+        child: StreamBuilder<List<PlateListing>>(
             stream: userPlatesStream,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

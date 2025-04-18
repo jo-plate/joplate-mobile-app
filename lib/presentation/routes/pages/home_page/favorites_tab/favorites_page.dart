@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/phone_listing.dart';
-import 'package:joplate/domain/entities/plate_number.dart';
+import 'package:joplate/domain/entities/plate_listing.dart';
 import 'package:joplate/domain/entities/user_favorites.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/home_page/profile_tab/ui/anon_user_view.dart';
@@ -20,7 +20,8 @@ class FavoritesPage extends StatefulWidget {
   State<FavoritesPage> createState() => _FavoritesPageState();
 }
 
-class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProviderStateMixin {
+class _FavoritesPageState extends State<FavoritesPage>
+    with SingleTickerProviderStateMixin {
 // init firestore streams
   late Stream<UserFavorites> favoritesStream;
   late final Stream<User?> userStream;
@@ -42,20 +43,22 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
         .map((snapshot) {
       return UserFavorites.fromJson(snapshot.data() ?? {});
     }).asyncMap((snapshot) async {
-      final List<PlateNumber> plates = await Future.wait(
+      final List<PlateListing> plates = await Future.wait(
         snapshot.favoritePlates.map((id) async {
-          final plate = await FirebaseFirestore.instance.collection(carPlatesCollectionId).doc(id.toString()).get();
-          final plateDict = plate.data() ?? {};
-          plateDict['id'] = id.toString();
-          return PlateNumber.fromJson(plateDict);
+          final plate = await FirebaseFirestore.instance
+              .collection(carPlatesCollectionId)
+              .doc(id.toString())
+              .get();
+          return PlateListing.fromSnapshot(plate);
         }),
       );
       final List<PhoneListing> phones = await Future.wait(
         snapshot.favoritePhones.map((id) async {
-          final phone = await FirebaseFirestore.instance.collection(phoneNumbersCollectionId).doc(id.id).get();
-          final phoneDict = phone.data()!;
-          phoneDict['id'] = id;
-          return PhoneListing.fromJson({...phoneDict, 'id': id});
+          final phone = await FirebaseFirestore.instance
+              .collection(phoneNumbersCollectionId)
+              .doc(id.id)
+              .get();
+          return PhoneListing.fromSnapshot(phone);
         }),
       );
       return snapshot.copyWith(favoritePlates: plates, favoritePhones: phones);
@@ -104,17 +107,21 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
                   return const Center(child: CircularProgressIndicator());
                 }
 
-                if (snapshot.hasError || !snapshot.hasData || snapshot.data?.data() == null) {
+                if (snapshot.hasError ||
+                    !snapshot.hasData ||
+                    snapshot.data?.data() == null) {
                   return Center(child: Text(m.favoritesSc.no_favorites));
                 }
 
                 // Convert snapshot to UserFavorites
-                final userFavorites = UserFavorites.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+                final userFavorites = UserFavorites.fromJson(
+                    snapshot.data!.data() as Map<String, dynamic>);
 
-                return FutureBuilder<List<PlateNumber>>(
+                return FutureBuilder<List<PlateListing>>(
                   future: fetchPlates(userFavorites.favoritePlatesIds),
                   builder: (context, plateSnapshot) {
-                    if (plateSnapshot.connectionState == ConnectionState.waiting) {
+                    if (plateSnapshot.connectionState ==
+                        ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     }
 
@@ -125,12 +132,16 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
                     return FutureBuilder<List<PhoneListing>>(
                       future: fetchPhones(userFavorites.favoritePhones),
                       builder: (context, phoneSnapshot) {
-                        if (phoneSnapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(child: CircularProgressIndicator());
+                        if (phoneSnapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator());
                         }
 
-                        if (phoneSnapshot.hasError || phoneSnapshot.data == null) {
-                          return Center(child: Text(m.favoritesSc.failed_to_load));
+                        if (phoneSnapshot.hasError ||
+                            phoneSnapshot.data == null) {
+                          return Center(
+                              child: Text(m.favoritesSc.failed_to_load));
                         }
 
                         return TabBarView(
@@ -138,13 +149,17 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
                           children: [
                             SingleChildScrollView(
                                 child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                              child: PlatesListingsGrid(itemList: plateSnapshot.data ?? []),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
+                              child: PlatesListingsGrid(
+                                  itemList: plateSnapshot.data ?? []),
                             )),
                             SingleChildScrollView(
                                 child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                              child: PhonesListingGrid(itemList: phoneSnapshot.data ?? []),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
+                              child: PhonesListingGrid(
+                                  itemList: phoneSnapshot.data ?? []),
                             )),
                           ],
                         );

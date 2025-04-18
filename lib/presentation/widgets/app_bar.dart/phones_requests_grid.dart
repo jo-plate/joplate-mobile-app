@@ -10,7 +10,7 @@ class PhonesRequestsGrid extends StatelessWidget {
     required this.itemList,
   });
 
-  final List<Request<PhoneNumber>> itemList;
+  final List<PhoneRequest> itemList;
 
   @override
   Widget build(BuildContext context) {

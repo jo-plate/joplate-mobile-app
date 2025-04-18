@@ -25,18 +25,18 @@ class _PhoneRequestsByUserIdState extends State<PhoneRequestsByUserId> {
         .map((snapshot) => snapshot.docs.map((doc) {
               final data = doc.data();
               data['id'] = doc.id;
-              return Request<PhoneNumber>.fromJson(data);
+              return PhoneRequest.fromJson(data);
             }).toList());
   }
 
-  late final Stream<List<Request<PhoneNumber>>> userPhonesStream;
+  late final Stream<List<PhoneRequest>> userPhonesStream;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
 
-        child: StreamBuilder<List<Request<PhoneNumber>>>(
+        child: StreamBuilder<List<PhoneRequest>>(
             stream: userPhonesStream,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

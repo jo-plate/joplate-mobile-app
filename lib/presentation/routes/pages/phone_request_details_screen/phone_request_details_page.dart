@@ -15,7 +15,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 class PhoneRequestDetailsPage extends StatefulWidget {
   const PhoneRequestDetailsPage({super.key, required this.phoneNumberRequest});
 
-  final Request<PhoneNumber> phoneNumberRequest;
+  final PhoneRequest phoneNumberRequest;
 
   @override
   State<PhoneRequestDetailsPage> createState() => _PhoneRequestDetailsPageState();

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
@@ -12,41 +13,67 @@ enum ListingType { request, ad }
   fromJson: true,
   toJson: true,
 )
-class Request<T> with _$Request {
-  Request._();
+class PhoneRequest with _$PhoneRequest {
+  PhoneRequest._();
 
-  factory Request({
+  factory PhoneRequest({
     required String id,
     @Default(0) double price,
-    required ItemType itemType,
-    @Default(false) bool priceHidden,
-    @Default(false) bool isSold,
+    @Default(false) bool isDisabled,
     required String userId,
-    PhoneNumber? phoneNumber,
-    PlateNumber? plateNumber,
-  }) = _Request;
+    required PhoneNumber item,
+  }) = _PhoneRequest;
 
-  factory Request.fromJson(Map<String, dynamic> json) => _$RequestFromJson(json);
+  factory PhoneRequest.fromJson(Map<String, dynamic> json) =>
+      _$PhoneRequestFromJson(json);
 
-  static Request<PlateNumber> mockPlateAd() {
-    return Request(
-      id: "mockPlateId",
-      price: 15000.0,
-      itemType: ItemType.plateNumber,
-      userId: 'mockUser',
-      priceHidden: false,
-      plateNumber: PlateNumber.mockList(1).first,
-    );
-  }
+  factory PhoneRequest.fromSnapshot(DocumentSnapshot snapshot) =>
+      PhoneRequest.fromJson(
+          {'id': snapshot.id, ...snapshot.data() as Map<String, dynamic>});
 
-  static Request<PhoneNumber> mockPhoneAd() {
-    return Request(
+  static PhoneRequest mockPhoneRequest() {
+    return PhoneRequest(
         id: "mockPhoneId",
         price: 5000.0,
-        itemType: ItemType.phoneNumber,
-        priceHidden: false,
-        phoneNumber: PhoneNumber.mockList(1).first,
+        item: PhoneNumber.mockList(1).first,
         userId: 'mockUser');
+  }
+
+  @override
+  Map<String, dynamic> toJson() => toJson();
+}
+
+@Freezed(
+  fromJson: true,
+  toJson: true,
+)
+class PlateRequest with _$PlateRequest {
+  PlateRequest._();
+
+  factory PlateRequest({
+    required String id,
+    @Default(0) double price,
+    @Default(false) bool isDisabled,
+    required String userId,
+    required PlateNumber item,
+  }) = _PlateRequest;
+
+  bool get priceHidden => price == 0;
+
+  factory PlateRequest.fromJson(Map<String, dynamic> json) =>
+      _$PlateRequestFromJson(json);
+
+  factory PlateRequest.fromSnapshot(DocumentSnapshot snapshot) =>
+      PlateRequest.fromJson(
+          {'id': snapshot.id, ...snapshot.data() as Map<String, dynamic>});
+
+  static PlateRequest mockPlateRequest() {
+    return PlateRequest(
+      id: "mockPlateId",
+      price: 15000.0,
+      userId: 'mockUser',
+      item: PlateNumber.mockList(1).first,
+    );
   }
 
   @override

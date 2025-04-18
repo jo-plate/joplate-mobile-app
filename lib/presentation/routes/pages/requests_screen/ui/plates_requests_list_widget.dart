@@ -13,7 +13,7 @@ class PlatesRequestsListWidget extends StatefulWidget {
 }
 
 class _PlatesRequestsListWidgetState extends State<PlatesRequestsListWidget> {
-  late final Stream<List<Request<PlateNumber>>> platesRequestsStream;
+  late final Stream<List<PlateRequest>> platesRequestsStream;
 
   @override
   void initState() {
@@ -23,7 +23,7 @@ class _PlatesRequestsListWidgetState extends State<PlatesRequestsListWidget> {
       return snapshot.docs.map((doc) {
         final data = doc.data();
         data['id'] = doc.id;
-        return Request<PlateNumber>.fromJson(data);
+        return PlateRequest.fromJson(data);
       }).toList();
     });
   }

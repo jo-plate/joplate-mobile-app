@@ -11,7 +11,7 @@ class PlatesRequestGrid extends StatelessWidget {
     required this.itemList,
   });
 
-  final List<Request<PlateNumber>> itemList;
+  final List<PlateRequest> itemList;
 
   @override
   Widget build(BuildContext context) {

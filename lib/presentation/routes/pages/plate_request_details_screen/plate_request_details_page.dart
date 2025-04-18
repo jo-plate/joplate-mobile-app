@@ -4,35 +4,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phone_dialer/flutter_phone_dialer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:joplate/data/constants.dart';
-import 'package:joplate/domain/entities/plate_number.dart';
+import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
-import 'package:joplate/presentation/routes/router.dart';
-import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_listing_widget.dart';
-import 'package:joplate/presentation/widgets/favorite_button.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_request_widget.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 @RoutePage()
 class PlatesDetailsPage extends StatefulWidget {
-  const PlatesDetailsPage({super.key, @PathParam('plateNumber') required this.plateNumber});
+  const PlatesDetailsPage(
+      {super.key, @PathParam('requestId') required this.requestId});
 
-  final String plateNumber;
+  final String requestId;
 
   @override
   State<PlatesDetailsPage> createState() => _PlatesDetailsPageState();
 }
 
 class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
-  late final Stream<PlateNumber> _plateStream;
+  late final Stream<PlateRequest> _plateStream;
 
   @override
   void initState() {
     super.initState();
     _plateStream = FirebaseFirestore.instance
         .collection(carPlatesCollectionId)
-        .doc(widget.plateNumber.toString())
+        .doc(widget.requestId)
         .snapshots()
-        .map((snapshot) => PlateNumber.fromJson(snapshot.data()!));
+        .map((snapshot) => PlateRequest.fromSnapshot(snapshot));
   }
 
   @override
@@ -40,8 +38,8 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Plate Request Details'),
-        actions: [
-          FavoriteButton.plate(listingId: widget.plateNumber.toString()),
+        actions: const [
+          // FavoriteButton.plate(listingId: widget.plate.toString()),
           // IconButton(
           //   icon: const Icon(Icons.share_outlined),
           //   onPressed: () {
@@ -50,14 +48,17 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
           // ),
         ],
       ),
-      body: StreamBuilder<PlateNumber>(
+      body: StreamBuilder<PlateRequest>(
           stream: _plateStream,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Padding(
-                padding: EdgeInsets.only(left: 24.0, right: 24, top: MediaQuery.of(context).size.height / 4),
+                padding: EdgeInsets.only(
+                    left: 24.0,
+                    right: 24,
+                    top: MediaQuery.of(context).size.height / 4),
                 child: Text(
-                  'Error getteing data for Plate Number: ${widget.plateNumber}',
+                  'Error getteing data for Request',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.red[800],
@@ -73,20 +74,21 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
             }
 
             return SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
                     height: 180,
-                    child: PlateNumberListingWidget(
+                    child: PlateNumberRequestWidget(
                       item: snapshot.data!,
                       hideLikeButton: true,
                       priceLabelFontSize: 24,
                     ),
                   ),
                   const SizedBox(height: 20),
-                  SellerDetails(userId: snapshot.data!.originalListing.id),
+                  SellerDetails(userId: snapshot.data!.userId),
                   const SizedBox(height: 20),
                   Container(
                     padding: const EdgeInsets.all(16.0),
@@ -115,7 +117,8 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                       children: [
                         Text(
                           'Important Note:',
-                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 10),
                         Row(
@@ -169,8 +172,11 @@ class _SellerDetailsState extends State<SellerDetails> {
   @override
   void initState() {
     super.initState();
-    userProfileStream =
-        FirebaseFirestore.instance.collection(userProfileCollectionId).doc(widget.userId).snapshots().map((snapshot) {
+    userProfileStream = FirebaseFirestore.instance
+        .collection(userProfileCollectionId)
+        .doc(widget.userId)
+        .snapshots()
+        .map((snapshot) {
       return UserProfile.fromJson(snapshot.data() ?? {});
     });
   }
@@ -286,7 +292,8 @@ class _SellerDetailsState extends State<SellerDetails> {
                         ),
                         child: InkWell(
                           onTap: () {
-                            launchUrlString("https://wa.me/${userProfile.phonenumber}",
+                            launchUrlString(
+                                "https://wa.me/${userProfile.phonenumber}",
                                 mode: LaunchMode.externalApplication);
                           },
                           borderRadius: BorderRadius.circular(8),
@@ -322,7 +329,8 @@ class _SellerDetailsState extends State<SellerDetails> {
                         ),
                         child: InkWell(
                           onTap: () {
-                            FlutterPhoneDialer.dialNumber(userProfile.phonenumber);
+                            FlutterPhoneDialer.dialNumber(
+                                userProfile.phonenumber);
                           },
                           borderRadius: BorderRadius.circular(8),
                           child: Row(

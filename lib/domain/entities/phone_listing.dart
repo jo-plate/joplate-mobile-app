@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
 
@@ -22,7 +23,11 @@ class PhoneListing with _$PhoneListing {
     required String userId,
   }) = _PhoneListing;
 
-  factory PhoneListing.fromJson(Map<String, dynamic> json) => _$PhoneListingFromJson(json);
+  factory PhoneListing.fromJson(Map<String, dynamic> json) =>
+      _$PhoneListingFromJson(json);
+  factory PhoneListing.fromSnapshot(DocumentSnapshot snapshot) =>
+      PhoneListing.fromJson(
+          {'id': snapshot.id, ...snapshot.data() as Map<String, dynamic>});
 
   bool get priceHidden => discountPrice == 0 && price == 0;
 

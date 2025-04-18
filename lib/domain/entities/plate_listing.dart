@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 
@@ -21,7 +22,11 @@ class PlateListing with _$PlateListing {
     required String userId,
   }) = _PlateListing;
 
-  factory PlateListing.fromJson(Map<String, dynamic> json) => _$PlateListingFromJson(json);
+  factory PlateListing.fromJson(Map<String, dynamic> json) =>
+      _$PlateListingFromJson(json);
+  factory PlateListing.fromSnapshot(DocumentSnapshot snapshot) =>
+      PlateListing.fromJson(
+          {'id': snapshot.id, ...snapshot.data() as Map<String, dynamic>});
 
   bool get priceHidden => discountPrice == 0 && price == 0;
 

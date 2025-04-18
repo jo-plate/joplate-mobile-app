@@ -13,7 +13,7 @@ class PhonesRequestsListWidget extends StatefulWidget {
 }
 
 class _PhonesRequestsListWidgetState extends State<PhonesRequestsListWidget> {
-  late final Stream<List<Request<PhoneNumber>>> phonesRequestsStream;
+  late final Stream<List<PhoneRequest>> phonesRequestsStream;
 
   @override
   void initState() {
@@ -23,7 +23,7 @@ class _PhonesRequestsListWidgetState extends State<PhonesRequestsListWidget> {
       return snapshot.docs.map((doc) {
         final data = doc.data();
         data['id'] = doc.id;
-        return Request<PhoneNumber>.fromJson(data);
+        return PhoneRequest.fromJson(data);
       }).toList();
     });
   }

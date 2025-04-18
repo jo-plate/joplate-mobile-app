@@ -6,7 +6,7 @@ import 'package:joplate/presentation/routes/router.dart';
 import 'package:stroke_text/stroke_text.dart';
 
 class PhoneNumberRequestWidget extends StatelessWidget {
-  final Request<PhoneNumber> item;
+  final PhoneRequest item;
   final double aspectRatio;
   final double priceLabelFontSize;
 

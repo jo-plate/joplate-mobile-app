@@ -521,7 +521,7 @@ class PhoneRequestDetailsRoute
     extends PageRouteInfo<PhoneRequestDetailsRouteArgs> {
   PhoneRequestDetailsRoute({
     Key? key,
-    required Request<PhoneNumber> phoneNumberRequest,
+    required PhoneRequest phoneNumberRequest,
     List<PageRouteInfo>? children,
   }) : super(
          PhoneRequestDetailsRoute.name,
@@ -554,7 +554,7 @@ class PhoneRequestDetailsRouteArgs {
 
   final Key? key;
 
-  final Request<PhoneNumber> phoneNumberRequest;
+  final PhoneRequest phoneNumberRequest;
 
   @override
   String toString() {
@@ -583,12 +583,12 @@ class PlansRoute extends PageRouteInfo<void> {
 class PlatesDetailsRoute extends PageRouteInfo<PlatesDetailsRouteArgs> {
   PlatesDetailsRoute({
     Key? key,
-    required String plateNumber,
+    required String listingId,
     List<PageRouteInfo>? children,
   }) : super(
          PlatesDetailsRoute.name,
-         args: PlatesDetailsRouteArgs(key: key, plateNumber: plateNumber),
-         rawPathParams: {'plateNumber': plateNumber},
+         args: PlatesDetailsRouteArgs(key: key, listingId: listingId),
+         rawPathParams: {'listingId': listingId},
          initialChildren: children,
        );
 
@@ -601,24 +601,24 @@ class PlatesDetailsRoute extends PageRouteInfo<PlatesDetailsRouteArgs> {
       final args = data.argsAs<PlatesDetailsRouteArgs>(
         orElse:
             () => PlatesDetailsRouteArgs(
-              plateNumber: pathParams.getString('plateNumber'),
+              listingId: pathParams.getString('listingId'),
             ),
       );
-      return PlatesDetailsPage(key: args.key, plateNumber: args.plateNumber);
+      return PlatesDetailsPage(key: args.key, listingId: args.listingId);
     },
   );
 }
 
 class PlatesDetailsRouteArgs {
-  const PlatesDetailsRouteArgs({this.key, required this.plateNumber});
+  const PlatesDetailsRouteArgs({this.key, required this.listingId});
 
   final Key? key;
 
-  final String plateNumber;
+  final String listingId;
 
   @override
   String toString() {
-    return 'PlatesDetailsRouteArgs{key: $key, plateNumber: $plateNumber}';
+    return 'PlatesDetailsRouteArgs{key: $key, listingId: $listingId}';
   }
 }
 

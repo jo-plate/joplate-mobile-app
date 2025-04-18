@@ -19,8 +19,8 @@ class RequestsPage extends StatefulWidget {
 }
 
 class _RequestsPageState extends State<RequestsPage> with SingleTickerProviderStateMixin {
-  late final Stream<List<Request<PlateNumber>>> platesRequestsStream;
-  late final Stream<List<Request<PhoneNumber>>> phonesRequestsStream;
+  late final Stream<List<PlateRequest>> platesRequestsStream;
+  late final Stream<List<PhoneRequest>> phonesRequestsStream;
   late final TabController tabController;
 
   @override
@@ -31,7 +31,7 @@ class _RequestsPageState extends State<RequestsPage> with SingleTickerProviderSt
       return snapshot.docs.map((doc) {
         final data = doc.data();
         data['id'] = doc.id;
-        return Request<PlateNumber>.fromJson(data);
+        return PlateRequest.fromJson(data);
       }).toList();
     });
     phonesRequestsStream =
@@ -39,7 +39,7 @@ class _RequestsPageState extends State<RequestsPage> with SingleTickerProviderSt
       return snapshot.docs.map((doc) {
         final data = doc.data();
         data['id'] = doc.id;
-        return Request<PhoneNumber>.fromJson(data);
+        return PhoneRequest.fromJson(data);
       }).toList();
     });
 

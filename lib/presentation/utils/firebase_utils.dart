@@ -1,26 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/phone_listing.dart';
-import 'package:joplate/domain/entities/phone_number.dart';
-import 'package:joplate/domain/entities/plate_number.dart';
+import 'package:joplate/domain/entities/plate_listing.dart';
 
-Future<List<PlateNumber>> fetchPlates(List<String> plateIds) async {
-  final List<PlateNumber?> plates = await Future.wait(
+Future<List<PlateListing>> fetchPlates(List<String> plateIds) async {
+  final List<PlateListing?> plates = await Future.wait(
     plateIds.map((id) async {
       final plateDoc = await FirebaseFirestore.instance
           .collection(carPlatesCollectionId)
           .doc(id)
           .get();
       if (plateDoc.exists) {
-        final plateDict = plateDoc.data() ?? {};
-        plateDict['id'] = id;
-        return PlateNumber.fromJson(plateDict);
+        return PlateListing.fromSnapshot(plateDoc);
       }
       return null;
     }),
   );
 
-  return plates.whereType<PlateNumber>().toList(); // Filter out null values
+  return plates.whereType<PlateListing>().toList(); // Filter out null values
 }
 
 Future<List<PhoneListing>> fetchPhones(List<PhoneListing> phoneIds) async {
@@ -31,8 +28,7 @@ Future<List<PhoneListing>> fetchPhones(List<PhoneListing> phoneIds) async {
           .doc(phone.id)
           .get();
       if (phoneDoc.exists) {
-        final phoneDict = phoneDoc.data() ?? {};
-        return PhoneListing.fromJson({...phoneDict, 'id': phoneDoc.id});
+        return PhoneListing.fromSnapshot(phoneDoc);
       }
       return null;
     }),

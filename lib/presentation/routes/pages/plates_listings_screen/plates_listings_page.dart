@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
-import 'package:joplate/domain/entities/plate_number.dart';
+import 'package:joplate/domain/entities/plate_listing.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plates_listing_grid.dart';
@@ -29,7 +29,13 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
   final _maxPriceController = TextEditingController();
 
   final List<String> _codes = ['10', '20', '30', '40', '50', '60', '70', '80'];
-  final List<String> _digitCounts = ['1 Digit', '2 Digits', '3 Digits', '4 Digits', '5 Digits'];
+  final List<String> _digitCounts = [
+    '1 Digit',
+    '2 Digits',
+    '3 Digits',
+    '4 Digits',
+    '5 Digits'
+  ];
   final List<String> formatList = [
     "Format",
     "Contains Digit Repeated 2 Times",
@@ -58,7 +64,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
     "XXX (3 Digits)",
   ];
 
-  late final Stream<List<PlateNumber>> _platesStream;
+  late final Stream<List<PlateListing>> _platesStream;
 
   @override
   void initState() {
@@ -66,9 +72,14 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
     // where ads array size > 0
     _platesStream = FirebaseFirestore.instance
         .collection(carPlatesCollectionId)
-        .where('adsCount', isGreaterThan: 0)
+        .where('isDisabled', isEqualTo: false)
+        
+        .orderBy('isFeatured', descending: true)
+        // .orderBy('isSold', descending: false)
         .snapshots()
-        .map((snapshot) => snapshot.docs.map((doc) => PlateNumber.fromJson(doc.data())).toList());
+        .map((snapshot) => snapshot.docs
+            .map((doc) => PlateListing.fromSnapshot(doc))
+            .toList());
   }
 
   InputDecoration get inputFieldStyle => InputDecoration(
@@ -85,7 +96,8 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
           borderRadius: BorderRadius.all(Radius.circular(8)),
           borderSide: BorderSide(color: Colors.red, width: 1.5),
         ),
-        contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       );
 
   @override
@@ -101,10 +113,11 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
             iconSize: 30,
             color: const Color(0xFF981C1E),
             onPressed: () {
-              if (FirebaseAuth.instance.currentUser == null)
-                {context.router.push(const AuthRoute());}
-              else{
-              context.router.push(const AddPlateNumberRoute());}
+              if (FirebaseAuth.instance.currentUser == null) {
+                context.router.push(const AuthRoute());
+              } else {
+                context.router.push(const AddPlateNumberRoute());
+              }
             },
           ),
         ],
@@ -121,9 +134,11 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                 children: [
                   Expanded(
                     child: DropdownButtonFormField<String>(
-                      decoration: inputFieldStyle.copyWith(labelText: m.plates.code),
+                      decoration:
+                          inputFieldStyle.copyWith(labelText: m.plates.code),
                       value: _selectedCode,
-                      icon: const Icon(Icons.arrow_drop_down, color: Colors.red),
+                      icon:
+                          const Icon(Icons.arrow_drop_down, color: Colors.red),
                       items: _codes.map((c) {
                         return DropdownMenuItem(
                           value: c,
@@ -136,9 +151,11 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: DropdownButtonFormField<String>(
-                      decoration: inputFieldStyle.copyWith(labelText: m.plates.digit_count),
+                      decoration: inputFieldStyle.copyWith(
+                          labelText: m.plates.digit_count),
                       value: _selectedDigits,
-                      icon: const Icon(Icons.arrow_drop_down, color: Colors.red),
+                      icon:
+                          const Icon(Icons.arrow_drop_down, color: Colors.red),
                       items: _digitCounts.map((d) {
                         return DropdownMenuItem(
                           value: d,
@@ -153,7 +170,8 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
               const SizedBox(height: 8),
 
               DropdownButtonFormField<String>(
-                decoration: inputFieldStyle.copyWith(labelText: m.plates.format),
+                decoration:
+                    inputFieldStyle.copyWith(labelText: m.plates.format),
                 value: _selectedFormat,
                 icon: const Icon(Icons.arrow_drop_down, color: Colors.red),
                 items: formatList.map((format) {
@@ -173,17 +191,20 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                     Expanded(
                         child: TextFormField(
                             controller: _containsController,
-                            decoration: inputFieldStyle.copyWith(labelText: m.plates.contains))),
+                            decoration: inputFieldStyle.copyWith(
+                                labelText: m.plates.contains))),
                     const SizedBox(width: 8),
                     Expanded(
                         child: TextFormField(
                             controller: _startsWithController,
-                            decoration: inputFieldStyle.copyWith(labelText: m.plates.starts_with))),
+                            decoration: inputFieldStyle.copyWith(
+                                labelText: m.plates.starts_with))),
                     const SizedBox(width: 8),
                     Expanded(
                         child: TextFormField(
                             controller: _endsWithController,
-                            decoration: inputFieldStyle.copyWith(labelText: m.plates.ends_with))),
+                            decoration: inputFieldStyle.copyWith(
+                                labelText: m.plates.ends_with))),
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -193,28 +214,33 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                         child: TextFormField(
                             controller: _minPriceController,
                             keyboardType: TextInputType.number,
-                            decoration: inputFieldStyle.copyWith(labelText: m.plates.min_price))),
+                            decoration: inputFieldStyle.copyWith(
+                                labelText: m.plates.min_price))),
                     const SizedBox(width: 8),
                     Expanded(
                         child: TextFormField(
                             controller: _maxPriceController,
                             keyboardType: TextInputType.number,
-                            decoration: inputFieldStyle.copyWith(labelText: m.plates.max_price))),
+                            decoration: inputFieldStyle.copyWith(
+                                labelText: m.plates.max_price))),
                     const SizedBox(width: 8),
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
                         foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 12, horizontal: 16),
                         minimumSize: const Size(80, 40), // Smaller button size
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child:  Text(
+                      child: Text(
                         m.home.search,
-                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold), // Smaller text
+                        style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold), // Smaller text
                       ),
                     )
                   ],
@@ -227,20 +253,25 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                 child: Row(
                   children: [
                     Text(_isExpanded ? m.plates.show_less : m.plates.see_more,
-                        style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
-                    Icon(_isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down, color: Colors.red),
+                        style: const TextStyle(
+                            color: Colors.red, fontWeight: FontWeight.bold)),
+                    Icon(
+                        _isExpanded
+                            ? Icons.keyboard_arrow_up
+                            : Icons.keyboard_arrow_down,
+                        color: Colors.red),
                   ],
                 ),
               ),
 
               const SizedBox(height: 8),
-              StreamBuilder<List<PlateNumber>>(
+              StreamBuilder<List<PlateListing>>(
                   stream: _platesStream,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     }
-
+print('snapshot: ${snapshot.data}');
                     return PlatesListingsGrid(itemList: snapshot.data ?? []);
                   }),
             ],

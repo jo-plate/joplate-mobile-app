@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:joplate/domain/entities/plate_number.dart';
+import 'package:joplate/domain/entities/plate_listing.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_listing_widget.dart';
 import 'plate_number_widget.dart';
 
@@ -12,7 +12,7 @@ class PlatesListingsGrid extends StatelessWidget {
     
   });
 
-  final List<PlateNumber> itemList;
+  final List<PlateListing> itemList;
   final bool shrinkWrap;
 
   @override

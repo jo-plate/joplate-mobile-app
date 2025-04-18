@@ -10,12 +10,12 @@ class FirestoreListingRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // Methods for PlateNumber listings
-  Future<void> createPlateNumberListing(Request<PlateNumber> listing) async {
+  Future<void> createPlateNumberListing(PlateRequest listing) async {
     final collection = _firestore.collection('plate_number_listings');
     await collection.add(listing.toJson());
   }
 
-  Future<void> updatePlateNumberListing(String id, Request<PlateNumber> listing) async {
+  Future<void> updatePlateNumberListing(String id, PlateRequest listing) async {
     final collection = _firestore.collection('plate_number_listings');
     await collection.doc(id).update(listing.toJson());
   }
@@ -32,12 +32,12 @@ class FirestoreListingRepository {
   // }
 
   // Methods for PhoneNumber listings
-  Future<void> createPhoneNumberListing(Request<PhoneNumber> listing) async {
+  Future<void> createPhoneNumberListing(PhoneRequest listing) async {
     final collection = _firestore.collection('phone_number_listings');
     await collection.add(listing.toJson());
   }
 
-  Future<void> updatePhoneNumberListing(String id, Request<PhoneNumber> listing) async {
+  Future<void> updatePhoneNumberListing(String id, PhoneRequest listing) async {
     final collection = _firestore.collection('phone_number_listings');
     await collection.doc(id).update(listing.toJson());
   }

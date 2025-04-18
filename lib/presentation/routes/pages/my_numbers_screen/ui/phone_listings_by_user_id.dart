@@ -22,7 +22,7 @@ class _PhoneListingsByUserIdState extends State<PhoneListingsByUserId> {
         .where('userId', isEqualTo: widget.userId)
         .snapshots()
         .map((snapshot) => snapshot.docs
-            .map((doc) => PhoneListing.fromJson({...doc.data(), 'id': doc.id}))
+            .map((doc) => PhoneListing.fromSnapshot(doc))
             .toList());
   }
 
