@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
@@ -100,7 +101,10 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
             iconSize: 30,
             color: const Color(0xFF981C1E),
             onPressed: () {
-              context.router.push(const AddPlateNumberRoute());
+              if (FirebaseAuth.instance.currentUser == null)
+                {context.router.push(const AuthRoute());}
+              else{
+              context.router.push(const AddPlateNumberRoute());}
             },
           ),
         ],

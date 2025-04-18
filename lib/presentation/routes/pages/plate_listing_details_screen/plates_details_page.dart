@@ -9,7 +9,6 @@ import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_listing_widget.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 @RoutePage()
@@ -116,30 +115,30 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                       children: [
                         Text(
                           m.platesdetails.important_note,
-                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Row(
                           children: [
-                            Icon(Icons.payments, color: Color(0xFF981C1E)),
-                            SizedBox(width: 8),
+                            const Icon(Icons.payments, color: Color(0xFF981C1E)),
+                            const SizedBox(width: 8),
                             Expanded(
                               child: Text(
                                 m.platesdetails.dont_transfer_money,
-                                style: TextStyle(fontSize: 16),
+                                style: const TextStyle(fontSize: 16),
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Row(
                           children: [
-                            Icon(Icons.location_on, color: Color(0xFF981C1E)),
-                            SizedBox(width: 8),
+                            const Icon(Icons.location_on, color: Color(0xFF981C1E)),
+                            const SizedBox(width: 8),
                             Expanded(
                               child: Text(
                                 m.platesdetails.meet_in_person,
-                                style: TextStyle(fontSize: 16),
+                                style: const TextStyle(fontSize: 16),
                               ),
                             ),
                           ],
@@ -227,7 +226,7 @@ class _SellerDetailsState extends State<SellerDetails> {
                     const SizedBox(width: 12),
                      Text(
                       m.platesdetails.originally_posted_by,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: Color(0xFF2C3E50),
@@ -384,7 +383,7 @@ class OtherSellersTable extends StatelessWidget {
             const SizedBox(width: 12),
              Text(
               m.platesdetails.other_sellers,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF2C3E50),
@@ -422,10 +421,10 @@ class OtherSellersTable extends StatelessWidget {
                   ),
                 ),
                  Padding(
-                  padding: EdgeInsets.only(bottom: 12.0),
+                  padding: const EdgeInsets.only(bottom: 12.0),
                   child: Text(
                     m.platesdetails.price,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.w600,
                       color: Color(0xFF7F8C8D),
                       fontSize: 13,
@@ -433,10 +432,10 @@ class OtherSellersTable extends StatelessWidget {
                   ),
                 ),
                  Padding(
-                  padding: EdgeInsets.only(bottom: 12.0),
+                  padding: const EdgeInsets.only(bottom: 12.0),
                   child: Text(
                     m.platesdetails.contact,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.w600,
                       color: Color(0xFF7F8C8D),
                       fontSize: 13,

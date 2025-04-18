@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/phone_listing.dart';
@@ -127,7 +128,12 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.add, size: 30, color: Color(0xFF981C1E)),
-            onPressed: () => context.router.push(const AddPhoneNumberRoute()),
+            onPressed: () => {
+              if (FirebaseAuth.instance.currentUser == null)
+                {context.router.push(const AuthRoute())}
+              else
+                {context.router.push(const AddPhoneNumberRoute())}
+            },
           ),
         ],
       ),
@@ -218,7 +224,7 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child:  Text(
+                    child: Text(
                       m.home.search,
                       style: TextStyle(
                           fontSize: 14,
