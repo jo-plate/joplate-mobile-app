@@ -20,7 +20,7 @@ class PhoneListingsPage extends StatefulWidget {
 }
 
 class _PhoneListingsPageState extends State<PhoneListingsPage> {
-  PhoneOperator? _operator;
+  PhoneOperator _operator = PhoneOperator.none;
   bool _showAdvanced = false;
 
   final _containsCtrl = TextEditingController();
@@ -72,7 +72,7 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
   bool _matches(PhoneListing phone) {
     final number = phone.item.number;
 
-    if (_operator != null && phone.item.phoneOperator != _operator) {
+    if (_operator != PhoneOperator.none && phone.item.phoneOperator != _operator) {
       return false;
     }
 
@@ -157,7 +157,7 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
                                   style: const TextStyle(fontSize: 14)),
                             ))
                         .toList(),
-                    onChanged: (val) => setState(() => _operator = val),
+                    onChanged: (val) => setState(() => _operator = val!),
                   ),
                 ),
               ],
@@ -215,7 +215,7 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
                   ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
+                      backgroundColor: const Color(0xFF981C1E),
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(
                           vertical: 12, horizontal: 16),
@@ -226,7 +226,7 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
                     ),
                     child: Text(
                       m.home.search,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold), // Smaller text
                     ),

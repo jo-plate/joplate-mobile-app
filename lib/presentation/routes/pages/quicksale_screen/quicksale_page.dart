@@ -91,11 +91,11 @@ class _SellerDetailsState extends State<SellerDetails> {
               children: [
                  Row(
                   children: [
-                    SizedBox(width: 12),
+                    const SizedBox(width: 12),
                     Expanded(
                       child: Text(
                         m.quicksale.description,
-                        style: TextStyle(
+                        style: const TextStyle(
                           // fontSize: 18,
                           // fontWeight: FontWeight.bold,
                           color: Color(0xFF2C3E50),

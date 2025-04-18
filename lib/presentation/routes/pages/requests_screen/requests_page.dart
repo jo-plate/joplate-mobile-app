@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/request.dart';
-import 'package:joplate/domain/entities/phone_number.dart';
-import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/requests_screen/ui/phones_requests_list_widget.dart';
 import 'package:joplate/presentation/routes/pages/requests_screen/ui/plates_requests_list_widget.dart';

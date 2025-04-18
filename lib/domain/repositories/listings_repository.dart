@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
 import 'package:joplate/domain/entities/request.dart';
-import 'package:joplate/domain/entities/plate_number.dart';
-import 'package:joplate/domain/entities/phone_number.dart';
 
 /// Repository class for handling Firestore operations for listings.
 @LazySingleton()

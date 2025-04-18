@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/request.dart';
-import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:stroke_text/stroke_text.dart';
 
@@ -22,7 +21,8 @@ class PhoneNumberRequestWidget extends StatelessWidget {
     return Center(
       child: GestureDetector(
         onTap: () {
-          AutoRouter.of(context).push(PhoneRequestDetailsRoute(phoneNumberRequest: item));
+          AutoRouter.of(context)
+              .push(PhoneRequestDetailsRoute(phoneNumberRequest: item));
         },
         child: Stack(
           fit: StackFit.passthrough,
@@ -43,21 +43,22 @@ class PhoneNumberRequestWidget extends StatelessWidget {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: item.phoneNumber!.operatorColor,
+                          color: item.item.operatorColor,
                           gradient: LinearGradient(
                             colors: [
-                              item.phoneNumber!.operatorColor.withOpacity(0.9),
-                              item.phoneNumber!.operatorColor.withOpacity(0.6),
+                              item.item.operatorColor.withOpacity(0.9),
+                              item.item.operatorColor.withOpacity(0.6),
                             ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
                         ),
-                        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 12, horizontal: 8),
                         child: LayoutBuilder(builder: (context, constraints) {
                           double fontSize = constraints.maxWidth * 0.13;
                           return StrokeText(
-                            text: item.phoneNumber?.number ?? '',
+                            text: item.item.number,
                             textStyle: TextStyle(
                                 fontSize: fontSize,
                                 fontFamily: 'poppins',
@@ -74,7 +75,6 @@ class PhoneNumberRequestWidget extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: _buildPriceLabel(),
                       ),
-                      if (item.isSold) _buildSoldRibbon(),
                     ],
                   ),
                 ],
@@ -110,31 +110,5 @@ class PhoneNumberRequestWidget extends StatelessWidget {
         maxLines: 1,
       );
     }
-  }
-
-  Widget _buildSoldRibbon() {
-    return Positioned(
-      top: 20,
-      left: -20,
-      child: Transform.rotate(
-        angle: -0.7854,
-        child: Container(
-          width: 100,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: const Color(0xFF981C1E),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: const Text(
-            'SOLD',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }

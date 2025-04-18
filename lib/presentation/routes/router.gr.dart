@@ -579,6 +579,51 @@ class PlansRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [PlateRequestDetailsPage]
+class PlateRequestDetailsRoute
+    extends PageRouteInfo<PlateRequestDetailsRouteArgs> {
+  PlateRequestDetailsRoute({
+    Key? key,
+    required String requestId,
+    List<PageRouteInfo>? children,
+  }) : super(
+         PlateRequestDetailsRoute.name,
+         args: PlateRequestDetailsRouteArgs(key: key, requestId: requestId),
+         rawPathParams: {'requestId': requestId},
+         initialChildren: children,
+       );
+
+  static const String name = 'PlateRequestDetailsRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final pathParams = data.inheritedPathParams;
+      final args = data.argsAs<PlateRequestDetailsRouteArgs>(
+        orElse:
+            () => PlateRequestDetailsRouteArgs(
+              requestId: pathParams.getString('requestId'),
+            ),
+      );
+      return PlateRequestDetailsPage(key: args.key, requestId: args.requestId);
+    },
+  );
+}
+
+class PlateRequestDetailsRouteArgs {
+  const PlateRequestDetailsRouteArgs({this.key, required this.requestId});
+
+  final Key? key;
+
+  final String requestId;
+
+  @override
+  String toString() {
+    return 'PlateRequestDetailsRouteArgs{key: $key, requestId: $requestId}';
+  }
+}
+
+/// generated route for
 /// [PlatesDetailsPage]
 class PlatesDetailsRoute extends PageRouteInfo<PlatesDetailsRouteArgs> {
   PlatesDetailsRoute({

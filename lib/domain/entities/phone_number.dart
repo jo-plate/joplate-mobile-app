@@ -8,6 +8,7 @@ part 'phone_number.freezed.dart';
 part 'phone_number.g.dart';
 
 enum PhoneOperator {
+  none,
   orange,
   zain,
   umniah,
@@ -16,6 +17,8 @@ enum PhoneOperator {
 extension PhoneOperatorExtension on PhoneOperator {
   String get name {
     switch (this) {
+      case PhoneOperator.none:
+        return 'None';
       case PhoneOperator.orange:
         return 'Orange';
       case PhoneOperator.zain:
@@ -33,6 +36,8 @@ extension PhoneOperatorExtension on PhoneOperator {
         return '079';
       case PhoneOperator.umniah:
         return '078';
+      case PhoneOperator.none:
+        return '000';
     }
   }
 }

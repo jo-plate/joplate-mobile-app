@@ -10,24 +10,25 @@ import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_request_w
 import 'package:url_launcher/url_launcher_string.dart';
 
 @RoutePage()
-class PlatesDetailsPage extends StatefulWidget {
-  const PlatesDetailsPage(
+class PlateRequestDetailsPage extends StatefulWidget {
+  const PlateRequestDetailsPage(
       {super.key, @PathParam('requestId') required this.requestId});
 
   final String requestId;
 
   @override
-  State<PlatesDetailsPage> createState() => _PlatesDetailsPageState();
+  State<PlateRequestDetailsPage> createState() =>
+      _PlateRequestDetailsPageState();
 }
 
-class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
+class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
   late final Stream<PlateRequest> _plateStream;
 
   @override
   void initState() {
     super.initState();
     _plateStream = FirebaseFirestore.instance
-        .collection(carPlatesCollectionId)
+        .collection(platesRequestsCollectionId)
         .doc(widget.requestId)
         .snapshots()
         .map((snapshot) => PlateRequest.fromSnapshot(snapshot));

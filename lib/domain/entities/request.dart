@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 
@@ -39,6 +38,7 @@ class PhoneRequest with _$PhoneRequest {
         userId: 'mockUser');
   }
 
+  bool get priceHidden => price == 0;
   @override
   Map<String, dynamic> toJson() => toJson();
 }
@@ -58,14 +58,13 @@ class PlateRequest with _$PlateRequest {
     required PlateNumber item,
   }) = _PlateRequest;
 
-  bool get priceHidden => price == 0;
-
   factory PlateRequest.fromJson(Map<String, dynamic> json) =>
       _$PlateRequestFromJson(json);
 
   factory PlateRequest.fromSnapshot(DocumentSnapshot snapshot) =>
       PlateRequest.fromJson(
           {'id': snapshot.id, ...snapshot.data() as Map<String, dynamic>});
+  bool get priceHidden => price == 0;
 
   static PlateRequest mockPlateRequest() {
     return PlateRequest(

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phone_dialer/flutter_phone_dialer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:joplate/data/constants.dart';
-import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phone_number_request_widget.dart';

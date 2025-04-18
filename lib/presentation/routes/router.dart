@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/phone_listing.dart';
-import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/domain/entities/plate_listing.dart';
 import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/presentation/routes/pages/account_screen/edit-pages/change_password_page.dart';
@@ -29,6 +28,7 @@ import 'package:joplate/presentation/routes/pages/phone_listing_details_screen/p
 import 'package:joplate/presentation/routes/pages/phone_request_details_screen/phone_request_details_page.dart';
 import 'package:joplate/presentation/routes/pages/plans_screen/plans_page.dart';
 import 'package:joplate/presentation/routes/pages/plate_listing_details_screen/plates_details_page.dart';
+import 'package:joplate/presentation/routes/pages/plate_request_details_screen/plate_request_details_page.dart';
 import 'package:joplate/presentation/routes/pages/privacy_policy_screen/privacy_policy_page.dart';
 import 'package:joplate/presentation/routes/pages/plates_listings_screen/plates_listings_page.dart';
 import 'package:joplate/presentation/routes/pages/phone_listings_screen/phone_listings_page.dart';
@@ -59,9 +59,10 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: EditEmailRoute.page),
         AutoRoute(page: EditPhoneNumberRoute.page),
         AutoRoute(page: ChangePasswordRoute.page),
-        AutoRoute(page: PlatesDetailsRoute.page, path: '/plate-details/:plateNumber'),
-        AutoRoute(page: PhoneDetailsRoute.page, path: '/number-details/:phoneNumber'),
-        AutoRoute(page: PhoneRequestDetailsRoute.page, path: '/number-details/:phoneNumber'),
+        AutoRoute(page: PlatesDetailsRoute.page, ),
+        AutoRoute(page: PhoneDetailsRoute.page, ),
+        AutoRoute(page: PhoneRequestDetailsRoute.page, ),
+        AutoRoute(page: PlateRequestDetailsRoute.page, ),
         AutoRoute(page: MyPlanRoute.page, path: '/myplan'),
         AutoRoute(page: PlansRoute.page, path: '/plans'),
         AutoRoute(page: AddPlateNumberRoute.page),

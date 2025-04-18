@@ -1,6 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/request.dart';
-import 'package:joplate/domain/entities/plate_number.dart';
+import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_widget.dart';
 
 class PlateNumberRequestWidget extends StatelessWidget {
@@ -24,7 +25,8 @@ class PlateNumberRequestWidget extends StatelessWidget {
     return Center(
       child: GestureDetector(
         onTap: () {
-          // AutoRouter.of(context).push(PlatesDetailsRoute(plateNumber: item.toString()));
+          AutoRouter.of(context)
+              .push(PlateRequestDetailsRoute(requestId: item.id));
         },
         child: Stack(
           fit: StackFit.passthrough,
@@ -46,13 +48,11 @@ class PlateNumberRequestWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         PlateNumberWidget(
-                          plate: item.plateNumber!,
+                          plate: item.item,
                           shape: shape,
                         ),
                         const SizedBox(height: 8),
                         _buildPriceLabel(),
-                        const SizedBox(height: 2),
-                        if (item.isSold) _buildSoldRibbon(),
                       ],
                     ),
                   ),
@@ -89,57 +89,5 @@ class PlateNumberRequestWidget extends StatelessWidget {
         maxLines: 1,
       );
     }
-  }
-
-  Widget _buildFeaturedRibbon() {
-    return Positioned(
-      bottom: 20,
-      right: -20,
-      child: Transform.rotate(
-        angle: -0.7854,
-        child: Container(
-          width: 100,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: Colors.yellow[700],
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: const Text(
-            'FEATURED',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSoldRibbon() {
-    return Positioned(
-      top: 20,
-      left: -20,
-      child: Transform.rotate(
-        angle: -0.7854,
-        child: Container(
-          width: 100,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: const Color(0xFF981C1E),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: const Text(
-            'SOLD',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }

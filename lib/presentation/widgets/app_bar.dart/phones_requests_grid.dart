@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:joplate/domain/entities/request.dart';
-import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phone_number_request_widget.dart';
 
 class PhonesRequestsGrid extends StatelessWidget {

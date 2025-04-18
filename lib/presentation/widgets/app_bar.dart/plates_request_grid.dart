@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:joplate/domain/entities/request.dart';
-import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_request_widget.dart';
 import 'plate_number_widget.dart';
 
