@@ -65,6 +65,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
   ];
 
   late final Stream<List<PlateListing>> _platesStream;
+  late final Stream<List<PlateListing>> _otherSellersStream;
 
   @override
   void initState() {
@@ -73,9 +74,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
     _platesStream = FirebaseFirestore.instance
         .collection(carPlatesCollectionId)
         .where('isDisabled', isEqualTo: false)
-        
-        .orderBy('isFeatured', descending: true)
-        // .orderBy('isSold', descending: false)
+        // .orderBy('isFeatured', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map((doc) => PlateListing.fromSnapshot(doc))
@@ -271,7 +270,14 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     }
-print('snapshot: ${snapshot.data}');
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text(
+                          "Error loading data: ${snapshot.error}",
+                          style: const TextStyle(color: Colors.red),
+                        ),
+                      );
+                    }
                     return PlatesListingsGrid(itemList: snapshot.data ?? []);
                   }),
             ],

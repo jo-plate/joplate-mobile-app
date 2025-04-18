@@ -80,12 +80,6 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                         }
                       },
                     ),
-                  // IconButton(
-                  //   icon: const Icon(Icons.share_outlined),
-                  //   onPressed: () {
-                  //     Share.share('Check out this plate number: ${widget.plateNumber.toString()}');
-                  //   },
-                  // ),
                 ],
               ),
               body: SingleChildScrollView(
