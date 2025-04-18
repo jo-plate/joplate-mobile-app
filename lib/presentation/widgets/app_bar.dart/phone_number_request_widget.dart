@@ -22,7 +22,7 @@ class PhoneNumberRequestWidget extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           AutoRouter.of(context)
-              .push(PhoneRequestDetailsRoute(phoneNumberRequest: item));
+              .push(PhoneRequestDetailsRoute(phoneNumberRequestId: item.id));
         },
         child: Stack(
           fit: StackFit.passthrough,
@@ -36,10 +36,11 @@ class PhoneNumberRequestWidget extends StatelessWidget {
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
                         decoration: BoxDecoration(

@@ -6,7 +6,6 @@ import 'package:joplate/domain/entities/plate_number.dart';
 part 'request.freezed.dart';
 part 'request.g.dart';
 
-enum ListingType { request, ad }
 
 @Freezed(
   fromJson: true,

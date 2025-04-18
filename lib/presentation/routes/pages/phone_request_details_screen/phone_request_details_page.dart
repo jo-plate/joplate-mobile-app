@@ -1,112 +1,144 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_dialer/flutter_phone_dialer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
+import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phone_number_request_widget.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 @RoutePage()
 class PhoneRequestDetailsPage extends StatefulWidget {
-  const PhoneRequestDetailsPage({super.key, required this.phoneNumberRequest});
+  const PhoneRequestDetailsPage(
+      {super.key, required this.phoneNumberRequestId});
 
-  final PhoneRequest phoneNumberRequest;
+  final String phoneNumberRequestId;
 
   @override
-  State<PhoneRequestDetailsPage> createState() => _PhoneRequestDetailsPageState();
+  State<PhoneRequestDetailsPage> createState() =>
+      _PhoneRequestDetailsPageState();
 }
 
 class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
+  late final Stream<PhoneRequest> phoneRequestStream;
+  @override
+  void initState() {
+    super.initState();
+    phoneRequestStream = FirebaseFirestore.instance
+        .collection(phonesRequestsCollectionId)
+        .doc(widget.phoneNumberRequestId)
+        .snapshots()
+        .map((snapshot) {
+      return PhoneRequest.fromSnapshot(snapshot);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Phone Number Request Details'),
-        actions: [
-          // Share Icon
-          IconButton(
-            icon: const Icon(Icons.share_outlined),
-            onPressed: () {
-              Share.share('Check out this plate number: ${widget.phoneNumberRequest.toString()}');
-            },
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 180,
-              child: PhoneNumberRequestWidget(
-                item: widget.phoneNumberRequest,
-                priceLabelFontSize: 24,
-                aspectRatio: 2.1,
-
-              ),
+    return StreamBuilder<PhoneRequest>(
+        stream: phoneRequestStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.data == null) {
+            return const Center(child: Text('Request not found'));
+          }
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Phone Number Request Details'),
+              actions: [
+                if (FirebaseAuth.instance.currentUser?.uid ==
+                    snapshot.data!.userId)
+                  IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () {
+                      context.router
+                          .push(EditPhoneRequestRoute(request: snapshot.data!));
+                    },
+                  ),
+              ],
             ),
-
-            const SizedBox(height: 10),
-
-            const SizedBox(height: 20),
-
-            RequestedByWidgget(userId: widget.phoneNumberRequest.userId),
-
-            const SizedBox(height: 20),
-
-            // 4. Important Notes
-            Container(
-              padding: const EdgeInsets.all(12.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              child: const Column(
+            body: SingleChildScrollView(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Important Note:',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  SizedBox(
+                    height: 150,
+                    child: PhoneNumberRequestWidget(
+                      item: snapshot.data!,
+                      priceLabelFontSize: 24,
+                      aspectRatio: 1.5,
+                    ),
                   ),
-                  SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Icon(Icons.payments, color: Color(0xFF981C1E)),
-                      SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          "Don't transfer money online",
-                          style: TextStyle(fontSize: 16),
+
+                  const SizedBox(height: 10),
+
+                  const SizedBox(height: 20),
+
+                  RequestedByWidgget(userId: snapshot.data!.userId),
+
+                  const SizedBox(height: 20),
+
+                  // 4. Important Notes
+                  Container(
+                    padding: const EdgeInsets.all(12.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    child: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Important Note:',
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.bold),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Icon(Icons.location_on, color: Color(0xFF981C1E)),
-                      SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          "Meet the seller in person",
-                          style: TextStyle(fontSize: 16),
+                        SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Icon(Icons.payments, color: Color(0xFF981C1E)),
+                            SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                "Don't transfer money online",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
+                        SizedBox(height: 8),
+                        Row(
+                          children: [
+                            Icon(Icons.location_on, color: Color(0xFF981C1E)),
+                            SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                "Meet the seller in person",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
+
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
-
-            const SizedBox(height: 20),
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
 }
 
@@ -124,8 +156,11 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
   @override
   void initState() {
     super.initState();
-    userProfileStream =
-        FirebaseFirestore.instance.collection(userProfileCollectionId).doc(widget.userId).snapshots().map((snapshot) {
+    userProfileStream = FirebaseFirestore.instance
+        .collection(userProfileCollectionId)
+        .doc(widget.userId)
+        .snapshots()
+        .map((snapshot) {
       return UserProfile.fromJson(snapshot.data() ?? {});
     });
   }
@@ -177,7 +212,8 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
                     Expanded(
                       child: Text(
                         userProfile.displayName,
-                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -189,7 +225,8 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
                     Expanded(
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          launchUrlString("https://wa.me/${userProfile.phonenumber}",
+                          launchUrlString(
+                              "https://wa.me/${userProfile.phonenumber}",
                               mode: LaunchMode.externalApplication);
                         },
                         style: ElevatedButton.styleFrom(
@@ -215,7 +252,8 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
                     Expanded(
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          FlutterPhoneDialer.dialNumber(userProfile.phonenumber);
+                          FlutterPhoneDialer.dialNumber(
+                              userProfile.phonenumber);
                         },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 12),
@@ -226,7 +264,8 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
                         icon: const Icon(Icons.phone, color: Colors.white),
                         label: Text(
                           userProfile.phonenumber,
-                          style: const TextStyle(color: Colors.white, fontSize: 14),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 14),
                         ),
                       ),
                     ),

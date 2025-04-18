@@ -228,18 +228,11 @@ class EditPhoneNumberRoute extends PageRouteInfo<void> {
 class EditPhoneRequestRoute extends PageRouteInfo<EditPhoneRequestRouteArgs> {
   EditPhoneRequestRoute({
     Key? key,
-    required String requestId,
-    required String initialNumber,
-    double? initialPrice,
+    required PhoneRequest request,
     List<PageRouteInfo>? children,
   }) : super(
          EditPhoneRequestRoute.name,
-         args: EditPhoneRequestRouteArgs(
-           key: key,
-           requestId: requestId,
-           initialNumber: initialNumber,
-           initialPrice: initialPrice,
-         ),
+         args: EditPhoneRequestRouteArgs(key: key, request: request),
          initialChildren: children,
        );
 
@@ -249,35 +242,21 @@ class EditPhoneRequestRoute extends PageRouteInfo<EditPhoneRequestRouteArgs> {
     name,
     builder: (data) {
       final args = data.argsAs<EditPhoneRequestRouteArgs>();
-      return EditPhoneRequestPage(
-        key: args.key,
-        requestId: args.requestId,
-        initialNumber: args.initialNumber,
-        initialPrice: args.initialPrice,
-      );
+      return EditPhoneRequestPage(key: args.key, request: args.request);
     },
   );
 }
 
 class EditPhoneRequestRouteArgs {
-  const EditPhoneRequestRouteArgs({
-    this.key,
-    required this.requestId,
-    required this.initialNumber,
-    this.initialPrice,
-  });
+  const EditPhoneRequestRouteArgs({this.key, required this.request});
 
   final Key? key;
 
-  final String requestId;
-
-  final String initialNumber;
-
-  final double? initialPrice;
+  final PhoneRequest request;
 
   @override
   String toString() {
-    return 'EditPhoneRequestRouteArgs{key: $key, requestId: $requestId, initialNumber: $initialNumber, initialPrice: $initialPrice}';
+    return 'EditPhoneRequestRouteArgs{key: $key, request: $request}';
   }
 }
 
@@ -323,20 +302,11 @@ class EditPlateListingRouteArgs {
 class EditPlateRequestRoute extends PageRouteInfo<EditPlateRequestRouteArgs> {
   EditPlateRequestRoute({
     Key? key,
-    required String requestId,
-    required String initialCode,
-    required String initialNumber,
-    double? initialPrice,
+    required PlateRequest request,
     List<PageRouteInfo>? children,
   }) : super(
          EditPlateRequestRoute.name,
-         args: EditPlateRequestRouteArgs(
-           key: key,
-           requestId: requestId,
-           initialCode: initialCode,
-           initialNumber: initialNumber,
-           initialPrice: initialPrice,
-         ),
+         args: EditPlateRequestRouteArgs(key: key, request: request),
          initialChildren: children,
        );
 
@@ -346,39 +316,21 @@ class EditPlateRequestRoute extends PageRouteInfo<EditPlateRequestRouteArgs> {
     name,
     builder: (data) {
       final args = data.argsAs<EditPlateRequestRouteArgs>();
-      return EditPlateRequestPage(
-        key: args.key,
-        requestId: args.requestId,
-        initialCode: args.initialCode,
-        initialNumber: args.initialNumber,
-        initialPrice: args.initialPrice,
-      );
+      return EditPlateRequestPage(key: args.key, request: args.request);
     },
   );
 }
 
 class EditPlateRequestRouteArgs {
-  const EditPlateRequestRouteArgs({
-    this.key,
-    required this.requestId,
-    required this.initialCode,
-    required this.initialNumber,
-    this.initialPrice,
-  });
+  const EditPlateRequestRouteArgs({this.key, required this.request});
 
   final Key? key;
 
-  final String requestId;
-
-  final String initialCode;
-
-  final String initialNumber;
-
-  final double? initialPrice;
+  final PlateRequest request;
 
   @override
   String toString() {
-    return 'EditPlateRequestRouteArgs{key: $key, requestId: $requestId, initialCode: $initialCode, initialNumber: $initialNumber, initialPrice: $initialPrice}';
+    return 'EditPlateRequestRouteArgs{key: $key, request: $request}';
   }
 }
 
@@ -521,13 +473,13 @@ class PhoneRequestDetailsRoute
     extends PageRouteInfo<PhoneRequestDetailsRouteArgs> {
   PhoneRequestDetailsRoute({
     Key? key,
-    required PhoneRequest phoneNumberRequest,
+    required String phoneNumberRequestId,
     List<PageRouteInfo>? children,
   }) : super(
          PhoneRequestDetailsRoute.name,
          args: PhoneRequestDetailsRouteArgs(
            key: key,
-           phoneNumberRequest: phoneNumberRequest,
+           phoneNumberRequestId: phoneNumberRequestId,
          ),
          initialChildren: children,
        );
@@ -540,7 +492,7 @@ class PhoneRequestDetailsRoute
       final args = data.argsAs<PhoneRequestDetailsRouteArgs>();
       return PhoneRequestDetailsPage(
         key: args.key,
-        phoneNumberRequest: args.phoneNumberRequest,
+        phoneNumberRequestId: args.phoneNumberRequestId,
       );
     },
   );
@@ -549,16 +501,16 @@ class PhoneRequestDetailsRoute
 class PhoneRequestDetailsRouteArgs {
   const PhoneRequestDetailsRouteArgs({
     this.key,
-    required this.phoneNumberRequest,
+    required this.phoneNumberRequestId,
   });
 
   final Key? key;
 
-  final PhoneRequest phoneNumberRequest;
+  final String phoneNumberRequestId;
 
   @override
   String toString() {
-    return 'PhoneRequestDetailsRouteArgs{key: $key, phoneNumberRequest: $phoneNumberRequest}';
+    return 'PhoneRequestDetailsRouteArgs{key: $key, phoneNumberRequestId: $phoneNumberRequestId}';
   }
 }
 

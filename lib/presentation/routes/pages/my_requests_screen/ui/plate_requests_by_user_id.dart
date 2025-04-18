@@ -22,9 +22,7 @@ class _PlateRequestsByUserIdState extends State<PlateRequestsByUserId> {
         .where('userId', isEqualTo: widget.userId)
         .snapshots()
         .map((snapshot) => snapshot.docs.map((doc) {
-              final data = doc.data();
-              data['id'] = doc.id;
-              return PlateRequest.fromJson(data);
+              return PlateRequest.fromSnapshot(doc);
             }).toList());
   }
 

@@ -16,7 +16,8 @@ class RequestsPage extends StatefulWidget {
   State<RequestsPage> createState() => _RequestsPageState();
 }
 
-class _RequestsPageState extends State<RequestsPage> with SingleTickerProviderStateMixin {
+class _RequestsPageState extends State<RequestsPage>
+    with SingleTickerProviderStateMixin {
   late final Stream<List<PlateRequest>> platesRequestsStream;
   late final Stream<List<PhoneRequest>> phonesRequestsStream;
   late final TabController tabController;
@@ -24,20 +25,20 @@ class _RequestsPageState extends State<RequestsPage> with SingleTickerProviderSt
   @override
   void initState() {
     super.initState();
-    platesRequestsStream =
-        FirebaseFirestore.instance.collection(platesRequestsCollectionId).snapshots().map((snapshot) {
+    platesRequestsStream = FirebaseFirestore.instance
+        .collection(platesRequestsCollectionId)
+        .snapshots()
+        .map((snapshot) {
       return snapshot.docs.map((doc) {
-        final data = doc.data();
-        data['id'] = doc.id;
-        return PlateRequest.fromJson(data);
+        return PlateRequest.fromSnapshot(doc);
       }).toList();
     });
-    phonesRequestsStream =
-        FirebaseFirestore.instance.collection(phonesRequestsCollectionId).snapshots().map((snapshot) {
+    phonesRequestsStream = FirebaseFirestore.instance
+        .collection(phonesRequestsCollectionId)
+        .snapshots()
+        .map((snapshot) {
       return snapshot.docs.map((doc) {
-        final data = doc.data();
-        data['id'] = doc.id;
-        return PhoneRequest.fromJson(data);
+        return PhoneRequest.fromSnapshot(doc);
       }).toList();
     });
 
@@ -52,14 +53,14 @@ class _RequestsPageState extends State<RequestsPage> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    final m =Localization.of(context);
+    final m = Localization.of(context);
     return Scaffold(
       appBar: AppBar(
-        title:  Text(m.home.requests),
+        title: Text(m.home.requests),
         centerTitle: true,
         bottom: TabBar(
           controller: tabController,
-          tabs:  [
+          tabs: [
             Tab(
               text: m.home.car_number,
             ),

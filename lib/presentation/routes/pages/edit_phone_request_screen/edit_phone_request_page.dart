@@ -1,20 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/presentation/routes/pages/edit_phone_request_screen/cubit/edit_phone_request_cubit.dart';
 
 @RoutePage()
 class EditPhoneRequestPage extends StatefulWidget {
-  final String requestId;
-  final String initialNumber;
-  final double? initialPrice;
+  final PhoneRequest request;
 
-  const EditPhoneRequestPage({
-    super.key,
-    required this.requestId,
-    required this.initialNumber,
-    this.initialPrice,
-  });
+  const EditPhoneRequestPage({super.key, required this.request});
 
   @override
   State<EditPhoneRequestPage> createState() => _EditPhoneRequestPageState();
@@ -28,17 +22,9 @@ class _EditPhoneRequestPageState extends State<EditPhoneRequestPage> {
   void initState() {
     super.initState();
 
-    numberController = TextEditingController(text: widget.initialNumber);
-    priceController = TextEditingController(
-      text: widget.initialPrice != null ? widget.initialPrice!.toString() : '',
-    );
-
-    final cubit = context.read<EditPhoneRequestCubit>();
-    cubit.loadFromRequest(
-      requestId: widget.requestId,
-      number: widget.initialNumber,
-      price: widget.initialPrice,
-    );
+    numberController = TextEditingController(text: widget.request.item.number);
+    priceController =
+        TextEditingController(text: widget.request.price.toString());
   }
 
   @override
@@ -51,16 +37,14 @@ class _EditPhoneRequestPageState extends State<EditPhoneRequestPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<EditPhoneRequestCubit>(
-      create: (_) => EditPhoneRequestCubit(),
+      create: (_) => EditPhoneRequestCubit()
+        ..loadFromRequest(
+          request: widget.request,
+        ),
       child: Scaffold(
         appBar: AppBar(title: const Text("Edit Phone Request")),
         body: SafeArea(
-          child: BlocConsumer<EditPhoneRequestCubit, EditPhoneRequestState>(
-            listener: (context, state) {
-              if (!state.isSubmitting && state.errorMessage == null) {
-                AutoRouter.of(context).maybePop(); // navigate away on success
-              }
-            },
+          child: BlocBuilder<EditPhoneRequestCubit, EditPhoneRequestState>(
             builder: (context, state) {
               final cubit = context.read<EditPhoneRequestCubit>();
 
@@ -91,16 +75,32 @@ class _EditPhoneRequestPageState extends State<EditPhoneRequestPage> {
                           const InputDecoration(labelText: 'Price (optional)'),
                       keyboardType: TextInputType.number,
                       enabled: !state.isSubmitting,
-                      onChanged: cubit.updatePrice,
+                      onChanged: (s) {
+                        cubit.updatePrice(s);
+                        setState(() {
+                          priceController.text = s;
+                        });
+                      },
                     ),
                     const SizedBox(height: 24),
                     if (state.isSubmitting)
                       const Center(child: CircularProgressIndicator())
                     else
-                      ElevatedButton(
-                        onPressed: () => cubit.submitEdit(),
-                        child: const Text("Save Changes",
-                            style: TextStyle(color: Colors.white)),
+                      Row(
+                        children: [
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                await cubit.submitEdit().then((value) {
+                                  context.router.maybePop();
+                                });
+                              },
+                              child: const Text("Save Changes",
+                                  style: TextStyle(color: Colors.white)),
+                            ),
+                          ),
+                        ],
                       ),
                   ],
                 ),

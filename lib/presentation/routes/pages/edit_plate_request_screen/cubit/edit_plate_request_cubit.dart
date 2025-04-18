@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/dto/update_listing_dto.dart';
 import 'package:joplate/data/constants.dart';
+import 'package:joplate/domain/entities/request.dart';
 
 part 'edit_plate_request_state.dart';
 
@@ -18,27 +19,16 @@ class EditPlateRequestCubit extends Cubit<EditPlateRequestState> {
         ));
 
   void loadRequestData({
-    required String requestId,
-    required String code,
-    required String number,
-    double? price,
+    required PlateRequest request,
   }) {
     emit(state.copyWith(
-      requestId: requestId,
-      code: code,
-      number: number,
-      price: price?.toString() ?? '',
+      requestId: request.id,
+      code: request.item.code,
+      number: request.item.number,
+      price: request.price.toString(),
       isSubmitting: false,
       errorMessage: null,
     ));
-  }
-
-  void updateCode(String newCode) {
-    emit(state.copyWith(code: newCode, errorMessage: null));
-  }
-
-  void updateNumber(String newNumber) {
-    emit(state.copyWith(number: newNumber, errorMessage: null));
   }
 
   void updatePrice(String newPrice) {
