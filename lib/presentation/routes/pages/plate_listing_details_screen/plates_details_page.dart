@@ -92,9 +92,11 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                     SizedBox(
                       height: 180,
                       child: PlateNumberListingWidget(
+                        disabled: true,
                         item: snapshot.data!,
                         hideLikeButton: true,
                         priceLabelFontSize: 24,
+                        
                       ),
                     ),
                     const SizedBox(height: 20),
