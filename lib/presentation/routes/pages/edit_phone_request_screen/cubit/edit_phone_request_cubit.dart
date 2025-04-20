@@ -45,7 +45,7 @@ class EditPhoneRequestCubit extends Cubit<EditPhoneRequestState> {
       listingId: state.requestId,
       itemType: ItemType.phoneNumber,
       listingType: ListingType.request,
-      price: state.price.isNotEmpty ? double.tryParse(state.price) : 0.0,
+      price: state.price.isNotEmpty ? int.tryParse(state.price) : 0,
     );
 
     try {

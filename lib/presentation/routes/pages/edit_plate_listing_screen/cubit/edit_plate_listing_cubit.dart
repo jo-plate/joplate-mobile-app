@@ -25,8 +25,8 @@ class EditPlateListingCubit extends Cubit<EditPlateListingState> {
     required String listingId,
     required String code,
     required String plateNumber,
-    required double price,
-    double? discountPrice,
+    required int price,
+    int? discountPrice,
     bool isFeatured = false,
     bool isDisabled = false,
     bool isSold = false,
@@ -75,9 +75,9 @@ class EditPlateListingCubit extends Cubit<EditPlateListingState> {
       listingId: state.listingId,
       itemType: ItemType.plateNumber,
       listingType: ListingType.ad,
-      price: double.tryParse(state.price),
+      price: int.tryParse(state.price),
       discountPrice: state.discountPrice?.isNotEmpty == true
-          ? double.tryParse(state.discountPrice!)
+          ? int.tryParse(state.discountPrice!)
           : null,
       isFeatured: state.isFeatured,
       isDisabled: state.isDisabled,

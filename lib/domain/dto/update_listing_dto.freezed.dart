@@ -23,8 +23,8 @@ mixin _$UpdateListingDto {
   String get listingId => throw _privateConstructorUsedError;
   ItemType get itemType => throw _privateConstructorUsedError;
   ListingType get listingType => throw _privateConstructorUsedError;
-  double? get price => throw _privateConstructorUsedError;
-  double? get discountPrice => throw _privateConstructorUsedError;
+  int? get price => throw _privateConstructorUsedError;
+  int? get discountPrice => throw _privateConstructorUsedError;
   bool? get isFeatured => throw _privateConstructorUsedError;
   bool? get isDisabled => throw _privateConstructorUsedError;
   bool? get isSold => throw _privateConstructorUsedError;
@@ -49,8 +49,8 @@ abstract class $UpdateListingDtoCopyWith<$Res> {
       {String listingId,
       ItemType itemType,
       ListingType listingType,
-      double? price,
-      double? discountPrice,
+      int? price,
+      int? discountPrice,
       bool? isFeatured,
       bool? isDisabled,
       bool? isSold});
@@ -96,11 +96,11 @@ class _$UpdateListingDtoCopyWithImpl<$Res, $Val extends UpdateListingDto>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
       discountPrice: freezed == discountPrice
           ? _value.discountPrice
           : discountPrice // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
       isFeatured: freezed == isFeatured
           ? _value.isFeatured
           : isFeatured // ignore: cast_nullable_to_non_nullable
@@ -129,8 +129,8 @@ abstract class _$$UpdateListingDtoImplCopyWith<$Res>
       {String listingId,
       ItemType itemType,
       ListingType listingType,
-      double? price,
-      double? discountPrice,
+      int? price,
+      int? discountPrice,
       bool? isFeatured,
       bool? isDisabled,
       bool? isSold});
@@ -174,11 +174,11 @@ class __$$UpdateListingDtoImplCopyWithImpl<$Res>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
       discountPrice: freezed == discountPrice
           ? _value.discountPrice
           : discountPrice // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
       isFeatured: freezed == isFeatured
           ? _value.isFeatured
           : isFeatured // ignore: cast_nullable_to_non_nullable
@@ -219,9 +219,9 @@ class _$UpdateListingDtoImpl extends _UpdateListingDto {
   @override
   final ListingType listingType;
   @override
-  final double? price;
+  final int? price;
   @override
-  final double? discountPrice;
+  final int? discountPrice;
   @override
   final bool? isFeatured;
   @override
@@ -282,8 +282,8 @@ abstract class _UpdateListingDto extends UpdateListingDto {
       {required final String listingId,
       required final ItemType itemType,
       required final ListingType listingType,
-      final double? price,
-      final double? discountPrice,
+      final int? price,
+      final int? discountPrice,
       final bool? isFeatured,
       final bool? isDisabled,
       final bool? isSold}) = _$UpdateListingDtoImpl;
@@ -299,9 +299,9 @@ abstract class _UpdateListingDto extends UpdateListingDto {
   @override
   ListingType get listingType;
   @override
-  double? get price;
+  int? get price;
   @override
-  double? get discountPrice;
+  int? get discountPrice;
   @override
   bool? get isFeatured;
   @override

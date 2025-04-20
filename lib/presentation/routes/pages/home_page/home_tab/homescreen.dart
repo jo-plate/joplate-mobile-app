@@ -24,9 +24,10 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _platesStream = FirebaseFirestore.instance
         .collection(carPlatesCollectionId)
-        .where('isFeatured', isEqualTo: true)
+        .where('featuredUntil', isGreaterThan: DateTime.now())
         .where('isDisabled', isEqualTo: false)
         .where('isSold', isEqualTo: false)
+        .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map((doc) => PlateListing.fromSnapshot(doc))

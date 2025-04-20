@@ -76,12 +76,22 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
     _sub = FirebaseFirestore.instance
         .collection(carPlatesCollectionId)
         .where('isDisabled', isEqualTo: false)
+        .orderBy('featuredUntil', descending: true)
         .orderBy('createdAt', descending: true)
         .snapshots()
         .listen((snap) {
       setState(() {
         _allPlates =
-            snap.docs.map((doc) => PlateListing.fromSnapshot(doc)).toList();
+            snap.docs.map((doc) => PlateListing.fromSnapshot(doc)).toList()
+              ..sort((a, b) {
+                if (a.isFeatured && !b.isFeatured) {
+                  return -1;
+                } else if (!a.isFeatured && b.isFeatured) {
+                  return 1;
+                } else {
+                  return a.createdAt!.compareTo(b.createdAt!);
+                }
+              });
       });
     });
 
@@ -110,7 +120,9 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
   bool _matches(PlateListing plate) {
     final number = plate.item.number;
 
-    if (_selectedCode != null && _selectedCode!.isNotEmpty && plate.item.code != _selectedCode) {
+    if (_selectedCode != null &&
+        _selectedCode!.isNotEmpty &&
+        plate.item.code != _selectedCode) {
       return false;
     }
 
@@ -252,7 +264,6 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                 onChanged: (val) => setState(() => _selectedFormat = val),
               ),
               const SizedBox(height: 8),
-
               if (_isExpanded) ...[
                 Row(
                   children: [

@@ -47,7 +47,7 @@ class EditPlateRequestCubit extends Cubit<EditPlateRequestState> {
       listingId: state.requestId,
       itemType: ItemType.plateNumber,
       listingType: ListingType.request,
-      price: double.tryParse(state.price) ?? 0,
+      price: int.tryParse(state.price) ,
     );
 
     try {

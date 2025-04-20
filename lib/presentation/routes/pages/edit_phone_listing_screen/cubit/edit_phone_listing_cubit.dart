@@ -77,9 +77,9 @@ class EditPhoneListingCubit extends Cubit<EditPhoneListingState> {
       listingId: state.listingId,
       itemType: ItemType.phoneNumber,
       listingType: ListingType.ad,
-      price: double.tryParse(state.price),
+      price: int.tryParse(state.price),
       discountPrice: state.discountPrice?.isNotEmpty == true
-          ? double.tryParse(state.discountPrice!)
+          ? int.tryParse(state.discountPrice!)
           : null,
       isFeatured: state.isFeatured,
       isDisabled: state.isDisabled,
