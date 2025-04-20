@@ -84,6 +84,12 @@ class MessagesAr extends Messages {
   SellerdetailsMessagesAr get sellerdetails => SellerdetailsMessagesAr(this);
   PlatesdetailsMessagesAr get platesdetails => PlatesdetailsMessagesAr(this);
   QuicksaleMessagesAr get quicksale => QuicksaleMessagesAr(this);
+  EditphoneMessagesAr get editphone => EditphoneMessagesAr(this);
+  EditphonerequestMessagesAr get editphonerequest =>
+      EditphonerequestMessagesAr(this);
+  EditplateMessagesAr get editplate => EditplateMessagesAr(this);
+  EditplaterequestMessagesAr get editplaterequest =>
+      EditplaterequestMessagesAr(this);
 }
 
 class AppMessagesAr extends AppMessages {
@@ -1083,6 +1089,166 @@ class QuicksaleMessagesAr extends QuicksaleMessages {
   String get requested_by => """الطلب بواسطة""";
 }
 
+class EditphoneMessagesAr extends EditphoneMessages {
+  final MessagesAr _parent;
+  const EditphoneMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "تعديل إعلان الرقم"
+  /// ```
+  String get title => """تعديل إعلان الرقم""";
+
+  /// ```dart
+  /// "رقم الهاتف"
+  /// ```
+  String get phone_number => """رقم الهاتف""";
+
+  /// ```dart
+  /// "السعر"
+  /// ```
+  String get price => """السعر""";
+
+  /// ```dart
+  /// "سعر الخصم"
+  /// ```
+  String get discount_price => """سعر الخصم""";
+
+  /// ```dart
+  /// "تمييز هذا الإعلان"
+  /// ```
+  String get feature => """تمييز هذا الإعلان""";
+
+  /// ```dart
+  /// "تحديد كـ مُباع"
+  /// ```
+  String get mark_sold => """تحديد كـ مُباع""";
+
+  /// ```dart
+  /// "تعطيل هذا الإعلان"
+  /// ```
+  String get disable => """تعطيل هذا الإعلان""";
+
+  /// ```dart
+  /// "حفظ التعديلات"
+  /// ```
+  String get save_changes => """حفظ التعديلات""";
+
+  /// ```dart
+  /// "هل يوجد خصم؟"
+  /// ```
+  String get withdiscount => """هل يوجد خصم؟""";
+
+  /// ```dart
+  /// "هل يوجد خصم؟"
+  /// ```
+  String get discount => """هل يوجد خصم؟""";
+}
+
+class EditphonerequestMessagesAr extends EditphonerequestMessages {
+  final MessagesAr _parent;
+  const EditphonerequestMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "تعديل طلب الرقم"
+  /// ```
+  String get title => """تعديل طلب الرقم""";
+
+  /// ```dart
+  /// "رقم الهاتف"
+  /// ```
+  String get phone_number => """رقم الهاتف""";
+
+  /// ```dart
+  /// "السعر (اختياري)"
+  /// ```
+  String get price_optional => """السعر (اختياري)""";
+
+  /// ```dart
+  /// "حفظ التعديلات"
+  /// ```
+  String get save_changes => """حفظ التعديلات""";
+}
+
+class EditplateMessagesAr extends EditplateMessages {
+  final MessagesAr _parent;
+  const EditplateMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "تعديل إعلان اللوحة"
+  /// ```
+  String get title => """تعديل إعلان اللوحة""";
+
+  /// ```dart
+  /// "الرمز"
+  /// ```
+  String get code => """الرمز""";
+
+  /// ```dart
+  /// "رقم اللوحة"
+  /// ```
+  String get plate_number => """رقم اللوحة""";
+
+  /// ```dart
+  /// "السعر"
+  /// ```
+  String get price => """السعر""";
+
+  /// ```dart
+  /// "سعر الخصم"
+  /// ```
+  String get discount_price => """سعر الخصم""";
+
+  /// ```dart
+  /// "تمييز"
+  /// ```
+  String get featured => """تمييز""";
+
+  /// ```dart
+  /// "تعطيل"
+  /// ```
+  String get disabled => """تعطيل""";
+
+  /// ```dart
+  /// "مباع"
+  /// ```
+  String get sold => """مباع""";
+
+  /// ```dart
+  /// "حفظ التعديلات"
+  /// ```
+  String get save_changes => """حفظ التعديلات""";
+}
+
+class EditplaterequestMessagesAr extends EditplaterequestMessages {
+  final MessagesAr _parent;
+  const EditplaterequestMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "تعديل طلب اللوحة"
+  /// ```
+  String get title => """تعديل طلب اللوحة""";
+
+  /// ```dart
+  /// "الرمز"
+  /// ```
+  String get code => """الرمز""";
+
+  /// ```dart
+  /// "الرقم"
+  /// ```
+  String get number => """الرقم""";
+
+  /// ```dart
+  /// "السعر (اختياري)"
+  /// ```
+  String get price_optional => """السعر (اختياري)""";
+
+  /// ```dart
+  /// "حفظ التعديلات"
+  /// ```
+  String get save_changes => """حفظ التعديلات""";
+}
+
 Map<String, String> get messagesArMap => {
   """app.title""": """Joplate""",
   """home.welcome""": """مرحبًا بك في Joplate!""",
@@ -1267,4 +1433,32 @@ Map<String, String> get messagesArMap => {
   """quicksale.call""": """اتصال""",
   """quicksale.user_not_found""": """لم يتم العثور على المستخدم""",
   """quicksale.requested_by""": """الطلب بواسطة""",
+  """editphone.title""": """تعديل إعلان الرقم""",
+  """editphone.phone_number""": """رقم الهاتف""",
+  """editphone.price""": """السعر""",
+  """editphone.discount_price""": """سعر الخصم""",
+  """editphone.feature""": """تمييز هذا الإعلان""",
+  """editphone.mark_sold""": """تحديد كـ مُباع""",
+  """editphone.disable""": """تعطيل هذا الإعلان""",
+  """editphone.save_changes""": """حفظ التعديلات""",
+  """editphone.withdiscount""": """هل يوجد خصم؟""",
+  """editphone.discount""": """هل يوجد خصم؟""",
+  """editphonerequest.title""": """تعديل طلب الرقم""",
+  """editphonerequest.phone_number""": """رقم الهاتف""",
+  """editphonerequest.price_optional""": """السعر (اختياري)""",
+  """editphonerequest.save_changes""": """حفظ التعديلات""",
+  """editplate.title""": """تعديل إعلان اللوحة""",
+  """editplate.code""": """الرمز""",
+  """editplate.plate_number""": """رقم اللوحة""",
+  """editplate.price""": """السعر""",
+  """editplate.discount_price""": """سعر الخصم""",
+  """editplate.featured""": """تمييز""",
+  """editplate.disabled""": """تعطيل""",
+  """editplate.sold""": """مباع""",
+  """editplate.save_changes""": """حفظ التعديلات""",
+  """editplaterequest.title""": """تعديل طلب اللوحة""",
+  """editplaterequest.code""": """الرمز""",
+  """editplaterequest.number""": """الرقم""",
+  """editplaterequest.price_optional""": """السعر (اختياري)""",
+  """editplaterequest.save_changes""": """حفظ التعديلات""",
 };

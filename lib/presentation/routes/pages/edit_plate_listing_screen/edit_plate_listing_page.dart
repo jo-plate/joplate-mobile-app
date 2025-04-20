@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/domain/entities/plate_listing.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/edit_plate_listing_screen/cubit/edit_plate_listing_cubit.dart';
 import 'package:joplate/presentation/routes/pages/edit_plate_listing_screen/cubit/edit_plate_listing_state.dart';
 
@@ -38,12 +39,13 @@ class _EditPlateListingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     return BlocBuilder<EditPlateListingCubit, EditPlateListingState>(
       builder: (context, state) {
         final cubit = context.read<EditPlateListingCubit>();
 
         return Scaffold(
-          appBar: AppBar(title: const Text("Edit Plate Listing")),
+          appBar: AppBar(title:  Text(m.editplate.title)),
           body: SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(16),
@@ -56,25 +58,25 @@ class _EditPlateListingView extends StatelessWidget {
                       style: const TextStyle(color: Colors.red),
                     ),
                   const SizedBox(height: 8),
-                  _inputField("Code", state.code, cubit.updateCode,
+                  _inputField(m.editplate.code, state.code, cubit.updateCode,
                       enabled: !state.isSubmitting),
                   const SizedBox(height: 16),
-                  _inputField("Plate Number", state.plateNumber,
+                  _inputField(m.editplate.plate_number, state.plateNumber,
                       cubit.updatePlateNumber,
                       enabled: !state.isSubmitting),
                   const SizedBox(height: 16),
-                  _inputField("Price", state.price, cubit.updatePrice,
+                  _inputField(m.editplate.price, state.price, cubit.updatePrice,
                       enabled: !state.isSubmitting),
                   const SizedBox(height: 16),
-                  _inputField("Discount Price", state.discountPrice ?? '',
+                  _inputField(m.editplate.discount_price, state.discountPrice ?? '',
                       cubit.updateDiscountPrice,
                       enabled: !state.isSubmitting),
                   const SizedBox(height: 16),
-                  _toggleRow("Featured", state.isFeatured, cubit.toggleFeatured,
+                  _toggleRow(m.editplate.featured, state.isFeatured, cubit.toggleFeatured,
                       disabled: state.isSubmitting),
-                  _toggleRow("Disabled", state.isDisabled, cubit.toggleDisabled,
+                  _toggleRow(m.editplate.disabled, state.isDisabled, cubit.toggleDisabled,
                       disabled: state.isSubmitting),
-                  _toggleRow("Sold", state.isSold, cubit.toggleSold,
+                  _toggleRow(m.editplate.sold, state.isSold, cubit.toggleSold,
                       disabled: state.isSubmitting),
                   const SizedBox(height: 24),
                   if (state.isSubmitting)
@@ -90,7 +92,7 @@ class _EditPlateListingView extends StatelessWidget {
                           AutoRouter.of(context).maybePop();
                         }
                       },
-                      child: const Text("Save Changes",
+                      child:  Text(m.editplate.save_changes,
                           style: TextStyle(color: Colors.white)),
                     ),
                 ],

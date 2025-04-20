@@ -216,3 +216,39 @@ quicksale:
   call: "اتصال"
   user_not_found: "لم يتم العثور على المستخدم"
   requested_by: "الطلب بواسطة"
+
+editphone:
+  title: "تعديل إعلان الرقم"
+  phone_number: "رقم الهاتف"
+  price: "السعر"
+  discount_price: "سعر الخصم"
+  feature: "تمييز هذا الإعلان"
+  mark_sold: "تحديد كـ مُباع"
+  disable: "تعطيل هذا الإعلان"
+  save_changes: "حفظ التعديلات"
+  withdiscount: "هل يوجد خصم؟"
+  discount: "هل يوجد خصم؟"
+
+editphonerequest:
+  title: "تعديل طلب الرقم"
+  phone_number: "رقم الهاتف"
+  price_optional: "السعر (اختياري)"
+  save_changes: "حفظ التعديلات"
+
+editplate:
+  title: "تعديل إعلان اللوحة"
+  code: "الرمز"
+  plate_number: "رقم اللوحة"
+  price: "السعر"
+  discount_price: "سعر الخصم"
+  featured: "تمييز"
+  disabled: "تعطيل"
+  sold: "مباع"
+  save_changes: "حفظ التعديلات"
+
+editplaterequest:
+  title: "تعديل طلب اللوحة"
+  code: "الرمز"
+  number: "الرقم"
+  price_optional: "السعر (اختياري)"
+  save_changes: "حفظ التعديلات"

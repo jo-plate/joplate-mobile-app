@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/domain/entities/request.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/edit_phone_request_screen/cubit/edit_phone_request_cubit.dart';
 
 @RoutePage()
@@ -36,13 +37,14 @@ class _EditPhoneRequestPageState extends State<EditPhoneRequestPage> {
 
   @override
   Widget build(BuildContext context) {
+    final m=Localization.of(context);
     return BlocProvider<EditPhoneRequestCubit>(
       create: (_) => EditPhoneRequestCubit()
         ..loadFromRequest(
           request: widget.request,
         ),
       child: Scaffold(
-        appBar: AppBar(title: const Text("Edit Phone Request")),
+        appBar: AppBar(title:  Text(m.editphonerequest.title)),
         body: SafeArea(
           child: BlocBuilder<EditPhoneRequestCubit, EditPhoneRequestState>(
             builder: (context, state) {
@@ -64,7 +66,7 @@ class _EditPhoneRequestPageState extends State<EditPhoneRequestPage> {
                     TextField(
                       controller: numberController,
                       decoration:
-                          const InputDecoration(labelText: 'Phone Number'),
+                           InputDecoration(labelText: m.editphonerequest.phone_number),
                       keyboardType: TextInputType.phone,
                       enabled: false,
                     ),
@@ -72,7 +74,7 @@ class _EditPhoneRequestPageState extends State<EditPhoneRequestPage> {
                     TextField(
                       controller: priceController,
                       decoration:
-                          const InputDecoration(labelText: 'Price (optional)'),
+                           InputDecoration(labelText: m.editphonerequest.price_optional),
                       keyboardType: TextInputType.number,
                       enabled: !state.isSubmitting,
                       onChanged: (s) {
@@ -96,7 +98,7 @@ class _EditPhoneRequestPageState extends State<EditPhoneRequestPage> {
                                   context.router.maybePop();
                                 });
                               },
-                              child: const Text("Save Changes",
+                              child:  Text(m.editphonerequest.save_changes,
                                   style: TextStyle(color: Colors.white)),
                             ),
                           ),

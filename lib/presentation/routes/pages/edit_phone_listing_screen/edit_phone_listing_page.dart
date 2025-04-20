@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/domain/entities/phone_listing.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/edit_phone_listing_screen/cubit/edit_phone_listing_cubit.dart';
 
 @RoutePage()
@@ -28,12 +29,13 @@ class _EditPhoneListingContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final m=Localization.of(context);
     return BlocBuilder<EditPhoneListingCubit, EditPhoneListingState>(
       builder: (context, state) {
         final cubit = context.read<EditPhoneListingCubit>();
 
         return Scaffold(
-          appBar: AppBar(title: const Text("Edit Phone Listing")),
+          appBar: AppBar(title:  Text(m.editphone.title)),
           body: SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(16),
@@ -48,7 +50,7 @@ class _EditPhoneListingContent extends StatelessWidget {
                     controller: TextEditingController(text: state.number),
                     enabled: false,
                     decoration:
-                        const InputDecoration(labelText: "Phone Number"),
+                         InputDecoration(labelText: m.editphone.phone_number),
                   ),
                   const SizedBox(height: 16),
                   TextField(
@@ -56,13 +58,13 @@ class _EditPhoneListingContent extends StatelessWidget {
                     keyboardType: TextInputType.number,
                     onChanged: cubit.updatePrice,
                     enabled: !state.isSubmitting,
-                    decoration: const InputDecoration(labelText: "Price"),
+                    decoration:  InputDecoration(labelText:m.editphone.price),
                   ),
                   const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text("With Discount?"),
+                       Text(m.editphone.discount),
                       Switch(
                         value: state.discountPrice != null,
                         onChanged:
@@ -78,14 +80,14 @@ class _EditPhoneListingContent extends StatelessWidget {
                       onChanged: cubit.updateDiscountPrice,
                       enabled: !state.isSubmitting,
                       decoration:
-                          const InputDecoration(labelText: "Discount Price"),
+                           InputDecoration(labelText: m.editphone.discount_price),
                     ),
                   const SizedBox(height: 16),
-                  _buildSwitchRow("Feature this listing", state.isFeatured,
+                  _buildSwitchRow(m.editphone.feature, state.isFeatured,
                       cubit.toggleFeatured, state.isSubmitting),
-                  _buildSwitchRow("Mark as Sold", state.isSold,
+                  _buildSwitchRow(m.editphone.mark_sold, state.isSold,
                       cubit.toggleSold, state.isSubmitting),
-                  _buildSwitchRow("Disable this listing", state.isDisabled,
+                  _buildSwitchRow(m.editphone.disable, state.isDisabled,
                       cubit.toggleDisabled, state.isSubmitting),
                   const SizedBox(height: 24),
                   if (state.isSubmitting)
@@ -99,7 +101,7 @@ class _EditPhoneListingContent extends StatelessWidget {
                           AutoRouter.of(context).maybePop();
                         }
                       },
-                      child: const Text("Save Changes",
+                      child:  Text(m.editphone.save_changes,
                           style: TextStyle(color: Colors.white)),
                     ),
                 ],

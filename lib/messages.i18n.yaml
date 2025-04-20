@@ -217,3 +217,39 @@ quicksale:
   call: "Call"
   user_not_found: "User not found"
   requested_by: "Requested by"
+
+editphone:
+  title: "Edit Phone Listing"
+  phone_number: "Phone Number"
+  price: "Price"
+  discount_price: "Discount Price"
+  feature: "Feature this listing"
+  mark_sold: "Mark as Sold"
+  disable: "Disable this listing"
+  save_changes: "Save Changes"
+  withdiscount: "With Discount?"
+  discount: "With Discount?"
+
+editphonerequest:
+  title: "Edit Phone Request"
+  phone_number: "Phone Number"
+  price_optional: "Price (optional)"
+  save_changes: "Save Changes"
+
+editplate:
+  title: "Edit Plate Listing"
+  code: "Code"
+  plate_number: "Plate Number"
+  price: "Price"
+  discount_price: "Discount Price"
+  featured: "Featured"
+  disabled: "Disabled"
+  sold: "Sold"
+  save_changes: "Save Changes"
+
+editplaterequest:
+  title: "Edit Plate Request"
+  code: "Code"
+  number: "Number"
+  price_optional: "Price (optional)"
+  save_changes: "Save Changes"

@@ -81,6 +81,12 @@ class Messages {
   SellerdetailsMessages get sellerdetails => SellerdetailsMessages(this);
   PlatesdetailsMessages get platesdetails => PlatesdetailsMessages(this);
   QuicksaleMessages get quicksale => QuicksaleMessages(this);
+  EditphoneMessages get editphone => EditphoneMessages(this);
+  EditphonerequestMessages get editphonerequest =>
+      EditphonerequestMessages(this);
+  EditplateMessages get editplate => EditplateMessages(this);
+  EditplaterequestMessages get editplaterequest =>
+      EditplaterequestMessages(this);
 }
 
 class AppMessages {
@@ -1080,6 +1086,166 @@ class QuicksaleMessages {
   String get requested_by => """Requested by""";
 }
 
+class EditphoneMessages {
+  final Messages _parent;
+  const EditphoneMessages(this._parent);
+
+  /// ```dart
+  /// "Edit Phone Listing"
+  /// ```
+  String get title => """Edit Phone Listing""";
+
+  /// ```dart
+  /// "Phone Number"
+  /// ```
+  String get phone_number => """Phone Number""";
+
+  /// ```dart
+  /// "Price"
+  /// ```
+  String get price => """Price""";
+
+  /// ```dart
+  /// "Discount Price"
+  /// ```
+  String get discount_price => """Discount Price""";
+
+  /// ```dart
+  /// "Feature this listing"
+  /// ```
+  String get feature => """Feature this listing""";
+
+  /// ```dart
+  /// "Mark as Sold"
+  /// ```
+  String get mark_sold => """Mark as Sold""";
+
+  /// ```dart
+  /// "Disable this listing"
+  /// ```
+  String get disable => """Disable this listing""";
+
+  /// ```dart
+  /// "Save Changes"
+  /// ```
+  String get save_changes => """Save Changes""";
+
+  /// ```dart
+  /// "With Discount?"
+  /// ```
+  String get withdiscount => """With Discount?""";
+
+  /// ```dart
+  /// "With Discount?"
+  /// ```
+  String get discount => """With Discount?""";
+}
+
+class EditphonerequestMessages {
+  final Messages _parent;
+  const EditphonerequestMessages(this._parent);
+
+  /// ```dart
+  /// "Edit Phone Request"
+  /// ```
+  String get title => """Edit Phone Request""";
+
+  /// ```dart
+  /// "Phone Number"
+  /// ```
+  String get phone_number => """Phone Number""";
+
+  /// ```dart
+  /// "Price (optional)"
+  /// ```
+  String get price_optional => """Price (optional)""";
+
+  /// ```dart
+  /// "Save Changes"
+  /// ```
+  String get save_changes => """Save Changes""";
+}
+
+class EditplateMessages {
+  final Messages _parent;
+  const EditplateMessages(this._parent);
+
+  /// ```dart
+  /// "Edit Plate Listing"
+  /// ```
+  String get title => """Edit Plate Listing""";
+
+  /// ```dart
+  /// "Code"
+  /// ```
+  String get code => """Code""";
+
+  /// ```dart
+  /// "Plate Number"
+  /// ```
+  String get plate_number => """Plate Number""";
+
+  /// ```dart
+  /// "Price"
+  /// ```
+  String get price => """Price""";
+
+  /// ```dart
+  /// "Discount Price"
+  /// ```
+  String get discount_price => """Discount Price""";
+
+  /// ```dart
+  /// "Featured"
+  /// ```
+  String get featured => """Featured""";
+
+  /// ```dart
+  /// "Disabled"
+  /// ```
+  String get disabled => """Disabled""";
+
+  /// ```dart
+  /// "Sold"
+  /// ```
+  String get sold => """Sold""";
+
+  /// ```dart
+  /// "Save Changes"
+  /// ```
+  String get save_changes => """Save Changes""";
+}
+
+class EditplaterequestMessages {
+  final Messages _parent;
+  const EditplaterequestMessages(this._parent);
+
+  /// ```dart
+  /// "Edit Plate Request"
+  /// ```
+  String get title => """Edit Plate Request""";
+
+  /// ```dart
+  /// "Code"
+  /// ```
+  String get code => """Code""";
+
+  /// ```dart
+  /// "Number"
+  /// ```
+  String get number => """Number""";
+
+  /// ```dart
+  /// "Price (optional)"
+  /// ```
+  String get price_optional => """Price (optional)""";
+
+  /// ```dart
+  /// "Save Changes"
+  /// ```
+  String get save_changes => """Save Changes""";
+}
+
 Map<String, String> get messagesMap => {
   """app.title""": """Joplate""",
   """home.welcome""": """Welcome to Joplate!""",
@@ -1262,4 +1428,32 @@ Map<String, String> get messagesMap => {
   """quicksale.call""": """Call""",
   """quicksale.user_not_found""": """User not found""",
   """quicksale.requested_by""": """Requested by""",
+  """editphone.title""": """Edit Phone Listing""",
+  """editphone.phone_number""": """Phone Number""",
+  """editphone.price""": """Price""",
+  """editphone.discount_price""": """Discount Price""",
+  """editphone.feature""": """Feature this listing""",
+  """editphone.mark_sold""": """Mark as Sold""",
+  """editphone.disable""": """Disable this listing""",
+  """editphone.save_changes""": """Save Changes""",
+  """editphone.withdiscount""": """With Discount?""",
+  """editphone.discount""": """With Discount?""",
+  """editphonerequest.title""": """Edit Phone Request""",
+  """editphonerequest.phone_number""": """Phone Number""",
+  """editphonerequest.price_optional""": """Price (optional)""",
+  """editphonerequest.save_changes""": """Save Changes""",
+  """editplate.title""": """Edit Plate Listing""",
+  """editplate.code""": """Code""",
+  """editplate.plate_number""": """Plate Number""",
+  """editplate.price""": """Price""",
+  """editplate.discount_price""": """Discount Price""",
+  """editplate.featured""": """Featured""",
+  """editplate.disabled""": """Disabled""",
+  """editplate.sold""": """Sold""",
+  """editplate.save_changes""": """Save Changes""",
+  """editplaterequest.title""": """Edit Plate Request""",
+  """editplaterequest.code""": """Code""",
+  """editplaterequest.number""": """Number""",
+  """editplaterequest.price_optional""": """Price (optional)""",
+  """editplaterequest.save_changes""": """Save Changes""",
 };
