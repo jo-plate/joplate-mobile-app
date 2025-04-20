@@ -11,7 +11,7 @@ import 'package:joplate/presentation/widgets/favorite_button.dart';
 class PlateNumberListingWidget extends StatelessWidget {
   final PlateListing item;
   final PlateShape shape;
-  final bool isSold;
+  final bool disabled;
   final double priceLabelFontSize;
   final bool hideLikeButton;
 
@@ -19,7 +19,7 @@ class PlateNumberListingWidget extends StatelessWidget {
       {super.key,
       required this.item,
       this.shape = PlateShape.horizontal,
-      this.isSold = false,
+      this.disabled = false,
       this.priceLabelFontSize = 16,
       this.hideLikeButton = false});
 
@@ -30,9 +30,12 @@ class PlateNumberListingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: GestureDetector(
-        onTap: () {
-          AutoRouter.of(context).push(PlatesDetailsRoute(listingId: item.id));
-        },
+        onTap: disabled
+            ? null
+            : () {
+                AutoRouter.of(context)
+                    .push(PlatesDetailsRoute(listingId: item.id));
+              },
         child: Stack(
           fit: StackFit.passthrough,
           clipBehavior: Clip.hardEdge,
@@ -65,7 +68,7 @@ class PlateNumberListingWidget extends StatelessWidget {
                         const SizedBox(height: 2),
                         if (!hideLikeButton)
                           FavoriteButton.plate(
-                            listingId: item.toString(),
+                            listingId: item.id,
                             iconSize: 20,
                           ),
                       ],

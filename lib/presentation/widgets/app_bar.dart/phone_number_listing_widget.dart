@@ -11,6 +11,7 @@ import 'package:stroke_text/stroke_text.dart';
 class PhoneNumberListingWidget extends StatelessWidget {
   final PhoneListing item;
   final double aspectRatio;
+  final bool disabled;
   final double priceLabelFontSize;
   final bool hideLikeButton;
 
@@ -18,6 +19,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
     super.key,
     required this.item,
     this.aspectRatio = 1.4,
+    this.disabled = false,
     this.priceLabelFontSize = 18,
     this.hideLikeButton = false,
   });
@@ -30,9 +32,12 @@ class PhoneNumberListingWidget extends StatelessWidget {
         child: AspectRatio(
           aspectRatio: aspectRatio,
           child: GestureDetector(
-            onTap: () {
-              AutoRouter.of(context).push(PhoneDetailsRoute(phoneNumber: item));
-            },
+            onTap: disabled
+                ? null
+                : () {
+                    AutoRouter.of(context)
+                        .push(PhoneDetailsRoute(phoneNumber: item));
+                  },
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(
@@ -92,8 +97,9 @@ class PhoneNumberListingWidget extends StatelessWidget {
                                 children: [
                                   _buildPriceLabel(),
                                   if (!hideLikeButton)
-                                    FavoriteButton.plate(
-                                      listingId: item.toString(),
+                                    FavoriteButton.phone(
+                                      listingId: item.id,
+
                                       iconSize: 24,
                                     ),
                                 ],
