@@ -20,12 +20,12 @@ Future<List<PlateListing>> fetchPlates(List<String> plateIds) async {
   return plates.whereType<PlateListing>().toList(); // Filter out null values
 }
 
-Future<List<PhoneListing>> fetchPhones(List<PhoneListing> phoneIds) async {
+Future<List<PhoneListing>> fetchPhones(List<String> phoneIds) async {
   final List<PhoneListing?> phones = await Future.wait(
     phoneIds.map((phone) async {
       final phoneDoc = await FirebaseFirestore.instance
           .collection(phoneNumbersCollectionId)
-          .doc(phone.id)
+          .doc(phone)
           .get();
       if (phoneDoc.exists) {
         return PhoneListing.fromSnapshot(phoneDoc);

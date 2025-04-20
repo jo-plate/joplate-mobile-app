@@ -56,7 +56,7 @@ class _FavoritesPageState extends State<FavoritesPage>
         snapshot.favoritePhones.map((id) async {
           final phone = await FirebaseFirestore.instance
               .collection(phoneNumbersCollectionId)
-              .doc(id.id)
+              .doc(id.toString())
               .get();
           return PhoneListing.fromSnapshot(phone);
         }),
@@ -130,7 +130,7 @@ class _FavoritesPageState extends State<FavoritesPage>
                     }
 
                     return FutureBuilder<List<PhoneListing>>(
-                      future: fetchPhones(userFavorites.favoritePhones),
+                      future: fetchPhones(userFavorites.favoritePhonesIds),
                       builder: (context, phoneSnapshot) {
                         if (phoneSnapshot.connectionState ==
                             ConnectionState.waiting) {
