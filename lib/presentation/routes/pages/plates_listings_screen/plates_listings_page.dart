@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -64,21 +66,88 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
     "XXX (3 Digits)",
   ];
 
-  late final Stream<List<PlateListing>> _platesStream;
-  late final Stream<List<PlateListing>> _otherSellersStream;
+  late final StreamSubscription<QuerySnapshot<Map<String, dynamic>>> _sub;
+  List<PlateListing> _allPlates = [];
 
   @override
   void initState() {
     super.initState();
-    // where ads array size > 0
-    _platesStream = FirebaseFirestore.instance
+
+    _sub = FirebaseFirestore.instance
         .collection(carPlatesCollectionId)
         .where('isDisabled', isEqualTo: false)
-        // .orderBy('isFeatured', descending: true)
         .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => PlateListing.fromSnapshot(doc))
-            .toList());
+        .listen((snap) {
+      setState(() {
+        _allPlates =
+            snap.docs.map((doc) => PlateListing.fromSnapshot(doc)).toList();
+      });
+    });
+
+    for (final c in [
+      _containsController,
+      _startsWithController,
+      _endsWithController,
+      _minPriceController,
+      _maxPriceController
+    ]) {
+      c.addListener(() => setState(() {}));
+    }
+  }
+
+  @override
+  void dispose() {
+    _sub.cancel();
+    _containsController.dispose();
+    _startsWithController.dispose();
+    _endsWithController.dispose();
+    _minPriceController.dispose();
+    _maxPriceController.dispose();
+    super.dispose();
+  }
+
+  bool _matches(PlateListing plate) {
+    final number = plate.item.number;
+
+    if (_selectedCode != null && _selectedCode!.isNotEmpty && plate.item.code != _selectedCode) {
+      return false;
+    }
+
+    if (_selectedDigits != null &&
+        _selectedDigits!.isNotEmpty &&
+        '${plate.item.number.length} Digits' != _selectedDigits) {
+      return false;
+    }
+
+    if (_selectedFormat != null &&
+        _selectedFormat!.isNotEmpty &&
+        _selectedFormat != 'Format' &&
+        plate.item.format != _selectedFormat) {
+      return false;
+    }
+
+    if (_containsController.text.isNotEmpty &&
+        !number.contains(_containsController.text)) {
+      return false;
+    }
+
+    if (_startsWithController.text.isNotEmpty &&
+        !number.startsWith(_startsWithController.text)) {
+      return false;
+    }
+
+    if (_endsWithController.text.isNotEmpty &&
+        !number.endsWith(_endsWithController.text)) {
+      return false;
+    }
+
+    final min = double.tryParse(_minPriceController.text);
+    final max = double.tryParse(_maxPriceController.text);
+
+    if (min != null && !plate.priceHidden && plate.price < min) return false;
+    if (max != null && !plate.priceHidden && plate.price > max) return false;
+
+    return !plate.isDisabled && !plate.isSold && !plate.isExpired;
   }
 
   InputDecoration get inputFieldStyle => InputDecoration(
@@ -102,6 +171,8 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
+    final visiblePlates = _allPlates.where(_matches).toList();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(m.plates.title),
@@ -128,7 +199,6 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
             children: [
-              // Dropdown Filters (Always Visible)
               Row(
                 children: [
                   Expanded(
@@ -167,7 +237,6 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                 ],
               ),
               const SizedBox(height: 8),
-
               DropdownButtonFormField<String>(
                 decoration:
                     inputFieldStyle.copyWith(labelText: m.plates.format),
@@ -183,7 +252,6 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
               ),
               const SizedBox(height: 8),
 
-              // Expandable Filters
               if (_isExpanded) ...[
                 Row(
                   children: [
@@ -222,31 +290,10 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                             keyboardType: TextInputType.number,
                             decoration: inputFieldStyle.copyWith(
                                 labelText: m.plates.max_price))),
-                    const SizedBox(width: 8),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12, horizontal: 16),
-                        minimumSize: const Size(80, 40), // Smaller button size
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: Text(
-                        m.home.search,
-                        style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold), // Smaller text
-                      ),
-                    )
                   ],
                 ),
                 const SizedBox(height: 8),
               ],
-
               GestureDetector(
                 onTap: () => setState(() => _isExpanded = !_isExpanded),
                 child: Row(
@@ -262,24 +309,8 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                   ],
                 ),
               ),
-
               const SizedBox(height: 8),
-              StreamBuilder<List<PlateListing>>(
-                  stream: _platesStream,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    if (snapshot.hasError) {
-                      return Center(
-                        child: Text(
-                          "Error loading data: ${snapshot.error}",
-                          style: const TextStyle(color: Colors.red),
-                        ),
-                      );
-                    }
-                    return PlatesListingsGrid(itemList: snapshot.data ?? []);
-                  }),
+              PlatesListingsGrid(itemList: visiblePlates),
             ],
           ),
         ),

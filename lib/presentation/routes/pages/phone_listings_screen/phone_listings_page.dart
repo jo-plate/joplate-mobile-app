@@ -211,26 +211,7 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
                           labelText: m.phones.max_price),
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF981C1E),
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 16),
-                      minimumSize: const Size(80, 40), // Smaller button size
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: Text(
-                      m.home.search,
-                      style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold), // Smaller text
-                    ),
-                  )
+                  
                 ],
               ),
               const SizedBox(height: 8),
