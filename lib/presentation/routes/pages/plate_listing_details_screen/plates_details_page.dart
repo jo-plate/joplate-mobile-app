@@ -96,31 +96,17 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                         item: snapshot.data!,
                         hideLikeButton: true,
                         priceLabelFontSize: 24,
-                        
                       ),
                     ),
                     const SizedBox(height: 20),
                     SellerDetails(userId: snapshot.data!.userId),
-                    ...[const SizedBox(height: 20),
-                    Container(
-                      padding: const EdgeInsets.all(16.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.1),
-                            blurRadius: 10,
-                            spreadRadius: 0,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: OtherSellersTable(
+                    ...[
+                      const SizedBox(height: 20),
+                      OtherSellersTable(
                         userId: snapshot.data!.userId,
                         plateNumber: snapshot.data!.item,
                       ),
-                    )],
+                    ],
                     const SizedBox(height: 20),
                     Container(
                       padding: const EdgeInsets.all(12.0),
@@ -284,14 +270,6 @@ class _SellerDetailsState extends State<SellerDetails> {
                               color: Color(0xFF2C3E50),
                             ),
                           ),
-                          const SizedBox(height: 4),
-                          Text(
-                            m.platesdetails.member_since,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey[600],
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -412,18 +390,21 @@ class OtherSellersTable extends StatelessWidget {
           .get()),
     );
 
-    final profiles =
-        userDocs.where((doc) => doc.exists).map((doc) => doc.data()!).toList();
+    final profiles = userDocs
+        .where((doc) => doc.exists)
+        .map((doc) => UserProfile.fromSnapshot(doc))
+        .toList();
 
     return List.generate(otherListings.length, (i) {
       final profile = profiles[i];
       final listing = otherListings[i];
       return {
-        "name": profile['displayName'] ?? 'Unknown',
-        "phone": profile['phonenumber'] ?? '',
+        "name": profile.displayName,
+        "phone": profile.phonenumber,
         "price":
             listing.priceHidden ? 'Call for Price' : listing.price.toString(),
         "isFeatured": listing.isFeatured,
+        "listingId": listing.id,
         "createdAt": listing.createdAt,
       };
     });
@@ -435,52 +416,67 @@ class OtherSellersTable extends StatelessWidget {
     return FutureBuilder<List<Map<String, dynamic>>>(
       future: _fetchOtherSellers(),
       builder: (context, snapshot) {
-        if (snapshot.data == null) {
+        if (snapshot.data == null || (snapshot.data?.isEmpty ?? true)) {
           return const SizedBox();
         }
 
         final sellers = snapshot.data!;
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF981C1E).withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
+        return Container(
+          padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.1),
+                blurRadius: 10,
+                spreadRadius: 0,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF981C1E).withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(Icons.people_outline,
+                        color: Color(0xFF981C1E), size: 20),
                   ),
-                  child: const Icon(Icons.people_outline,
-                      color: Color(0xFF981C1E), size: 20),
-                ),
-                const SizedBox(width: 12),
-                Text(
-                  m.platesdetails.other_sellers,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Table(
-              columnWidths: const {
-                0: FlexColumnWidth(2),
-                1: FlexColumnWidth(1),
-                2: FlexColumnWidth(1),
-              },
-              children: [
-                _buildTableHeader(context),
-                ...sellers.map((s) => _buildSellerRow(
-                      name: s['name'],
-                      price: s['price'],
-                      phoneNumber: s['phone'],
-                      isFeatured: s['isFeatured'],
-                    )),
-              ],
-            ),
-          ],
+                  const SizedBox(width: 12),
+                  Text(
+                    m.platesdetails.other_sellers,
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Table(
+                columnWidths: const {
+                  0: FlexColumnWidth(2),
+                  1: FlexColumnWidth(1),
+                  2: FlexColumnWidth(1),
+                },
+                children: [
+                  _buildTableHeader(context),
+                  ...sellers.map((s) => _buildSellerRow(
+                        name: s['name'],
+                        price: s['price'],
+                        phoneNumber: s['phone'],
+                        isFeatured: s['isFeatured'],
+                      )),
+                ],
+              ),
+            ],
+          ),
         );
       },
     );

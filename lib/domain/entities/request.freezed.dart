@@ -21,7 +21,7 @@ PhoneRequest _$PhoneRequestFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PhoneRequest {
   String get id => throw _privateConstructorUsedError;
-  double get price => throw _privateConstructorUsedError;
+  int get price => throw _privateConstructorUsedError;
   bool get isDisabled => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   PhoneNumber get item => throw _privateConstructorUsedError;
@@ -43,11 +43,7 @@ abstract class $PhoneRequestCopyWith<$Res> {
       _$PhoneRequestCopyWithImpl<$Res, PhoneRequest>;
   @useResult
   $Res call(
-      {String id,
-      double price,
-      bool isDisabled,
-      String userId,
-      PhoneNumber item});
+      {String id, int price, bool isDisabled, String userId, PhoneNumber item});
 
   $PhoneNumberCopyWith<$Res> get item;
 }
@@ -81,7 +77,7 @@ class _$PhoneRequestCopyWithImpl<$Res, $Val extends PhoneRequest>
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       isDisabled: null == isDisabled
           ? _value.isDisabled
           : isDisabled // ignore: cast_nullable_to_non_nullable
@@ -117,11 +113,7 @@ abstract class _$$PhoneRequestImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
-      double price,
-      bool isDisabled,
-      String userId,
-      PhoneNumber item});
+      {String id, int price, bool isDisabled, String userId, PhoneNumber item});
 
   @override
   $PhoneNumberCopyWith<$Res> get item;
@@ -154,7 +146,7 @@ class __$$PhoneRequestImplCopyWithImpl<$Res>
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       isDisabled: null == isDisabled
           ? _value.isDisabled
           : isDisabled // ignore: cast_nullable_to_non_nullable
@@ -189,7 +181,7 @@ class _$PhoneRequestImpl extends _PhoneRequest {
   final String id;
   @override
   @JsonKey()
-  final double price;
+  final int price;
   @override
   @JsonKey()
   final bool isDisabled;
@@ -240,7 +232,7 @@ class _$PhoneRequestImpl extends _PhoneRequest {
 abstract class _PhoneRequest extends PhoneRequest {
   factory _PhoneRequest(
       {required final String id,
-      final double price,
+      final int price,
       final bool isDisabled,
       required final String userId,
       required final PhoneNumber item}) = _$PhoneRequestImpl;
@@ -252,7 +244,7 @@ abstract class _PhoneRequest extends PhoneRequest {
   @override
   String get id;
   @override
-  double get price;
+  int get price;
   @override
   bool get isDisabled;
   @override
@@ -275,7 +267,7 @@ PlateRequest _$PlateRequestFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PlateRequest {
   String get id => throw _privateConstructorUsedError;
-  double get price => throw _privateConstructorUsedError;
+  int get price => throw _privateConstructorUsedError;
   bool get isDisabled => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   PlateNumber get item => throw _privateConstructorUsedError;
@@ -297,11 +289,7 @@ abstract class $PlateRequestCopyWith<$Res> {
       _$PlateRequestCopyWithImpl<$Res, PlateRequest>;
   @useResult
   $Res call(
-      {String id,
-      double price,
-      bool isDisabled,
-      String userId,
-      PlateNumber item});
+      {String id, int price, bool isDisabled, String userId, PlateNumber item});
 
   $PlateNumberCopyWith<$Res> get item;
 }
@@ -335,7 +323,7 @@ class _$PlateRequestCopyWithImpl<$Res, $Val extends PlateRequest>
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       isDisabled: null == isDisabled
           ? _value.isDisabled
           : isDisabled // ignore: cast_nullable_to_non_nullable
@@ -371,11 +359,7 @@ abstract class _$$PlateRequestImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
-      double price,
-      bool isDisabled,
-      String userId,
-      PlateNumber item});
+      {String id, int price, bool isDisabled, String userId, PlateNumber item});
 
   @override
   $PlateNumberCopyWith<$Res> get item;
@@ -408,7 +392,7 @@ class __$$PlateRequestImplCopyWithImpl<$Res>
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       isDisabled: null == isDisabled
           ? _value.isDisabled
           : isDisabled // ignore: cast_nullable_to_non_nullable
@@ -443,7 +427,7 @@ class _$PlateRequestImpl extends _PlateRequest {
   final String id;
   @override
   @JsonKey()
-  final double price;
+  final int price;
   @override
   @JsonKey()
   final bool isDisabled;
@@ -494,7 +478,7 @@ class _$PlateRequestImpl extends _PlateRequest {
 abstract class _PlateRequest extends PlateRequest {
   factory _PlateRequest(
       {required final String id,
-      final double price,
+      final int price,
       final bool isDisabled,
       required final String userId,
       required final PlateNumber item}) = _$PlateRequestImpl;
@@ -506,7 +490,7 @@ abstract class _PlateRequest extends PlateRequest {
   @override
   String get id;
   @override
-  double get price;
+  int get price;
   @override
   bool get isDisabled;
   @override

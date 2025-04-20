@@ -22,11 +22,11 @@ PlateListing _$PlateListingFromJson(Map<String, dynamic> json) {
 mixin _$PlateListing {
   String get id => throw _privateConstructorUsedError;
   PlateNumber get item => throw _privateConstructorUsedError;
-  double get price => throw _privateConstructorUsedError;
-  double get discountPrice => throw _privateConstructorUsedError;
-  bool get isFeatured => throw _privateConstructorUsedError;
+  int get price => throw _privateConstructorUsedError;
+  int get discountPrice => throw _privateConstructorUsedError;
   bool get isDisabled => throw _privateConstructorUsedError;
   bool get isSold => throw _privateConstructorUsedError;
+  DateTime? get featuredUntil => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get expiresAt => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
@@ -51,11 +51,11 @@ abstract class $PlateListingCopyWith<$Res> {
   $Res call(
       {String id,
       PlateNumber item,
-      double price,
-      double discountPrice,
-      bool isFeatured,
+      int price,
+      int discountPrice,
       bool isDisabled,
       bool isSold,
+      DateTime? featuredUntil,
       DateTime? createdAt,
       DateTime? expiresAt,
       String userId,
@@ -84,9 +84,9 @@ class _$PlateListingCopyWithImpl<$Res, $Val extends PlateListing>
     Object? item = null,
     Object? price = null,
     Object? discountPrice = null,
-    Object? isFeatured = null,
     Object? isDisabled = null,
     Object? isSold = null,
+    Object? featuredUntil = freezed,
     Object? createdAt = freezed,
     Object? expiresAt = freezed,
     Object? userId = null,
@@ -104,15 +104,11 @@ class _$PlateListingCopyWithImpl<$Res, $Val extends PlateListing>
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       discountPrice: null == discountPrice
           ? _value.discountPrice
           : discountPrice // ignore: cast_nullable_to_non_nullable
-              as double,
-      isFeatured: null == isFeatured
-          ? _value.isFeatured
-          : isFeatured // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as int,
       isDisabled: null == isDisabled
           ? _value.isDisabled
           : isDisabled // ignore: cast_nullable_to_non_nullable
@@ -121,6 +117,10 @@ class _$PlateListingCopyWithImpl<$Res, $Val extends PlateListing>
           ? _value.isSold
           : isSold // ignore: cast_nullable_to_non_nullable
               as bool,
+      featuredUntil: freezed == featuredUntil
+          ? _value.featuredUntil
+          : featuredUntil // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -176,11 +176,11 @@ abstract class _$$PlateListingImplCopyWith<$Res>
   $Res call(
       {String id,
       PlateNumber item,
-      double price,
-      double discountPrice,
-      bool isFeatured,
+      int price,
+      int discountPrice,
       bool isDisabled,
       bool isSold,
+      DateTime? featuredUntil,
       DateTime? createdAt,
       DateTime? expiresAt,
       String userId,
@@ -209,9 +209,9 @@ class __$$PlateListingImplCopyWithImpl<$Res>
     Object? item = null,
     Object? price = null,
     Object? discountPrice = null,
-    Object? isFeatured = null,
     Object? isDisabled = null,
     Object? isSold = null,
+    Object? featuredUntil = freezed,
     Object? createdAt = freezed,
     Object? expiresAt = freezed,
     Object? userId = null,
@@ -229,15 +229,11 @@ class __$$PlateListingImplCopyWithImpl<$Res>
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       discountPrice: null == discountPrice
           ? _value.discountPrice
           : discountPrice // ignore: cast_nullable_to_non_nullable
-              as double,
-      isFeatured: null == isFeatured
-          ? _value.isFeatured
-          : isFeatured // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as int,
       isDisabled: null == isDisabled
           ? _value.isDisabled
           : isDisabled // ignore: cast_nullable_to_non_nullable
@@ -246,6 +242,10 @@ class __$$PlateListingImplCopyWithImpl<$Res>
           ? _value.isSold
           : isSold // ignore: cast_nullable_to_non_nullable
               as bool,
+      featuredUntil: freezed == featuredUntil
+          ? _value.featuredUntil
+          : featuredUntil // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -272,11 +272,11 @@ class _$PlateListingImpl extends _PlateListing {
   const _$PlateListingImpl(
       {required this.id,
       required this.item,
-      this.price = 0.0,
-      this.discountPrice = 0.0,
-      this.isFeatured = false,
+      this.price = 0,
+      this.discountPrice = 0,
       this.isDisabled = true,
       this.isSold = false,
+      this.featuredUntil,
       this.createdAt,
       this.expiresAt,
       required this.userId,
@@ -292,19 +292,18 @@ class _$PlateListingImpl extends _PlateListing {
   final PlateNumber item;
   @override
   @JsonKey()
-  final double price;
+  final int price;
   @override
   @JsonKey()
-  final double discountPrice;
-  @override
-  @JsonKey()
-  final bool isFeatured;
+  final int discountPrice;
   @override
   @JsonKey()
   final bool isDisabled;
   @override
   @JsonKey()
   final bool isSold;
+  @override
+  final DateTime? featuredUntil;
   @override
   final DateTime? createdAt;
   @override
@@ -316,7 +315,7 @@ class _$PlateListingImpl extends _PlateListing {
 
   @override
   String toString() {
-    return 'PlateListing(id: $id, item: $item, price: $price, discountPrice: $discountPrice, isFeatured: $isFeatured, isDisabled: $isDisabled, isSold: $isSold, createdAt: $createdAt, expiresAt: $expiresAt, userId: $userId, userProfile: $userProfile)';
+    return 'PlateListing(id: $id, item: $item, price: $price, discountPrice: $discountPrice, isDisabled: $isDisabled, isSold: $isSold, featuredUntil: $featuredUntil, createdAt: $createdAt, expiresAt: $expiresAt, userId: $userId, userProfile: $userProfile)';
   }
 
   @override
@@ -329,11 +328,11 @@ class _$PlateListingImpl extends _PlateListing {
             (identical(other.price, price) || other.price == price) &&
             (identical(other.discountPrice, discountPrice) ||
                 other.discountPrice == discountPrice) &&
-            (identical(other.isFeatured, isFeatured) ||
-                other.isFeatured == isFeatured) &&
             (identical(other.isDisabled, isDisabled) ||
                 other.isDisabled == isDisabled) &&
             (identical(other.isSold, isSold) || other.isSold == isSold) &&
+            (identical(other.featuredUntil, featuredUntil) ||
+                other.featuredUntil == featuredUntil) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.expiresAt, expiresAt) ||
@@ -351,9 +350,9 @@ class _$PlateListingImpl extends _PlateListing {
       item,
       price,
       discountPrice,
-      isFeatured,
       isDisabled,
       isSold,
+      featuredUntil,
       createdAt,
       expiresAt,
       userId,
@@ -379,11 +378,11 @@ abstract class _PlateListing extends PlateListing {
   const factory _PlateListing(
       {required final String id,
       required final PlateNumber item,
-      final double price,
-      final double discountPrice,
-      final bool isFeatured,
+      final int price,
+      final int discountPrice,
       final bool isDisabled,
       final bool isSold,
+      final DateTime? featuredUntil,
       final DateTime? createdAt,
       final DateTime? expiresAt,
       required final String userId,
@@ -398,15 +397,15 @@ abstract class _PlateListing extends PlateListing {
   @override
   PlateNumber get item;
   @override
-  double get price;
+  int get price;
   @override
-  double get discountPrice;
-  @override
-  bool get isFeatured;
+  int get discountPrice;
   @override
   bool get isDisabled;
   @override
   bool get isSold;
+  @override
+  DateTime? get featuredUntil;
   @override
   DateTime? get createdAt;
   @override

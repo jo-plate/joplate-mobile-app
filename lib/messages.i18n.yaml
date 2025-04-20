@@ -196,7 +196,7 @@ sellerdetails:
 platesdetails:
   title: "Plate Details"
   error_loading_data: "Error getting data for Plate Number: {plateNumber}"
-  originally_posted_by: "Originally posted by"
+  originally_posted_by: "Posted by"
   member_since: "Member since {year}"
   whatsapp: "WhatsApp"
   call: "Call"

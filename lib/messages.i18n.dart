@@ -985,9 +985,9 @@ class PlatesdetailsMessages {
       """Error getting data for Plate Number: {plateNumber}""";
 
   /// ```dart
-  /// "Originally posted by"
+  /// "Posted by"
   /// ```
-  String get originally_posted_by => """Originally posted by""";
+  String get originally_posted_by => """Posted by""";
 
   /// ```dart
   /// "Member since {year}"
@@ -1408,7 +1408,7 @@ Map<String, String> get messagesMap => {
   """platesdetails.title""": """Plate Details""",
   """platesdetails.error_loading_data""":
       """Error getting data for Plate Number: {plateNumber}""",
-  """platesdetails.originally_posted_by""": """Originally posted by""",
+  """platesdetails.originally_posted_by""": """Posted by""",
   """platesdetails.member_since""": """Member since {year}""",
   """platesdetails.whatsapp""": """WhatsApp""",
   """platesdetails.call""": """Call""",

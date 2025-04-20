@@ -22,12 +22,12 @@ PhoneListing _$PhoneListingFromJson(Map<String, dynamic> json) {
 mixin _$PhoneListing {
   String get id => throw _privateConstructorUsedError;
   PhoneNumber get item => throw _privateConstructorUsedError;
-  double get price => throw _privateConstructorUsedError;
-  double get discountPrice => throw _privateConstructorUsedError;
+  int get price => throw _privateConstructorUsedError;
+  int get discountPrice => throw _privateConstructorUsedError;
   bool get priceNegotiable => throw _privateConstructorUsedError;
-  bool get isFeatured => throw _privateConstructorUsedError;
   bool get isDisabled => throw _privateConstructorUsedError;
   bool get isSold => throw _privateConstructorUsedError;
+  DateTime? get featuredUntil => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get expiresAt => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
@@ -51,12 +51,12 @@ abstract class $PhoneListingCopyWith<$Res> {
   $Res call(
       {String id,
       PhoneNumber item,
-      double price,
-      double discountPrice,
+      int price,
+      int discountPrice,
       bool priceNegotiable,
-      bool isFeatured,
       bool isDisabled,
       bool isSold,
+      DateTime? featuredUntil,
       DateTime? createdAt,
       DateTime? expiresAt,
       String userId});
@@ -84,9 +84,9 @@ class _$PhoneListingCopyWithImpl<$Res, $Val extends PhoneListing>
     Object? price = null,
     Object? discountPrice = null,
     Object? priceNegotiable = null,
-    Object? isFeatured = null,
     Object? isDisabled = null,
     Object? isSold = null,
+    Object? featuredUntil = freezed,
     Object? createdAt = freezed,
     Object? expiresAt = freezed,
     Object? userId = null,
@@ -103,18 +103,14 @@ class _$PhoneListingCopyWithImpl<$Res, $Val extends PhoneListing>
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       discountPrice: null == discountPrice
           ? _value.discountPrice
           : discountPrice // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       priceNegotiable: null == priceNegotiable
           ? _value.priceNegotiable
           : priceNegotiable // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isFeatured: null == isFeatured
-          ? _value.isFeatured
-          : isFeatured // ignore: cast_nullable_to_non_nullable
               as bool,
       isDisabled: null == isDisabled
           ? _value.isDisabled
@@ -124,6 +120,10 @@ class _$PhoneListingCopyWithImpl<$Res, $Val extends PhoneListing>
           ? _value.isSold
           : isSold // ignore: cast_nullable_to_non_nullable
               as bool,
+      featuredUntil: freezed == featuredUntil
+          ? _value.featuredUntil
+          : featuredUntil // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -161,12 +161,12 @@ abstract class _$$PhoneListingImplCopyWith<$Res>
   $Res call(
       {String id,
       PhoneNumber item,
-      double price,
-      double discountPrice,
+      int price,
+      int discountPrice,
       bool priceNegotiable,
-      bool isFeatured,
       bool isDisabled,
       bool isSold,
+      DateTime? featuredUntil,
       DateTime? createdAt,
       DateTime? expiresAt,
       String userId});
@@ -193,9 +193,9 @@ class __$$PhoneListingImplCopyWithImpl<$Res>
     Object? price = null,
     Object? discountPrice = null,
     Object? priceNegotiable = null,
-    Object? isFeatured = null,
     Object? isDisabled = null,
     Object? isSold = null,
+    Object? featuredUntil = freezed,
     Object? createdAt = freezed,
     Object? expiresAt = freezed,
     Object? userId = null,
@@ -212,18 +212,14 @@ class __$$PhoneListingImplCopyWithImpl<$Res>
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       discountPrice: null == discountPrice
           ? _value.discountPrice
           : discountPrice // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       priceNegotiable: null == priceNegotiable
           ? _value.priceNegotiable
           : priceNegotiable // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isFeatured: null == isFeatured
-          ? _value.isFeatured
-          : isFeatured // ignore: cast_nullable_to_non_nullable
               as bool,
       isDisabled: null == isDisabled
           ? _value.isDisabled
@@ -233,6 +229,10 @@ class __$$PhoneListingImplCopyWithImpl<$Res>
           ? _value.isSold
           : isSold // ignore: cast_nullable_to_non_nullable
               as bool,
+      featuredUntil: freezed == featuredUntil
+          ? _value.featuredUntil
+          : featuredUntil // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -255,12 +255,12 @@ class _$PhoneListingImpl extends _PhoneListing {
   const _$PhoneListingImpl(
       {required this.id,
       required this.item,
-      this.price = 0.0,
-      this.discountPrice = 0.0,
+      this.price = 0,
+      this.discountPrice = 0,
       this.priceNegotiable = false,
-      this.isFeatured = false,
       this.isDisabled = true,
       this.isSold = false,
+      this.featuredUntil,
       this.createdAt,
       this.expiresAt,
       required this.userId})
@@ -275,22 +275,21 @@ class _$PhoneListingImpl extends _PhoneListing {
   final PhoneNumber item;
   @override
   @JsonKey()
-  final double price;
+  final int price;
   @override
   @JsonKey()
-  final double discountPrice;
+  final int discountPrice;
   @override
   @JsonKey()
   final bool priceNegotiable;
-  @override
-  @JsonKey()
-  final bool isFeatured;
   @override
   @JsonKey()
   final bool isDisabled;
   @override
   @JsonKey()
   final bool isSold;
+  @override
+  final DateTime? featuredUntil;
   @override
   final DateTime? createdAt;
   @override
@@ -300,7 +299,7 @@ class _$PhoneListingImpl extends _PhoneListing {
 
   @override
   String toString() {
-    return 'PhoneListing(id: $id, item: $item, price: $price, discountPrice: $discountPrice, priceNegotiable: $priceNegotiable, isFeatured: $isFeatured, isDisabled: $isDisabled, isSold: $isSold, createdAt: $createdAt, expiresAt: $expiresAt, userId: $userId)';
+    return 'PhoneListing(id: $id, item: $item, price: $price, discountPrice: $discountPrice, priceNegotiable: $priceNegotiable, isDisabled: $isDisabled, isSold: $isSold, featuredUntil: $featuredUntil, createdAt: $createdAt, expiresAt: $expiresAt, userId: $userId)';
   }
 
   @override
@@ -315,11 +314,11 @@ class _$PhoneListingImpl extends _PhoneListing {
                 other.discountPrice == discountPrice) &&
             (identical(other.priceNegotiable, priceNegotiable) ||
                 other.priceNegotiable == priceNegotiable) &&
-            (identical(other.isFeatured, isFeatured) ||
-                other.isFeatured == isFeatured) &&
             (identical(other.isDisabled, isDisabled) ||
                 other.isDisabled == isDisabled) &&
             (identical(other.isSold, isSold) || other.isSold == isSold) &&
+            (identical(other.featuredUntil, featuredUntil) ||
+                other.featuredUntil == featuredUntil) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.expiresAt, expiresAt) ||
@@ -336,9 +335,9 @@ class _$PhoneListingImpl extends _PhoneListing {
       price,
       discountPrice,
       priceNegotiable,
-      isFeatured,
       isDisabled,
       isSold,
+      featuredUntil,
       createdAt,
       expiresAt,
       userId);
@@ -363,12 +362,12 @@ abstract class _PhoneListing extends PhoneListing {
   const factory _PhoneListing(
       {required final String id,
       required final PhoneNumber item,
-      final double price,
-      final double discountPrice,
+      final int price,
+      final int discountPrice,
       final bool priceNegotiable,
-      final bool isFeatured,
       final bool isDisabled,
       final bool isSold,
+      final DateTime? featuredUntil,
       final DateTime? createdAt,
       final DateTime? expiresAt,
       required final String userId}) = _$PhoneListingImpl;
@@ -382,17 +381,17 @@ abstract class _PhoneListing extends PhoneListing {
   @override
   PhoneNumber get item;
   @override
-  double get price;
+  int get price;
   @override
-  double get discountPrice;
+  int get discountPrice;
   @override
   bool get priceNegotiable;
-  @override
-  bool get isFeatured;
   @override
   bool get isDisabled;
   @override
   bool get isSold;
+  @override
+  DateTime? get featuredUntil;
   @override
   DateTime? get createdAt;
   @override

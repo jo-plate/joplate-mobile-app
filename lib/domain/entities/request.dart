@@ -16,7 +16,7 @@ class PhoneRequest with _$PhoneRequest {
 
   factory PhoneRequest({
     required String id,
-    @Default(0) double price,
+    @Default(0) int price,
     @Default(false) bool isDisabled,
     required String userId,
     required PhoneNumber item,
@@ -32,7 +32,7 @@ class PhoneRequest with _$PhoneRequest {
   static PhoneRequest mockPhoneRequest() {
     return PhoneRequest(
         id: "mockPhoneId",
-        price: 5000.0,
+        price: 5000,
         item: PhoneNumber.mockList(1).first,
         userId: 'mockUser');
   }
@@ -51,7 +51,7 @@ class PlateRequest with _$PlateRequest {
 
   factory PlateRequest({
     required String id,
-    @Default(0) double price,
+    @Default(0) int price,
     @Default(false) bool isDisabled,
     required String userId,
     required PlateNumber item,
@@ -68,7 +68,7 @@ class PlateRequest with _$PlateRequest {
   static PlateRequest mockPlateRequest() {
     return PlateRequest(
       id: "mockPlateId",
-      price: 15000.0,
+      price: 15000,
       userId: 'mockUser',
       item: PlateNumber.mockList(1).first,
     );

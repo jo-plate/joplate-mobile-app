@@ -9,7 +9,7 @@ part of 'request.dart';
 _$PhoneRequestImpl _$$PhoneRequestImplFromJson(Map<String, dynamic> json) =>
     _$PhoneRequestImpl(
       id: json['id'] as String,
-      price: (json['price'] as num?)?.toDouble() ?? 0,
+      price: (json['price'] as num?)?.toInt() ?? 0,
       isDisabled: json['isDisabled'] as bool? ?? false,
       userId: json['userId'] as String,
       item: PhoneNumber.fromJson(json['item'] as Map<String, dynamic>),
@@ -27,7 +27,7 @@ Map<String, dynamic> _$$PhoneRequestImplToJson(_$PhoneRequestImpl instance) =>
 _$PlateRequestImpl _$$PlateRequestImplFromJson(Map<String, dynamic> json) =>
     _$PlateRequestImpl(
       id: json['id'] as String,
-      price: (json['price'] as num?)?.toDouble() ?? 0,
+      price: (json['price'] as num?)?.toInt() ?? 0,
       isDisabled: json['isDisabled'] as bool? ?? false,
       userId: json['userId'] as String,
       item: PlateNumber.fromJson(json['item'] as Map<String, dynamic>),

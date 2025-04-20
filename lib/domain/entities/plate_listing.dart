@@ -13,16 +13,21 @@ class PlateListing with _$PlateListing {
   const factory PlateListing({
     required String id,
     required PlateNumber item,
-    @Default(0.0) double price,
-    @Default(0.0) double discountPrice,
-    @Default(false) bool isFeatured,
+    @Default(0) int price,
+    @Default(0) int discountPrice,
     @Default(true) bool isDisabled,
     @Default(false) bool isSold,
+    DateTime? featuredUntil,
     DateTime? createdAt,
     DateTime? expiresAt,
     required String userId,
     UserProfile? userProfile,
   }) = _PlateListing;
+
+  bool get isFeatured {
+    if (featuredUntil == null) return false;
+    return featuredUntil!.isAfter(DateTime.now());
+  }
 
   factory PlateListing.fromJson(Map<String, dynamic> json) =>
       _$PlateListingFromJson(json);
@@ -36,9 +41,8 @@ class PlateListing with _$PlateListing {
     return PlateListing(
         item: const PlateNumber(code: "2", number: "22"),
         id: "mockUserId",
-        price: 15000.0,
-        discountPrice: 14000.0,
-        isFeatured: true,
+        price: 15000,
+        discountPrice: 14000,
         isDisabled: false,
         isSold: false,
         createdAt: DateTime.now(),

@@ -12,16 +12,21 @@ class PhoneListing with _$PhoneListing {
   const factory PhoneListing({
     required String id,
     required PhoneNumber item,
-    @Default(0.0) double price,
-    @Default(0.0) double discountPrice,
+    @Default(0) int price,
+    @Default(0) int discountPrice,
     @Default(false) bool priceNegotiable,
-    @Default(false) bool isFeatured,
     @Default(true) bool isDisabled,
     @Default(false) bool isSold,
+    DateTime? featuredUntil,
     DateTime? createdAt,
     DateTime? expiresAt,
     required String userId,
   }) = _PhoneListing;
+
+  bool get isFeatured {
+    if (featuredUntil == null) return false;
+    return featuredUntil!.isAfter(DateTime.now());
+  }
 
   factory PhoneListing.fromJson(Map<String, dynamic> json) =>
       _$PhoneListingFromJson(json);
@@ -35,10 +40,9 @@ class PhoneListing with _$PhoneListing {
     return PhoneListing(
         item: const PhoneNumber(number: "0787940864"),
         id: "mockUserId",
-        price: 15000.0,
-        discountPrice: 14000.0,
+        price: 15000,
+        discountPrice: 14000,
         priceNegotiable: true,
-        isFeatured: true,
         isDisabled: false,
         isSold: false,
         createdAt: DateTime.now(),
