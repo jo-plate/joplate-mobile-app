@@ -38,6 +38,8 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
 
     _sub = FirebaseFirestore.instance
         .collection(phoneNumbersCollectionId)
+        .where('isDisabled', isEqualTo: false)
+        .orderBy('createdAt', descending: true)
         .snapshots()
         .listen((snap) {
       setState(() {

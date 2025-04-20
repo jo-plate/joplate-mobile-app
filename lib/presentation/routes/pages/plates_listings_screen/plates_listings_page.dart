@@ -76,6 +76,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
     _sub = FirebaseFirestore.instance
         .collection(carPlatesCollectionId)
         .where('isDisabled', isEqualTo: false)
+        .orderBy('createdAt', descending: true)
         .snapshots()
         .listen((snap) {
       setState(() {
