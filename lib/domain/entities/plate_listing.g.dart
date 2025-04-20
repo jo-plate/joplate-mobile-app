@@ -22,6 +22,9 @@ _$PlateListingImpl _$$PlateListingImplFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['expiresAt'] as String),
       userId: json['userId'] as String,
+      userProfile: json['userProfile'] == null
+          ? null
+          : UserProfile.fromJson(json['userProfile'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$PlateListingImplToJson(_$PlateListingImpl instance) =>
@@ -36,4 +39,5 @@ Map<String, dynamic> _$$PlateListingImplToJson(_$PlateListingImpl instance) =>
       'createdAt': instance.createdAt?.toIso8601String(),
       'expiresAt': instance.expiresAt?.toIso8601String(),
       'userId': instance.userId,
+      'userProfile': instance.userProfile,
     };

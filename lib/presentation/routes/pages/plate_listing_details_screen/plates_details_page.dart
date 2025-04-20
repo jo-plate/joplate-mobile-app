@@ -6,6 +6,7 @@ import 'package:flutter_phone_dialer/flutter_phone_dialer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/plate_listing.dart';
+import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
@@ -98,7 +99,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                     ),
                     const SizedBox(height: 20),
                     SellerDetails(userId: snapshot.data!.userId),
-                    const SizedBox(height: 20),
+                    ...[const SizedBox(height: 20),
                     Container(
                       padding: const EdgeInsets.all(16.0),
                       decoration: BoxDecoration(
@@ -113,8 +114,11 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                           ),
                         ],
                       ),
-                      child: const OtherSellersTable(),
-                    ),
+                      child: OtherSellersTable(
+                        userId: snapshot.data!.userId,
+                        plateNumber: snapshot.data!.item,
+                      ),
+                    )],
                     const SizedBox(height: 20),
                     Container(
                       padding: const EdgeInsets.all(12.0),
@@ -376,194 +380,171 @@ class _SellerDetailsState extends State<SellerDetails> {
 }
 
 class OtherSellersTable extends StatelessWidget {
-  const OtherSellersTable({super.key});
+  final String userId;
+  final PlateNumber plateNumber;
+
+  const OtherSellersTable({
+    super.key,
+    required this.userId,
+    required this.plateNumber,
+  });
+
+  Future<List<Map<String, dynamic>>> _fetchOtherSellers() async {
+    final listingsSnapshot = await FirebaseFirestore.instance
+        .collection(carPlatesCollectionId)
+        .where('item.code', isEqualTo: plateNumber.code)
+        .where('item.number', isEqualTo: plateNumber.number)
+        .get();
+
+    final otherListings = listingsSnapshot.docs
+        .map((doc) => PlateListing.fromSnapshot(doc))
+        .where((listing) => listing.userId != userId)
+        .toList();
+
+    final userIds = otherListings.map((l) => l.userId).toSet().toList();
+
+    final userDocs = await Future.wait(
+      userIds.map((id) => FirebaseFirestore.instance
+          .collection(userProfileCollectionId)
+          .doc(id)
+          .get()),
+    );
+
+    final profiles =
+        userDocs.where((doc) => doc.exists).map((doc) => doc.data()!).toList();
+
+    return List.generate(otherListings.length, (i) {
+      final profile = profiles[i];
+      final listing = otherListings[i];
+      return {
+        "name": profile['displayName'] ?? 'Unknown',
+        "phone": profile['phonenumber'] ?? '',
+        "price":
+            listing.priceHidden ? 'Call for Price' : listing.price.toString(),
+        "isFeatured": listing.isFeatured,
+        "createdAt": listing.createdAt,
+      };
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
+    return FutureBuilder<List<Map<String, dynamic>>>(
+      future: _fetchOtherSellers(),
+      builder: (context, snapshot) {
+        if (snapshot.data == null) {
+          return const SizedBox();
+        }
+
+        final sellers = snapshot.data!;
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: const Color(0xFF981C1E).withOpacity(0.1),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: const Icon(
-                Icons.people_outline,
-                color: Color(0xFF981C1E),
-                size: 20,
-              ),
-            ),
-            const SizedBox(width: 12),
-            Text(
-              m.platesdetails.other_sellers,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF2C3E50),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 20),
-        Table(
-          columnWidths: const {
-            0: FlexColumnWidth(2),
-            1: FlexColumnWidth(1),
-            2: FlexColumnWidth(1),
-          },
-          children: [
-            TableRow(
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Color(0xFFE0E0E0),
-                    width: 1,
-                  ),
-                ),
-              ),
+            Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12.0),
-                  child: Text(
-                    m.platesdetails.seller,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF7F8C8D),
-                      fontSize: 13,
-                    ),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF981C1E).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
                   ),
+                  child: const Icon(Icons.people_outline,
+                      color: Color(0xFF981C1E), size: 20),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12.0),
-                  child: Text(
-                    m.platesdetails.price,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF7F8C8D),
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12.0),
-                  child: Text(
-                    m.platesdetails.contact,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF7F8C8D),
-                      fontSize: 13,
-                    ),
-                  ),
+                const SizedBox(width: 12),
+                Text(
+                  m.platesdetails.other_sellers,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
-            _buildSellerRow(
-              name: 'Ahmed Hassan',
-              daysAgo: '2 days ago',
-              price: '15,000',
-              phoneNumber: '+962787940864',
-              isFeatured: true,
-            ),
-            _buildSellerRow(
-              name: 'Mohammed Ali',
-              daysAgo: '5 days ago',
-              price: 'Call for Price',
-              phoneNumber: '+962787940865',
-              isFeatured: false,
-            ),
-            _buildSellerRow(
-              name: 'Sarah Johnson',
-              daysAgo: '1 week ago',
-              price: '18,500',
-              phoneNumber: '+962787940866',
-              isFeatured: true,
+            const SizedBox(height: 20),
+            Table(
+              columnWidths: const {
+                0: FlexColumnWidth(2),
+                1: FlexColumnWidth(1),
+                2: FlexColumnWidth(1),
+              },
+              children: [
+                _buildTableHeader(context),
+                ...sellers.map((s) => _buildSellerRow(
+                      name: s['name'],
+                      price: s['price'],
+                      phoneNumber: s['phone'],
+                      isFeatured: s['isFeatured'],
+                    )),
+              ],
             ),
           ],
-        ),
+        );
+      },
+    );
+  }
+
+  TableRow _buildTableHeader(BuildContext context) {
+    final m = Localization.of(context);
+    return TableRow(
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: Color(0xFFE0E0E0), width: 1)),
+      ),
+      children: [
+        _headerText(m.platesdetails.seller),
+        _headerText(m.platesdetails.price),
+        _headerText(m.platesdetails.contact),
       ],
     );
   }
 
+  Widget _headerText(String text) => Padding(
+        padding: const EdgeInsets.only(bottom: 12.0),
+        child: Text(
+          text,
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF7F8C8D),
+            fontSize: 13,
+          ),
+        ),
+      );
+
   TableRow _buildSellerRow({
     required String name,
-    required String daysAgo,
     required String price,
     required String phoneNumber,
     required bool isFeatured,
   }) {
     return TableRow(
       decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Color(0xFFF5F5F5),
-            width: 1,
-          ),
-        ),
+        border: Border(bottom: BorderSide(color: Color(0xFFF5F5F5), width: 1)),
       ),
       children: [
-        Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12.0),
-              child: Row(
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
+          child: Row(
+            children: [
+              const CircleAvatar(
+                  radius: 16, child: Icon(Icons.person_outline, size: 18)),
+              const SizedBox(width: 12),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    width: 32,
-                    height: 32,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.person_outline,
-                      size: 18,
-                      color: Color(0xFF981C1E),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          name,
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF2C3E50),
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          daysAgo,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[600],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  Text(name,
+                      style: const TextStyle(
+                          fontSize: 15, fontWeight: FontWeight.w500)),
+                  // Text(daysAgo, style: const TextStyle(fontSize: 12, color: Colors.grey)),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0),
           child: Text(
             price,
-            style: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-              color: Color(0xFF2C3E50),
-              fontFamily: 'Mandatory',
-            ),
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
           ),
         ),
         Padding(
@@ -571,52 +552,38 @@ class OtherSellersTable extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Container(
-                width: 28,
-                height: 28,
-                decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: IconButton(
-                  padding: EdgeInsets.zero,
-                  icon: const FaIcon(
-                    FontAwesomeIcons.whatsapp,
-                    size: 14,
-                    color: Colors.green,
-                  ),
-                  onPressed: () {
-                    launchUrlString(
-                      "https://wa.me/$phoneNumber",
-                      mode: LaunchMode.externalApplication,
-                    );
-                  },
-                ),
+              _iconButton(
+                color: Colors.green,
+                icon: FontAwesomeIcons.whatsapp,
+                onPressed: () => launchUrlString("https://wa.me/$phoneNumber"),
               ),
               const SizedBox(width: 8),
-              Container(
-                width: 28,
-                height: 28,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF981C1E).withOpacity(0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: IconButton(
-                  padding: EdgeInsets.zero,
-                  icon: const Icon(
-                    Icons.phone,
-                    size: 14,
-                    color: Color(0xFF981C1E),
-                  ),
-                  onPressed: () {
-                    FlutterPhoneDialer.dialNumber(phoneNumber);
-                  },
-                ),
+              _iconButton(
+                color: const Color(0xFF981C1E),
+                icon: Icons.phone,
+                onPressed: () => FlutterPhoneDialer.dialNumber(phoneNumber),
               ),
             ],
           ),
         ),
       ],
+    );
+  }
+
+  Widget _iconButton(
+      {required Color color,
+      required IconData icon,
+      required VoidCallback onPressed}) {
+    return Container(
+      width: 28,
+      height: 28,
+      decoration:
+          BoxDecoration(color: color.withOpacity(0.1), shape: BoxShape.circle),
+      child: IconButton(
+        padding: EdgeInsets.zero,
+        icon: Icon(icon, size: 14, color: color),
+        onPressed: onPressed,
+      ),
     );
   }
 }

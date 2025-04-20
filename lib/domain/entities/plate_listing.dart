@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
+import 'package:joplate/domain/entities/user_profile.dart';
 
 part 'plate_listing.freezed.dart';
 part 'plate_listing.g.dart';
@@ -20,6 +21,7 @@ class PlateListing with _$PlateListing {
     DateTime? createdAt,
     DateTime? expiresAt,
     required String userId,
+    UserProfile? userProfile,
   }) = _PlateListing;
 
   factory PlateListing.fromJson(Map<String, dynamic> json) =>
