@@ -56,7 +56,7 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
               title: const Text('Phone Number Request Details'),
               actions: [
                 if (FirebaseAuth.instance.currentUser?.uid ==
-                    snapshot.data!.userId)
+                    snapshot.data!.userId) ...[
                   IconButton(
                     icon: const Icon(Icons.edit),
                     onPressed: () {
@@ -64,6 +64,11 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
                           .push(EditPhoneRequestRoute(request: snapshot.data!));
                     },
                   ),
+                  IconButton(
+                    icon: const Icon(Icons.delete_outline),
+                    onPressed: () {},
+                  ),
+                ]
               ],
             ),
             body: SingleChildScrollView(

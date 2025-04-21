@@ -11,7 +11,6 @@ import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phone_number_listing_widget.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 @RoutePage()
@@ -76,23 +75,27 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
             title: Text(m.phonedetails.title),
             actions: [
               FavoriteButton.phone(listingId: widget.listingId),
-              // IconButton(
-              //   icon: const Icon(Icons.share_outlined),
-              //   onPressed: () {
-              //     Share.share(
-              //       'Check out this phone number: ${phone.}',
-              //     );
-              //   },
-              // ),
-              if (phone.userId == FirebaseAuth.instance.currentUser?.uid)
-                IconButton(
-                  icon: const Icon(Icons.edit_outlined),
-                  onPressed: () {
+              const SizedBox(
+                width: 16,
+              ),
+              if (phone.userId == FirebaseAuth.instance.currentUser?.uid) ...[
+                GestureDetector(
+                  child: const Icon(Icons.edit_outlined),
+                  onTap: () {
                     AutoRouter.of(context).push(
                       EditPhoneListingRoute(listing: phone),
                     );
                   },
                 ),
+                const SizedBox(width: 16),
+                GestureDetector(
+                  child: const Icon(Icons.delete_outline),
+                  onTap: () {},
+                ),
+                const SizedBox(
+                  width: 16,
+                ),
+              ]
             ],
           ),
           body: SingleChildScrollView(

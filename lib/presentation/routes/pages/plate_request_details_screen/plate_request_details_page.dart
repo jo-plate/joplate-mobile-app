@@ -74,7 +74,7 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
                 title: const Text('Plate Request Details'),
                 actions: [
                   if (FirebaseAuth.instance.currentUser?.uid ==
-                      snapshot.data!.userId)
+                      snapshot.data!.userId) ...[
                     IconButton(
                       icon: const Icon(Icons.edit),
                       onPressed: () {
@@ -82,6 +82,11 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
                             EditPlateRequestRoute(request: snapshot.data!));
                       },
                     ),
+                    IconButton(
+                      icon: const Icon(Icons.delete_outline),
+                      onPressed: () {},
+                    ),
+                  ]
                 ],
               ),
               body: SingleChildScrollView(
@@ -91,7 +96,7 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: 180,
+                      height: 160,
                       child: PlateNumberRequestWidget(
                         item: snapshot.data!,
                         hideLikeButton: true,

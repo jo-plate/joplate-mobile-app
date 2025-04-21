@@ -70,17 +70,27 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                 title: Text(m.platesdetails.title),
                 actions: [
                   FavoriteButton.plate(listingId: widget.listingId),
+                  const SizedBox(
+                    width: 16,
+                  ),
                   if (FirebaseAuth.instance.currentUser?.uid ==
-                      snapshot.data!.userId)
-                    IconButton(
-                      icon: const Icon(Icons.edit_outlined),
-                      onPressed: () {
-                        if (snapshot.data != null) {
-                          AutoRouter.of(context).push(
-                              EditPlateListingRoute(listing: snapshot.data!));
-                        }
+                      snapshot.data!.userId) ...[
+                    GestureDetector(
+                      child: const Icon(Icons.edit_outlined),
+                      onTap: () {
+                        AutoRouter.of(context).push(
+                            EditPlateListingRoute(listing: snapshot.data!));
                       },
                     ),
+                    const SizedBox(width: 16),
+                    GestureDetector(
+                      child: const Icon(Icons.delete_outline),
+                      onTap: () {},
+                    ),
+                    const SizedBox(
+                      width: 16,
+                    ),
+                  ]
                 ],
               ),
               body: SingleChildScrollView(
