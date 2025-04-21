@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
-import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/domain/entities/utils/converters.dart';
 
 part 'plate_listing.freezed.dart';

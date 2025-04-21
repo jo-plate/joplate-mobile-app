@@ -16,113 +16,156 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 @RoutePage()
 class PhoneDetailsPage extends StatefulWidget {
-  const PhoneDetailsPage({super.key, required this.phoneNumber});
+  const PhoneDetailsPage({
+    super.key,
+    @PathParam('listingId') required this.listingId,
+  });
 
-  final PhoneListing phoneNumber;
+  final String listingId;
 
   @override
   State<PhoneDetailsPage> createState() => _PhoneDetailsPageState();
 }
 
 class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
+  late final Stream<PhoneListing> _phoneStream;
+
+  @override
+  void initState() {
+    super.initState();
+    _phoneStream = FirebaseFirestore.instance
+        .collection(phoneNumbersCollectionId)
+        .doc(widget.listingId)
+        .snapshots()
+        .map((snap) => PhoneListing.fromSnapshot(snap));
+  }
+
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(m.phonedetails.title),
-        actions: [
-          FavoriteButton.plate(listingId: widget.phoneNumber.toString()),
-          // Share Icon
-          IconButton(
-            icon: const Icon(Icons.share_outlined),
-            onPressed: () {
-              Share.share(
-                  'Check out this plate number: ${widget.phoneNumber.toString()}');
-            },
+
+    return StreamBuilder<PhoneListing>(
+      stream: _phoneStream,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Text(
+                "Failed to load phone listing: ${snapshot.error}",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.red[800],
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          );
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting ||
+            !snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        final phone = snapshot.data!;
+
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(m.phonedetails.title),
+            actions: [
+              FavoriteButton.phone(listingId: widget.listingId),
+              // IconButton(
+              //   icon: const Icon(Icons.share_outlined),
+              //   onPressed: () {
+              //     Share.share(
+              //       'Check out this phone number: ${phone.}',
+              //     );
+              //   },
+              // ),
+              if (phone.userId == FirebaseAuth.instance.currentUser?.uid)
+                IconButton(
+                  icon: const Icon(Icons.edit_outlined),
+                  onPressed: () {
+                    AutoRouter.of(context).push(
+                      EditPhoneListingRoute(listing: phone),
+                    );
+                  },
+                ),
+            ],
           ),
-          if (widget.phoneNumber.userId ==
-              FirebaseAuth.instance.currentUser?.uid)
-            IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () {
-                AutoRouter.of(context).push(
-                  EditPhoneListingRoute(
-                    listing: widget.phoneNumber,
-                  ),
-                );
-              },
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 10.0,
             ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 180,
-              child: PhoneNumberListingWidget(
-                item: widget.phoneNumber,
-                hideLikeButton: true,
-                aspectRatio: 2.1,
-                priceLabelFontSize: 24,
-              ),
-            ),
-
-            const SizedBox(height: 10),
-
-            SellerDetails(userId: widget.phoneNumber.userId),
-
-            const SizedBox(height: 20),
-
-            // 4. Important Notes
-            Container(
-              padding: const EdgeInsets.all(12.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    m.phonedetails.important_note,
-                    style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 180,
+                  child: PhoneNumberListingWidget(
+                    item: phone,
+                    hideLikeButton: true,
+                    aspectRatio: 2.1,
+                    priceLabelFontSize: 24,
                   ),
-                  const SizedBox(height: 10),
-                  Row(
+                ),
+                const SizedBox(height: 10),
+                SellerDetails(userId: phone.userId),
+                const SizedBox(height: 20),
+                Container(
+                  padding: const EdgeInsets.all(12.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(Icons.payments, color: Color(0xFF981C1E)),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          m.phonedetails.dont_transfer_money,
-                          style: const TextStyle(fontSize: 16),
+                      Text(
+                        m.phonedetails.important_note,
+                        style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
                         ),
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          const Icon(Icons.payments, color: Color(0xFF981C1E)),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              m.phonedetails.dont_transfer_money,
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          const Icon(Icons.location_on,
+                              color: Color(0xFF981C1E)),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              m.phonedetails.meet_in_person,
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      const Icon(Icons.location_on, color: Color(0xFF981C1E)),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          m.phonedetails.meet_in_person,
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 20),
+              ],
             ),
-
-            const SizedBox(height: 20),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

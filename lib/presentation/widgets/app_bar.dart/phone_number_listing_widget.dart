@@ -36,7 +36,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
                 ? null
                 : () {
                     AutoRouter.of(context)
-                        .push(PhoneDetailsRoute(phoneNumber: item));
+                        .push(PhoneDetailsRoute(listingId: item.id));
                   },
             child: Container(
               decoration: BoxDecoration(

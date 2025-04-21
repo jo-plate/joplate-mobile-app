@@ -419,11 +419,12 @@ class MyRequestsRoute extends PageRouteInfo<void> {
 class PhoneDetailsRoute extends PageRouteInfo<PhoneDetailsRouteArgs> {
   PhoneDetailsRoute({
     Key? key,
-    required PhoneListing phoneNumber,
+    required String listingId,
     List<PageRouteInfo>? children,
   }) : super(
          PhoneDetailsRoute.name,
-         args: PhoneDetailsRouteArgs(key: key, phoneNumber: phoneNumber),
+         args: PhoneDetailsRouteArgs(key: key, listingId: listingId),
+         rawPathParams: {'listingId': listingId},
          initialChildren: children,
        );
 
@@ -432,22 +433,28 @@ class PhoneDetailsRoute extends PageRouteInfo<PhoneDetailsRouteArgs> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      final args = data.argsAs<PhoneDetailsRouteArgs>();
-      return PhoneDetailsPage(key: args.key, phoneNumber: args.phoneNumber);
+      final pathParams = data.inheritedPathParams;
+      final args = data.argsAs<PhoneDetailsRouteArgs>(
+        orElse:
+            () => PhoneDetailsRouteArgs(
+              listingId: pathParams.getString('listingId'),
+            ),
+      );
+      return PhoneDetailsPage(key: args.key, listingId: args.listingId);
     },
   );
 }
 
 class PhoneDetailsRouteArgs {
-  const PhoneDetailsRouteArgs({this.key, required this.phoneNumber});
+  const PhoneDetailsRouteArgs({this.key, required this.listingId});
 
   final Key? key;
 
-  final PhoneListing phoneNumber;
+  final String listingId;
 
   @override
   String toString() {
-    return 'PhoneDetailsRouteArgs{key: $key, phoneNumber: $phoneNumber}';
+    return 'PhoneDetailsRouteArgs{key: $key, listingId: $listingId}';
   }
 }
 

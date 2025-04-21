@@ -25,6 +25,7 @@ class _HomePageState extends State<HomePage> {
     _platesStream = FirebaseFirestore.instance
         .collection(carPlatesCollectionId)
         .where('featuredUntil', isGreaterThan: DateTime.now())
+        .where('expiresAt', isGreaterThan: DateTime.now())
         .where('isDisabled', isEqualTo: false)
         .where('isSold', isEqualTo: false)
         .orderBy('createdAt', descending: true)

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
+import 'package:joplate/domain/entities/utils/converters.dart';
 
 part 'phone_listing.freezed.dart';
 part 'phone_listing.g.dart';
@@ -17,9 +18,9 @@ class PhoneListing with _$PhoneListing {
     @Default(false) bool priceNegotiable,
     @Default(true) bool isDisabled,
     @Default(false) bool isSold,
-    DateTime? featuredUntil,
-    DateTime? createdAt,
-    DateTime? expiresAt,
+    @TimestampConverter() DateTime? featuredUntil,
+    @TimestampConverter() DateTime? createdAt,
+    @TimestampConverter() DateTime? expiresAt,
     required String userId,
   }) = _PhoneListing;
 

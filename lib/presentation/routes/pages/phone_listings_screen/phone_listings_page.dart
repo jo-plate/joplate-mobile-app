@@ -39,15 +39,15 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
     _sub = FirebaseFirestore.instance
         .collection(phoneNumbersCollectionId)
         .where('isDisabled', isEqualTo: false)
+        .where('expiresAt', isGreaterThan: DateTime.now())
         .orderBy('featuredUntil', descending: true)
         .orderBy('isSold', descending: true)
         .orderBy('createdAt', descending: true)
         .snapshots()
         .listen((snap) {
       setState(() {
-        _allPhones = snap.docs
-            .map((d) => PhoneListing.fromSnapshot(d))
-            .toList();
+        _allPhones =
+            snap.docs.map((d) => PhoneListing.fromSnapshot(d)).toList();
       });
     });
 
@@ -76,7 +76,8 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
   bool _matches(PhoneListing phone) {
     final number = phone.item.number;
 
-    if (_operator != PhoneOperator.none && phone.item.phoneOperator != _operator) {
+    if (_operator != PhoneOperator.none &&
+        phone.item.phoneOperator != _operator) {
       return false;
     }
 
@@ -215,7 +216,6 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
                           labelText: m.phones.max_price),
                     ),
                   ),
-                  
                 ],
               ),
               const SizedBox(height: 8),

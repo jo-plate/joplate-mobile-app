@@ -15,15 +15,12 @@ _$PhoneListingImpl _$$PhoneListingImplFromJson(Map<String, dynamic> json) =>
       priceNegotiable: json['priceNegotiable'] as bool? ?? false,
       isDisabled: json['isDisabled'] as bool? ?? true,
       isSold: json['isSold'] as bool? ?? false,
-      featuredUntil: json['featuredUntil'] == null
-          ? null
-          : DateTime.parse(json['featuredUntil'] as String),
-      createdAt: json['createdAt'] == null
-          ? null
-          : DateTime.parse(json['createdAt'] as String),
-      expiresAt: json['expiresAt'] == null
-          ? null
-          : DateTime.parse(json['expiresAt'] as String),
+      featuredUntil: _$JsonConverterFromJson<Timestamp, DateTime>(
+          json['featuredUntil'], const TimestampConverter().fromJson),
+      createdAt: _$JsonConverterFromJson<Timestamp, DateTime>(
+          json['createdAt'], const TimestampConverter().fromJson),
+      expiresAt: _$JsonConverterFromJson<Timestamp, DateTime>(
+          json['expiresAt'], const TimestampConverter().fromJson),
       userId: json['userId'] as String,
     );
 
@@ -36,8 +33,23 @@ Map<String, dynamic> _$$PhoneListingImplToJson(_$PhoneListingImpl instance) =>
       'priceNegotiable': instance.priceNegotiable,
       'isDisabled': instance.isDisabled,
       'isSold': instance.isSold,
-      'featuredUntil': instance.featuredUntil?.toIso8601String(),
-      'createdAt': instance.createdAt?.toIso8601String(),
-      'expiresAt': instance.expiresAt?.toIso8601String(),
+      'featuredUntil': _$JsonConverterToJson<Timestamp, DateTime>(
+          instance.featuredUntil, const TimestampConverter().toJson),
+      'createdAt': _$JsonConverterToJson<Timestamp, DateTime>(
+          instance.createdAt, const TimestampConverter().toJson),
+      'expiresAt': _$JsonConverterToJson<Timestamp, DateTime>(
+          instance.expiresAt, const TimestampConverter().toJson),
       'userId': instance.userId,
     };
+
+Value? _$JsonConverterFromJson<Json, Value>(
+  Object? json,
+  Value? Function(Json json) fromJson,
+) =>
+    json == null ? null : fromJson(json as Json);
+
+Json? _$JsonConverterToJson<Json, Value>(
+  Value? value,
+  Json? Function(Value value) toJson,
+) =>
+    value == null ? null : toJson(value);

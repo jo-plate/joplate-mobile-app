@@ -27,8 +27,11 @@ mixin _$PhoneListing {
   bool get priceNegotiable => throw _privateConstructorUsedError;
   bool get isDisabled => throw _privateConstructorUsedError;
   bool get isSold => throw _privateConstructorUsedError;
+  @TimestampConverter()
   DateTime? get featuredUntil => throw _privateConstructorUsedError;
+  @TimestampConverter()
   DateTime? get createdAt => throw _privateConstructorUsedError;
+  @TimestampConverter()
   DateTime? get expiresAt => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
 
@@ -56,9 +59,9 @@ abstract class $PhoneListingCopyWith<$Res> {
       bool priceNegotiable,
       bool isDisabled,
       bool isSold,
-      DateTime? featuredUntil,
-      DateTime? createdAt,
-      DateTime? expiresAt,
+      @TimestampConverter() DateTime? featuredUntil,
+      @TimestampConverter() DateTime? createdAt,
+      @TimestampConverter() DateTime? expiresAt,
       String userId});
 
   $PhoneNumberCopyWith<$Res> get item;
@@ -166,9 +169,9 @@ abstract class _$$PhoneListingImplCopyWith<$Res>
       bool priceNegotiable,
       bool isDisabled,
       bool isSold,
-      DateTime? featuredUntil,
-      DateTime? createdAt,
-      DateTime? expiresAt,
+      @TimestampConverter() DateTime? featuredUntil,
+      @TimestampConverter() DateTime? createdAt,
+      @TimestampConverter() DateTime? expiresAt,
       String userId});
 
   @override
@@ -260,9 +263,9 @@ class _$PhoneListingImpl extends _PhoneListing {
       this.priceNegotiable = false,
       this.isDisabled = true,
       this.isSold = false,
-      this.featuredUntil,
-      this.createdAt,
-      this.expiresAt,
+      @TimestampConverter() this.featuredUntil,
+      @TimestampConverter() this.createdAt,
+      @TimestampConverter() this.expiresAt,
       required this.userId})
       : super._();
 
@@ -289,10 +292,13 @@ class _$PhoneListingImpl extends _PhoneListing {
   @JsonKey()
   final bool isSold;
   @override
+  @TimestampConverter()
   final DateTime? featuredUntil;
   @override
+  @TimestampConverter()
   final DateTime? createdAt;
   @override
+  @TimestampConverter()
   final DateTime? expiresAt;
   @override
   final String userId;
@@ -367,9 +373,9 @@ abstract class _PhoneListing extends PhoneListing {
       final bool priceNegotiable,
       final bool isDisabled,
       final bool isSold,
-      final DateTime? featuredUntil,
-      final DateTime? createdAt,
-      final DateTime? expiresAt,
+      @TimestampConverter() final DateTime? featuredUntil,
+      @TimestampConverter() final DateTime? createdAt,
+      @TimestampConverter() final DateTime? expiresAt,
       required final String userId}) = _$PhoneListingImpl;
   const _PhoneListing._() : super._();
 
@@ -391,10 +397,13 @@ abstract class _PhoneListing extends PhoneListing {
   @override
   bool get isSold;
   @override
+  @TimestampConverter()
   DateTime? get featuredUntil;
   @override
+  @TimestampConverter()
   DateTime? get createdAt;
   @override
+  @TimestampConverter()
   DateTime? get expiresAt;
   @override
   String get userId;
