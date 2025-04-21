@@ -77,21 +77,13 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
         .collection(carPlatesCollectionId)
         .where('isDisabled', isEqualTo: false)
         .orderBy('featuredUntil', descending: true)
+        .orderBy('isSold', descending: true)
         .orderBy('createdAt', descending: true)
         .snapshots()
         .listen((snap) {
       setState(() {
         _allPlates =
-            snap.docs.map((doc) => PlateListing.fromSnapshot(doc)).toList()
-              ..sort((a, b) {
-                if (a.isFeatured && !b.isFeatured) {
-                  return -1;
-                } else if (!a.isFeatured && b.isFeatured) {
-                  return 1;
-                } else {
-                  return a.createdAt!.compareTo(b.createdAt!);
-                }
-              });
+            snap.docs.map((doc) => PlateListing.fromSnapshot(doc)).toList();
       });
     });
 

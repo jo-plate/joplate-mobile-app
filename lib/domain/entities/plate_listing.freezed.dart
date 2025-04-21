@@ -26,11 +26,13 @@ mixin _$PlateListing {
   int get discountPrice => throw _privateConstructorUsedError;
   bool get isDisabled => throw _privateConstructorUsedError;
   bool get isSold => throw _privateConstructorUsedError;
+  @TimestampConverter()
   DateTime? get featuredUntil => throw _privateConstructorUsedError;
+  @TimestampConverter()
   DateTime? get createdAt => throw _privateConstructorUsedError;
+  @TimestampConverter()
   DateTime? get expiresAt => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
-  UserProfile? get userProfile => throw _privateConstructorUsedError;
 
   /// Serializes this PlateListing to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -55,14 +57,12 @@ abstract class $PlateListingCopyWith<$Res> {
       int discountPrice,
       bool isDisabled,
       bool isSold,
-      DateTime? featuredUntil,
-      DateTime? createdAt,
-      DateTime? expiresAt,
-      String userId,
-      UserProfile? userProfile});
+      @TimestampConverter() DateTime? featuredUntil,
+      @TimestampConverter() DateTime? createdAt,
+      @TimestampConverter() DateTime? expiresAt,
+      String userId});
 
   $PlateNumberCopyWith<$Res> get item;
-  $UserProfileCopyWith<$Res>? get userProfile;
 }
 
 /// @nodoc
@@ -90,7 +90,6 @@ class _$PlateListingCopyWithImpl<$Res, $Val extends PlateListing>
     Object? createdAt = freezed,
     Object? expiresAt = freezed,
     Object? userId = null,
-    Object? userProfile = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -133,10 +132,6 @@ class _$PlateListingCopyWithImpl<$Res, $Val extends PlateListing>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-      userProfile: freezed == userProfile
-          ? _value.userProfile
-          : userProfile // ignore: cast_nullable_to_non_nullable
-              as UserProfile?,
     ) as $Val);
   }
 
@@ -147,20 +142,6 @@ class _$PlateListingCopyWithImpl<$Res, $Val extends PlateListing>
   $PlateNumberCopyWith<$Res> get item {
     return $PlateNumberCopyWith<$Res>(_value.item, (value) {
       return _then(_value.copyWith(item: value) as $Val);
-    });
-  }
-
-  /// Create a copy of PlateListing
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $UserProfileCopyWith<$Res>? get userProfile {
-    if (_value.userProfile == null) {
-      return null;
-    }
-
-    return $UserProfileCopyWith<$Res>(_value.userProfile!, (value) {
-      return _then(_value.copyWith(userProfile: value) as $Val);
     });
   }
 }
@@ -180,16 +161,13 @@ abstract class _$$PlateListingImplCopyWith<$Res>
       int discountPrice,
       bool isDisabled,
       bool isSold,
-      DateTime? featuredUntil,
-      DateTime? createdAt,
-      DateTime? expiresAt,
-      String userId,
-      UserProfile? userProfile});
+      @TimestampConverter() DateTime? featuredUntil,
+      @TimestampConverter() DateTime? createdAt,
+      @TimestampConverter() DateTime? expiresAt,
+      String userId});
 
   @override
   $PlateNumberCopyWith<$Res> get item;
-  @override
-  $UserProfileCopyWith<$Res>? get userProfile;
 }
 
 /// @nodoc
@@ -215,7 +193,6 @@ class __$$PlateListingImplCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? expiresAt = freezed,
     Object? userId = null,
-    Object? userProfile = freezed,
   }) {
     return _then(_$PlateListingImpl(
       id: null == id
@@ -258,10 +235,6 @@ class __$$PlateListingImplCopyWithImpl<$Res>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-      userProfile: freezed == userProfile
-          ? _value.userProfile
-          : userProfile // ignore: cast_nullable_to_non_nullable
-              as UserProfile?,
     ));
   }
 }
@@ -276,11 +249,10 @@ class _$PlateListingImpl extends _PlateListing {
       this.discountPrice = 0,
       this.isDisabled = true,
       this.isSold = false,
-      this.featuredUntil,
-      this.createdAt,
-      this.expiresAt,
-      required this.userId,
-      this.userProfile})
+      @TimestampConverter() this.featuredUntil,
+      @TimestampConverter() this.createdAt,
+      @TimestampConverter() this.expiresAt,
+      required this.userId})
       : super._();
 
   factory _$PlateListingImpl.fromJson(Map<String, dynamic> json) =>
@@ -303,19 +275,20 @@ class _$PlateListingImpl extends _PlateListing {
   @JsonKey()
   final bool isSold;
   @override
+  @TimestampConverter()
   final DateTime? featuredUntil;
   @override
+  @TimestampConverter()
   final DateTime? createdAt;
   @override
+  @TimestampConverter()
   final DateTime? expiresAt;
   @override
   final String userId;
-  @override
-  final UserProfile? userProfile;
 
   @override
   String toString() {
-    return 'PlateListing(id: $id, item: $item, price: $price, discountPrice: $discountPrice, isDisabled: $isDisabled, isSold: $isSold, featuredUntil: $featuredUntil, createdAt: $createdAt, expiresAt: $expiresAt, userId: $userId, userProfile: $userProfile)';
+    return 'PlateListing(id: $id, item: $item, price: $price, discountPrice: $discountPrice, isDisabled: $isDisabled, isSold: $isSold, featuredUntil: $featuredUntil, createdAt: $createdAt, expiresAt: $expiresAt, userId: $userId)';
   }
 
   @override
@@ -337,26 +310,13 @@ class _$PlateListingImpl extends _PlateListing {
                 other.createdAt == createdAt) &&
             (identical(other.expiresAt, expiresAt) ||
                 other.expiresAt == expiresAt) &&
-            (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.userProfile, userProfile) ||
-                other.userProfile == userProfile));
+            (identical(other.userId, userId) || other.userId == userId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      item,
-      price,
-      discountPrice,
-      isDisabled,
-      isSold,
-      featuredUntil,
-      createdAt,
-      expiresAt,
-      userId,
-      userProfile);
+  int get hashCode => Object.hash(runtimeType, id, item, price, discountPrice,
+      isDisabled, isSold, featuredUntil, createdAt, expiresAt, userId);
 
   /// Create a copy of PlateListing
   /// with the given fields replaced by the non-null parameter values.
@@ -382,11 +342,10 @@ abstract class _PlateListing extends PlateListing {
       final int discountPrice,
       final bool isDisabled,
       final bool isSold,
-      final DateTime? featuredUntil,
-      final DateTime? createdAt,
-      final DateTime? expiresAt,
-      required final String userId,
-      final UserProfile? userProfile}) = _$PlateListingImpl;
+      @TimestampConverter() final DateTime? featuredUntil,
+      @TimestampConverter() final DateTime? createdAt,
+      @TimestampConverter() final DateTime? expiresAt,
+      required final String userId}) = _$PlateListingImpl;
   const _PlateListing._() : super._();
 
   factory _PlateListing.fromJson(Map<String, dynamic> json) =
@@ -405,15 +364,16 @@ abstract class _PlateListing extends PlateListing {
   @override
   bool get isSold;
   @override
+  @TimestampConverter()
   DateTime? get featuredUntil;
   @override
+  @TimestampConverter()
   DateTime? get createdAt;
   @override
+  @TimestampConverter()
   DateTime? get expiresAt;
   @override
   String get userId;
-  @override
-  UserProfile? get userProfile;
 
   /// Create a copy of PlateListing
   /// with the given fields replaced by the non-null parameter values.

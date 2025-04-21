@@ -72,6 +72,7 @@ class _HomePageState extends State<HomePage> {
                     }
 
                     if (snapshot.hasError) {
+                      print('snapshot error: ${snapshot.error}');
                       return Center(child: Text('Error: ${snapshot.error}'));
                     }
 
