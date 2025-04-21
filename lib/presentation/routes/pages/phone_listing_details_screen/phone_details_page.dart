@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phone_dialer/flutter_phone_dialer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:joplate/data/constants.dart';
+import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/entities/phone_listing.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phone_number_listing_widget.dart';
+import 'package:joplate/presentation/widgets/app_bar.dart/promote_listing_button.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -104,20 +106,30 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
               vertical: 10.0,
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SizedBox(
-                  height: 180,
+                  height: 170,
                   child: PhoneNumberListingWidget(
                     item: phone,
                     hideLikeButton: true,
-                    aspectRatio: 2.1,
+
                     priceLabelFontSize: 24,
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(
+                  height: 16,
+                ),
+                PromoteListingButton(
+                    listingId: snapshot.data!.id,
+                    itemType: ItemType.phoneNumber),
+                const SizedBox(
+                  height: 16,
+                ),
                 SellerDetails(userId: phone.userId),
-                const SizedBox(height: 20),
+                const SizedBox(
+                  height: 16,
+                ),
                 Container(
                   padding: const EdgeInsets.all(12.0),
                   decoration: BoxDecoration(
@@ -163,7 +175,9 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(
+                  height: 16,
+                ),
               ],
             ),
           ),

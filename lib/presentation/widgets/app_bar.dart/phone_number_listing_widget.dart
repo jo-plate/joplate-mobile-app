@@ -1,8 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/phone_listing.dart';
-import 'package:joplate/injection/injector.dart';
-import 'package:joplate/presentation/cubits/localization/localization_cubit.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
@@ -10,112 +8,102 @@ import 'package:stroke_text/stroke_text.dart';
 
 class PhoneNumberListingWidget extends StatelessWidget {
   final PhoneListing item;
-  final double aspectRatio;
   final bool disabled;
   final double priceLabelFontSize;
   final bool hideLikeButton;
 
   const PhoneNumberListingWidget({
-    super.key,
+    Key? key,
     required this.item,
-    this.aspectRatio = 1.4,
     this.disabled = false,
     this.priceLabelFontSize = 18,
     this.hideLikeButton = false,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: Center(
-        child: AspectRatio(
-          aspectRatio: aspectRatio,
-          child: GestureDetector(
-            onTap: disabled
-                ? null
-                : () {
-                    AutoRouter.of(context)
-                        .push(PhoneDetailsRoute(listingId: item.id));
-                  },
-            child: Container(
+    return Center(
+      child: GestureDetector(
+        onTap: disabled
+            ? null
+            : () {
+                AutoRouter.of(context).push(
+                  PhoneDetailsRoute(listingId: item.id),
+                );
+              },
+        child: Stack(
+          fit: StackFit.passthrough,
+          clipBehavior: Clip.hardEdge,
+          children: [
+            Container(
               decoration: BoxDecoration(
                 border: Border.all(
-                    color: item.isFeatured
-                        ? Colors.yellow[700]!
-                        : Colors.grey[500]!,
-                    width: 2),
+                  color: item.isFeatured ? Colors.yellow[700]! : Colors.grey[500]!,
+                  width: 2,
+                ),
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Stack(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Column(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: item.item.operatorColor,
-                                gradient: LinearGradient(
-                                  colors: [
-                                    item.item.operatorColor.withOpacity(0.9),
-                                    item.item.operatorColor.withOpacity(0.6),
-                                  ],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 12, horizontal: 8),
-                              child: LayoutBuilder(
-                                  builder: (context, constraints) {
-                                double fontSize = constraints.maxWidth * 0.13;
-                                return StrokeText(
-                                  text: item.item.number,
-                                  textStyle: TextStyle(
-                                      fontSize: fontSize,
-                                      fontFamily: 'poppins',
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                      letterSpacing: 1.4),
-                                  strokeColor: Colors.grey[800]!,
-                                  strokeWidth: 3,
-                                  textAlign: TextAlign.center,
-                                );
-                              }),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  _buildPriceLabel(),
-                                  if (!hideLikeButton)
-                                    FavoriteButton.phone(
-                                      listingId: item.id,
-
-                                      iconSize: 24,
-                                    ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                  // Number display (with stroke)
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          item.item.operatorColor.withOpacity(0.9),
+                          item.item.operatorColor.withOpacity(0.6),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
-                    ],
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                    child: LayoutBuilder(builder: (ctx, constraints) {
+                      final fontSize = constraints.maxWidth * 0.13;
+                      return StrokeText(
+                        text: item.item.number,
+                        textStyle: TextStyle(
+                          fontSize: fontSize,
+                          fontFamily: 'poppins',
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                          letterSpacing: 1.4,
+                        ),
+                        strokeColor: Colors.grey[800]!,
+                        strokeWidth: 3,
+                        textAlign: TextAlign.center,
+                      );
+                    }),
                   ),
-                  if (item.isFeatured) _buildFeaturedRibbon(context),
-                  if (item.isSold) _buildSoldRibbon(context),
+
+                  // Price + optional favorite button
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _buildPriceLabel(),
+                        if (!hideLikeButton) ...[
+                          const SizedBox(width: 8),
+                          FavoriteButton.phone(
+                            listingId: item.id,
+                            iconSize: 24,
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
-          ),
+
+            // Ribbons
+            if (item.isFeatured) _buildFeaturedRibbon(context),
+            if (item.isSold) _buildSoldRibbon(context),
+          ],
         ),
       ),
     );
@@ -178,18 +166,13 @@ class PhoneNumberListingWidget extends StatelessWidget {
     }
   }
 
-  Widget _buildFeaturedRibbon(context) {
+  Widget _buildFeaturedRibbon(BuildContext context) {
     final m = Localization.of(context);
     return Positioned(
       bottom: 20,
-      right:
-          injector<LocalizationCubit>().state.languageCode == 'en' ? -20 : null,
-      left:
-          injector<LocalizationCubit>().state.languageCode == 'ar' ? -20 : null,
+      right:  -20,
       child: Transform.rotate(
-        angle: injector<LocalizationCubit>().state.languageCode == 'en'
-            ? -0.7854
-            : 0.7854,
+        angle: -0.7854,
         child: Container(
           width: 100,
           alignment: Alignment.center,
@@ -214,14 +197,9 @@ class PhoneNumberListingWidget extends StatelessWidget {
     final m = Localization.of(context);
     return Positioned(
       top: 20,
-      left:
-          injector<LocalizationCubit>().state.languageCode == 'en' ? -20 : null,
-      right:
-          injector<LocalizationCubit>().state.languageCode == 'ar' ? -20 : null,
+      left: -20,
       child: Transform.rotate(
-        angle: injector<LocalizationCubit>().state.languageCode == 'en'
-            ? -0.7854
-            : 0.7854,
+        angle: -0.7854,
         child: Container(
           width: 100,
           alignment: Alignment.center,
