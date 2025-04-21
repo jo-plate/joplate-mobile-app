@@ -212,8 +212,8 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                       decoration:
                           inputFieldStyle.copyWith(labelText: m.plates.code),
                       value: _selectedCode,
-                      icon:
-                          const Icon(Icons.arrow_drop_down, color: Colors.red),
+                      icon: const Icon(Icons.arrow_drop_down,
+                          color: Color(0xFF981C1E)),
                       items: _codes.map((c) {
                         return DropdownMenuItem(
                           value: c,
@@ -229,8 +229,8 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                       decoration: inputFieldStyle.copyWith(
                           labelText: m.plates.digit_count),
                       value: _selectedDigits,
-                      icon:
-                          const Icon(Icons.arrow_drop_down, color: Colors.red),
+                      icon: const Icon(Icons.arrow_drop_down,
+                          color: Color(0xFF981C1E)),
                       items: _digitCounts.map((d) {
                         return DropdownMenuItem(
                           value: d,
@@ -247,7 +247,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                 decoration:
                     inputFieldStyle.copyWith(labelText: m.plates.format),
                 value: _selectedFormat,
-                icon: const Icon(Icons.arrow_drop_down, color: Colors.red),
+                icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF981C1E)),
                 items: formatList.map((format) {
                   return DropdownMenuItem(
                     value: format,
@@ -305,12 +305,12 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                   children: [
                     Text(_isExpanded ? m.plates.show_less : m.plates.see_more,
                         style: const TextStyle(
-                            color: Colors.red, fontWeight: FontWeight.bold)),
+                            color: Color(0xFF981C1E), fontWeight: FontWeight.bold)),
                     Icon(
                         _isExpanded
                             ? Icons.keyboard_arrow_up
                             : Icons.keyboard_arrow_down,
-                        color: Colors.red),
+                        color: const Color(0xFF981C1E)),
                   ],
                 ),
               ),

@@ -227,13 +227,13 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
                   Text(
                     _showAdvanced ? m.phones.show_less : m.phones.see_more,
                     style: const TextStyle(
-                        color: Colors.red, fontWeight: FontWeight.bold),
+                        color: Color(0xFF981C1E), fontWeight: FontWeight.bold),
                   ),
                   Icon(
                     _showAdvanced
                         ? Icons.keyboard_arrow_up
                         : Icons.keyboard_arrow_down,
-                    color: Colors.red,
+                    color: const Color(0xFF981C1E),
                   ),
                 ],
               ),
