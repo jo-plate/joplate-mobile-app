@@ -41,20 +41,32 @@ class Plan with _$Plan {
     @Default({}) Map<SubscriptionPlatform, String> productIds,
   }) = _Plan;
 
-  factory Plan.fromJson(Map<String, dynamic> json) {
-    Color color;
-    try {
-      color = Color(int.parse(json['color'].replaceFirst("#", "0xFF")));
-    } catch (e) {
-      color = Colors.white;
-    }
-    return Plan(
-      displayName: json['displayName'] as String,
-      price: json['price'] as int,
-      activePerks: List<String>.from(json['activePerks'] ?? [] as List<String>),
-      disabledPerks: List<String>.from(json['disabledPerks'] ?? [] as List<String>),
-      //initialize color from string
-      color: color,
-    );
+factory Plan.fromJson(Map<String, dynamic> json) {
+  Color color;
+  try {
+    color = Color(int.parse(json['color'].replaceFirst("#", "0xFF")));
+  } catch (e) {
+    color = Colors.white;
   }
+
+  final rawProductIds = (json['productIds'] as Map?)?.cast<String, dynamic>() ?? {};
+
+  final productIds = rawProductIds.map(
+    (key, value) => MapEntry(
+      SubscriptionPlatformExtension.fromString(key),
+      value as String,
+    ),
+  );
+
+  return Plan(
+    displayName: json['displayName'] as String? ?? "Plan",
+    price: json['price'] as int? ?? 0,
+    activePerks: List<String>.from(json['activePerks'] ?? []),
+    disabledPerks: List<String>.from(json['disabledPerks'] ?? []),
+    color: color,
+    productIds: productIds,
+  );
+}
+
+
 }

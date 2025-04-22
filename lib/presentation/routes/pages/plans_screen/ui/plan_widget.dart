@@ -1,4 +1,6 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:joplate/domain/entities/plan.dart';
 import 'package:joplate/presentation/widgets/icons/plan_icon.dart';
 
@@ -9,6 +11,42 @@ class PlanWidget extends StatelessWidget {
   });
 
   final Plan plan;
+void _buyProduct(BuildContext context) async {
+  final isIOS = Platform.isIOS;
+  final productId = plan.productIds[isIOS ? SubscriptionPlatform.ios : SubscriptionPlatform.android];
+
+  print("📦 Platform: ${isIOS ? "iOS" : "Android"}");
+  print("📦 Retrieved Product ID: $productId");
+
+  if (productId == null || productId.trim().isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("No product ID available for this platform.")),
+    );
+    return;
+  }
+
+    final isAvailable = await InAppPurchase.instance.isAvailable();
+    if (!isAvailable) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("In-app purchases not available.")),
+      );
+      return;
+    }
+
+    final response =
+        await InAppPurchase.instance.queryProductDetails({productId});
+    if (response.notFoundIDs.isNotEmpty || response.productDetails.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Product not found.")),
+      );
+      return;
+    }
+
+    final productDetails = response.productDetails.first;
+    final purchaseParam = PurchaseParam(productDetails: productDetails);
+
+    InAppPurchase.instance.buyNonConsumable(purchaseParam: purchaseParam);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +79,18 @@ class PlanWidget extends StatelessWidget {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [plan.color.withAlpha(170), plan.color.withAlpha(130), plan.color.withAlpha(255)],
+                        colors: [
+                          plan.color.withAlpha(170),
+                          plan.color.withAlpha(130),
+                          plan.color.withAlpha(255)
+                        ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
-                      borderRadius:
-                          const BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12),
+                      ),
                     ),
                     child: Center(
                       child: PlanIcon(size: 75, color: plan.color),
@@ -81,22 +125,25 @@ class PlanWidget extends StatelessWidget {
                             RichText(
                               textAlign: TextAlign.center,
                               text: TextSpan(
-                                  text: plan.price.toDouble().toString(),
-                                  style: const TextStyle(
+                                text: plan.price.toDouble().toString(),
+                                style: const TextStyle(
+                                  fontFamily: 'Mandatory',
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xFF981C1E),
+                                  fontSize: 24.0,
+                                ),
+                                children: const [
+                                  TextSpan(
+                                    text: " /  JOD",
+                                    style: TextStyle(
                                       fontFamily: 'Mandatory',
                                       fontWeight: FontWeight.w700,
-                                      color: Color(0xFF981C1E),
-                                      fontSize: 24.0),
-                                  children: const [
-                                    TextSpan(
-                                      text: " /  JOD",
-                                      style: TextStyle(
-                                          fontFamily: 'Mandatory',
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.black,
-                                          fontSize: 16.0),
-                                    )
-                                  ]),
+                                      color: Colors.black,
+                                      fontSize: 16.0,
+                                    ),
+                                  )
+                                ],
+                              ),
                             )
                           else
                             const Text(
@@ -108,7 +155,6 @@ class PlanWidget extends StatelessWidget {
                                 fontSize: 20.0,
                               ),
                             ),
-                          // const SizedBox(height: 16),
                           Divider(
                             color: Colors.grey[400],
                             thickness: 1,
@@ -121,7 +167,7 @@ class PlanWidget extends StatelessWidget {
                             thickness: 1,
                           ),
                           FilledButton(
-                            onPressed: () {},
+                            onPressed: () => _buyProduct(context),
                             child: const Text("Subscribe"),
                           )
                         ],
@@ -162,20 +208,15 @@ class PlanWidget extends StatelessWidget {
   Widget _buildActivePerks() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        ...plan.activePerks.map((perk) => _buildPerk(perk, true)),
-      ],
+      children: plan.activePerks.map((perk) => _buildPerk(perk, true)).toList(),
     );
   }
 
   Widget _buildDisabledPerks() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        ...plan.disabledPerks.map((perk) => _buildPerk(perk, false)),
-      ],
+      children:
+          plan.disabledPerks.map((perk) => _buildPerk(perk, false)).toList(),
     );
   }
 }
