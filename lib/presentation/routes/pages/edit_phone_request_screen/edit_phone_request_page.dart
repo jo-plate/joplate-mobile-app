@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/edit_phone_request_screen/cubit/edit_phone_request_cubit.dart';
+import 'package:joplate/presentation/routes/pages/edit_phone_request_screen/cubit/edit_phone_request_state.dart';
 
 @RoutePage()
 class EditPhoneRequestPage extends StatefulWidget {
@@ -17,21 +18,18 @@ class EditPhoneRequestPage extends StatefulWidget {
 
 class _EditPhoneRequestPageState extends State<EditPhoneRequestPage> {
   late final TextEditingController numberController;
-  late final TextEditingController priceController;
 
   @override
   void initState() {
     super.initState();
 
     numberController = TextEditingController(text: widget.request.item.number);
-    priceController =
-        TextEditingController(text: widget.request.price.toString());
   }
 
   @override
   void dispose() {
     numberController.dispose();
-    priceController.dispose();
+
     super.dispose();
   }
 
@@ -65,10 +63,10 @@ class _EditPhoneRequestPageState extends State<EditPhoneRequestPage> {
                       ),
                     TextField(
                       controller: numberController,
-                      decoration: InputDecoration(
-                          labelText: m.editphonerequest.phone_number),
+                      decoration: InputDecoration(labelText: m.editphonerequest.phone_number),
                       keyboardType: TextInputType.phone,
                       enabled: !state.isSubmitting,
+                      onChanged: cubit.updateNumber,
                     ),
                     const SizedBox(height: 16),
                     if (state.isSubmitting)
@@ -84,8 +82,7 @@ class _EditPhoneRequestPageState extends State<EditPhoneRequestPage> {
                                   context.router.maybePop();
                                 });
                               },
-                              child: Text(m.editphonerequest.save_changes,
-                                  style: TextStyle(color: Colors.white)),
+                              child: Text(m.editphonerequest.save_changes, style: const TextStyle(color: Colors.white)),
                             ),
                           ),
                         ],

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/edit_plate_request_screen/cubit/edit_plate_request_cubit.dart';
+import 'package:joplate/presentation/routes/pages/edit_plate_request_screen/cubit/edit_plate_request_state.dart';
 
 @RoutePage()
 class EditPlateRequestPage extends StatelessWidget {
@@ -37,17 +38,19 @@ class EditPlateRequestPage extends StatelessWidget {
                       ),
                     const SizedBox(height: 8),
                     TextField(
-                      decoration:
-                          InputDecoration(labelText: m.editplaterequest.code),
+                      decoration: InputDecoration(labelText: m.editplaterequest.code),
                       enabled: !state.isSubmitting,
                       controller: TextEditingController(text: state.code),
+                      maxLength: 2,
+                      onChanged: cubit.updateCode,
                     ),
                     const SizedBox(height: 16),
                     TextField(
-                      decoration:
-                          InputDecoration(labelText: m.editplaterequest.number),
+                      decoration: InputDecoration(labelText: m.editplaterequest.number),
                       enabled: !state.isSubmitting,
+                      maxLength: 5,
                       controller: TextEditingController(text: state.number),
+                      onChanged: cubit.updateNumber,
                     ),
                     const SizedBox(height: 16),
                     // TextField(
@@ -58,21 +61,18 @@ class EditPlateRequestPage extends StatelessWidget {
                     //   controller: TextEditingController(text: state.price),
                     // ),
                     // const SizedBox(height: 16),
-                    if (state.isSubmitting)
-                      const Center(child: CircularProgressIndicator()),
+                    if (state.isSubmitting) const Center(child: CircularProgressIndicator()),
                     const SizedBox(height: 24),
                     ElevatedButton(
                       onPressed: state.isSubmitting
                           ? null
                           : () async {
                               await cubit.submitEdit();
-                              if (cubit.state.errorMessage == null &&
-                                  !cubit.state.isSubmitting) {
+                              if (cubit.state.errorMessage == null && !cubit.state.isSubmitting) {
                                 AutoRouter.of(context).maybePop();
                               }
                             },
-                      child: Text(m.editplaterequest.save_changes,
-                          style: const TextStyle(color: Colors.white)),
+                      child: Text(m.editplaterequest.save_changes, style: const TextStyle(color: Colors.white)),
                     ),
                   ],
                 ),

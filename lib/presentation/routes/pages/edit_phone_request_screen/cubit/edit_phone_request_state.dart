@@ -1,31 +1,13 @@
-part of 'edit_phone_request_cubit.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-/// State for editing an existing phone request
-class EditPhoneRequestState {
-  final String requestId;
-  final String price; // optional, stored as string for easy text field
-  final bool isSubmitting;
-  final String? errorMessage;
+part 'edit_phone_request_state.freezed.dart';
 
-  const EditPhoneRequestState({
-    required this.requestId,
-    required this.price,
-    required this.isSubmitting,
-    this.errorMessage,
-  });
-
-  EditPhoneRequestState copyWith({
-    String? requestId,
-    String? number,
-    String? price,
-    bool? isSubmitting,
+@freezed
+class EditPhoneRequestState with _$EditPhoneRequestState {
+  const factory EditPhoneRequestState({
+    required String requestId,
+    required String number,
+    @Default(false) bool isSubmitting,
     String? errorMessage,
-  }) {
-    return EditPhoneRequestState(
-      requestId: requestId ?? this.requestId,
-      price: price ?? this.price,
-      isSubmitting: isSubmitting ?? this.isSubmitting,
-      errorMessage: errorMessage,
-    );
-  }
+  }) = _EditPhoneRequestState;
 }
