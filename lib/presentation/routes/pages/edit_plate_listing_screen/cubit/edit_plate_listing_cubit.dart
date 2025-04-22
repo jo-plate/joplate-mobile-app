@@ -5,7 +5,6 @@ import 'package:joplate/domain/dto/update_listing_dto.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/presentation/routes/pages/edit_plate_listing_screen/cubit/edit_plate_listing_state.dart';
 
-
 class EditPlateListingCubit extends Cubit<EditPlateListingState> {
   EditPlateListingCubit()
       : super(const EditPlateListingState(
@@ -45,48 +44,27 @@ class EditPlateListingCubit extends Cubit<EditPlateListingState> {
     ));
   }
 
-  void updateCode(String value) =>
-      emit(state.copyWith(code: value, errorMessage: null));
-  void updatePlateNumber(String value) =>
-      emit(state.copyWith(plateNumber: value, errorMessage: null));
-  void updatePrice(String value) =>
-      emit(state.copyWith(price: value, errorMessage: null));
-  void updateDiscountPrice(String value) =>
-      emit(state.copyWith(discountPrice: value, errorMessage: null));
-  void toggleFeatured(bool value) =>
-      emit(state.copyWith(isFeatured: value, errorMessage: null));
-  void toggleDisabled(bool value) =>
-      emit(state.copyWith(isDisabled: value, errorMessage: null));
-  void toggleSold(bool value) =>
-      emit(state.copyWith(isSold: value, errorMessage: null));
+  void updatePrice(String value) => emit(state.copyWith(price: value, errorMessage: null));
+
+  void updateDiscountPrice(String value) => emit(state.copyWith(discountPrice: value, errorMessage: null));
 
   Future<void> submitEdit() async {
-    if (state.listingId.isEmpty ||
-        state.code.isEmpty ||
-        state.plateNumber.isEmpty ||
-        state.price.isEmpty) {
+    if (state.listingId.isEmpty || state.code.isEmpty || state.plateNumber.isEmpty || state.price.isEmpty) {
       emit(state.copyWith(errorMessage: 'All fields are required'));
       return;
     }
 
     emit(state.copyWith(isSubmitting: true, errorMessage: null));
 
-    final dto = UpdateListingDto(
+    final dto = UpdateListingDtoV2(
       listingId: state.listingId,
       itemType: ItemType.plateNumber,
-      listingType: ListingType.ad,
       price: int.tryParse(state.price),
-      discountPrice: state.discountPrice?.isNotEmpty == true
-          ? int.tryParse(state.discountPrice!)
-          : null,
-      isFeatured: state.isFeatured,
-      isDisabled: state.isDisabled,
-      isSold: state.isSold,
+      discountPrice: state.discountPrice?.isNotEmpty == true ? int.tryParse(state.discountPrice!) : null,
     );
 
     try {
-      final callable =
-          FirebaseFunctions.instance.httpsCallable(updateListingCF);
+      final callable = FirebaseFunctions.instance.httpsCallable(updateListingCF);
       final response = await callable.call(dto.toJson());
 
       if (response.data != null && response.data['success'] == true) {
@@ -98,8 +76,7 @@ class EditPlateListingCubit extends Cubit<EditPlateListingState> {
         ));
       }
     } on FirebaseFunctionsException catch (e) {
-      emit(state.copyWith(
-          isSubmitting: false, errorMessage: 'Error: ${e.message}'));
+      emit(state.copyWith(isSubmitting: false, errorMessage: 'Error: ${e.message}'));
     } catch (e) {
       emit(state.copyWith(isSubmitting: false, errorMessage: e.toString()));
     }
