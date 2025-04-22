@@ -3,21 +3,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
+import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/presentation/routes/pages/phone_request_details_screen/phone_request_details_page.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_request_widget.dart';
+import 'package:joplate/presentation/widgets/delete_item_popup.dart';
 
 @RoutePage()
 class PlateRequestDetailsPage extends StatefulWidget {
-  const PlateRequestDetailsPage(
-      {super.key, @PathParam('requestId') required this.requestId});
+  const PlateRequestDetailsPage({super.key, @PathParam('requestId') required this.requestId});
 
   final String requestId;
 
   @override
-  State<PlateRequestDetailsPage> createState() =>
-      _PlateRequestDetailsPageState();
+  State<PlateRequestDetailsPage> createState() => _PlateRequestDetailsPageState();
 }
 
 class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
@@ -40,10 +40,7 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Padding(
-              padding: EdgeInsets.only(
-                  left: 24.0,
-                  right: 24,
-                  top: MediaQuery.of(context).size.height / 4),
+              padding: EdgeInsets.only(left: 24.0, right: 24, top: MediaQuery.of(context).size.height / 4),
               child: Text(
                 'Error getteing data for Request',
                 textAlign: TextAlign.center,
@@ -73,25 +70,31 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
               appBar: AppBar(
                 title: const Text('Plate Request Details'),
                 actions: [
-                  if (FirebaseAuth.instance.currentUser?.uid ==
-                      snapshot.data!.userId) ...[
+                  if (FirebaseAuth.instance.currentUser?.uid == snapshot.data!.userId) ...[
                     IconButton(
                       icon: const Icon(Icons.edit),
                       onPressed: () {
-                        context.router.push(
-                            EditPlateRequestRoute(request: snapshot.data!));
+                        context.router.push(EditPlateRequestRoute(request: snapshot.data!));
                       },
                     ),
                     IconButton(
                       icon: const Icon(Icons.delete_outline),
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) => DeleteListingDialog(
+                            listingId: widget.requestId,
+                            itemType: ItemType.plateNumber, // or ItemType.phoneNumber, etc.
+                            listingType: ListingType.request, // or ListingType.request
+                          ),
+                        );
+                      },
                     ),
                   ]
                 ],
               ),
               body: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0, vertical: 10.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -116,8 +119,7 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
                         children: [
                           Text(
                             'Important Note:',
-                            style: TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold),
+                            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 10),
                           Row(

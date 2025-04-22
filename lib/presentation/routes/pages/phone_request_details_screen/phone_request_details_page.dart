@@ -5,22 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phone_dialer/flutter_phone_dialer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:joplate/data/constants.dart';
+import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phone_number_request_widget.dart';
+import 'package:joplate/presentation/widgets/delete_item_popup.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 @RoutePage()
 class PhoneRequestDetailsPage extends StatefulWidget {
-  const PhoneRequestDetailsPage(
-      {super.key, required this.phoneNumberRequestId});
+  const PhoneRequestDetailsPage({super.key, required this.phoneNumberRequestId});
 
   final String phoneNumberRequestId;
 
   @override
-  State<PhoneRequestDetailsPage> createState() =>
-      _PhoneRequestDetailsPageState();
+  State<PhoneRequestDetailsPage> createState() => _PhoneRequestDetailsPageState();
 }
 
 class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
@@ -55,25 +55,31 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
             appBar: AppBar(
               title: const Text('Phone Number Request'),
               actions: [
-                if (FirebaseAuth.instance.currentUser?.uid ==
-                    snapshot.data!.userId) ...[
+                if (FirebaseAuth.instance.currentUser?.uid == snapshot.data!.userId) ...[
                   IconButton(
                     icon: const Icon(Icons.edit),
                     onPressed: () {
-                      context.router
-                          .push(EditPhoneRequestRoute(request: snapshot.data!));
+                      context.router.push(EditPhoneRequestRoute(request: snapshot.data!));
                     },
                   ),
                   IconButton(
                     icon: const Icon(Icons.delete_outline),
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (_) => DeleteListingDialog(
+                          listingId: widget.phoneNumberRequestId,
+                          itemType: ItemType.plateNumber, // or ItemType.phoneNumber, etc.
+                          listingType: ListingType.request,
+                        ),
+                      );
+                    },
                   ),
                 ]
               ],
             ),
             body: SingleChildScrollView(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -85,16 +91,10 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
                       aspectRatio: 1.5,
                     ),
                   ),
-
                   const SizedBox(height: 10),
-
                   const SizedBox(height: 20),
-
                   RequestedByWidgget(userId: snapshot.data!.userId),
-
                   const SizedBox(height: 20),
-
-                  // 4. Important Notes
                   Container(
                     padding: const EdgeInsets.all(12.0),
                     decoration: BoxDecoration(
@@ -105,8 +105,7 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
                       children: [
                         Text(
                           'Important Note:',
-                          style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 10),
                         Row(
@@ -137,7 +136,6 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 20),
                 ],
               ),
@@ -161,11 +159,8 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
   @override
   void initState() {
     super.initState();
-    userProfileStream = FirebaseFirestore.instance
-        .collection(userProfileCollectionId)
-        .doc(widget.userId)
-        .snapshots()
-        .map((snapshot) {
+    userProfileStream =
+        FirebaseFirestore.instance.collection(userProfileCollectionId).doc(widget.userId).snapshots().map((snapshot) {
       return UserProfile.fromJson(snapshot.data() ?? {});
     });
   }
@@ -217,8 +212,7 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
                     Expanded(
                       child: Text(
                         userProfile.displayName,
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -230,8 +224,7 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
                     Expanded(
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          launchUrlString(
-                              "https://wa.me/${userProfile.phonenumber}",
+                          launchUrlString("https://wa.me/${userProfile.phonenumber}",
                               mode: LaunchMode.externalApplication);
                         },
                         style: ElevatedButton.styleFrom(
@@ -257,8 +250,7 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
                     Expanded(
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          FlutterPhoneDialer.dialNumber(
-                              userProfile.phonenumber);
+                          FlutterPhoneDialer.dialNumber(userProfile.phonenumber);
                         },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 12),
@@ -269,8 +261,7 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
                         icon: const Icon(Icons.phone, color: Colors.white),
                         label: Text(
                           userProfile.phonenumber,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 14),
+                          style: const TextStyle(color: Colors.white, fontSize: 14),
                         ),
                       ),
                     ),
