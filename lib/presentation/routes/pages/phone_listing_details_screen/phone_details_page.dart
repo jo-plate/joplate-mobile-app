@@ -12,6 +12,7 @@ import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phone_number_listing_widget.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/promote_listing_button.dart';
+import 'package:joplate/presentation/widgets/delete_item_popup.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -92,7 +93,16 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
                 const SizedBox(width: 16),
                 GestureDetector(
                   child: const Icon(Icons.delete_outline),
-                  onTap: () {},
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (_) => DeleteListingDialog(
+                        listingId: widget.listingId,
+                        itemType: ItemType.phoneNumber, // or ItemType.phoneNumber, etc.
+                        listingType: ListingType.ad, // or ListingType.request
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(
                   width: 16,

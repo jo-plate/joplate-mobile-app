@@ -147,8 +147,8 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
       return false;
     }
 
-    final min = double.tryParse(_minPriceController.text);
-    final max = double.tryParse(_maxPriceController.text);
+    final min = int.tryParse(_minPriceController.text);
+    final max = int.tryParse(_maxPriceController.text);
 
     if (min != null && !plate.priceHidden && plate.price < min) return false;
     if (max != null && !plate.priceHidden && plate.price > max) return false;
