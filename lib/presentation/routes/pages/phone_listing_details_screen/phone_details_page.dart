@@ -66,8 +66,7 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
           );
         }
 
-        if (snapshot.connectionState == ConnectionState.waiting ||
-            !snapshot.hasData) {
+        if (snapshot.connectionState == ConnectionState.waiting || !snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
         }
 
@@ -123,16 +122,14 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
                   child: PhoneNumberListingWidget(
                     item: phone,
                     hideLikeButton: true,
-
                     priceLabelFontSize: 24,
                   ),
                 ),
                 const SizedBox(
                   height: 16,
                 ),
-                PromoteListingButton(
-                    listingId: snapshot.data!.id,
-                    itemType: ItemType.phoneNumber),
+                if (FirebaseAuth.instance.currentUser?.uid == phone.userId && phone.isFeatured)
+                  PromoteListingButton(listingId: snapshot.data!.id, itemType: ItemType.phoneNumber),
                 const SizedBox(
                   height: 16,
                 ),
@@ -171,8 +168,7 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
                       const SizedBox(height: 8),
                       Row(
                         children: [
-                          const Icon(Icons.location_on,
-                              color: Color(0xFF981C1E)),
+                          const Icon(Icons.location_on, color: Color(0xFF981C1E)),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
@@ -211,11 +207,8 @@ class _SellerDetailsState extends State<SellerDetails> {
   @override
   void initState() {
     super.initState();
-    userProfileStream = FirebaseFirestore.instance
-        .collection(userProfileCollectionId)
-        .doc(widget.userId)
-        .snapshots()
-        .map((snapshot) {
+    userProfileStream =
+        FirebaseFirestore.instance.collection(userProfileCollectionId).doc(widget.userId).snapshots().map((snapshot) {
       return UserProfile.fromJson(snapshot.data() ?? {});
     });
   }
@@ -268,8 +261,7 @@ class _SellerDetailsState extends State<SellerDetails> {
                     Expanded(
                       child: Text(
                         userProfile.displayName,
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -281,8 +273,7 @@ class _SellerDetailsState extends State<SellerDetails> {
                     Expanded(
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          launchUrlString(
-                              "https://wa.me/${userProfile.phonenumber}",
+                          launchUrlString("https://wa.me/${userProfile.phonenumber}",
                               mode: LaunchMode.externalApplication);
                         },
                         style: ElevatedButton.styleFrom(
@@ -308,8 +299,7 @@ class _SellerDetailsState extends State<SellerDetails> {
                     Expanded(
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          FlutterPhoneDialer.dialNumber(
-                              userProfile.phonenumber);
+                          FlutterPhoneDialer.dialNumber(userProfile.phonenumber);
                         },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 12),
@@ -320,8 +310,7 @@ class _SellerDetailsState extends State<SellerDetails> {
                         icon: const Icon(Icons.phone, color: Colors.white),
                         label: Text(
                           userProfile.phonenumber,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 14),
+                          style: const TextStyle(color: Colors.white, fontSize: 14),
                         ),
                       ),
                     ),

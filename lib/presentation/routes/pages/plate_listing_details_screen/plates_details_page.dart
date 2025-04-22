@@ -114,7 +114,8 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    if (!(snapshot.data?.isFeatured ?? false))
+                    if (!(snapshot.data?.isFeatured ?? false) &&
+                        (FirebaseAuth.instance.currentUser?.uid ?? '') == snapshot.data!.userId)
                       PromoteListingButton(listingId: snapshot.data!.id, itemType: ItemType.plateNumber),
                     const SizedBox(height: 16),
                     SellerDetails(userId: snapshot.data!.userId),
@@ -521,7 +522,7 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
     required String phoneNumber,
     required bool isFeatured,
     required String listingId,
-}) {
+  }) {
     void _goToDetails() => AutoRouter.of(context).push(PlatesDetailsRoute(listingId: listingId));
 
     Widget wrap(Widget child) => Material(
@@ -539,14 +540,13 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
       children: [
         // seller / avatar cell
         wrap(
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12.0),
-          child: Row(
-            children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12.0),
+            child: Row(
+              children: [
                 const CircleAvatar(radius: 16, child: Icon(Icons.person_outline, size: 18)),
                 const SizedBox(width: 12),
-                Text(name,
-                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
+                Text(name, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
               ],
             ),
           ),
@@ -554,33 +554,33 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
 
         // price cell
         wrap(
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12.0),
             child: Text(price, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
           ),
         ),
 
         // contact cell (keep the icons clickable too)
         wrap(
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              _iconButton(
-                color: Colors.green,
-                icon: FontAwesomeIcons.whatsapp,
-                onPressed: () => launchUrlString("https://wa.me/$phoneNumber"),
-              ),
-              const SizedBox(width: 8),
-              _iconButton(
-                color: const Color(0xFF981C1E),
-                icon: Icons.phone,
-                onPressed: () => FlutterPhoneDialer.dialNumber(phoneNumber),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                _iconButton(
+                  color: Colors.green,
+                  icon: FontAwesomeIcons.whatsapp,
+                  onPressed: () => launchUrlString("https://wa.me/$phoneNumber"),
+                ),
+                const SizedBox(width: 8),
+                _iconButton(
+                  color: const Color(0xFF981C1E),
+                  icon: Icons.phone,
+                  onPressed: () => FlutterPhoneDialer.dialNumber(phoneNumber),
+                ),
+              ],
+            ),
           ),
-        ),
         ),
       ],
     );
