@@ -57,14 +57,6 @@ class EditPhoneListingCubit extends Cubit<EditPhoneListingState> {
     ));
   }
 
-  void toggleDisabled(bool enable) {
-    emit(state.copyWith(isDisabled: enable, errorMessage: null));
-  }
-
-  void toggleSold(bool enable) {
-    emit(state.copyWith(isSold: enable, errorMessage: null));
-  }
-
   Future<void> submitEdit() async {
     if (state.listingId.isEmpty || state.price.isEmpty) {
       emit(state.copyWith(errorMessage: 'Please fill all required fields.'));
@@ -73,22 +65,15 @@ class EditPhoneListingCubit extends Cubit<EditPhoneListingState> {
 
     emit(state.copyWith(isSubmitting: true, errorMessage: null));
 
-    final dto = UpdateListingDto(
+    final dto = UpdateListingDtoV2(
       listingId: state.listingId,
       itemType: ItemType.phoneNumber,
-      listingType: ListingType.ad,
       price: int.tryParse(state.price),
-      discountPrice: state.discountPrice?.isNotEmpty == true
-          ? int.tryParse(state.discountPrice!)
-          : null,
-      isFeatured: state.isFeatured,
-      isDisabled: state.isDisabled,
-      isSold: state.isSold,
+      discountPrice: state.discountPrice?.isNotEmpty == true ? int.tryParse(state.discountPrice!) : null,
     );
 
     try {
-      final callable =
-          FirebaseFunctions.instance.httpsCallable(updateListingCF);
+      final callable = FirebaseFunctions.instance.httpsCallable(updateListingCF);
       final response = await callable.call(dto.toJson());
 
       if (response.data?['success'] == true) {
@@ -100,8 +85,7 @@ class EditPhoneListingCubit extends Cubit<EditPhoneListingState> {
         ));
       }
     } on FirebaseFunctionsException catch (e) {
-      emit(state.copyWith(
-          isSubmitting: false, errorMessage: 'Error: ${e.message}'));
+      emit(state.copyWith(isSubmitting: false, errorMessage: 'Error: ${e.message}'));
     } catch (e) {
       emit(state.copyWith(isSubmitting: false, errorMessage: e.toString()));
     }
