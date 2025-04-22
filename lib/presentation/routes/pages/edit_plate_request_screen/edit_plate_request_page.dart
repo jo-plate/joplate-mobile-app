@@ -39,25 +39,25 @@ class EditPlateRequestPage extends StatelessWidget {
                     TextField(
                       decoration:
                           InputDecoration(labelText: m.editplaterequest.code),
-                      enabled: false,
+                      enabled: !state.isSubmitting,
                       controller: TextEditingController(text: state.code),
                     ),
                     const SizedBox(height: 16),
                     TextField(
                       decoration:
                           InputDecoration(labelText: m.editplaterequest.number),
-                      enabled: false,
+                      enabled: !state.isSubmitting,
                       controller: TextEditingController(text: state.number),
                     ),
                     const SizedBox(height: 16),
-                    TextField(
-                      decoration: InputDecoration(
-                          labelText: m.editplaterequest.price_optional),
-                      onChanged: cubit.updatePrice,
-                      enabled: !state.isSubmitting,
-                      controller: TextEditingController(text: state.price),
-                    ),
-                    const SizedBox(height: 16),
+                    // TextField(
+                    //   decoration: InputDecoration(
+                    //       labelText: m.editplaterequest.price_optional),
+                    //   onChanged: cubit.updatePrice,
+                    //   enabled: !state.isSubmitting,
+                    //   controller: TextEditingController(text: state.price),
+                    // ),
+                    // const SizedBox(height: 16),
                     if (state.isSubmitting)
                       const Center(child: CircularProgressIndicator()),
                     const SizedBox(height: 24),

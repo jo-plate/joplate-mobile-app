@@ -867,9 +867,9 @@ class AddphonerequestMessagesAr extends AddphonerequestMessages {
   String get cancel_button => """إلغاء""";
 
   /// ```dart
-  /// "رقم الهاتف مطلوب"
+  /// "رقم الهاتف المطلوب"
   /// ```
-  String get required_phone_number => """رقم الهاتف مطلوب""";
+  String get required_phone_number => """رقم الهاتف المطلوب""";
 
   /// ```dart
   /// "السعر اختياري"
@@ -907,9 +907,19 @@ class AddplaterequestMessagesAr extends AddplaterequestMessages {
   String get cancel_button => """إلغاء""";
 
   /// ```dart
-  /// "رقم السيارة مطلوب"
+  /// "رقم السيارة المطلوب"
   /// ```
-  String get required_plate_number => """رقم السيارة مطلوب""";
+  String get required_plate_number => """رقم السيارة المطلوب""";
+
+  /// ```dart
+  /// "ترميز اللوحة"
+  /// ```
+  String get code => """ترميز اللوحة""";
+
+  /// ```dart
+  /// "رقم اللوحة"
+  /// ```
+  String get number => """رقم اللوحة""";
 
   /// ```dart
   /// "السعر اختياري"
@@ -1390,14 +1400,16 @@ Map<String, String> get messagesArMap => {
   """addphonerequest.phone_number_label""": """رقم الهاتف""",
   """addphonerequest.save_button""": """حفظ""",
   """addphonerequest.cancel_button""": """إلغاء""",
-  """addphonerequest.required_phone_number""": """رقم الهاتف مطلوب""",
+  """addphonerequest.required_phone_number""": """رقم الهاتف المطلوب""",
   """addphonerequest.optional_price""": """السعر اختياري""",
   """addplaterequest.title""": """إضافة طلب رقم سيارة""",
   """addplaterequest.company_label""": """الشركة""",
   """addplaterequest.plate_number_label""": """رقم السيارة""",
   """addplaterequest.save_button""": """حفظ""",
   """addplaterequest.cancel_button""": """إلغاء""",
-  """addplaterequest.required_plate_number""": """رقم السيارة مطلوب""",
+  """addplaterequest.required_plate_number""": """رقم السيارة المطلوب""",
+  """addplaterequest.code""": """ترميز اللوحة""",
+  """addplaterequest.number""": """رقم اللوحة""",
   """addplaterequest.optional_price""": """السعر اختياري""",
   """phonedetails.title""": """تفاصيل رقم الهاتف""",
   """phonedetails.share_message""": """اطلع على رقم اللوحة هذا: {number}""",

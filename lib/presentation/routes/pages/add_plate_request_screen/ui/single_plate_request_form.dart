@@ -17,7 +17,7 @@ class SinglePlateRequestForm extends StatefulWidget {
 class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
   late final TextEditingController codeController;
   late final TextEditingController numberController;
-  late final TextEditingController priceController;
+  // late final TextEditingController priceController;
 
   @override
   void initState() {
@@ -27,7 +27,7 @@ class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
 
     codeController = TextEditingController(text: state.code);
     numberController = TextEditingController(text: state.number);
-    priceController = TextEditingController(text: state.price ?? '');
+    // priceController = TextEditingController(text: state.price ?? '');
   }
 
   @override
@@ -36,7 +36,7 @@ class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
     final state = context.read<AddPlateRequestCubit>().state;
     _maybeSyncText(codeController, state.code);
     _maybeSyncText(numberController, state.number);
-    _maybeSyncText(priceController, state.price ?? '');
+    // _maybeSyncText(priceController, state.price ?? '');
   }
 
   void _maybeSyncText(TextEditingController controller, String newText) {
@@ -75,6 +75,7 @@ class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(labelText: m.addplaterequest.required_plate_number),
                 onChanged: cubit.updateCode,
+                maxLength: 2,
                 enabled: !state.isSubmitting,
               ),
               const SizedBox(height: 16),
@@ -83,16 +84,10 @@ class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(labelText: m.addplaterequest.required_plate_number),
                 onChanged: cubit.updateNumber,
+                maxLength: 5,
                 enabled: !state.isSubmitting,
               ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: priceController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: m.addplaterequest.optional_price),
-                onChanged: cubit.updatePrice,
-                enabled: !state.isSubmitting,
-              ),
+
               const SizedBox(height: 16),
               if (state.isSubmitting) const Center(child: CircularProgressIndicator()),
             ],

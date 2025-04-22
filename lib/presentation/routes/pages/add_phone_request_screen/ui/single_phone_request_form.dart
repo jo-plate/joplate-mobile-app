@@ -16,7 +16,7 @@ class SinglePhoneRequestForm extends StatefulWidget {
 
 class _SinglePhoneRequestFormState extends State<SinglePhoneRequestForm> {
   late final TextEditingController phoneController;
-  late final TextEditingController priceController;
+  // late final TextEditingController priceController;
 
   @override
   void initState() {
@@ -25,7 +25,7 @@ class _SinglePhoneRequestFormState extends State<SinglePhoneRequestForm> {
     // Read initial state
     final state = context.read<AddPhoneRequestCubit>().state;
     phoneController = TextEditingController(text: state.phoneNumber);
-    priceController = TextEditingController(text: state.price ?? '');
+    // priceController = TextEditingController(text: state.price ?? '');
   }
 
   @override
@@ -34,7 +34,7 @@ class _SinglePhoneRequestFormState extends State<SinglePhoneRequestForm> {
     // If the cubit updates the data from outside, we can sync the controllers
     final state = context.read<AddPhoneRequestCubit>().state;
     _maybeSyncText(phoneController, state.phoneNumber);
-    _maybeSyncText(priceController, state.price ?? '');
+    // _maybeSyncText(priceController, state.price ?? '');
   }
 
   void _maybeSyncText(TextEditingController controller, String newText) {
@@ -73,21 +73,22 @@ class _SinglePhoneRequestFormState extends State<SinglePhoneRequestForm> {
               TextField(
                 controller: phoneController,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: m.addphonerequest.required_phone_number),
+                decoration: InputDecoration(labelText: m.addphonerequest.required_phone_number, hintText: "07XXXXXXXX"),
                 onChanged: cubit.updatePhoneNumber,
+                maxLength: 10,
                 enabled: !state.isSubmitting,
               ),
-              const SizedBox(height: 16),
+              // const SizedBox(height: 16),
 
-              // Optional Price
-              TextField(
-                controller: priceController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: m.addphonerequest.optional_price),
-                onChanged: cubit.updatePrice,
-                enabled: !state.isSubmitting,
-              ),
-              const SizedBox(height: 16),
+              // // Optional Price
+              // TextField(
+              //   controller: priceController,
+              //   keyboardType: TextInputType.number,
+              //   decoration: InputDecoration(labelText: m.addphonerequest.optional_price),
+              //   onChanged: cubit.updatePrice,
+              //   enabled: !state.isSubmitting,
+              // ),
+              // const SizedBox(height: 16),
 
               if (state.isSubmitting) const Center(child: CircularProgressIndicator()),
             ],

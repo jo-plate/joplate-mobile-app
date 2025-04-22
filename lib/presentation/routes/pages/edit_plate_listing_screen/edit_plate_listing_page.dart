@@ -59,7 +59,7 @@ class EditPlateListingPageState extends State<EditPlateListingPage> {
           isSold: widget.listing.isSold,
         ),
       child: Scaffold(
-        appBar: AppBar(title: Text(m.editplaterequest.title)),
+        appBar: AppBar(title: Text(m.editplate.title)),
         body: SafeArea(
           child: BlocBuilder<EditPlateListingCubit, EditPlateListingState>(
             builder: (context, state) {

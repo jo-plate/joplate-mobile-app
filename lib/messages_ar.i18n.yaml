@@ -166,7 +166,7 @@ addphonerequest:
   phone_number_label: "رقم الهاتف"
   save_button: "حفظ"
   cancel_button: "إلغاء"
-  required_phone_number: "رقم الهاتف مطلوب"
+  required_phone_number: "رقم الهاتف المطلوب"
   optional_price: "السعر اختياري"
 
 
@@ -176,7 +176,9 @@ addplaterequest:
   plate_number_label: "رقم السيارة"
   save_button: "حفظ"
   cancel_button: "إلغاء"
-  required_plate_number: "رقم السيارة مطلوب"
+  required_plate_number: "رقم السيارة المطلوب"
+  code: "ترميز اللوحة"
+  number: "رقم اللوحة"
   optional_price: "السعر اختياري"
 
 phonedetails:

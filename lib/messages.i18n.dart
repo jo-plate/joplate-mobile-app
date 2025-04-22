@@ -864,9 +864,9 @@ class AddphonerequestMessages {
   String get cancel_button => """Cancel""";
 
   /// ```dart
-  /// "Required Phone Number"
+  /// "Requested Phone Number"
   /// ```
-  String get required_phone_number => """Required Phone Number""";
+  String get required_phone_number => """Requested Phone Number""";
 
   /// ```dart
   /// "Optional Price"
@@ -904,9 +904,19 @@ class AddplaterequestMessages {
   String get cancel_button => """Cancel""";
 
   /// ```dart
-  /// "Required Plate Number"
+  /// "Requested Plate Number"
   /// ```
-  String get required_plate_number => """Required Plate Number""";
+  String get required_plate_number => """Requested Plate Number""";
+
+  /// ```dart
+  /// "Plate Code"
+  /// ```
+  String get code => """Plate Code""";
+
+  /// ```dart
+  /// "Plate Number"
+  /// ```
+  String get number => """Plate Number""";
 
   /// ```dart
   /// "Optional Price"
@@ -1387,14 +1397,16 @@ Map<String, String> get messagesMap => {
   """addphonerequest.phone_number_label""": """Phone Number""",
   """addphonerequest.save_button""": """Save""",
   """addphonerequest.cancel_button""": """Cancel""",
-  """addphonerequest.required_phone_number""": """Required Phone Number""",
+  """addphonerequest.required_phone_number""": """Requested Phone Number""",
   """addphonerequest.optional_price""": """Optional Price""",
   """addplaterequest.title""": """Add Plate Request""",
   """addplaterequest.company_label""": """Company""",
   """addplaterequest.plate_number_label""": """Plate Number""",
   """addplaterequest.save_button""": """Save""",
   """addplaterequest.cancel_button""": """Cancel""",
-  """addplaterequest.required_plate_number""": """Required Plate Number""",
+  """addplaterequest.required_plate_number""": """Requested Plate Number""",
+  """addplaterequest.code""": """Plate Code""",
+  """addplaterequest.number""": """Plate Number""",
   """addplaterequest.optional_price""": """Optional Price""",
   """phonedetails.title""": """Phone Number Details""",
   """phonedetails.share_message""": """Check out this plate number: {number}""",

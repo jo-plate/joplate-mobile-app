@@ -53,7 +53,7 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
           }
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Phone Number Request Details'),
+              title: const Text('Phone Number Request'),
               actions: [
                 if (FirebaseAuth.instance.currentUser?.uid ==
                     snapshot.data!.userId) ...[

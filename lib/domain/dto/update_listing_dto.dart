@@ -17,8 +17,7 @@ class UpdateListingDto with _$UpdateListingDto {
     bool? isSold,
   }) = _UpdateListingDto;
 
-  factory UpdateListingDto.fromJson(Map<String, dynamic> json) =>
-      _$UpdateListingDtoFromJson(json);
+  factory UpdateListingDto.fromJson(Map<String, dynamic> json) => _$UpdateListingDtoFromJson(json);
 
   const UpdateListingDto._();
 
@@ -34,5 +33,24 @@ class UpdateListingDto with _$UpdateListingDto {
       'isDisabled': isDisabled,
       'isSold': isSold,
     };
+  }
+}
+
+@freezed
+class UpdateListingDtoV2 with _$UpdateListingDtoV2 {
+  const factory UpdateListingDtoV2({
+    required String listingId,
+    required ItemType itemType,
+    int? price,
+    int? discountPrice,
+  }) = _UpdateListingDtoV2;
+
+  factory UpdateListingDtoV2.fromJson(Map<String, dynamic> json) => _$UpdateListingDtoV2FromJson(json);
+
+  const UpdateListingDtoV2._();
+
+  @override
+  Map<String, dynamic> toJson() {
+    return super.toJson();
   }
 }
