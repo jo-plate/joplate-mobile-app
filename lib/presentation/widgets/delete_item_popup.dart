@@ -76,15 +76,22 @@ class _DeleteListingDialogState extends State<DeleteListingDialog> {
         ],
       ),
       actions: [
-        TextButton(
-          onPressed: submitting ? null : () => Navigator.of(context).pop(),
-          child: const Text('CANCEL'),
+        Expanded(
+          child: TextButton(
+            onPressed: submitting ? null : () => Navigator.of(context).pop(),
+            child: const Text('CANCEL'),
+          ),
         ),
-        ElevatedButton(
-          onPressed: submitting ? null : _submit,
-          child: submitting
-              ? const CircularProgressIndicator()
-              : const Text('DELETE', style: TextStyle(color: Colors.white)),
+        Expanded(
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+            ),
+            onPressed: submitting ? null : _submit,
+            child: submitting
+                ? const CircularProgressIndicator()
+                : const Text('DELETE', style: TextStyle(color: Colors.white)),
+          ),
         ),
       ],
     );
