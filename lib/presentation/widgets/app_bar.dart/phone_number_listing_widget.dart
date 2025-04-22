@@ -38,7 +38,8 @@ class PhoneNumberListingWidget extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: item.isFeatured ? Colors.yellow[700]! : Colors.grey[500]!,
+                  color:
+                      item.isFeatured ? Colors.yellow[700]! : Colors.grey[500]!,
                   width: 2,
                 ),
                 color: Colors.white,
@@ -60,7 +61,8 @@ class PhoneNumberListingWidget extends StatelessWidget {
                         end: Alignment.bottomRight,
                       ),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
                     child: LayoutBuilder(builder: (ctx, constraints) {
                       final fontSize = constraints.maxWidth * 0.13;
                       return StrokeText(
@@ -82,8 +84,9 @@ class PhoneNumberListingWidget extends StatelessWidget {
                   // Price + optional favorite button
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Row(
+                    child: Column(
                       mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _buildPriceLabel(),
                         if (!hideLikeButton) ...[
@@ -170,7 +173,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
     final m = Localization.of(context);
     return Positioned(
       bottom: 20,
-      right:  -20,
+      right: -20,
       child: Transform.rotate(
         angle: -0.7854,
         child: Container(

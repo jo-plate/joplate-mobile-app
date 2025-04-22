@@ -37,14 +37,14 @@ class _EditPhoneRequestPageState extends State<EditPhoneRequestPage> {
 
   @override
   Widget build(BuildContext context) {
-    final m=Localization.of(context);
+    final m = Localization.of(context);
     return BlocProvider<EditPhoneRequestCubit>(
       create: (_) => EditPhoneRequestCubit()
         ..loadFromRequest(
           request: widget.request,
         ),
       child: Scaffold(
-        appBar: AppBar(title:  Text(m.editphonerequest.title)),
+        appBar: AppBar(title: Text(m.editphonerequest.title)),
         body: SafeArea(
           child: BlocBuilder<EditPhoneRequestCubit, EditPhoneRequestState>(
             builder: (context, state) {
@@ -65,26 +65,12 @@ class _EditPhoneRequestPageState extends State<EditPhoneRequestPage> {
                       ),
                     TextField(
                       controller: numberController,
-                      decoration:
-                           InputDecoration(labelText: m.editphonerequest.phone_number),
+                      decoration: InputDecoration(
+                          labelText: m.editphonerequest.phone_number),
                       keyboardType: TextInputType.phone,
-                      enabled: false,
+                      enabled: !state.isSubmitting,
                     ),
                     const SizedBox(height: 16),
-                    TextField(
-                      controller: priceController,
-                      decoration:
-                           InputDecoration(labelText: m.editphonerequest.price_optional),
-                      keyboardType: TextInputType.number,
-                      enabled: !state.isSubmitting,
-                      onChanged: (s) {
-                        cubit.updatePrice(s);
-                        setState(() {
-                          priceController.text = s;
-                        });
-                      },
-                    ),
-                    const SizedBox(height: 24),
                     if (state.isSubmitting)
                       const Center(child: CircularProgressIndicator())
                     else
@@ -98,7 +84,7 @@ class _EditPhoneRequestPageState extends State<EditPhoneRequestPage> {
                                   context.router.maybePop();
                                 });
                               },
-                              child:  Text(m.editphonerequest.save_changes,
+                              child: Text(m.editphonerequest.save_changes,
                                   style: TextStyle(color: Colors.white)),
                             ),
                           ),

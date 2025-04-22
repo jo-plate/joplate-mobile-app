@@ -88,28 +88,15 @@ class PhoneNumberRequestWidget extends StatelessWidget {
   }
 
   Widget _buildPriceLabel() {
-    if (item.priceHidden || item.price == 0) {
-      return Text(
-        'Call for Price',
-        style: TextStyle(
-          fontSize: priceLabelFontSize,
-          fontFamily: 'Mandatory',
-          fontWeight: FontWeight.w700,
-          color: const Color(0xFF981C1E),
-        ),
-        maxLines: 1,
-      );
-    } else {
-      return Text(
-        '${item.price} JOD',
-        style: TextStyle(
-          fontSize: priceLabelFontSize,
-          fontFamily: 'Mandatory',
-          fontWeight: FontWeight.w700,
-          color: const Color(0xFF981C1E),
-        ),
-        maxLines: 1,
-      );
-    }
+    return Text(
+      'Requested',
+      style: TextStyle(
+        fontSize: priceLabelFontSize,
+        fontFamily: 'Mandatory',
+        fontWeight: FontWeight.w700,
+        color: const Color(0xFF981C1E),
+      ),
+      maxLines: 1,
+    );
   }
 }
