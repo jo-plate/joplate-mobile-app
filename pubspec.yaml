@@ -64,6 +64,8 @@ dependencies:
   pay: ^3.2.1
   firebase_data_connect: ^0.1.4
   stroke_text: ^1.0.0
+  in_app_purchase: ^3.2.1
+
 
 dev_dependencies:
   flutter_test:
