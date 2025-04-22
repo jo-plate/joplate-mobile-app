@@ -51,7 +51,8 @@ class EditPhoneRequestCubit extends Cubit<EditPhoneRequestState> {
     );
 
     try {
-      final callable = FirebaseFunctions.instance.httpsCallable(updateListingCF);
+      final callable =
+          FirebaseFunctions.instance.httpsCallable(updateRequestCF);
       final response = await callable.call(dto.toJson());
 
       if (response.data != null && response.data['success'] == true) {
@@ -60,41 +61,6 @@ class EditPhoneRequestCubit extends Cubit<EditPhoneRequestState> {
         emit(state.copyWith(
           isSubmitting: false,
           errorMessage: 'Failed to update request.',
-        ));
-      }
-    } on FirebaseFunctionsException catch (e) {
-      emit(state.copyWith(
-        isSubmitting: false,
-        errorMessage: 'Error: ${e.message}',
-      ));
-    } catch (e) {
-      emit(state.copyWith(
-        isSubmitting: false,
-        errorMessage: e.toString(),
-      ));
-    }
-  }
-
-  void deleteRequest() async {
-    emit(state.copyWith(isSubmitting: true, errorMessage: null));
-
-    final dto = UpdateListingDto(
-      listingId: state.requestId,
-      itemType: ItemType.phoneNumber,
-      listingType: ListingType.request,
-      isDisabled: true,
-    );
-
-    try {
-      final callable = FirebaseFunctions.instance.httpsCallable(updateListingCF);
-      final response = await callable.call(dto.toJson());
-
-      if (response.data != null && response.data['success'] == true) {
-        emit(state.copyWith(isSubmitting: false));
-      } else {
-        emit(state.copyWith(
-          isSubmitting: false,
-          errorMessage: 'Failed to delete request.',
         ));
       }
     } on FirebaseFunctionsException catch (e) {

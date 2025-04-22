@@ -59,7 +59,7 @@ class EditPlateRequestCubit extends Cubit<EditPlateRequestState> {
     );
 
     try {
-      final callable = FirebaseFunctions.instance.httpsCallable(updateListingCF);
+      final callable = FirebaseFunctions.instance.httpsCallable(updateRequestCF);
       final response = await callable.call(dto.toJson());
 
       if (response.data != null && response.data['success'] == true) {
