@@ -23,6 +23,7 @@ class FavoriteButton extends StatefulWidget {
       : itemType = ItemType.phoneNumber;
 
   final String listingId;
+  
 
   @override
   State<FavoriteButton> createState() => _FavoriteButtonState();

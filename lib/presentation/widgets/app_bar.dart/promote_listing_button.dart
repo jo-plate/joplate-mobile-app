@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
+import 'package:joplate/presentation/widgets/promote_prompt_dialog.dart';
 
 class PromoteListingButton extends StatefulWidget {
-  const PromoteListingButton(
-      {super.key, required this.listingId, required this.itemType});
+  const PromoteListingButton({super.key, required this.listingId, required this.itemType});
   final String listingId;
   final ItemType itemType;
 
@@ -21,7 +21,13 @@ class _PromoteListingButtonState extends State<PromoteListingButton> {
           borderRadius: BorderRadius.circular(8),
         ),
       ),
-      onPressed: () {},
+      onPressed: () {
+        showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (_) => PromotePromptDialog(listingId: widget.listingId, itemType: widget.itemType),
+        );
+      },
       label: const Text(
         'Promote Listing',
         style: TextStyle(color: Colors.white),
