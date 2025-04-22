@@ -12,6 +12,7 @@ class UserProfile with _$UserProfile {
     @Default('-1') String id,
     @Default('') String email,
     @Default('') String phonenumber,
+    @Default(false) bool isVerified,
   }) = _UserProfile;
 
   factory UserProfile.fromSnapshot(DocumentSnapshot snapshot) {

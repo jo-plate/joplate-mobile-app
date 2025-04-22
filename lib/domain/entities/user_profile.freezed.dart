@@ -20,6 +20,7 @@ mixin _$UserProfile {
   String get id => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get phonenumber => throw _privateConstructorUsedError;
+  bool get isVerified => throw _privateConstructorUsedError;
 
   /// Create a copy of UserProfile
   /// with the given fields replaced by the non-null parameter values.
@@ -34,7 +35,12 @@ abstract class $UserProfileCopyWith<$Res> {
           UserProfile value, $Res Function(UserProfile) then) =
       _$UserProfileCopyWithImpl<$Res, UserProfile>;
   @useResult
-  $Res call({String displayName, String id, String email, String phonenumber});
+  $Res call(
+      {String displayName,
+      String id,
+      String email,
+      String phonenumber,
+      bool isVerified});
 }
 
 /// @nodoc
@@ -56,6 +62,7 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
     Object? id = null,
     Object? email = null,
     Object? phonenumber = null,
+    Object? isVerified = null,
   }) {
     return _then(_value.copyWith(
       displayName: null == displayName
@@ -74,6 +81,10 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
           ? _value.phonenumber
           : phonenumber // ignore: cast_nullable_to_non_nullable
               as String,
+      isVerified: null == isVerified
+          ? _value.isVerified
+          : isVerified // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -86,7 +97,12 @@ abstract class _$$UserProfileImplCopyWith<$Res>
       __$$UserProfileImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String displayName, String id, String email, String phonenumber});
+  $Res call(
+      {String displayName,
+      String id,
+      String email,
+      String phonenumber,
+      bool isVerified});
 }
 
 /// @nodoc
@@ -106,6 +122,7 @@ class __$$UserProfileImplCopyWithImpl<$Res>
     Object? id = null,
     Object? email = null,
     Object? phonenumber = null,
+    Object? isVerified = null,
   }) {
     return _then(_$UserProfileImpl(
       displayName: null == displayName
@@ -124,6 +141,10 @@ class __$$UserProfileImplCopyWithImpl<$Res>
           ? _value.phonenumber
           : phonenumber // ignore: cast_nullable_to_non_nullable
               as String,
+      isVerified: null == isVerified
+          ? _value.isVerified
+          : isVerified // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -135,7 +156,8 @@ class _$UserProfileImpl extends _UserProfile {
       {this.displayName = 'Guest',
       this.id = '-1',
       this.email = '',
-      this.phonenumber = ''})
+      this.phonenumber = '',
+      this.isVerified = false})
       : super._();
 
   @override
@@ -150,10 +172,13 @@ class _$UserProfileImpl extends _UserProfile {
   @override
   @JsonKey()
   final String phonenumber;
+  @override
+  @JsonKey()
+  final bool isVerified;
 
   @override
   String toString() {
-    return 'UserProfile(displayName: $displayName, id: $id, email: $email, phonenumber: $phonenumber)';
+    return 'UserProfile(displayName: $displayName, id: $id, email: $email, phonenumber: $phonenumber, isVerified: $isVerified)';
   }
 
   @override
@@ -166,12 +191,14 @@ class _$UserProfileImpl extends _UserProfile {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.phonenumber, phonenumber) ||
-                other.phonenumber == phonenumber));
+                other.phonenumber == phonenumber) &&
+            (identical(other.isVerified, isVerified) ||
+                other.isVerified == isVerified));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, displayName, id, email, phonenumber);
+      Object.hash(runtimeType, displayName, id, email, phonenumber, isVerified);
 
   /// Create a copy of UserProfile
   /// with the given fields replaced by the non-null parameter values.
@@ -187,7 +214,8 @@ abstract class _UserProfile extends UserProfile {
       {final String displayName,
       final String id,
       final String email,
-      final String phonenumber}) = _$UserProfileImpl;
+      final String phonenumber,
+      final bool isVerified}) = _$UserProfileImpl;
   const _UserProfile._() : super._();
 
   @override
@@ -198,6 +226,8 @@ abstract class _UserProfile extends UserProfile {
   String get email;
   @override
   String get phonenumber;
+  @override
+  bool get isVerified;
 
   /// Create a copy of UserProfile
   /// with the given fields replaced by the non-null parameter values.
