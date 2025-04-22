@@ -24,14 +24,22 @@ void _buyProduct(BuildContext context) async {
     );
     return;
   }
-
-    final isAvailable = await InAppPurchase.instance.isAvailable();
-    if (!isAvailable) {
+try {
+      final isAvailable = await InAppPurchase.instance.isAvailable();
+      if (!isAvailable) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("In-app purchases not available.")),
+        );
+        return;
+      }
+} catch (e, stack) {
+      debugPrint("❌ IAP Error: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("In-app purchases not available.")),
+        SnackBar(content: Text("Error checking IAP availability: $e")),
       );
       return;
     }
+
 
     final response =
         await InAppPurchase.instance.queryProductDetails({productId});
