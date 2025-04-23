@@ -1,5 +1,3 @@
-// lib/presentation/routes/pages/add_phone_number_screen/ui/add_phone_number_page.dart
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +5,7 @@ import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/add_phone_number_screen/cubit/add_phone_numbers_cubit.dart';
 import 'package:joplate/presentation/routes/pages/add_phone_number_screen/cubit/phone_form_state.dart';
 import 'package:joplate/presentation/routes/pages/add_phone_number_screen/ui/single_phone_form.dart';
+import 'package:joplate/presentation/routes/router.dart'; // import your router
 
 @RoutePage()
 class AddPhoneNumberPage extends StatelessWidget {
@@ -14,30 +13,27 @@ class AddPhoneNumberPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final m=Localization.of(context);
-    return BlocProvider<AddPhoneNumbersCubit>(
+    final m = Localization.of(context);
+    return BlocProvider(
       create: (_) => AddPhoneNumbersCubit()..addNewForm(),
       child: Scaffold(
         appBar: AppBar(title: Text(m.addphonenumber.title)),
-        body: SafeArea(
-          child: BlocBuilder<AddPhoneNumbersCubit, AddPhoneNumbersState>(
-            builder: (context, state) {
-              final cubit = context.read<AddPhoneNumbersCubit>();
+        body: BlocBuilder<AddPhoneNumbersCubit, AddPhoneNumbersState>(
+          builder: (context, state) {
+            final cubit = context.read<AddPhoneNumbersCubit>();
 
-              return SingleChildScrollView(
+            return SafeArea(
+              child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Render a SinglePhoneForm for each item
                     ListView.builder(
                       itemCount: state.forms.length,
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         final form = state.forms[index];
-
-                        // Provide a stable key so each form retains its controller state
                         return SinglePhoneForm(
                           key: ValueKey('PhoneForm-$index'),
                           index: index,
@@ -51,10 +47,7 @@ class AddPhoneNumberPage extends StatelessWidget {
                         );
                       },
                     ),
-
                     const SizedBox(height: 24),
-
-                    // "Add More" + "Submit"
                     Row(
                       children: [
                         Expanded(
@@ -68,11 +61,16 @@ class AddPhoneNumberPage extends StatelessWidget {
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () async {
-                              await cubit.submitAllForms();
-                              if (cubit.state.forms.isEmpty) {
-                                // e.g., navigate away on success
-                                AutoRouter.of(context).maybePop();
-                              }
+                              await cubit.submitAllForms(
+                                onSuccess: (listingId) {
+                                  AutoRouter.of(context).replace(PhoneDetailsRoute(listingId: listingId));
+                                },
+                                onError: (msg) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(msg)),
+                                  );
+                                },
+                              );
                             },
                             child: Text(m.addphonenumber.save_button, style: const TextStyle(color: Colors.white)),
                           ),
@@ -81,9 +79,9 @@ class AddPhoneNumberPage extends StatelessWidget {
                     ),
                   ],
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );

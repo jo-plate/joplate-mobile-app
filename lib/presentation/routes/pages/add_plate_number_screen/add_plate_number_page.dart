@@ -1,5 +1,3 @@
-// lib/presentation/routes/pages/add_plate_number_screen/ui/add_plate_number_page.dart
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +5,7 @@ import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_number_screen/cubit/add_plate_numbers_cubit.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_number_screen/cubit/plate_form_state.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_number_screen/ui/single_plate_form.dart';
+import 'package:joplate/presentation/routes/router.dart';
 
 @RoutePage()
 class AddPlateNumberPage extends StatefulWidget {
@@ -20,30 +19,28 @@ class _AddPlateNumberPageState extends State<AddPlateNumberPage> {
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
-    return BlocProvider<AddPlateNumbersCubit>(
+    return BlocProvider(
       create: (_) => AddPlateNumbersCubit()..addNewForm(),
       child: Scaffold(
         appBar: AppBar(title: Text(m.addplate.title)),
-        body: SafeArea(
-          child: BlocBuilder<AddPlateNumbersCubit, AddPlateNumbersState>(
-            builder: (context, state) {
-              final cubit = context.read<AddPlateNumbersCubit>();
+        body: BlocBuilder<AddPlateNumbersCubit, AddPlateNumbersState>(
+          builder: (context, state) {
+            final cubit = context.read<AddPlateNumbersCubit>();
 
-              return SingleChildScrollView(
+            return SafeArea(
+              child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Render a SinglePlateForm for each item
                     ListView.builder(
                       itemCount: state.forms.length,
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         final form = state.forms[index];
-
-                        // Provide a stable key => preserve the same State object
                         return SinglePlateForm(
-                          key: ValueKey('PlateForm-$index'), // Or use a unique ID
+                          key: ValueKey('PlateForm-$index'),
                           index: index,
                           formState: form,
                           onCodeChanged: (val) => cubit.updateCode(index, val),
@@ -57,8 +54,6 @@ class _AddPlateNumberPageState extends State<AddPlateNumberPage> {
                       },
                     ),
                     const SizedBox(height: 24),
-
-                    // "Add More" + "Submit"
                     Row(
                       children: [
                         Expanded(
@@ -72,11 +67,16 @@ class _AddPlateNumberPageState extends State<AddPlateNumberPage> {
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () async {
-                              await cubit.submitAllForms();
-                              if (cubit.state.forms.isEmpty) {
-                                // e.g., navigate away on success
-                                AutoRouter.of(context).maybePop();
-                              }
+                              await cubit.submitAllForms(
+                                onSuccess: (listingId) {
+                                  AutoRouter.of(context).replace(PlatesDetailsRoute(listingId: listingId));
+                                },
+                                onError: (msg) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(msg)),
+                                  );
+                                },
+                              );
                             },
                             child: Text(m.addplate.save_button, style: const TextStyle(color: Colors.white)),
                           ),
@@ -85,9 +85,9 @@ class _AddPlateNumberPageState extends State<AddPlateNumberPage> {
                     ),
                   ],
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );

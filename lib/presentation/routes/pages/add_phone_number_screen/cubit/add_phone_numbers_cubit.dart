@@ -7,10 +7,10 @@ import 'package:joplate/domain/dto/add_number_input.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/data/constants.dart';
 
+
 class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
   AddPhoneNumbersCubit() : super(const AddPhoneNumbersState(forms: []));
 
-  /// Add a blank phone form
   void addNewForm() {
     const newForm = PhoneFormState(
       number: '',
@@ -24,7 +24,6 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
     emit(state.copyWith(forms: [...state.forms, newForm]));
   }
 
-  /// Remove a single form from the list
   void removeForm(int index) {
     final updated = [...state.forms];
     if (index >= 0 && index < updated.length) {
@@ -33,13 +32,12 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
     }
   }
 
-  // Update fields
   void updateNumber(int index, String newNumber) {
     _updateForm(
       index,
       state.forms[index].copyWith(
         number: newNumber,
-        errorMessage: null, // clear old error
+        errorMessage: null,
       ),
     );
   }
@@ -60,7 +58,6 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
       index,
       oldForm.copyWith(
         withDiscount: enable,
-        // If discount was turned off, reset the discountPrice
         discountPrice: enable ? oldForm.discountPrice : null,
         errorMessage: null,
       ),
@@ -87,21 +84,22 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
     );
   }
 
-  /// Submit all forms in sequence
-  Future<void> submitAllForms() async {
+  /// Submit all forms in sequence, with callbacks
+  Future<void> submitAllForms({
+    required void Function(String listingId) onSuccess,
+    required void Function(String errorMessage) onError,
+  }) async {
     final forms = [...state.forms];
 
     for (int i = 0; i < forms.length; i++) {
       final form = forms[i];
 
-      // Basic validation
       if (form.number.isEmpty || form.price.isEmpty) {
         forms[i] = form.copyWith(errorMessage: 'Please fill all required fields');
         emit(state.copyWith(forms: forms));
         continue;
       }
 
-      // Mark this form as submitting
       forms[i] = form.copyWith(isSubmitting: true, errorMessage: null);
       emit(state.copyWith(forms: forms));
 
@@ -119,33 +117,29 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
         isFeatured: false,
         item: {"number": input.number},
       );
-      print('Adding phone number: ${addListingDto.toJson()}');
 
       try {
         final callable = FirebaseFunctions.instance.httpsCallable(createListingCF);
         final response = await callable.call(addListingDto.toJson());
 
         if (response.data != null && response.data['success'] == true) {
-          // Success -> remove this form
+          final id = response.data['listingId'] as String;
+          onSuccess(id);
           forms.removeAt(i);
-          i--; // Adjust loop index
+          i--;
         } else {
-          // Failure
-          forms[i] = form.copyWith(
-            isSubmitting: false,
-            errorMessage: 'Failed to add listing',
-          );
+          const msg = 'Failed to add listing';
+          onError(msg);
+          forms[i] = form.copyWith(isSubmitting: false, errorMessage: msg);
         }
       } on FirebaseFunctionsException catch (e) {
-        forms[i] = form.copyWith(
-          isSubmitting: false,
-          errorMessage: 'Error: ${e.message}',
-        );
+        final msg = 'Error: ${e.message}';
+        onError(msg);
+        forms[i] = form.copyWith(isSubmitting: false, errorMessage: msg);
       } catch (e) {
-        forms[i] = form.copyWith(
-          isSubmitting: false,
-          errorMessage: e.toString(),
-        );
+        final msg = e.toString();
+        onError(msg);
+        forms[i] = form.copyWith(isSubmitting: false, errorMessage: msg);
       }
 
       emit(state.copyWith(forms: forms));

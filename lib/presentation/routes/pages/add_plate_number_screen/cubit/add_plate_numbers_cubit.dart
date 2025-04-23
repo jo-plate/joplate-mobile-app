@@ -64,14 +64,14 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
   }
 
   void updateDiscountPrice(int index, String discount) {
-    _updateForm(
-      index,
-      state.forms[index].copyWith(discountPrice: discount, errorMessage: null),
-    );
+    _updateForm(index, state.forms[index].copyWith(discountPrice: discount, errorMessage: null));
   }
 
-  /// Submit all forms in sequence
-  Future<void> submitAllForms() async {
+  /// Submit all forms in sequence, with callbacks
+  Future<void> submitAllForms({
+    required void Function(String listingId) onSuccess,
+    required void Function(String errorMessage) onError,
+  }) async {
     final forms = [...state.forms];
 
     for (int i = 0; i < forms.length; i++) {
@@ -103,8 +103,8 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
         itemType: ItemType.plateNumber,
         isFeatured: input.isFeatured,
         item: {
-          "code": input.code,
-          "number": input.number,
+          'code': input.code,
+          'number': input.number,
         },
       );
 
@@ -113,27 +113,25 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
         final response = await callable.call(addListingDto.toJson());
 
         if (response.data != null && response.data['success'] == true) {
-          // Success -> remove that form from the list
+          final id = response.data['listingId'] as String;
+          onSuccess(id);
           forms.removeAt(i);
           i--;
         } else {
-          // Failure
-          forms[i] = form.copyWith(
-            isSubmitting: false,
-            errorMessage: 'Failed to add listing',
-          );
+          const msg = 'Failed to add listing';
+          onError(msg);
+          forms[i] = form.copyWith(isSubmitting: false, errorMessage: msg);
         }
       } on FirebaseFunctionsException catch (e) {
-        forms[i] = form.copyWith(
-          isSubmitting: false,
-          errorMessage: 'Error: ${e.message}',
-        );
+        final msg = 'Error: ${e.message}';
+        onError(msg);
+        forms[i] = form.copyWith(isSubmitting: false, errorMessage: msg);
       } catch (e) {
-        forms[i] = form.copyWith(
-          isSubmitting: false,
-          errorMessage: e.toString(),
-        );
+        final msg = e.toString();
+        onError(msg);
+        forms[i] = form.copyWith(isSubmitting: false, errorMessage: msg);
       }
+
       emit(state.copyWith(forms: forms));
     }
   }
