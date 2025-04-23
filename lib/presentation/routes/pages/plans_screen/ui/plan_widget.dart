@@ -11,20 +11,20 @@ class PlanWidget extends StatelessWidget {
   });
 
   final Plan plan;
-void _buyProduct(BuildContext context) async {
-  final isIOS = Platform.isIOS;
-  final productId = plan.productIds[isIOS ? SubscriptionPlatform.ios : SubscriptionPlatform.android];
+  void _buyProduct(BuildContext context) async {
+    final isIOS = Platform.isIOS;
+    final productId = plan.productIds[isIOS ? SubscriptionPlatform.ios : SubscriptionPlatform.android];
 
-  print("📦 Platform: ${isIOS ? "iOS" : "Android"}");
-  print("📦 Retrieved Product ID: $productId");
+    print("📦 Platform: ${isIOS ? "iOS" : "Android"}");
+    print("📦 Retrieved Product ID: $productId");
 
-  if (productId == null || productId.trim().isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("No product ID available for this platform.")),
-    );
-    return;
-  }
-try {
+    if (productId == null || productId.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("No product ID available for this platform.")),
+      );
+      return;
+    }
+    try {
       final isAvailable = await InAppPurchase.instance.isAvailable();
       if (!isAvailable) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -32,7 +32,7 @@ try {
         );
         return;
       }
-} catch (e, stack) {
+    } catch (e, stack) {
       debugPrint("❌ IAP Error: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Error checking IAP availability: $e")),
@@ -40,9 +40,7 @@ try {
       return;
     }
 
-
-    final response =
-        await InAppPurchase.instance.queryProductDetails({productId});
+    final response = await InAppPurchase.instance.queryProductDetails({productId});
     if (response.notFoundIDs.isNotEmpty || response.productDetails.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Product not found.")),
@@ -87,11 +85,7 @@ try {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [
-                          plan.color.withAlpha(170),
-                          plan.color.withAlpha(130),
-                          plan.color.withAlpha(255)
-                        ],
+                        colors: [plan.color.withAlpha(170), plan.color.withAlpha(130), plan.color.withAlpha(255)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
@@ -223,8 +217,7 @@ try {
   Widget _buildDisabledPerks() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children:
-          plan.disabledPerks.map((perk) => _buildPerk(perk, false)).toList(),
+      children: plan.disabledPerks.map((perk) => _buildPerk(perk, false)).toList(),
     );
   }
 }
