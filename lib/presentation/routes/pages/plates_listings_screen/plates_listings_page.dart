@@ -31,13 +31,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
   final _maxPriceController = TextEditingController();
 
   final List<String> _codes = ['10', '20', '30', '40', '50', '60', '70', '80'];
-  final List<String> _digitCounts = [
-    '1 Digit',
-    '2 Digits',
-    '3 Digits',
-    '4 Digits',
-    '5 Digits'
-  ];
+  final List<String> _digitCounts = ['1 Digit', '2 Digits', '3 Digits', '4 Digits', '5 Digits'];
   final List<String> formatList = [
     "Format",
     "Contains Digit Repeated 2 Times",
@@ -77,14 +71,13 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
         .collection(carPlatesCollectionId)
         .where('isDisabled', isEqualTo: false)
         .where('expiresAt', isGreaterThan: DateTime.now())
-        // .orderBy('featuredUntil', descending: true)
+        .orderBy('featuredUntil', descending: true)
         .orderBy('isSold', descending: true)
         .orderBy('createdAt', descending: true)
         .snapshots()
         .listen((snap) {
       setState(() {
-        _allPlates =
-            snap.docs.map((doc) => PlateListing.fromSnapshot(doc)).toList();
+        _allPlates = snap.docs.map((doc) => PlateListing.fromSnapshot(doc)).where((e) => !e.isExpired).toList();
       });
     });
 
@@ -113,9 +106,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
   bool _matches(PlateListing plate) {
     final number = plate.item.number;
 
-    if (_selectedCode != null &&
-        _selectedCode!.isNotEmpty &&
-        plate.item.code != _selectedCode) {
+    if (_selectedCode != null && _selectedCode!.isNotEmpty && plate.item.code != _selectedCode) {
       return false;
     }
 
@@ -132,18 +123,15 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
       return false;
     }
 
-    if (_containsController.text.isNotEmpty &&
-        !number.contains(_containsController.text)) {
+    if (_containsController.text.isNotEmpty && !number.contains(_containsController.text)) {
       return false;
     }
 
-    if (_startsWithController.text.isNotEmpty &&
-        !number.startsWith(_startsWithController.text)) {
+    if (_startsWithController.text.isNotEmpty && !number.startsWith(_startsWithController.text)) {
       return false;
     }
 
-    if (_endsWithController.text.isNotEmpty &&
-        !number.endsWith(_endsWithController.text)) {
+    if (_endsWithController.text.isNotEmpty && !number.endsWith(_endsWithController.text)) {
       return false;
     }
 
@@ -153,7 +141,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
     if (min != null && !plate.priceHidden && plate.price < min) return false;
     if (max != null && !plate.priceHidden && plate.price > max) return false;
 
-    return !plate.isDisabled && !plate.isSold && !plate.isExpired;
+    return !plate.isDisabled && !plate.isExpired;
   }
 
   InputDecoration get inputFieldStyle => InputDecoration(
@@ -170,15 +158,15 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
           borderRadius: BorderRadius.all(Radius.circular(8)),
           borderSide: BorderSide(color: Colors.red, width: 1.5),
         ),
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       );
 
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
     final visiblePlates = _allPlates.where(_matches).toList();
-
+    print(_allPlates.length);
+    print(visiblePlates.length);
     return Scaffold(
       appBar: AppBar(
         title: Text(m.plates.title),
@@ -209,11 +197,9 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                 children: [
                   Expanded(
                     child: DropdownButtonFormField<String>(
-                      decoration:
-                          inputFieldStyle.copyWith(labelText: m.plates.code),
+                      decoration: inputFieldStyle.copyWith(labelText: m.plates.code),
                       value: _selectedCode,
-                      icon: const Icon(Icons.arrow_drop_down,
-                          color: Color(0xFF981C1E)),
+                      icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF981C1E)),
                       items: _codes.map((c) {
                         return DropdownMenuItem(
                           value: c,
@@ -226,11 +212,9 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: DropdownButtonFormField<String>(
-                      decoration: inputFieldStyle.copyWith(
-                          labelText: m.plates.digit_count),
+                      decoration: inputFieldStyle.copyWith(labelText: m.plates.digit_count),
                       value: _selectedDigits,
-                      icon: const Icon(Icons.arrow_drop_down,
-                          color: Color(0xFF981C1E)),
+                      icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF981C1E)),
                       items: _digitCounts.map((d) {
                         return DropdownMenuItem(
                           value: d,
@@ -244,8 +228,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
               ),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
-                decoration:
-                    inputFieldStyle.copyWith(labelText: m.plates.format),
+                decoration: inputFieldStyle.copyWith(labelText: m.plates.format),
                 value: _selectedFormat,
                 icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF981C1E)),
                 items: formatList.map((format) {
@@ -263,20 +246,17 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                     Expanded(
                         child: TextFormField(
                             controller: _containsController,
-                            decoration: inputFieldStyle.copyWith(
-                                labelText: m.plates.contains))),
+                            decoration: inputFieldStyle.copyWith(labelText: m.plates.contains))),
                     const SizedBox(width: 8),
                     Expanded(
                         child: TextFormField(
                             controller: _startsWithController,
-                            decoration: inputFieldStyle.copyWith(
-                                labelText: m.plates.starts_with))),
+                            decoration: inputFieldStyle.copyWith(labelText: m.plates.starts_with))),
                     const SizedBox(width: 8),
                     Expanded(
                         child: TextFormField(
                             controller: _endsWithController,
-                            decoration: inputFieldStyle.copyWith(
-                                labelText: m.plates.ends_with))),
+                            decoration: inputFieldStyle.copyWith(labelText: m.plates.ends_with))),
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -286,15 +266,13 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                         child: TextFormField(
                             controller: _minPriceController,
                             keyboardType: TextInputType.number,
-                            decoration: inputFieldStyle.copyWith(
-                                labelText: m.plates.min_price))),
+                            decoration: inputFieldStyle.copyWith(labelText: m.plates.min_price))),
                     const SizedBox(width: 8),
                     Expanded(
                         child: TextFormField(
                             controller: _maxPriceController,
                             keyboardType: TextInputType.number,
-                            decoration: inputFieldStyle.copyWith(
-                                labelText: m.plates.max_price))),
+                            decoration: inputFieldStyle.copyWith(labelText: m.plates.max_price))),
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -304,12 +282,8 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                 child: Row(
                   children: [
                     Text(_isExpanded ? m.plates.show_less : m.plates.see_more,
-                        style: const TextStyle(
-                            color: Color(0xFF981C1E), fontWeight: FontWeight.bold)),
-                    Icon(
-                        _isExpanded
-                            ? Icons.keyboard_arrow_up
-                            : Icons.keyboard_arrow_down,
+                        style: const TextStyle(color: Color(0xFF981C1E), fontWeight: FontWeight.bold)),
+                    Icon(_isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
                         color: const Color(0xFF981C1E)),
                   ],
                 ),

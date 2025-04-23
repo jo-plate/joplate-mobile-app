@@ -98,9 +98,10 @@ class _SinglePhoneFormState extends State<SinglePhoneForm> {
                 TextField(
                   controller: numberController,
                   onChanged: widget.onNumberChanged,
+                  decoration: InputDecoration(labelText: m.addphonenumber.number, hintText: "07XXXXXXXX"),
+                  maxLength: 10,
                   keyboardType: TextInputType.number,
                   enabled: !isSubmitting,
-                  decoration: InputDecoration(labelText: m.addphonenumber.number),
                 ),
                 const SizedBox(height: 16),
                 TextField(
@@ -108,8 +109,10 @@ class _SinglePhoneFormState extends State<SinglePhoneForm> {
                   onChanged: widget.onPriceChanged,
                   keyboardType: TextInputType.number,
                   enabled: !isSubmitting,
-                  decoration:
-                      InputDecoration(labelText: widget.formState.withDiscount ? m.addphonenumber.price_before_discount : m.addphonenumber.price),
+                  decoration: InputDecoration(
+                      labelText: widget.formState.withDiscount
+                          ? m.addphonenumber.price_before_discount
+                          : m.addphonenumber.price),
                 ),
                 const SizedBox(height: 16),
                 Row(

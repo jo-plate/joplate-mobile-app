@@ -104,6 +104,7 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
                 TextField(
                   controller: codeController,
                   onChanged: widget.onCodeChanged,
+                  maxLength: 2,
                   keyboardType: TextInputType.text,
                   enabled: !isSubmitting,
                   decoration: InputDecoration(labelText: m.addplate.code),
@@ -112,6 +113,7 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
                 TextField(
                   controller: numberController,
                   onChanged: widget.onNumberChanged,
+                  maxLength: 5,
                   keyboardType: TextInputType.number,
                   enabled: !isSubmitting,
                   decoration: InputDecoration(labelText: m.addplate.number),

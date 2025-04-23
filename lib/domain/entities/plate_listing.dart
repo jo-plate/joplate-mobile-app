@@ -28,11 +28,9 @@ class PlateListing with _$PlateListing {
     return featuredUntil!.isAfter(DateTime.now());
   }
 
-  factory PlateListing.fromJson(Map<String, dynamic> json) =>
-      _$PlateListingFromJson(json);
+  factory PlateListing.fromJson(Map<String, dynamic> json) => _$PlateListingFromJson(json);
   factory PlateListing.fromSnapshot(DocumentSnapshot snapshot) =>
-      PlateListing.fromJson(
-          {'id': snapshot.id, ...snapshot.data() as Map<String, dynamic>});
+      PlateListing.fromJson({'id': snapshot.id, ...snapshot.data() as Map<String, dynamic>});
 
   bool get priceHidden => discountPrice == 0 && price == 0;
 
