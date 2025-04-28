@@ -33,8 +33,7 @@ class PlateNumberListingWidget extends StatelessWidget {
         onTap: disabled
             ? null
             : () {
-                AutoRouter.of(context)
-                    .push(PlatesDetailsRoute(listingId: item.id));
+                AutoRouter.of(context).push(PlatesDetailsRoute(listingId: item.id));
               },
         child: Stack(
           fit: StackFit.passthrough,
@@ -42,15 +41,20 @@ class PlateNumberListingWidget extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                border: Border.all(
-                    color: item.isFeatured
-                        ? Colors.yellow[700]!
-                        : Colors.grey[500]!,
-                    width: 2),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    blurRadius: 8,
+                    spreadRadius: 2,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+                border: Border.all(color: item.isFeatured ? Colors.yellow[700]! : Colors.grey[500]!, width: 2),
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Padding(
@@ -143,14 +147,10 @@ class PlateNumberListingWidget extends StatelessWidget {
     final m = Localization.of(context);
     return Positioned(
       bottom: 20,
-      right:
-          injector<LocalizationCubit>().state.languageCode == 'en' ? -20 : null,
-      left:
-          injector<LocalizationCubit>().state.languageCode == 'ar' ? -20 : null,
+      right: injector<LocalizationCubit>().state.languageCode == 'en' ? -20 : null,
+      left: injector<LocalizationCubit>().state.languageCode == 'ar' ? -20 : null,
       child: Transform.rotate(
-        angle: injector<LocalizationCubit>().state.languageCode == 'en'
-            ? -0.7854
-            : 0.7854,
+        angle: injector<LocalizationCubit>().state.languageCode == 'en' ? -0.7854 : 0.7854,
         child: Container(
           width: 100,
           alignment: Alignment.center,
@@ -175,14 +175,10 @@ class PlateNumberListingWidget extends StatelessWidget {
     final m = Localization.of(context);
     return Positioned(
       top: 20,
-      left:
-          injector<LocalizationCubit>().state.languageCode == 'en' ? -20 : null,
-      right:
-          injector<LocalizationCubit>().state.languageCode == 'ar' ? -20 : null,
+      left: injector<LocalizationCubit>().state.languageCode == 'en' ? -20 : null,
+      right: injector<LocalizationCubit>().state.languageCode == 'ar' ? -20 : null,
       child: Transform.rotate(
-        angle: injector<LocalizationCubit>().state.languageCode == 'en'
-            ? -0.7854
-            : 0.7854,
+        angle: injector<LocalizationCubit>().state.languageCode == 'en' ? -0.7854 : 0.7854,
         child: Container(
           width: 100,
           alignment: Alignment.center,

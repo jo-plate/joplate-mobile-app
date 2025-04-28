@@ -113,10 +113,11 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                         priceLabelFontSize: 24,
                       ),
                     ),
-                    const SizedBox(height: 16),
                     if (!(snapshot.data?.isFeatured ?? false) &&
-                        (FirebaseAuth.instance.currentUser?.uid ?? '') == snapshot.data!.userId)
+                        (FirebaseAuth.instance.currentUser?.uid ?? '') == snapshot.data!.userId) ...[
+                      const SizedBox(height: 16),
                       PromoteListingButton(listingId: snapshot.data!.id, itemType: ItemType.plateNumber),
+                    ],
                     const SizedBox(height: 16),
                     SellerDetails(userId: snapshot.data!.userId),
                     const SizedBox(height: 16),
@@ -124,7 +125,6 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                       userId: snapshot.data!.userId,
                       plateNumber: snapshot.data!.item,
                     ),
-                    const SizedBox(height: 16),
                     Container(
                       padding: const EdgeInsets.all(12.0),
                       decoration: BoxDecoration(
