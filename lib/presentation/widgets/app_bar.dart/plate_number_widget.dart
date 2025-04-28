@@ -1,8 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
-import 'package:stroke_text/stroke_text.dart';
 
 enum PlateShape { horizontal, vertical }
 
@@ -28,28 +25,34 @@ class PlateNumberWidget extends StatelessWidget {
       textDirection: TextDirection.ltr,
       child: LayoutBuilder(
         builder: (context, constraints) {
-          double fontSize = constraints.maxWidth * (isHorizontal ? 0.15 : 0.2);
-          double labelFontSize = constraints.maxWidth * (isHorizontal ? 0.07 : 0.12);
-          double padding = constraints.maxWidth * 0.07;
+          double padding = constraints.maxWidth * 0.074;
           double startOffset = constraints.maxWidth * 0.2;
           double numberHeight = constraints.maxWidth * 0.9;
-          double digitMinWidth = 30;
-          double separatorHeight = numberHeight * 0.25;
-          double separatorWidth = digitMinWidth * 0.5;
+          double digitMinWidth = 10;
+          double separatorHeight = numberHeight * 0.043;
+
           List<String> codeDigits = plate.code.split("");
           List<String> numberDigits = plate.number.split("");
 
           List<Widget> widgets = [
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: codeDigits.map((digit) => _buildDigitContainer(digit, numberHeight, digitMinWidth)).toList(),
+            Expanded(
+              flex: 2,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: codeDigits.map((digit) => _buildDigitContainer(digit, numberHeight, digitMinWidth)).toList(),
+              ),
             ),
-            _buildSeparatorContainer(separatorHeight, separatorWidth),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: numberDigits.map((digit) => _buildDigitContainer(digit, numberHeight, digitMinWidth)).toList(),
+            // Expanded(flex: 1, child: _buildSeparatorContainer(separatorHeight)),
+            _buildSeparatorContainer(separatorHeight),
+            Expanded(
+              flex: plate.number.length + 1,
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children:
+                    numberDigits.map((digit) => _buildDigitContainer(digit, numberHeight, digitMinWidth)).toList(),
+              ),
             ),
           ];
 
@@ -63,20 +66,16 @@ class PlateNumberWidget extends StatelessWidget {
                   fit: BoxFit.contain,
                 ),
                 Padding(
-                  padding: EdgeInsets.all(padding),
+                  padding: EdgeInsets.only(top: padding, bottom: padding, left: 0, right: 0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(width: startOffset),
                       Expanded(
-                        child: FittedBox(
-                          fit: BoxFit.contain,
-                          alignment: Alignment.centerLeft,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: widgets,
-                          ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: widgets,
                         ),
                       ),
                     ],
@@ -93,7 +92,7 @@ class PlateNumberWidget extends StatelessWidget {
   Widget _buildDigitContainer(String digit, double height, double minWidth) {
     return Container(
       constraints: BoxConstraints(minWidth: minWidth),
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      padding: const EdgeInsets.symmetric(horizontal: 1.0),
       child: Image.asset(
         'assets/images/numbers/number_$digit.png',
         height: height,
@@ -102,10 +101,10 @@ class PlateNumberWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildSeparatorContainer(double height, double width) {
+  Widget _buildSeparatorContainer(double height) {
     return Container(
-      constraints: BoxConstraints(minWidth: width),
-      padding: const EdgeInsets.symmetric(horizontal: 3.0),
+      constraints: const BoxConstraints(minWidth: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 1.0),
       child: Image.asset(
         'assets/images/numbers/separator.png',
         height: height,
