@@ -467,9 +467,9 @@ class PlatesMessagesAr extends PlatesMessages {
   String get title => """أرقام السيارات""";
 
   /// ```dart
-  /// "الرمز"
+  /// "الترميز"
   /// ```
-  String get code => """الرمز""";
+  String get code => """الترميز""";
 
   /// ```dart
   /// "عدد الأرقام"
@@ -832,9 +832,9 @@ class AddplateMessagesAr extends AddplateMessages {
   String get price_after_discount => """السعر بعد الخصم""";
 
   /// ```dart
-  /// "الرمز"
+  /// "الترميز"
   /// ```
-  String get code => """الرمز""";
+  String get code => """الترميز""";
 }
 
 class AddphonerequestMessagesAr extends AddphonerequestMessages {
@@ -1189,9 +1189,9 @@ class EditplateMessagesAr extends EditplateMessages {
   String get title => """تعديل إعلان اللوحة""";
 
   /// ```dart
-  /// "الرمز"
+  /// "الترميز"
   /// ```
-  String get code => """الرمز""";
+  String get code => """الترميز""";
 
   /// ```dart
   /// "رقم اللوحة"
@@ -1239,9 +1239,9 @@ class EditplaterequestMessagesAr extends EditplaterequestMessages {
   String get title => """تعديل طلب اللوحة""";
 
   /// ```dart
-  /// "الرمز"
+  /// "الترميز"
   /// ```
-  String get code => """الرمز""";
+  String get code => """الترميز""";
 
   /// ```dart
   /// "الرقم"
@@ -1325,7 +1325,7 @@ Map<String, String> get messagesArMap => {
   """phones.see_more""": """عرض المزيد""",
   """phones.show_less""": """عرض أقل""",
   """plates.title""": """أرقام السيارات""",
-  """plates.code""": """الرمز""",
+  """plates.code""": """الترميز""",
   """plates.digit_count""": """عدد الأرقام""",
   """plates.format""": """النمط""",
   """plates.contains""": """يحتوي على""",
@@ -1394,7 +1394,7 @@ Map<String, String> get messagesArMap => {
   """addplate.price""": """السعر""",
   """addplate.price_before_discount""": """السعر قبل الخصم""",
   """addplate.price_after_discount""": """السعر بعد الخصم""",
-  """addplate.code""": """الرمز""",
+  """addplate.code""": """الترميز""",
   """addphonerequest.title""": """إضافة طلب هاتف""",
   """addphonerequest.company_label""": """الشركة""",
   """addphonerequest.phone_number_label""": """رقم الهاتف""",
@@ -1460,7 +1460,7 @@ Map<String, String> get messagesArMap => {
   """editphonerequest.price_optional""": """السعر (اختياري)""",
   """editphonerequest.save_changes""": """حفظ التعديلات""",
   """editplate.title""": """تعديل إعلان اللوحة""",
-  """editplate.code""": """الرمز""",
+  """editplate.code""": """الترميز""",
   """editplate.plate_number""": """رقم اللوحة""",
   """editplate.price""": """السعر""",
   """editplate.discount_price""": """سعر الخصم""",
@@ -1469,7 +1469,7 @@ Map<String, String> get messagesArMap => {
   """editplate.sold""": """مباع""",
   """editplate.save_changes""": """حفظ التعديلات""",
   """editplaterequest.title""": """تعديل طلب اللوحة""",
-  """editplaterequest.code""": """الرمز""",
+  """editplaterequest.code""": """الترميز""",
   """editplaterequest.number""": """الرقم""",
   """editplaterequest.price_optional""": """السعر (اختياري)""",
   """editplaterequest.save_changes""": """حفظ التعديلات""",

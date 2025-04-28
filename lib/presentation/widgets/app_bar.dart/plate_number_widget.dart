@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:stroke_text/stroke_text.dart';
@@ -28,24 +30,59 @@ class PlateNumberWidget extends StatelessWidget {
         builder: (context, constraints) {
           double fontSize = constraints.maxWidth * (isHorizontal ? 0.15 : 0.2);
           double labelFontSize = constraints.maxWidth * (isHorizontal ? 0.07 : 0.12);
+          double padding = constraints.maxWidth * 0.07;
+          double startOffset = constraints.maxWidth * 0.2;
+          double numberHeight = constraints.maxWidth * 0.9;
+          double digitMinWidth = 30;
+          double separatorHeight = numberHeight * 0.25;
+          double separatorWidth = digitMinWidth * 0.5;
+          List<String> codeDigits = plate.code.split("");
+          List<String> numberDigits = plate.number.split("");
 
-          double padding = constraints.maxWidth * (isHorizontal ? 0.05 : 0.03);
-          double borderWidth = constraints.maxWidth * 0.01;
-          double borderRadius = constraints.maxWidth * 0.04;
+          List<Widget> widgets = [
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: codeDigits.map((digit) => _buildDigitContainer(digit, numberHeight, digitMinWidth)).toList(),
+            ),
+            _buildSeparatorContainer(separatorHeight, separatorWidth),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: numberDigits.map((digit) => _buildDigitContainer(digit, numberHeight, digitMinWidth)).toList(),
+            ),
+          ];
 
           return AspectRatio(
-            aspectRatio: isVertical ? verticalPlateAspectRatio : horizontalPlateAspectRatio,
-            child: Container(
-              decoration: BoxDecoration(
-                color: const Color(0xFFEFEFEF),
-                border: Border.all(color: Colors.black, width: borderWidth),
-                borderRadius: BorderRadius.circular(borderRadius),
-              ),
-              padding: EdgeInsets.all(padding),
-              alignment: Alignment.center,
-              child: isVertical
-                  ? _buildVerticalLayout(fontSize, labelFontSize)
-                  : _buildHorizontalLayout(fontSize, labelFontSize),
+            aspectRatio: horizontalPlateAspectRatio,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Image.asset(
+                  'assets/images/numbers/background.png',
+                  fit: BoxFit.contain,
+                ),
+                Padding(
+                  padding: EdgeInsets.all(padding),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(width: startOffset),
+                      Expanded(
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: widgets,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           );
         },
@@ -53,92 +90,27 @@ class PlateNumberWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildHorizontalLayout(double fontSize, double labelFontSize) {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        _buildJordanLabel(labelFontSize),
-        SizedBox(width: fontSize * 0.5),
-        Text(
-          "${plate.code} - ${plate.number}",
-          style: TextStyle(
-            fontSize: fontSize,
-            fontFamily: 'Mandatory',
-          ),
-        ),
-      ],
+  Widget _buildDigitContainer(String digit, double height, double minWidth) {
+    return Container(
+      constraints: BoxConstraints(minWidth: minWidth),
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: Image.asset(
+        'assets/images/numbers/number_$digit.png',
+        height: height,
+        fit: BoxFit.contain,
+      ),
     );
   }
 
-  Widget _buildVerticalLayout(double fontSize, double labelFontSize) {
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        Positioned(top: 0, child: _buildJordanLabel(labelFontSize)),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
-            child: RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                style: TextStyle(
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.w800,
-                  height: 1.2,
-                  color: Colors.black,
-                  letterSpacing: 4,
-                  fontFamily: 'Mandatory',
-                  shadows: const [
-                    Shadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.white),
-                    Shadow(offset: Offset(-1, -1), blurRadius: 2, color: Colors.white),
-                  ],
-                ),
-                children: [
-                  TextSpan(text: "${plate.code} \n"),
-                  WidgetSpan(
-                    alignment: PlaceholderAlignment.middle,
-                    child: StrokeText(
-                      text: plate.number,
-                      textStyle: TextStyle(
-                        fontFamily: 'Mandatory',
-                        letterSpacing: 4,
-                        fontSize: fontSize,
-                        fontWeight: FontWeight.w800,
-                        shadows: const [
-                          Shadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.white),
-                          Shadow(offset: Offset(-1, -1), blurRadius: 2, color: Colors.white),
-                        ],
-                      ),
-                      strokeColor: Colors.white,
-                      strokeWidth: 4,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildJordanLabel(double fontSize) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: isHorizontal ? MainAxisAlignment.spaceBetween : MainAxisAlignment.center,
-      children: [
-        Text(
-          "الأردن",
-          style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
-        ),
-        Text(
-          "JORDAN",
-          style: TextStyle(fontSize: fontSize * 0.5, fontWeight: FontWeight.bold),
-        ),
-      ],
+  Widget _buildSeparatorContainer(double height, double width) {
+    return Container(
+      constraints: BoxConstraints(minWidth: width),
+      padding: const EdgeInsets.symmetric(horizontal: 3.0),
+      child: Image.asset(
+        'assets/images/numbers/separator.png',
+        height: height,
+        fit: BoxFit.contain,
+      ),
     );
   }
 }

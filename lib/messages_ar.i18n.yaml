@@ -81,7 +81,7 @@ phones:
   
 plates:
   title: "أرقام السيارات"
-  code: "الرمز"
+  code: "الترميز"
   digit_count: "عدد الأرقام"
   format: "النمط"
   contains: "يحتوي على"
@@ -158,7 +158,7 @@ addplate:
   price: "السعر"
   price_before_discount: "السعر قبل الخصم"
   price_after_discount: "السعر بعد الخصم"
-  code: "الرمز"
+  code: "الترميز"
 
 addphonerequest:
   title: "إضافة طلب هاتف"
@@ -239,7 +239,7 @@ editphonerequest:
 
 editplate:
   title: "تعديل إعلان اللوحة"
-  code: "الرمز"
+  code: "الترميز"
   plate_number: "رقم اللوحة"
   price: "السعر"
   discount_price: "سعر الخصم"
@@ -250,7 +250,7 @@ editplate:
 
 editplaterequest:
   title: "تعديل طلب اللوحة"
-  code: "الرمز"
+  code: "الترميز"
   number: "الرقم"
   price_optional: "السعر (اختياري)"
   save_changes: "حفظ التعديلات"

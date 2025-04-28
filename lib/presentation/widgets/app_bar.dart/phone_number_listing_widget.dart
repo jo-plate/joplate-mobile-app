@@ -13,12 +13,12 @@ class PhoneNumberListingWidget extends StatelessWidget {
   final bool hideLikeButton;
 
   const PhoneNumberListingWidget({
-    Key? key,
+    super.key,
     required this.item,
     this.disabled = false,
     this.priceLabelFontSize = 18,
     this.hideLikeButton = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

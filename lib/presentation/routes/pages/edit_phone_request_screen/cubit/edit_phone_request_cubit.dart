@@ -1,6 +1,5 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:joplate/domain/dto/update_listing_dto.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/dto/update_request_dto.dart';

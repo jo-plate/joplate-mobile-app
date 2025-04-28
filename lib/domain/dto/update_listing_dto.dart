@@ -18,8 +18,4 @@ class UpdateListingDtoV2 with _$UpdateListingDtoV2 {
 
   const UpdateListingDtoV2._();
 
-  @override
-  Map<String, dynamic> toJson() {
-    return super.toJson();
-  }
 }

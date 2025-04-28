@@ -99,7 +99,7 @@ class _ProfileBannerState extends State<ProfileBanner> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          profile?.displayName ?? 'Guest',
+                          profile?.name.isNotEmpty == true ? profile?.name ?? 'Guest' : profile?.displayName ?? 'Guest',
                           style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                         ),
                         const SizedBox(height: 10),
@@ -129,8 +129,7 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                   const SizedBox(width: 12),
                                   Row(
                                     children: [
-                                      const PlanIcon(
-                                          size: 30, color: Color(0xFFD4AF37), borderColor: Colors.black),
+                                      const PlanIcon(size: 30, color: Color(0xFFD4AF37), borderColor: Colors.black),
                                       const SizedBox(width: 6),
                                       Text((snapshot.data?.goldenTickets ?? 0).toString(),
                                           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),

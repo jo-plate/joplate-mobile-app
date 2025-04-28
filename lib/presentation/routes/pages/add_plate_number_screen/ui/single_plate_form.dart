@@ -155,6 +155,7 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
                       value: widget.formState.isFeatured,
                       onChanged: isSubmitting ? null : widget.onFeaturedToggle,
                     ),
+                    
                   ],
                 ),
                 if (isSubmitting) const Center(child: CircularProgressIndicator()),

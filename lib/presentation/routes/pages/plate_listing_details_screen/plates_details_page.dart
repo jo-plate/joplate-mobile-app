@@ -523,12 +523,12 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
     required bool isFeatured,
     required String listingId,
   }) {
-    void _goToDetails() => AutoRouter.of(context).push(PlatesDetailsRoute(listingId: listingId));
+    void goToDetails() => AutoRouter.of(context).push(PlatesDetailsRoute(listingId: listingId));
 
     Widget wrap(Widget child) => Material(
           color: Colors.transparent, // so InkWell splash works
           child: InkWell(
-            onTap: _goToDetails,
+            onTap: goToDetails,
             child: child,
           ),
         );

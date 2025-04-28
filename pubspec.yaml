@@ -65,6 +65,7 @@ dependencies:
   firebase_data_connect: ^0.1.4
   stroke_text: ^1.0.0
   in_app_purchase: ^3.2.1
+  auto_size_widget: ^0.0.4
 
 
 dev_dependencies:
@@ -103,6 +104,7 @@ flutter:
         - assets/images/orange.png
         - assets/images/umniah.png
         - assets/images/zain.png
+        - assets/images/numbers/
 
 
 

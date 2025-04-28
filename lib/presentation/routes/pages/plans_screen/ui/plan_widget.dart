@@ -32,7 +32,7 @@ class PlanWidget extends StatelessWidget {
         );
         return;
       }
-    } catch (e, stack) {
+    } catch (e) {
       debugPrint("❌ IAP Error: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Error checking IAP availability: $e")),

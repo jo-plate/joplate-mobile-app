@@ -9,6 +9,7 @@ class UserProfile with _$UserProfile {
 
   const factory UserProfile({
     @Default('Guest') String displayName,
+    @Default('Guest') String name,
     @Default('-1') String id,
     @Default('') String email,
     @Default('') String phonenumber,
@@ -26,6 +27,7 @@ class UserProfile with _$UserProfile {
         displayName: '',
         phonenumber: '',
         email: '',
+        name: ''
       );
 
   factory UserProfile.fromJson(Map<String, dynamic> map) {
@@ -34,6 +36,7 @@ class UserProfile with _$UserProfile {
       displayName: map['displayName'] ?? '',
       email: map['email'] ?? '',
       phonenumber: map['phonenumber'] ?? '',
+      name: map['name'] ?? '',
     );
   }
 
@@ -43,6 +46,7 @@ class UserProfile with _$UserProfile {
       'displayName': displayName,
       'email': email,
       'phonenumber': phonenumber,
+      'name': name,
     };
   }
 }
