@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                               padEnds: true,
                               viewportFraction: 1,
                               enableInfiniteScroll: chunkedPlates.length > 1,
-                              aspectRatio: 1,
+                              aspectRatio: 1.13,
                               enlargeCenterPage: false),
                           items: chunkedPlates
                               .map((plates) => Padding(
@@ -119,21 +119,22 @@ class _HomePageState extends State<HomePage> {
                                   ))
                               .toList(),
                         ),
-                        const SizedBox(height: 2),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(chunkedPlates.length, (index) {
-                            return Container(
-                              width: 8,
-                              height: 8,
-                              margin: const EdgeInsets.symmetric(horizontal: 4),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: _currentCarouselIndex == index ? Colors.black : Colors.grey,
-                              ),
-                            );
-                          }),
-                        ),
+                        // const SizedBox(height: 2),
+                        if (chunkedPlates.length > 1)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: List.generate(chunkedPlates.length, (index) {
+                              return Container(
+                                width: 8,
+                                height: 8,
+                                margin: const EdgeInsets.symmetric(horizontal: 4),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: _currentCarouselIndex == index ? Colors.black : Colors.grey,
+                                ),
+                              );
+                            }),
+                          ),
                       ],
                     );
                   }),

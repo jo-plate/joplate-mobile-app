@@ -334,7 +334,7 @@ class _SellerDetailsState extends State<SellerDetails> {
                         ),
                         child: InkWell(
                           onTap: () {
-                            FlutterPhoneDialer.dialNumber(userProfile.phonenumber);
+                            FlutterPhoneDialer.dialNumber('tel:+962${userProfile.phonenumber}');
                           },
                           borderRadius: BorderRadius.circular(8),
                           child: Row(
