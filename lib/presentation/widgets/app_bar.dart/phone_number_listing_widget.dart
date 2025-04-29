@@ -143,7 +143,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Text(
-            'JOD ${formatPrice(item.price)}',
+            ' ${formatPrice(item.price)}',
             style: TextStyle(
               fontSize: priceLabelFontSize * 0.875,
               fontWeight: FontWeight.w500,

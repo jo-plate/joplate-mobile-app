@@ -28,7 +28,8 @@ class PlateNumberWidget extends StatelessWidget {
           double padding = constraints.maxWidth * 0.074;
           double startOffset = constraints.maxWidth * 0.2;
           double numberHeight = constraints.maxWidth * 0.9;
-          double digitMinWidth = 10;
+          double codeDigitMinWidth = 10;
+          double numberDigitMinWidth = 13;
           double separatorHeight = numberHeight * 0.043;
 
           List<String> codeDigits = plate.code.split("");
@@ -40,7 +41,8 @@ class PlateNumberWidget extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: codeDigits.map((digit) => _buildDigitContainer(digit, numberHeight, digitMinWidth)).toList(),
+                children:
+                    codeDigits.map((digit) => _buildDigitContainer(digit, numberHeight, codeDigitMinWidth)).toList(),
               ),
             ),
             // Expanded(flex: 1, child: _buildSeparatorContainer(separatorHeight)),
@@ -50,8 +52,9 @@ class PlateNumberWidget extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children:
-                    numberDigits.map((digit) => _buildDigitContainer(digit, numberHeight, digitMinWidth)).toList(),
+                children: numberDigits
+                    .map((digit) => _buildDigitContainer(digit, numberHeight, numberDigitMinWidth))
+                    .toList(),
               ),
             ),
           ];
