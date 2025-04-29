@@ -5,6 +5,7 @@ import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/cubits/localization/localization_cubit.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
+import 'package:joplate/presentation/utils/strings.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
 import 'package:stroke_text/stroke_text.dart';
 
@@ -131,7 +132,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
         textBaseline: TextBaseline.alphabetic,
         children: [
           Text(
-            'JOD ${item.discountPrice}',
+            'JOD ${formatPrice(item.discountPrice)}',
             style: TextStyle(
               fontSize: priceLabelFontSize,
               fontFamily: 'Mandatory',
@@ -142,7 +143,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Text(
-            'JOD ${item.price}',
+            'JOD ${formatPrice(item.price)}',
             style: TextStyle(
               fontSize: priceLabelFontSize * 0.875,
               fontWeight: FontWeight.w500,
@@ -157,7 +158,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
       );
     } else {
       return Text(
-        'JOD ${item.price}',
+        'JOD ${formatPrice(item.price)}',
         style: TextStyle(
           fontSize: priceLabelFontSize,
           fontFamily: 'Mandatory',

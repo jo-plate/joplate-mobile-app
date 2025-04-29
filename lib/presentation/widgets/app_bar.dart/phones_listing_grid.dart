@@ -20,8 +20,8 @@ class PhonesListingGrid extends StatelessWidget {
     return Center(
       child: MasonryGridView.count(
         crossAxisCount: 2,
-        mainAxisSpacing: 12,
-        crossAxisSpacing: 12,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: itemList.length,

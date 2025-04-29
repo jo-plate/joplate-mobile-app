@@ -33,6 +33,9 @@ class _HomePageState extends State<HomePage> {
         .map((snapshot) => snapshot.docs.map((doc) => PlateListing.fromSnapshot(doc)).toList());
   }
 
+  int _currentCarouselIndex = 0;
+  final CarouselSliderController _carouselController = CarouselSliderController();
+
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
@@ -90,23 +93,48 @@ class _HomePageState extends State<HomePage> {
                       return const SizedBox.shrink(); // Or show "No featured numbers"
                     }
 
-                    return CarouselSlider(
-                      options: CarouselOptions(
-                          autoPlay: true,
-                          padEnds: true,
-                          viewportFraction: 1,
-                          enableInfiniteScroll: chunkedPlates.length > 1,
-                          aspectRatio: 1,
-                          enlargeCenterPage: false),
-                      items: chunkedPlates
-                          .map((plates) => Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                                child: PlatesListingsGrid(
-                                  itemList: plates,
-                                  shrinkWrap: false,
-                                ),
-                              ))
-                          .toList(),
+                    return Column(
+                      children: [
+                        CarouselSlider(
+                          carouselController: _carouselController,
+                          options: CarouselOptions(
+                              autoPlay: true,
+                              onPageChanged: (index, reason) {
+                                setState(() {
+                                  _currentCarouselIndex = index;
+                                });
+                              },
+                              padEnds: true,
+                              viewportFraction: 1,
+                              enableInfiniteScroll: chunkedPlates.length > 1,
+                              aspectRatio: 1,
+                              enlargeCenterPage: false),
+                          items: chunkedPlates
+                              .map((plates) => Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                    child: PlatesListingsGrid(
+                                      itemList: plates,
+                                      shrinkWrap: false,
+                                    ),
+                                  ))
+                              .toList(),
+                        ),
+                        const SizedBox(height: 2),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(chunkedPlates.length, (index) {
+                            return Container(
+                              width: 8,
+                              height: 8,
+                              margin: const EdgeInsets.symmetric(horizontal: 4),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: _currentCarouselIndex == index ? Colors.black : Colors.grey,
+                              ),
+                            );
+                          }),
+                        ),
+                      ],
                     );
                   }),
             ],

@@ -5,6 +5,7 @@ import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/cubits/localization/localization_cubit.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
+import 'package:joplate/presentation/utils/strings.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_widget.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
 
@@ -107,7 +108,7 @@ class PlateNumberListingWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'JOD ${item.discountPrice} ',
+            'JOD ${formatPrice(item.discountPrice)} ',
             style: TextStyle(
               fontSize: priceLabelFontSize,
               fontFamily: 'Mandatory',
@@ -117,7 +118,7 @@ class PlateNumberListingWidget extends StatelessWidget {
             maxLines: 1,
           ),
           Text(
-            '${item.price}',
+            'JOD ${formatPrice(item.price)}',
             style: TextStyle(
               fontSize: priceLabelFontSize * 0.875,
               fontWeight: FontWeight.w600,
@@ -132,7 +133,7 @@ class PlateNumberListingWidget extends StatelessWidget {
       );
     } else {
       return Text(
-        'JOD ${item.price}',
+        'JOD ${formatPrice(item.price)}',
         style: TextStyle(
           fontSize: priceLabelFontSize,
           fontFamily: 'Mandatory',

@@ -66,6 +66,7 @@ dependencies:
   stroke_text: ^1.0.0
   in_app_purchase: ^3.2.1
   auto_size_widget: ^0.0.4
+  intl: ^0.19.0
 
 
 dev_dependencies:
