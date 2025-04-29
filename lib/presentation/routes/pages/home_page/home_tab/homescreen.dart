@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                 style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
               const SizedBox(
-                height: 12,
+                height: 8,
               ),
               StreamBuilder<List<PlateListing>>(
                   stream: _platesStream,
