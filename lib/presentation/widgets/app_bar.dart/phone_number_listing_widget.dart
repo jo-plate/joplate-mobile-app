@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/phone_listing.dart';
+import 'package:joplate/injection/injector.dart';
+import 'package:joplate/presentation/cubits/localization/localization_cubit.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
@@ -38,16 +40,15 @@ class PhoneNumberListingWidget extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 border: Border.all(
-                  color:
-                      item.isFeatured ? Colors.yellow[700]! : Colors.grey[500]!,
+                  color: item.isFeatured ? Colors.yellow[700]! : Colors.grey[500]!,
                   width: 2,
                 ),
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   // Number display (with stroke)
                   Container(
@@ -61,8 +62,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
                         end: Alignment.bottomRight,
                       ),
                     ),
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
                     child: LayoutBuilder(builder: (ctx, constraints) {
                       final fontSize = constraints.maxWidth * 0.13;
                       return StrokeText(
@@ -169,13 +169,14 @@ class PhoneNumberListingWidget extends StatelessWidget {
     }
   }
 
-  Widget _buildFeaturedRibbon(BuildContext context) {
+  Widget _buildFeaturedRibbon(context) {
     final m = Localization.of(context);
     return Positioned(
       bottom: 20,
-      right: -20,
+      right: injector<LocalizationCubit>().state.languageCode == 'en' ? -20 : null,
+      left: injector<LocalizationCubit>().state.languageCode == 'ar' ? -20 : null,
       child: Transform.rotate(
-        angle: -0.7854,
+        angle: injector<LocalizationCubit>().state.languageCode == 'en' ? -0.7854 : 0.7854,
         child: Container(
           width: 100,
           alignment: Alignment.center,
@@ -200,9 +201,10 @@ class PhoneNumberListingWidget extends StatelessWidget {
     final m = Localization.of(context);
     return Positioned(
       top: 20,
-      left: -20,
+      left: injector<LocalizationCubit>().state.languageCode == 'en' ? -20 : null,
+      right: injector<LocalizationCubit>().state.languageCode == 'ar' ? -20 : null,
       child: Transform.rotate(
-        angle: -0.7854,
+        angle: injector<LocalizationCubit>().state.languageCode == 'en' ? -0.7854 : 0.7854,
         child: Container(
           width: 100,
           alignment: Alignment.center,

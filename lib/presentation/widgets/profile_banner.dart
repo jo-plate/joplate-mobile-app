@@ -135,15 +135,6 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                                     ],
                                   ),
-                                  const SizedBox(width: 12),
-                                  Row(
-                                    children: [
-                                      const Icon(Icons.replay, size: 22, color: Color(0xFF981C1E)),
-                                      const SizedBox(width: 6),
-                                      Text((snapshot.data?.goldenTickets ?? 0).toString(),
-                                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-                                    ],
-                                  ),
                                 ],
                               );
                             }),

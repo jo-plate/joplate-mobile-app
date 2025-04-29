@@ -40,44 +40,41 @@ class CategorySection extends StatelessWidget {
   Widget build(BuildContext context) {
     final m = Localization.of(context);
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
-      child: Column(
-        children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            _buildCategoryCard(
-              icon: Icons.directions_car,
-              title: m.home.car_number,
-              itemType: ItemType.plateNumber,
-              onTap: () => AutoRouter.of(context).push(const PlatesListingsRoute()),
-            ),
-            _buildCategoryCard(
-                icon: Icons.phone,
-                title: m.home.phone_numbers,
-                itemType: ItemType.phoneNumber,
-                onTap: () => AutoRouter.of(context).push(const PhoneListingsRoute())),
-            _buildCategoryCard(
-                icon: Icons.request_page,
-                title: m.home.requests,
-                onTap: () => AutoRouter.of(context).push(const RequestsRoute())),
-          ]),
-          const SizedBox(height: 20),
-          OutlinedButton.icon(
-            onPressed: () {
-              AutoRouter.of(context).push(const QuicksaleRoute());
-            },
-            label: Text(
-              m.home.quick_sale,
-              style: const TextStyle(fontSize: 16),
-            ),
-            icon: const Icon(
-              Icons.speed,
-              color: Color(0xFF981C1E),
-              size: 26,
-            ),
+    return Column(
+      children: [
+        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          _buildCategoryCard(
+            icon: Icons.directions_car,
+            title: m.home.car_number,
+            itemType: ItemType.plateNumber,
+            onTap: () => AutoRouter.of(context).push(const PlatesListingsRoute()),
           ),
-        ],
-      ),
+          _buildCategoryCard(
+              icon: Icons.phone,
+              title: m.home.phone_numbers,
+              itemType: ItemType.phoneNumber,
+              onTap: () => AutoRouter.of(context).push(const PhoneListingsRoute())),
+          _buildCategoryCard(
+              icon: Icons.request_page,
+              title: m.home.requests,
+              onTap: () => AutoRouter.of(context).push(const RequestsRoute())),
+        ]),
+        const SizedBox(height: 20),
+        OutlinedButton.icon(
+          onPressed: () {
+            AutoRouter.of(context).push(const QuicksaleRoute());
+          },
+          label: Text(
+            m.home.quick_sale,
+            style: const TextStyle(fontSize: 16),
+          ),
+          icon: const Icon(
+            Icons.speed,
+            color: Color(0xFF981C1E),
+            size: 26,
+          ),
+        ),
+      ],
     );
   }
 

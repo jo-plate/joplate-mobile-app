@@ -92,7 +92,7 @@ class PlateNumberWidget extends StatelessWidget {
   Widget _buildDigitContainer(String digit, double height, double minWidth) {
     return Container(
       constraints: BoxConstraints(minWidth: minWidth),
-      padding: const EdgeInsets.symmetric(horizontal: 1.0),
+      padding: const EdgeInsets.symmetric(horizontal: 1),
       child: Image.asset(
         'assets/images/numbers/number_$digit.png',
         height: height,
