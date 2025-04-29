@@ -41,7 +41,7 @@ class CategorySection extends StatelessWidget {
     final m = Localization.of(context);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
       child: Column(
         children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
@@ -61,7 +61,7 @@ class CategorySection extends StatelessWidget {
                 title: m.home.requests,
                 onTap: () => AutoRouter.of(context).push(const RequestsRoute())),
           ]),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
           OutlinedButton.icon(
             onPressed: () {
               AutoRouter.of(context).push(const QuicksaleRoute());

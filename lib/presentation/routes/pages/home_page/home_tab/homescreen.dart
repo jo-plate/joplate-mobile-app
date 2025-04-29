@@ -30,9 +30,7 @@ class _HomePageState extends State<HomePage> {
         .where('isSold', isEqualTo: false)
         .orderBy('createdAt', descending: true)
         .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => PlateListing.fromSnapshot(doc))
-            .toList());
+        .map((snapshot) => snapshot.docs.map((doc) => PlateListing.fromSnapshot(doc)).toList());
   }
 
   @override
@@ -46,76 +44,70 @@ class _HomePageState extends State<HomePage> {
           centerTitle: true,
           elevation: 0,
           backgroundColor: Colors.grey[100],
-
-          // leading: IconButton(
-          //   icon: const ,
-
-          //   onPressed: () {},
-          // )p
         ),
         body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              const CategorySection(),
-              const SizedBox(height: 24),
-              Text(
-                m.home.featured_numbers,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-              StreamBuilder<List<PlateListing>>(
-                  stream: _platesStream,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                const CategorySection(),
+                // const SizedBox(height: 16),
+                Text(
+                  m.home.featured_numbers,
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+                StreamBuilder<List<PlateListing>>(
+                    stream: _platesStream,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
 
-                    if (snapshot.hasError) {
-                      print('snapshot error: ${snapshot.error}');
-                      return Center(child: Text('Error: ${snapshot.error}'));
-                    }
+                      if (snapshot.hasError) {
+                        print('snapshot error: ${snapshot.error}');
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      }
 
-                    final data = snapshot.data ?? [];
+                      final data = snapshot.data ?? [];
 
-                    // Split into chunks of 6 for the carousel
-                    final chunkedPlates = <List<PlateListing>>[];
-                    for (var i = 0; i < data.length; i += 6) {
-                      chunkedPlates.add(
-                        data.sublist(
-                          i,
-                          i + 6 > data.length ? data.length : i + 6,
-                        ),
+                      // Split into chunks of 6 for the carousel
+                      final chunkedPlates = <List<PlateListing>>[];
+                      for (var i = 0; i < data.length; i += 6) {
+                        chunkedPlates.add(
+                          data.sublist(
+                            i,
+                            i + 6 > data.length ? data.length : i + 6,
+                          ),
+                        );
+                      }
+
+                      if (chunkedPlates.isEmpty) {
+                        return const SizedBox.shrink(); // Or show "No featured numbers"
+                      }
+
+                      return CarouselSlider(
+                        options: CarouselOptions(
+                            autoPlay: true,
+                            padEnds: true,
+                            viewportFraction: 1,
+                            enableInfiniteScroll: chunkedPlates.length > 1,
+                            aspectRatio: 1,
+                            enlargeCenterPage: false),
+                        items: chunkedPlates
+                            .map((plates) => Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                  child: PlatesListingsGrid(
+                                    itemList: plates,
+                                    shrinkWrap: false,
+                                  ),
+                                ))
+                            .toList(),
                       );
-                    }
-
-                    if (chunkedPlates.isEmpty) {
-                      return const SizedBox
-                          .shrink(); // Or show "No featured numbers"
-                    }
-
-                    return CarouselSlider(
-                      options: CarouselOptions(
-                          autoPlay: false,
-                          padEnds: true,
-                          viewportFraction: 1,
-                          enableInfiniteScroll: chunkedPlates.length > 1,
-                          aspectRatio: 1,
-                          enlargeCenterPage: false),
-                      items: chunkedPlates
-                          .map((plates) => Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 8),
-                                child: PlatesListingsGrid(
-                                  itemList: plates,
-                                  shrinkWrap: false,
-                                ),
-                              ))
-                          .toList(),
-                    );
-                  }),
-            ],
+                    }),
+              ],
+            ),
           ),
         ),
       ),

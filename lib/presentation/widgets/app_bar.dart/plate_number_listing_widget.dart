@@ -58,7 +58,7 @@ class PlateNumberListingWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,14 +67,15 @@ class PlateNumberListingWidget extends StatelessWidget {
                           plate: item.item,
                           shape: shape,
                         ),
-                        const SizedBox(height: 8),
-                        _buildPriceLabel(),
                         const SizedBox(height: 2),
-                        if (!hideLikeButton)
+                        _buildPriceLabel(),
+                        if (!hideLikeButton) ...[
+                          const SizedBox(height: 2),
                           FavoriteButton.plate(
                             listingId: item.id,
                             iconSize: 20,
                           ),
+                        ]
                       ],
                     ),
                   ),

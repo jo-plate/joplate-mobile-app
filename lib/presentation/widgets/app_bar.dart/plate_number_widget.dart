@@ -46,7 +46,7 @@ class PlateNumberWidget extends StatelessWidget {
             // Expanded(flex: 1, child: _buildSeparatorContainer(separatorHeight)),
             _buildSeparatorContainer(separatorHeight),
             Expanded(
-              flex: plate.number.length + 1,
+              flex: 6,
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
