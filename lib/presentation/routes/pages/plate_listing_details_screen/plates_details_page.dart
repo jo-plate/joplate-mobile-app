@@ -104,14 +104,11 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SizedBox(
-                      height: 170,
-                      child: PlateNumberListingWidget(
-                        disabled: true,
-                        item: snapshot.data!,
-                        hideLikeButton: true,
-                        priceLabelFontSize: 24,
-                      ),
+                    PlateNumberListingWidget(
+                      disabled: true,
+                      item: snapshot.data!,
+                      hideLikeButton: true,
+                      priceLabelFontSize: 24,
                     ),
                     if (!(snapshot.data?.isFeatured ?? false) &&
                         (FirebaseAuth.instance.currentUser?.uid ?? '') == snapshot.data!.userId) ...[

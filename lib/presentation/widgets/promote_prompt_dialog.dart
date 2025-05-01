@@ -158,7 +158,7 @@ class _PromotePromptDialogState extends State<PromotePromptDialog> {
                                     width: 2,
                                   )
                                 ],
-                                const Text('ترقية -1 '),
+                                const Text('  ترقية  '),
                               ],
                             ),
                           ),

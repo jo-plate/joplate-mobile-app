@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/entities/phone_listing.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/edit_phone_listing_screen/cubit/edit_phone_listing_cubit.dart';
+import 'package:joplate/presentation/widgets/app_bar.dart/promote_listing_button.dart';
 
 @RoutePage()
 class EditPhoneListingPage extends StatefulWidget {
@@ -24,10 +26,10 @@ class EditPhoneListingPageState extends State<EditPhoneListingPage> {
   void initState() {
     super.initState();
     final l = widget.listing;
-    _numberCtrl    = TextEditingController(text: l.item.number);
-    _priceCtrl     = TextEditingController(text: l.price.toString());
-    _discountCtrl  = TextEditingController(text: l.discountPrice.toString() );
-    _showDiscount  = (l.discountPrice > 0);
+    _numberCtrl = TextEditingController(text: l.item.number);
+    _priceCtrl = TextEditingController(text: l.price.toString());
+    _discountCtrl = TextEditingController(text: l.discountPrice.toString());
+    _showDiscount = (l.discountPrice > 0);
   }
 
   @override
@@ -113,7 +115,9 @@ class EditPhoneListingPageState extends State<EditPhoneListingPage> {
 
                     if (state.isSubmitting)
                       const Center(child: CircularProgressIndicator())
-                    else
+                    else ...[
+                      PromoteListingButton(listingId: widget.listing.id, itemType: ItemType.phoneNumber),
+                      const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () async {
                           await cubit.submitEdit();
@@ -127,6 +131,7 @@ class EditPhoneListingPageState extends State<EditPhoneListingPage> {
                           style: const TextStyle(color: Colors.white),
                         ),
                       ),
+                    ]
                   ],
                 ),
               ),

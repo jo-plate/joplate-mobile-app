@@ -1,10 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/entities/plate_listing.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/edit_plate_listing_screen/cubit/edit_plate_listing_cubit.dart';
 import 'package:joplate/presentation/routes/pages/edit_plate_listing_screen/cubit/edit_plate_listing_state.dart';
+import 'package:joplate/presentation/widgets/app_bar.dart/promote_listing_button.dart';
 
 @RoutePage()
 class EditPlateListingPage extends StatefulWidget {
@@ -26,9 +28,9 @@ class EditPlateListingPageState extends State<EditPlateListingPage> {
   void initState() {
     super.initState();
     final l = widget.listing;
-    _codeCtrl     = TextEditingController(text: l.item.code);
-    _plateCtrl    = TextEditingController(text: l.item.number);
-    _priceCtrl    = TextEditingController(text: l.price.toString());
+    _codeCtrl = TextEditingController(text: l.item.code);
+    _plateCtrl = TextEditingController(text: l.item.number);
+    _priceCtrl = TextEditingController(text: l.price.toString());
     _discountCtrl = TextEditingController(text: l.discountPrice > 0 ? l.discountPrice.toString() : '');
     _showDiscount = l.discountPrice > 0;
   }
@@ -132,7 +134,9 @@ class EditPlateListingPageState extends State<EditPlateListingPage> {
 
                     if (state.isSubmitting)
                       const Center(child: CircularProgressIndicator())
-                    else
+                    else ...[
+                      PromoteListingButton(listingId: widget.listing.id, itemType: ItemType.plateNumber),
+                      const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () async {
                           await cubit.submitEdit();
@@ -143,6 +147,7 @@ class EditPlateListingPageState extends State<EditPlateListingPage> {
                         },
                         child: Text(m.editplaterequest.save_changes, style: const TextStyle(color: Colors.white)),
                       ),
+                    ]
                   ],
                 ),
               );
