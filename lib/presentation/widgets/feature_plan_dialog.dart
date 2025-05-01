@@ -50,12 +50,15 @@ class _FeaturePlanDialogState extends State<FeaturePlanDialog> {
       if (mounted) {
         Navigator.of(context).pop();
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('تم تمييز الإعلان بنجاح')),
+          const SnackBar(
+              content: Text(
+            'Tickets purchased successfully',
+          )),
         );
       }
     } on FirebaseFunctionsException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.message ?? 'فشل الترقية')),
+        SnackBar(content: Text(e.message ?? "Purchase failed")),
       );
       setState(() => submitting = false);
     }

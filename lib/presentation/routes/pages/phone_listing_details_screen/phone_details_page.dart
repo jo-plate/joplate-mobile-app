@@ -122,11 +122,12 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
                   hideLikeButton: true,
                   priceLabelFontSize: 24,
                 ),
-                const SizedBox(
-                  height: 16,
-                ),
-                if (FirebaseAuth.instance.currentUser?.uid == phone.userId && phone.isFeatured)
+                if (FirebaseAuth.instance.currentUser?.uid == phone.userId && phone.isFeatured) ...[
+                  const SizedBox(
+                    height: 16,
+                  ),
                   PromoteListingButton(listingId: snapshot.data!.id, itemType: ItemType.phoneNumber),
+                ],
                 const SizedBox(
                   height: 16,
                 ),
