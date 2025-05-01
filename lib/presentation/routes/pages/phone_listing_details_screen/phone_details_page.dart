@@ -117,13 +117,10 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(
-                  height: 170,
-                  child: PhoneNumberListingWidget(
-                    item: phone,
-                    hideLikeButton: true,
-                    priceLabelFontSize: 24,
-                  ),
+                PhoneNumberListingWidget(
+                  item: phone,
+                  hideLikeButton: true,
+                  priceLabelFontSize: 24,
                 ),
                 const SizedBox(
                   height: 16,

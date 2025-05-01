@@ -7,7 +7,7 @@ import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/utils/strings.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
-import 'package:stroke_text/stroke_text.dart';
+import 'package:joplate/presentation/widgets/phone_number_widget.dart';
 
 class PhoneNumberListingWidget extends StatelessWidget {
   final PhoneListing item;
@@ -51,44 +51,16 @@ class PhoneNumberListingWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Number display (with stroke)
-                  Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          item.item.operatorColor.withOpacity(0.9),
-                          item.item.operatorColor.withOpacity(0.6),
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                    child: LayoutBuilder(builder: (ctx, constraints) {
-                      final fontSize = constraints.maxWidth * 0.13;
-                      return StrokeText(
-                        text: item.item.number,
-                        textStyle: TextStyle(
-                          fontSize: fontSize,
-                          fontFamily: 'poppins',
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                          letterSpacing: 1.4,
-                        ),
-                        strokeColor: Colors.grey[800]!,
-                        strokeWidth: 3,
-                        textAlign: TextAlign.center,
-                      );
-                    }),
-                  ),
-
-                  // Price + optional favorite button
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: PhoneNumberWidget(phoneNumber: item.item),
+                        ),
                         _buildPriceLabel(),
                         if (!hideLikeButton) ...[
                           const SizedBox(width: 8),

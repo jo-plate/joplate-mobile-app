@@ -12,4 +12,7 @@ class FontFamily {
 
   /// Font family: Mandatory
   static const String mandatory = 'Mandatory';
+
+  /// Font family: UkNumberPlate
+  static const String ukNumberPlate = 'UkNumberPlate';
 }

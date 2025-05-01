@@ -83,13 +83,10 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 150,
-                    child: PhoneNumberRequestWidget(
-                      item: snapshot.data!,
-                      priceLabelFontSize: 24,
-                      aspectRatio: 1.5,
-                    ),
+                  PhoneNumberRequestWidget(
+                    item: snapshot.data!,
+                    priceLabelFontSize: 24,
+                    aspectRatio: 1.5,
                   ),
                   const SizedBox(height: 10),
                   const SizedBox(height: 20),

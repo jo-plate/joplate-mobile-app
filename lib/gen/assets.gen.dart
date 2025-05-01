@@ -30,29 +30,82 @@ class $AssetsImagesGen {
   /// File path: assets/images/avatar3.jpg
   AssetGenImage get avatar3 => const AssetGenImage('assets/images/avatar3.jpg');
 
+  /// File path: assets/images/car_numbers.png
+  AssetGenImage get carNumbers =>
+      const AssetGenImage('assets/images/car_numbers.png');
+
+  /// File path: assets/images/logo.png
+  AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
+
   /// Directory path: assets/images/numbers
   $AssetsImagesNumbersGen get numbers => const $AssetsImagesNumbersGen();
 
   /// File path: assets/images/orange.png
-  AssetGenImage get orange => const AssetGenImage('assets/images/orange.png');
+  AssetGenImage get orangePng =>
+      const AssetGenImage('assets/images/orange.png');
+
+  /// File path: assets/images/orange.svg
+  String get orangeSvg => 'assets/images/orange.svg';
+
+  /// File path: assets/images/orange_phonebg.png
+  AssetGenImage get orangePhonebg =>
+      const AssetGenImage('assets/images/orange_phonebg.png');
+
+  /// File path: assets/images/phone_numbers.png
+  AssetGenImage get phoneNumbers =>
+      const AssetGenImage('assets/images/phone_numbers.png');
+
+  /// File path: assets/images/quicksale.png
+  AssetGenImage get quicksale =>
+      const AssetGenImage('assets/images/quicksale.png');
+
+  /// File path: assets/images/requests.png
+  AssetGenImage get requests =>
+      const AssetGenImage('assets/images/requests.png');
 
   /// File path: assets/images/umniah.png
-  AssetGenImage get umniah => const AssetGenImage('assets/images/umniah.png');
+  AssetGenImage get umniahPng =>
+      const AssetGenImage('assets/images/umniah.png');
+
+  /// File path: assets/images/umniah.svg
+  String get umniahSvg => 'assets/images/umniah.svg';
+
+  /// File path: assets/images/umniah_phonebg.png
+  AssetGenImage get umniahPhonebg =>
+      const AssetGenImage('assets/images/umniah_phonebg.png');
 
   /// File path: assets/images/zain.png
-  AssetGenImage get zain => const AssetGenImage('assets/images/zain.png');
+  AssetGenImage get zainPng => const AssetGenImage('assets/images/zain.png');
+
+  /// File path: assets/images/zain.svg
+  String get zainSvg => 'assets/images/zain.svg';
+
+  /// File path: assets/images/zain_phonebg.png
+  AssetGenImage get zainPhonebg =>
+      const AssetGenImage('assets/images/zain_phonebg.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [
+  List<dynamic> get values => [
     license,
     number,
     number2,
     avatar1,
     avatar2,
     avatar3,
-    orange,
-    umniah,
-    zain,
+    carNumbers,
+    logo,
+    orangePng,
+    orangeSvg,
+    orangePhonebg,
+    phoneNumbers,
+    quicksale,
+    requests,
+    umniahPng,
+    umniahSvg,
+    umniahPhonebg,
+    zainPng,
+    zainSvg,
+    zainPhonebg,
   ];
 }
 

@@ -70,8 +70,7 @@ class PhoneNumber with _$PhoneNumber {
     }
   }
 
-  factory PhoneNumber.fromJson(Map<String, dynamic> json) =>
-      _$PhoneNumberFromJson(json);
+  factory PhoneNumber.fromJson(Map<String, dynamic> json) => _$PhoneNumberFromJson(json);
 
   factory PhoneNumber.fromString(String phoneNumber) {
     return PhoneNumber(number: phoneNumber);
@@ -93,13 +92,13 @@ class PhoneNumber with _$PhoneNumber {
     return Colors.grey[500]!;
   }
 
-  ImageProvider get operatorLogo {
+  AssetGenImage get operatorLogo {
     if (phoneOperator == PhoneOperator.orange) {
-      return Assets.images.orange.provider();
+      return Assets.images.orangePng;
     } else if (phoneOperator == PhoneOperator.zain) {
-      return Assets.images.zain.provider();
+      return Assets.images.zainPng;
     } else {
-      return Assets.images.umniah.provider();
+      return Assets.images.umniahPng;
     }
   }
 }

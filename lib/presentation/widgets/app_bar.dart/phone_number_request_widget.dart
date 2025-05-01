@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/presentation/routes/router.dart';
-import 'package:stroke_text/stroke_text.dart';
+import 'package:joplate/presentation/widgets/phone_number_widget.dart';
 
 class PhoneNumberRequestWidget extends StatelessWidget {
   final PhoneRequest item;
@@ -21,8 +21,7 @@ class PhoneNumberRequestWidget extends StatelessWidget {
     return Center(
       child: GestureDetector(
         onTap: () {
-          AutoRouter.of(context)
-              .push(PhoneRequestDetailsRoute(phoneNumberRequestId: item.id));
+          AutoRouter.of(context).push(PhoneRequestDetailsRoute(phoneNumberRequestId: item.id));
         },
         child: Stack(
           fit: StackFit.passthrough,
@@ -30,53 +29,30 @@ class PhoneNumberRequestWidget extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey[500]!, width: 2),
+                border: Border.all(
+                  color: Colors.grey[500]!,
+                  width: 2,
+                ),
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: item.item.operatorColor,
-                          gradient: LinearGradient(
-                            colors: [
-                              item.item.operatorColor.withOpacity(0.9),
-                              item.item.operatorColor.withOpacity(0.6),
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: PhoneNumberWidget(phoneNumber: item.item),
                         ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12, horizontal: 8),
-                        child: LayoutBuilder(builder: (context, constraints) {
-                          double fontSize = constraints.maxWidth * 0.13;
-                          return StrokeText(
-                            text: item.item.number,
-                            textStyle: TextStyle(
-                                fontSize: fontSize,
-                                fontFamily: 'poppins',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                                letterSpacing: 1.4),
-                            strokeColor: Colors.grey[800]!,
-                            strokeWidth: 3,
-                            textAlign: TextAlign.center,
-                          );
-                        }),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: _buildPriceLabel(),
-                      ),
-                    ],
+                        _buildPriceLabel(),
+                      ],
+                    ),
                   ),
                 ],
               ),
