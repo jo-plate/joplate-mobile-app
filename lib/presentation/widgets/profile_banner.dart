@@ -7,6 +7,7 @@ import 'package:joplate/domain/entities/user_plans.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
 
 import 'package:joplate/presentation/routes/router.dart';
+import 'package:joplate/presentation/widgets/buy_tickets_dialog.dart';
 import 'package:joplate/presentation/widgets/icons/plan_icon.dart';
 
 class ProfileBanner extends StatefulWidget {
@@ -125,7 +126,12 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                     ],
                                   ),
                                   const SizedBox(width: 6),
-                                  const Icon(Icons.add_circle_outline, size: 20, color: Color(0xFF981C1E)),
+                                  GestureDetector(
+                                      onTap: () => showDialog(
+                                            context: context,
+                                            builder: (_) => const BuyTicketsDialog(),
+                                          ),
+                                      child: const Icon(Icons.add_circle_outline, size: 20, color: Color(0xFF981C1E))),
                                   const SizedBox(width: 12),
                                   Row(
                                     children: [
