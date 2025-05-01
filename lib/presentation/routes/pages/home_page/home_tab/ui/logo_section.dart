@@ -1,3 +1,4 @@
+import 'package:joplate/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 class LogoSection extends StatelessWidget {
@@ -5,15 +6,8 @@ class LogoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        'JOPLATE',
-        style: TextStyle(
-          fontSize: 28,
-          fontWeight: FontWeight.bold,
-          color: Color(0xFF981C1E),
-        ),
-      ),
+    return Center(
+      child: Image.asset("assets/images/logo.png", width: 100, height: 100),
     );
   }
 }

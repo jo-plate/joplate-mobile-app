@@ -41,7 +41,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: item.isFeatured ? Colors.yellow[700]! : Colors.grey[500]!,
+                  color: item.isFeatured ? const Color(0xFFFFC107) : Colors.grey[500]!,
                   width: 2,
                 ),
                 color: Colors.white,
@@ -182,7 +182,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
           width: 100,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: Colors.yellow[700],
+            color: const Color(0xFFFFC107),
             borderRadius: BorderRadius.circular(4),
           ),
           child: Text(

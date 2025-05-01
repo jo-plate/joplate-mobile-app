@@ -90,7 +90,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
         .where('isDisabled', isEqualTo: false)
         .where('expiresAt', isGreaterThan: DateTime.now())
         .orderBy('featuredUntil', descending: true)
-        .orderBy('isSold', descending: true)
+        .orderBy('isSold', descending: false)
         .orderBy('createdAt', descending: true)
         .snapshots()
         .listen((snap) {

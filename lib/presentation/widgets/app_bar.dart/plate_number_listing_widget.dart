@@ -50,7 +50,7 @@ class PlateNumberListingWidget extends StatelessWidget {
                     offset: const Offset(0, 4),
                   ),
                 ],
-                border: Border.all(color: item.isFeatured ? Colors.yellow[700]! : Colors.grey[500]!, width: 2),
+                border: Border.all(color: item.isFeatured ? const Color(0xFFFFC107) : Colors.grey[500]!, width: 2),
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -83,6 +83,15 @@ class PlateNumberListingWidget extends StatelessWidget {
                 ],
               ),
             ),
+            if (item.isSold)
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.75),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
             if (item.isFeatured) _buildFeaturedRibbon(context),
             if (item.isSold) _buildSoldRibbon(context)
           ],
@@ -157,7 +166,7 @@ class PlateNumberListingWidget extends StatelessWidget {
           width: 100,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: Colors.yellow[700],
+            color: const Color(0xFFFFC107),
             borderRadius: BorderRadius.circular(4),
           ),
           child: Text(

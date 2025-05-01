@@ -2,16 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:joplate/presentation/widgets/pill.dart';
 
 class CategoryCard extends StatelessWidget {
-  final IconData icon;
+  final Widget iconWidget;
+
   final String title;
   final String count;
   final void Function()? onTap;
-  const CategoryCard(
-      {super.key,
-      required this.icon,
-      required this.title,
-      required this.count,
-      this.onTap});
+  const CategoryCard({super.key, required this.iconWidget, required this.title, required this.count, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -36,31 +32,28 @@ class CategoryCard extends StatelessWidget {
               ],
             ),
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(6.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Icon(
-                    icon,
-                    size: 24,
-                    color: Colors.black,
-                  ),
+                  iconWidget,
                   const SizedBox(
-                    width: 4,
-                    height: 4,
+                    width: 2,
+                    height: 2,
                   ),
                   Text(
                     title,
+                    maxLines: 1,
                     style: const TextStyle(
-                      fontSize: 16,
+                      fontSize: 12,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Color(0xFF333333),
                     ),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(
-                    width: 4,
-                    height: 4,
+                    width: 2,
+                    height: 2,
                   ),
                   if (count.isNotEmpty)
                     SizedBox(

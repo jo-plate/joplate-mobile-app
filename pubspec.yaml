@@ -96,6 +96,7 @@ flutter:
         - asset: assets/fonts/Mandatory.otf
 
   assets:
+        - assets/images/
         - assets/images/Number.png
         - assets/images/Number2.png
         - assets/images/License.png

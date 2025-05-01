@@ -37,6 +37,7 @@ class _DeleteListingDialogState extends State<DeleteListingDialog> {
 
     try {
       final callable = FirebaseFunctions.instance.httpsCallable(deleteItemCF);
+      print(dto.toJson());
       final res = await callable.call(dto.toJson());
 
       if (context.mounted) {

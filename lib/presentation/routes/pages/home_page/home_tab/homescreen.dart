@@ -42,28 +42,21 @@ class _HomePageState extends State<HomePage> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: const LogoSection(),
-          centerTitle: true,
-          elevation: 0,
-          backgroundColor: Colors.grey[100],
-        ),
         body: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
+              const LogoSection(),
               const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 2),
                 child: CategorySection(),
               ),
               Text(
                 m.home.featured_numbers,
                 style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
-              const SizedBox(
-                height: 8,
-              ),
+
               StreamBuilder<List<PlateListing>>(
                   stream: _platesStream,
                   builder: (context, snapshot) {
@@ -111,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                               enlargeCenterPage: false),
                           items: chunkedPlates
                               .map((plates) => Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
                                     child: PlatesListingsGrid(
                                       itemList: plates,
                                       shrinkWrap: false,
