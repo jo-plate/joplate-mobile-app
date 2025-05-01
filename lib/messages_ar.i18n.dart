@@ -202,9 +202,9 @@ class ProfileMessagesAr extends ProfileMessages {
   String get packages => """الباقات""";
 
   /// ```dart
-  /// "خطتي الحالية"
+  /// "باقتي الحالية"
   /// ```
-  String get my_current_plan => """خطتي الحالية""";
+  String get my_current_plan => """باقتي الحالية""";
 
   /// ```dart
   /// "اللغة"
@@ -537,19 +537,19 @@ class DigitcountsMessagesAr extends DigitcountsMessages {
   String get d2 => """رقمان""";
 
   /// ```dart
-  /// "3 أرقام"
+  /// "ثلاثي"
   /// ```
-  String get d3 => """3 أرقام""";
+  String get d3 => """ثلاثي""";
 
   /// ```dart
-  /// "4 أرقام"
+  /// "رباعي"
   /// ```
-  String get d4 => """4 أرقام""";
+  String get d4 => """رباعي""";
 
   /// ```dart
-  /// "5 أرقام"
+  /// "خماسي"
   /// ```
-  String get d5 => """5 أرقام""";
+  String get d5 => """خماسي""";
 }
 
 class FormatsMessagesAr extends FormatsMessages {
@@ -577,109 +577,109 @@ class FormatsMessagesAr extends FormatsMessages {
   String get repeat_4 => """يحتوي على رقم مكرر أربع مرات""";
 
   /// ```dart
-  /// "X???X (5 أرقام)"
+  /// "X???X (خماسي)"
   /// ```
-  String get f_5_1 => """X???X (5 أرقام)""";
+  String get f_5_1 => """X???X (خماسي)""";
 
   /// ```dart
-  /// "XYZYX (5 أرقام)"
+  /// "XYZYX (خماسي)"
   /// ```
-  String get f_5_2 => """XYZYX (5 أرقام)""";
+  String get f_5_2 => """XYZYX (خماسي)""";
 
   /// ```dart
-  /// "XXXZX (5 أرقام)"
+  /// "XXXZX (خماسي)"
   /// ```
-  String get f_5_3 => """XXXZX (5 أرقام)""";
+  String get f_5_3 => """XXXZX (خماسي)""";
 
   /// ```dart
-  /// "?XXX? (5 أرقام)"
+  /// "?XXX? (خماسي)"
   /// ```
-  String get f_5_4 => """?XXX? (5 أرقام)""";
+  String get f_5_4 => """?XXX? (خماسي)""";
 
   /// ```dart
-  /// "XYXYX (5 أرقام)"
+  /// "XYXYX (خماسي)"
   /// ```
-  String get f_5_5 => """XYXYX (5 أرقام)""";
+  String get f_5_5 => """XYXYX (خماسي)""";
 
   /// ```dart
-  /// "XYYYX (5 أرقام)"
+  /// "XYYYX (خماسي)"
   /// ```
-  String get f_5_6 => """XYYYX (5 أرقام)""";
+  String get f_5_6 => """XYYYX (خماسي)""";
 
   /// ```dart
-  /// "??XXX (5 أرقام)"
+  /// "??XXX (خماسي)"
   /// ```
-  String get f_5_7 => """??XXX (5 أرقام)""";
+  String get f_5_7 => """??XXX (خماسي)""";
 
   /// ```dart
-  /// "XXX?? (5 أرقام)"
+  /// "XXX?? (خماسي)"
   /// ```
-  String get f_5_8 => """XXX?? (5 أرقام)""";
+  String get f_5_8 => """XXX?? (خماسي)""";
 
   /// ```dart
-  /// "XXXXX (5 أرقام)"
+  /// "XXXXX (خماسي)"
   /// ```
-  String get f_5_9 => """XXXXX (5 أرقام)""";
+  String get f_5_9 => """XXXXX (خماسي)""";
 
   /// ```dart
-  /// "X??X (4 أرقام)"
+  /// "X??X (رباعي)"
   /// ```
-  String get f_4_1 => """X??X (4 أرقام)""";
+  String get f_4_1 => """X??X (رباعي)""";
 
   /// ```dart
-  /// "XYXX (4 أرقام)"
+  /// "XYXX (رباعي)"
   /// ```
-  String get f_4_2 => """XYXX (4 أرقام)""";
+  String get f_4_2 => """XYXX (رباعي)""";
 
   /// ```dart
-  /// "XYXY (4 أرقام)"
+  /// "XYXY (رباعي)"
   /// ```
-  String get f_4_3 => """XYXY (4 أرقام)""";
+  String get f_4_3 => """XYXY (رباعي)""";
 
   /// ```dart
-  /// "?XX? (4 أرقام)"
+  /// "?XX? (رباعي)"
   /// ```
-  String get f_4_4 => """?XX? (4 أرقام)""";
+  String get f_4_4 => """?XX? (رباعي)""";
 
   /// ```dart
-  /// "XXXY (4 أرقام)"
+  /// "XXXY (رباعي)"
   /// ```
-  String get f_4_5 => """XXXY (4 أرقام)""";
+  String get f_4_5 => """XXXY (رباعي)""";
 
   /// ```dart
-  /// "XYYY (4 أرقام)"
+  /// "XYYY (رباعي)"
   /// ```
-  String get f_4_6 => """XYYY (4 أرقام)""";
+  String get f_4_6 => """XYYY (رباعي)""";
 
   /// ```dart
-  /// "XXXX (4 أرقام)"
+  /// "XXXX (رباعي)"
   /// ```
-  String get f_4_7 => """XXXX (4 أرقام)""";
+  String get f_4_7 => """XXXX (رباعي)""";
 
   /// ```dart
-  /// "XYX (3 أرقام)"
+  /// "XYX (ثلاثي)"
   /// ```
-  String get f_3_1 => """XYX (3 أرقام)""";
+  String get f_3_1 => """XYX (ثلاثي)""";
 
   /// ```dart
-  /// "XYZ (3 أرقام)"
+  /// "XYZ (ثلاثي)"
   /// ```
-  String get f_3_2 => """XYZ (3 أرقام)""";
+  String get f_3_2 => """XYZ (ثلاثي)""";
 
   /// ```dart
-  /// "XYY (3 أرقام)"
+  /// "XYY (ثلاثي)"
   /// ```
-  String get f_3_3 => """XYY (3 أرقام)""";
+  String get f_3_3 => """XYY (ثلاثي)""";
 
   /// ```dart
-  /// "XXY (3 أرقام)"
+  /// "XXY (ثلاثي)"
   /// ```
-  String get f_3_4 => """XXY (3 أرقام)""";
+  String get f_3_4 => """XXY (ثلاثي)""";
 
   /// ```dart
-  /// "XXX (3 أرقام)"
+  /// "XXX (ثلاثي)"
   /// ```
-  String get f_3_5 => """XXX (3 أرقام)""";
+  String get f_3_5 => """XXX (ثلاثي)""";
 }
 
 class AddphonenumberMessagesAr extends AddphonenumberMessages {
@@ -702,9 +702,9 @@ class AddphonenumberMessagesAr extends AddphonenumberMessages {
   String get phone_number_label => """رقم الهاتف""";
 
   /// ```dart
-  /// "حفظ"
+  /// "نشر"
   /// ```
-  String get save_button => """حفظ""";
+  String get save_button => """نشر""";
 
   /// ```dart
   /// "إلغاء"
@@ -777,9 +777,9 @@ class AddplateMessagesAr extends AddplateMessages {
   String get plate_number_label => """رقم السيارة""";
 
   /// ```dart
-  /// "حفظ"
+  /// "نشر"
   /// ```
-  String get save_button => """حفظ""";
+  String get save_button => """نشر""";
 
   /// ```dart
   /// "إلغاء"
@@ -857,9 +857,9 @@ class AddphonerequestMessagesAr extends AddphonerequestMessages {
   String get phone_number_label => """رقم الهاتف""";
 
   /// ```dart
-  /// "حفظ"
+  /// "نشر"
   /// ```
-  String get save_button => """حفظ""";
+  String get save_button => """نشر""";
 
   /// ```dart
   /// "إلغاء"
@@ -897,9 +897,9 @@ class AddplaterequestMessagesAr extends AddplaterequestMessages {
   String get plate_number_label => """رقم السيارة""";
 
   /// ```dart
-  /// "حفظ"
+  /// "نشر"
   /// ```
-  String get save_button => """حفظ""";
+  String get save_button => """نشر""";
 
   /// ```dart
   /// "إلغاء"
@@ -1278,7 +1278,7 @@ Map<String, String> get messagesArMap => {
   """profile.Requests""": """الطلبات""",
   """profile.Numbers""": """الأرقام""",
   """profile.packages""": """الباقات""",
-  """profile.my_current_plan""": """خطتي الحالية""",
+  """profile.my_current_plan""": """باقتي الحالية""",
   """profile.language""": """اللغة""",
   """profile.aboutus""": """من نحن""",
   """profile.privacy_policy""": """سياسة الخصوصية""",
@@ -1338,38 +1338,38 @@ Map<String, String> get messagesArMap => {
   """plates.show_less""": """عرض أقل""",
   """digitcounts.d1""": """رقم واحد""",
   """digitcounts.d2""": """رقمان""",
-  """digitcounts.d3""": """3 أرقام""",
-  """digitcounts.d4""": """4 أرقام""",
-  """digitcounts.d5""": """5 أرقام""",
+  """digitcounts.d3""": """ثلاثي""",
+  """digitcounts.d4""": """رباعي""",
+  """digitcounts.d5""": """خماسي""",
   """formats.title""": """النمط""",
   """formats.repeat_2""": """يحتوي على رقم مكرر مرتين""",
   """formats.repeat_3""": """يحتوي على رقم مكرر ثلاث مرات""",
   """formats.repeat_4""": """يحتوي على رقم مكرر أربع مرات""",
-  """formats.f_5_1""": """X???X (5 أرقام)""",
-  """formats.f_5_2""": """XYZYX (5 أرقام)""",
-  """formats.f_5_3""": """XXXZX (5 أرقام)""",
-  """formats.f_5_4""": """?XXX? (5 أرقام)""",
-  """formats.f_5_5""": """XYXYX (5 أرقام)""",
-  """formats.f_5_6""": """XYYYX (5 أرقام)""",
-  """formats.f_5_7""": """??XXX (5 أرقام)""",
-  """formats.f_5_8""": """XXX?? (5 أرقام)""",
-  """formats.f_5_9""": """XXXXX (5 أرقام)""",
-  """formats.f_4_1""": """X??X (4 أرقام)""",
-  """formats.f_4_2""": """XYXX (4 أرقام)""",
-  """formats.f_4_3""": """XYXY (4 أرقام)""",
-  """formats.f_4_4""": """?XX? (4 أرقام)""",
-  """formats.f_4_5""": """XXXY (4 أرقام)""",
-  """formats.f_4_6""": """XYYY (4 أرقام)""",
-  """formats.f_4_7""": """XXXX (4 أرقام)""",
-  """formats.f_3_1""": """XYX (3 أرقام)""",
-  """formats.f_3_2""": """XYZ (3 أرقام)""",
-  """formats.f_3_3""": """XYY (3 أرقام)""",
-  """formats.f_3_4""": """XXY (3 أرقام)""",
-  """formats.f_3_5""": """XXX (3 أرقام)""",
+  """formats.f_5_1""": """X???X (خماسي)""",
+  """formats.f_5_2""": """XYZYX (خماسي)""",
+  """formats.f_5_3""": """XXXZX (خماسي)""",
+  """formats.f_5_4""": """?XXX? (خماسي)""",
+  """formats.f_5_5""": """XYXYX (خماسي)""",
+  """formats.f_5_6""": """XYYYX (خماسي)""",
+  """formats.f_5_7""": """??XXX (خماسي)""",
+  """formats.f_5_8""": """XXX?? (خماسي)""",
+  """formats.f_5_9""": """XXXXX (خماسي)""",
+  """formats.f_4_1""": """X??X (رباعي)""",
+  """formats.f_4_2""": """XYXX (رباعي)""",
+  """formats.f_4_3""": """XYXY (رباعي)""",
+  """formats.f_4_4""": """?XX? (رباعي)""",
+  """formats.f_4_5""": """XXXY (رباعي)""",
+  """formats.f_4_6""": """XYYY (رباعي)""",
+  """formats.f_4_7""": """XXXX (رباعي)""",
+  """formats.f_3_1""": """XYX (ثلاثي)""",
+  """formats.f_3_2""": """XYZ (ثلاثي)""",
+  """formats.f_3_3""": """XYY (ثلاثي)""",
+  """formats.f_3_4""": """XXY (ثلاثي)""",
+  """formats.f_3_5""": """XXX (ثلاثي)""",
   """addphonenumber.title""": """إضافة رقم هاتف""",
   """addphonenumber.company_label""": """الشركة""",
   """addphonenumber.phone_number_label""": """رقم الهاتف""",
-  """addphonenumber.save_button""": """حفظ""",
+  """addphonenumber.save_button""": """نشر""",
   """addphonenumber.cancel_button""": """إلغاء""",
   """addphonenumber.addmore""": """إضافة أكثر""",
   """addphonenumber.with_discount""": """مع خصم""",
@@ -1383,7 +1383,7 @@ Map<String, String> get messagesArMap => {
   """addplate.title""": """إضافة رقم سيارة""",
   """addplate.company_label""": """الشركة""",
   """addplate.plate_number_label""": """رقم السيارة""",
-  """addplate.save_button""": """حفظ""",
+  """addplate.save_button""": """نشر""",
   """addplate.cancel_button""": """إلغاء""",
   """addplate.addmore""": """إضافة أكثر""",
   """addplate.with_discount""": """مع خصم""",
@@ -1398,14 +1398,14 @@ Map<String, String> get messagesArMap => {
   """addphonerequest.title""": """إضافة طلب هاتف""",
   """addphonerequest.company_label""": """الشركة""",
   """addphonerequest.phone_number_label""": """رقم الهاتف""",
-  """addphonerequest.save_button""": """حفظ""",
+  """addphonerequest.save_button""": """نشر""",
   """addphonerequest.cancel_button""": """إلغاء""",
   """addphonerequest.required_phone_number""": """رقم الهاتف المطلوب""",
   """addphonerequest.optional_price""": """السعر اختياري""",
   """addplaterequest.title""": """إضافة طلب رقم سيارة""",
   """addplaterequest.company_label""": """الشركة""",
   """addplaterequest.plate_number_label""": """رقم السيارة""",
-  """addplaterequest.save_button""": """حفظ""",
+  """addplaterequest.save_button""": """نشر""",
   """addplaterequest.cancel_button""": """إلغاء""",
   """addplaterequest.required_plate_number""": """رقم السيارة المطلوب""",
   """addplaterequest.code""": """ترميز اللوحة""",

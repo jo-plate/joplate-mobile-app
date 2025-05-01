@@ -73,7 +73,7 @@ class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
               TextField(
                 controller: codeController,
                 keyboardType: TextInputType.text,
-                decoration: InputDecoration(labelText: m.addplaterequest.required_plate_number),
+                decoration: InputDecoration(labelText: m.addplaterequest.code),
                 onChanged: cubit.updateCode,
                 maxLength: 2,
                 enabled: !state.isSubmitting,
@@ -82,7 +82,7 @@ class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
               TextField(
                 controller: numberController,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: m.addplaterequest.required_plate_number),
+                decoration: InputDecoration(labelText: m.addplaterequest.number),
                 onChanged: cubit.updateNumber,
                 maxLength: 5,
                 enabled: !state.isSubmitting,

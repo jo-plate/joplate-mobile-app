@@ -30,6 +30,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/avatar3.jpg
   AssetGenImage get avatar3 => const AssetGenImage('assets/images/avatar3.jpg');
 
+  /// Directory path: assets/images/numbers
+  $AssetsImagesNumbersGen get numbers => const $AssetsImagesNumbersGen();
+
   /// File path: assets/images/orange.png
   AssetGenImage get orange => const AssetGenImage('assets/images/orange.png');
 
@@ -50,6 +53,74 @@ class $AssetsImagesGen {
     orange,
     umniah,
     zain,
+  ];
+}
+
+class $AssetsImagesNumbersGen {
+  const $AssetsImagesNumbersGen();
+
+  /// File path: assets/images/numbers/background.png
+  AssetGenImage get background =>
+      const AssetGenImage('assets/images/numbers/background.png');
+
+  /// File path: assets/images/numbers/number_0.png
+  AssetGenImage get number0 =>
+      const AssetGenImage('assets/images/numbers/number_0.png');
+
+  /// File path: assets/images/numbers/number_1.png
+  AssetGenImage get number1 =>
+      const AssetGenImage('assets/images/numbers/number_1.png');
+
+  /// File path: assets/images/numbers/number_2.png
+  AssetGenImage get number2 =>
+      const AssetGenImage('assets/images/numbers/number_2.png');
+
+  /// File path: assets/images/numbers/number_3.png
+  AssetGenImage get number3 =>
+      const AssetGenImage('assets/images/numbers/number_3.png');
+
+  /// File path: assets/images/numbers/number_4.png
+  AssetGenImage get number4 =>
+      const AssetGenImage('assets/images/numbers/number_4.png');
+
+  /// File path: assets/images/numbers/number_5.png
+  AssetGenImage get number5 =>
+      const AssetGenImage('assets/images/numbers/number_5.png');
+
+  /// File path: assets/images/numbers/number_6.png
+  AssetGenImage get number6 =>
+      const AssetGenImage('assets/images/numbers/number_6.png');
+
+  /// File path: assets/images/numbers/number_7.png
+  AssetGenImage get number7 =>
+      const AssetGenImage('assets/images/numbers/number_7.png');
+
+  /// File path: assets/images/numbers/number_8.png
+  AssetGenImage get number8 =>
+      const AssetGenImage('assets/images/numbers/number_8.png');
+
+  /// File path: assets/images/numbers/number_9.png
+  AssetGenImage get number9 =>
+      const AssetGenImage('assets/images/numbers/number_9.png');
+
+  /// File path: assets/images/numbers/separator.png
+  AssetGenImage get separator =>
+      const AssetGenImage('assets/images/numbers/separator.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+    background,
+    number0,
+    number1,
+    number2,
+    number3,
+    number4,
+    number5,
+    number6,
+    number7,
+    number8,
+    number9,
+    separator,
   ];
 }
 

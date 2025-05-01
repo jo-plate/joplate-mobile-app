@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,35 +29,54 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
   final _minPriceController = TextEditingController();
   final _maxPriceController = TextEditingController();
 
-  final List<String> _codes = ['10', '20', '30', '40', '50', '60', '70', '80'];
-  final List<String> _digitCounts = ['1 Digit', '2 Digits', '3 Digits', '4 Digits', '5 Digits'];
-  final List<String> formatList = [
-    "Format",
-    "Contains Digit Repeated 2 Times",
-    "Contains Digit Repeated 3 Times",
-    "Contains Digit Repeated 4 Times",
-    "X???X (5 Digits)",
-    "XYZYX (5 Digits)",
-    "XXXZX (5 Digits)",
-    "?XXX? (5 Digits)",
-    "XYXYX (5 Digits)",
-    "XYYYX (5 Digits)",
-    "??XXX (5 Digits)",
-    "XXX?? (5 Digits)",
-    "XXXXX (5 Digits)",
-    "X??X (4 Digits)",
-    "XYXX (4 Digits)",
-    "XYXY (4 Digits)",
-    "?XX? (4 Digits)",
-    "XXXY (4 Digits)",
-    "XYYY (4 Digits)",
-    "XXXX (4 Digits)",
-    "XYX (3 Digits)",
-    "XYZ (3 Digits)",
-    "XYY (3 Digits)",
-    "XXY (3 Digits)",
-    "XXX (3 Digits)",
+  final List<String> _codes = [
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+    '16',
+    '17',
+    '18',
+    '19',
+    '20',
+    '21',
+    '22',
+    '23',
+    '24',
+    '25',
+    '26',
+    '27',
+    '28',
+    '29',
+    '30',
+    '31',
+    '32',
+    '33',
+    '34',
+    '35',
+    '36',
+    '37',
+    '38',
+    '39',
+    '40',
+    '41',
+    '42',
+    '43',
+    '44',
+    '45',
+    '46',
+    '47',
+    '48',
+    '49',
+    '77',
+    '80',
+    '88',
   ];
+
+  final List<String> _digitCountsEN = ['1 Digit', '2 Digits', '3 Digits', '4 Digits', '5 Digits'];
+  final List<String> _digitCountsAR = ['أحادي', 'ثنائي', 'ثلاثي', 'رباعي', 'خماسي'];
 
   late final StreamSubscription<QuerySnapshot<Map<String, dynamic>>> _sub;
   List<PlateListing> _allPlates = [];
@@ -81,14 +99,14 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
       });
     });
 
-    for (final c in [
+    for (final controller in [
       _containsController,
       _startsWithController,
       _endsWithController,
       _minPriceController,
       _maxPriceController
     ]) {
-      c.addListener(() => setState(() {}));
+      controller.addListener(() => setState(() {}));
     }
   }
 
@@ -103,8 +121,43 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
     super.dispose();
   }
 
+  List<String> getFormatList(BuildContext context) {
+    final f = Localization.of(context).formats;
+    return [
+      f.title,
+      f.repeat_2,
+      f.repeat_3,
+      f.repeat_4,
+      f.f_5_1,
+      f.f_5_2,
+      f.f_5_3,
+      f.f_5_4,
+      f.f_5_5,
+      f.f_5_6,
+      f.f_5_7,
+      f.f_5_8,
+      f.f_5_9,
+      f.f_4_1,
+      f.f_4_2,
+      f.f_4_3,
+      f.f_4_4,
+      f.f_4_5,
+      f.f_4_6,
+      f.f_4_7,
+      f.f_3_1,
+      f.f_3_2,
+      f.f_3_3,
+      f.f_3_4,
+      f.f_3_5,
+    ];
+  }
+
   bool _matches(PlateListing plate) {
+    final m = Localization.of(context);
+    final isArabic = m.languageCode == 'ar';
     final number = plate.item.number;
+    final digitLabel = (isArabic ? _digitCountsAR : _digitCountsEN)[plate.item.number.length - 1];
+    final formatList = getFormatList(context);
 
     if (_selectedCode != null && _selectedCode!.isNotEmpty && plate.item.code != _selectedCode) {
       return false;
@@ -112,13 +165,13 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
 
     if (_selectedDigits != null &&
         _selectedDigits!.isNotEmpty &&
-        '${plate.item.number.length} Digits' != _selectedDigits) {
+        digitLabel != _selectedDigits) {
       return false;
     }
 
     if (_selectedFormat != null &&
         _selectedFormat!.isNotEmpty &&
-        _selectedFormat != 'Format' &&
+        _selectedFormat != formatList[0] && // formatList[0] is "Format"
         plate.item.format != _selectedFormat) {
       return false;
     }
@@ -165,8 +218,10 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
   Widget build(BuildContext context) {
     final m = Localization.of(context);
     final visiblePlates = _allPlates.where(_matches).toList();
-    print(_allPlates.length);
-    print(visiblePlates.length);
+    final isArabic = m.languageCode == 'ar';
+    final digitOptions = isArabic ? _digitCountsAR : _digitCountsEN;
+    final formatOptions = getFormatList(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(m.plates.title),
@@ -190,8 +245,6 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
             children: [
               Row(
                 children: [
@@ -215,7 +268,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                       decoration: inputFieldStyle.copyWith(labelText: m.plates.digit_count),
                       value: _selectedDigits,
                       icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF981C1E)),
-                      items: _digitCounts.map((d) {
+                      items: digitOptions.map((d) {
                         return DropdownMenuItem(
                           value: d,
                           child: Text(d, style: const TextStyle(fontSize: 14)),
@@ -231,7 +284,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                 decoration: inputFieldStyle.copyWith(labelText: m.plates.format),
                 value: _selectedFormat,
                 icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF981C1E)),
-                items: formatList.map((format) {
+                items: formatOptions.map((format) {
                   return DropdownMenuItem(
                     value: format,
                     child: Text(format, style: const TextStyle(fontSize: 14)),
@@ -275,8 +328,8 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                             decoration: inputFieldStyle.copyWith(labelText: m.plates.max_price))),
                   ],
                 ),
-                const SizedBox(height: 8),
               ],
+              const SizedBox(height: 8),
               GestureDetector(
                 onTap: () => setState(() => _isExpanded = !_isExpanded),
                 child: Row(

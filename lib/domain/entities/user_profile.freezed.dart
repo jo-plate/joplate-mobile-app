@@ -1,4 +1,3 @@
-
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -216,7 +215,8 @@ class _$UserProfileImpl extends _UserProfile {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, displayName, name, id, email, phonenumber, isVerified);
+  int get hashCode => Object.hash(
+      runtimeType, displayName, name, id, email, phonenumber, isVerified);
 
   /// Create a copy of UserProfile
   /// with the given fields replaced by the non-null parameter values.
