@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
 
 const kDialogBG = Color.fromARGB(255, 255, 255, 255);
@@ -43,7 +44,7 @@ class _FeaturePlanDialogState extends State<FeaturePlanDialog> {
     };
 
     try {
-      final callable = FirebaseFunctions.instance.httpsCallable('featureListing');
+      final callable = FirebaseFunctions.instance.httpsCallable(featureListingCF);
       await callable.call(dto);
 
       if (mounted) {

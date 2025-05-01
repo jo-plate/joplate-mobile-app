@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_functions/cloud_functions.dart';
-// if you’re using it for snackBars
-import 'package:joplate/data/constants.dart'; // deleteItemCF constant
+import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/dto/delete_item_dto.dart';
 
@@ -37,7 +36,6 @@ class _DeleteListingDialogState extends State<DeleteListingDialog> {
 
     try {
       final callable = FirebaseFunctions.instance.httpsCallable(deleteItemCF);
-      print(dto.toJson());
       final res = await callable.call(dto.toJson());
 
       if (context.mounted) {

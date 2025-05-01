@@ -15,5 +15,5 @@ const postRequestCF = 'postRequest';
 const updateListingCF = 'updateListing';
 const updateRequestCF = 'updateRequest';
 const deleteItemCF = 'deleteItem';
-
+const featureListingCF = 'featureListing';
 const quicksaleUserId = 'quicksaleUserId';
