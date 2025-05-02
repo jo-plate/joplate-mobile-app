@@ -166,10 +166,27 @@ class _PlanCard extends StatelessWidget {
             const SizedBox(height: 8),
             Text('مدة ${plan.days} يوم', style: const TextStyle(fontSize: 16)),
             const SizedBox(height: 16),
-            Text('JOD', style: TextStyle(fontSize: 14, color: Colors.grey.shade600, letterSpacing: 1.2)),
-            Text(
-              '${plan.price}',
-              style: const TextStyle(fontSize: 40, fontWeight: FontWeight.w800, color: kAccent),
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'JOD ',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
+                  TextSpan(
+                    text: '${plan.price}',
+                    style: const TextStyle(
+                      fontSize: 36,
+                      fontWeight: FontWeight.w800,
+                      color: kAccent,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
