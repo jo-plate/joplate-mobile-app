@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
+import 'package:joplate/presentation/widgets/plate_code_picker_field.dart';
 import '../cubit/add_plate_request_cubit.dart';
 import '../cubit/add_plate_request_state.dart';
 import 'package:joplate/presentation/theme.dart';
@@ -15,7 +16,7 @@ class SinglePlateRequestForm extends StatefulWidget {
 }
 
 class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
-  late final TextEditingController codeController;
+  // late final TextEditingController codeController;
   late final TextEditingController numberController;
   // late final TextEditingController priceController;
 
@@ -25,7 +26,7 @@ class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
     final cubit = context.read<AddPlateRequestCubit>();
     final state = cubit.state;
 
-    codeController = TextEditingController(text: state.code);
+    // codeController = TextEditingController(text: state.code);
     numberController = TextEditingController(text: state.number);
     // priceController = TextEditingController(text: state.price ?? '');
   }
@@ -34,7 +35,7 @@ class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final state = context.read<AddPlateRequestCubit>().state;
-    _maybeSyncText(codeController, state.code);
+    // _maybeSyncText(codeController, state.code);
     _maybeSyncText(numberController, state.number);
     // _maybeSyncText(priceController, state.price ?? '');
   }
@@ -70,13 +71,10 @@ class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
                   style: const TextStyle(color: Colors.red),
                 ),
               const SizedBox(height: 8),
-              TextField(
-                controller: codeController,
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(labelText: m.addplaterequest.code),
-                onChanged: cubit.updateCode,
-                maxLength: 2,
+              PlateCodePickerField(
+                value: state.code,
                 enabled: !state.isSubmitting,
+                onChanged: cubit.updateCode,
               ),
               const SizedBox(height: 16),
               TextField(
@@ -87,7 +85,6 @@ class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
                 maxLength: 5,
                 enabled: !state.isSubmitting,
               ),
-
               const SizedBox(height: 16),
               if (state.isSubmitting) const Center(child: CircularProgressIndicator()),
             ],

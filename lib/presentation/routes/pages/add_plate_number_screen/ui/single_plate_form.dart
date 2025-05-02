@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_number_screen/cubit/plate_form_state.dart';
 import 'package:joplate/presentation/theme.dart';
+import 'package:joplate/presentation/widgets/plate_code_picker_field.dart';
 
 /// A single plate form row, with an optional remove button in the top-right corner.
 class SinglePlateForm extends StatefulWidget {
@@ -35,7 +36,6 @@ class SinglePlateForm extends StatefulWidget {
 }
 
 class _SinglePlateFormState extends State<SinglePlateForm> {
-  late final TextEditingController codeController;
   late final TextEditingController numberController;
   late final TextEditingController priceController;
   late final TextEditingController discountController;
@@ -43,7 +43,6 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
   @override
   void initState() {
     super.initState();
-    codeController = TextEditingController(text: widget.formState.code);
     numberController = TextEditingController(text: widget.formState.number);
     priceController = TextEditingController(text: widget.formState.price);
     discountController = TextEditingController(text: widget.formState.discountPrice ?? '');
@@ -55,9 +54,6 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
 
     // If the underlying cubit state changes from outside the text field,
     // we can sync controllers with the new data:
-    if (oldWidget.formState.code != widget.formState.code && codeController.text != widget.formState.code) {
-      _updateControllerText(codeController, widget.formState.code);
-    }
     if (oldWidget.formState.number != widget.formState.number && numberController.text != widget.formState.number) {
       _updateControllerText(numberController, widget.formState.number);
     }
@@ -101,13 +97,10 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 if (hasError) Text(errorText, style: const TextStyle(color: Colors.red)),
-                TextField(
-                  controller: codeController,
+                PlateCodePickerField(
+                  value: widget.formState.code,
+                  enabled: !widget.formState.isSubmitting,
                   onChanged: widget.onCodeChanged,
-                  maxLength: 2,
-                  keyboardType: TextInputType.text,
-                  enabled: !isSubmitting,
-                  decoration: InputDecoration(labelText: m.addplate.code),
                 ),
                 const SizedBox(height: 16),
                 TextField(
@@ -124,8 +117,8 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
                   onChanged: widget.onPriceChanged,
                   keyboardType: TextInputType.number,
                   enabled: !isSubmitting,
-                  decoration:
-                      InputDecoration(labelText: widget.formState.withDiscount ? m.addplate.price_before_discount : m.addplate.price),
+                  decoration: InputDecoration(
+                      labelText: widget.formState.withDiscount ? m.addplate.price_before_discount : m.addplate.price),
                 ),
                 const SizedBox(height: 16),
                 Row(
@@ -155,7 +148,6 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
                       value: widget.formState.isFeatured,
                       onChanged: isSubmitting ? null : widget.onFeaturedToggle,
                     ),
-                    
                   ],
                 ),
                 if (isSubmitting) const Center(child: CircularProgressIndicator()),
