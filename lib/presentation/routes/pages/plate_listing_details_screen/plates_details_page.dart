@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phone_dialer/flutter_phone_dialer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
@@ -305,7 +304,7 @@ class _SellerDetailsState extends State<SellerDetails> {
                         ),
                         child: InkWell(
                           onTap: () {
-                            launchUrlString("https://wa.me/${userProfile.phonenumber}",
+                            launchUrlString("https://wa.me/962${userProfile.phonenumber.substring(1)}",
                                 mode: LaunchMode.externalApplication);
                           },
                           borderRadius: BorderRadius.circular(8),
@@ -340,8 +339,13 @@ class _SellerDetailsState extends State<SellerDetails> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: InkWell(
-                          onTap: () {
-                            FlutterPhoneDialer.dialNumber('tel:+962${userProfile.phonenumber}');
+                          onTap: () async {
+                            final uri = 'tel:+962${userProfile.phonenumber.substring(1)}';
+                            if (await canLaunchUrlString(uri)) {
+                              await launchUrlString(uri);
+                            } else {
+                              throw 'Could not launch dialer';
+                            }
                           },
                           borderRadius: BorderRadius.circular(8),
                           child: Row(
@@ -577,13 +581,20 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
                 _iconButton(
                   color: Colors.green,
                   icon: FontAwesomeIcons.whatsapp,
-                  onPressed: () => launchUrlString("https://wa.me/$phoneNumber"),
+                  onPressed: () => launchUrlString("https://wa.me/962${phoneNumber.substring(1)}"),
                 ),
                 const SizedBox(width: 8),
                 _iconButton(
                   color: const Color(0xFF981C1E),
                   icon: Icons.phone,
-                  onPressed: () => FlutterPhoneDialer.dialNumber(phoneNumber),
+                  onPressed: () async {
+                    final uri = 'tel:+962${phoneNumber.substring(1)}';
+                    if (await canLaunchUrlString(uri)) {
+                      await launchUrlString(uri);
+                    } else {
+                      throw 'Could not launch dialer';
+                    }
+                  },
                 ),
               ],
             ),

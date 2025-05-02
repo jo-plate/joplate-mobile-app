@@ -1,4 +1,3 @@
-import 'package:joplate/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 class LogoSection extends StatelessWidget {

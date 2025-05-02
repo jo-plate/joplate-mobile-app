@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phone_dialer/flutter_phone_dialer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
@@ -191,7 +190,6 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
             if (userProfile == null) {
               return const Text('User not found');
             }
-            print(userProfile);
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -231,7 +229,7 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
                     Expanded(
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          launchUrlString("https://wa.me/${userProfile.phonenumber}",
+                          launchUrlString("https://wa.me/962${userProfile.phonenumber.substring(1)}",
                               mode: LaunchMode.externalApplication);
                         },
                         style: ElevatedButton.styleFrom(
@@ -256,8 +254,13 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
                     // Phone Call Button
                     Expanded(
                       child: ElevatedButton.icon(
-                        onPressed: () {
-                          FlutterPhoneDialer.dialNumber(userProfile.phonenumber);
+                        onPressed: () async {
+                          final uri = 'tel:+962${userProfile.phonenumber.substring(1)}';
+                          if (await canLaunchUrlString(uri)) {
+                            await launchUrlString(uri);
+                          } else {
+                            throw 'Could not launch dialer';
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 12),

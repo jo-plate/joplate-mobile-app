@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phone_dialer/flutter_phone_dialer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
@@ -161,7 +160,7 @@ class _SellerDetailsState extends State<SellerDetails> {
                         ),
                         child: InkWell(
                           onTap: () {
-                            launchUrlString("https://wa.me/${userProfile.phonenumber}",
+                            launchUrlString("https://wa.me/962${userProfile.phonenumber.substring(1)}",
                                 mode: LaunchMode.externalApplication);
                           },
                           borderRadius: BorderRadius.circular(8),
@@ -196,8 +195,13 @@ class _SellerDetailsState extends State<SellerDetails> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: InkWell(
-                          onTap: () {
-                            FlutterPhoneDialer.dialNumber(userProfile.phonenumber);
+                          onTap: () async {
+                            final uri = 'tel:+962${userProfile.phonenumber.substring(1)}';
+                            if (await canLaunchUrlString(uri)) {
+                              await launchUrlString(uri);
+                            } else {
+                              throw 'Could not launch dialer';
+                            }
                           },
                           borderRadius: BorderRadius.circular(8),
                           child: Row(
@@ -219,135 +223,6 @@ class _SellerDetailsState extends State<SellerDetails> {
                               ),
                             ],
                           ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            );
-          }),
-    );
-  }
-}
-
-class RequestedByWidgget extends StatefulWidget {
-  const RequestedByWidgget({super.key, required this.userId});
-  final String userId;
-
-  @override
-  State<RequestedByWidgget> createState() => _RequestedByWidggetState();
-}
-
-class _RequestedByWidggetState extends State<RequestedByWidgget> {
-  late final Stream<UserProfile> userProfileStream;
-
-  @override
-  void initState() {
-    super.initState();
-    userProfileStream =
-        FirebaseFirestore.instance.collection(userProfileCollectionId).doc(widget.userId).snapshots().map((snapshot) {
-      return UserProfile.fromJson(snapshot.data() ?? {});
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            blurRadius: 5,
-            spreadRadius: 2,
-          ),
-        ],
-      ),
-      child: StreamBuilder<UserProfile>(
-          stream: userProfileStream,
-          builder: (context, snapshot) {
-            final userProfile = snapshot.data;
-            if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-
-            if (userProfile == null) {
-              return const Text('User not found');
-            }
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Requested by',
-                  style: TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      radius: 25,
-                      child: Icon(Icons.person, color: Colors.white),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        userProfile.displayName,
-                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          launchUrlString("https://wa.me/${userProfile.phonenumber}",
-                              mode: LaunchMode.externalApplication);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                        icon: const FaIcon(
-                          FontAwesomeIcons.whatsapp,
-                          color: Colors.white,
-                        ),
-                        label: const Text(
-                          'Whatsapp',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-
-                    // Phone Call Button
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          FlutterPhoneDialer.dialNumber(userProfile.phonenumber);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                        icon: const Icon(Icons.phone, color: Colors.white),
-                        label: Text(
-                          userProfile.phonenumber,
-                          style: const TextStyle(color: Colors.white, fontSize: 14),
                         ),
                       ),
                     ),
