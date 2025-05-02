@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
+import 'package:joplate/domain/dto/feature_listing_dto.dart';
 import 'package:joplate/domain/entities/user_plans.dart';
 import 'package:joplate/presentation/widgets/icons/plan_icon.dart';
 import 'feature_plan_dialog.dart';
@@ -44,15 +45,15 @@ class _PromotePromptDialogState extends State<PromotePromptDialog> {
   Future<void> _useGoldenTicket() async {
     setState(() => submitting = true);
 
-    final dto = {
-      'listingId': widget.listingId,
-      'itemType': widget.itemType.name,
-      'goldenTicket': true,
-    };
+    final dto = FeatureListingDto(
+      listingId: widget.listingId,
+      itemType: widget.itemType.name,
+      goldenTicket: true,
+    );
 
     try {
       final callable = FirebaseFunctions.instance.httpsCallable(featureListingCF);
-      await callable.call(dto);
+      await callable.call(dto.toJson());
 
       if (mounted) {
         Navigator.of(context).pop();
