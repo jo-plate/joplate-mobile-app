@@ -117,6 +117,8 @@ class _ProfileBannerState extends State<ProfileBanner> {
                         StreamBuilder<UserPlans>(
                             stream: userPlansStream,
                             builder: (context, snapshot) {
+                              print(snapshot.data);
+                              print(snapshot.error);
                               if (snapshot.connectionState == ConnectionState.waiting) {
                                 return const CircularProgressIndicator();
                               }

@@ -136,7 +136,11 @@ class _SellerDetailsState extends State<SellerDetails> {
                                 ),
                               ),
                               const SizedBox(width: 6),
-                              Icon(Icons.verified, color: Colors.blue.shade600),
+                              Icon(
+                                Icons.verified,
+                                color: Colors.blue.shade600,
+                                size: 20,
+                              ),
                             ],
                           ),
                           const SizedBox(height: 4),

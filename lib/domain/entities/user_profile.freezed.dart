@@ -14,6 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+UserProfile _$UserProfileFromJson(Map<String, dynamic> json) {
+  return _UserProfile.fromJson(json);
+}
+
 /// @nodoc
 mixin _$UserProfile {
   String get displayName => throw _privateConstructorUsedError;
@@ -22,6 +26,9 @@ mixin _$UserProfile {
   String get email => throw _privateConstructorUsedError;
   String get phonenumber => throw _privateConstructorUsedError;
   bool get isVerified => throw _privateConstructorUsedError;
+
+  /// Serializes this UserProfile to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of UserProfile
   /// with the given fields replaced by the non-null parameter values.
@@ -163,7 +170,7 @@ class __$$UserProfileImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$UserProfileImpl extends _UserProfile {
   const _$UserProfileImpl(
       {this.displayName = 'Guest',
@@ -173,6 +180,9 @@ class _$UserProfileImpl extends _UserProfile {
       this.phonenumber = '',
       this.isVerified = false})
       : super._();
+
+  factory _$UserProfileImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserProfileImplFromJson(json);
 
   @override
   @JsonKey()
@@ -214,6 +224,7 @@ class _$UserProfileImpl extends _UserProfile {
                 other.isVerified == isVerified));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, displayName, name, id, email, phonenumber, isVerified);
@@ -225,6 +236,13 @@ class _$UserProfileImpl extends _UserProfile {
   @pragma('vm:prefer-inline')
   _$$UserProfileImplCopyWith<_$UserProfileImpl> get copyWith =>
       __$$UserProfileImplCopyWithImpl<_$UserProfileImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UserProfileImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _UserProfile extends UserProfile {
@@ -236,6 +254,9 @@ abstract class _UserProfile extends UserProfile {
       final String phonenumber,
       final bool isVerified}) = _$UserProfileImpl;
   const _UserProfile._() : super._();
+
+  factory _UserProfile.fromJson(Map<String, dynamic> json) =
+      _$UserProfileImpl.fromJson;
 
   @override
   String get displayName;

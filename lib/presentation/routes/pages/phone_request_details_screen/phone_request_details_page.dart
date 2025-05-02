@@ -157,7 +157,8 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
     super.initState();
     userProfileStream =
         FirebaseFirestore.instance.collection(userProfileCollectionId).doc(widget.userId).snapshots().map((snapshot) {
-      return UserProfile.fromJson(snapshot.data() ?? {});
+      print(snapshot.data());
+      return UserProfile.fromSnapshot(snapshot);
     });
   }
 
@@ -190,6 +191,7 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
             if (userProfile == null) {
               return const Text('User not found');
             }
+            print(userProfile);
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -212,7 +214,12 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
                           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(width: 6),
-                        if (userProfile.isVerified) Icon(Icons.verified, color: Colors.blue.shade600),
+                        if (userProfile.isVerified)
+                          Icon(
+                            Icons.verified,
+                            color: Colors.blue.shade600,
+                            size: 20,
+                          ),
                       ],
                     ),
                   ],

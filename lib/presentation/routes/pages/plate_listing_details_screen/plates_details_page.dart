@@ -280,7 +280,12 @@ class _SellerDetailsState extends State<SellerDetails> {
                                     color: Color(0xFF2C3E50),
                                   )),
                               const SizedBox(width: 6),
-                              if (userProfile.isVerified) Icon(Icons.verified, color: Colors.blue.shade600),
+                              if (userProfile.isVerified)
+                                Icon(
+                                  Icons.verified,
+                                  color: Colors.blue.shade600,
+                                  size: 20,
+                                ),
                             ],
                           ),
                         ],
