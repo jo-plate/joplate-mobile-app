@@ -86,6 +86,7 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
                     item: snapshot.data!,
                     priceLabelFontSize: 24,
                     aspectRatio: 1.5,
+                    disabled: true,
                   ),
                   const SizedBox(height: 16),
                   RequestedByWidgget(userId: snapshot.data!.userId),

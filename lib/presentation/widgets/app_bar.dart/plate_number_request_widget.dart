@@ -8,12 +8,14 @@ class PlateNumberRequestWidget extends StatelessWidget {
   final PlateRequest item;
   final PlateShape shape;
   final double priceLabelFontSize;
+  final bool disabled;
   final bool hideLikeButton;
 
   const PlateNumberRequestWidget(
       {super.key,
       required this.item,
       this.shape = PlateShape.horizontal,
+      this.disabled = false,
       this.priceLabelFontSize = 16,
       this.hideLikeButton = false});
 
@@ -24,10 +26,11 @@ class PlateNumberRequestWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: GestureDetector(
-        onTap: () {
-          AutoRouter.of(context)
-              .push(PlateRequestDetailsRoute(requestId: item.id));
-        },
+        onTap: disabled || item.isDisabled
+            ? null
+            : () {
+                AutoRouter.of(context).push(PlateRequestDetailsRoute(requestId: item.id));
+              },
         child: Stack(
           fit: StackFit.passthrough,
           clipBehavior: Clip.hardEdge,

@@ -98,13 +98,11 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      height: 160,
-                      child: PlateNumberRequestWidget(
-                        item: snapshot.data!,
-                        hideLikeButton: true,
-                        priceLabelFontSize: 24,
-                      ),
+                    PlateNumberRequestWidget(
+                      item: snapshot.data!,
+                      disabled: true,
+                      hideLikeButton: true,
+                      priceLabelFontSize: 24,
                     ),
                     const SizedBox(height: 20),
                     RequestedByWidgget(userId: snapshot.data!.userId),

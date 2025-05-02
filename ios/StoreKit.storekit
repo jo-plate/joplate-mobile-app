@@ -43,6 +43,21 @@
       "productID" : "twenty_five_normal_tickets_two_golden_tickets",
       "referenceName" : "twenty_five_normal_tickets_two_golden_tickets",
       "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "93F54521",
+      "localizations" : [
+        {
+          "description" : "",
+          "displayName" : "",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "10_tickets",
+      "referenceName" : "10_tickets",
+      "type" : "Consumable"
     }
   ],
   "settings" : {

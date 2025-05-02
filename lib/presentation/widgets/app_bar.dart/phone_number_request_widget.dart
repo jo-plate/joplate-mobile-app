@@ -8,21 +8,25 @@ class PhoneNumberRequestWidget extends StatelessWidget {
   final PhoneRequest item;
   final double aspectRatio;
   final double priceLabelFontSize;
+  final bool disabled;
 
   const PhoneNumberRequestWidget({
     super.key,
     required this.item,
     this.aspectRatio = 1.5,
     this.priceLabelFontSize = 16,
+    this.disabled = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: GestureDetector(
-        onTap: () {
-          AutoRouter.of(context).push(PhoneRequestDetailsRoute(phoneNumberRequestId: item.id));
-        },
+        onTap: disabled || item.isDisabled
+            ? null
+            : () {
+                AutoRouter.of(context).push(PhoneRequestDetailsRoute(phoneNumberRequestId: item.id));
+              },
         child: Stack(
           fit: StackFit.passthrough,
           clipBehavior: Clip.hardEdge,

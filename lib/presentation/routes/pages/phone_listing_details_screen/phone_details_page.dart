@@ -118,6 +118,7 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
                   item: phone,
                   hideLikeButton: true,
                   priceLabelFontSize: 24,
+                  disabled: true,
                 ),
                 if (FirebaseAuth.instance.currentUser?.uid == phone.userId && !phone.isFeatured) ...[
                   const SizedBox(

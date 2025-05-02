@@ -31,7 +31,7 @@ class PlateNumberListingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: GestureDetector(
-        onTap: disabled
+        onTap: disabled || item.isExpired || item.isDisabled
             ? null
             : () {
                 AutoRouter.of(context).push(PlatesDetailsRoute(listingId: item.id));
@@ -83,7 +83,7 @@ class PlateNumberListingWidget extends StatelessWidget {
                 ],
               ),
             ),
-            if (item.isSold)
+            if (item.isSold || item.isExpired || item.isDisabled)
               Positioned.fill(
                 child: Container(
                   decoration: BoxDecoration(

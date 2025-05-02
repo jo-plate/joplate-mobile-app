@@ -27,7 +27,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: GestureDetector(
-        onTap: disabled
+        onTap: disabled || item.isExpired || item.isDisabled
             ? null
             : () {
                 AutoRouter.of(context).push(
@@ -75,8 +75,15 @@ class PhoneNumberListingWidget extends StatelessWidget {
                 ],
               ),
             ),
-
-            // Ribbons
+            if (item.isSold || item.isExpired)
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.75),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
             if (item.isFeatured) _buildFeaturedRibbon(context),
             if (item.isSold) _buildSoldRibbon(context),
           ],
