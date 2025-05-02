@@ -205,11 +205,15 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
                       child: Icon(Icons.person, color: Colors.white),
                     ),
                     const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        userProfile.displayName,
-                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          userProfile.displayName,
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(width: 6),
+                        if (userProfile.isVerified) Icon(Icons.verified, color: Colors.blue.shade600),
+                      ],
                     ),
                   ],
                 ),

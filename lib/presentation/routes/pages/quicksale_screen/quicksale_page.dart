@@ -15,10 +15,10 @@ class QuicksalePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final m=Localization.of(context);
+    final m = Localization.of(context);
     return Scaffold(
       appBar: AppBar(
-        title:  Text(m.quicksale.title),
+        title: Text(m.quicksale.title),
       ),
       body: const SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
@@ -57,7 +57,7 @@ class _SellerDetailsState extends State<SellerDetails> {
 
   @override
   Widget build(BuildContext context) {
-        final m=Localization.of(context);
+    final m = Localization.of(context);
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
@@ -89,7 +89,7 @@ class _SellerDetailsState extends State<SellerDetails> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                 Row(
+                Row(
                   children: [
                     const SizedBox(width: 12),
                     Expanded(
@@ -124,13 +124,20 @@ class _SellerDetailsState extends State<SellerDetails> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            userProfile.displayName,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF2C3E50),
-                            ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                userProfile.displayName,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF2C3E50),
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              Icon(Icons.verified, color: Colors.blue.shade600),
+                            ],
                           ),
                           const SizedBox(height: 4),
                         ],

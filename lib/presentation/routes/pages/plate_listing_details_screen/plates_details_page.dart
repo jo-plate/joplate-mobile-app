@@ -270,13 +270,18 @@ class _SellerDetailsState extends State<SellerDetails> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            userProfile.displayName,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF2C3E50),
-                            ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(userProfile.displayName,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF2C3E50),
+                                  )),
+                              const SizedBox(width: 6),
+                              if (userProfile.isVerified) Icon(Icons.verified, color: Colors.blue.shade600),
+                            ],
                           ),
                         ],
                       ),

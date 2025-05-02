@@ -99,9 +99,19 @@ class _ProfileBannerState extends State<ProfileBanner> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          profile?.name.isNotEmpty == true ? profile?.name ?? 'Guest' : profile?.displayName ?? 'Guest',
-                          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              profile?.name.isNotEmpty == true
+                                  ? profile?.name ?? 'Guest'
+                                  : profile?.displayName ?? 'Guest',
+                              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                            ),
+                            const SizedBox(width: 6),
+                            if (profile?.isVerified ?? false) Icon(Icons.verified, color: Colors.blue.shade600),
+                          ],
                         ),
                         const SizedBox(height: 10),
                         StreamBuilder<UserPlans>(
