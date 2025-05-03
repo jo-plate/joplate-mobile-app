@@ -1,4 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:ui';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/injection/dependencies.dart';
@@ -23,9 +24,13 @@ void main() async {
   );
   await DependencyManager.inject();
 
-  // COMMENT IN PROD
-  // if (kDebugMode) await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-  print(await FirebaseAuth.instance.currentUser?.getIdToken(false));
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
+
   runApp(const MyApp());
 }
 
@@ -52,7 +57,8 @@ class MyApp extends StatelessWidget {
             // 3) Wrap entire app in a Directionality + an InheritedWidget
             builder: (ctx, widget) {
               return Directionality(
-                textDirection: isEnglish ? TextDirection.ltr : TextDirection.rtl,
+                textDirection:
+                    isEnglish ? TextDirection.ltr : TextDirection.rtl,
                 child: LocalizationProvider(
                   messages: messages,
                   child: widget!,
