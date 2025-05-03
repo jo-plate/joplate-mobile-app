@@ -127,7 +127,7 @@ class PlateNumberListingWidget extends StatelessWidget {
             maxLines: 1,
           ),
           Text(
-            '${formatPrice(item.price)}',
+            formatPrice(item.price),
             style: TextStyle(
               fontSize: priceLabelFontSize * 0.875,
               fontWeight: FontWeight.w600,

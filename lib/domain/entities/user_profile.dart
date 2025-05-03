@@ -27,6 +27,7 @@ class UserProfile with _$UserProfile {
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => _$UserProfileFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,

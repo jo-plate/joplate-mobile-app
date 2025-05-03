@@ -7,7 +7,7 @@ const plansCollectionId = 'plans';
 const userPlansCollectionId = 'userPlans';
 const carPlatesCollectionId = 'platesListings';
 const phoneNumbersCollectionId = 'phoneNumbers';
-
+const quicksaleProfilesCollectionId = 'quicksaleProfiles';
 // cloud functions
 const signupCF = 'signUpUser';
 const createListingCF = 'createListingV2';
