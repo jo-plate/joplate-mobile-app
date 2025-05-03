@@ -96,6 +96,7 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
                         listingId: widget.listingId,
                         itemType: ItemType.phoneNumber, // or ItemType.phoneNumber, etc.
                         listingType: ListingType.ad, // or ListingType.request
+                        phoneNumber: phone.item,
                       ),
                     );
                   },

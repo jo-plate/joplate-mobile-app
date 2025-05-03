@@ -70,6 +70,7 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
                           listingId: widget.phoneNumberRequestId,
                           itemType: ItemType.plateNumber, // or ItemType.phoneNumber, etc.
                           listingType: ListingType.request,
+                          phoneNumber: snapshot.data!.item,
                         ),
                       );
                     },

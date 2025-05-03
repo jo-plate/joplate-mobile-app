@@ -1,4 +1,6 @@
 import 'dart:ui';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,7 +67,12 @@ class MyApp extends StatelessWidget {
                 ),
               );
             },
-            routerConfig: AppRouter().config(),
+            routerConfig: AppRouter().config(
+              navigatorObservers: () => [
+                FirebaseAnalyticsObserver(
+                    analytics: FirebaseAnalytics.instance),
+              ],
+            ),
           );
         },
       ),

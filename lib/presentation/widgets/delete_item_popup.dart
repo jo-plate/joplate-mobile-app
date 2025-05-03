@@ -1,8 +1,12 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/dto/delete_item_dto.dart';
+import 'package:joplate/domain/entities/phone_number.dart';
+import 'package:joplate/domain/entities/plate_number.dart';
+import 'package:joplate/injection/injector.dart';
 
 class DeleteListingDialog extends StatefulWidget {
   const DeleteListingDialog({
@@ -10,11 +14,15 @@ class DeleteListingDialog extends StatefulWidget {
     required this.listingId,
     required this.itemType,
     required this.listingType,
+    this.phoneNumber,
+    this.plateNumber,
   });
 
   final String listingId;
   final ItemType itemType;
   final ListingType listingType;
+  final PhoneNumber? phoneNumber;
+  final PlateNumber? plateNumber;
 
   @override
   State<DeleteListingDialog> createState() => _DeleteListingDialogState();
@@ -23,6 +31,7 @@ class DeleteListingDialog extends StatefulWidget {
 class _DeleteListingDialogState extends State<DeleteListingDialog> {
   bool markAsSold = false;
   bool submitting = false;
+  FirebaseAnalytics analytics = injector();
 
   Future<void> _submit() async {
     setState(() => submitting = true);
@@ -40,6 +49,31 @@ class _DeleteListingDialogState extends State<DeleteListingDialog> {
 
       if (context.mounted) {
         Navigator.of(context).pop(); // close dialog
+        if (markAsSold) {
+          analytics.logEvent(
+            name: 'listing_sold',
+            parameters: {
+              'listing_id': widget.listingId,
+              'item_type': widget.itemType.name,
+              'listing_type': widget.listingType.name,
+              'item': widget.itemType == ItemType.phoneNumber
+                  ? widget.phoneNumber!.toString()
+                  : widget.plateNumber!.toString(),
+            },
+          );
+        } else {
+          analytics.logEvent(
+            name: 'listing_deleted',
+            parameters: {
+              'listing_id': widget.listingId,
+              'item_type': widget.itemType.name,
+              'listing_type': widget.listingType.name,
+              'item': widget.itemType == ItemType.phoneNumber
+                  ? widget.phoneNumber!.toString()
+                  : widget.plateNumber!.toString(),
+            },
+          );
+        }
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Listing deleted successfully')),
         );
@@ -63,7 +97,8 @@ class _DeleteListingDialogState extends State<DeleteListingDialog> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text('This action is irreversible. Do you really want to delete this listing?'),
+          const Text(
+              'This action is irreversible. Do you really want to delete this listing?'),
           const SizedBox(height: 12),
           CheckboxListTile(
             dense: true,

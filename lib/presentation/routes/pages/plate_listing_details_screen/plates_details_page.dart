@@ -88,6 +88,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                             listingId: widget.listingId,
                             itemType: ItemType.plateNumber, // or ItemType.phoneNumber, etc.
                             listingType: ListingType.ad, // or ListingType.request
+                            plateNumber: snapshot.data!.item,
                           ),
                         );
                       },

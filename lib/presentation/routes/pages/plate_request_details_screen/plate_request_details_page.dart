@@ -12,12 +12,14 @@ import 'package:joplate/presentation/widgets/delete_item_popup.dart';
 
 @RoutePage()
 class PlateRequestDetailsPage extends StatefulWidget {
-  const PlateRequestDetailsPage({super.key, @PathParam('requestId') required this.requestId});
+  const PlateRequestDetailsPage(
+      {super.key, @PathParam('requestId') required this.requestId});
 
   final String requestId;
 
   @override
-  State<PlateRequestDetailsPage> createState() => _PlateRequestDetailsPageState();
+  State<PlateRequestDetailsPage> createState() =>
+      _PlateRequestDetailsPageState();
 }
 
 class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
@@ -40,7 +42,10 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Padding(
-              padding: EdgeInsets.only(left: 24.0, right: 24, top: MediaQuery.of(context).size.height / 4),
+              padding: EdgeInsets.only(
+                  left: 24.0,
+                  right: 24,
+                  top: MediaQuery.of(context).size.height / 4),
               child: Text(
                 'Error getteing data for Request',
                 textAlign: TextAlign.center,
@@ -70,11 +75,13 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
               appBar: AppBar(
                 title: const Text('Plate Request Details'),
                 actions: [
-                  if (FirebaseAuth.instance.currentUser?.uid == snapshot.data!.userId) ...[
+                  if (FirebaseAuth.instance.currentUser?.uid ==
+                      snapshot.data!.userId) ...[
                     IconButton(
                       icon: const Icon(Icons.edit),
                       onPressed: () {
-                        context.router.push(EditPlateRequestRoute(request: snapshot.data!));
+                        context.router.push(
+                            EditPlateRequestRoute(request: snapshot.data!));
                       },
                     ),
                     IconButton(
@@ -84,8 +91,11 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
                           context: context,
                           builder: (_) => DeleteListingDialog(
                             listingId: widget.requestId,
-                            itemType: ItemType.plateNumber, // or ItemType.phoneNumber, etc.
-                            listingType: ListingType.request, // or ListingType.request
+                            itemType: ItemType
+                                .plateNumber, // or ItemType.phoneNumber, etc.
+                            listingType:
+                                ListingType.request, // or ListingType.request
+                            plateNumber: snapshot.data!.item,
                           ),
                         );
                       },
@@ -94,7 +104,8 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
                 ],
               ),
               body: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0, vertical: 10.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -117,7 +128,8 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
                         children: [
                           Text(
                             'Important Note:',
-                            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 10),
                           Row(
