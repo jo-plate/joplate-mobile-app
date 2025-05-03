@@ -1,14 +1,13 @@
-// lib/presentation/routes/pages/add_phone_request_screen/cubit/add_phone_request_cubit.dart
-
 import 'package:bloc/bloc.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'phone_request_state.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/data/constants.dart';
 
 class AddPhoneRequestCubit extends Cubit<PhoneRequestState> {
   AddPhoneRequestCubit() : super(const PhoneRequestState());
-
+  final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
   // Update phone number text (required field)
   void updatePhoneNumber(String phoneNumber) {
     emit(state.copyWith(
@@ -37,11 +36,13 @@ class AddPhoneRequestCubit extends Cubit<PhoneRequestState> {
 
     try {
       // Convert optional price
-      final priceVal = (state.price?.isNotEmpty == true) ? double.tryParse(state.price!) : 0.0;
+      final priceVal = (state.price?.isNotEmpty == true)
+          ? double.tryParse(state.price!)
+          : 0.0;
 
       final addListingDto = AddListingDto(
         price: priceVal ?? 0.0,
-        discountPrice: 0, 
+        discountPrice: 0,
         listingType: ListingType.request,
         itemType: ItemType.phoneNumber,
         isFeatured: false,
@@ -54,8 +55,14 @@ class AddPhoneRequestCubit extends Cubit<PhoneRequestState> {
       final response = await callable.call(addListingDto.toJson());
 
       if (response.data != null && response.data['success'] == true) {
-        // success -> reset the form
         emit(const PhoneRequestState());
+        _analytics.logEvent(
+          name: 'added_phone_request',
+          parameters: {
+            'phoneNumber': state.phoneNumber,
+            'price': priceVal ?? 0,
+          },
+        );
       } else {
         emit(state.copyWith(
           isSubmitting: false,

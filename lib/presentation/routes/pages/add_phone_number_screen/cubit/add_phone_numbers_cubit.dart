@@ -1,16 +1,15 @@
-// lib/presentation/routes/pages/add_phone_number_screen/cubit/add_phone_numbers_cubit.dart
-
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'phone_form_state.dart'; // import the freezed classes
+import 'package:joplate/injection/injector.dart';
+import 'phone_form_state.dart';
 import 'package:joplate/domain/dto/add_number_input.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/data/constants.dart';
 
-
 class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
   AddPhoneNumbersCubit() : super(const AddPhoneNumbersState(forms: []));
-
+  FirebaseAnalytics get analytics => injector<FirebaseAnalytics>();
   void addNewForm() {
     const newForm = PhoneFormState(
       number: '',
@@ -84,7 +83,6 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
     );
   }
 
-  /// Submit all forms in sequence, with callbacks
   Future<void> submitAllForms({
     required void Function(String listingId) onSuccess,
     required void Function(String errorMessage) onError,
@@ -95,7 +93,8 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
       final form = forms[i];
 
       if (form.number.isEmpty || form.price.isEmpty) {
-        forms[i] = form.copyWith(errorMessage: 'Please fill all required fields');
+        forms[i] =
+            form.copyWith(errorMessage: 'Please fill all required fields');
         emit(state.copyWith(forms: forms));
         continue;
       }
@@ -106,7 +105,9 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
       final input = AddPhoneNumberInput(
         number: form.number,
         price: double.parse(form.price),
-        discountPrice: form.withDiscount ? double.tryParse(form.discountPrice ?? '') : null,
+        discountPrice: form.withDiscount
+            ? double.tryParse(form.discountPrice ?? '')
+            : null,
       );
 
       final addListingDto = AddListingDto(
@@ -119,12 +120,24 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
       );
 
       try {
-        final callable = FirebaseFunctions.instance.httpsCallable(createListingCF);
+        final callable =
+            FirebaseFunctions.instance.httpsCallable(createListingCF);
         final response = await callable.call(addListingDto.toJson());
 
         if (response.data != null && response.data['success'] == true) {
           final id = response.data['listingId'] as String;
           onSuccess(id);
+          analytics.logEvent(
+            name: 'added_phone_number_ad',
+            parameters: {
+              'listingId': id,
+              'number': input.number,
+              'price': input.price,
+              'discountPrice': input.discountPrice ?? 0,
+              'isFeatured': form.isFeatured,
+            },
+          );
+
           forms.removeAt(i);
           i--;
         } else {

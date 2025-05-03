@@ -1,7 +1,9 @@
 // lib/presentation/routes/pages/add_plate_number_screen/cubit/add_plate_numbers_cubit.dart
 
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:joplate/injection/injector.dart';
 import 'plate_form_state.dart';
 import 'package:joplate/domain/dto/add_number_input.dart'; // Suppose you have an AddPlateNumberInput
 import 'package:joplate/domain/dto/add_listing_dto.dart';
@@ -9,6 +11,7 @@ import 'package:joplate/data/constants.dart';
 
 class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
   AddPlateNumbersCubit() : super(const AddPlateNumbersState(forms: []));
+  final FirebaseAnalytics _analytics = injector();
 
   /// Add a blank plate form
   void addNewForm() {
@@ -36,19 +39,23 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
 
   // Update fields
   void updateCode(int index, String newCode) {
-    _updateForm(index, state.forms[index].copyWith(code: newCode, errorMessage: null));
+    _updateForm(
+        index, state.forms[index].copyWith(code: newCode, errorMessage: null));
   }
 
   void updateNumber(int index, String newNumber) {
-    _updateForm(index, state.forms[index].copyWith(number: newNumber, errorMessage: null));
+    _updateForm(index,
+        state.forms[index].copyWith(number: newNumber, errorMessage: null));
   }
 
   void updatePrice(int index, String newPrice) {
-    _updateForm(index, state.forms[index].copyWith(price: newPrice, errorMessage: null));
+    _updateForm(index,
+        state.forms[index].copyWith(price: newPrice, errorMessage: null));
   }
 
   void toggleFeatured(int index, bool enable) {
-    _updateForm(index, state.forms[index].copyWith(isFeatured: enable, errorMessage: null));
+    _updateForm(index,
+        state.forms[index].copyWith(isFeatured: enable, errorMessage: null));
   }
 
   void toggleDiscount(int index, bool enable) {
@@ -64,7 +71,10 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
   }
 
   void updateDiscountPrice(int index, String discount) {
-    _updateForm(index, state.forms[index].copyWith(discountPrice: discount, errorMessage: null));
+    _updateForm(
+        index,
+        state.forms[index]
+            .copyWith(discountPrice: discount, errorMessage: null));
   }
 
   /// Submit all forms in sequence, with callbacks
@@ -79,7 +89,8 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
 
       // Basic validation
       if (form.code.isEmpty || form.number.isEmpty || form.price.isEmpty) {
-        forms[i] = form.copyWith(errorMessage: 'Please fill all required fields');
+        forms[i] =
+            form.copyWith(errorMessage: 'Please fill all required fields');
         emit(state.copyWith(forms: forms));
         continue;
       }
@@ -92,7 +103,9 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
         code: form.code,
         number: form.number,
         price: double.parse(form.price),
-        discountPrice: form.withDiscount ? double.tryParse(form.discountPrice ?? '') : null,
+        discountPrice: form.withDiscount
+            ? double.tryParse(form.discountPrice ?? '')
+            : null,
         isFeatured: form.isFeatured,
       );
 
@@ -109,12 +122,24 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
       );
 
       try {
-        final callable = FirebaseFunctions.instance.httpsCallable(createListingCF);
+        final callable =
+            FirebaseFunctions.instance.httpsCallable(createListingCF);
         final response = await callable.call(addListingDto.toJson());
 
         if (response.data != null && response.data['success'] == true) {
           final id = response.data['listingId'] as String;
           onSuccess(id);
+          _analytics.logEvent(
+            name: 'add_plate_number_ad',
+            parameters: {
+              'listing_id': id,
+              'code': input.code,
+              'number': input.number,
+              'price': input.price,
+              'discount_price': input.discountPrice ?? 0,
+              'is_featured': input.isFeatured,
+            },
+          );
           forms.removeAt(i);
           i--;
         } else {

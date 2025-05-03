@@ -1,4 +1,5 @@
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'add_plate_request_state.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
@@ -6,6 +7,7 @@ import 'package:joplate/data/constants.dart';
 
 class AddPlateRequestCubit extends Cubit<PlateRequestState> {
   AddPlateRequestCubit() : super(const PlateRequestState());
+  final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
 
   void updateCode(String code) {
     emit(state.copyWith(code: code, errorMessage: null));
@@ -28,7 +30,9 @@ class AddPlateRequestCubit extends Cubit<PlateRequestState> {
     emit(state.copyWith(isSubmitting: true, errorMessage: null));
 
     try {
-      final priceVal = (state.price?.isNotEmpty == true) ? double.tryParse(state.price!) : 0.0;
+      final priceVal = (state.price?.isNotEmpty == true)
+          ? double.tryParse(state.price!)
+          : 0.0;
 
       final dto = AddListingDto(
         price: priceVal ?? 0.0,
@@ -47,6 +51,13 @@ class AddPlateRequestCubit extends Cubit<PlateRequestState> {
 
       if (response.data != null && response.data['success'] == true) {
         emit(const PlateRequestState());
+        _analytics.logEvent(
+          name: 'added_plate_request',
+          parameters: {
+            'plate': '${state.code}-${state.number}',
+            'listing_id': response.data['listingId'],
+          },
+        );
       } else {
         emit(state.copyWith(
           isSubmitting: false,
