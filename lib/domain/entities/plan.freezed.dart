@@ -21,8 +21,7 @@ mixin _$Plan {
   List<String> get activePerks => throw _privateConstructorUsedError;
   List<String> get disabledPerks => throw _privateConstructorUsedError;
   Color get color => throw _privateConstructorUsedError;
-  Map<SubscriptionPlatform, String> get productIds =>
-      throw _privateConstructorUsedError;
+  Map<String, String> get productIds => throw _privateConstructorUsedError;
 
   /// Create a copy of Plan
   /// with the given fields replaced by the non-null parameter values.
@@ -41,7 +40,7 @@ abstract class $PlanCopyWith<$Res> {
       List<String> activePerks,
       List<String> disabledPerks,
       Color color,
-      Map<SubscriptionPlatform, String> productIds});
+      Map<String, String> productIds});
 }
 
 /// @nodoc
@@ -90,7 +89,7 @@ class _$PlanCopyWithImpl<$Res, $Val extends Plan>
       productIds: null == productIds
           ? _value.productIds
           : productIds // ignore: cast_nullable_to_non_nullable
-              as Map<SubscriptionPlatform, String>,
+              as Map<String, String>,
     ) as $Val);
   }
 }
@@ -108,7 +107,7 @@ abstract class _$$PlanImplCopyWith<$Res> implements $PlanCopyWith<$Res> {
       List<String> activePerks,
       List<String> disabledPerks,
       Color color,
-      Map<SubscriptionPlatform, String> productIds});
+      Map<String, String> productIds});
 }
 
 /// @nodoc
@@ -154,21 +153,21 @@ class __$$PlanImplCopyWithImpl<$Res>
       productIds: null == productIds
           ? _value._productIds
           : productIds // ignore: cast_nullable_to_non_nullable
-              as Map<SubscriptionPlatform, String>,
+              as Map<String, String>,
     ));
   }
 }
 
 /// @nodoc
 
-class _$PlanImpl extends _Plan {
+class _$PlanImpl extends _Plan with DiagnosticableTreeMixin {
   const _$PlanImpl(
       {this.displayName = "Plan",
       this.price = 0,
       final List<String> activePerks = const [],
       final List<String> disabledPerks = const [],
       this.color = Colors.white,
-      final Map<SubscriptionPlatform, String> productIds = const {}})
+      final Map<String, String> productIds = const {}})
       : _activePerks = activePerks,
         _disabledPerks = disabledPerks,
         _productIds = productIds,
@@ -201,18 +200,31 @@ class _$PlanImpl extends _Plan {
   @override
   @JsonKey()
   final Color color;
-  final Map<SubscriptionPlatform, String> _productIds;
+  final Map<String, String> _productIds;
   @override
   @JsonKey()
-  Map<SubscriptionPlatform, String> get productIds {
+  Map<String, String> get productIds {
     if (_productIds is EqualUnmodifiableMapView) return _productIds;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_productIds);
   }
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'Plan(displayName: $displayName, price: $price, activePerks: $activePerks, disabledPerks: $disabledPerks, color: $color, productIds: $productIds)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'Plan'))
+      ..add(DiagnosticsProperty('displayName', displayName))
+      ..add(DiagnosticsProperty('price', price))
+      ..add(DiagnosticsProperty('activePerks', activePerks))
+      ..add(DiagnosticsProperty('disabledPerks', disabledPerks))
+      ..add(DiagnosticsProperty('color', color))
+      ..add(DiagnosticsProperty('productIds', productIds));
   }
 
   @override
@@ -258,7 +270,7 @@ abstract class _Plan extends Plan {
       final List<String> activePerks,
       final List<String> disabledPerks,
       final Color color,
-      final Map<SubscriptionPlatform, String> productIds}) = _$PlanImpl;
+      final Map<String, String> productIds}) = _$PlanImpl;
   const _Plan._() : super._();
 
   @override
@@ -272,7 +284,7 @@ abstract class _Plan extends Plan {
   @override
   Color get color;
   @override
-  Map<SubscriptionPlatform, String> get productIds;
+  Map<String, String> get productIds;
 
   /// Create a copy of Plan
   /// with the given fields replaced by the non-null parameter values.
