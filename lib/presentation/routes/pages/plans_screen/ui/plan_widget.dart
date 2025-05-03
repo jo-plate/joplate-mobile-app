@@ -13,14 +13,14 @@ class PlanWidget extends StatelessWidget {
   final Plan plan;
   void _buyProduct(BuildContext context) async {
     final isIOS = Platform.isIOS;
-    final productId = plan.productIds[isIOS ? SubscriptionPlatform.ios : SubscriptionPlatform.android];
 
     print("📦 Platform: ${isIOS ? "iOS" : "Android"}");
-    print("📦 Retrieved Product ID: $productId");
+    print("📦 Retrieved Product ID: ${plan.productId}");
 
-    if (productId == null || productId.trim().isEmpty) {
+    if (plan.productId.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("No product ID available for this platform.")),
+        const SnackBar(
+            content: Text("No product ID available for this platform.")),
       );
       return;
     }
@@ -40,7 +40,8 @@ class PlanWidget extends StatelessWidget {
       return;
     }
 
-    final response = await InAppPurchase.instance.queryProductDetails({productId});
+    final response =
+        await InAppPurchase.instance.queryProductDetails({plan.productId});
     if (response.notFoundIDs.isNotEmpty || response.productDetails.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Product not found.")),
@@ -51,7 +52,7 @@ class PlanWidget extends StatelessWidget {
     final productDetails = response.productDetails.first;
     final purchaseParam = PurchaseParam(productDetails: productDetails);
 
-    InAppPurchase.instance.buyNonConsumable(purchaseParam: purchaseParam);
+    InAppPurchase.instance.buyConsumable(purchaseParam: purchaseParam);
   }
 
   @override
@@ -85,7 +86,11 @@ class PlanWidget extends StatelessWidget {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [plan.color.withAlpha(170), plan.color.withAlpha(130), plan.color.withAlpha(255)],
+                        colors: [
+                          plan.color.withAlpha(170),
+                          plan.color.withAlpha(130),
+                          plan.color.withAlpha(255)
+                        ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
@@ -217,7 +222,8 @@ class PlanWidget extends StatelessWidget {
   Widget _buildDisabledPerks() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: plan.disabledPerks.map((perk) => _buildPerk(perk, false)).toList(),
+      children:
+          plan.disabledPerks.map((perk) => _buildPerk(perk, false)).toList(),
     );
   }
 }

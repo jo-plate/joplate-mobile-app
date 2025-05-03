@@ -22,7 +22,6 @@ FeatureListingDto _$FeatureListingDtoFromJson(Map<String, dynamic> json) {
 mixin _$FeatureListingDto {
   String get listingId => throw _privateConstructorUsedError;
   String get itemType => throw _privateConstructorUsedError;
-  int? get durationDays => throw _privateConstructorUsedError;
   bool? get goldenTicket => throw _privateConstructorUsedError;
   IAPData? get iapData => throw _privateConstructorUsedError;
 
@@ -45,7 +44,6 @@ abstract class $FeatureListingDtoCopyWith<$Res> {
   $Res call(
       {String listingId,
       String itemType,
-      int? durationDays,
       bool? goldenTicket,
       IAPData? iapData});
 
@@ -69,7 +67,6 @@ class _$FeatureListingDtoCopyWithImpl<$Res, $Val extends FeatureListingDto>
   $Res call({
     Object? listingId = null,
     Object? itemType = null,
-    Object? durationDays = freezed,
     Object? goldenTicket = freezed,
     Object? iapData = freezed,
   }) {
@@ -82,10 +79,6 @@ class _$FeatureListingDtoCopyWithImpl<$Res, $Val extends FeatureListingDto>
           ? _value.itemType
           : itemType // ignore: cast_nullable_to_non_nullable
               as String,
-      durationDays: freezed == durationDays
-          ? _value.durationDays
-          : durationDays // ignore: cast_nullable_to_non_nullable
-              as int?,
       goldenTicket: freezed == goldenTicket
           ? _value.goldenTicket
           : goldenTicket // ignore: cast_nullable_to_non_nullable
@@ -123,7 +116,6 @@ abstract class _$$FeatureListingDtoImplCopyWith<$Res>
   $Res call(
       {String listingId,
       String itemType,
-      int? durationDays,
       bool? goldenTicket,
       IAPData? iapData});
 
@@ -146,7 +138,6 @@ class __$$FeatureListingDtoImplCopyWithImpl<$Res>
   $Res call({
     Object? listingId = null,
     Object? itemType = null,
-    Object? durationDays = freezed,
     Object? goldenTicket = freezed,
     Object? iapData = freezed,
   }) {
@@ -159,10 +150,6 @@ class __$$FeatureListingDtoImplCopyWithImpl<$Res>
           ? _value.itemType
           : itemType // ignore: cast_nullable_to_non_nullable
               as String,
-      durationDays: freezed == durationDays
-          ? _value.durationDays
-          : durationDays // ignore: cast_nullable_to_non_nullable
-              as int?,
       goldenTicket: freezed == goldenTicket
           ? _value.goldenTicket
           : goldenTicket // ignore: cast_nullable_to_non_nullable
@@ -181,7 +168,6 @@ class _$FeatureListingDtoImpl implements _FeatureListingDto {
   const _$FeatureListingDtoImpl(
       {required this.listingId,
       required this.itemType,
-      this.durationDays,
       this.goldenTicket,
       this.iapData});
 
@@ -193,15 +179,13 @@ class _$FeatureListingDtoImpl implements _FeatureListingDto {
   @override
   final String itemType;
   @override
-  final int? durationDays;
-  @override
   final bool? goldenTicket;
   @override
   final IAPData? iapData;
 
   @override
   String toString() {
-    return 'FeatureListingDto(listingId: $listingId, itemType: $itemType, durationDays: $durationDays, goldenTicket: $goldenTicket, iapData: $iapData)';
+    return 'FeatureListingDto(listingId: $listingId, itemType: $itemType, goldenTicket: $goldenTicket, iapData: $iapData)';
   }
 
   @override
@@ -213,8 +197,6 @@ class _$FeatureListingDtoImpl implements _FeatureListingDto {
                 other.listingId == listingId) &&
             (identical(other.itemType, itemType) ||
                 other.itemType == itemType) &&
-            (identical(other.durationDays, durationDays) ||
-                other.durationDays == durationDays) &&
             (identical(other.goldenTicket, goldenTicket) ||
                 other.goldenTicket == goldenTicket) &&
             (identical(other.iapData, iapData) || other.iapData == iapData));
@@ -222,8 +204,8 @@ class _$FeatureListingDtoImpl implements _FeatureListingDto {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, listingId, itemType, durationDays, goldenTicket, iapData);
+  int get hashCode =>
+      Object.hash(runtimeType, listingId, itemType, goldenTicket, iapData);
 
   /// Create a copy of FeatureListingDto
   /// with the given fields replaced by the non-null parameter values.
@@ -246,7 +228,6 @@ abstract class _FeatureListingDto implements FeatureListingDto {
   const factory _FeatureListingDto(
       {required final String listingId,
       required final String itemType,
-      final int? durationDays,
       final bool? goldenTicket,
       final IAPData? iapData}) = _$FeatureListingDtoImpl;
 
@@ -257,8 +238,6 @@ abstract class _FeatureListingDto implements FeatureListingDto {
   String get listingId;
   @override
   String get itemType;
-  @override
-  int? get durationDays;
   @override
   bool? get goldenTicket;
   @override

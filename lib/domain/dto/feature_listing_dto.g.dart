@@ -11,7 +11,6 @@ _$FeatureListingDtoImpl _$$FeatureListingDtoImplFromJson(
     _$FeatureListingDtoImpl(
       listingId: json['listingId'] as String,
       itemType: json['itemType'] as String,
-      durationDays: (json['durationDays'] as num?)?.toInt(),
       goldenTicket: json['goldenTicket'] as bool?,
       iapData: json['iapData'] == null
           ? null
@@ -23,7 +22,6 @@ Map<String, dynamic> _$$FeatureListingDtoImplToJson(
     <String, dynamic>{
       'listingId': instance.listingId,
       'itemType': instance.itemType,
-      'durationDays': instance.durationDays,
       'goldenTicket': instance.goldenTicket,
       'iapData': instance.iapData,
     };

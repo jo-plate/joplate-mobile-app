@@ -1,9 +1,14 @@
+import 'dart:io';
 import 'dart:ui';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:joplate/data/constants.dart';
+import 'package:joplate/domain/dto/feature_listing_dto.dart';
 import 'package:joplate/injection/dependencies.dart';
 import 'package:joplate/injection/injector.dart';
 import 'package:joplate/messages.i18n.dart';
@@ -17,6 +22,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:joplate/presentation/theme.dart';
 
 import 'firebase_options.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,27 +43,38 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final ctx = navigatorKey.currentContext;
+      if (ctx != null) initIAPListener(ctx);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => injector<AuthCubit>()),
-        BlocProvider(create: (context) => injector<LocalizationCubit>())
+        BlocProvider(create: (context) => injector<LocalizationCubit>()),
       ],
       child: BlocBuilder<LocalizationCubit, Locale>(
         builder: (context, locale) {
-          // 2) Pick the messages based on locale
           final isEnglish = locale.languageCode == 'en';
           final messages = isEnglish ? const Messages() : const MessagesAr();
 
           return MaterialApp.router(
             title: 'JoPlate',
             theme: appTheme,
-            // 3) Wrap entire app in a Directionality + an InheritedWidget
             builder: (ctx, widget) {
               return Directionality(
                 textDirection:
@@ -76,6 +94,58 @@ class MyApp extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+void initIAPListener(BuildContext context) {
+  InAppPurchase.instance.purchaseStream.listen(
+    (List<PurchaseDetails> purchases) {
+      for (final purchase in purchases) {
+        _handlePurchase(purchase, context);
+      }
+    },
+    onError: (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('خطأ في عملية الشراء')),
+      );
+    },
+  );
+}
+
+Future<void> _handlePurchase(
+    PurchaseDetails purchase, BuildContext context) async {
+  if (purchase.status == PurchaseStatus.purchased) {
+    final iapData = IAPData(
+      productId: purchase.productID,
+      transactionId: purchase.transactionDate ?? '',
+      purchaseToken: purchase.verificationData.serverVerificationData,
+      receipt: Platform.isIOS
+          ? purchase.verificationData.localVerificationData
+          : null,
+    );
+
+    try {
+      final callable =
+          FirebaseFunctions.instance.httpsCallable(redeemPurchaseCF);
+      await callable.call(iapData.toJson());
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('✅ تم تفعيل التذكرة بنجاح')),
+      );
+    } on FirebaseFunctionsException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text('❌ فشل التفعيل: ${e.message ?? "خطأ غير معروف"}')),
+      );
+    } finally {
+      if (purchase.pendingCompletePurchase) {
+        await InAppPurchase.instance.completePurchase(purchase);
+      }
+    }
+  } else if (purchase.status == PurchaseStatus.error) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('فشل الشراء')),
     );
   }
 }

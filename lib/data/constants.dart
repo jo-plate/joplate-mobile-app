@@ -8,6 +8,7 @@ const userPlansCollectionId = 'userPlans';
 const carPlatesCollectionId = 'platesListings';
 const phoneNumbersCollectionId = 'phoneNumbers';
 const quicksaleProfilesCollectionId = 'quicksaleProfiles';
+const normalTicketsPackagesCollectionId = 'normalTicketsPackages';
 // cloud functions
 const signupCF = 'signUpUser';
 const createListingCF = 'createListingV2';
@@ -16,4 +17,4 @@ const updateListingCF = 'updateListing';
 const updateRequestCF = 'updateRequest';
 const deleteItemCF = 'deleteItem';
 const featureListingCF = 'featureListing';
-const quicksaleUserId = 'quicksaleUserId';
+const redeemPurchaseCF = 'redeemPurchase';

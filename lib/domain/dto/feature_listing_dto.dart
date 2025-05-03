@@ -8,7 +8,6 @@ class FeatureListingDto with _$FeatureListingDto {
   const factory FeatureListingDto({
     required String listingId,
     required String itemType,
-    int? durationDays,
     bool? goldenTicket,
     IAPData? iapData,
   }) = _FeatureListingDto;

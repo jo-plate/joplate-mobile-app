@@ -1,6 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:joplate/data/constants.dart';
+import 'package:joplate/domain/dto/feature_listing_dto.dart';
+import 'package:joplate/domain/entities/ticket_plan.dart';
 import 'package:joplate/presentation/widgets/icons/plan_icon.dart';
 
 const kDialogBG = Color.fromARGB(255, 255, 255, 255);
@@ -19,33 +24,54 @@ class _BuyTicketsDialogState extends State<BuyTicketsDialog> {
   int current = 0;
   bool submitting = false;
 
-  final plans = const [
-    _TicketPlan(tickets: 3, price: 12),
-    _TicketPlan(tickets: 5, price: 18),
-    _TicketPlan(tickets: 10, price: 30),
-  ];
+  late final Stream<List<TicketPlan>> plansStream;
 
-  Future<void> _purchaseTickets(_TicketPlan plan) async {
+  @override
+  void initState() {
+    super.initState();
+
+    plansStream = FirebaseFirestore.instance
+        .collection(normalTicketsPackagesCollectionId)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => TicketPlan.fromJson(doc.data()))
+            .toList());
+  }
+
+  Future<void> _purchaseTickets(TicketPlan plan) async {
     setState(() => submitting = true);
 
-    final dto = {
-      'ticketCount': plan.tickets,
-      'amountJOD': plan.price,
-    };
-
     try {
-      final callable = FirebaseFunctions.instance.httpsCallable('purchaseTickets');
-      await callable.call(dto);
-
-      if (mounted) {
-        Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('تم شراء التذاكر بنجاح')),
-        );
+      final isAvailable = await InAppPurchase.instance.isAvailable();
+      if (!isAvailable) {
+        throw Exception('In-app purchases not available.');
       }
-    } on FirebaseFunctionsException catch (e) {
+
+      final productId = plan.productId;
+      if (productId == null || productId.trim().isEmpty) {
+        throw Exception('Product ID not found for platform.');
+      }
+
+      final response =
+          await InAppPurchase.instance.queryProductDetails({productId});
+      if (response.notFoundIDs.contains(productId) ||
+          response.productDetails.isEmpty) {
+        throw Exception('Product not found in store: $productId');
+      }
+
+      final productDetails = response.productDetails.first;
+      final purchaseParam = PurchaseParam(productDetails: productDetails);
+
+      final purchaseResult = await InAppPurchase.instance
+          .buyConsumable(purchaseParam: purchaseParam);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.message ?? 'فشل شراء التذاكر')),
+        const SnackBar(
+          content: Text('Purchase result Successful'),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
       );
       setState(() => submitting = false);
     }
@@ -58,74 +84,84 @@ class _BuyTicketsDialogState extends State<BuyTicketsDialog> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            CarouselSlider.builder(
-              itemCount: plans.length,
-              options: CarouselOptions(
-                height: 270,
-                enlargeCenterPage: true,
-                viewportFraction: 1, // Full width
-                onPageChanged: (i, __) => setState(() => current = i),
-              ),
-              itemBuilder: (_, i, __) => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                child: _TicketCard(plan: plans[i]),
-              ),
-            ),
-            const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                plans.length,
-                (i) => Container(
-                  width: 8,
-                  height: 8,
-                  margin: const EdgeInsets.symmetric(horizontal: 3),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: current == i ? kAccent : kAccent.withOpacity(0.3),
+        child: StreamBuilder<List<TicketPlan>>(
+            stream: plansStream,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              final plans = snapshot.data!;
+              if (plans.isEmpty) {
+                return const Center(child: Text('No plans available.'));
+              }
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  CarouselSlider.builder(
+                    itemCount: plans.length,
+                    options: CarouselOptions(
+                      height: 270,
+                      enlargeCenterPage: true,
+                      autoPlay: true,
+                      viewportFraction: 1, // Full width
+                      onPageChanged: (i, __) => setState(() => current = i),
+                    ),
+                    itemBuilder: (_, i, __) => Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 12),
+                      child: _TicketCard(plan: plans[i]),
+                    ),
                   ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: kGold,
-                  minimumSize: const Size.fromHeight(50),
-                  elevation: 0,
-                  textStyle: const TextStyle(color: Colors.white),
-                ),
-                onPressed: submitting ? null : () => _purchaseTickets(plans[current]),
-                child: submitting
-                    ? const CircularProgressIndicator()
-                    : const Text(
-                        'اشترِ الآن',
-                        style: TextStyle(color: Colors.white),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      plans.length,
+                      (i) => Container(
+                        width: 8,
+                        height: 8,
+                        margin: const EdgeInsets.symmetric(horizontal: 3),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color:
+                              current == i ? kAccent : kAccent.withOpacity(0.3),
+                        ),
                       ),
-              ),
-            ),
-          ],
-        ),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: kGold,
+                        minimumSize: const Size.fromHeight(50),
+                        elevation: 0,
+                        textStyle: const TextStyle(color: Colors.white),
+                      ),
+                      onPressed: submitting
+                          ? null
+                          : () => _purchaseTickets(plans[current]),
+                      child: submitting
+                          ? const CircularProgressIndicator()
+                          : const Text(
+                              'اشترِ الآن',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                    ),
+                  ),
+                ],
+              );
+            }),
       ),
     );
   }
 }
 
-class _TicketPlan {
-  const _TicketPlan({required this.tickets, required this.price});
-  final int tickets;
-  final int price;
-}
-
 class _TicketCard extends StatelessWidget {
   const _TicketCard({required this.plan});
-  final _TicketPlan plan;
+  final TicketPlan plan;
 
   @override
   Widget build(BuildContext context) {
@@ -145,10 +181,11 @@ class _TicketCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const PlanIcon(size: 32, color: Colors.white, borderColor: Colors.black),
+            const PlanIcon(
+                size: 32, color: Colors.white, borderColor: Colors.black),
             const SizedBox(height: 12),
             Text(
-              '${plan.tickets} Tickets',
+              '${plan.amount} Tickets',
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
