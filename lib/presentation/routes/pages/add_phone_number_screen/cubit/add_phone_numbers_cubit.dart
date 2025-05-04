@@ -134,7 +134,7 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
               'number': input.number,
               'price': input.price,
               'discountPrice': input.discountPrice ?? 0,
-              'isFeatured': form.isFeatured,
+              'isFeatured': form.isFeatured.toString(),
             },
           );
 

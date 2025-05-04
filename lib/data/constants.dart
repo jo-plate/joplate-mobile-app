@@ -9,6 +9,8 @@ const carPlatesCollectionId = 'platesListings';
 const phoneNumbersCollectionId = 'phoneNumbers';
 const quicksaleProfilesCollectionId = 'quicksaleProfiles';
 const normalTicketsPackagesCollectionId = 'normalTicketsPackages';
+const featuredPlansCollectionId = 'featuredPlans';
+
 // cloud functions
 const signupCF = 'signUpUser';
 const createListingCF = 'createListingV2';

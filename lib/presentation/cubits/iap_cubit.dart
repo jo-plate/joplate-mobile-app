@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:injectable/injectable.dart';
+import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/dto/feature_listing_dto.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
 import 'iap_state.dart';
@@ -74,7 +75,7 @@ class IAPCubit extends Cubit<IAPState> {
 
       try {
         final callable =
-            FirebaseFunctions.instance.httpsCallable('confirmIAPPurchase');
+            FirebaseFunctions.instance.httpsCallable(redeemPurchaseCF);
         await callable.call(iapData.toJson());
 
         AppSnackbar.showSuccess('Purchase successful!');

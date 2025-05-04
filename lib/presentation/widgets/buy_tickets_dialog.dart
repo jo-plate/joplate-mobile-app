@@ -73,7 +73,7 @@ class _BuyTicketsDialogState extends State<BuyTicketsDialog> {
                         itemBuilder: (_, i, __) => Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 24, vertical: 12),
-                          child: _TicketCard(plan: plans[i]),
+                          child: TicketCard(plan: plans[i]),
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -136,8 +136,8 @@ class _BuyTicketsDialogState extends State<BuyTicketsDialog> {
   }
 }
 
-class _TicketCard extends StatelessWidget {
-  const _TicketCard({required this.plan});
+class TicketCard extends StatelessWidget {
+  const TicketCard({super.key, required this.plan});
   final TicketPlan plan;
 
   @override

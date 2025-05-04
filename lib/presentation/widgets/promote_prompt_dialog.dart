@@ -6,6 +6,7 @@ import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/dto/feature_listing_dto.dart';
 import 'package:joplate/domain/entities/user_plans.dart';
+import 'package:joplate/presentation/widgets/app_snackbar.dart';
 import 'package:joplate/presentation/widgets/icons/plan_icon.dart';
 import 'feature_plan_dialog.dart';
 
@@ -52,18 +53,19 @@ class _PromotePromptDialogState extends State<PromotePromptDialog> {
     );
 
     try {
-      final callable = FirebaseFunctions.instance.httpsCallable(featureListingCF);
+      final callable =
+          FirebaseFunctions.instance.httpsCallable(featureListingCF);
       await callable.call(dto.toJson());
 
       if (mounted) {
         Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('تم تمييز الإعلان بنجاح')),
+        AppSnackbar.showSuccess(
+          'تمت ترقية إعلانك بنجاح!',
         );
       }
     } on FirebaseFunctionsException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.message ?? 'فشل الترقية')),
+      AppSnackbar.showError(
+        e.message ?? 'فشل الترقية',
       );
       setState(() => submitting = false);
     }
@@ -95,14 +97,15 @@ class _PromotePromptDialogState extends State<PromotePromptDialog> {
               builder: (context, snapshot) {
                 final plans = snapshot.data;
 
-                final showGoldenSlide = (plans?.goldenTickets ?? 0) > 0;
+                final showGoldenSlide = false; // (plans?.goldenTickets ?? 0) > 0;
 
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       showGoldenSlide ? '✨ ترقية مجانية' : 'بيع أسرع!',
-                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.w700),
                     ),
                     const SizedBox(height: 6),
                     Text(
@@ -119,7 +122,8 @@ class _PromotePromptDialogState extends State<PromotePromptDialog> {
                           child: OutlinedButton(
                             style: OutlinedButton.styleFrom(
                               foregroundColor: PromotePromptDialog._accent,
-                              side: const BorderSide(color: PromotePromptDialog._accent),
+                              side: const BorderSide(
+                                  color: PromotePromptDialog._accent),
                               padding: const EdgeInsets.symmetric(vertical: 14),
                             ),
                             onPressed: () => Navigator.of(context).pop(),
@@ -154,7 +158,10 @@ class _PromotePromptDialogState extends State<PromotePromptDialog> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 if (showGoldenSlide) ...[
-                                  const PlanIcon(size: 24, color: Color(0xFFD4AF37), borderColor: Colors.black),
+                                  const PlanIcon(
+                                      size: 24,
+                                      color: Color(0xFFD4AF37),
+                                      borderColor: Colors.black),
                                   const SizedBox(
                                     width: 2,
                                   )
@@ -178,7 +185,8 @@ class _PromotePromptDialogState extends State<PromotePromptDialog> {
             child: CircleAvatar(
               radius: 32,
               backgroundColor: PromotePromptDialog._gold,
-              child: Icon(Icons.rocket_launch_rounded, size: 36, color: PromotePromptDialog._accent),
+              child: Icon(Icons.rocket_launch_rounded,
+                  size: 36, color: PromotePromptDialog._accent),
             ),
           ),
         ],

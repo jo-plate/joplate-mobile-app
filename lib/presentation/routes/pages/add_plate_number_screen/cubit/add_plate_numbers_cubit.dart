@@ -137,7 +137,7 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
               'number': input.number,
               'price': input.price,
               'discount_price': input.discountPrice ?? 0,
-              'is_featured': input.isFeatured,
+              'is_featured': input.isFeatured.toString(),
             },
           );
           forms.removeAt(i);
