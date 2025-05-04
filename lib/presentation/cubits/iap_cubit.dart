@@ -10,6 +10,12 @@ import 'package:joplate/domain/dto/feature_listing_dto.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
 import 'iap_state.dart';
 
+const featuredPlanIds = [
+  'featured_plan_1',
+  'featured_plan_2',
+  'featured_plan_3',
+];
+
 @singleton
 class IAPCubit extends Cubit<IAPState> {
   IAPCubit() : super(const IAPState());
@@ -72,11 +78,26 @@ class IAPCubit extends Cubit<IAPState> {
             ? purchase.verificationData.localVerificationData
             : null,
       );
+      FeatureListingDto? dto;
+      if (state.listingId != null && state.itemType != null) {
+        dto = FeatureListingDto(
+          listingId: state.listingId!,
+          itemType: state.itemType!,
+          goldenTicket: false,
+          iapData: iapData,
+        );
+      }
 
       try {
-        final callable =
-            FirebaseFunctions.instance.httpsCallable(redeemPurchaseCF);
-        await callable.call(iapData.toJson());
+        if (featuredPlanIds.contains(purchase.productID)) {
+          await FirebaseFunctions.instance
+              .httpsCallable(featureListingCF)
+              .call(dto!.toJson());
+        } else {
+          await FirebaseFunctions.instance
+              .httpsCallable(redeemPurchaseCF)
+              .call(iapData!.toJson());
+        }
 
         AppSnackbar.showSuccess('Purchase successful!');
       } on FirebaseFunctionsException catch (e) {

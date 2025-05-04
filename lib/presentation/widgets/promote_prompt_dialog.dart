@@ -97,7 +97,7 @@ class _PromotePromptDialogState extends State<PromotePromptDialog> {
               builder: (context, snapshot) {
                 final plans = snapshot.data;
 
-                final showGoldenSlide = false; // (plans?.goldenTickets ?? 0) > 0;
+                final showGoldenSlide = (plans?.goldenTickets ?? 0) > 0;
 
                 return Column(
                   mainAxisSize: MainAxisSize.min,
