@@ -87,22 +87,58 @@ class PlateCodePickerField extends StatelessWidget {
       '80',
       '88',
     ];
+
+    final initialIndex = codes.indexOf(currentValue);
     final controller = FixedExtentScrollController(
-      initialItem: codes.indexOf(currentValue),
-    );
+        initialItem: initialIndex >= 0 ? initialIndex : 0);
+    int selectedIndex = controller.initialItem;
 
     await showModalBottomSheet(
       context: context,
+      backgroundColor: Colors.white,
       builder: (_) => SizedBox(
-        height: 250,
+        height: 300,
         child: Column(
           children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              height: 50,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(
+                          color: const Color(0xFF981C1E),
+                          fontSize: 16,
+                          decoration: TextDecoration.none),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      onSelected(codes[selectedIndex]);
+                    },
+                    child: const Text(
+                      'Done',
+                      style: TextStyle(
+                          color: const Color(0xFF981C1E),
+                          fontSize: 16,
+                          decoration: TextDecoration.none),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(height: 1),
             Expanded(
               child: CupertinoPicker(
                 scrollController: controller,
                 itemExtent: 44,
+                onSelectedItemChanged: (index) => selectedIndex = index,
                 children: codes.map((c) => Center(child: Text(c))).toList(),
-                onSelectedItemChanged: (index) => onSelected(codes[index]),
               ),
             ),
           ],
