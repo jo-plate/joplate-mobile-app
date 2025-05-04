@@ -7,6 +7,7 @@ import 'package:joplate/domain/dto/delete_item_dto.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/injection/injector.dart';
+import 'package:joplate/presentation/widgets/app_snackbar.dart';
 
 class DeleteListingDialog extends StatefulWidget {
   const DeleteListingDialog({
@@ -46,44 +47,39 @@ class _DeleteListingDialogState extends State<DeleteListingDialog> {
     try {
       final callable = FirebaseFunctions.instance.httpsCallable(deleteItemCF);
       final res = await callable.call(dto.toJson());
-
+      if (markAsSold) {
+        analytics.logEvent(
+          name: 'listing_sold',
+          parameters: {
+            'listing_id': widget.listingId,
+            'item_type': widget.itemType.name,
+            'listing_type': widget.listingType.name,
+            'item': widget.itemType == ItemType.phoneNumber
+                ? widget.phoneNumber!.toString()
+                : widget.plateNumber!.toString(),
+          },
+        );
+      } else {
+        analytics.logEvent(
+          name: 'listing_deleted',
+          parameters: {
+            'listing_id': widget.listingId,
+            'item_type': widget.itemType.name,
+            'listing_type': widget.listingType.name,
+            'item': widget.itemType == ItemType.phoneNumber
+                ? widget.phoneNumber!.toString()
+                : widget.plateNumber!.toString(),
+          },
+        );
+      }
       if (context.mounted) {
         Navigator.of(context).pop(); // close dialog
-        if (markAsSold) {
-          analytics.logEvent(
-            name: 'listing_sold',
-            parameters: {
-              'listing_id': widget.listingId,
-              'item_type': widget.itemType.name,
-              'listing_type': widget.listingType.name,
-              'item': widget.itemType == ItemType.phoneNumber
-                  ? widget.phoneNumber!.toString()
-                  : widget.plateNumber!.toString(),
-            },
-          );
-        } else {
-          analytics.logEvent(
-            name: 'listing_deleted',
-            parameters: {
-              'listing_id': widget.listingId,
-              'item_type': widget.itemType.name,
-              'listing_type': widget.listingType.name,
-              'item': widget.itemType == ItemType.phoneNumber
-                  ? widget.phoneNumber!.toString()
-                  : widget.plateNumber!.toString(),
-            },
-          );
-        }
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Listing deleted successfully')),
-        );
+        AppSnackbar.showSuccess('Listing deleted successfully');
       }
     } on FirebaseFunctionsException catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.message ?? 'Delete failed')),
-        );
-      }
+      AppSnackbar.showError(
+        e.message ?? 'Delete failed',
+      );
     } finally {
       if (mounted) setState(() => submitting = false);
     }
@@ -114,7 +110,7 @@ class _DeleteListingDialogState extends State<DeleteListingDialog> {
         Expanded(
           child: TextButton(
             onPressed: submitting ? null : () => Navigator.of(context).pop(),
-            child: const Text('CANCEL'),
+            child: const Text('Cancel'),
           ),
         ),
         Expanded(
@@ -125,7 +121,7 @@ class _DeleteListingDialogState extends State<DeleteListingDialog> {
             onPressed: submitting ? null : _submit,
             child: submitting
                 ? const CircularProgressIndicator()
-                : const Text('DELETE', style: TextStyle(color: Colors.white)),
+                : const Text('Delete', style: TextStyle(color: Colors.white)),
           ),
         ),
       ],
