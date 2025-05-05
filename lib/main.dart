@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => injector<AuthCubit>()),
         BlocProvider(create: (context) => injector<LocalizationCubit>()),
         BlocProvider(
-            create: (context) => injector<IAPCubit>()..initialize(context)),
+            create: (context) => injector<IAPCubit>()..initialize()),
       ],
       child: BlocBuilder<LocalizationCubit, Locale>(
         builder: (context, locale) {

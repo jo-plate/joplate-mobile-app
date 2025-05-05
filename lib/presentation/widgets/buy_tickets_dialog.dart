@@ -35,7 +35,7 @@ class _BuyTicketsDialogState extends State<BuyTicketsDialog> {
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map((doc) => TicketPlan.fromJson(doc.data()))
-            .toList());
+            .toList()..sort((a, b) => a.amount.compareTo(b.amount)));
   }
 
   @override

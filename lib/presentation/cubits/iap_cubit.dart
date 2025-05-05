@@ -23,11 +23,11 @@ class IAPCubit extends Cubit<IAPState> {
   late final StreamSubscription<List<PurchaseDetails>> _subscription;
   final InAppPurchase _iap = InAppPurchase.instance;
 
-  void initialize(BuildContext context) {
+  void initialize() {
     _subscription = _iap.purchaseStream.listen(
       (purchases) {
         for (final purchase in purchases) {
-          _handlePurchase(purchase, context);
+          _handlePurchase(purchase);
         }
       },
       onError: (_) {
@@ -68,7 +68,7 @@ class IAPCubit extends Cubit<IAPState> {
   }
 
   Future<void> _handlePurchase(
-      PurchaseDetails purchase, BuildContext context) async {
+      PurchaseDetails purchase) async {
     if (purchase.status == PurchaseStatus.purchased) {
       final iapData = IAPData(
         productId: purchase.productID,
@@ -96,7 +96,7 @@ class IAPCubit extends Cubit<IAPState> {
         } else {
           await FirebaseFunctions.instance
               .httpsCallable(redeemPurchaseCF)
-              .call(iapData!.toJson());
+              .call(iapData.toJson());
         }
 
         AppSnackbar.showSuccess('Purchase successful!');
