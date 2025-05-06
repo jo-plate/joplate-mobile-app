@@ -61,7 +61,7 @@ class PhoneNumberRequestWidget extends StatelessWidget {
                 ],
               ),
             ),
-            if (item.isDisabled || disabled)
+            if (item.isDisabled)
               Positioned.fill(
                 child: Container(
                   decoration: BoxDecoration(

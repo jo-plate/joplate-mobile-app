@@ -56,7 +56,7 @@ class PlateNumberRequestWidget extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         _buildPriceLabel(),
-                        if (item.isDisabled || disabled)
+                        if (item.isDisabled)
                           Positioned.fill(
                             child: Container(
                               decoration: BoxDecoration(

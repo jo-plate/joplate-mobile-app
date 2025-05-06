@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/plate_listing.dart';
 import 'package:joplate/injection/injector.dart';
@@ -34,11 +35,12 @@ class PlateNumberListingWidget extends StatelessWidget {
 
     return Center(
       child: GestureDetector(
-        onTap: disabled || item.isExpired || item.isDisabled
-            ? null
-            : () {
-                AutoRouter.of(context).push(PlatesDetailsRoute(listingId: item.id));
-              },
+        onTap:
+            disabled || (((item.isExpired) || item.isDisabled) && item.userId != FirebaseAuth.instance.currentUser?.uid)
+                ? null
+                : () {
+                    AutoRouter.of(context).push(PlatesDetailsRoute(listingId: item.id));
+                  },
         child: Stack(
           fit: StackFit.passthrough,
           clipBehavior: Clip.hardEdge,

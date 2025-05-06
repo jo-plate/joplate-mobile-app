@@ -89,8 +89,8 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
         .collection(carPlatesCollectionId)
         .where('isDisabled', isEqualTo: false)
         .where('expiresAt', isGreaterThan: DateTime.now())
-        .orderBy('featuredUntil', descending: true)
         .orderBy('isSold', descending: false)
+        .orderBy('featuredUntil', descending: true)
         .orderBy('createdAt', descending: true)
         .snapshots()
         .listen((snap) {

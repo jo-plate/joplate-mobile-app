@@ -60,6 +60,8 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
             );
           }
 
+          print(snapshot.data);
+
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -111,7 +113,8 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                       priceLabelFontSize: 24,
                     ),
                     if (!(snapshot.data?.isFeatured ?? false) &&
-                        (FirebaseAuth.instance.currentUser?.uid ?? '') == snapshot.data!.userId) ...[
+                        (FirebaseAuth.instance.currentUser?.uid ?? '') == snapshot.data!.userId &&
+                        !snapshot.data!.isSold) ...[
                       const SizedBox(height: 16),
                       PromoteListingButton(listingId: snapshot.data!.id, itemType: ItemType.plateNumber),
                     ],

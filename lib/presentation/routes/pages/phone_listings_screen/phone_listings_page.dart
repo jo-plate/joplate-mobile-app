@@ -40,8 +40,8 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
         .collection(phoneNumbersCollectionId)
         .where('isDisabled', isEqualTo: false)
         .where('expiresAt', isGreaterThan: DateTime.now())
-        .orderBy('featuredUntil', descending: true)
         .orderBy('isSold', descending: false)
+        .orderBy('featuredUntil', descending: true)
         .orderBy('createdAt', descending: true)
         .snapshots()
         .listen((snap) {
