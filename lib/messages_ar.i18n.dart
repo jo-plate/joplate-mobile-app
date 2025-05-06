@@ -162,6 +162,11 @@ class HomeMessagesAr extends HomeMessages {
   String get sold => """تم البيع""";
 
   /// ```dart
+  /// "منتهية"
+  /// ```
+  String get expired => """منتهية""";
+
+  /// ```dart
   /// "أرقامي"
   /// ```
   String get mynumbers => """أرقامي""";
@@ -175,6 +180,11 @@ class HomeMessagesAr extends HomeMessages {
   /// "بحث"
   /// ```
   String get search => """بحث""";
+
+  /// ```dart
+  /// "محذوف"
+  /// ```
+  String get deleted => """محذوف""";
 }
 
 class ProfileMessagesAr extends ProfileMessages {
@@ -1271,9 +1281,11 @@ Map<String, String> get messagesArMap => {
   """home.quick_sale""": """البيع السريع""",
   """home.featured""": """مميز""",
   """home.sold""": """تم البيع""",
+  """home.expired""": """منتهية""",
   """home.mynumbers""": """أرقامي""",
   """home.myRequests""": """طلباتي""",
   """home.search""": """بحث""",
+  """home.deleted""": """محذوف""",
   """profile.title""": """الملف الشخصي""",
   """profile.Requests""": """الطلبات""",
   """profile.Numbers""": """الأرقام""",

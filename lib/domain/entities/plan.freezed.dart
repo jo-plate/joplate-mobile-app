@@ -62,7 +62,7 @@ class _$PlanCopyWithImpl<$Res, $Val extends Plan>
     Object? price = null,
     Object? activePerks = null,
     Object? disabledPerks = null,
-    Object? color = null,
+    Object? color = freezed,
     Object? productIds = null,
   }) {
     return _then(_value.copyWith(
@@ -82,7 +82,7 @@ class _$PlanCopyWithImpl<$Res, $Val extends Plan>
           ? _value.disabledPerks
           : disabledPerks // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      color: null == color
+      color: freezed == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as Color,
@@ -126,7 +126,7 @@ class __$$PlanImplCopyWithImpl<$Res>
     Object? price = null,
     Object? activePerks = null,
     Object? disabledPerks = null,
-    Object? color = null,
+    Object? color = freezed,
     Object? productIds = null,
   }) {
     return _then(_$PlanImpl(
@@ -146,7 +146,7 @@ class __$$PlanImplCopyWithImpl<$Res>
           ? _value._disabledPerks
           : disabledPerks // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      color: null == color
+      color: freezed == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as Color,
@@ -239,7 +239,7 @@ class _$PlanImpl extends _Plan with DiagnosticableTreeMixin {
                 .equals(other._activePerks, _activePerks) &&
             const DeepCollectionEquality()
                 .equals(other._disabledPerks, _disabledPerks) &&
-            (identical(other.color, color) || other.color == color) &&
+            const DeepCollectionEquality().equals(other.color, color) &&
             const DeepCollectionEquality()
                 .equals(other._productIds, _productIds));
   }
@@ -251,7 +251,7 @@ class _$PlanImpl extends _Plan with DiagnosticableTreeMixin {
       price,
       const DeepCollectionEquality().hash(_activePerks),
       const DeepCollectionEquality().hash(_disabledPerks),
-      color,
+      const DeepCollectionEquality().hash(color),
       const DeepCollectionEquality().hash(_productIds));
 
   /// Create a copy of Plan

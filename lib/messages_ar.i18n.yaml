@@ -13,9 +13,11 @@ home:
   quick_sale: "البيع السريع"
   featured: "مميز"
   sold: "تم البيع"
+  expired: "منتهية"
   mynumbers: "أرقامي"
   myRequests: "طلباتي"
   search: "بحث"
+  deleted: "محذوف"
 
 profile:
   title: "الملف الشخصي"

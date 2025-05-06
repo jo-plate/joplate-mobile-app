@@ -111,7 +111,7 @@ class PlateCodePickerField extends StatelessWidget {
                     child: const Text(
                       'Cancel',
                       style: TextStyle(
-                          color: const Color(0xFF981C1E),
+                          color: Color(0xFF981C1E),
                           fontSize: 16,
                           decoration: TextDecoration.none),
                     ),
@@ -124,7 +124,7 @@ class PlateCodePickerField extends StatelessWidget {
                     child: const Text(
                       'Done',
                       style: TextStyle(
-                          color: const Color(0xFF981C1E),
+                          color: Color(0xFF981C1E),
                           fontSize: 16,
                           decoration: TextDecoration.none),
                     ),

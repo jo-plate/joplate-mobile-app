@@ -56,6 +56,15 @@ class PlateNumberRequestWidget extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         _buildPriceLabel(),
+                        if (item.isDisabled || disabled)
+                          Positioned.fill(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey.withOpacity(0.75),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
                       ],
                     ),
                   ),

@@ -69,7 +69,7 @@ class _QuicksalePageState extends State<QuicksalePage> {
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
                         child: SellerDetails(userProfile: profile),
                       ))
-                  .toList(),
+                  ,
             ]),
           );
         },

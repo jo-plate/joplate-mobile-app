@@ -13,9 +13,11 @@ home:
   quick_sale: "Quick Sale"
   featured: "Featured"
   sold: "Sold"
+  expired: "Expired"
   mynumbers: "My Numbers"
   myRequests: "My Requests"
   search: "Search"
+  disabled: "Deleted"
 
 
 profile:

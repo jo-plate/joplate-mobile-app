@@ -159,6 +159,11 @@ class HomeMessages {
   String get sold => """Sold""";
 
   /// ```dart
+  /// "Expired"
+  /// ```
+  String get expired => """Expired""";
+
+  /// ```dart
   /// "My Numbers"
   /// ```
   String get mynumbers => """My Numbers""";
@@ -172,6 +177,11 @@ class HomeMessages {
   /// "Search"
   /// ```
   String get search => """Search""";
+
+  /// ```dart
+  /// "Deleted"
+  /// ```
+  String get disabled => """Deleted""";
 }
 
 class ProfileMessages {
@@ -1268,9 +1278,11 @@ Map<String, String> get messagesMap => {
   """home.quick_sale""": """Quick Sale""",
   """home.featured""": """Featured""",
   """home.sold""": """Sold""",
+  """home.expired""": """Expired""",
   """home.mynumbers""": """My Numbers""",
   """home.myRequests""": """My Requests""",
   """home.search""": """Search""",
+  """home.disabled""": """Deleted""",
   """profile.title""": """Profile""",
   """profile.Requests""": """Requests""",
   """profile.Numbers""": """Numbers""",

@@ -8,6 +8,7 @@ import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/utils/strings.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
 import 'package:joplate/presentation/widgets/phone_number_widget.dart';
+import 'package:joplate/presentation/widgets/top_ribbon.dart';
 
 class PhoneNumberListingWidget extends StatelessWidget {
   final PhoneListing item;
@@ -25,6 +26,8 @@ class PhoneNumberListingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
+
     return Center(
       child: GestureDetector(
         onTap: disabled || item.isExpired || item.isDisabled
@@ -85,7 +88,14 @@ class PhoneNumberListingWidget extends StatelessWidget {
                 ),
               ),
             if (item.isFeatured) _buildFeaturedRibbon(context),
-            if (item.isSold) _buildSoldRibbon(context),
+            if (item.isSold)
+              TopRibbon(backgroundColor: const Color(0xFF981C1E), textColor: Colors.white, text: m.home.sold),
+            if (item.isExpired)
+              TopRibbon(
+                backgroundColor: Colors.black,
+                text: m.home.expired,
+                textColor: Colors.white,
+              ),
           ],
         ),
       ),
@@ -166,34 +176,6 @@ class PhoneNumberListingWidget extends StatelessWidget {
           ),
           child: Text(
             m.home.featured,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSoldRibbon(BuildContext context) {
-    final m = Localization.of(context);
-    return Positioned(
-      top: 20,
-      left: injector<LocalizationCubit>().state.languageCode == 'en' ? -20 : null,
-      right: injector<LocalizationCubit>().state.languageCode == 'ar' ? -20 : null,
-      child: Transform.rotate(
-        angle: injector<LocalizationCubit>().state.languageCode == 'en' ? -0.7854 : 0.7854,
-        child: Container(
-          width: 100,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: const Color(0xFF981C1E),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Text(
-            m.home.sold,
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,

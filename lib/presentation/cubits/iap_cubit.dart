@@ -10,12 +10,6 @@ import 'package:joplate/domain/dto/feature_listing_dto.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
 import 'iap_state.dart';
 
-const featuredPlanIds = [
-  'featured_plan_1',
-  'featured_plan_2',
-  'featured_plan_3',
-];
-
 @singleton
 class IAPCubit extends Cubit<IAPState> {
   IAPCubit() : super(const IAPState());
@@ -52,13 +46,11 @@ class IAPCubit extends Cubit<IAPState> {
       if (!isAvailable) throw Exception('IAP not available.');
 
       final response = await _iap.queryProductDetails({productId});
-      if (response.notFoundIDs.contains(productId) ||
-          response.productDetails.isEmpty) {
+      if (response.notFoundIDs.contains(productId) || response.productDetails.isEmpty) {
         throw Exception('Product not found.');
       }
 
-      final purchaseParam =
-          PurchaseParam(productDetails: response.productDetails.first);
+      final purchaseParam = PurchaseParam(productDetails: response.productDetails.first);
 
       await _iap.buyConsumable(purchaseParam: purchaseParam);
     } catch (e) {
@@ -67,36 +59,26 @@ class IAPCubit extends Cubit<IAPState> {
     }
   }
 
-  Future<void> _handlePurchase(
-      PurchaseDetails purchase) async {
+  Future<void> _handlePurchase(PurchaseDetails purchase) async {
     if (purchase.status == PurchaseStatus.purchased) {
       final iapData = IAPData(
         productId: purchase.productID,
         transactionId: purchase.transactionDate ?? '',
         purchaseToken: purchase.verificationData.serverVerificationData,
-        receipt: Platform.isIOS
-            ? purchase.verificationData.localVerificationData
-            : null,
+        receipt: Platform.isIOS ? purchase.verificationData.localVerificationData : null,
       );
-      FeatureListingDto? dto;
-      if (state.listingId != null && state.itemType != null) {
-        dto = FeatureListingDto(
-          listingId: state.listingId!,
-          itemType: state.itemType!,
-          goldenTicket: false,
-          iapData: iapData,
-        );
-      }
 
       try {
-        if (featuredPlanIds.contains(purchase.productID)) {
-          await FirebaseFunctions.instance
-              .httpsCallable(featureListingCF)
-              .call(dto!.toJson());
+        if (purchase.productID.contains("featured")) {
+          final dto = FeatureListingDto(
+            listingId: state.listingId!,
+            itemType: state.itemType!,
+            goldenTicket: false,
+            iapData: iapData,
+          );
+          await FirebaseFunctions.instance.httpsCallable(featureListingCF).call(dto.toJson());
         } else {
-          await FirebaseFunctions.instance
-              .httpsCallable(redeemPurchaseCF)
-              .call(iapData.toJson());
+          await FirebaseFunctions.instance.httpsCallable(redeemPurchaseCF).call(iapData.toJson());
         }
 
         AppSnackbar.showSuccess('Purchase successful!');

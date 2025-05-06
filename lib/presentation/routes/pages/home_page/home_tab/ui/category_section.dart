@@ -11,11 +11,21 @@ class CategorySection extends StatelessWidget {
   const CategorySection({super.key});
 
   Stream<int> _getPlatesListingCount(String itemType) {
-    return FirebaseFirestore.instance.collection(carPlatesCollectionId).snapshots().map((snapshot) => snapshot.size);
+    return FirebaseFirestore.instance
+        .collection(carPlatesCollectionId)
+        .where('isDisabled', isEqualTo: false)
+        .where('expiresAt', isGreaterThan: DateTime.now())
+        .snapshots()
+        .map((snapshot) => snapshot.size);
   }
 
   Stream<int> _getNumbersListingCount(String itemType) {
-    return FirebaseFirestore.instance.collection(phoneNumbersCollectionId).snapshots().map((snapshot) => snapshot.size);
+    return FirebaseFirestore.instance
+        .collection(phoneNumbersCollectionId)
+        .where('isDisabled', isEqualTo: false)
+        .where('expiresAt', isGreaterThan: DateTime.now())
+        .snapshots()
+        .map((snapshot) => snapshot.size);
   }
 
   Stream<int> _getPlatesRequestsCount() {
