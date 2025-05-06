@@ -184,7 +184,7 @@ class HomeMessagesAr extends HomeMessages {
   /// ```dart
   /// "محذوف"
   /// ```
-  String get deleted => """محذوف""";
+  String get disabled => """محذوف""";
 }
 
 class ProfileMessagesAr extends ProfileMessages {
@@ -1285,7 +1285,7 @@ Map<String, String> get messagesArMap => {
   """home.mynumbers""": """أرقامي""",
   """home.myRequests""": """طلباتي""",
   """home.search""": """بحث""",
-  """home.deleted""": """محذوف""",
+  """home.disabled""": """محذوف""",
   """profile.title""": """الملف الشخصي""",
   """profile.Requests""": """الطلبات""",
   """profile.Numbers""": """الأرقام""",

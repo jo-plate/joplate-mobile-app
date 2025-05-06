@@ -17,7 +17,7 @@ home:
   mynumbers: "أرقامي"
   myRequests: "طلباتي"
   search: "بحث"
-  deleted: "محذوف"
+  disabled: "محذوف"
 
 profile:
   title: "الملف الشخصي"
