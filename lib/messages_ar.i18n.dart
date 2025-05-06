@@ -90,6 +90,7 @@ class MessagesAr extends Messages {
   EditplateMessagesAr get editplate => EditplateMessagesAr(this);
   EditplaterequestMessagesAr get editplaterequest =>
       EditplaterequestMessagesAr(this);
+  IapMessagesAr get iap => IapMessagesAr(this);
 }
 
 class AppMessagesAr extends AppMessages {
@@ -1269,6 +1270,16 @@ class EditplaterequestMessagesAr extends EditplaterequestMessages {
   String get save_changes => """حفظ التعديلات""";
 }
 
+class IapMessagesAr extends IapMessages {
+  final MessagesAr _parent;
+  const IapMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "شراء"
+  /// ```
+  String get purchase => """شراء""";
+}
+
 Map<String, String> get messagesArMap => {
   """app.title""": """Joplate""",
   """home.welcome""": """مرحبًا بك في Joplate!""",
@@ -1485,4 +1496,5 @@ Map<String, String> get messagesArMap => {
   """editplaterequest.number""": """الرقم""",
   """editplaterequest.price_optional""": """السعر (اختياري)""",
   """editplaterequest.save_changes""": """حفظ التعديلات""",
+  """iap.purchase""": """شراء""",
 };

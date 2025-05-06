@@ -17,11 +17,13 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$Plan {
   String get displayName => throw _privateConstructorUsedError;
-  int get price => throw _privateConstructorUsedError;
+  double get price => throw _privateConstructorUsedError;
   List<String> get activePerks => throw _privateConstructorUsedError;
   List<String> get disabledPerks => throw _privateConstructorUsedError;
   Color get color => throw _privateConstructorUsedError;
   Map<String, String> get productIds => throw _privateConstructorUsedError;
+  List<String> get activePerksAr => throw _privateConstructorUsedError;
+  List<String> get disabledPerksAr => throw _privateConstructorUsedError;
 
   /// Create a copy of Plan
   /// with the given fields replaced by the non-null parameter values.
@@ -36,11 +38,13 @@ abstract class $PlanCopyWith<$Res> {
   @useResult
   $Res call(
       {String displayName,
-      int price,
+      double price,
       List<String> activePerks,
       List<String> disabledPerks,
       Color color,
-      Map<String, String> productIds});
+      Map<String, String> productIds,
+      List<String> activePerksAr,
+      List<String> disabledPerksAr});
 }
 
 /// @nodoc
@@ -64,6 +68,8 @@ class _$PlanCopyWithImpl<$Res, $Val extends Plan>
     Object? disabledPerks = null,
     Object? color = freezed,
     Object? productIds = null,
+    Object? activePerksAr = null,
+    Object? disabledPerksAr = null,
   }) {
     return _then(_value.copyWith(
       displayName: null == displayName
@@ -73,7 +79,7 @@ class _$PlanCopyWithImpl<$Res, $Val extends Plan>
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       activePerks: null == activePerks
           ? _value.activePerks
           : activePerks // ignore: cast_nullable_to_non_nullable
@@ -90,6 +96,14 @@ class _$PlanCopyWithImpl<$Res, $Val extends Plan>
           ? _value.productIds
           : productIds // ignore: cast_nullable_to_non_nullable
               as Map<String, String>,
+      activePerksAr: null == activePerksAr
+          ? _value.activePerksAr
+          : activePerksAr // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      disabledPerksAr: null == disabledPerksAr
+          ? _value.disabledPerksAr
+          : disabledPerksAr // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -103,11 +117,13 @@ abstract class _$$PlanImplCopyWith<$Res> implements $PlanCopyWith<$Res> {
   @useResult
   $Res call(
       {String displayName,
-      int price,
+      double price,
       List<String> activePerks,
       List<String> disabledPerks,
       Color color,
-      Map<String, String> productIds});
+      Map<String, String> productIds,
+      List<String> activePerksAr,
+      List<String> disabledPerksAr});
 }
 
 /// @nodoc
@@ -128,6 +144,8 @@ class __$$PlanImplCopyWithImpl<$Res>
     Object? disabledPerks = null,
     Object? color = freezed,
     Object? productIds = null,
+    Object? activePerksAr = null,
+    Object? disabledPerksAr = null,
   }) {
     return _then(_$PlanImpl(
       displayName: null == displayName
@@ -137,7 +155,7 @@ class __$$PlanImplCopyWithImpl<$Res>
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       activePerks: null == activePerks
           ? _value._activePerks
           : activePerks // ignore: cast_nullable_to_non_nullable
@@ -154,6 +172,14 @@ class __$$PlanImplCopyWithImpl<$Res>
           ? _value._productIds
           : productIds // ignore: cast_nullable_to_non_nullable
               as Map<String, String>,
+      activePerksAr: null == activePerksAr
+          ? _value._activePerksAr
+          : activePerksAr // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      disabledPerksAr: null == disabledPerksAr
+          ? _value._disabledPerksAr
+          : disabledPerksAr // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -167,10 +193,14 @@ class _$PlanImpl extends _Plan with DiagnosticableTreeMixin {
       final List<String> activePerks = const [],
       final List<String> disabledPerks = const [],
       this.color = Colors.white,
-      final Map<String, String> productIds = const {}})
+      final Map<String, String> productIds = const {},
+      final List<String> activePerksAr = const [],
+      final List<String> disabledPerksAr = const []})
       : _activePerks = activePerks,
         _disabledPerks = disabledPerks,
         _productIds = productIds,
+        _activePerksAr = activePerksAr,
+        _disabledPerksAr = disabledPerksAr,
         super._();
 
   @override
@@ -178,7 +208,7 @@ class _$PlanImpl extends _Plan with DiagnosticableTreeMixin {
   final String displayName;
   @override
   @JsonKey()
-  final int price;
+  final double price;
   final List<String> _activePerks;
   @override
   @JsonKey()
@@ -209,9 +239,27 @@ class _$PlanImpl extends _Plan with DiagnosticableTreeMixin {
     return EqualUnmodifiableMapView(_productIds);
   }
 
+  final List<String> _activePerksAr;
+  @override
+  @JsonKey()
+  List<String> get activePerksAr {
+    if (_activePerksAr is EqualUnmodifiableListView) return _activePerksAr;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_activePerksAr);
+  }
+
+  final List<String> _disabledPerksAr;
+  @override
+  @JsonKey()
+  List<String> get disabledPerksAr {
+    if (_disabledPerksAr is EqualUnmodifiableListView) return _disabledPerksAr;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_disabledPerksAr);
+  }
+
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Plan(displayName: $displayName, price: $price, activePerks: $activePerks, disabledPerks: $disabledPerks, color: $color, productIds: $productIds)';
+    return 'Plan(displayName: $displayName, price: $price, activePerks: $activePerks, disabledPerks: $disabledPerks, color: $color, productIds: $productIds, activePerksAr: $activePerksAr, disabledPerksAr: $disabledPerksAr)';
   }
 
   @override
@@ -224,7 +272,9 @@ class _$PlanImpl extends _Plan with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('activePerks', activePerks))
       ..add(DiagnosticsProperty('disabledPerks', disabledPerks))
       ..add(DiagnosticsProperty('color', color))
-      ..add(DiagnosticsProperty('productIds', productIds));
+      ..add(DiagnosticsProperty('productIds', productIds))
+      ..add(DiagnosticsProperty('activePerksAr', activePerksAr))
+      ..add(DiagnosticsProperty('disabledPerksAr', disabledPerksAr));
   }
 
   @override
@@ -241,7 +291,11 @@ class _$PlanImpl extends _Plan with DiagnosticableTreeMixin {
                 .equals(other._disabledPerks, _disabledPerks) &&
             const DeepCollectionEquality().equals(other.color, color) &&
             const DeepCollectionEquality()
-                .equals(other._productIds, _productIds));
+                .equals(other._productIds, _productIds) &&
+            const DeepCollectionEquality()
+                .equals(other._activePerksAr, _activePerksAr) &&
+            const DeepCollectionEquality()
+                .equals(other._disabledPerksAr, _disabledPerksAr));
   }
 
   @override
@@ -252,7 +306,9 @@ class _$PlanImpl extends _Plan with DiagnosticableTreeMixin {
       const DeepCollectionEquality().hash(_activePerks),
       const DeepCollectionEquality().hash(_disabledPerks),
       const DeepCollectionEquality().hash(color),
-      const DeepCollectionEquality().hash(_productIds));
+      const DeepCollectionEquality().hash(_productIds),
+      const DeepCollectionEquality().hash(_activePerksAr),
+      const DeepCollectionEquality().hash(_disabledPerksAr));
 
   /// Create a copy of Plan
   /// with the given fields replaced by the non-null parameter values.
@@ -266,17 +322,19 @@ class _$PlanImpl extends _Plan with DiagnosticableTreeMixin {
 abstract class _Plan extends Plan {
   const factory _Plan(
       {final String displayName,
-      final int price,
+      final double price,
       final List<String> activePerks,
       final List<String> disabledPerks,
       final Color color,
-      final Map<String, String> productIds}) = _$PlanImpl;
+      final Map<String, String> productIds,
+      final List<String> activePerksAr,
+      final List<String> disabledPerksAr}) = _$PlanImpl;
   const _Plan._() : super._();
 
   @override
   String get displayName;
   @override
-  int get price;
+  double get price;
   @override
   List<String> get activePerks;
   @override
@@ -285,6 +343,10 @@ abstract class _Plan extends Plan {
   Color get color;
   @override
   Map<String, String> get productIds;
+  @override
+  List<String> get activePerksAr;
+  @override
+  List<String> get disabledPerksAr;
 
   /// Create a copy of Plan
   /// with the given fields replaced by the non-null parameter values.

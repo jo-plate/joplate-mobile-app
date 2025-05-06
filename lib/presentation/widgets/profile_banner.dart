@@ -81,17 +81,22 @@ class _ProfileBannerState extends State<ProfileBanner> {
                         ),
                       ),
                       const SizedBox(height: 6),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 153, 31, 22),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Text(
-                          'Basic',
-                          style: TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w600),
-                        ),
-                      ),
+                      StreamBuilder<UserPlans>(
+                          stream: userPlansStream,
+                          builder: (context, snapshot) {
+                            print(snapshot.data);
+                            return Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 153, 31, 22),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                snapshot.data?.plan.name ?? 'Basic',
+                                style: const TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w600),
+                              ),
+                            );
+                          }),
                     ],
                   ),
                   const SizedBox(width: 14),
@@ -110,15 +115,16 @@ class _ProfileBannerState extends State<ProfileBanner> {
                               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                             ),
                             const SizedBox(width: 6),
-                            if (profile?.isVerified ?? false) Icon(Icons.verified, color: Colors.blue.shade600),
+                            if ((profile?.isVerified ?? false))
+                              Icon(Icons.verified, color: Colors.blue.shade600)
+                            else if ((profile?.pendingVerification ?? false))
+                              Icon(Icons.verified, color: Colors.grey.shade600),
                           ],
                         ),
                         const SizedBox(height: 10),
                         StreamBuilder<UserPlans>(
                             stream: userPlansStream,
                             builder: (context, snapshot) {
-                              print(snapshot.data);
-                              print(snapshot.error);
                               if (snapshot.connectionState == ConnectionState.waiting) {
                                 return const CircularProgressIndicator();
                               }

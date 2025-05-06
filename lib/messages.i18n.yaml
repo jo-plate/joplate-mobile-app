@@ -257,3 +257,6 @@ editplaterequest:
   number: "Number"
   price_optional: "Price (optional)"
   save_changes: "Save Changes"
+
+iap:
+  purchase: "Purchase"

@@ -26,6 +26,7 @@ mixin _$UserProfile {
   String get email => throw _privateConstructorUsedError;
   String get phonenumber => throw _privateConstructorUsedError;
   bool get isVerified => throw _privateConstructorUsedError;
+  bool get pendingVerification => throw _privateConstructorUsedError;
 
   /// Serializes this UserProfile to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -49,7 +50,8 @@ abstract class $UserProfileCopyWith<$Res> {
       String id,
       String email,
       String phonenumber,
-      bool isVerified});
+      bool isVerified,
+      bool pendingVerification});
 }
 
 /// @nodoc
@@ -73,6 +75,7 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
     Object? email = null,
     Object? phonenumber = null,
     Object? isVerified = null,
+    Object? pendingVerification = null,
   }) {
     return _then(_value.copyWith(
       displayName: null == displayName
@@ -99,6 +102,10 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
           ? _value.isVerified
           : isVerified // ignore: cast_nullable_to_non_nullable
               as bool,
+      pendingVerification: null == pendingVerification
+          ? _value.pendingVerification
+          : pendingVerification // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -117,7 +124,8 @@ abstract class _$$UserProfileImplCopyWith<$Res>
       String id,
       String email,
       String phonenumber,
-      bool isVerified});
+      bool isVerified,
+      bool pendingVerification});
 }
 
 /// @nodoc
@@ -139,6 +147,7 @@ class __$$UserProfileImplCopyWithImpl<$Res>
     Object? email = null,
     Object? phonenumber = null,
     Object? isVerified = null,
+    Object? pendingVerification = null,
   }) {
     return _then(_$UserProfileImpl(
       displayName: null == displayName
@@ -165,6 +174,10 @@ class __$$UserProfileImplCopyWithImpl<$Res>
           ? _value.isVerified
           : isVerified // ignore: cast_nullable_to_non_nullable
               as bool,
+      pendingVerification: null == pendingVerification
+          ? _value.pendingVerification
+          : pendingVerification // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -178,7 +191,8 @@ class _$UserProfileImpl extends _UserProfile {
       this.id = '-1',
       this.email = '',
       this.phonenumber = '',
-      this.isVerified = false})
+      this.isVerified = false,
+      this.pendingVerification = false})
       : super._();
 
   factory _$UserProfileImpl.fromJson(Map<String, dynamic> json) =>
@@ -202,10 +216,13 @@ class _$UserProfileImpl extends _UserProfile {
   @override
   @JsonKey()
   final bool isVerified;
+  @override
+  @JsonKey()
+  final bool pendingVerification;
 
   @override
   String toString() {
-    return 'UserProfile(displayName: $displayName, name: $name, id: $id, email: $email, phonenumber: $phonenumber, isVerified: $isVerified)';
+    return 'UserProfile(displayName: $displayName, name: $name, id: $id, email: $email, phonenumber: $phonenumber, isVerified: $isVerified, pendingVerification: $pendingVerification)';
   }
 
   @override
@@ -221,13 +238,15 @@ class _$UserProfileImpl extends _UserProfile {
             (identical(other.phonenumber, phonenumber) ||
                 other.phonenumber == phonenumber) &&
             (identical(other.isVerified, isVerified) ||
-                other.isVerified == isVerified));
+                other.isVerified == isVerified) &&
+            (identical(other.pendingVerification, pendingVerification) ||
+                other.pendingVerification == pendingVerification));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, displayName, name, id, email, phonenumber, isVerified);
+  int get hashCode => Object.hash(runtimeType, displayName, name, id, email,
+      phonenumber, isVerified, pendingVerification);
 
   /// Create a copy of UserProfile
   /// with the given fields replaced by the non-null parameter values.
@@ -252,7 +271,8 @@ abstract class _UserProfile extends UserProfile {
       final String id,
       final String email,
       final String phonenumber,
-      final bool isVerified}) = _$UserProfileImpl;
+      final bool isVerified,
+      final bool pendingVerification}) = _$UserProfileImpl;
   const _UserProfile._() : super._();
 
   factory _UserProfile.fromJson(Map<String, dynamic> json) =
@@ -270,6 +290,8 @@ abstract class _UserProfile extends UserProfile {
   String get phonenumber;
   @override
   bool get isVerified;
+  @override
+  bool get pendingVerification;
 
   /// Create a copy of UserProfile
   /// with the given fields replaced by the non-null parameter values.

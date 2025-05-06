@@ -2,6 +2,9 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:joplate/domain/entities/plan.dart';
+import 'package:joplate/injection/injector.dart';
+import 'package:joplate/presentation/cubits/localization/localization_cubit.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/widgets/icons/plan_icon.dart';
 
 class PlanWidget extends StatelessWidget {
@@ -19,8 +22,7 @@ class PlanWidget extends StatelessWidget {
 
     if (plan.productId.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text("No product ID available for this platform.")),
+        const SnackBar(content: Text("No product ID available for this platform.")),
       );
       return;
     }
@@ -40,8 +42,7 @@ class PlanWidget extends StatelessWidget {
       return;
     }
 
-    final response =
-        await InAppPurchase.instance.queryProductDetails({plan.productId});
+    final response = await InAppPurchase.instance.queryProductDetails({plan.productId});
     if (response.notFoundIDs.isNotEmpty || response.productDetails.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Product not found.")),
@@ -57,6 +58,8 @@ class PlanWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isEn = injector<LocalizationCubit>().state.languageCode == "en";
+    final m = Localization.of(context);
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -86,11 +89,7 @@ class PlanWidget extends StatelessWidget {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [
-                          plan.color.withAlpha(170),
-                          plan.color.withAlpha(130),
-                          plan.color.withAlpha(255)
-                        ],
+                        colors: [plan.color.withAlpha(170), plan.color.withAlpha(130), plan.color.withAlpha(255)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
@@ -119,15 +118,15 @@ class PlanWidget extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 8),
-                          Text(
-                            "you can cancel or downgrade/upgrade your subscription at any time",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
+                          // Text(
+                          //   "you can cancel or downgrade/upgrade your subscription at any time",
+                          //   textAlign: TextAlign.center,
+                          //   style: TextStyle(
+                          //     color: Colors.grey[600],
+                          //     fontSize: 16.0,
+                          //   ),
+                          // ),
+                          // const SizedBox(height: 8),
                           if (plan.price > 0)
                             RichText(
                               textAlign: TextAlign.center,
@@ -166,8 +165,8 @@ class PlanWidget extends StatelessWidget {
                             color: Colors.grey[400],
                             thickness: 1,
                           ),
-                          _buildActivePerks(),
-                          _buildDisabledPerks(),
+                          _buildActivePerks(isEn),
+                          _buildDisabledPerks(isEn),
                           const Spacer(),
                           Divider(
                             color: Colors.grey[400],
@@ -175,7 +174,7 @@ class PlanWidget extends StatelessWidget {
                           ),
                           FilledButton(
                             onPressed: () => _buyProduct(context),
-                            child: const Text("Subscribe"),
+                            child: Text(m.iap.purchase),
                           )
                         ],
                       ),
@@ -212,18 +211,19 @@ class PlanWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildActivePerks() {
+  Widget _buildActivePerks(bool isEn) {
+    final perks = isEn ? plan.activePerks : plan.activePerksAr;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: plan.activePerks.map((perk) => _buildPerk(perk, true)).toList(),
+      children: perks.map((perk) => _buildPerk(perk, true)).toList(),
     );
   }
 
-  Widget _buildDisabledPerks() {
+  Widget _buildDisabledPerks(bool isEn) {
+    final perks = isEn ? plan.disabledPerks : plan.disabledPerksAr;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children:
-          plan.disabledPerks.map((perk) => _buildPerk(perk, false)).toList(),
+      children: perks.map((perk) => _buildPerk(perk, false)).toList(),
     );
   }
 }

@@ -9,11 +9,13 @@ class Plan with _$Plan {
   const Plan._();
   const factory Plan({
     @Default("Plan") String displayName,
-    @Default(0) int price,
+    @Default(0) double price,
     @Default([]) List<String> activePerks,
     @Default([]) List<String> disabledPerks,
     @Default(Colors.white) Color color,
-    @Default({}) Map<String, String> productIds, // now uses raw strings
+    @Default({}) Map<String, String> productIds,
+    @Default([]) List<String> activePerksAr,
+    @Default([]) List<String> disabledPerksAr,
   }) = _Plan;
 
   String get productId {
@@ -35,15 +37,16 @@ class Plan with _$Plan {
       color = Colors.white;
     }
 
-    final rawProductIds =
-        (json['productIds'] as Map?)?.cast<String, dynamic>() ?? {};
+    final rawProductIds = (json['productIds'] as Map?)?.cast<String, dynamic>() ?? {};
     final productIds = rawProductIds.map((k, v) => MapEntry(k, v as String));
 
     return Plan(
       displayName: json['displayName'] as String? ?? "Plan",
-      price: json['price'] as int? ?? 0,
+      price: (json['price'] as num?)?.toDouble() ?? 0.0,
       activePerks: List<String>.from(json['activePerks'] ?? []),
       disabledPerks: List<String>.from(json['disabledPerks'] ?? []),
+      activePerksAr: List<String>.from(json['activePerksAr'] ?? []),
+      disabledPerksAr: List<String>.from(json['disabledPerksAr'] ?? []),
       color: color,
       productIds: productIds,
     );

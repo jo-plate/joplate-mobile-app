@@ -256,3 +256,6 @@ editplaterequest:
   number: "الرقم"
   price_optional: "السعر (اختياري)"
   save_changes: "حفظ التعديلات"
+
+iap:
+  purchase: "شراء"

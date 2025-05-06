@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,10 +22,10 @@ class _PlansPageState extends State<PlansPage> {
   void initState() {
     super.initState();
 
-    plans = FirebaseFirestore.instance
-        .collection('plans')
-        .snapshots()
-        .map((snapshot) => snapshot.docs.map((doc) => Plan.fromJson(doc.data())).toList());
+    plans = FirebaseFirestore.instance.collection('plans').snapshots().map((snapshot) {
+      snapshot.docs.forEach((e) => print(e.data()));
+      return snapshot.docs.map((doc) => Plan.fromJson(doc.data())).toList();
+    });
   }
 
   @override
@@ -36,25 +38,25 @@ class _PlansPageState extends State<PlansPage> {
           foregroundColor: Colors.black,
         ),
         body: SafeArea(
-          child: StreamBuilder<List<Plan>>(
-              stream: plans,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                return CarouselSlider.builder(
-                    options: CarouselOptions(
-                      autoPlay: true,
-                      padEnds: true,
-                      viewportFraction: 1,
-                      height: MediaQuery.of(context).size.height,
-                      enlargeCenterPage: false,
-                    ),
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (BuildContext context, int index, int realIndex) {
-                      return PlanWidget(plan: snapshot.data![index]);
-                    });
-              }),
-        ));
+            child: StreamBuilder<List<Plan>>(
+                stream: plans,
+                builder: (context, snapshot) {
+                  print(snapshot.data);
+                  if (!snapshot.hasData) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  return CarouselSlider.builder(
+                      options: CarouselOptions(
+                        autoPlay: true,
+                        padEnds: true,
+                        viewportFraction: 1,
+                        height: MediaQuery.of(context).size.height,
+                        enlargeCenterPage: false,
+                      ),
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (BuildContext context, int index, int realIndex) {
+                        return PlanWidget(plan: snapshot.data![index]);
+                      });
+                })));
   }
 }

@@ -15,6 +15,7 @@ class UserProfile with _$UserProfile {
     @Default('') String email,
     @Default('') String phonenumber,
     @Default(false) bool isVerified,
+    @Default(false) bool pendingVerification,
   }) = _UserProfile;
 
   factory UserProfile.fromSnapshot(DocumentSnapshot snapshot) {

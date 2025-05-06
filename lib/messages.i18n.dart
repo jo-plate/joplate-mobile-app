@@ -87,6 +87,7 @@ class Messages {
   EditplateMessages get editplate => EditplateMessages(this);
   EditplaterequestMessages get editplaterequest =>
       EditplaterequestMessages(this);
+  IapMessages get iap => IapMessages(this);
 }
 
 class AppMessages {
@@ -1266,6 +1267,16 @@ class EditplaterequestMessages {
   String get save_changes => """Save Changes""";
 }
 
+class IapMessages {
+  final Messages _parent;
+  const IapMessages(this._parent);
+
+  /// ```dart
+  /// "Purchase"
+  /// ```
+  String get purchase => """Purchase""";
+}
+
 Map<String, String> get messagesMap => {
   """app.title""": """Joplate""",
   """home.welcome""": """Welcome to Joplate!""",
@@ -1480,4 +1491,5 @@ Map<String, String> get messagesMap => {
   """editplaterequest.number""": """Number""",
   """editplaterequest.price_optional""": """Price (optional)""",
   """editplaterequest.save_changes""": """Save Changes""",
+  """iap.purchase""": """Purchase""",
 };

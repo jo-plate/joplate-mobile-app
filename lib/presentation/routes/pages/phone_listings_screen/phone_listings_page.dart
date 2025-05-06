@@ -46,18 +46,11 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
         .snapshots()
         .listen((snap) {
       setState(() {
-        _allPhones =
-            snap.docs.map((d) => PhoneListing.fromSnapshot(d)).toList();
+        _allPhones = snap.docs.map((d) => PhoneListing.fromSnapshot(d)).toList();
       });
     });
 
-    for (final c in [
-      _containsCtrl,
-      _startsWithCtrl,
-      _endsWithCtrl,
-      _minPriceCtrl,
-      _maxPriceCtrl
-    ]) {
+    for (final c in [_containsCtrl, _startsWithCtrl, _endsWithCtrl, _minPriceCtrl, _maxPriceCtrl]) {
       c.addListener(() => setState(() {}));
     }
   }
@@ -76,24 +69,19 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
   bool _matches(PhoneListing phone) {
     final number = phone.item.number;
 
-    if (_operator != PhoneOperator.none &&
-        phone.item.phoneOperator != _operator) {
+    if (_operator != PhoneOperator.none && phone.item.phoneOperator != _operator) {
       return false;
     }
 
     if (_containsCtrl.text.isNotEmpty && !number.contains(_containsCtrl.text)) {
       return false;
     }
-    if (_startsWithCtrl.text.isNotEmpty &&
-        !number.startsWith(_startsWithCtrl.text)) {
+    if (_startsWithCtrl.text.isNotEmpty && !number.startsWith(_startsWithCtrl.text)) {
       return false;
     }
     if (_endsWithCtrl.text.isNotEmpty && !number.endsWith(_endsWithCtrl.text)) {
       return false;
     }
-
-    final isValid = !phone.isDisabled && !phone.isSold && !phone.isExpired;
-    if (!isValid) return false;
 
     final min = double.tryParse(_minPriceCtrl.text);
     final max = double.tryParse(_maxPriceCtrl.text);
@@ -117,8 +105,7 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
           borderRadius: BorderRadius.all(Radius.circular(8)),
           borderSide: BorderSide(color: Colors.red, width: 1.5),
         ),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       );
 
   @override
@@ -150,16 +137,13 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
               children: [
                 Expanded(
                   child: DropdownButtonFormField<PhoneOperator>(
-                    decoration: _inputDecoration.copyWith(
-                        labelText: m.phones.company_label),
+                    decoration: _inputDecoration.copyWith(labelText: m.phones.company_label),
                     value: _operator,
-                    icon: const Icon(Icons.arrow_drop_down,
-                        color: Color(0xFF981C1E)),
+                    icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF981C1E)),
                     items: PhoneOperator.values
                         .map((op) => DropdownMenuItem(
                               value: op,
-                              child: Text(op.name,
-                                  style: const TextStyle(fontSize: 14)),
+                              child: Text(op.name, style: const TextStyle(fontSize: 14)),
                             ))
                         .toList(),
                     onChanged: (val) => setState(() => _operator = val!),
@@ -174,24 +158,21 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
                   Expanded(
                     child: TextField(
                       controller: _containsCtrl,
-                      decoration: _inputDecoration.copyWith(
-                          labelText: m.phones.contains),
+                      decoration: _inputDecoration.copyWith(labelText: m.phones.contains),
                     ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: TextField(
                       controller: _startsWithCtrl,
-                      decoration: _inputDecoration.copyWith(
-                          labelText: m.phones.starts_with),
+                      decoration: _inputDecoration.copyWith(labelText: m.phones.starts_with),
                     ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: TextField(
                       controller: _endsWithCtrl,
-                      decoration: _inputDecoration.copyWith(
-                          labelText: m.phones.ends_with),
+                      decoration: _inputDecoration.copyWith(labelText: m.phones.ends_with),
                     ),
                   ),
                 ],
@@ -203,8 +184,7 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
                     child: TextField(
                       controller: _minPriceCtrl,
                       keyboardType: TextInputType.number,
-                      decoration: _inputDecoration.copyWith(
-                          labelText: m.phones.min_price),
+                      decoration: _inputDecoration.copyWith(labelText: m.phones.min_price),
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -212,8 +192,7 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
                     child: TextField(
                       controller: _maxPriceCtrl,
                       keyboardType: TextInputType.number,
-                      decoration: _inputDecoration.copyWith(
-                          labelText: m.phones.max_price),
+                      decoration: _inputDecoration.copyWith(labelText: m.phones.max_price),
                     ),
                   ),
                 ],
@@ -226,13 +205,10 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
                 children: [
                   Text(
                     _showAdvanced ? m.phones.show_less : m.phones.see_more,
-                    style: const TextStyle(
-                        color: Color(0xFF981C1E), fontWeight: FontWeight.bold),
+                    style: const TextStyle(color: Color(0xFF981C1E), fontWeight: FontWeight.bold),
                   ),
                   Icon(
-                    _showAdvanced
-                        ? Icons.keyboard_arrow_up
-                        : Icons.keyboard_arrow_down,
+                    _showAdvanced ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
                     color: const Color(0xFF981C1E),
                   ),
                 ],

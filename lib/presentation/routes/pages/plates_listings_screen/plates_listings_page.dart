@@ -159,21 +159,16 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
     final digitLabel = (isArabic ? _digitCountsAR : _digitCountsEN)[plate.item.number.length - 1];
     final formatList = getFormatList(context);
 
-    if (_selectedCode != null && _selectedCode!.isNotEmpty && plate.item.code != _selectedCode) {
-      return false;
+    if (_selectedCode != null && _selectedCode!.isNotEmpty && _selectedCode != m.plates.code) {
+      if (plate.item.code != _selectedCode) return false;
     }
 
-    if (_selectedDigits != null &&
-        _selectedDigits!.isNotEmpty &&
-        digitLabel != _selectedDigits) {
-      return false;
+    if (_selectedDigits != null && _selectedDigits!.isNotEmpty && _selectedDigits != m.plates.digit_count) {
+      if (digitLabel != _selectedDigits) return false;
     }
 
-    if (_selectedFormat != null &&
-        _selectedFormat!.isNotEmpty &&
-        _selectedFormat != formatList[0] && // formatList[0] is "Format"
-        plate.item.format != _selectedFormat) {
-      return false;
+    if (_selectedFormat != null && _selectedFormat!.isNotEmpty && _selectedFormat != formatList[0]) {
+      if (plate.item.format != _selectedFormat) return false;
     }
 
     if (_containsController.text.isNotEmpty && !number.contains(_containsController.text)) {
@@ -253,13 +248,18 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                       decoration: inputFieldStyle.copyWith(labelText: m.plates.code),
                       value: _selectedCode,
                       icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF981C1E)),
-                      items: _codes.map((c) {
+                      items: [m.plates.code, ..._codes].map((c) {
                         return DropdownMenuItem(
                           value: c,
                           child: Text(c, style: const TextStyle(fontSize: 14)),
                         );
                       }).toList(),
-                      onChanged: (val) => setState(() => _selectedCode = val),
+                      onChanged: (val) => setState(() {
+                        if (val == m.plates.code) {
+                          val = null;
+                        }
+                        _selectedCode = val;
+                      }),
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -268,13 +268,19 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                       decoration: inputFieldStyle.copyWith(labelText: m.plates.digit_count),
                       value: _selectedDigits,
                       icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF981C1E)),
-                      items: digitOptions.map((d) {
+                      items: [m.plates.digit_count, ...digitOptions].map((d) {
                         return DropdownMenuItem(
                           value: d,
                           child: Text(d, style: const TextStyle(fontSize: 14)),
                         );
                       }).toList(),
-                      onChanged: (val) => setState(() => _selectedDigits = val),
+                      onChanged: (val) => setState(() {
+                        if (val == m.plates.digit_count) {
+                          val = null;
+                        } else {
+                          _selectedDigits = val;
+                        }
+                      }),
                     ),
                   ),
                 ],
