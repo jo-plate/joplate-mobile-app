@@ -10,20 +10,26 @@ import 'category_card.dart';
 class CategorySection extends StatelessWidget {
   const CategorySection({super.key});
 
-  Stream<int> _getPlatesListingCount(String itemType) {
+  Stream<int> _getPlatesListingCount() {
     return FirebaseFirestore.instance
         .collection(carPlatesCollectionId)
         .where('isDisabled', isEqualTo: false)
         .where('expiresAt', isGreaterThan: DateTime.now())
+        .orderBy('featuredUntil', descending: true)
+        .orderBy('isSold', descending: false)
+        .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.size);
   }
 
-  Stream<int> _getNumbersListingCount(String itemType) {
+  Stream<int> _getNumbersListingCount() {
     return FirebaseFirestore.instance
         .collection(phoneNumbersCollectionId)
         .where('isDisabled', isEqualTo: false)
         .where('expiresAt', isGreaterThan: DateTime.now())
+        .orderBy('featuredUntil', descending: true)
+        .orderBy('isSold', descending: false)
+        .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.size);
   }
@@ -31,6 +37,7 @@ class CategorySection extends StatelessWidget {
   Stream<int> _getPlatesRequestsCount() {
     return FirebaseFirestore.instance
         .collection(platesRequestsCollectionId)
+        .where('isDisabled', isEqualTo: false)
         .snapshots()
         .map((snapshot) => snapshot.size);
   }
@@ -38,9 +45,9 @@ class CategorySection extends StatelessWidget {
   Stream<int> _getCategoryCount(ItemType? itemType) {
     switch (itemType) {
       case ItemType.plateNumber:
-        return _getPlatesListingCount(itemType.toString());
+        return _getPlatesListingCount();
       case ItemType.phoneNumber:
-        return _getNumbersListingCount(itemType.toString());
+        return _getNumbersListingCount();
       default:
         return _getPlatesRequestsCount();
     }
@@ -52,40 +59,31 @@ class CategorySection extends StatelessWidget {
 
     return Column(
       children: [
-        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          _buildCategoryCard(
-            icon: Image.asset(
-              'assets/images/car_numbers.png',
-              width: 50,
-              // height: 40,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _buildCategoryCard(
+              icon: Image.asset('assets/images/car_numbers.png', width: 50),
+              title: m.home.car_number,
+              itemType: ItemType.plateNumber,
+              onTap: () => AutoRouter.of(context).push(const PlatesListingsRoute()),
             ),
-            title: m.home.car_number,
-            itemType: ItemType.plateNumber,
-            onTap: () => AutoRouter.of(context).push(const PlatesListingsRoute()),
-          ),
-          _buildCategoryCard(
-              icon: Image.asset(
-                'assets/images/phone_numbers.png',
-                width: 50,
-                // height: 40,
-              ),
+            _buildCategoryCard(
+              icon: Image.asset('assets/images/phone_numbers.png', width: 50),
               title: m.home.phone_numbers,
               itemType: ItemType.phoneNumber,
-              onTap: () => AutoRouter.of(context).push(const PhoneListingsRoute())),
-          _buildCategoryCard(
-              icon: Image.asset(
-                'assets/images/requests.png',
-                width: 50,
-                // height: 40,
-              ),
+              onTap: () => AutoRouter.of(context).push(const PhoneListingsRoute()),
+            ),
+            _buildCategoryCard(
+              icon: Image.asset('assets/images/requests.png', width: 50),
               title: m.home.requests,
-              onTap: () => AutoRouter.of(context).push(const RequestsRoute())),
-        ]),
+              onTap: () => AutoRouter.of(context).push(const RequestsRoute()),
+            ),
+          ],
+        ),
         const SizedBox(height: 12),
         InkWell(
-          onTap: () {
-            AutoRouter.of(context).push(const QuicksaleRoute());
-          },
+          onTap: () => AutoRouter.of(context).push(const QuicksaleRoute()),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
             child: Container(
@@ -98,12 +96,7 @@ class CategorySection extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'assets/images/quicksale.png',
-                    width: 20,
-                    height: 20,
-                    fit: BoxFit.contain,
-                  ),
+                  Image.asset('assets/images/quicksale.png', width: 20, height: 20, fit: BoxFit.contain),
                   const SizedBox(width: 8),
                   Text(
                     m.home.quick_sale,
@@ -122,12 +115,22 @@ class CategorySection extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoryCard({required Widget icon, required String title, ItemType? itemType, Function()? onTap}) {
+  Widget _buildCategoryCard({
+    required Widget icon,
+    required String title,
+    ItemType? itemType,
+    Function()? onTap,
+  }) {
     return StreamBuilder<int>(
       stream: _getCategoryCount(itemType),
       builder: (context, snapshot) {
-        final count = snapshot.hasData ? snapshot.data.toString() : "Loading";
-        return CategoryCard(iconWidget: icon, title: title, count: count, onTap: onTap);
+        final count = snapshot.data ?? 0;
+        return CategoryCard(
+          iconWidget: icon,
+          title: title,
+          count: count.toString(),
+          onTap: onTap,
+        );
       },
     );
   }
