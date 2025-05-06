@@ -33,9 +33,9 @@ class _BuyTicketsDialogState extends State<BuyTicketsDialog> {
     plansStream = FirebaseFirestore.instance
         .collection(normalTicketsPackagesCollectionId)
         .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => TicketPlan.fromJson(doc.data()))
-            .toList()..sort((a, b) => a.amount.compareTo(b.amount)));
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => TicketPlan.fromJson(doc.data())).toList()
+              ..sort((a, b) => a.amount.compareTo(b.amount)));
   }
 
   @override
@@ -73,7 +73,13 @@ class _BuyTicketsDialogState extends State<BuyTicketsDialog> {
                         itemBuilder: (_, i, __) => Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 24, vertical: 12),
-                          child: TicketCard(plan: plans[i]),
+                          child: TicketCard(
+                            plan: plans[i],
+                            icon: const PlanIcon(
+                                size: 32,
+                                color: Colors.white,
+                                borderColor: Colors.black),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -110,7 +116,8 @@ class _BuyTicketsDialogState extends State<BuyTicketsDialog> {
                                   final plan = plans[current];
                                   final productId = plan.productId;
                                   if (productId == null || productId.isEmpty) {
-                                    AppSnackbar.showError("Product ID not found");
+                                    AppSnackbar.showError(
+                                        "Product ID not found");
                                     return;
                                   }
 
@@ -137,8 +144,14 @@ class _BuyTicketsDialogState extends State<BuyTicketsDialog> {
 }
 
 class TicketCard extends StatelessWidget {
-  const TicketCard({super.key, required this.plan});
+  const TicketCard({
+    super.key,
+    required this.plan,
+    this.icon,
+  });
+
   final TicketPlan plan;
+  final Widget? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -158,8 +171,8 @@ class TicketCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const PlanIcon(
-                size: 32, color: Colors.white, borderColor: Colors.black),
+            if (icon != null) 
+              icon!,
             const SizedBox(height: 12),
             Text(
               '${plan.amount} Tickets',

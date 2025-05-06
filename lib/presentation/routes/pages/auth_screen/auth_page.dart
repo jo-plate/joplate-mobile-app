@@ -90,19 +90,21 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
           ),
 
           // TabBarView for Sign in and Sign up tabs
-          body: TabBarView(
-            controller: _tabController,
-            children: [
-              // Sign in Tab Content
-              LoginForm(
-                onPressed: injector<AuthCubit>().loginWithEmailAndPassword,
-              ),
-
-              // Sign up Tab Placeholder
-              SignupForm(
-                onPressed: injector<AuthCubit>().signUpWithEmailAndPassword,
-              ),
-            ],
+          body: SafeArea(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                // Sign in Tab Content
+                LoginForm(
+                  onPressed: injector<AuthCubit>().loginWithEmailAndPassword,
+                ),
+            
+                // Sign up Tab Placeholder
+                SignupForm(
+                  onPressed: injector<AuthCubit>().signUpWithEmailAndPassword,
+                ),
+              ],
+            ),
           ),
         ),
       ),

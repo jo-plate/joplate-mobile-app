@@ -68,13 +68,15 @@ class _FeaturePlanDialogState extends State<FeaturePlanDialog> {
               CarouselSlider.builder(
                 itemCount: plans.length,
                 options: CarouselOptions(
-                  height: 270,
+                  height: 300,
                   enlargeCenterPage: true,
                   viewportFraction: 0.85,
                   autoPlay: true,
                   onPageChanged: (i, __) => setState(() => current = i),
                 ),
-                itemBuilder: (_, i, __) => TicketCard(plan: plans[i]),
+                itemBuilder: (_, i, __) => TicketCard(
+                  plan: plans[i],
+                ),
               ),
               const SizedBox(height: 12),
               Row(

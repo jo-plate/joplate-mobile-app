@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/entities/user_favorites.dart';
+import 'package:joplate/presentation/routes/router.dart';
 
 class FavoriteButton extends StatefulWidget {
   const FavoriteButton(
@@ -23,7 +25,6 @@ class FavoriteButton extends StatefulWidget {
       : itemType = ItemType.phoneNumber;
 
   final String listingId;
-  
 
   @override
   State<FavoriteButton> createState() => _FavoriteButtonState();
@@ -71,7 +72,10 @@ class _FavoriteButtonState extends State<FavoriteButton> {
           onTap: () async {
             final user = FirebaseAuth.instance.currentUser;
 
-            if (user == null) return;
+            if (user == null) {
+              AutoRouter.of(context).push(const AuthRoute());
+              return;
+            }
 
             if (!isFavorite) {
               await FirebaseFirestore.instance
