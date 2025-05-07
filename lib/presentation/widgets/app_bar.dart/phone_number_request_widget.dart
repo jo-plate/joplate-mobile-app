@@ -11,84 +11,84 @@ class PhoneNumberRequestWidget extends StatelessWidget {
   final PhoneRequest item;
   final double priceLabelFontSize;
   final bool disabled;
+  final double aspectRatio;
 
-  const PhoneNumberRequestWidget({
-    super.key,
-    required this.item,
-    this.priceLabelFontSize = 16,
-    this.disabled = false,
-  });
+  const PhoneNumberRequestWidget(
+      {super.key, required this.item, this.priceLabelFontSize = 16, this.disabled = false, this.aspectRatio = 1.51});
 
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
-    return Center(
-      child: GestureDetector(
-        onTap: disabled
-            ? null
-            : () {
-                AutoRouter.of(context).push(PhoneRequestDetailsRoute(phoneNumberRequestId: item.id));
-              },
-        child: Stack(
-          fit: StackFit.passthrough,
-          clipBehavior: Clip.hardEdge,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.grey[500]!,
-                  width: 2,
+    return AspectRatio(
+      aspectRatio: aspectRatio,
+      child: Center(
+        child: GestureDetector(
+          onTap: disabled
+              ? null
+              : () {
+                  AutoRouter.of(context).push(PhoneRequestDetailsRoute(phoneNumberRequestId: item.id));
+                },
+          child: Stack(
+            fit: StackFit.passthrough,
+            clipBehavior: Clip.hardEdge,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.grey[500]!,
+                    width: 2,
+                  ),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                // crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: PhoneNumberWidget(phoneNumber: item.item),
-                        ),
-                        _buildPriceLabel(),
-                        if (item.createdAt != null)
-                          CreatedAtLabelWidget(
-                            createdAt: item.createdAt!,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  // crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: PhoneNumberWidget(phoneNumber: item.item),
                           ),
-                      ],
+                          _buildPriceLabel(),
+                          if (item.createdAt != null)
+                            CreatedAtLabelWidget(
+                              createdAt: item.createdAt!,
+                            ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (item.isDisabled || item.isExpired)
+                Positioned.fill(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.75),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                ],
-              ),
-            ),
-            if (item.isDisabled || item.isExpired)
-              Positioned.fill(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.75),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
                 ),
-              ),
-            if (item.isDisabled)
-              TopRibbon(
-                backgroundColor: Colors.black,
-                text: m.home.disabled,
-                textColor: Colors.white,
-              )
-            else if (item.isExpired)
-              TopRibbon(
-                backgroundColor: Colors.black,
-                text: m.home.expired,
-                textColor: Colors.white,
-              ),
-          ],
+              if (item.isDisabled)
+                TopRibbon(
+                  backgroundColor: Colors.black,
+                  text: m.home.disabled,
+                  textColor: Colors.white,
+                )
+              else if (item.isExpired)
+                TopRibbon(
+                  backgroundColor: Colors.black,
+                  text: m.home.expired,
+                  textColor: Colors.white,
+                ),
+            ],
+          ),
         ),
       ),
     );

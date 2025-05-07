@@ -53,10 +53,9 @@ class PhoneNumberListingWidget extends StatelessWidget {
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,7 +82,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
                 ],
               ),
             ),
-            if (item.isSold || item.isExpired)
+            if (item.isSold || item.isExpired || item.isDisabled)
               Positioned.fill(
                 child: Container(
                   decoration: BoxDecoration(
@@ -94,19 +93,10 @@ class PhoneNumberListingWidget extends StatelessWidget {
               ),
             if (item.isFeatured) _buildFeaturedRibbon(context),
             if (item.isSold)
-              TopRibbon(backgroundColor: const Color(0xFF981C1E), textColor: Colors.white, text: m.home.sold)
-            else if (item.isDisabled)
-              TopRibbon(
-                backgroundColor: Colors.black,
-                text: m.home.disabled,
-                textColor: Colors.white,
-              )
-            else if (item.isExpired)
-              TopRibbon(
-                backgroundColor: Colors.black,
-                text: m.home.expired,
-                textColor: Colors.white,
-              ),
+              TopRibbon(text: m.home.sold, backgroundColor: const Color(0xFF981C1E), textColor: Colors.white),
+            if (item.isExpired) TopRibbon(text: m.home.expired),
+            if (item.isDisabled)
+              TopRibbon(backgroundColor: Colors.black, textColor: Colors.white, text: m.home.disabled)
           ],
         ),
       ),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/entities/request.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/phone_request_details_screen/phone_request_details_page.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_request_widget.dart';
@@ -12,14 +13,12 @@ import 'package:joplate/presentation/widgets/delete_item_popup.dart';
 
 @RoutePage()
 class PlateRequestDetailsPage extends StatefulWidget {
-  const PlateRequestDetailsPage(
-      {super.key, @PathParam('requestId') required this.requestId});
+  const PlateRequestDetailsPage({super.key, @PathParam('requestId') required this.requestId});
 
   final String requestId;
 
   @override
-  State<PlateRequestDetailsPage> createState() =>
-      _PlateRequestDetailsPageState();
+  State<PlateRequestDetailsPage> createState() => _PlateRequestDetailsPageState();
 }
 
 class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
@@ -37,15 +36,13 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     return StreamBuilder<PlateRequest>(
         stream: _plateStream,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Padding(
-              padding: EdgeInsets.only(
-                  left: 24.0,
-                  right: 24,
-                  top: MediaQuery.of(context).size.height / 4),
+              padding: EdgeInsets.only(left: 24.0, right: 24, top: MediaQuery.of(context).size.height / 4),
               child: Text(
                 'Error getteing data for Request',
                 textAlign: TextAlign.center,
@@ -75,13 +72,11 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
               appBar: AppBar(
                 title: const Text('Plate Request Details'),
                 actions: [
-                  if (FirebaseAuth.instance.currentUser?.uid ==
-                      snapshot.data!.userId) ...[
+                  if (FirebaseAuth.instance.currentUser?.uid == snapshot.data!.userId) ...[
                     IconButton(
                       icon: const Icon(Icons.edit),
                       onPressed: () {
-                        context.router.push(
-                            EditPlateRequestRoute(request: snapshot.data!));
+                        context.router.push(EditPlateRequestRoute(request: snapshot.data!));
                       },
                     ),
                     IconButton(
@@ -91,10 +86,8 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
                           context: context,
                           builder: (_) => DeleteListingDialog(
                             listingId: widget.requestId,
-                            itemType: ItemType
-                                .plateNumber, // or ItemType.phoneNumber, etc.
-                            listingType:
-                                ListingType.request, // or ListingType.request
+                            itemType: ItemType.plateNumber,
+                            listingType: ListingType.request,
                             plateNumber: snapshot.data!.item,
                           ),
                         );
@@ -104,20 +97,36 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
                 ],
               ),
               body: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0, vertical: 10.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     PlateNumberRequestWidget(
                       item: snapshot.data!,
                       disabled: true,
-                      hideLikeButton: true,
                       priceLabelFontSize: 24,
+                      aspectRatio: 2.1,
                     ),
-                    const SizedBox(height: 20),
+                    if (snapshot.data!.userId == FirebaseAuth.instance.currentUser?.uid &&
+                        snapshot.data!.expiresAt != null &&
+                        !snapshot.data!.isDisabled) ...[
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      if (snapshot.data!.isExpired)
+                        Text(
+                          m.home.expired,
+                          style: const TextStyle(fontSize: 14, color: Colors.red),
+                        )
+                      else
+                        Text(
+                          m.listingdetails.expires_on(snapshot.data!.expiresAt!.toLocal()),
+                          style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                        ),
+                    ],
+                    const SizedBox(height: 16),
                     RequestedByWidgget(userId: snapshot.data!.userId),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 16),
                     Container(
                       padding: const EdgeInsets.all(12.0),
                       decoration: BoxDecoration(
@@ -128,8 +137,7 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
                         children: [
                           Text(
                             'Important Note:',
-                            style: TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold),
+                            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 10),
                           Row(
@@ -160,7 +168,7 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 16),
                   ],
                 ),
               ));

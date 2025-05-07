@@ -5,6 +5,7 @@ String formatPrice(num value) {
 }
 
 String formatCreatedAt(DateTime createdAt) {
+  ;
   final now = DateTime.now();
   final difference = now.difference(createdAt);
   if (difference.inDays > 0) {

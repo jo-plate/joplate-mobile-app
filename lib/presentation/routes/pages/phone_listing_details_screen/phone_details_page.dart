@@ -121,7 +121,25 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
                   priceLabelFontSize: 24,
                   disabled: true,
                 ),
-                if (FirebaseAuth.instance.currentUser?.uid == phone.userId && !phone.isFeatured) ...[
+                if (snapshot.data!.userId == FirebaseAuth.instance.currentUser?.uid &&
+                    snapshot.data!.expiresAt != null &&
+                    !snapshot.data!.isDisabled &&
+                    !snapshot.data!.isSold) ...[
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  if (snapshot.data!.isExpired)
+                    Text(
+                      m.home.expired,
+                      style: const TextStyle(fontSize: 14, color: Colors.red),
+                    )
+                  else
+                    Text(
+                      m.listingdetails.expires_on(snapshot.data!.expiresAt!.toLocal()),
+                      style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                    ),
+                ],
+                if (FirebaseAuth.instance.currentUser?.uid == phone.userId && !phone.isFeatured && !phone.isSold) ...[
                   const SizedBox(
                     height: 16,
                   ),

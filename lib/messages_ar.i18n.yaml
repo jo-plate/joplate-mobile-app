@@ -183,6 +183,10 @@ addplaterequest:
   number: "رقم اللوحة"
   optional_price: "السعر اختياري"
 
+listingdetails:
+  expires_on(DateTime date): "تنتهي صلاحية الاعلان في $date"
+  
+
 phonedetails:
   title: "تفاصيل رقم الهاتف"
   share_message: "اطلع على رقم اللوحة هذا: {number}"
@@ -259,3 +263,10 @@ editplaterequest:
 
 iap:
   purchase: "شراء"
+
+datetime:
+  days_ago: "منذ {days} يوم"
+  hours_ago: "منذ {hours} ساعة"
+  minutes_ago: "منذ {minutes} دقيقة"
+  seconds_ago: "منذ {seconds} ثانية"
+  just_now: "الآن"

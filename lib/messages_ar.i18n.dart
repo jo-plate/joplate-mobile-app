@@ -80,6 +80,7 @@ class MessagesAr extends Messages {
       AddphonerequestMessagesAr(this);
   AddplaterequestMessagesAr get addplaterequest =>
       AddplaterequestMessagesAr(this);
+  ListingdetailsMessagesAr get listingdetails => ListingdetailsMessagesAr(this);
   PhonedetailsMessagesAr get phonedetails => PhonedetailsMessagesAr(this);
   SellerdetailsMessagesAr get sellerdetails => SellerdetailsMessagesAr(this);
   PlatesdetailsMessagesAr get platesdetails => PlatesdetailsMessagesAr(this);
@@ -91,6 +92,7 @@ class MessagesAr extends Messages {
   EditplaterequestMessagesAr get editplaterequest =>
       EditplaterequestMessagesAr(this);
   IapMessagesAr get iap => IapMessagesAr(this);
+  DatetimeMessagesAr get datetime => DatetimeMessagesAr(this);
 }
 
 class AppMessagesAr extends AppMessages {
@@ -938,6 +940,16 @@ class AddplaterequestMessagesAr extends AddplaterequestMessages {
   String get optional_price => """السعر اختياري""";
 }
 
+class ListingdetailsMessagesAr extends ListingdetailsMessages {
+  final MessagesAr _parent;
+  const ListingdetailsMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "تنتهي صلاحية الاعلان في $date"
+  /// ```
+  String expires_on(DateTime date) => """تنتهي صلاحية الاعلان في $date""";
+}
+
 class PhonedetailsMessagesAr extends PhonedetailsMessages {
   final MessagesAr _parent;
   const PhonedetailsMessagesAr(this._parent) : super(_parent);
@@ -1280,6 +1292,36 @@ class IapMessagesAr extends IapMessages {
   String get purchase => """شراء""";
 }
 
+class DatetimeMessagesAr extends DatetimeMessages {
+  final MessagesAr _parent;
+  const DatetimeMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "منذ {days} يوم"
+  /// ```
+  String get days_ago => """منذ {days} يوم""";
+
+  /// ```dart
+  /// "منذ {hours} ساعة"
+  /// ```
+  String get hours_ago => """منذ {hours} ساعة""";
+
+  /// ```dart
+  /// "منذ {minutes} دقيقة"
+  /// ```
+  String get minutes_ago => """منذ {minutes} دقيقة""";
+
+  /// ```dart
+  /// "منذ {seconds} ثانية"
+  /// ```
+  String get seconds_ago => """منذ {seconds} ثانية""";
+
+  /// ```dart
+  /// "الآن"
+  /// ```
+  String get just_now => """الآن""";
+}
+
 Map<String, String> get messagesArMap => {
   """app.title""": """Joplate""",
   """home.welcome""": """مرحبًا بك في Joplate!""",
@@ -1497,4 +1539,9 @@ Map<String, String> get messagesArMap => {
   """editplaterequest.price_optional""": """السعر (اختياري)""",
   """editplaterequest.save_changes""": """حفظ التعديلات""",
   """iap.purchase""": """شراء""",
+  """datetime.days_ago""": """منذ {days} يوم""",
+  """datetime.hours_ago""": """منذ {hours} ساعة""",
+  """datetime.minutes_ago""": """منذ {minutes} دقيقة""",
+  """datetime.seconds_ago""": """منذ {seconds} ثانية""",
+  """datetime.just_now""": """الآن""",
 };

@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                               padEnds: true,
                               viewportFraction: 1,
                               enableInfiniteScroll: chunkedPlates.length > 1,
-                              aspectRatio: 1.13,
+                              aspectRatio: 1.05,
                               enlargeCenterPage: false),
                           items: chunkedPlates
                               .map((plates) => Padding(

@@ -7,6 +7,7 @@ import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phone_number_request_widget.dart';
 import 'package:joplate/presentation/widgets/delete_item_popup.dart';
@@ -38,6 +39,7 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     return StreamBuilder<PhoneRequest>(
         stream: phoneRequestStream,
         builder: (context, snapshot) {
@@ -87,7 +89,25 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
                     item: snapshot.data!,
                     priceLabelFontSize: 24,
                     disabled: true,
+                    aspectRatio: 1.9,
                   ),
+                  if (snapshot.data!.userId == FirebaseAuth.instance.currentUser?.uid &&
+                      snapshot.data!.expiresAt != null &&
+                      !snapshot.data!.isDisabled) ...[
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    if (snapshot.data!.isExpired)
+                      Text(
+                        m.home.expired,
+                        style: const TextStyle(fontSize: 14, color: Colors.red),
+                      )
+                    else
+                      Text(
+                        m.listingdetails.expires_on(snapshot.data!.expiresAt!.toLocal()),
+                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                      ),
+                  ],
                   const SizedBox(height: 16),
                   RequestedByWidgget(userId: snapshot.data!.userId),
                   const SizedBox(height: 16),

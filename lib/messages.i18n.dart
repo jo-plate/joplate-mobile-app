@@ -77,6 +77,7 @@ class Messages {
   AddplateMessages get addplate => AddplateMessages(this);
   AddphonerequestMessages get addphonerequest => AddphonerequestMessages(this);
   AddplaterequestMessages get addplaterequest => AddplaterequestMessages(this);
+  ListingdetailsMessages get listingdetails => ListingdetailsMessages(this);
   PhonedetailsMessages get phonedetails => PhonedetailsMessages(this);
   SellerdetailsMessages get sellerdetails => SellerdetailsMessages(this);
   PlatesdetailsMessages get platesdetails => PlatesdetailsMessages(this);
@@ -88,6 +89,7 @@ class Messages {
   EditplaterequestMessages get editplaterequest =>
       EditplaterequestMessages(this);
   IapMessages get iap => IapMessages(this);
+  DatetimeMessages get datetime => DatetimeMessages(this);
 }
 
 class AppMessages {
@@ -935,6 +937,16 @@ class AddplaterequestMessages {
   String get optional_price => """Optional Price""";
 }
 
+class ListingdetailsMessages {
+  final Messages _parent;
+  const ListingdetailsMessages(this._parent);
+
+  /// ```dart
+  /// "Expires on $date"
+  /// ```
+  String expires_on(DateTime date) => """Expires on $date""";
+}
+
 class PhonedetailsMessages {
   final Messages _parent;
   const PhonedetailsMessages(this._parent);
@@ -1277,6 +1289,36 @@ class IapMessages {
   String get purchase => """Purchase""";
 }
 
+class DatetimeMessages {
+  final Messages _parent;
+  const DatetimeMessages(this._parent);
+
+  /// ```dart
+  /// "{days} days ago"
+  /// ```
+  String get days_ago => """{days} days ago""";
+
+  /// ```dart
+  /// "{hours} hours ago"
+  /// ```
+  String get hours_ago => """{hours} hours ago""";
+
+  /// ```dart
+  /// "{minutes} minutes ago"
+  /// ```
+  String get minutes_ago => """{minutes} minutes ago""";
+
+  /// ```dart
+  /// "{seconds} seconds ago"
+  /// ```
+  String get seconds_ago => """{seconds} seconds ago""";
+
+  /// ```dart
+  /// "Just now"
+  /// ```
+  String get just_now => """Just now""";
+}
+
 Map<String, String> get messagesMap => {
   """app.title""": """Joplate""",
   """home.welcome""": """Welcome to Joplate!""",
@@ -1492,4 +1534,9 @@ Map<String, String> get messagesMap => {
   """editplaterequest.price_optional""": """Price (optional)""",
   """editplaterequest.save_changes""": """Save Changes""",
   """iap.purchase""": """Purchase""",
+  """datetime.days_ago""": """{days} days ago""",
+  """datetime.hours_ago""": """{hours} hours ago""",
+  """datetime.minutes_ago""": """{minutes} minutes ago""",
+  """datetime.seconds_ago""": """{seconds} seconds ago""",
+  """datetime.just_now""": """Just now""",
 };
