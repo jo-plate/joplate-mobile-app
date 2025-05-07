@@ -28,7 +28,6 @@ class PlateNumberRequestWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
-    print('PlateNumberRequestWidget: ${item}');
     return AspectRatio(
       aspectRatio: aspectRatio,
       child: Center(

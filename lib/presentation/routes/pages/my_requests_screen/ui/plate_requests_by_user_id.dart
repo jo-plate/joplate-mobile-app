@@ -20,6 +20,7 @@ class _PlateRequestsByUserIdState extends State<PlateRequestsByUserId> {
     userPlatesStream = FirebaseFirestore.instance
         .collection(platesRequestsCollectionId)
         .where('userId', isEqualTo: widget.userId)
+        .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs.map((doc) {
               return PlateRequest.fromSnapshot(doc);
@@ -35,6 +36,8 @@ class _PlateRequestsByUserIdState extends State<PlateRequestsByUserId> {
         child: StreamBuilder<List<PlateRequest>>(
             stream: userPlatesStream,
             builder: (context, snapshot) {
+              print(snapshot.error);
+
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               }

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -41,7 +39,6 @@ class _PlansPageState extends State<PlansPage> {
             child: StreamBuilder<List<Plan>>(
                 stream: plans,
                 builder: (context, snapshot) {
-                  print(snapshot.data);
                   if (!snapshot.hasData) {
                     return const Center(child: CircularProgressIndicator());
                   }

@@ -126,7 +126,7 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
                     !snapshot.data!.isDisabled &&
                     !snapshot.data!.isSold) ...[
                   const SizedBox(
-                    height: 16,
+                    height: 8,
                   ),
                   if (snapshot.data!.isExpired)
                     Text(
@@ -139,11 +139,11 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
                       style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                     ),
                 ],
-                if (FirebaseAuth.instance.currentUser?.uid == phone.userId && !phone.isFeatured && !phone.isSold) ...[
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  PromoteListingButton(listingId: snapshot.data!.id, itemType: ItemType.phoneNumber),
+                if (!(snapshot.data?.isFeatured ?? false) &&
+                    (FirebaseAuth.instance.currentUser?.uid ?? '') == snapshot.data!.userId &&
+                    !snapshot.data!.isSold) ...[
+                  const SizedBox(height: 8),
+                  PromoteListingButton(listingId: snapshot.data!.id, itemType: ItemType.plateNumber),
                 ],
                 const SizedBox(
                   height: 16,

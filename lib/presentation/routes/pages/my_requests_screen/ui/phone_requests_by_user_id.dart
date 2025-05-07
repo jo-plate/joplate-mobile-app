@@ -14,25 +14,26 @@ class PhoneRequestsByUserId extends StatefulWidget {
 }
 
 class _PhoneRequestsByUserIdState extends State<PhoneRequestsByUserId> {
+  late final Stream<List<PhoneRequest>> userPhonesStream;
+
   @override
   void initState() {
     super.initState();
+
     userPhonesStream = FirebaseFirestore.instance
         .collection(phonesRequestsCollectionId)
         .where('userId', isEqualTo: widget.userId)
+        .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs.map((doc) {
               return PhoneRequest.fromSnapshot(doc);
             }).toList());
   }
 
-  late final Stream<List<PhoneRequest>> userPhonesStream;
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-
         child: StreamBuilder<List<PhoneRequest>>(
             stream: userPhonesStream,
             builder: (context, snapshot) {

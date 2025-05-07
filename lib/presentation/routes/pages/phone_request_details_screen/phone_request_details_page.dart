@@ -177,7 +177,6 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
     super.initState();
     userProfileStream =
         FirebaseFirestore.instance.collection(userProfileCollectionId).doc(widget.userId).snapshots().map((snapshot) {
-      print(snapshot.data());
       return UserProfile.fromSnapshot(snapshot);
     });
   }

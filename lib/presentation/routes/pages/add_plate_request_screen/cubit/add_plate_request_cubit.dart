@@ -66,8 +66,6 @@ class AddPlateRequestCubit extends Cubit<PlateRequestState> {
         errorMessage: 'Error: ${e.message}',
       ));
     } catch (e) {
-      print(e);
-
       emit(state.copyWith(
         isSubmitting: false,
         errorMessage: e.toString(),
