@@ -81,10 +81,10 @@ class _UserProfileViewState extends State<_UserProfileView> {
                   _buildFeaturesSection(),
                   const SizedBox(height: 16),
                   MenuItem(
-                      title: m.profile.my_current_plan,
-                      icon: Icons.description_outlined,
+                      title: m.profile.packages,
+                      icon: Icons.wallet_giftcard_outlined,
                       onTap: () =>
-                          AutoRouter.of(context).push(const MyPlanRoute())),
+                          AutoRouter.of(context).push(const PlansRoute())),
                 ] else
                   const AnonUserView(),
                 const SizedBox(height: 16),

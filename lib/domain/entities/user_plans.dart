@@ -22,6 +22,13 @@ class UserPlans with _$UserPlans {
       plan: PlanType.gold_plan,
     );
   }
+  static UserPlans freePlan() {
+    return const UserPlans(
+      tickets: 0,
+      goldenTickets: 0,
+      plan: PlanType.free_plan,
+    );
+  }
 }
 
 @JsonEnum(alwaysCreate: true)
