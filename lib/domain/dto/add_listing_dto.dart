@@ -29,8 +29,8 @@ extension ItemTypeX on ItemType {
 @freezed
 class AddListingDto with _$AddListingDto {
   const factory AddListingDto({
-    required double price,
-    required double discountPrice,
+    required int price,
+    required int discountPrice,
     required ListingType listingType,
     required ItemType itemType,
     required bool isFeatured,

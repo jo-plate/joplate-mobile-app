@@ -6,6 +6,7 @@ import 'package:joplate/presentation/cubits/localization/localization_cubit.dart
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/utils/strings.dart';
+import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_listing_widget.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
 import 'package:joplate/presentation/widgets/phone_number_widget.dart';
 import 'package:joplate/presentation/widgets/top_ribbon.dart';
@@ -20,7 +21,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
     super.key,
     required this.item,
     this.disabled = false,
-    this.priceLabelFontSize = 18,
+    this.priceLabelFontSize = 16,
     this.hideLikeButton = false,
   });
 
@@ -30,7 +31,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
 
     return Center(
       child: GestureDetector(
-        onTap: disabled || item.isExpired || item.isDisabled
+        onTap: disabled
             ? null
             : () {
                 AutoRouter.of(context).push(
@@ -65,6 +66,10 @@ class PhoneNumberListingWidget extends StatelessWidget {
                           child: PhoneNumberWidget(phoneNumber: item.item),
                         ),
                         _buildPriceLabel(),
+                        if (item.createdAt != null)
+                          CreatedAtLabelWidget(
+                            createdAt: item.createdAt!,
+                          ),
                         if (!hideLikeButton) ...[
                           const SizedBox(width: 8),
                           FavoriteButton.phone(
@@ -89,8 +94,14 @@ class PhoneNumberListingWidget extends StatelessWidget {
               ),
             if (item.isFeatured) _buildFeaturedRibbon(context),
             if (item.isSold)
-              TopRibbon(backgroundColor: const Color(0xFF981C1E), textColor: Colors.white, text: m.home.sold),
-            if (item.isExpired)
+              TopRibbon(backgroundColor: const Color(0xFF981C1E), textColor: Colors.white, text: m.home.sold)
+            else if (item.isDisabled)
+              TopRibbon(
+                backgroundColor: Colors.black,
+                text: m.home.disabled,
+                textColor: Colors.white,
+              )
+            else if (item.isExpired)
               TopRibbon(
                 backgroundColor: Colors.black,
                 text: m.home.expired,

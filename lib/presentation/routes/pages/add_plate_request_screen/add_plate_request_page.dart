@@ -19,7 +19,7 @@ class AddPlateRequestPage extends StatelessWidget {
       create: (_) => AddPlateRequestCubit(),
       child: Scaffold(
         appBar: AppBar(
-            title: Text(m.addplaterequest.title),
+          title: Text(m.addplaterequest.title),
         ),
         body: SafeArea(
           child: BlocBuilder<AddPlateRequestCubit, PlateRequestState>(
@@ -46,8 +46,7 @@ class AddPlateRequestPage extends StatelessWidget {
                               if (cubit.state.errorMessage == null &&
                                   !cubit.state.isSubmitting &&
                                   cubit.state.code.isEmpty &&
-                                  cubit.state.number.isEmpty &&
-                                  (cubit.state.price ?? '').isEmpty) {
+                                  cubit.state.number.isEmpty) {
                                 // e.g., navigate away
                                 AutoRouter.of(context).maybePop();
                               }

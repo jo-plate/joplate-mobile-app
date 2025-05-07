@@ -7,8 +7,8 @@ class AddPlateNumberInput with _$AddPlateNumberInput {
   const factory AddPlateNumberInput({
     required String code,
     required String number,
-    required double price,
-    double? discountPrice,
+    required int price,
+    int? discountPrice,
     @Default(false) bool isFeatured,
   }) = _AddPlateNumberInput;
 }
@@ -17,8 +17,8 @@ class AddPlateNumberInput with _$AddPlateNumberInput {
 class AddPhoneNumberInput with _$AddPhoneNumberInput {
   const factory AddPhoneNumberInput({
     required String number,
-    required double price,
-    double? discountPrice,
+    required int price,
+    int? discountPrice,
     @Default(false) bool isFeatured,
   }) = _AddPhoneNumberInput;
 }

@@ -8,8 +8,8 @@ part of 'add_listing_dto.dart';
 
 _$AddListingDtoImpl _$$AddListingDtoImplFromJson(Map<String, dynamic> json) =>
     _$AddListingDtoImpl(
-      price: (json['price'] as num).toDouble(),
-      discountPrice: (json['discountPrice'] as num).toDouble(),
+      price: (json['price'] as num).toInt(),
+      discountPrice: (json['discountPrice'] as num).toInt(),
       listingType: $enumDecode(_$ListingTypeEnumMap, json['listingType']),
       itemType: $enumDecode(_$ItemTypeEnumMap, json['itemType']),
       isFeatured: json['isFeatured'] as bool,

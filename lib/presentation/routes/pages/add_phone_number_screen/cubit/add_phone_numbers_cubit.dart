@@ -93,8 +93,7 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
       final form = forms[i];
 
       if (form.number.isEmpty || form.price.isEmpty) {
-        forms[i] =
-            form.copyWith(errorMessage: 'Please fill all required fields');
+        forms[i] = form.copyWith(errorMessage: 'Please fill all required fields');
         emit(state.copyWith(forms: forms));
         continue;
       }
@@ -104,15 +103,13 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
 
       final input = AddPhoneNumberInput(
         number: form.number,
-        price: double.parse(form.price),
-        discountPrice: form.withDiscount
-            ? double.tryParse(form.discountPrice ?? '')
-            : null,
+        price: int.tryParse(form.price) ?? 0,
+        discountPrice: form.withDiscount ? int.tryParse(form.discountPrice ?? '') : null,
       );
 
       final addListingDto = AddListingDto(
-        price: input.price.toDouble(),
-        discountPrice: input.discountPrice?.toDouble() ?? 0,
+        price: input.price,
+        discountPrice: input.discountPrice ?? 0,
         listingType: ListingType.ad,
         itemType: ItemType.phoneNumber,
         isFeatured: form.isFeatured,
@@ -120,8 +117,7 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
       );
 
       try {
-        final callable =
-            FirebaseFunctions.instance.httpsCallable(createListingCF);
+        final callable = FirebaseFunctions.instance.httpsCallable(createListingCF);
         final response = await callable.call(addListingDto.toJson());
 
         if (response.data != null && response.data['success'] == true) {

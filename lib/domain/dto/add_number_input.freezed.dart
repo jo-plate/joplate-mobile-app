@@ -18,8 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$AddPlateNumberInput {
   String get code => throw _privateConstructorUsedError;
   String get number => throw _privateConstructorUsedError;
-  double get price => throw _privateConstructorUsedError;
-  double? get discountPrice => throw _privateConstructorUsedError;
+  int get price => throw _privateConstructorUsedError;
+  int? get discountPrice => throw _privateConstructorUsedError;
   bool get isFeatured => throw _privateConstructorUsedError;
 
   /// Create a copy of AddPlateNumberInput
@@ -38,8 +38,8 @@ abstract class $AddPlateNumberInputCopyWith<$Res> {
   $Res call(
       {String code,
       String number,
-      double price,
-      double? discountPrice,
+      int price,
+      int? discountPrice,
       bool isFeatured});
 }
 
@@ -76,11 +76,11 @@ class _$AddPlateNumberInputCopyWithImpl<$Res, $Val extends AddPlateNumberInput>
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       discountPrice: freezed == discountPrice
           ? _value.discountPrice
           : discountPrice // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
       isFeatured: null == isFeatured
           ? _value.isFeatured
           : isFeatured // ignore: cast_nullable_to_non_nullable
@@ -100,8 +100,8 @@ abstract class _$$AddPlateNumberInputImplCopyWith<$Res>
   $Res call(
       {String code,
       String number,
-      double price,
-      double? discountPrice,
+      int price,
+      int? discountPrice,
       bool isFeatured});
 }
 
@@ -136,11 +136,11 @@ class __$$AddPlateNumberInputImplCopyWithImpl<$Res>
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       discountPrice: freezed == discountPrice
           ? _value.discountPrice
           : discountPrice // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
       isFeatured: null == isFeatured
           ? _value.isFeatured
           : isFeatured // ignore: cast_nullable_to_non_nullable
@@ -164,9 +164,9 @@ class _$AddPlateNumberInputImpl implements _AddPlateNumberInput {
   @override
   final String number;
   @override
-  final double price;
+  final int price;
   @override
-  final double? discountPrice;
+  final int? discountPrice;
   @override
   @JsonKey()
   final bool isFeatured;
@@ -208,8 +208,8 @@ abstract class _AddPlateNumberInput implements AddPlateNumberInput {
   const factory _AddPlateNumberInput(
       {required final String code,
       required final String number,
-      required final double price,
-      final double? discountPrice,
+      required final int price,
+      final int? discountPrice,
       final bool isFeatured}) = _$AddPlateNumberInputImpl;
 
   @override
@@ -217,9 +217,9 @@ abstract class _AddPlateNumberInput implements AddPlateNumberInput {
   @override
   String get number;
   @override
-  double get price;
+  int get price;
   @override
-  double? get discountPrice;
+  int? get discountPrice;
   @override
   bool get isFeatured;
 
@@ -234,8 +234,8 @@ abstract class _AddPlateNumberInput implements AddPlateNumberInput {
 /// @nodoc
 mixin _$AddPhoneNumberInput {
   String get number => throw _privateConstructorUsedError;
-  double get price => throw _privateConstructorUsedError;
-  double? get discountPrice => throw _privateConstructorUsedError;
+  int get price => throw _privateConstructorUsedError;
+  int? get discountPrice => throw _privateConstructorUsedError;
   bool get isFeatured => throw _privateConstructorUsedError;
 
   /// Create a copy of AddPhoneNumberInput
@@ -251,8 +251,7 @@ abstract class $AddPhoneNumberInputCopyWith<$Res> {
           AddPhoneNumberInput value, $Res Function(AddPhoneNumberInput) then) =
       _$AddPhoneNumberInputCopyWithImpl<$Res, AddPhoneNumberInput>;
   @useResult
-  $Res call(
-      {String number, double price, double? discountPrice, bool isFeatured});
+  $Res call({String number, int price, int? discountPrice, bool isFeatured});
 }
 
 /// @nodoc
@@ -283,11 +282,11 @@ class _$AddPhoneNumberInputCopyWithImpl<$Res, $Val extends AddPhoneNumberInput>
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       discountPrice: freezed == discountPrice
           ? _value.discountPrice
           : discountPrice // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
       isFeatured: null == isFeatured
           ? _value.isFeatured
           : isFeatured // ignore: cast_nullable_to_non_nullable
@@ -304,8 +303,7 @@ abstract class _$$AddPhoneNumberInputImplCopyWith<$Res>
       __$$AddPhoneNumberInputImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String number, double price, double? discountPrice, bool isFeatured});
+  $Res call({String number, int price, int? discountPrice, bool isFeatured});
 }
 
 /// @nodoc
@@ -334,11 +332,11 @@ class __$$AddPhoneNumberInputImplCopyWithImpl<$Res>
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       discountPrice: freezed == discountPrice
           ? _value.discountPrice
           : discountPrice // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
       isFeatured: null == isFeatured
           ? _value.isFeatured
           : isFeatured // ignore: cast_nullable_to_non_nullable
@@ -359,9 +357,9 @@ class _$AddPhoneNumberInputImpl implements _AddPhoneNumberInput {
   @override
   final String number;
   @override
-  final double price;
+  final int price;
   @override
-  final double? discountPrice;
+  final int? discountPrice;
   @override
   @JsonKey()
   final bool isFeatured;
@@ -401,16 +399,16 @@ class _$AddPhoneNumberInputImpl implements _AddPhoneNumberInput {
 abstract class _AddPhoneNumberInput implements AddPhoneNumberInput {
   const factory _AddPhoneNumberInput(
       {required final String number,
-      required final double price,
-      final double? discountPrice,
+      required final int price,
+      final int? discountPrice,
       final bool isFeatured}) = _$AddPhoneNumberInputImpl;
 
   @override
   String get number;
   @override
-  double get price;
+  int get price;
   @override
-  double? get discountPrice;
+  int? get discountPrice;
   @override
   bool get isFeatured;
 

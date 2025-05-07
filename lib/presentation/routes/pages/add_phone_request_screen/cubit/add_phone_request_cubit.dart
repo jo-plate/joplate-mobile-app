@@ -35,13 +35,8 @@ class AddPhoneRequestCubit extends Cubit<PhoneRequestState> {
     emit(state.copyWith(isSubmitting: true, errorMessage: null));
 
     try {
-      // Convert optional price
-      final priceVal = (state.price?.isNotEmpty == true)
-          ? double.tryParse(state.price!)
-          : 0.0;
-
       final addListingDto = AddListingDto(
-        price: priceVal ?? 0.0,
+        price: int.tryParse(state.price ?? '') ?? 0,
         discountPrice: 0,
         listingType: ListingType.request,
         itemType: ItemType.phoneNumber,
@@ -60,7 +55,7 @@ class AddPhoneRequestCubit extends Cubit<PhoneRequestState> {
           name: 'added_phone_request',
           parameters: {
             'phoneNumber': state.phoneNumber,
-            'price': priceVal ?? 0,
+            'price': int.tryParse(state.price ?? '') ?? 0,
           },
         );
       } else {

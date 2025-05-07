@@ -67,8 +67,8 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
                       showDialog(
                         context: context,
                         builder: (_) => DeleteListingDialog(
-                          listingId: widget.phoneNumberRequestId,
-                          itemType: ItemType.plateNumber, // or ItemType.phoneNumber, etc.
+                          listingId: snapshot.data!.id,
+                          itemType: ItemType.phoneNumber, // or ItemType.phoneNumber, etc.
                           listingType: ListingType.request,
                           phoneNumber: snapshot.data!.item,
                         ),
@@ -86,7 +86,6 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
                   PhoneNumberRequestWidget(
                     item: snapshot.data!,
                     priceLabelFontSize: 24,
-                    aspectRatio: 1.5,
                     disabled: true,
                   ),
                   const SizedBox(height: 16),

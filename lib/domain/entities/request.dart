@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
+import 'package:joplate/domain/entities/utils/converters.dart';
 
 part 'request.freezed.dart';
 part 'request.g.dart';
-
 
 @Freezed(
   fromJson: true,
@@ -20,26 +20,27 @@ class PhoneRequest with _$PhoneRequest {
     @Default(false) bool isDisabled,
     required String userId,
     required PhoneNumber item,
+    @TimestampConverter() DateTime? createdAt,
+    @TimestampConverter() DateTime? expiresAt,
   }) = _PhoneRequest;
 
-  factory PhoneRequest.fromJson(Map<String, dynamic> json) =>
-      _$PhoneRequestFromJson(json);
+  factory PhoneRequest.fromJson(Map<String, dynamic> json) => _$PhoneRequestFromJson(json);
 
   factory PhoneRequest.fromSnapshot(DocumentSnapshot snapshot) =>
-      PhoneRequest.fromJson(
-          {'id': snapshot.id, ...snapshot.data() as Map<String, dynamic>});
+      PhoneRequest.fromJson({'id': snapshot.id, ...snapshot.data() as Map<String, dynamic>});
 
   static PhoneRequest mockPhoneRequest() {
-    return PhoneRequest(
-        id: "mockPhoneId",
-        price: 5000,
-        item: PhoneNumber.mockList(1).first,
-        userId: 'mockUser');
+    return PhoneRequest(id: "mockPhoneId", price: 5000, item: PhoneNumber.mockList(1).first, userId: 'mockUser');
   }
 
   bool get priceHidden => price == 0;
   @override
   Map<String, dynamic> toJson() => toJson();
+
+  bool get isExpired {
+    if (expiresAt == null) return false;
+    return DateTime.now().isAfter(expiresAt!);
+  }
 }
 
 @Freezed(
@@ -55,14 +56,14 @@ class PlateRequest with _$PlateRequest {
     @Default(false) bool isDisabled,
     required String userId,
     required PlateNumber item,
+    @TimestampConverter() DateTime? createdAt,
+    @TimestampConverter() DateTime? expiresAt,
   }) = _PlateRequest;
 
-  factory PlateRequest.fromJson(Map<String, dynamic> json) =>
-      _$PlateRequestFromJson(json);
+  factory PlateRequest.fromJson(Map<String, dynamic> json) => _$PlateRequestFromJson(json);
 
   factory PlateRequest.fromSnapshot(DocumentSnapshot snapshot) =>
-      PlateRequest.fromJson(
-          {'id': snapshot.id, ...snapshot.data() as Map<String, dynamic>});
+      PlateRequest.fromJson({'id': snapshot.id, ...snapshot.data() as Map<String, dynamic>});
   bool get priceHidden => price == 0;
 
   static PlateRequest mockPlateRequest() {
@@ -72,6 +73,11 @@ class PlateRequest with _$PlateRequest {
       userId: 'mockUser',
       item: PlateNumber.mockList(1).first,
     );
+  }
+
+  bool get isExpired {
+    if (expiresAt == null) return false;
+    return DateTime.now().isAfter(expiresAt!);
   }
 
   @override

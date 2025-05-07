@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$PlateRequestState {
   String get code => throw _privateConstructorUsedError;
   String get number => throw _privateConstructorUsedError;
-  String? get price => throw _privateConstructorUsedError; // optional
+  int? get price => throw _privateConstructorUsedError; // optional
   bool get isSubmitting => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
 
@@ -38,7 +38,7 @@ abstract class $PlateRequestStateCopyWith<$Res> {
   $Res call(
       {String code,
       String number,
-      String? price,
+      int? price,
       bool isSubmitting,
       String? errorMessage});
 }
@@ -76,7 +76,7 @@ class _$PlateRequestStateCopyWithImpl<$Res, $Val extends PlateRequestState>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       isSubmitting: null == isSubmitting
           ? _value.isSubmitting
           : isSubmitting // ignore: cast_nullable_to_non_nullable
@@ -100,7 +100,7 @@ abstract class _$$PlateRequestStateImplCopyWith<$Res>
   $Res call(
       {String code,
       String number,
-      String? price,
+      int? price,
       bool isSubmitting,
       String? errorMessage});
 }
@@ -136,7 +136,7 @@ class __$$PlateRequestStateImplCopyWithImpl<$Res>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       isSubmitting: null == isSubmitting
           ? _value.isSubmitting
           : isSubmitting // ignore: cast_nullable_to_non_nullable
@@ -166,7 +166,7 @@ class _$PlateRequestStateImpl implements _PlateRequestState {
   @JsonKey()
   final String number;
   @override
-  final String? price;
+  final int? price;
 // optional
   @override
   @JsonKey()
@@ -211,7 +211,7 @@ abstract class _PlateRequestState implements PlateRequestState {
   const factory _PlateRequestState(
       {final String code,
       final String number,
-      final String? price,
+      final int? price,
       final bool isSubmitting,
       final String? errorMessage}) = _$PlateRequestStateImpl;
 
@@ -220,7 +220,7 @@ abstract class _PlateRequestState implements PlateRequestState {
   @override
   String get number;
   @override
-  String? get price; // optional
+  int? get price; // optional
   @override
   bool get isSubmitting;
   @override

@@ -17,7 +17,7 @@ class AddPlateRequestCubit extends Cubit<PlateRequestState> {
     emit(state.copyWith(number: number, errorMessage: null));
   }
 
-  void updatePrice(String? price) {
+  void updatePrice(int? price) {
     emit(state.copyWith(price: price, errorMessage: null));
   }
 
@@ -30,12 +30,8 @@ class AddPlateRequestCubit extends Cubit<PlateRequestState> {
     emit(state.copyWith(isSubmitting: true, errorMessage: null));
 
     try {
-      final priceVal = (state.price?.isNotEmpty == true)
-          ? double.tryParse(state.price!)
-          : 0.0;
-
       final dto = AddListingDto(
-        price: priceVal ?? 0.0,
+        price: state.price ?? 0,
         discountPrice: 0,
         listingType: ListingType.request,
         itemType: ItemType.plateNumber,
@@ -55,7 +51,7 @@ class AddPlateRequestCubit extends Cubit<PlateRequestState> {
           name: 'added_plate_request',
           parameters: {
             'plate': '${state.code}-${state.number}',
-            'listing_id': response.data['listingId'],
+            'request_id': response.data['requestId'],
           },
         );
       } else {
@@ -70,6 +66,8 @@ class AddPlateRequestCubit extends Cubit<PlateRequestState> {
         errorMessage: 'Error: ${e.message}',
       ));
     } catch (e) {
+      print(e);
+
       emit(state.copyWith(
         isSubmitting: false,
         errorMessage: e.toString(),

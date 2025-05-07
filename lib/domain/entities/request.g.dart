@@ -13,6 +13,10 @@ _$PhoneRequestImpl _$$PhoneRequestImplFromJson(Map<String, dynamic> json) =>
       isDisabled: json['isDisabled'] as bool? ?? false,
       userId: json['userId'] as String,
       item: PhoneNumber.fromJson(json['item'] as Map<String, dynamic>),
+      createdAt: _$JsonConverterFromJson<Timestamp, DateTime>(
+          json['createdAt'], const TimestampConverter().fromJson),
+      expiresAt: _$JsonConverterFromJson<Timestamp, DateTime>(
+          json['expiresAt'], const TimestampConverter().fromJson),
     );
 
 Map<String, dynamic> _$$PhoneRequestImplToJson(_$PhoneRequestImpl instance) =>
@@ -22,7 +26,23 @@ Map<String, dynamic> _$$PhoneRequestImplToJson(_$PhoneRequestImpl instance) =>
       'isDisabled': instance.isDisabled,
       'userId': instance.userId,
       'item': instance.item,
+      'createdAt': _$JsonConverterToJson<Timestamp, DateTime>(
+          instance.createdAt, const TimestampConverter().toJson),
+      'expiresAt': _$JsonConverterToJson<Timestamp, DateTime>(
+          instance.expiresAt, const TimestampConverter().toJson),
     };
+
+Value? _$JsonConverterFromJson<Json, Value>(
+  Object? json,
+  Value? Function(Json json) fromJson,
+) =>
+    json == null ? null : fromJson(json as Json);
+
+Json? _$JsonConverterToJson<Json, Value>(
+  Value? value,
+  Json? Function(Value value) toJson,
+) =>
+    value == null ? null : toJson(value);
 
 _$PlateRequestImpl _$$PlateRequestImplFromJson(Map<String, dynamic> json) =>
     _$PlateRequestImpl(
@@ -31,6 +51,10 @@ _$PlateRequestImpl _$$PlateRequestImplFromJson(Map<String, dynamic> json) =>
       isDisabled: json['isDisabled'] as bool? ?? false,
       userId: json['userId'] as String,
       item: PlateNumber.fromJson(json['item'] as Map<String, dynamic>),
+      createdAt: _$JsonConverterFromJson<Timestamp, DateTime>(
+          json['createdAt'], const TimestampConverter().fromJson),
+      expiresAt: _$JsonConverterFromJson<Timestamp, DateTime>(
+          json['expiresAt'], const TimestampConverter().fromJson),
     );
 
 Map<String, dynamic> _$$PlateRequestImplToJson(_$PlateRequestImpl instance) =>
@@ -40,4 +64,8 @@ Map<String, dynamic> _$$PlateRequestImplToJson(_$PlateRequestImpl instance) =>
       'isDisabled': instance.isDisabled,
       'userId': instance.userId,
       'item': instance.item,
+      'createdAt': _$JsonConverterToJson<Timestamp, DateTime>(
+          instance.createdAt, const TimestampConverter().toJson),
+      'expiresAt': _$JsonConverterToJson<Timestamp, DateTime>(
+          instance.expiresAt, const TimestampConverter().toJson),
     };

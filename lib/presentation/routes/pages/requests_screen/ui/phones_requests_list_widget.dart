@@ -17,8 +17,13 @@ class _PhonesRequestsListWidgetState extends State<PhonesRequestsListWidget> {
   @override
   void initState() {
     super.initState();
-    phonesRequestsStream =
-        FirebaseFirestore.instance.collection(phonesRequestsCollectionId).snapshots().map((snapshot) {
+    phonesRequestsStream = FirebaseFirestore.instance
+        .collection(phonesRequestsCollectionId)
+        .where('isDisabled', isEqualTo: false)
+        .where('expiresAt', isGreaterThan: DateTime.now())
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map((snapshot) {
       return snapshot.docs.map((doc) {
         return PhoneRequest.fromSnapshot(doc);
       }).toList();

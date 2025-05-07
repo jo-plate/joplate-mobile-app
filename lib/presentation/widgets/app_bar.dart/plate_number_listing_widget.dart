@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/plate_listing.dart';
 import 'package:joplate/injection/injector.dart';
@@ -35,12 +34,11 @@ class PlateNumberListingWidget extends StatelessWidget {
 
     return Center(
       child: GestureDetector(
-        onTap:
-            disabled || (((item.isExpired) || item.isDisabled) && item.userId != FirebaseAuth.instance.currentUser?.uid)
-                ? null
-                : () {
-                    AutoRouter.of(context).push(PlatesDetailsRoute(listingId: item.id));
-                  },
+        onTap: disabled
+            ? null
+            : () {
+                AutoRouter.of(context).push(PlatesDetailsRoute(listingId: item.id));
+              },
         child: Stack(
           fit: StackFit.passthrough,
           clipBehavior: Clip.hardEdge,
@@ -73,8 +71,10 @@ class PlateNumberListingWidget extends StatelessWidget {
                           plate: item.item,
                           shape: shape,
                         ),
-                        const SizedBox(height: 2),
+                        // const SizedBox(height: 2),
                         _buildPriceLabel(),
+                        if (item.createdAt != null)
+                          CreatedAtLabelWidget(createdAt: item.createdAt!, fontSize: priceLabelFontSize * 0.5),
                         if (!hideLikeButton) ...[
                           const SizedBox(height: 2),
                           FavoriteButton.plate(
@@ -98,7 +98,8 @@ class PlateNumberListingWidget extends StatelessWidget {
                 ),
               ),
             if (item.isFeatured) _buildFeaturedRibbon(context),
-            if (item.isSold) TopRibbon(text: m.home.sold),
+            if (item.isSold)
+              TopRibbon(text: m.home.sold, backgroundColor: const Color(0xFF981C1E), textColor: Colors.white),
             if (item.isExpired) TopRibbon(text: m.home.expired),
             if (item.isDisabled)
               TopRibbon(backgroundColor: Colors.black, textColor: Colors.white, text: m.home.disabled)
@@ -186,6 +187,29 @@ class PlateNumberListingWidget extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class CreatedAtLabelWidget extends StatelessWidget {
+  const CreatedAtLabelWidget({
+    super.key,
+    required this.createdAt,
+    this.fontSize = 12,
+  });
+
+  final DateTime createdAt;
+  final double fontSize;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      formatCreatedAt(createdAt),
+      style: TextStyle(
+        fontSize: fontSize,
+        fontWeight: FontWeight.w400,
+        color: Colors.blueGrey,
       ),
     );
   }

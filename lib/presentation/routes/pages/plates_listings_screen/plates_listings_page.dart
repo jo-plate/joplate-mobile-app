@@ -236,121 +236,119 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
           ),
         ],
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    decoration: inputFieldStyle.copyWith(labelText: m.plates.code),
+                    value: _selectedCode,
+                    icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF981C1E)),
+                    items: [m.plates.code, ..._codes].map((c) {
+                      return DropdownMenuItem(
+                        value: c,
+                        child: Text(c, style: const TextStyle(fontSize: 14)),
+                      );
+                    }).toList(),
+                    onChanged: (val) => setState(() {
+                      if (val == m.plates.code) {
+                        val = null;
+                      }
+                      _selectedCode = val;
+                    }),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    decoration: inputFieldStyle.copyWith(labelText: m.plates.digit_count),
+                    value: _selectedDigits,
+                    icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF981C1E)),
+                    items: [m.plates.digit_count, ...digitOptions].map((d) {
+                      return DropdownMenuItem(
+                        value: d,
+                        child: Text(d, style: const TextStyle(fontSize: 14)),
+                      );
+                    }).toList(),
+                    onChanged: (val) => setState(() {
+                      if (val == m.plates.digit_count) {
+                        val = null;
+                      } else {
+                        _selectedDigits = val;
+                      }
+                    }),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            DropdownButtonFormField<String>(
+              decoration: inputFieldStyle.copyWith(labelText: m.plates.format),
+              value: _selectedFormat,
+              icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF981C1E)),
+              items: formatOptions.map((format) {
+                return DropdownMenuItem(
+                  value: format,
+                  child: Text(format, style: const TextStyle(fontSize: 14)),
+                );
+              }).toList(),
+              onChanged: (val) => setState(() => _selectedFormat = val),
+            ),
+            const SizedBox(height: 8),
+            if (_isExpanded) ...[
               Row(
                 children: [
                   Expanded(
-                    child: DropdownButtonFormField<String>(
-                      decoration: inputFieldStyle.copyWith(labelText: m.plates.code),
-                      value: _selectedCode,
-                      icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF981C1E)),
-                      items: [m.plates.code, ..._codes].map((c) {
-                        return DropdownMenuItem(
-                          value: c,
-                          child: Text(c, style: const TextStyle(fontSize: 14)),
-                        );
-                      }).toList(),
-                      onChanged: (val) => setState(() {
-                        if (val == m.plates.code) {
-                          val = null;
-                        }
-                        _selectedCode = val;
-                      }),
-                    ),
-                  ),
+                      child: TextFormField(
+                          controller: _containsController,
+                          decoration: inputFieldStyle.copyWith(labelText: m.plates.contains))),
                   const SizedBox(width: 8),
                   Expanded(
-                    child: DropdownButtonFormField<String>(
-                      decoration: inputFieldStyle.copyWith(labelText: m.plates.digit_count),
-                      value: _selectedDigits,
-                      icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF981C1E)),
-                      items: [m.plates.digit_count, ...digitOptions].map((d) {
-                        return DropdownMenuItem(
-                          value: d,
-                          child: Text(d, style: const TextStyle(fontSize: 14)),
-                        );
-                      }).toList(),
-                      onChanged: (val) => setState(() {
-                        if (val == m.plates.digit_count) {
-                          val = null;
-                        } else {
-                          _selectedDigits = val;
-                        }
-                      }),
-                    ),
-                  ),
+                      child: TextFormField(
+                          controller: _startsWithController,
+                          decoration: inputFieldStyle.copyWith(labelText: m.plates.starts_with))),
+                  const SizedBox(width: 8),
+                  Expanded(
+                      child: TextFormField(
+                          controller: _endsWithController,
+                          decoration: inputFieldStyle.copyWith(labelText: m.plates.ends_with))),
                 ],
               ),
               const SizedBox(height: 8),
-              DropdownButtonFormField<String>(
-                decoration: inputFieldStyle.copyWith(labelText: m.plates.format),
-                value: _selectedFormat,
-                icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF981C1E)),
-                items: formatOptions.map((format) {
-                  return DropdownMenuItem(
-                    value: format,
-                    child: Text(format, style: const TextStyle(fontSize: 14)),
-                  );
-                }).toList(),
-                onChanged: (val) => setState(() => _selectedFormat = val),
+              Row(
+                children: [
+                  Expanded(
+                      child: TextFormField(
+                          controller: _minPriceController,
+                          keyboardType: TextInputType.number,
+                          decoration: inputFieldStyle.copyWith(labelText: m.plates.min_price))),
+                  const SizedBox(width: 8),
+                  Expanded(
+                      child: TextFormField(
+                          controller: _maxPriceController,
+                          keyboardType: TextInputType.number,
+                          decoration: inputFieldStyle.copyWith(labelText: m.plates.max_price))),
+                ],
               ),
-              const SizedBox(height: 8),
-              if (_isExpanded) ...[
-                Row(
-                  children: [
-                    Expanded(
-                        child: TextFormField(
-                            controller: _containsController,
-                            decoration: inputFieldStyle.copyWith(labelText: m.plates.contains))),
-                    const SizedBox(width: 8),
-                    Expanded(
-                        child: TextFormField(
-                            controller: _startsWithController,
-                            decoration: inputFieldStyle.copyWith(labelText: m.plates.starts_with))),
-                    const SizedBox(width: 8),
-                    Expanded(
-                        child: TextFormField(
-                            controller: _endsWithController,
-                            decoration: inputFieldStyle.copyWith(labelText: m.plates.ends_with))),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Expanded(
-                        child: TextFormField(
-                            controller: _minPriceController,
-                            keyboardType: TextInputType.number,
-                            decoration: inputFieldStyle.copyWith(labelText: m.plates.min_price))),
-                    const SizedBox(width: 8),
-                    Expanded(
-                        child: TextFormField(
-                            controller: _maxPriceController,
-                            keyboardType: TextInputType.number,
-                            decoration: inputFieldStyle.copyWith(labelText: m.plates.max_price))),
-                  ],
-                ),
-              ],
-              const SizedBox(height: 8),
-              GestureDetector(
-                onTap: () => setState(() => _isExpanded = !_isExpanded),
-                child: Row(
-                  children: [
-                    Text(_isExpanded ? m.plates.show_less : m.plates.see_more,
-                        style: const TextStyle(color: Color(0xFF981C1E), fontWeight: FontWeight.bold)),
-                    Icon(_isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                        color: const Color(0xFF981C1E)),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 8),
-              PlatesListingsGrid(itemList: visiblePlates),
             ],
-          ),
+            const SizedBox(height: 8),
+            GestureDetector(
+              onTap: () => setState(() => _isExpanded = !_isExpanded),
+              child: Row(
+                children: [
+                  Text(_isExpanded ? m.plates.show_less : m.plates.see_more,
+                      style: const TextStyle(color: Color(0xFF981C1E), fontWeight: FontWeight.bold)),
+                  Icon(_isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                      color: const Color(0xFF981C1E)),
+                ],
+              ),
+            ),
+            const SizedBox(height: 8),
+            PlatesListingsGrid(itemList: visiblePlates),
+          ],
         ),
       ),
     );

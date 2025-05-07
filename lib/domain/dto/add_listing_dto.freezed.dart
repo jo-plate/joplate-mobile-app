@@ -20,8 +20,8 @@ AddListingDto _$AddListingDtoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$AddListingDto {
-  double get price => throw _privateConstructorUsedError;
-  double get discountPrice => throw _privateConstructorUsedError;
+  int get price => throw _privateConstructorUsedError;
+  int get discountPrice => throw _privateConstructorUsedError;
   ListingType get listingType => throw _privateConstructorUsedError;
   ItemType get itemType => throw _privateConstructorUsedError;
   bool get isFeatured => throw _privateConstructorUsedError;
@@ -44,8 +44,8 @@ abstract class $AddListingDtoCopyWith<$Res> {
       _$AddListingDtoCopyWithImpl<$Res, AddListingDto>;
   @useResult
   $Res call(
-      {double price,
-      double discountPrice,
+      {int price,
+      int discountPrice,
       ListingType listingType,
       ItemType itemType,
       bool isFeatured,
@@ -78,11 +78,11 @@ class _$AddListingDtoCopyWithImpl<$Res, $Val extends AddListingDto>
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       discountPrice: null == discountPrice
           ? _value.discountPrice
           : discountPrice // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       listingType: null == listingType
           ? _value.listingType
           : listingType // ignore: cast_nullable_to_non_nullable
@@ -112,8 +112,8 @@ abstract class _$$AddListingDtoImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {double price,
-      double discountPrice,
+      {int price,
+      int discountPrice,
       ListingType listingType,
       ItemType itemType,
       bool isFeatured,
@@ -144,11 +144,11 @@ class __$$AddListingDtoImplCopyWithImpl<$Res>
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       discountPrice: null == discountPrice
           ? _value.discountPrice
           : discountPrice // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       listingType: null == listingType
           ? _value.listingType
           : listingType // ignore: cast_nullable_to_non_nullable
@@ -185,9 +185,9 @@ class _$AddListingDtoImpl implements _AddListingDto {
       _$$AddListingDtoImplFromJson(json);
 
   @override
-  final double price;
+  final int price;
   @override
-  final double discountPrice;
+  final int discountPrice;
   @override
   final ListingType listingType;
   @override
@@ -253,8 +253,8 @@ class _$AddListingDtoImpl implements _AddListingDto {
 
 abstract class _AddListingDto implements AddListingDto {
   const factory _AddListingDto(
-      {required final double price,
-      required final double discountPrice,
+      {required final int price,
+      required final int discountPrice,
       required final ListingType listingType,
       required final ItemType itemType,
       required final bool isFeatured,
@@ -264,9 +264,9 @@ abstract class _AddListingDto implements AddListingDto {
       _$AddListingDtoImpl.fromJson;
 
   @override
-  double get price;
+  int get price;
   @override
-  double get discountPrice;
+  int get discountPrice;
   @override
   ListingType get listingType;
   @override

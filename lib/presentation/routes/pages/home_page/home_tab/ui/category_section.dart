@@ -38,8 +38,12 @@ class CategorySection extends StatelessWidget {
     return FirebaseFirestore.instance
         .collection(platesRequestsCollectionId)
         .where('isDisabled', isEqualTo: false)
+        .where('expiresAt', isGreaterThan: DateTime.now())
+        .orderBy('createdAt', descending: true)
         .snapshots()
-        .map((snapshot) => snapshot.size);
+        .map((snapshot) {
+      return snapshot.docs.length;
+    });
   }
 
   Stream<int> _getCategoryCount(ItemType? itemType) {

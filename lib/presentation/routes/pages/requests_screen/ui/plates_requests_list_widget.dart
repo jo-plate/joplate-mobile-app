@@ -8,8 +8,7 @@ class PlatesRequestsListWidget extends StatefulWidget {
   const PlatesRequestsListWidget({super.key});
 
   @override
-  State<PlatesRequestsListWidget> createState() =>
-      _PlatesRequestsListWidgetState();
+  State<PlatesRequestsListWidget> createState() => _PlatesRequestsListWidgetState();
 }
 
 class _PlatesRequestsListWidgetState extends State<PlatesRequestsListWidget> {
@@ -20,7 +19,9 @@ class _PlatesRequestsListWidgetState extends State<PlatesRequestsListWidget> {
     super.initState();
     platesRequestsStream = FirebaseFirestore.instance
         .collection(platesRequestsCollectionId)
-
+        .where('isDisabled', isEqualTo: false)
+        .where('expiresAt', isGreaterThan: DateTime.now())
+        .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snapshot) {
       return snapshot.docs.map((doc) {

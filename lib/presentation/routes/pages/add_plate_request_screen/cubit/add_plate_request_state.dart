@@ -9,7 +9,7 @@ class PlateRequestState with _$PlateRequestState {
   const factory PlateRequestState({
     @Default('') String code,
     @Default('') String number,
-    String? price, // optional
+    int? price, // optional
     @Default(false) bool isSubmitting,
     String? errorMessage,
   }) = _PlateRequestState;

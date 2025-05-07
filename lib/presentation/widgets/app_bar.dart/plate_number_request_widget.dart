@@ -1,8 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/request.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
+import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_listing_widget.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_widget.dart';
+import 'package:joplate/presentation/widgets/top_ribbon.dart';
 
 class PlateNumberRequestWidget extends StatelessWidget {
   final PlateRequest item;
@@ -24,9 +27,10 @@ class PlateNumberRequestWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     return Center(
       child: GestureDetector(
-        onTap: disabled || item.isDisabled
+        onTap: disabled
             ? null
             : () {
                 AutoRouter.of(context).push(PlateRequestDetailsRoute(requestId: item.id));
@@ -45,7 +49,7 @@ class PlateNumberRequestWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(6),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -54,9 +58,14 @@ class PlateNumberRequestWidget extends StatelessWidget {
                           plate: item.item,
                           shape: shape,
                         ),
-                        const SizedBox(height: 8),
+                        // const SizedBox(height: 2),
                         _buildPriceLabel(),
-                        if (item.isDisabled)
+                        if (item.createdAt != null)
+                          CreatedAtLabelWidget(
+                            createdAt: item.createdAt!,
+                            fontSize: priceLabelFontSize * 0.5,
+                          ),
+                        if (item.isDisabled || item.isExpired)
                           Positioned.fill(
                             child: Container(
                               decoration: BoxDecoration(
@@ -64,6 +73,18 @@ class PlateNumberRequestWidget extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
+                          ),
+                        if (item.isDisabled)
+                          TopRibbon(
+                            backgroundColor: Colors.black,
+                            text: m.home.disabled,
+                            textColor: Colors.white,
+                          )
+                        else if (item.isExpired)
+                          TopRibbon(
+                            backgroundColor: Colors.black,
+                            text: m.home.expired,
+                            textColor: Colors.white,
                           ),
                       ],
                     ),

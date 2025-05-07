@@ -21,13 +21,13 @@ class TopRibbon extends StatelessWidget {
           width: 100,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: Colors.black,
+            color: backgroundColor,
             borderRadius: BorderRadius.circular(4),
           ),
           child: Text(
             text,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: textColor,
               fontWeight: FontWeight.bold,
               fontSize: 12,
             ),

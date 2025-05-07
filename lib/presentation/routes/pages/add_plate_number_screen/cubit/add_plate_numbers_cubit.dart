@@ -39,23 +39,19 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
 
   // Update fields
   void updateCode(int index, String newCode) {
-    _updateForm(
-        index, state.forms[index].copyWith(code: newCode, errorMessage: null));
+    _updateForm(index, state.forms[index].copyWith(code: newCode, errorMessage: null));
   }
 
   void updateNumber(int index, String newNumber) {
-    _updateForm(index,
-        state.forms[index].copyWith(number: newNumber, errorMessage: null));
+    _updateForm(index, state.forms[index].copyWith(number: newNumber, errorMessage: null));
   }
 
   void updatePrice(int index, String newPrice) {
-    _updateForm(index,
-        state.forms[index].copyWith(price: newPrice, errorMessage: null));
+    _updateForm(index, state.forms[index].copyWith(price: newPrice, errorMessage: null));
   }
 
   void toggleFeatured(int index, bool enable) {
-    _updateForm(index,
-        state.forms[index].copyWith(isFeatured: enable, errorMessage: null));
+    _updateForm(index, state.forms[index].copyWith(isFeatured: enable, errorMessage: null));
   }
 
   void toggleDiscount(int index, bool enable) {
@@ -71,10 +67,7 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
   }
 
   void updateDiscountPrice(int index, String discount) {
-    _updateForm(
-        index,
-        state.forms[index]
-            .copyWith(discountPrice: discount, errorMessage: null));
+    _updateForm(index, state.forms[index].copyWith(discountPrice: discount, errorMessage: null));
   }
 
   /// Submit all forms in sequence, with callbacks
@@ -89,8 +82,7 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
 
       // Basic validation
       if (form.code.isEmpty || form.number.isEmpty || form.price.isEmpty) {
-        forms[i] =
-            form.copyWith(errorMessage: 'Please fill all required fields');
+        forms[i] = form.copyWith(errorMessage: 'Please fill all required fields');
         emit(state.copyWith(forms: forms));
         continue;
       }
@@ -102,16 +94,14 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
       final input = AddPlateNumberInput(
         code: form.code,
         number: form.number,
-        price: double.parse(form.price),
-        discountPrice: form.withDiscount
-            ? double.tryParse(form.discountPrice ?? '')
-            : null,
+        price: int.parse(form.price),
+        discountPrice: form.withDiscount ? int.tryParse(form.discountPrice ?? '') : null,
         isFeatured: form.isFeatured,
       );
 
       final addListingDto = AddListingDto(
-        price: input.price.toDouble(),
-        discountPrice: input.discountPrice?.toDouble() ?? 0,
+        price: input.price,
+        discountPrice: input.discountPrice ?? 0,
         listingType: ListingType.ad,
         itemType: ItemType.plateNumber,
         isFeatured: input.isFeatured,
@@ -122,8 +112,7 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
       );
 
       try {
-        final callable =
-            FirebaseFunctions.instance.httpsCallable(createListingCF);
+        final callable = FirebaseFunctions.instance.httpsCallable(createListingCF);
         final response = await callable.call(addListingDto.toJson());
 
         if (response.data != null && response.data['success'] == true) {
