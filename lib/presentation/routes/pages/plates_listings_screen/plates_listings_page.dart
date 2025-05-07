@@ -121,6 +121,36 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
     super.dispose();
   }
 
+  Map<String, String> getFormatMap(BuildContext context) {
+    final f = Localization.of(context).formats;
+    return {
+      'repeat_2': f.repeat_2,
+      'repeat_3': f.repeat_3,
+      'repeat_4': f.repeat_4,
+      'f_5_1': f.f_5_1,
+      'f_5_2': f.f_5_2,
+      'f_5_3': f.f_5_3,
+      'f_5_4': f.f_5_4,
+      'f_5_5': f.f_5_5,
+      'f_5_6': f.f_5_6,
+      'f_5_7': f.f_5_7,
+      'f_5_8': f.f_5_8,
+      'f_5_9': f.f_5_9,
+      'f_4_1': f.f_4_1,
+      'f_4_2': f.f_4_2,
+      'f_4_3': f.f_4_3,
+      'f_4_4': f.f_4_4,
+      'f_4_5': f.f_4_5,
+      'f_4_6': f.f_4_6,
+      'f_4_7': f.f_4_7,
+      'f_3_1': f.f_3_1,
+      'f_3_2': f.f_3_2,
+      'f_3_3': f.f_3_3,
+      'f_3_4': f.f_3_4,
+      'f_3_5': f.f_3_5,
+    };
+  }
+
   List<String> getFormatList(BuildContext context) {
     final f = Localization.of(context).formats;
     return [
@@ -152,12 +182,94 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
     ];
   }
 
+  bool matchesFormat(String number, String formatKey) {
+    if (number.isEmpty) return false;
+    final digits = number.split('');
+    final len = digits.length;
+
+    bool allEqual(List<int> idx) => idx.map((i) => digits[i]).toSet().length == 1;
+    bool allDistinct(List<int> idx) => idx.map((i) => digits[i]).toSet().length == idx.length;
+    bool repeatCount(int count) => digits.toSet().any((d) => digits.where((x) => x == d).length == count);
+
+    switch (formatKey) {
+      // Repetition checks
+      case 'repeat_2':
+        return repeatCount(2);
+      case 'repeat_3':
+        return repeatCount(3);
+      case 'repeat_4':
+        return repeatCount(4);
+
+      // 5-digit patterns
+      case 'f_5_1': // X???X
+        return len == 5 && digits[0] == digits[4];
+      case 'f_5_2': // XYZYX
+        return len == 5 && digits[0] == digits[4] && digits[1] == digits[3] && allDistinct([0, 1, 2]);
+      case 'f_5_3': // XXXZX
+        return len == 5 &&
+            digits[0] == digits[1] &&
+            digits[1] == digits[2] &&
+            digits[0] == digits[4] &&
+            digits[3] != digits[0];
+      case 'f_5_4': // ?XXX?
+        return len == 5 && digits[1] == digits[2] && digits[2] == digits[3];
+      case 'f_5_5': // XYXYX
+        return len == 5 &&
+            digits[0] == digits[2] &&
+            digits[2] == digits[4] &&
+            digits[1] == digits[3] &&
+            digits[0] != digits[1];
+      case 'f_5_6': // XYYYX
+        return len == 5 &&
+            digits[0] == digits[4] &&
+            digits[1] == digits[2] &&
+            digits[2] == digits[3] &&
+            digits[0] != digits[1];
+      case 'f_5_7': // ??XXX
+        return len == 5 && digits[2] == digits[3] && digits[3] == digits[4];
+      case 'f_5_8': // XXX??
+        return len == 5 && digits[0] == digits[1] && digits[1] == digits[2];
+      case 'f_5_9': // XXXXX
+        return len == 5 && allEqual([0, 1, 2, 3, 4]);
+
+      // 4-digit patterns
+      case 'f_4_1': // X??X
+        return len == 4 && digits[0] == digits[3];
+      case 'f_4_2': // XYXX
+        return len == 4 && digits[0] == digits[2] && digits[2] == digits[3] && digits[0] != digits[1];
+      case 'f_4_3': // XYXY
+        return len == 4 && digits[0] == digits[2] && digits[1] == digits[3] && digits[0] != digits[1];
+      case 'f_4_4': // ?XX?
+        return len == 4 && digits[1] == digits[2];
+      case 'f_4_5': // XXXY
+        return len == 4 && digits[0] == digits[1] && digits[1] == digits[2] && digits[2] != digits[3];
+      case 'f_4_6': // XYYY
+        return len == 4 && digits[1] == digits[2] && digits[2] == digits[3] && digits[0] != digits[1];
+      case 'f_4_7': // XXXX
+        return len == 4 && allEqual([0, 1, 2, 3]);
+
+      // 3-digit patterns
+      case 'f_3_1': // XYX
+        return len == 3 && digits[0] == digits[2] && digits[0] != digits[1];
+      case 'f_3_2': // XYZ
+        return len == 3 && allDistinct([0, 1, 2]);
+      case 'f_3_3': // XYY
+        return len == 3 && digits[1] == digits[2] && digits[0] != digits[1];
+      case 'f_3_4': // XXY
+        return len == 3 && digits[0] == digits[1] && digits[1] != digits[2];
+      case 'f_3_5': // XXX
+        return len == 3 && allEqual([0, 1, 2]);
+
+      default:
+        return false;
+    }
+  }
+
   bool _matches(PlateListing plate) {
     final m = Localization.of(context);
     final isArabic = m.languageCode == 'ar';
     final number = plate.item.number;
     final digitLabel = (isArabic ? _digitCountsAR : _digitCountsEN)[plate.item.number.length - 1];
-    final formatList = getFormatList(context);
 
     if (_selectedCode != null && _selectedCode!.isNotEmpty && _selectedCode != m.plates.code) {
       if (plate.item.code != _selectedCode) return false;
@@ -167,8 +279,8 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
       if (digitLabel != _selectedDigits) return false;
     }
 
-    if (_selectedFormat != null && _selectedFormat!.isNotEmpty && _selectedFormat != formatList[0]) {
-      if (plate.item.format != _selectedFormat) return false;
+    if (_selectedFormat != null && _selectedFormat!.isNotEmpty) {
+      return matchesFormat(plate.item.number, _selectedFormat!);
     }
 
     if (_containsController.text.isNotEmpty && !number.contains(_containsController.text)) {
@@ -215,7 +327,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
     final visiblePlates = _allPlates.where(_matches).toList();
     final isArabic = m.languageCode == 'ar';
     final digitOptions = isArabic ? _digitCountsAR : _digitCountsEN;
-    final formatOptions = getFormatList(context);
+    final formatMap = getFormatMap(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -289,12 +401,13 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
               decoration: inputFieldStyle.copyWith(labelText: m.plates.format),
               value: _selectedFormat,
               icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF981C1E)),
-              items: formatOptions.map((format) {
-                return DropdownMenuItem(
-                  value: format,
-                  child: Text(format, style: const TextStyle(fontSize: 14)),
-                );
-              }).toList(),
+              items: [
+                DropdownMenuItem(value: null, child: Text(m.plates.format)),
+                ...formatMap.entries.map((e) => DropdownMenuItem(
+                      value: e.key,
+                      child: Text(e.value, style: const TextStyle(fontSize: 14)),
+                    )),
+              ],
               onChanged: (val) => setState(() => _selectedFormat = val),
             ),
             const SizedBox(height: 8),
