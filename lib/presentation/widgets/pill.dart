@@ -12,20 +12,20 @@ class Pill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Container(
-      // width: isSmall ? 40 : 60,
       height: isSmall ? 18 : 25,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFF981C1E), width: 1.5),
-        color: Colors.white,
+        color: isDark ? const Color(0xFF3D4266) : const Color(0xFF981C1E),
       ),
       child: Text(
         text,
         style: TextStyle(
           fontSize: isSmall ? 10 : 12,
-          color: const Color(0xFF981C1E),
+          color: isDark ? Colors.white70 : Colors.white,
           fontWeight: FontWeight.bold,
         ),
       ),

@@ -57,7 +57,7 @@ class ThemeCubit extends Cubit<ThemeState> {
     if (savedTheme != null) {
       final themeMode = ThemeMode.values.firstWhere(
         (mode) => mode.toString() == savedTheme,
-        orElse: () => ThemeMode.system,
+        orElse: () => ThemeMode.dark,
       );
 
       emit(state.copyWith(

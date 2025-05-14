@@ -11,6 +11,8 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Expanded(
       flex: 1,
       child: GestureDetector(
@@ -21,10 +23,10 @@ class CategoryCard extends StatelessWidget {
             height: 120,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
+              color: isDark ? const Color(0xFF252A41) : Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.2),
+                  color: isDark ? Colors.black.withOpacity(0.3) : Colors.grey.withOpacity(0.2),
                   blurRadius: 8,
                   spreadRadius: 2,
                   offset: const Offset(0, 4),
@@ -44,10 +46,10 @@ class CategoryCard extends StatelessWidget {
                   Text(
                     title,
                     maxLines: 1,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF333333),
+                      color: isDark ? Colors.white : const Color(0xFF333333),
                     ),
                     textAlign: TextAlign.center,
                   ),

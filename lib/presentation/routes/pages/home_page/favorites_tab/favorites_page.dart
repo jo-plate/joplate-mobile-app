@@ -91,6 +91,18 @@ class _FavoritesPageState extends State<FavoritesPage>
               centerTitle: true,
               bottom: TabBar(
                 controller: tabController,
+                labelColor: Theme.of(context).brightness == Brightness.dark ? Colors.white : const Color(0xFF981C1E),
+                unselectedLabelColor: Theme.of(context).brightness == Brightness.dark ? Colors.white70 : Colors.black,
+                indicatorColor:
+                    Theme.of(context).brightness == Brightness.dark ? Colors.white : const Color(0xFF981C1E),
+                labelStyle: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+                unselectedLabelStyle: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
                 tabs: [
                   Tab(text: m.home.car_number),
                   Tab(text: m.home.phone_numbers),

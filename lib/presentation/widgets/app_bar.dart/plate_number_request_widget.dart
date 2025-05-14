@@ -28,6 +28,8 @@ class PlateNumberRequestWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return AspectRatio(
       aspectRatio: aspectRatio,
       child: Center(
@@ -43,8 +45,8 @@ class PlateNumberRequestWidget extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey[500]!, width: 2),
-                  color: Colors.white,
+                  border: Border.all(color: isDark ? const Color(0xFF3D4266) : Colors.grey[500]!, width: 2),
+                  color: isDark ? const Color(0xFF2D334D) : Colors.white,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
@@ -61,7 +63,7 @@ class PlateNumberRequestWidget extends StatelessWidget {
                             shape: shape,
                           ),
                           // const SizedBox(height: 2),
-                          _buildPriceLabel(),
+                          _buildPriceLabel(context),
                           if (item.createdAt != null)
                             CreatedAtLabelWidget(
                               createdAt: item.createdAt!,
@@ -77,7 +79,7 @@ class PlateNumberRequestWidget extends StatelessWidget {
                 Positioned.fill(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.grey.withOpacity(0.75),
+                      color: isDark ? Colors.black.withOpacity(0.75) : Colors.grey.withOpacity(0.75),
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
@@ -101,14 +103,16 @@ class PlateNumberRequestWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildPriceLabel() {
+  Widget _buildPriceLabel(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Text(
       'Requested',
       style: TextStyle(
         fontSize: priceLabelFontSize,
         fontFamily: 'Mandatory',
         fontWeight: FontWeight.w700,
-        color: const Color(0xFF981C1E),
+        color: isDark ? Colors.white70 : const Color(0xFF981C1E),
       ),
       maxLines: 1,
     );

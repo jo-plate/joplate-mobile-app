@@ -48,7 +48,7 @@ class _ProfileBannerState extends State<ProfileBanner> {
   Color getAccentColor(PlanType plan) {
     switch (plan) {
       case PlanType.gold_plan:
-        return const Color.fromARGB(255, 255, 214, 214);
+        return const Color(0xFFD4AF37);
       case PlanType.diamond_plan:
         return const Color(0xff152238);
       default:
@@ -59,11 +59,22 @@ class _ProfileBannerState extends State<ProfileBanner> {
   Color getBackgroundColor(PlanType plan) {
     switch (plan) {
       case PlanType.gold_plan:
-        return const Color.fromARGB(255, 255, 214, 214);
+        return const Color(0xFF2D2A1F);
       case PlanType.diamond_plan:
         return const Color.fromARGB(68, 85, 90, 255);
       default:
         return const Color.fromARGB(255, 255, 214, 214);
+    }
+  }
+
+  Color getTextColor(PlanType plan) {
+    switch (plan) {
+      case PlanType.gold_plan:
+        return const Color(0xFFD4AF37);
+      case PlanType.diamond_plan:
+        return Colors.white;
+      default:
+        return Colors.black;
     }
   }
 
@@ -82,11 +93,12 @@ class _ProfileBannerState extends State<ProfileBanner> {
             child: StreamBuilder<UserPlans>(
                 stream: userPlansStream,
                 builder: (context, plansSnapshot) {
+                  final plan = plansSnapshot.data?.plan ?? PlanType.free_plan;
+                  final textColor = getTextColor(plan);
                   return Container(
                     decoration: BoxDecoration(
-                      color: getBackgroundColor(plansSnapshot.data?.plan ?? PlanType.free_plan),
+                      color: getBackgroundColor(plan),
                       borderRadius: BorderRadius.circular(12),
-                      // border: Border.all(color: const Color.fromARGB(255, 180, 37, 27), width: 1),
                     ),
                     padding: const EdgeInsets.all(12),
                     child: Row(
@@ -105,7 +117,6 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                 ),
                               ),
                             ),
-
                           ],
                         ),
                         const SizedBox(width: 14),
@@ -121,7 +132,11 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                     profile?.name.isNotEmpty == true
                                         ? profile?.name ?? 'Guest'
                                         : profile?.displayName ?? 'Guest',
-                                    style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w600,
+                                      color: textColor,
+                                    ),
                                   ),
                                   const SizedBox(width: 6),
                                   if ((profile?.isVerified ?? false))
@@ -131,7 +146,7 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                   Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                                     decoration: BoxDecoration(
-                                      color: getAccentColor(plansSnapshot.data?.plan ?? PlanType.free_plan),
+                                      color: getAccentColor(plan),
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     child: Text(
@@ -149,8 +164,14 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                     children: [
                                       const PlanIcon(size: 30, color: Colors.white, borderColor: Colors.black),
                                       const SizedBox(width: 6),
-                                      Text((plansSnapshot.data?.tickets ?? 0).toString(),
-                                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                                      Text(
+                                        (plansSnapshot.data?.tickets ?? 0).toString(),
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                          color: textColor,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                   const SizedBox(width: 6),
@@ -159,16 +180,24 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                             context: context,
                                             builder: (_) => const BuyTicketsDialog(),
                                           ),
-                                      child: Icon(Icons.add_circle_outline,
-                                          size: 20,
-                                          color: getAccentColor(plansSnapshot.data?.plan ?? PlanType.free_plan))),
+                                      child: Icon(
+                                        Icons.add_circle_outline,
+                                        size: 20,
+                                        color: getAccentColor(plan),
+                                      )),
                                   const SizedBox(width: 12),
                                   Row(
                                     children: [
                                       const PlanIcon(size: 30, color: Color(0xFFD4AF37), borderColor: Colors.black),
                                       const SizedBox(width: 6),
-                                      Text((plansSnapshot.data?.goldenTickets ?? 0).toString(),
-                                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                                      Text(
+                                        (plansSnapshot.data?.goldenTickets ?? 0).toString(),
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                          color: textColor,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ],
@@ -176,8 +205,11 @@ class _ProfileBannerState extends State<ProfileBanner> {
                             ],
                           ),
                         ),
-                        Icon(Icons.arrow_forward_ios,
-                            size: 22, color: getAccentColor(plansSnapshot.data?.plan ?? PlanType.free_plan)),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 22,
+                          color: getAccentColor(plan),
+                        ),
                       ],
                     ),
                   );

@@ -34,8 +34,16 @@ class $AssetsImagesGen {
   AssetGenImage get carNumbers =>
       const AssetGenImage('assets/images/car_numbers.png');
 
+  /// File path: assets/images/car_numbers_dark.png
+  AssetGenImage get carNumbersDark =>
+      const AssetGenImage('assets/images/car_numbers_dark.png');
+
   /// File path: assets/images/logo.png
   AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
+
+  /// File path: assets/images/logo_dark.png
+  AssetGenImage get logoDark =>
+      const AssetGenImage('assets/images/logo_dark.png');
 
   /// Directory path: assets/images/numbers
   $AssetsImagesNumbersGen get numbers => const $AssetsImagesNumbersGen();
@@ -55,13 +63,25 @@ class $AssetsImagesGen {
   AssetGenImage get phoneNumbers =>
       const AssetGenImage('assets/images/phone_numbers.png');
 
+  /// File path: assets/images/phone_numbers_dark.png
+  AssetGenImage get phoneNumbersDark =>
+      const AssetGenImage('assets/images/phone_numbers_dark.png');
+
   /// File path: assets/images/quicksale.png
   AssetGenImage get quicksale =>
       const AssetGenImage('assets/images/quicksale.png');
 
+  /// File path: assets/images/quicksale_dark.png
+  AssetGenImage get quicksaleDark =>
+      const AssetGenImage('assets/images/quicksale_dark.png');
+
   /// File path: assets/images/requests.png
   AssetGenImage get requests =>
       const AssetGenImage('assets/images/requests.png');
+
+  /// File path: assets/images/requests_dark.png
+  AssetGenImage get requestsDark =>
+      const AssetGenImage('assets/images/requests_dark.png');
 
   /// File path: assets/images/umniah.png
   AssetGenImage get umniahPng =>
@@ -93,13 +113,18 @@ class $AssetsImagesGen {
     avatar2,
     avatar3,
     carNumbers,
+    carNumbersDark,
     logo,
+    logoDark,
     orangePng,
     orangeSvg,
     orangePhonebg,
     phoneNumbers,
+    phoneNumbersDark,
     quicksale,
+    quicksaleDark,
     requests,
+    requestsDark,
     umniahPng,
     umniahSvg,
     umniahPhonebg,

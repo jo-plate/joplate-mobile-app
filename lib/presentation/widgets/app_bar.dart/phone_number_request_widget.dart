@@ -19,6 +19,8 @@ class PhoneNumberRequestWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return AspectRatio(
       aspectRatio: aspectRatio,
       child: Center(
@@ -35,10 +37,10 @@ class PhoneNumberRequestWidget extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Colors.grey[500]!,
+                    color: isDark ? const Color(0xFF3D4266) : Colors.grey[500]!,
                     width: 2,
                   ),
-                  color: Colors.white,
+                  color: isDark ? const Color(0xFF252A41) : Colors.white,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
@@ -55,7 +57,7 @@ class PhoneNumberRequestWidget extends StatelessWidget {
                             padding: const EdgeInsets.only(bottom: 8.0),
                             child: PhoneNumberWidget(phoneNumber: item.item),
                           ),
-                          _buildPriceLabel(),
+                          _buildPriceLabel(context),
                           if (item.createdAt != null)
                             CreatedAtLabelWidget(
                               createdAt: item.createdAt!,
@@ -70,7 +72,7 @@ class PhoneNumberRequestWidget extends StatelessWidget {
                 Positioned.fill(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.grey.withOpacity(0.75),
+                      color: isDark ? Colors.black.withOpacity(0.75) : Colors.grey.withOpacity(0.75),
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
@@ -94,14 +96,16 @@ class PhoneNumberRequestWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildPriceLabel() {
+  Widget _buildPriceLabel(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Text(
       'Requested',
       style: TextStyle(
         fontSize: priceLabelFontSize,
         fontFamily: 'Mandatory',
         fontWeight: FontWeight.w700,
-        color: const Color(0xFF981C1E),
+        color: isDark ? Colors.white70 : const Color(0xFF981C1E),
       ),
       maxLines: 1,
     );

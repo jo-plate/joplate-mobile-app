@@ -337,7 +337,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
           IconButton(
             icon: const Icon(Icons.add),
             iconSize: 30,
-            color: const Color(0xFF981C1E),
+
             onPressed: () {
               if (FirebaseAuth.instance.currentUser == null) {
                 context.router.push(const AuthRoute());

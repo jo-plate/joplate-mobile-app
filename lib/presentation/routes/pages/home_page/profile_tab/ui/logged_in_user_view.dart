@@ -9,6 +9,7 @@ import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/home_page/profile_tab/ui/anon_user_view.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/presentation/routes/router.dart';
+import 'package:joplate/presentation/theme.dart';
 import 'package:joplate/presentation/widgets/menu_item.dart';
 import 'package:joplate/presentation/widgets/profile_banner.dart';
 import 'package:joplate/presentation/cubits/theme_cubit.dart';
@@ -139,22 +140,16 @@ class _UserProfileViewState extends State<_UserProfileView> {
     required String label,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
-      child: Card(
-        color: Colors.white,
-        elevation: 2,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Container(
+        decoration: getCardContainerStyle(context),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              CircleAvatar(
-                radius: 28,
-                backgroundColor: Colors.white,
-                child: Icon(icon, color: const Color(0xFF981C1E), size: 50),
-              ),
+              Icon(icon, size: 50, color: const Color(0xFF981C1E)),
               const SizedBox(height: 8),
               Text(
                 label,
@@ -173,13 +168,15 @@ class _UserProfileViewState extends State<_UserProfileView> {
 
   Widget _buildSettingsSection() {
     final m = Localization.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Divider(
+        Divider(
           height: 1,
           thickness: 1,
-          color: Colors.grey,
+          color: isDark ? const Color(0xFF3D4266) : Colors.grey,
         ),
         const SizedBox(height: 12),
         Padding(
@@ -194,9 +191,10 @@ class _UserProfileViewState extends State<_UserProfileView> {
               const SizedBox(width: 16),
               Text(
                 m.profile.language,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
+                  color: isDark ? Colors.white : Colors.black,
                 ),
               ),
               const Spacer(),
@@ -239,9 +237,10 @@ class _UserProfileViewState extends State<_UserProfileView> {
               const SizedBox(width: 16),
               Text(
                 m.profile.theme,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
+                  color: isDark ? Colors.white : Colors.black,
                 ),
               ),
               const Spacer(),
@@ -260,7 +259,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
                       ),
                       const SizedBox(width: 8),
                       _buildSettingButton(
-                        label: 'Dark',
+                        label: m.profile.dark_mode,
                         isSelected: state.isDarkMode,
                         onTap: () {
                           if (!state.isDarkMode) {
@@ -276,10 +275,10 @@ class _UserProfileViewState extends State<_UserProfileView> {
           ),
         ),
         const SizedBox(height: 12),
-        const Divider(
+        Divider(
           height: 1,
           thickness: 1,
-          color: Colors.grey,
+          color: isDark ? const Color(0xFF3D4266) : Colors.grey,
         ),
       ],
     );
@@ -290,17 +289,30 @@ class _UserProfileViewState extends State<_UserProfileView> {
     required bool isSelected,
     required VoidCallback onTap,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return ElevatedButton(
       onPressed: onTap,
       style: ElevatedButton.styleFrom(
         elevation: 0,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        foregroundColor: isSelected ? Colors.white : Colors.black,
-        backgroundColor: isSelected ? const Color(0xFF981C1E) : Colors.white,
+        foregroundColor: isSelected
+            ? Colors.white
+            : isDark
+                ? Colors.white
+                : Colors.black,
+        backgroundColor: isSelected
+            ? const Color(0xFF981C1E)
+            : isDark
+                ? const Color(0xFF252A41)
+                : Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
           side: BorderSide(
-            color: isSelected ? Colors.transparent : const Color(0xFF981C1E),
+            color: isSelected
+                ? Colors.transparent
+                : isDark
+                    ? const Color(0xFF3D4266)
+                    : const Color(0xFF981C1E),
             width: 1,
           ),
         ),
@@ -333,66 +345,18 @@ class _UserProfileViewState extends State<_UserProfileView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        ElevatedButton.icon(
-          onPressed: () {
+        MenuItem(
+          title: m.profile.logout,
+          icon: Icons.logout,
+          onTap: () {
             injector<AuthCubit>().logout();
           },
-          style: ElevatedButton.styleFrom(
-            elevation: 0,
-            backgroundColor: const Color(0xFFFFF4F4),
-            foregroundColor: const Color(0xFF981C1E),
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-          icon: const Padding(
-            padding: EdgeInsets.only(left: 16),
-            child: Icon(Icons.logout, size: 20),
-          ),
-          label: Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: Text(
-                m.profile.logout,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-              ),
-            ),
-          ),
         ),
         const SizedBox(height: 16),
-        ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            elevation: 0,
-            backgroundColor: const Color.fromARGB(255, 244, 242, 242),
-            foregroundColor: Colors.black,
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-          child: Row(
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(left: 16),
-                child: Icon(
-                  Icons.delete,
-                  size: 20,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                m.profile.delete_account,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
+        MenuItem(
+          title: m.profile.delete_account,
+          icon: Icons.delete,
+          onTap: () {},
         ),
       ],
     );

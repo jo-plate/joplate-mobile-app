@@ -11,6 +11,7 @@ import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
+import 'package:joplate/presentation/theme.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phone_number_request_widget.dart';
 import 'package:joplate/presentation/widgets/delete_item_popup.dart';
 import 'package:joplate/utils/log_visit.dart';
@@ -204,17 +205,7 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            blurRadius: 5,
-            spreadRadius: 2,
-          ),
-        ],
-      ),
+      decoration: getCardContainerStyle(context),
       child: StreamBuilder<UserProfile>(
           stream: userProfileStream,
           builder: (context, snapshot) {
@@ -233,8 +224,7 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
-                // if (widget.userId == FirebaseAuth.instance.currentUser?.uid) 
+                // if (widget.userId == FirebaseAuth.instance.currentUser?.uid)
                 ...[
                   RichText(
                     text: TextSpan(

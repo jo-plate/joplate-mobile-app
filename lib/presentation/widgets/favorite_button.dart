@@ -63,11 +63,12 @@ class _FavoriteButtonState extends State<FavoriteButton> {
       stream: _isFavorite,
       builder: (context, snapshot) {
         final isFavorite = snapshot.data ?? false;
+        final isDark = Theme.of(context).brightness == Brightness.dark;
         return GestureDetector(
           child: Icon(
             size: widget.iconSize,
             isFavorite ? Icons.favorite : Icons.favorite_border,
-            color: const Color(0xFF981C1E),
+            color: isDark ? Colors.white70 : const Color(0xFF981C1E),
           ),
           onTap: () async {
             final user = FirebaseAuth.instance.currentUser;

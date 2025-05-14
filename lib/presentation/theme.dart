@@ -125,7 +125,7 @@ ThemeData getLightTheme() => ThemeData(
 ThemeData getDarkTheme() => ThemeData(
       colorScheme: ColorScheme.fromSeed(
         seedColor: const Color(0xFF981C1E),
-        primary: const Color(0xFF981C1E),
+        primary: Colors.white70,
         secondary: Colors.white,
         brightness: Brightness.dark,
         background: const Color(0xFF1A1B2E), // Dark blue background

@@ -31,6 +31,7 @@ class PlateNumberListingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Center(
       child: GestureDetector(
@@ -47,14 +48,20 @@ class PlateNumberListingWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
+                    color: isDark ? Colors.black.withOpacity(0.3) : Colors.grey.withOpacity(0.2),
                     blurRadius: 8,
                     spreadRadius: 2,
                     offset: const Offset(0, 4),
                   ),
                 ],
-                border: Border.all(color: item.isFeatured ? const Color(0xFFFFC107) : Colors.grey[500]!, width: 2),
-                color: Colors.white,
+                border: Border.all(
+                    color: item.isFeatured
+                        ? const Color(0xFFFFC107)
+                        : isDark
+                            ? const Color(0xFF3D4266)
+                            : Colors.grey[500]!,
+                    width: 2),
+                color: isDark ? const Color(0xFF2D334D) : Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
@@ -71,10 +78,12 @@ class PlateNumberListingWidget extends StatelessWidget {
                           plate: item.item,
                           shape: shape,
                         ),
-                        // const SizedBox(height: 2),
-                        _buildPriceLabel(),
+                        _buildPriceLabel(context),
                         if (item.createdAt != null)
-                          CreatedAtLabelWidget(createdAt: item.createdAt!, fontSize: priceLabelFontSize * 0.5),
+                          CreatedAtLabelWidget(
+                            createdAt: item.createdAt!,
+                            fontSize: priceLabelFontSize * 0.5,
+                          ),
                         if (!hideLikeButton) ...[
                           const SizedBox(height: 2),
                           FavoriteButton.plate(
@@ -92,7 +101,7 @@ class PlateNumberListingWidget extends StatelessWidget {
               Positioned.fill(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.75),
+                    color: isDark ? Colors.black.withOpacity(0.75) : Colors.grey.withOpacity(0.75),
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
@@ -109,7 +118,9 @@ class PlateNumberListingWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildPriceLabel() {
+  Widget _buildPriceLabel(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     if (item.priceHidden) {
       return Text(
         'Call for Price',
@@ -117,7 +128,7 @@ class PlateNumberListingWidget extends StatelessWidget {
           fontSize: priceLabelFontSize,
           fontFamily: 'Mandatory',
           fontWeight: FontWeight.w700,
-          color: const Color(0xFF981C1E),
+          color: isDark ? Colors.white70 : const Color(0xFF981C1E),
         ),
         maxLines: 1,
       );
@@ -131,7 +142,7 @@ class PlateNumberListingWidget extends StatelessWidget {
               fontSize: priceLabelFontSize,
               fontFamily: 'Mandatory',
               fontWeight: FontWeight.w700,
-              color: const Color(0xFF981C1E),
+              color: isDark ? Colors.white70 : const Color(0xFF981C1E),
             ),
             maxLines: 1,
           ),
@@ -142,7 +153,7 @@ class PlateNumberListingWidget extends StatelessWidget {
               fontWeight: FontWeight.w600,
               decoration: TextDecoration.lineThrough,
               decorationStyle: TextDecorationStyle.solid,
-              color: Colors.black,
+              color: isDark ? Colors.white38 : Colors.black,
             ),
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
@@ -156,7 +167,7 @@ class PlateNumberListingWidget extends StatelessWidget {
           fontSize: priceLabelFontSize,
           fontFamily: 'Mandatory',
           fontWeight: FontWeight.w700,
-          color: const Color(0xFF981C1E),
+          color: isDark ? Colors.white70 : const Color(0xFF981C1E),
         ),
         maxLines: 1,
       );
@@ -204,12 +215,13 @@ class CreatedAtLabelWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Text(
       formatCreatedAt(createdAt),
       style: TextStyle(
         fontSize: fontSize,
         fontWeight: FontWeight.w400,
-        color: Colors.blueGrey,
+        color: isDark ? Colors.blueGrey.shade300 : Colors.blueGrey,
       ),
     );
   }

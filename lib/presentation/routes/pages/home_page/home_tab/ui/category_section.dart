@@ -60,6 +60,7 @@ class CategorySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Column(
       children: [
@@ -67,19 +68,21 @@ class CategorySection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             _buildCategoryCard(
-              icon: Image.asset('assets/images/car_numbers.png', width: 50),
+              icon: Image.asset(isDark ? 'assets/images/car_numbers_dark.png' : 'assets/images/car_numbers.png',
+                  width: 50),
               title: m.home.car_number,
               itemType: ItemType.plateNumber,
               onTap: () => AutoRouter.of(context).push(const PlatesListingsRoute()),
             ),
             _buildCategoryCard(
-              icon: Image.asset('assets/images/phone_numbers.png', width: 50),
+              icon: Image.asset(isDark ? 'assets/images/phone_numbers_dark.png' : 'assets/images/phone_numbers.png',
+                  width: 50),
               title: m.home.phone_numbers,
               itemType: ItemType.phoneNumber,
               onTap: () => AutoRouter.of(context).push(const PhoneListingsRoute()),
             ),
             _buildCategoryCard(
-              icon: Image.asset('assets/images/requests.png', width: 50),
+              icon: Image.asset(isDark ? 'assets/images/requests_dark.png' : 'assets/images/requests.png', width: 50),
               title: m.home.requests,
               onTap: () => AutoRouter.of(context).push(const RequestsRoute()),
             ),
@@ -93,21 +96,25 @@ class CategorySection extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               decoration: BoxDecoration(
-                color: const Color(0xFFF5F5F5),
+                color: isDark ? const Color(0xFF252A41) : const Color(0xFFF5F5F5),
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: const Color(0xFF981C1E), width: 1.5),
+                border: Border.all(
+                  color: isDark ? const Color(0xFF3D4266) : const Color(0xFF981C1E),
+                  width: 1.5,
+                ),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset('assets/images/quicksale.png', width: 20, height: 20, fit: BoxFit.contain),
+                  Image.asset(isDark ? 'assets/images/quicksale_dark.png' : 'assets/images/quicksale.png',
+                      width: 20, height: 20, fit: BoxFit.contain),
                   const SizedBox(width: 8),
                   Text(
                     m.home.quick_sale,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xFF333333),
+                      color: isDark ? Colors.white : const Color(0xFF333333),
                     ),
                   ),
                 ],

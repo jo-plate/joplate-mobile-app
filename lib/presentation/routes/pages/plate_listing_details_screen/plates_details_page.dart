@@ -12,6 +12,7 @@ import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
+import 'package:joplate/presentation/theme.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_listing_widget.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/promote_listing_button.dart';
 import 'package:joplate/presentation/widgets/delete_item_popup.dart';
@@ -60,6 +61,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return StreamBuilder<PlateListing>(
         stream: _plateStream,
         builder: (context, snapshot) {
@@ -234,18 +236,7 @@ class _SellerDetailsState extends State<SellerDetails> {
     final m = Localization.of(context);
     return Container(
       padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            blurRadius: 10,
-            spreadRadius: 0,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
+      decoration: getCardContainerStyle(context),
       child: StreamBuilder<UserProfile>(
           stream: userProfileStream,
           builder: (context, snapshot) {
@@ -256,22 +247,26 @@ class _SellerDetailsState extends State<SellerDetails> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             }
-
+            print(widget.userId == FirebaseAuth.instance.currentUser?.uid);
             if (userProfile == null) {
               return const Text('User not found');
             }
+            final isDark = Theme.of(context).brightness == Brightness.dark;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // if (widget.userId == FirebaseAuth.instance.currentUser?.uid)
-                ...[
+                if (widget.userId == FirebaseAuth.instance.currentUser?.uid) ...[
                   RichText(
                     text: TextSpan(
                       children: [
                         TextSpan(text: '${m.home.visits}: '),
                         TextSpan(text: widget.visits.toString()),
                       ],
-                      style: const TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: isDark ? Colors.white70 : const Color(0xFF981C1E),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -296,7 +291,7 @@ class _SellerDetailsState extends State<SellerDetails> {
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF2C3E50),
+                        // color: Color(0xFF2C3E50),
                       ),
                     ),
                   ],
@@ -328,7 +323,7 @@ class _SellerDetailsState extends State<SellerDetails> {
                                   style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w600,
-                                    color: Color(0xFF2C3E50),
+                                    // color: Color(0xFF2C3E50),
                                   )),
                               const SizedBox(width: 6),
                               if (userProfile.isVerified)
@@ -366,7 +361,7 @@ class _SellerDetailsState extends State<SellerDetails> {
                               FaIcon(
                                 FontAwesomeIcons.whatsapp,
                                 color: Colors.green,
-                                size: 16,
+                                size: 20,
                               ),
                               SizedBox(width: 8),
                               Text(
@@ -374,7 +369,7 @@ class _SellerDetailsState extends State<SellerDetails> {
                                 style: TextStyle(
                                   color: Colors.green,
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 14,
+                                  fontSize: 16,
                                 ),
                               ),
                             ],
@@ -387,7 +382,7 @@ class _SellerDetailsState extends State<SellerDetails> {
                       child: Container(
                         height: 40,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF981C1E).withOpacity(0.1),
+                          color: const Color(0xFF981C1E).withOpacity(isDark ? 0.6 : 1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: InkWell(
@@ -403,18 +398,18 @@ class _SellerDetailsState extends State<SellerDetails> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(
+                              Icon(
                                 Icons.phone,
-                                color: Color(0xFF981C1E),
                                 size: 16,
+                                color: isDark ? Colors.black : Colors.white,
                               ),
                               const SizedBox(width: 8),
                               Text(
                                 userProfile.phonenumber,
-                                style: const TextStyle(
-                                  color: Color(0xFF981C1E),
+                                style: TextStyle(
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 14,
+                                  fontSize: 16,
+                                  color: isDark ? Colors.black : Colors.white,
                                 ),
                               ),
                             ],
@@ -484,6 +479,7 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return FutureBuilder<List<Map<String, dynamic>>>(
       future: _fetchOtherSellers(),
       builder: (context, snapshot) {
@@ -497,11 +493,11 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
         return Container(
           padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: isDark ? const Color(0xFF2D334D) : Colors.white,
             borderRadius: BorderRadius.circular(12.0),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.1),
+                color: isDark ? Colors.black.withOpacity(0.2) : Colors.grey.withOpacity(0.1),
                 blurRadius: 10,
                 spreadRadius: 0,
                 offset: const Offset(0, 2),
@@ -555,25 +551,26 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
 
   TableRow _buildTableHeader(BuildContext context) {
     final m = Localization.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return TableRow(
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: Color(0xFFE0E0E0), width: 1)),
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: isDark ? const Color(0xFF3D4266) : const Color(0xFFE0E0E0), width: 1)),
       ),
       children: [
-        _headerText(m.platesdetails.seller),
-        _headerText(m.platesdetails.price),
-        _headerText(m.platesdetails.contact),
+        _headerText(m.platesdetails.seller, isDark),
+        _headerText(m.platesdetails.price, isDark),
+        _headerText(m.platesdetails.contact, isDark),
       ],
     );
   }
 
-  Widget _headerText(String text) => Padding(
+  Widget _headerText(String text, bool isDark) => Padding(
         padding: const EdgeInsets.only(bottom: 12.0),
         child: Text(
           text,
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.w600,
-            color: Color(0xFF7F8C8D),
+            color: isDark ? Colors.white70 : const Color(0xFF7F8C8D),
             fontSize: 13,
           ),
         ),
@@ -586,10 +583,11 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
     required bool isFeatured,
     required String listingId,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     void goToDetails() => AutoRouter.of(context).push(PlatesDetailsRoute(listingId: listingId));
 
     Widget wrap(Widget child) => Material(
-          color: Colors.transparent, // so InkWell splash works
+          color: Colors.transparent,
           child: InkWell(
             onTap: goToDetails,
             child: child,
@@ -597,33 +595,50 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
         );
 
     return TableRow(
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: Color(0xFFF5F5F5), width: 1)),
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: isDark ? const Color(0xFF3D4266) : const Color(0xFFF5F5F5), width: 1)),
       ),
       children: [
-        // seller / avatar cell
         wrap(
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 12.0),
             child: Row(
               children: [
-                const CircleAvatar(radius: 16, child: Icon(Icons.person_outline, size: 18)),
+                CircleAvatar(
+                  radius: 16,
+                  backgroundColor: isDark ? const Color(0xFF3D4266) : Colors.grey[200],
+                  child: Icon(
+                    Icons.person_outline,
+                    size: 18,
+                    color: isDark ? Colors.white70 : Colors.grey[600],
+                  ),
+                ),
                 const SizedBox(width: 12),
-                Text(name, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
+                Text(
+                  name,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: isDark ? Colors.white : Colors.black,
+                  ),
+                ),
               ],
             ),
           ),
         ),
-
-        // price cell
         wrap(
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 12.0),
-            child: Text(price, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
+            child: Text(
+              price,
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 15,
+                color: isDark ? Colors.white70 : Colors.black,
+              ),
+            ),
           ),
         ),
-
-        // contact cell (keep the icons clickable too)
         wrap(
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 12.0),

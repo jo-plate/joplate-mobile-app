@@ -28,6 +28,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Center(
       child: GestureDetector(
@@ -45,10 +46,14 @@ class PhoneNumberListingWidget extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: item.isFeatured ? const Color(0xFFFFC107) : Colors.grey[500]!,
+                  color: item.isFeatured
+                      ? const Color(0xFFFFC107)
+                      : isDark
+                          ? const Color(0xFF3D4266)
+                          : Colors.grey[500]!,
                   width: 2,
                 ),
-                color: Colors.white,
+                color: isDark ? const Color(0xFF2D334D) : Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
@@ -64,7 +69,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 8.0),
                           child: PhoneNumberWidget(phoneNumber: item.item),
                         ),
-                        _buildPriceLabel(),
+                        _buildPriceLabel(context),
                         if (item.createdAt != null)
                           CreatedAtLabelWidget(
                             createdAt: item.createdAt!,
@@ -86,7 +91,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
               Positioned.fill(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.75),
+                    color: isDark ? Colors.black.withOpacity(0.75) : Colors.grey.withOpacity(0.75),
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
@@ -103,7 +108,9 @@ class PhoneNumberListingWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildPriceLabel() {
+  Widget _buildPriceLabel(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     if (item.price == 0) {
       return Text(
         'Call for Price',
@@ -111,7 +118,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
           fontSize: priceLabelFontSize,
           fontFamily: 'Mandatory',
           fontWeight: FontWeight.w700,
-          color: const Color(0xFF981C1E),
+          color: isDark ? Colors.white70 : const Color(0xFF981C1E),
         ),
         maxLines: 1,
       );
@@ -127,7 +134,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
               fontSize: priceLabelFontSize,
               fontFamily: 'Mandatory',
               fontWeight: FontWeight.w700,
-              color: const Color(0xFF981C1E),
+              color: isDark ? Colors.white70 : const Color(0xFF981C1E),
             ),
             maxLines: 1,
           ),
@@ -139,7 +146,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
               fontWeight: FontWeight.w500,
               decoration: TextDecoration.lineThrough,
               decorationThickness: 2,
-              color: Colors.grey[600],
+              color: isDark ? Colors.white38 : Colors.grey[600],
             ),
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
@@ -153,7 +160,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
           fontSize: priceLabelFontSize,
           fontFamily: 'Mandatory',
           fontWeight: FontWeight.w700,
-          color: const Color(0xFF981C1E),
+          color: isDark ? Colors.white70 : const Color(0xFF981C1E),
         ),
         maxLines: 1,
       );
