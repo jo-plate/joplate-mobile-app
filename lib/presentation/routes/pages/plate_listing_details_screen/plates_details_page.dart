@@ -10,15 +10,16 @@ import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/entities/plate_listing.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
+import 'package:joplate/domain/entities/user_plans.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
-import 'package:joplate/presentation/theme.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_listing_widget.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/promote_listing_button.dart';
 import 'package:joplate/presentation/widgets/delete_item_popup.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
 import 'package:joplate/utils/log_visit.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:joplate/presentation/utils/user_plan_theme.dart';
 
 @RoutePage()
 class PlatesDetailsPage extends StatefulWidget {
@@ -176,7 +177,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                           const SizedBox(height: 10),
                           Row(
                             children: [
-                              const Icon(Icons.payments, color: Color(0xFF981C1E)),
+                              Icon(Icons.payments, color: isDark ? Colors.white70 : const Color(0xFF981C1E)),
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
@@ -189,7 +190,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                           const SizedBox(height: 8),
                           Row(
                             children: [
-                              const Icon(Icons.location_on, color: Color(0xFF981C1E)),
+                              Icon(Icons.location_on, color: isDark ? Colors.white70 : const Color(0xFF981C1E)),
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
@@ -221,6 +222,7 @@ class SellerDetails extends StatefulWidget {
 
 class _SellerDetailsState extends State<SellerDetails> {
   late final Stream<UserProfile> userProfileStream;
+  late final Stream<UserPlans> userPlansStream;
 
   @override
   void initState() {
@@ -229,199 +231,234 @@ class _SellerDetailsState extends State<SellerDetails> {
         FirebaseFirestore.instance.collection(userProfileCollectionId).doc(widget.userId).snapshots().map((snapshot) {
       return UserProfile.fromJson(snapshot.data() ?? {});
     });
+
+    userPlansStream = FirebaseFirestore.instance
+        .collection(userPlansCollectionId)
+        .doc(widget.userId)
+        .snapshots()
+        .map((snapshot) => snapshot.exists ? UserPlans.fromJson(snapshot.data()!) : UserPlans.freePlan());
   }
 
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      decoration: getCardContainerStyle(context),
-      child: StreamBuilder<UserProfile>(
-          stream: userProfileStream,
-          builder: (context, snapshot) {
-            final userProfile = snapshot.data;
-            if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            print(widget.userId == FirebaseAuth.instance.currentUser?.uid);
-            if (userProfile == null) {
-              return const Text('User not found');
-            }
-            final isDark = Theme.of(context).brightness == Brightness.dark;
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (widget.userId == FirebaseAuth.instance.currentUser?.uid) ...[
-                  RichText(
-                    text: TextSpan(
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return StreamBuilder<UserPlans>(
+      stream: userPlansStream,
+      builder: (context, plansSnapshot) {
+        final plan = plansSnapshot.data?.plan ?? PlanType.free_plan;
+
+        return Container(
+          padding: const EdgeInsets.all(16.0),
+          decoration: UserPlanTheme.getSellerContainerStyle(context, plan),
+          child: StreamBuilder<UserProfile>(
+              stream: userProfileStream,
+              builder: (context, snapshot) {
+                final userProfile = snapshot.data;
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (userProfile == null) {
+                  return const Text('User not found');
+                }
+
+                final textColor = UserPlanTheme.getTextColor(plan, isDarkMode: isDark);
+                final accentColor = UserPlanTheme.getAccentColor(plan, isDarkMode: isDark);
+                final iconColor = UserPlanTheme.getIconColor(plan, isDarkMode: isDark);
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (widget.userId == FirebaseAuth.instance.currentUser?.uid) ...[
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(text: '${m.home.visits}: '),
+                            TextSpan(text: widget.visits.toString()),
+                          ],
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: textColor,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                    ],
+                    Row(
                       children: [
-                        TextSpan(text: '${m.home.visits}: '),
-                        TextSpan(text: widget.visits.toString()),
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: accentColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Icon(
+                            Icons.person_outline,
+                            color: iconColor,
+                            size: 20,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Text(
+                          m.platesdetails.originally_posted_by,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: textColor,
+                          ),
+                        ),
                       ],
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: isDark ? Colors.white70 : const Color(0xFF981C1E),
-                      ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                ],
-                Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF981C1E).withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: const Icon(
-                        Icons.person_outline,
-                        color: Color(0xFF981C1E),
-                        size: 20,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Text(
-                      m.platesdetails.originally_posted_by,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        // color: Color(0xFF2C3E50),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    Container(
-                      width: 48,
-                      height: 48,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.person_outline,
-                        size: 24,
-                        color: Color(0xFF981C1E),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(userProfile.displayName,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                    // color: Color(0xFF2C3E50),
-                                  )),
-                              const SizedBox(width: 6),
-                              if (userProfile.isVerified)
-                                Icon(
-                                  Icons.verified,
-                                  color: Colors.blue.shade600,
-                                  size: 20,
-                                ),
-                            ],
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Container(
+                          width: 48,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: accentColor.withOpacity(0.1),
                           ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.green.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(8),
+                          child: Icon(
+                            Icons.person_outline,
+                            size: 24,
+                            color: iconColor,
+                          ),
                         ),
-                        child: InkWell(
-                          onTap: () {
-                            launchUrlString("https://wa.me/962${userProfile.phonenumber.substring(1)}",
-                                mode: LaunchMode.externalApplication);
-                          },
-                          borderRadius: BorderRadius.circular(8),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              FaIcon(
-                                FontAwesomeIcons.whatsapp,
-                                color: Colors.green,
-                                size: 20,
-                              ),
-                              SizedBox(width: 8),
-                              Text(
-                                'WhatsApp',
-                                style: TextStyle(
-                                  color: Colors.green,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
-                                ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(userProfile.displayName,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        color: textColor,
+                                      )),
+                                  const SizedBox(width: 6),
+                                  if (userProfile.isVerified)
+                                    Icon(
+                                      Icons.verified,
+                                      color: Colors.blue.shade600,
+                                      size: 20,
+                                    ),
+                                  if (plan != PlanType.free_plan) ...[
+                                    const SizedBox(width: 8),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                      decoration: BoxDecoration(
+                                        color: accentColor,
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: Text(
+                                        plan.name,
+                                        style: const TextStyle(
+                                            fontSize: 12, color: Colors.white, fontWeight: FontWeight.w600),
+                                      ),
+                                    ),
+                                  ],
+                                ],
                               ),
                             ],
                           ),
                         ),
-                      ),
+                      ],
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF981C1E).withOpacity(isDark ? 0.6 : 1),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: InkWell(
-                          onTap: () async {
-                            final uri = 'tel:+962${userProfile.phonenumber.substring(1)}';
-                            if (await canLaunchUrlString(uri)) {
-                              await launchUrlString(uri);
-                            } else {
-                              throw 'Could not launch dialer';
-                            }
-                          },
-                          borderRadius: BorderRadius.circular(8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.phone,
-                                size: 16,
-                                color: isDark ? Colors.black : Colors.white,
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.green.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: InkWell(
+                              onTap: () {
+                                launchUrlString("https://wa.me/962${userProfile.phonenumber.substring(1)}",
+                                    mode: LaunchMode.externalApplication);
+                              },
+                              borderRadius: BorderRadius.circular(8),
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  FaIcon(
+                                    FontAwesomeIcons.whatsapp,
+                                    color: Colors.green,
+                                    size: 20,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    'WhatsApp',
+                                    style: TextStyle(
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              const SizedBox(width: 8),
-                              Text(
-                                userProfile.phonenumber,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
-                                  color: isDark ? Colors.black : Colors.white,
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: accentColor,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: InkWell(
+                              onTap: () async {
+                                final uri = 'tel:+962${userProfile.phonenumber.substring(1)}';
+                                if (await canLaunchUrlString(uri)) {
+                                  await launchUrlString(uri);
+                                } else {
+                                  throw 'Could not launch dialer';
+                                }
+                              },
+                              borderRadius: BorderRadius.circular(8),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.phone,
+                                    size: 16,
+                                    color: Colors.white,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    userProfile.phonenumber,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
-                ),
-              ],
-            );
-          }),
+                );
+              }),
+        );
+      },
     );
   }
 }
@@ -446,6 +483,9 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
         .collection(carPlatesCollectionId)
         .where('item.code', isEqualTo: widget.plateNumber.code)
         .where('item.number', isEqualTo: widget.plateNumber.number)
+        .where('isDisabled', isEqualTo: false)
+        .where('isSold', isEqualTo: false)
+        .where('expiresAt', isGreaterThan: DateTime.now())
         .where('userId', isNotEqualTo: widget.userId)
         .get();
 
@@ -455,23 +495,30 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
 
     final userIds = otherListings.map((l) => l.userId).toSet().toList();
 
+    // Fetch user profiles
     final userDocs = await Future.wait(
       userIds.map((id) => FirebaseFirestore.instance.collection(userProfileCollectionId).doc(id).get()),
     );
 
+    // Fetch user plans
+    final planDocs = await Future.wait(
+      userIds.map((id) => FirebaseFirestore.instance.collection(userPlansCollectionId).doc(id).get()),
+    );
+
     final profiles = userDocs.where((doc) => doc.exists).map((doc) => UserProfile.fromSnapshot(doc)).toList();
+    final plans = planDocs.map((doc) => doc.exists ? UserPlans.fromJson(doc.data()!) : UserPlans.freePlan()).toList();
 
     return List.generate(otherListings.length, (i) {
       final profile = profiles[i];
       final listing = otherListings[i];
+      final plan = plans[i];
 
       return {
         "name": profile.displayName,
         "phone": profile.phonenumber,
-        "price": listing.priceHidden ? 'Call for Price' : listing.price.toString(),
-        "isFeatured": listing.isFeatured,
+        "isVerified": profile.isVerified,
         "listingId": listing.id,
-        "createdAt": listing.createdAt,
+        "plan": plan.plan,
       };
     });
   }
@@ -483,7 +530,6 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
     return FutureBuilder<List<Map<String, dynamic>>>(
       future: _fetchOtherSellers(),
       builder: (context, snapshot) {
-        // print(snapshot.data);
         if (snapshot.data == null || (snapshot.data?.isEmpty ?? true)) {
           return const SizedBox();
         }
@@ -491,7 +537,7 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
         final sellers = snapshot.data!;
 
         return Container(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
           decoration: BoxDecoration(
             color: isDark ? const Color(0xFF2D334D) : Colors.white,
             borderRadius: BorderRadius.circular(12.0),
@@ -512,10 +558,11 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF981C1E).withOpacity(0.1),
+                      color: isDark ? Colors.white70 : const Color(0xFF981C1E).withOpacity(0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Icon(Icons.people_outline, color: Color(0xFF981C1E), size: 20),
+                    child:
+                        Icon(Icons.people_outline, color: isDark ? Colors.white70 : const Color(0xFF981C1E), size: 20),
                   ),
                   const SizedBox(width: 12),
                   Text(
@@ -527,18 +574,17 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
               const SizedBox(height: 16),
               Table(
                 columnWidths: const {
-                  0: FlexColumnWidth(2),
+                  0: FlexColumnWidth(3),
                   1: FlexColumnWidth(1),
-                  2: FlexColumnWidth(1),
                 },
                 children: [
                   _buildTableHeader(context),
                   ...sellers.map((s) => _buildSellerRow(
                         name: s['name'],
-                        price: s['price'],
                         phoneNumber: s['phone'],
-                        isFeatured: s['isFeatured'],
+                        isVerified: s['isVerified'],
                         listingId: s['listingId'],
+                        plan: s['plan'],
                       )),
                 ],
               ),
@@ -558,7 +604,6 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
       ),
       children: [
         _headerText(m.platesdetails.seller, isDark),
-        _headerText(m.platesdetails.price, isDark),
         _headerText(m.platesdetails.contact, isDark),
       ],
     );
@@ -578,12 +623,20 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
 
   TableRow _buildSellerRow({
     required String name,
-    required String price,
     required String phoneNumber,
-    required bool isFeatured,
+    required bool isVerified,
     required String listingId,
+    required PlanType plan,
   }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final accentColor = UserPlanTheme.getAccentColor(plan, isDarkMode: isDark);
+    final textColor = UserPlanTheme.getTextColor(plan, isDarkMode: isDark);
+    final backgroundColor = UserPlanTheme.getBackgroundColor(plan, isDarkMode: isDark);
+
+    // For diamond plan, always ensure icon colors have good contrast
+    final iconColor =
+        plan == PlanType.diamond_plan ? Colors.white : UserPlanTheme.getIconColor(plan, isDarkMode: isDark);
+
     void goToDetails() => AutoRouter.of(context).push(PlatesDetailsRoute(listingId: listingId));
 
     Widget wrap(Widget child) => Material(
@@ -594,32 +647,70 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
           ),
         );
 
+    final planBgOpacity = isDark ? 0.4 : 0.2;
+
     return TableRow(
       decoration: BoxDecoration(
+        color: plan != PlanType.free_plan ? backgroundColor.withOpacity(planBgOpacity) : null,
         border: Border(bottom: BorderSide(color: isDark ? const Color(0xFF3D4266) : const Color(0xFFF5F5F5), width: 1)),
       ),
       children: [
         wrap(
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12.0),
             child: Row(
               children: [
                 CircleAvatar(
                   radius: 16,
-                  backgroundColor: isDark ? const Color(0xFF3D4266) : Colors.grey[200],
+                  backgroundColor: accentColor.withOpacity(0.1),
                   child: Icon(
                     Icons.person_outline,
                     size: 18,
-                    color: isDark ? Colors.white70 : Colors.grey[600],
+                    color: iconColor,
                   ),
                 ),
                 const SizedBox(width: 12),
-                Text(
-                  name,
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    color: isDark ? Colors.white : Colors.black,
+                Expanded(
+                  child: Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          name,
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: textColor,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      if (isVerified) ...[
+                        const SizedBox(width: 4),
+                        Icon(
+                          Icons.verified,
+                          color: Colors.blue.shade600,
+                          size: 14,
+                        ),
+                      ],
+                      if (plan != PlanType.free_plan) ...[
+                        const SizedBox(width: 6),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: accentColor,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            plan.name,
+                            style: const TextStyle(
+                              fontSize: 10,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        )
+                      ]
+                    ],
                   ),
                 ),
               ],
@@ -628,20 +719,7 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
         ),
         wrap(
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12.0),
-            child: Text(
-              price,
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 15,
-                color: isDark ? Colors.white70 : Colors.black,
-              ),
-            ),
-          ),
-        ),
-        wrap(
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12.0),
+            padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -652,7 +730,7 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
                 ),
                 const SizedBox(width: 8),
                 _iconButton(
-                  color: const Color(0xFF981C1E),
+                  color: plan != PlanType.free_plan ? accentColor : (isDark ? Colors.white70 : const Color(0xFF981C1E)),
                   icon: Icons.phone,
                   onPressed: () async {
                     final uri = 'tel:+962${phoneNumber.substring(1)}';
@@ -672,13 +750,17 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
   }
 
   Widget _iconButton({required Color color, required IconData icon, required VoidCallback onPressed}) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    // Adjust color for red buttons in dark mode
+    final buttonColor = isDark && color == const Color(0xFF981C1E) ? Colors.white70 : color;
+
     return Container(
-      width: 28,
-      height: 28,
-      decoration: BoxDecoration(color: color.withOpacity(0.1), shape: BoxShape.circle),
+      width: 32,
+      height: 32,
+      decoration: BoxDecoration(color: buttonColor.withOpacity(0.1), shape: BoxShape.circle),
       child: IconButton(
         padding: EdgeInsets.zero,
-        icon: Icon(icon, size: 14, color: color),
+        icon: Icon(icon, size: 16, color: buttonColor),
         onPressed: onPressed,
       ),
     );

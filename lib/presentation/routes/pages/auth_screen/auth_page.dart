@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/auth_screen/ui/login_form.dart';
 import 'package:joplate/presentation/routes/pages/auth_screen/ui/signup_form.dart';
 
@@ -27,94 +28,106 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
   }
 
   @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: BlocListener<AuthCubit, AuthState>(
-        listener: (context, state) {
-          if (state.isLoggedIn) AutoRouter.of(context).maybePopTop();
-        },
-        child: DefaultTabController(
-          length: 2,
-          child: Scaffold(
-            resizeToAvoidBottomInset: true,
-            backgroundColor: const Color.fromARGB(255, 251, 251, 251), // Unified background color
-            appBar: AppBar(
-              backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-              elevation: 0,
-              automaticallyImplyLeading: false,
-              flexibleSpace: Column(
+    final m = Localization.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final primaryColor = Theme.of(context).colorScheme.primary;
+    final backgroundColor = isDark ? const Color(0xFF1A1B2E) : const Color.fromARGB(255, 251, 251, 251);
+    final appBarColor = isDark ? const Color(0xFF252A41) : Colors.white;
+
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state.isLoggedIn) AutoRouter.of(context).maybePopTop();
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        backgroundColor: backgroundColor,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(200),
+          child: AppBar(
+            backgroundColor: appBarColor,
+            elevation: 0,
+            automaticallyImplyLeading: false,
+            flexibleSpace: SafeArea(
+              child: Column(
                 children: [
                   // Back Button
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.arrow_back_ios, color: Color(0xFF981C1E)),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_back_ios, color: primaryColor),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
                   ),
                   const SizedBox(height: 20), // Space below the back button
       
                   // JOPLATE Logo
-                  const Text(
+                  Text(
                     'JOPLATE',
                     style: TextStyle(
                       fontSize: 50,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF981C1E), // Red color
+                      color: primaryColor,
                     ),
                   ),
                 ],
               ),
-              bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(200), // Height of TabBar
-                child: TabBar(
-                  controller: _tabController,
-                  indicator: const BoxDecoration(),
-                  dividerColor: Colors.transparent,
-                  tabs: [
-                    // Custom Tabs
-                    _buildCustomTab(
-                      text: 'Sign in',
-                      isActive: _tabController.index == 0,
-                    ),
-                    _buildCustomTab(
-                      text: 'Sign up',
-                      isActive: _tabController.index == 1,
-                    ),
-                  ],
-                ),
+            ),
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(60), // Height of TabBar
+              child: TabBar(
+                controller: _tabController,
+                indicator: const BoxDecoration(),
+                dividerColor: Colors.transparent,
+                tabs: [
+                  // Custom Tabs
+                  _buildCustomTab(
+                    text: m.auth.signin,
+                    isActive: _tabController.index == 0,
+                    primaryColor: primaryColor,
+                  ),
+                  _buildCustomTab(
+                    text: m.auth.signup,
+                    isActive: _tabController.index == 1,
+                    primaryColor: primaryColor,
+                  ),
+                ],
               ),
             ),
-
-            // TabBarView for Sign in and Sign up tabs
-            body: TabBarView(
-              controller: _tabController,
-              children: [
-                // Sign in Tab Content
-                LoginForm(
-                  onPressed: injector<AuthCubit>().loginWithEmailAndPassword,
-                ),
-      
-                // Sign up Tab Placeholder
-                SignupForm(
-                  onPressed: injector<AuthCubit>().signUpWithEmailAndPassword,
-                ),
-              ],
-            ),
           ),
+        ),
+        // TabBarView for Sign in and Sign up tabs
+        body: TabBarView(
+          controller: _tabController,
+          children: [
+            // Sign in Tab Content
+            LoginForm(
+              onPressed: injector<AuthCubit>().loginWithEmailAndPassword,
+            ),
+      
+            // Sign up Tab Content
+            SignupForm(
+              onPressed: injector<AuthCubit>().signUpWithEmailAndPassword,
+            ),
+          ],
         ),
       ),
     );
   }
 
   /// Builds custom tabs with active/inactive styling
-  Widget _buildCustomTab({required String text, required bool isActive}) {
+  Widget _buildCustomTab({required String text, required bool isActive, required Color primaryColor}) {
     return Container(
       decoration: BoxDecoration(
-        color: isActive ? const Color(0xFF981C1E) : Colors.black, // Red for active, black for inactive
+        color: isActive ? primaryColor : Colors.black, // Primary color for active, black for inactive
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),

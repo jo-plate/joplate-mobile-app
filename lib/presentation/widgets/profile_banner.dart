@@ -9,6 +9,7 @@ import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/buy_tickets_dialog.dart';
 import 'package:joplate/presentation/widgets/icons/plan_icon.dart';
+import 'package:joplate/presentation/utils/user_plan_theme.dart';
 
 class ProfileBanner extends StatefulWidget {
   const ProfileBanner({super.key, this.clickable = true});
@@ -45,41 +46,9 @@ class _ProfileBannerState extends State<ProfileBanner> {
     super.dispose();
   }
 
-  Color getAccentColor(PlanType plan) {
-    switch (plan) {
-      case PlanType.gold_plan:
-        return const Color(0xFFD4AF37);
-      case PlanType.diamond_plan:
-        return const Color(0xff152238);
-      default:
-        return const Color.fromARGB(255, 153, 31, 22);
-    }
-  }
-
-  Color getBackgroundColor(PlanType plan) {
-    switch (plan) {
-      case PlanType.gold_plan:
-        return const Color(0xFF2D2A1F);
-      case PlanType.diamond_plan:
-        return const Color.fromARGB(68, 85, 90, 255);
-      default:
-        return const Color.fromARGB(255, 255, 214, 214);
-    }
-  }
-
-  Color getTextColor(PlanType plan) {
-    switch (plan) {
-      case PlanType.gold_plan:
-        return const Color(0xFFD4AF37);
-      case PlanType.diamond_plan:
-        return Colors.white;
-      default:
-        return Colors.black;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return StreamBuilder(
         stream: userStream,
         builder: (context, snapshot) {
@@ -94,10 +63,14 @@ class _ProfileBannerState extends State<ProfileBanner> {
                 stream: userPlansStream,
                 builder: (context, plansSnapshot) {
                   final plan = plansSnapshot.data?.plan ?? PlanType.free_plan;
-                  final textColor = getTextColor(plan);
+                  final textColor = UserPlanTheme.getTextColor(plan, isDarkMode: isDark);
+                  final accentColor = UserPlanTheme.getAccentColor(plan, isDarkMode: isDark);
+                  final iconColor = UserPlanTheme.getIconColor(plan, isDarkMode: isDark);
+                  final backgroundColor = UserPlanTheme.getBackgroundColor(plan, isDarkMode: isDark);
+                  
                   return Container(
                     decoration: BoxDecoration(
-                      color: getBackgroundColor(plan),
+                      color: backgroundColor,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     padding: const EdgeInsets.all(12),
@@ -146,7 +119,7 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                   Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                                     decoration: BoxDecoration(
-                                      color: getAccentColor(plan),
+                                      color: accentColor,
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     child: Text(
@@ -183,7 +156,7 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                       child: Icon(
                                         Icons.add_circle_outline,
                                         size: 20,
-                                        color: getAccentColor(plan),
+                                        color: iconColor,
                                       )),
                                   const SizedBox(width: 12),
                                   Row(
@@ -208,7 +181,7 @@ class _ProfileBannerState extends State<ProfileBanner> {
                         Icon(
                           Icons.arrow_forward_ios,
                           size: 22,
-                          color: getAccentColor(plan),
+                          color: iconColor,
                         ),
                       ],
                     ),

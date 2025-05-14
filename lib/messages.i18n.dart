@@ -90,6 +90,7 @@ class Messages {
       EditplaterequestMessages(this);
   IapMessages get iap => IapMessages(this);
   DatetimeMessages get datetime => DatetimeMessages(this);
+  AuthMessages get auth => AuthMessages(this);
 }
 
 class AppMessages {
@@ -1339,6 +1340,81 @@ class DatetimeMessages {
   String get just_now => """Just now""";
 }
 
+class AuthMessages {
+  final Messages _parent;
+  const AuthMessages(this._parent);
+
+  /// ```dart
+  /// "Sign in"
+  /// ```
+  String get signin => """Sign in""";
+
+  /// ```dart
+  /// "Sign up"
+  /// ```
+  String get signup => """Sign up""";
+
+  /// ```dart
+  /// "Display Name"
+  /// ```
+  String get display_name => """Display Name""";
+
+  /// ```dart
+  /// "Email"
+  /// ```
+  String get email => """Email""";
+
+  /// ```dart
+  /// "Phone number"
+  /// ```
+  String get phone_number => """Phone number""";
+
+  /// ```dart
+  /// "Password"
+  /// ```
+  String get password => """Password""";
+
+  /// ```dart
+  /// "Reset password"
+  /// ```
+  String get reset_password => """Reset password""";
+
+  /// ```dart
+  /// "Continue as a guest"
+  /// ```
+  String get continue_guest => """Continue as a guest""";
+
+  /// ```dart
+  /// "Reset Password"
+  /// ```
+  String get reset_password_title => """Reset Password""";
+
+  /// ```dart
+  /// "Enter your email address"
+  /// ```
+  String get enter_email => """Enter your email address""";
+
+  /// ```dart
+  /// "Cancel"
+  /// ```
+  String get cancel => """Cancel""";
+
+  /// ```dart
+  /// "Reset"
+  /// ```
+  String get reset => """Reset""";
+
+  /// ```dart
+  /// "Password reset instructions sent to your email"
+  /// ```
+  String get reset_sent => """Password reset instructions sent to your email""";
+
+  /// ```dart
+  /// "Continue as a guest"
+  /// ```
+  String get guest => """Continue as a guest""";
+}
+
 Map<String, String> get messagesMap => {
   """app.title""": """Joplate""",
   """home.welcome""": """Welcome to Joplate!""",
@@ -1563,4 +1639,18 @@ Map<String, String> get messagesMap => {
   """datetime.minutes_ago""": """{minutes} minutes ago""",
   """datetime.seconds_ago""": """{seconds} seconds ago""",
   """datetime.just_now""": """Just now""",
+  """auth.signin""": """Sign in""",
+  """auth.signup""": """Sign up""",
+  """auth.display_name""": """Display Name""",
+  """auth.email""": """Email""",
+  """auth.phone_number""": """Phone number""",
+  """auth.password""": """Password""",
+  """auth.reset_password""": """Reset password""",
+  """auth.continue_guest""": """Continue as a guest""",
+  """auth.reset_password_title""": """Reset Password""",
+  """auth.enter_email""": """Enter your email address""",
+  """auth.cancel""": """Cancel""",
+  """auth.reset""": """Reset""",
+  """auth.reset_sent""": """Password reset instructions sent to your email""",
+  """auth.guest""": """Continue as a guest""",
 };

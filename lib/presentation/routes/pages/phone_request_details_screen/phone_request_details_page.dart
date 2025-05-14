@@ -9,6 +9,7 @@ import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
+import 'package:joplate/domain/entities/user_plans.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/theme.dart';
@@ -16,6 +17,7 @@ import 'package:joplate/presentation/widgets/app_bar.dart/phone_number_request_w
 import 'package:joplate/presentation/widgets/delete_item_popup.dart';
 import 'package:joplate/utils/log_visit.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:joplate/presentation/utils/user_plan_theme.dart';
 
 @RoutePage()
 class PhoneRequestDetailsPage extends StatefulWidget {
@@ -135,19 +137,22 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
-                    child: const Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Important Note:',
                           style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Row(
                           children: [
-                            Icon(Icons.payments, color: Color(0xFF981C1E)),
-                            SizedBox(width: 8),
-                            Expanded(
+                            Icon(Icons.payments,
+                                color: Theme.of(context).brightness == Brightness.dark
+                                    ? Colors.white70
+                                    : const Color(0xFF981C1E)),
+                            const SizedBox(width: 8),
+                            const Expanded(
                               child: Text(
                                 "Don't transfer money online",
                                 style: TextStyle(fontSize: 16),
@@ -155,12 +160,15 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Row(
                           children: [
-                            Icon(Icons.location_on, color: Color(0xFF981C1E)),
-                            SizedBox(width: 8),
-                            Expanded(
+                            Icon(Icons.location_on,
+                                color: Theme.of(context).brightness == Brightness.dark
+                                    ? Colors.white70
+                                    : const Color(0xFF981C1E)),
+                            const SizedBox(width: 8),
+                            const Expanded(
                               child: Text(
                                 "Meet the seller in person",
                                 style: TextStyle(fontSize: 16),
@@ -191,6 +199,7 @@ class RequestedByWidgget extends StatefulWidget {
 
 class _RequestedByWidggetState extends State<RequestedByWidgget> {
   late final Stream<UserProfile> userProfileStream;
+  late final Stream<UserPlans> userPlansStream;
 
   @override
   void initState() {
@@ -199,131 +208,202 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
         FirebaseFirestore.instance.collection(userProfileCollectionId).doc(widget.userId).snapshots().map((snapshot) {
       return UserProfile.fromSnapshot(snapshot);
     });
+    
+    userPlansStream = FirebaseFirestore.instance
+        .collection(userPlansCollectionId)
+        .doc(widget.userId)
+        .snapshots()
+        .map((snapshot) => snapshot.exists ? UserPlans.fromJson(snapshot.data()!) : UserPlans.freePlan());
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      decoration: getCardContainerStyle(context),
-      child: StreamBuilder<UserProfile>(
-          stream: userProfileStream,
-          builder: (context, snapshot) {
-            final userProfile = snapshot.data;
-            final m = Localization.of(context);
-            if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
+    return StreamBuilder<UserPlans>(
+      stream: userPlansStream,
+      builder: (context, plansSnapshot) {
+        final plan = plansSnapshot.data?.plan ?? PlanType.free_plan;
+        final isDark = Theme.of(context).brightness == Brightness.dark;
+        
+        return Container(
+          padding: const EdgeInsets.all(16.0),
+          decoration: UserPlanTheme.getSellerContainerStyle(context, plan),
+          child: StreamBuilder<UserProfile>(
+              stream: userProfileStream,
+              builder: (context, snapshot) {
+                final userProfile = snapshot.data;
+                final m = Localization.of(context);
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-            if (userProfile == null) {
-              return const Text('User not found');
-            }
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // if (widget.userId == FirebaseAuth.instance.currentUser?.uid)
-                ...[
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(text: '${m.home.visits}: '),
-                        TextSpan(text: widget.visits.toString()),
-                      ],
-                      style: const TextStyle(fontSize: 16, color: Colors.black),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                ],
-                const Text(
-                  'Requested by',
-                  style: TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 10),
-                Row(
+                if (userProfile == null) {
+                  return const Text('User not found');
+                }
+                
+                final textColor = UserPlanTheme.getTextColor(plan, isDarkMode: isDark);
+                final accentColor = UserPlanTheme.getAccentColor(plan, isDarkMode: isDark);
+                final iconColor = UserPlanTheme.getIconColor(plan, isDarkMode: isDark);
+                
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const CircleAvatar(
-                      radius: 25,
-                      child: Icon(Icons.person, color: Colors.white),
-                    ),
-                    const SizedBox(width: 10),
+                    ...[
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(text: '${m.home.visits}: '),
+                            TextSpan(text: widget.visits.toString()),
+                          ],
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: textColor,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                    ],
                     Row(
                       children: [
-                        Text(
-                          userProfile.displayName,
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(width: 6),
-                        if (userProfile.isVerified)
-                          Icon(
-                            Icons.verified,
-                            color: Colors.blue.shade600,
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: accentColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Icon(
+                            Icons.person_outline,
+                            color: iconColor,
                             size: 20,
                           ),
+                        ),
+                        const SizedBox(width: 12),
+                        Text(
+                          'Requested by',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: textColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 25,
+                          backgroundColor: accentColor.withOpacity(0.1),
+                          child: Icon(
+                            Icons.person,
+                            color: iconColor,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  userProfile.displayName,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: textColor,
+                                  ),
+                                ),
+                                const SizedBox(width: 6),
+                                if (userProfile.isVerified)
+                                  Icon(
+                                    Icons.verified,
+                                    color: Colors.blue.shade600,
+                                    size: 20,
+                                  ),
+                                if (plan != PlanType.free_plan) ...[
+                                  const SizedBox(width: 8),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                    decoration: BoxDecoration(
+                                      color: accentColor,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Text(
+                                      plan.name,
+                                      style: const TextStyle(
+                                          fontSize: 12, color: Colors.white, fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                ],
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              launchUrlString("https://wa.me/962${userProfile.phonenumber.substring(1)}",
+                                  mode: LaunchMode.externalApplication);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green,
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                            icon: const FaIcon(
+                              FontAwesomeIcons.whatsapp,
+                              color: Colors.white,
+                            ),
+                            label: const Text(
+                              'Whatsapp',
+                              style: TextStyle(color: Colors.white, fontSize: 16),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+
+                        // Phone Call Button
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: () async {
+                              final uri = 'tel:+962${userProfile.phonenumber.substring(1)}';
+                              if (await canLaunchUrlString(uri)) {
+                                await launchUrlString(uri);
+                              } else {
+                                throw 'Could not launch dialer';
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                            icon: const Icon(Icons.phone, color: Colors.white),
+                            label: Text(
+                              userProfile.phonenumber,
+                              style: const TextStyle(color: Colors.white, fontSize: 14),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          launchUrlString("https://wa.me/962${userProfile.phonenumber.substring(1)}",
-                              mode: LaunchMode.externalApplication);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                        icon: const FaIcon(
-                          FontAwesomeIcons.whatsapp,
-                          color: Colors.white,
-                        ),
-                        label: const Text(
-                          'Whatsapp',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-
-                    // Phone Call Button
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: () async {
-                          final uri = 'tel:+962${userProfile.phonenumber.substring(1)}';
-                          if (await canLaunchUrlString(uri)) {
-                            await launchUrlString(uri);
-                          } else {
-                            throw 'Could not launch dialer';
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                        icon: const Icon(Icons.phone, color: Colors.white),
-                        label: Text(
-                          userProfile.phonenumber,
-                          style: const TextStyle(color: Colors.white, fontSize: 14),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            );
-          }),
+                );
+              }),
+        );
+      },
     );
   }
 }

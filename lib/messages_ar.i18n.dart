@@ -93,6 +93,7 @@ class MessagesAr extends Messages {
       EditplaterequestMessagesAr(this);
   IapMessagesAr get iap => IapMessagesAr(this);
   DatetimeMessagesAr get datetime => DatetimeMessagesAr(this);
+  AuthMessagesAr get auth => AuthMessagesAr(this);
 }
 
 class AppMessagesAr extends AppMessages {
@@ -1317,29 +1318,105 @@ class DatetimeMessagesAr extends DatetimeMessages {
   const DatetimeMessagesAr(this._parent) : super(_parent);
 
   /// ```dart
-  /// "منذ {days} يوم"
+  /// "{days} يوم"
   /// ```
-  String get days_ago => """منذ {days} يوم""";
+  String get days_ago => """{days} يوم""";
 
   /// ```dart
-  /// "منذ {hours} ساعة"
+  /// "{hours} ساعة"
   /// ```
-  String get hours_ago => """منذ {hours} ساعة""";
+  String get hours_ago => """{hours} ساعة""";
 
   /// ```dart
-  /// "منذ {minutes} دقيقة"
+  /// "{minutes} دقيقة"
   /// ```
-  String get minutes_ago => """منذ {minutes} دقيقة""";
+  String get minutes_ago => """{minutes} دقيقة""";
 
   /// ```dart
-  /// "منذ {seconds} ثانية"
+  /// "{seconds} ثانية"
   /// ```
-  String get seconds_ago => """منذ {seconds} ثانية""";
+  String get seconds_ago => """{seconds} ثانية""";
 
   /// ```dart
   /// "الآن"
   /// ```
   String get just_now => """الآن""";
+}
+
+class AuthMessagesAr extends AuthMessages {
+  final MessagesAr _parent;
+  const AuthMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "تسجيل الدخول"
+  /// ```
+  String get signin => """تسجيل الدخول""";
+
+  /// ```dart
+  /// "تسجيل حساب"
+  /// ```
+  String get signup => """تسجيل حساب""";
+
+  /// ```dart
+  /// "الاسم المعروض"
+  /// ```
+  String get display_name => """الاسم المعروض""";
+
+  /// ```dart
+  /// "البريد الإلكتروني"
+  /// ```
+  String get email => """البريد الإلكتروني""";
+
+  /// ```dart
+  /// "رقم الهاتف"
+  /// ```
+  String get phone_number => """رقم الهاتف""";
+
+  /// ```dart
+  /// "كلمة المرور"
+  /// ```
+  String get password => """كلمة المرور""";
+
+  /// ```dart
+  /// "استعادة كلمة المرور"
+  /// ```
+  String get reset_password => """استعادة كلمة المرور""";
+
+  /// ```dart
+  /// "الاستمرار كزائر"
+  /// ```
+  String get continue_guest => """الاستمرار كزائر""";
+
+  /// ```dart
+  /// "استعادة كلمة المرور"
+  /// ```
+  String get reset_password_title => """استعادة كلمة المرور""";
+
+  /// ```dart
+  /// "أدخل بريدك الإلكتروني"
+  /// ```
+  String get enter_email => """أدخل بريدك الإلكتروني""";
+
+  /// ```dart
+  /// "إلغاء"
+  /// ```
+  String get cancel => """إلغاء""";
+
+  /// ```dart
+  /// "استعادة"
+  /// ```
+  String get reset => """استعادة""";
+
+  /// ```dart
+  /// "تم إرسال تعليمات استعادة كلمة المرور إلى بريدك الإلكتروني"
+  /// ```
+  String get reset_sent =>
+      """تم إرسال تعليمات استعادة كلمة المرور إلى بريدك الإلكتروني""";
+
+  /// ```dart
+  /// "الاستمرار كزائر"
+  /// ```
+  String get guest => """الاستمرار كزائر""";
 }
 
 Map<String, String> get messagesArMap => {
@@ -1563,9 +1640,24 @@ Map<String, String> get messagesArMap => {
   """editplaterequest.price_optional""": """السعر (اختياري)""",
   """editplaterequest.save_changes""": """حفظ التعديلات""",
   """iap.purchase""": """شراء""",
-  """datetime.days_ago""": """منذ {days} يوم""",
-  """datetime.hours_ago""": """منذ {hours} ساعة""",
-  """datetime.minutes_ago""": """منذ {minutes} دقيقة""",
-  """datetime.seconds_ago""": """منذ {seconds} ثانية""",
+  """datetime.days_ago""": """{days} يوم""",
+  """datetime.hours_ago""": """{hours} ساعة""",
+  """datetime.minutes_ago""": """{minutes} دقيقة""",
+  """datetime.seconds_ago""": """{seconds} ثانية""",
   """datetime.just_now""": """الآن""",
+  """auth.signin""": """تسجيل الدخول""",
+  """auth.signup""": """تسجيل حساب""",
+  """auth.display_name""": """الاسم المعروض""",
+  """auth.email""": """البريد الإلكتروني""",
+  """auth.phone_number""": """رقم الهاتف""",
+  """auth.password""": """كلمة المرور""",
+  """auth.reset_password""": """استعادة كلمة المرور""",
+  """auth.continue_guest""": """الاستمرار كزائر""",
+  """auth.reset_password_title""": """استعادة كلمة المرور""",
+  """auth.enter_email""": """أدخل بريدك الإلكتروني""",
+  """auth.cancel""": """إلغاء""",
+  """auth.reset""": """استعادة""",
+  """auth.reset_sent""":
+      """تم إرسال تعليمات استعادة كلمة المرور إلى بريدك الإلكتروني""",
+  """auth.guest""": """الاستمرار كزائر""",
 };
