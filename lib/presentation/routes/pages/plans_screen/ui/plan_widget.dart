@@ -1,4 +1,5 @@
 import 'dart:io' show Platform;
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:joplate/domain/entities/plan.dart';
@@ -8,19 +9,62 @@ import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/widgets/icons/plan_icon.dart';
 
 class PlanWidget extends StatelessWidget {
-  const PlanWidget({
+  PlanWidget({
     super.key,
     required this.plan,
   });
 
   final Plan plan;
+  final _analytics = FirebaseAnalytics.instance;
+
+  void _logPlanInteraction() {
+    _analytics.logEvent(
+      name: 'plan_interaction',
+      parameters: {
+        'plan_name': plan.displayName,
+        'plan_price': plan.price,
+        'product_id': plan.productId,
+        'timestamp': DateTime.now().toIso8601String(),
+      },
+    );
+  }
+
+  void _logPurchaseAttempt() {
+    _analytics.logEvent(
+      name: 'plan_purchase_attempt',
+      parameters: {
+        'plan_name': plan.displayName,
+        'plan_price': plan.price,
+        'product_id': plan.productId,
+        'platform': Platform.isIOS ? 'ios' : 'android',
+        'timestamp': DateTime.now().toIso8601String(),
+      },
+    );
+  }
+
+  void _logPurchaseError(String error) {
+    _analytics.logEvent(
+      name: 'plan_purchase_error',
+      parameters: {
+        'plan_name': plan.displayName,
+        'plan_price': plan.price,
+        'product_id': plan.productId,
+        'error': error,
+        'platform': Platform.isIOS ? 'ios' : 'android',
+        'timestamp': DateTime.now().toIso8601String(),
+      },
+    );
+  }
+
   void _buyProduct(BuildContext context) async {
+    _logPurchaseAttempt();
     final isIOS = Platform.isIOS;
 
     print("📦 Platform: ${isIOS ? "iOS" : "Android"}");
     print("📦 Retrieved Product ID: ${plan.productId}");
 
     if (plan.productId.trim().isEmpty) {
+      _logPurchaseError('No product ID available');
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("No product ID available for this platform.")),
       );
@@ -29,12 +73,14 @@ class PlanWidget extends StatelessWidget {
     try {
       final isAvailable = await InAppPurchase.instance.isAvailable();
       if (!isAvailable) {
+        _logPurchaseError('IAP not available');
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("In-app purchases not available.")),
         );
         return;
       }
     } catch (e) {
+      _logPurchaseError('IAP availability check failed: $e');
       debugPrint("❌ IAP Error: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Error checking IAP availability: $e")),
@@ -44,6 +90,7 @@ class PlanWidget extends StatelessWidget {
 
     final response = await InAppPurchase.instance.queryProductDetails({plan.productId});
     if (response.notFoundIDs.isNotEmpty || response.productDetails.isEmpty) {
+      _logPurchaseError('Product not found');
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Product not found.")),
       );
@@ -58,6 +105,7 @@ class PlanWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _logPlanInteraction();
     final isEn = injector<LocalizationCubit>().state.languageCode == "en";
     final m = Localization.of(context);
     return Padding(

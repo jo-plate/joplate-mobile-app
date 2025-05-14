@@ -344,7 +344,7 @@ class _SellerDetailsState extends State<SellerDetails> {
                   children: [
                     Expanded(
                       child: Container(
-                        height: 40,
+                        height: 50,
                         decoration: BoxDecoration(
                           color: Colors.green.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(8),
@@ -380,7 +380,7 @@ class _SellerDetailsState extends State<SellerDetails> {
                     const SizedBox(width: 12),
                     Expanded(
                       child: Container(
-                        height: 40,
+                        height: 50,
                         decoration: BoxDecoration(
                           color: const Color(0xFF981C1E).withOpacity(isDark ? 0.6 : 1),
                           borderRadius: BorderRadius.circular(8),

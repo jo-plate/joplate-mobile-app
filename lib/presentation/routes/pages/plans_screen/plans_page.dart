@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/plan.dart';
 import 'package:joplate/presentation/routes/pages/plans_screen/ui/plan_widget.dart';
@@ -15,15 +16,26 @@ class PlansPage extends StatefulWidget {
 
 class _PlansPageState extends State<PlansPage> {
   late final Stream<List<Plan>> plans;
+  final _analytics = FirebaseAnalytics.instance;
 
   @override
   void initState() {
     super.initState();
+    _logPlansPageViewed();
 
     plans = FirebaseFirestore.instance.collection('plans').snapshots().map((snapshot) {
       snapshot.docs.forEach((e) => print(e.data()));
       return snapshot.docs.map((doc) => Plan.fromJson(doc.data())).toList();
     });
+  }
+
+  void _logPlansPageViewed() {
+    _analytics.logEvent(
+      name: 'plans_page_viewed',
+      parameters: {
+        'timestamp': DateTime.now().toIso8601String(),
+      },
+    );
   }
 
   @override

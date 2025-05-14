@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/data/constants.dart';
@@ -23,12 +24,13 @@ class BuyTicketsDialog extends StatefulWidget {
 
 class _BuyTicketsDialogState extends State<BuyTicketsDialog> {
   int current = 0;
-
   late final Stream<List<TicketPlan>> plansStream;
+  final _analytics = FirebaseAnalytics.instance;
 
   @override
   void initState() {
     super.initState();
+    _logDialogOpened();
 
     plansStream = FirebaseFirestore.instance
         .collection(normalTicketsPackagesCollectionId)
@@ -36,6 +38,49 @@ class _BuyTicketsDialogState extends State<BuyTicketsDialog> {
         .map((snapshot) =>
             snapshot.docs.map((doc) => TicketPlan.fromJson(doc.data())).toList()
               ..sort((a, b) => a.amount.compareTo(b.amount)));
+  }
+
+  void _logDialogOpened() {
+    _analytics.logEvent(
+      name: 'buy_tickets_dialog_opened',
+      parameters: {
+        'timestamp': DateTime.now().toIso8601String(),
+      },
+    );
+  }
+
+  void _logPlanSelected(TicketPlan plan) {
+    _analytics.logEvent(
+      name: 'ticket_plan_selected',
+      parameters: {
+        'plan_amount': plan.amount,
+        'plan_price': plan.price,
+        'product_id': plan.productId ?? '',
+        'timestamp': DateTime.now().toIso8601String(),
+      },
+    );
+  }
+
+  void _logPurchaseAttempt(TicketPlan plan) {
+    _analytics.logEvent(
+      name: 'ticket_purchase_attempted',
+      parameters: {
+        'plan_amount': plan.amount,
+        'plan_price': plan.price,
+        'product_id': plan.productId ?? '',
+        'timestamp': DateTime.now().toIso8601String(),
+      },
+    );
+  }
+
+  void _logPurchaseError(String error) {
+    _analytics.logEvent(
+      name: 'ticket_purchase_error',
+      parameters: {
+        'error': error,
+        'timestamp': DateTime.now().toIso8601String(),
+      },
+    );
   }
 
   @override
@@ -67,8 +112,11 @@ class _BuyTicketsDialogState extends State<BuyTicketsDialog> {
                           height: 270,
                           enlargeCenterPage: true,
                           autoPlay: true,
-                          viewportFraction: 1, // Full width
-                          onPageChanged: (i, __) => setState(() => current = i),
+                          viewportFraction: 1,
+                          onPageChanged: (i, __) {
+                            setState(() => current = i);
+                            _logPlanSelected(plans[i]);
+                          },
                         ),
                         itemBuilder: (_, i, __) => Padding(
                           padding: const EdgeInsets.symmetric(
@@ -116,11 +164,13 @@ class _BuyTicketsDialogState extends State<BuyTicketsDialog> {
                                   final plan = plans[current];
                                   final productId = plan.productId;
                                   if (productId == null || productId.isEmpty) {
+                                    _logPurchaseError("Product ID not found");
                                     AppSnackbar.showError(
                                         "Product ID not found");
                                     return;
                                   }
 
+                                  _logPurchaseAttempt(plan);
                                   context
                                       .read<IAPCubit>()
                                       .purchaseProduct(productId, context);
