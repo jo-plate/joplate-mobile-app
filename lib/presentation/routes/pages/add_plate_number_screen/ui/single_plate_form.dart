@@ -86,7 +86,7 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
-      decoration: cardContainerStyle,
+      decoration: getCardContainerStyle(context),
       clipBehavior: Clip.none,
       child: Stack(
         clipBehavior: Clip.none,

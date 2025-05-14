@@ -21,6 +21,7 @@ class PhoneListing with _$PhoneListing {
     @TimestampConverter() DateTime? featuredUntil,
     @TimestampConverter() DateTime? createdAt,
     @TimestampConverter() DateTime? expiresAt,
+    @Default(0) int visits,
     required String userId,
   }) = _PhoneListing;
 

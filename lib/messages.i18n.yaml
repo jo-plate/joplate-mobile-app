@@ -18,6 +18,7 @@ home:
   myRequests: "My Requests"
   search: "Search"
   disabled: "Deleted"
+  visits: "Visits"
 
 profile:
   title: "Profile"
@@ -26,6 +27,9 @@ profile:
   packages: "Packages"
   my_current_plan: "My Current Plan"
   language: "Language"
+  theme: "Theme"
+  dark_mode: "Dark"
+  light_mode: "Light"
   aboutus: "About Us"
   privacy_policy: "Privacy Policy"
   terms_conditions: "Terms & Conditions"

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,6 +13,7 @@ import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phone_number_request_widget.dart';
 import 'package:joplate/presentation/widgets/delete_item_popup.dart';
+import 'package:joplate/utils/log_visit.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 @RoutePage()
@@ -25,6 +28,7 @@ class PhoneRequestDetailsPage extends StatefulWidget {
 
 class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
   late final Stream<PhoneRequest> phoneRequestStream;
+  Timer? _timer;
   @override
   void initState() {
     super.initState();
@@ -35,6 +39,20 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
         .map((snapshot) {
       return PhoneRequest.fromSnapshot(snapshot);
     });
+
+    _timer = Timer(const Duration(seconds: logVisitTimer), () {
+      logVisit(
+        listingId: widget.phoneNumberRequestId,
+        listingType: ListingType.request,
+        itemType: ItemType.phoneNumber,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -109,7 +127,7 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
                       ),
                   ],
                   const SizedBox(height: 16),
-                  RequestedByWidgget(userId: snapshot.data!.userId),
+                  RequestedByWidgget(userId: snapshot.data!.userId, visits: snapshot.data!.visits),
                   const SizedBox(height: 16),
                   Container(
                     padding: const EdgeInsets.all(12.0),
@@ -162,8 +180,9 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
 }
 
 class RequestedByWidgget extends StatefulWidget {
-  const RequestedByWidgget({super.key, required this.userId});
+  const RequestedByWidgget({super.key, required this.userId, required this.visits});
   final String userId;
+  final int visits;
 
   @override
   State<RequestedByWidgget> createState() => _RequestedByWidggetState();
@@ -200,6 +219,7 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
           stream: userProfileStream,
           builder: (context, snapshot) {
             final userProfile = snapshot.data;
+            final m = Localization.of(context);
             if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             }
@@ -213,6 +233,20 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
+                // if (widget.userId == FirebaseAuth.instance.currentUser?.uid) 
+                ...[
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(text: '${m.home.visits}: '),
+                        TextSpan(text: widget.visits.toString()),
+                      ],
+                      style: const TextStyle(fontSize: 16, color: Colors.black),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                ],
                 const Text(
                   'Requested by',
                   style: TextStyle(fontSize: 16),

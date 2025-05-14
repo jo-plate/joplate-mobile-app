@@ -45,6 +45,28 @@ class _ProfileBannerState extends State<ProfileBanner> {
     super.dispose();
   }
 
+  Color getAccentColor(PlanType plan) {
+    switch (plan) {
+      case PlanType.gold_plan:
+        return const Color.fromARGB(255, 255, 214, 214);
+      case PlanType.diamond_plan:
+        return const Color(0xff152238);
+      default:
+        return const Color.fromARGB(255, 153, 31, 22);
+    }
+  }
+
+  Color getBackgroundColor(PlanType plan) {
+    switch (plan) {
+      case PlanType.gold_plan:
+        return const Color.fromARGB(255, 255, 214, 214);
+      case PlanType.diamond_plan:
+        return const Color.fromARGB(68, 85, 90, 255);
+      default:
+        return const Color.fromARGB(255, 255, 214, 214);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -57,90 +79,78 @@ class _ProfileBannerState extends State<ProfileBanner> {
                 AutoRouter.of(context).push(const AccountRoute());
               }
             },
-            child: Container(
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 255, 214, 214),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: const Color.fromARGB(255, 180, 37, 27), width: 1),
-              ),
-              padding: const EdgeInsets.all(12),
-              child: Row(
-                children: [
-                  Column(
-                    children: [
-                      Container(
-                        width: 68,
-                        height: 68,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white,
-                          image: DecorationImage(
-                            image: AssetImage('assets/images/avatar3.jpg'),
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      StreamBuilder<UserPlans>(
-                          stream: userPlansStream,
-                          builder: (context, snapshot) {
-                            print(snapshot.data);
-                            return Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                              decoration: BoxDecoration(
-                                color: const Color.fromARGB(255, 153, 31, 22),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Text(
-                                snapshot.data?.plan.name ?? 'Basic',
-                                style: const TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w600),
-                              ),
-                            );
-                          }),
-                    ],
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+            child: StreamBuilder<UserPlans>(
+                stream: userPlansStream,
+                builder: (context, plansSnapshot) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: getBackgroundColor(plansSnapshot.data?.plan ?? PlanType.free_plan),
+                      borderRadius: BorderRadius.circular(12),
+                      // border: Border.all(color: const Color.fromARGB(255, 180, 37, 27), width: 1),
+                    ),
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
+                        Column(
                           children: [
-                            Text(
-                              profile?.name.isNotEmpty == true
-                                  ? profile?.name ?? 'Guest'
-                                  : profile?.displayName ?? 'Guest',
-                              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                            Container(
+                              width: 100,
+                              height: 100,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                                image: DecorationImage(
+                                  image: AssetImage('assets/images/avatar3.jpg'),
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
                             ),
-                            const SizedBox(width: 6),
-                            if ((profile?.isVerified ?? false))
-                              Icon(Icons.verified, color: Colors.blue.shade600)
-                            else if ((profile?.pendingVerification ?? false))
-                              Icon(Icons.verified, color: Colors.grey.shade600),
+
                           ],
                         ),
-                        const SizedBox(height: 10),
-                        StreamBuilder<UserPlans>(
-                            stream: userPlansStream,
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState == ConnectionState.waiting) {
-                                return const CircularProgressIndicator();
-                              }
-
-                              if (snapshot.hasError) {
-                                return const Text('An error occurred');
-                              }
-
-                              return Row(
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    profile?.name.isNotEmpty == true
+                                        ? profile?.name ?? 'Guest'
+                                        : profile?.displayName ?? 'Guest',
+                                    style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  if ((profile?.isVerified ?? false))
+                                    Icon(Icons.verified, color: Colors.blue.shade600)
+                                  else if ((profile?.pendingVerification ?? false))
+                                    Icon(Icons.verified, color: Colors.grey.shade600),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                                    decoration: BoxDecoration(
+                                      color: getAccentColor(plansSnapshot.data?.plan ?? PlanType.free_plan),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Text(
+                                      plansSnapshot.data?.plan.name ?? PlanType.free_plan.name,
+                                      style: const TextStyle(
+                                          fontSize: 13, color: Colors.white, fontWeight: FontWeight.w600),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              Row(
                                 children: [
                                   Row(
                                     children: [
-                                      const PlanIcon(size: 26, color: Colors.white, borderColor: Colors.black),
+                                      const PlanIcon(size: 30, color: Colors.white, borderColor: Colors.black),
                                       const SizedBox(width: 6),
-                                      Text((snapshot.data?.tickets ?? 0).toString(),
-                                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                                      Text((plansSnapshot.data?.tickets ?? 0).toString(),
+                                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
                                     ],
                                   ),
                                   const SizedBox(width: 6),
@@ -149,26 +159,29 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                             context: context,
                                             builder: (_) => const BuyTicketsDialog(),
                                           ),
-                                      child: const Icon(Icons.add_circle_outline, size: 20, color: Color(0xFF981C1E))),
+                                      child: Icon(Icons.add_circle_outline,
+                                          size: 20,
+                                          color: getAccentColor(plansSnapshot.data?.plan ?? PlanType.free_plan))),
                                   const SizedBox(width: 12),
                                   Row(
                                     children: [
                                       const PlanIcon(size: 30, color: Color(0xFFD4AF37), borderColor: Colors.black),
                                       const SizedBox(width: 6),
-                                      Text((snapshot.data?.goldenTickets ?? 0).toString(),
-                                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                                      Text((plansSnapshot.data?.goldenTickets ?? 0).toString(),
+                                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
                                     ],
                                   ),
                                 ],
-                              );
-                            }),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Icon(Icons.arrow_forward_ios,
+                            size: 22, color: getAccentColor(plansSnapshot.data?.plan ?? PlanType.free_plan)),
                       ],
                     ),
-                  ),
-                  const Icon(Icons.arrow_forward_ios, size: 22, color: Colors.brown),
-                ],
-              ),
-            ),
+                  );
+                }),
           );
         });
   }

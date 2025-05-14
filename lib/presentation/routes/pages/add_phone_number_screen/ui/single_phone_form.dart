@@ -84,7 +84,7 @@ class _SinglePhoneFormState extends State<SinglePhoneForm> {
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 12),
-      decoration: cardContainerStyle,
+      decoration: getCardContainerStyle(context),
       child: Stack(
         clipBehavior: Clip.none,
         children: [

@@ -47,9 +47,9 @@ extension PlanTypeExtension on PlanType {
       case PlanType.free_plan:
         return "Basic";
       case PlanType.gold_plan:
-        return "Gold";
+        return "Gold 🥇";
       case PlanType.diamond_plan:
-        return "Diamond";
+        return "Diamond 💎";
     }
   }
 }

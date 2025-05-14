@@ -22,6 +22,7 @@ class PhoneRequest with _$PhoneRequest {
     required PhoneNumber item,
     @TimestampConverter() DateTime? createdAt,
     @TimestampConverter() DateTime? expiresAt,
+    @Default(0) int visits,
   }) = _PhoneRequest;
 
   factory PhoneRequest.fromJson(Map<String, dynamic> json) => _$PhoneRequestFromJson(json);
@@ -58,6 +59,7 @@ class PlateRequest with _$PlateRequest {
     required PlateNumber item,
     @TimestampConverter() DateTime? createdAt,
     @TimestampConverter() DateTime? expiresAt,
+    @Default(0) int visits,
   }) = _PlateRequest;
 
   factory PlateRequest.fromJson(Map<String, dynamic> json) => _$PlateRequestFromJson(json);
@@ -72,6 +74,7 @@ class PlateRequest with _$PlateRequest {
       price: 15000,
       userId: 'mockUser',
       item: PlateNumber.mockList(1).first,
+      visits: 0,
     );
   }
 

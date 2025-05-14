@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:joplate/presentation/theme.dart';
 
 class MenuItem extends StatelessWidget {
   const MenuItem({super.key, required this.title, required this.icon, this.onTap});
@@ -11,10 +12,8 @@ class MenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Card(
-        color: Colors.white,
-        elevation: 2,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Container(
+        decoration: getCardContainerStyle(context),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
           child: Row(

@@ -21,6 +21,7 @@ class PlateListing with _$PlateListing {
     @TimestampConverter() DateTime? createdAt,
     @TimestampConverter() DateTime? expiresAt,
     required String userId,
+    @Default(0) int visits,
   }) = _PlateListing;
 
   bool get isFeatured {

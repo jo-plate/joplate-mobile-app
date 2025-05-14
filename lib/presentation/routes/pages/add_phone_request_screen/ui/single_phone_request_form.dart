@@ -57,7 +57,7 @@ class _SinglePhoneRequestFormState extends State<SinglePhoneRequestForm> {
         final cubit = context.read<AddPhoneRequestCubit>();
 
         return Container(
-          decoration: cardContainerStyle,
+          decoration: getCardContainerStyle(context),
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

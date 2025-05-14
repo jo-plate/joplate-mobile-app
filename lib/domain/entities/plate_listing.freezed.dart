@@ -33,6 +33,7 @@ mixin _$PlateListing {
   @TimestampConverter()
   DateTime? get expiresAt => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
+  int get visits => throw _privateConstructorUsedError;
 
   /// Serializes this PlateListing to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -60,7 +61,8 @@ abstract class $PlateListingCopyWith<$Res> {
       @TimestampConverter() DateTime? featuredUntil,
       @TimestampConverter() DateTime? createdAt,
       @TimestampConverter() DateTime? expiresAt,
-      String userId});
+      String userId,
+      int visits});
 
   $PlateNumberCopyWith<$Res> get item;
 }
@@ -90,6 +92,7 @@ class _$PlateListingCopyWithImpl<$Res, $Val extends PlateListing>
     Object? createdAt = freezed,
     Object? expiresAt = freezed,
     Object? userId = null,
+    Object? visits = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -132,6 +135,10 @@ class _$PlateListingCopyWithImpl<$Res, $Val extends PlateListing>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
+      visits: null == visits
+          ? _value.visits
+          : visits // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 
@@ -164,7 +171,8 @@ abstract class _$$PlateListingImplCopyWith<$Res>
       @TimestampConverter() DateTime? featuredUntil,
       @TimestampConverter() DateTime? createdAt,
       @TimestampConverter() DateTime? expiresAt,
-      String userId});
+      String userId,
+      int visits});
 
   @override
   $PlateNumberCopyWith<$Res> get item;
@@ -193,6 +201,7 @@ class __$$PlateListingImplCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? expiresAt = freezed,
     Object? userId = null,
+    Object? visits = null,
   }) {
     return _then(_$PlateListingImpl(
       id: null == id
@@ -235,6 +244,10 @@ class __$$PlateListingImplCopyWithImpl<$Res>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
+      visits: null == visits
+          ? _value.visits
+          : visits // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -252,7 +265,8 @@ class _$PlateListingImpl extends _PlateListing {
       @TimestampConverter() this.featuredUntil,
       @TimestampConverter() this.createdAt,
       @TimestampConverter() this.expiresAt,
-      required this.userId})
+      required this.userId,
+      this.visits = 0})
       : super._();
 
   factory _$PlateListingImpl.fromJson(Map<String, dynamic> json) =>
@@ -285,10 +299,13 @@ class _$PlateListingImpl extends _PlateListing {
   final DateTime? expiresAt;
   @override
   final String userId;
+  @override
+  @JsonKey()
+  final int visits;
 
   @override
   String toString() {
-    return 'PlateListing(id: $id, item: $item, price: $price, discountPrice: $discountPrice, isDisabled: $isDisabled, isSold: $isSold, featuredUntil: $featuredUntil, createdAt: $createdAt, expiresAt: $expiresAt, userId: $userId)';
+    return 'PlateListing(id: $id, item: $item, price: $price, discountPrice: $discountPrice, isDisabled: $isDisabled, isSold: $isSold, featuredUntil: $featuredUntil, createdAt: $createdAt, expiresAt: $expiresAt, userId: $userId, visits: $visits)';
   }
 
   @override
@@ -310,13 +327,14 @@ class _$PlateListingImpl extends _PlateListing {
                 other.createdAt == createdAt) &&
             (identical(other.expiresAt, expiresAt) ||
                 other.expiresAt == expiresAt) &&
-            (identical(other.userId, userId) || other.userId == userId));
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.visits, visits) || other.visits == visits));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, item, price, discountPrice,
-      isDisabled, isSold, featuredUntil, createdAt, expiresAt, userId);
+      isDisabled, isSold, featuredUntil, createdAt, expiresAt, userId, visits);
 
   /// Create a copy of PlateListing
   /// with the given fields replaced by the non-null parameter values.
@@ -345,7 +363,8 @@ abstract class _PlateListing extends PlateListing {
       @TimestampConverter() final DateTime? featuredUntil,
       @TimestampConverter() final DateTime? createdAt,
       @TimestampConverter() final DateTime? expiresAt,
-      required final String userId}) = _$PlateListingImpl;
+      required final String userId,
+      final int visits}) = _$PlateListingImpl;
   const _PlateListing._() : super._();
 
   factory _PlateListing.fromJson(Map<String, dynamic> json) =
@@ -374,6 +393,8 @@ abstract class _PlateListing extends PlateListing {
   DateTime? get expiresAt;
   @override
   String get userId;
+  @override
+  int get visits;
 
   /// Create a copy of PlateListing
   /// with the given fields replaced by the non-null parameter values.

@@ -18,7 +18,7 @@ home:
   myRequests: "طلباتي"
   search: "بحث"
   disabled: "محذوف"
-
+  visits: "المشاهدات"
 profile:
   title: "الملف الشخصي"
   Requests: "الطلبات"
@@ -26,6 +26,9 @@ profile:
   packages: "الباقات"
   my_current_plan : "باقتي الحالية"
   language: "اللغة"
+  theme: "الوضع الليلي"
+  dark_mode: "ليل"
+  light_mode: "نهار"
   aboutus: "من نحن"
   privacy_policy: "سياسة الخصوصية"
   terms_conditions: "الشروط والأحكام"

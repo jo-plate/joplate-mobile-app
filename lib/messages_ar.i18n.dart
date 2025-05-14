@@ -188,6 +188,11 @@ class HomeMessagesAr extends HomeMessages {
   /// "محذوف"
   /// ```
   String get disabled => """محذوف""";
+
+  /// ```dart
+  /// "المشاهدات"
+  /// ```
+  String get visits => """المشاهدات""";
 }
 
 class ProfileMessagesAr extends ProfileMessages {
@@ -223,6 +228,21 @@ class ProfileMessagesAr extends ProfileMessages {
   /// "اللغة"
   /// ```
   String get language => """اللغة""";
+
+  /// ```dart
+  /// "الوضع الليلي"
+  /// ```
+  String get theme => """الوضع الليلي""";
+
+  /// ```dart
+  /// "ليل"
+  /// ```
+  String get dark_mode => """ليل""";
+
+  /// ```dart
+  /// "نهار"
+  /// ```
+  String get light_mode => """نهار""";
 
   /// ```dart
   /// "من نحن"
@@ -1339,12 +1359,16 @@ Map<String, String> get messagesArMap => {
   """home.myRequests""": """طلباتي""",
   """home.search""": """بحث""",
   """home.disabled""": """محذوف""",
+  """home.visits""": """المشاهدات""",
   """profile.title""": """الملف الشخصي""",
   """profile.Requests""": """الطلبات""",
   """profile.Numbers""": """الأرقام""",
   """profile.packages""": """الباقات""",
   """profile.my_current_plan""": """باقتي الحالية""",
   """profile.language""": """اللغة""",
+  """profile.theme""": """الوضع الليلي""",
+  """profile.dark_mode""": """ليل""",
+  """profile.light_mode""": """نهار""",
   """profile.aboutus""": """من نحن""",
   """profile.privacy_policy""": """سياسة الخصوصية""",
   """profile.terms_conditions""": """الشروط والأحكام""",

@@ -15,6 +15,7 @@ import 'package:joplate/messages_ar.i18n.dart';
 import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
 import 'package:joplate/presentation/cubits/iap_cubit.dart';
 import 'package:joplate/presentation/cubits/localization/localization_cubit.dart';
+import 'package:joplate/presentation/cubits/theme_cubit.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 
@@ -53,34 +54,38 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => injector<AuthCubit>()),
         BlocProvider(create: (context) => injector<LocalizationCubit>()),
-        BlocProvider(
-            create: (context) => injector<IAPCubit>()..initialize()),
+        BlocProvider(create: (context) => injector<IAPCubit>()..initialize()),
+        BlocProvider(create: (context) => injector<ThemeCubit>()..loadTheme()),
       ],
       child: BlocBuilder<LocalizationCubit, Locale>(
         builder: (context, locale) {
           final isEnglish = locale.languageCode == 'en';
           final messages = isEnglish ? const Messages() : const MessagesAr();
 
-          return MaterialApp.router(
-            title: 'JoPlate',
-            theme: appTheme,
-            scaffoldMessengerKey: AppSnackbar.key,
-            builder: (ctx, widget) {
-              return Directionality(
-                textDirection:
-                    isEnglish ? TextDirection.ltr : TextDirection.rtl,
-                child: LocalizationProvider(
-                  messages: messages,
-                  child: widget!,
+          return BlocBuilder<ThemeCubit, ThemeState>(
+            builder: (context, themeState) {
+              return MaterialApp.router(
+                title: 'JoPlate',
+                theme: getLightTheme(),
+                darkTheme: getDarkTheme(),
+                themeMode: themeState.themeMode,
+                scaffoldMessengerKey: AppSnackbar.key,
+                builder: (ctx, widget) {
+                  return Directionality(
+                    textDirection: isEnglish ? TextDirection.ltr : TextDirection.rtl,
+                    child: LocalizationProvider(
+                      messages: messages,
+                      child: widget!,
+                    ),
+                  );
+                },
+                routerConfig: AppRouter().config(
+                  navigatorObservers: () => [
+                    FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
+                  ],
                 ),
               );
             },
-            routerConfig: AppRouter().config(
-              navigatorObservers: () => [
-                FirebaseAnalyticsObserver(
-                    analytics: FirebaseAnalytics.instance),
-              ],
-            ),
           );
         },
       ),

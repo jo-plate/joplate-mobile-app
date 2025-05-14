@@ -185,6 +185,11 @@ class HomeMessages {
   /// "Deleted"
   /// ```
   String get disabled => """Deleted""";
+
+  /// ```dart
+  /// "Visits"
+  /// ```
+  String get visits => """Visits""";
 }
 
 class ProfileMessages {
@@ -220,6 +225,21 @@ class ProfileMessages {
   /// "Language"
   /// ```
   String get language => """Language""";
+
+  /// ```dart
+  /// "Theme"
+  /// ```
+  String get theme => """Theme""";
+
+  /// ```dart
+  /// "Dark"
+  /// ```
+  String get dark_mode => """Dark""";
+
+  /// ```dart
+  /// "Light"
+  /// ```
+  String get light_mode => """Light""";
 
   /// ```dart
   /// "About Us"
@@ -1336,12 +1356,16 @@ Map<String, String> get messagesMap => {
   """home.myRequests""": """My Requests""",
   """home.search""": """Search""",
   """home.disabled""": """Deleted""",
+  """home.visits""": """Visits""",
   """profile.title""": """Profile""",
   """profile.Requests""": """Requests""",
   """profile.Numbers""": """Numbers""",
   """profile.packages""": """Packages""",
   """profile.my_current_plan""": """My Current Plan""",
   """profile.language""": """Language""",
+  """profile.theme""": """Theme""",
+  """profile.dark_mode""": """Dark""",
+  """profile.light_mode""": """Light""",
   """profile.aboutus""": """About Us""",
   """profile.privacy_policy""": """Privacy Policy""",
   """profile.terms_conditions""": """Terms & Conditions""",

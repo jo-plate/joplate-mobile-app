@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +12,7 @@ import 'package:joplate/presentation/routes/pages/phone_request_details_screen/p
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_request_widget.dart';
 import 'package:joplate/presentation/widgets/delete_item_popup.dart';
+import 'package:joplate/utils/log_visit.dart';
 
 @RoutePage()
 class PlateRequestDetailsPage extends StatefulWidget {
@@ -23,6 +26,7 @@ class PlateRequestDetailsPage extends StatefulWidget {
 
 class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
   late final Stream<PlateRequest> _plateStream;
+  Timer? _timer;
 
   @override
   void initState() {
@@ -32,6 +36,21 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
         .doc(widget.requestId)
         .snapshots()
         .map((snapshot) => PlateRequest.fromSnapshot(snapshot));
+
+
+    _timer = Timer(const Duration(seconds: logVisitTimer), () {
+      logVisit(
+        listingId: widget.requestId,
+        listingType: ListingType.request,
+        itemType: ItemType.plateNumber,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -125,7 +144,7 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
                         ),
                     ],
                     const SizedBox(height: 16),
-                    RequestedByWidgget(userId: snapshot.data!.userId),
+                    RequestedByWidgget(userId: snapshot.data!.userId, visits: snapshot.data!.visits),
                     const SizedBox(height: 16),
                     Container(
                       padding: const EdgeInsets.all(12.0),

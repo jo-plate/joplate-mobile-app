@@ -33,6 +33,7 @@ mixin _$PhoneListing {
   DateTime? get createdAt => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime? get expiresAt => throw _privateConstructorUsedError;
+  int get visits => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
 
   /// Serializes this PhoneListing to a JSON map.
@@ -62,6 +63,7 @@ abstract class $PhoneListingCopyWith<$Res> {
       @TimestampConverter() DateTime? featuredUntil,
       @TimestampConverter() DateTime? createdAt,
       @TimestampConverter() DateTime? expiresAt,
+      int visits,
       String userId});
 
   $PhoneNumberCopyWith<$Res> get item;
@@ -92,6 +94,7 @@ class _$PhoneListingCopyWithImpl<$Res, $Val extends PhoneListing>
     Object? featuredUntil = freezed,
     Object? createdAt = freezed,
     Object? expiresAt = freezed,
+    Object? visits = null,
     Object? userId = null,
   }) {
     return _then(_value.copyWith(
@@ -135,6 +138,10 @@ class _$PhoneListingCopyWithImpl<$Res, $Val extends PhoneListing>
           ? _value.expiresAt
           : expiresAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      visits: null == visits
+          ? _value.visits
+          : visits // ignore: cast_nullable_to_non_nullable
+              as int,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -172,6 +179,7 @@ abstract class _$$PhoneListingImplCopyWith<$Res>
       @TimestampConverter() DateTime? featuredUntil,
       @TimestampConverter() DateTime? createdAt,
       @TimestampConverter() DateTime? expiresAt,
+      int visits,
       String userId});
 
   @override
@@ -201,6 +209,7 @@ class __$$PhoneListingImplCopyWithImpl<$Res>
     Object? featuredUntil = freezed,
     Object? createdAt = freezed,
     Object? expiresAt = freezed,
+    Object? visits = null,
     Object? userId = null,
   }) {
     return _then(_$PhoneListingImpl(
@@ -244,6 +253,10 @@ class __$$PhoneListingImplCopyWithImpl<$Res>
           ? _value.expiresAt
           : expiresAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      visits: null == visits
+          ? _value.visits
+          : visits // ignore: cast_nullable_to_non_nullable
+              as int,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -266,6 +279,7 @@ class _$PhoneListingImpl extends _PhoneListing {
       @TimestampConverter() this.featuredUntil,
       @TimestampConverter() this.createdAt,
       @TimestampConverter() this.expiresAt,
+      this.visits = 0,
       required this.userId})
       : super._();
 
@@ -301,11 +315,14 @@ class _$PhoneListingImpl extends _PhoneListing {
   @TimestampConverter()
   final DateTime? expiresAt;
   @override
+  @JsonKey()
+  final int visits;
+  @override
   final String userId;
 
   @override
   String toString() {
-    return 'PhoneListing(id: $id, item: $item, price: $price, discountPrice: $discountPrice, priceNegotiable: $priceNegotiable, isDisabled: $isDisabled, isSold: $isSold, featuredUntil: $featuredUntil, createdAt: $createdAt, expiresAt: $expiresAt, userId: $userId)';
+    return 'PhoneListing(id: $id, item: $item, price: $price, discountPrice: $discountPrice, priceNegotiable: $priceNegotiable, isDisabled: $isDisabled, isSold: $isSold, featuredUntil: $featuredUntil, createdAt: $createdAt, expiresAt: $expiresAt, visits: $visits, userId: $userId)';
   }
 
   @override
@@ -329,6 +346,7 @@ class _$PhoneListingImpl extends _PhoneListing {
                 other.createdAt == createdAt) &&
             (identical(other.expiresAt, expiresAt) ||
                 other.expiresAt == expiresAt) &&
+            (identical(other.visits, visits) || other.visits == visits) &&
             (identical(other.userId, userId) || other.userId == userId));
   }
 
@@ -346,6 +364,7 @@ class _$PhoneListingImpl extends _PhoneListing {
       featuredUntil,
       createdAt,
       expiresAt,
+      visits,
       userId);
 
   /// Create a copy of PhoneListing
@@ -376,6 +395,7 @@ abstract class _PhoneListing extends PhoneListing {
       @TimestampConverter() final DateTime? featuredUntil,
       @TimestampConverter() final DateTime? createdAt,
       @TimestampConverter() final DateTime? expiresAt,
+      final int visits,
       required final String userId}) = _$PhoneListingImpl;
   const _PhoneListing._() : super._();
 
@@ -405,6 +425,8 @@ abstract class _PhoneListing extends PhoneListing {
   @override
   @TimestampConverter()
   DateTime? get expiresAt;
+  @override
+  int get visits;
   @override
   String get userId;
 

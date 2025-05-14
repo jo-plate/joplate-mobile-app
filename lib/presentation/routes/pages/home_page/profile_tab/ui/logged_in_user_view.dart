@@ -11,6 +11,7 @@ import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/menu_item.dart';
 import 'package:joplate/presentation/widgets/profile_banner.dart';
+import 'package:joplate/presentation/cubits/theme_cubit.dart';
 
 class LoggedInUserView extends StatefulWidget {
   const LoggedInUserView({super.key});
@@ -34,11 +35,16 @@ class _LoggedInUserViewState extends State<LoggedInUserView> {
       body: BlocProvider.value(
         value: injector<AuthCubit>(),
         child: Builder(builder: (context) {
-          return BlocBuilder<AuthCubit, AuthState>(
-            builder: (context, state) {
-              return _UserProfileView(
-                  profile: state.userProfile ?? UserProfile.empty());
-            },
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: injector<AuthCubit>()),
+              BlocProvider.value(value: injector<ThemeCubit>()),
+            ],
+            child: BlocBuilder<AuthCubit, AuthState>(
+              builder: (context, state) {
+                return _UserProfileView(profile: state.userProfile ?? UserProfile.empty());
+              },
+            ),
           );
         }),
       ),
@@ -83,12 +89,11 @@ class _UserProfileViewState extends State<_UserProfileView> {
                   MenuItem(
                       title: m.profile.packages,
                       icon: Icons.wallet_giftcard_outlined,
-                      onTap: () =>
-                          AutoRouter.of(context).push(const PlansRoute())),
+                      onTap: () => AutoRouter.of(context).push(const PlansRoute())),
                 ] else
                   const AnonUserView(),
                 const SizedBox(height: 16),
-                _buildLanguageSection(),
+                _buildSettingsSection(),
                 const SizedBox(height: 16),
                 _buildDeveloperSection(context),
                 const SizedBox(height: 16),
@@ -115,7 +120,6 @@ class _UserProfileViewState extends State<_UserProfileView> {
           ),
         ),
         const SizedBox(width: 8),
-
         const SizedBox(width: 8),
         Expanded(
           child: _buildFeatureCard(
@@ -130,7 +134,6 @@ class _UserProfileViewState extends State<_UserProfileView> {
     );
   }
 
-  /// Feature Card
   Widget _buildFeatureCard({
     required IconData icon,
     required String label,
@@ -139,7 +142,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
     return GestureDetector(
       onTap: onTap,
       child: Card(
-        color: Colors.white, // Set background color to white
+        color: Colors.white,
         elevation: 2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Padding(
@@ -150,9 +153,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
               CircleAvatar(
                 radius: 28,
                 backgroundColor: Colors.white,
-                child: Icon(icon,
-                    color: const Color(0xFF981C1E),
-                    size: 50), // Increased icon size
+                child: Icon(icon, color: const Color(0xFF981C1E), size: 50),
               ),
               const SizedBox(height: 8),
               Text(
@@ -170,8 +171,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
     );
   }
 
-  /// Language Section
-  Widget _buildLanguageSection() {
+  Widget _buildSettingsSection() {
     final m = Localization.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -179,15 +179,16 @@ class _UserProfileViewState extends State<_UserProfileView> {
         const Divider(
           height: 1,
           thickness: 1,
-          color: Colors.grey, // Divider color
+          color: Colors.grey,
         ),
+        const SizedBox(height: 12),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
           child: Row(
             children: [
               const Icon(
                 Icons.translate,
-                color: Color(0xFF981C1E), // Icon color
+                color: Color(0xFF981C1E),
                 size: 24,
               ),
               const SizedBox(width: 16),
@@ -196,33 +197,27 @@ class _UserProfileViewState extends State<_UserProfileView> {
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
-                  color: Colors.black,
                 ),
               ),
               const Spacer(),
               BlocBuilder<LocalizationCubit, Locale>(
                 builder: (context, locale) {
                   final isEnglish = locale.languageCode == 'en';
-
                   return Row(
                     children: [
-                      _buildLanguageButton(
+                      _buildSettingButton(
                         label: 'العربية',
                         isSelected: !isEnglish,
                         onTap: () {
-                          context
-                              .read<LocalizationCubit>()
-                              .setLocale(const Locale('ar'));
+                          context.read<LocalizationCubit>().setLocale(const Locale('ar'));
                         },
                       ),
                       const SizedBox(width: 8),
-                      _buildLanguageButton(
+                      _buildSettingButton(
                         label: 'English',
                         isSelected: isEnglish,
                         onTap: () {
-                          context
-                              .read<LocalizationCubit>()
-                              .setLocale(const Locale('en'));
+                          context.read<LocalizationCubit>().setLocale(const Locale('en'));
                         },
                       ),
                     ],
@@ -232,16 +227,65 @@ class _UserProfileViewState extends State<_UserProfileView> {
             ],
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+          child: Row(
+            children: [
+              const Icon(
+                Icons.palette_outlined,
+                color: Color(0xFF981C1E),
+                size: 24,
+              ),
+              const SizedBox(width: 16),
+              Text(
+                m.profile.theme,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const Spacer(),
+              BlocBuilder<ThemeCubit, ThemeState>(
+                builder: (context, state) {
+                  return Row(
+                    children: [
+                      _buildSettingButton(
+                        label: m.profile.light_mode,
+                        isSelected: !state.isDarkMode,
+                        onTap: () {
+                          if (state.isDarkMode) {
+                            context.read<ThemeCubit>().toggleTheme();
+                          }
+                        },
+                      ),
+                      const SizedBox(width: 8),
+                      _buildSettingButton(
+                        label: 'Dark',
+                        isSelected: state.isDarkMode,
+                        onTap: () {
+                          if (!state.isDarkMode) {
+                            context.read<ThemeCubit>().toggleTheme();
+                          }
+                        },
+                      ),
+                    ],
+                  );
+                },
+              )
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
         const Divider(
           height: 1,
           thickness: 1,
-          color: Colors.grey, // Divider color
+          color: Colors.grey,
         ),
       ],
     );
   }
 
-  Widget _buildLanguageButton({
+  Widget _buildSettingButton({
     required String label,
     required bool isSelected,
     required VoidCallback onTap,
@@ -268,20 +312,16 @@ class _UserProfileViewState extends State<_UserProfileView> {
     );
   }
 
-  /// Developer Section
   Widget _buildDeveloperSection(BuildContext context) {
     final m = Localization.of(context);
 
     return Column(
       children: [
         _buildClickableItem(m.profile.aboutus, Icons.info_outline),
-        _buildClickableItem(
-            m.profile.privacy_policy, Icons.privacy_tip_outlined, () {
+        _buildClickableItem(m.profile.privacy_policy, Icons.privacy_tip_outlined, () {
           AutoRouter.of(context).push(const PrivacyPolicyRoute());
         }),
-        _buildClickableItem(
-            m.profile.terms_conditions,
-            Icons.description_outlined,
+        _buildClickableItem(m.profile.terms_conditions, Icons.description_outlined,
             () => AutoRouter.of(context).push(const TermsAndConditionsRoute())),
         _buildClickableItem(m.profile.instructions, Icons.help_outline),
       ],
@@ -293,60 +333,50 @@ class _UserProfileViewState extends State<_UserProfileView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // Log Out Button
         ElevatedButton.icon(
           onPressed: () {
             injector<AuthCubit>().logout();
           },
           style: ElevatedButton.styleFrom(
             elevation: 0,
-            backgroundColor: const Color(0xFFFFF4F4), // Light pink background
-            foregroundColor: const Color(0xFF981C1E), // Red text and icon
-            padding: const EdgeInsets.symmetric(
-                vertical: 12), // Adjust vertical padding
+            backgroundColor: const Color(0xFFFFF4F4),
+            foregroundColor: const Color(0xFF981C1E),
+            padding: const EdgeInsets.symmetric(vertical: 12),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12), // Rounded corners
+              borderRadius: BorderRadius.circular(12),
             ),
           ),
           icon: const Padding(
-            padding: EdgeInsets.only(left: 16), // Add left margin to the icon
+            padding: EdgeInsets.only(left: 16),
             child: Icon(Icons.logout, size: 20),
           ),
           label: Align(
             alignment: Alignment.centerLeft,
             child: Padding(
-              padding:
-                  const EdgeInsets.only(left: 8), // Add left margin to the text
+              padding: const EdgeInsets.only(left: 8),
               child: Text(
                 m.profile.logout,
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
             ),
           ),
         ),
-        const SizedBox(height: 16), // Spacing between buttons
-
-        // Delete My Account Link
+        const SizedBox(height: 16),
         ElevatedButton(
-          onPressed: () {
-            // Handle delete account action
-          },
+          onPressed: () {},
           style: ElevatedButton.styleFrom(
             elevation: 0,
             backgroundColor: const Color.fromARGB(255, 244, 242, 242),
-            foregroundColor: Colors.black, // Black text and icon
-            padding: const EdgeInsets.symmetric(
-                vertical: 12), // Adjust vertical padding
+            foregroundColor: Colors.black,
+            padding: const EdgeInsets.symmetric(vertical: 12),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12), // Rounded corners
+              borderRadius: BorderRadius.circular(12),
             ),
           ),
           child: Row(
             children: [
               const Padding(
-                padding:
-                    EdgeInsets.only(left: 16), // Add left margin to the icon
+                padding: EdgeInsets.only(left: 16),
                 child: Icon(
                   Icons.delete,
                   size: 20,
@@ -368,8 +398,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
     );
   }
 
-  Widget _buildClickableItem(String title, IconData icon,
-      [void Function()? onTap]) {
+  Widget _buildClickableItem(String title, IconData icon, [void Function()? onTap]) {
     return InkWell(
       onTap: onTap,
       child: Padding(

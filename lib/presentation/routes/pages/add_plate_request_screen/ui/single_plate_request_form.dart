@@ -60,7 +60,7 @@ class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
         final cubit = context.read<AddPlateRequestCubit>();
 
         return Container(
-          decoration: cardContainerStyle,
+          decoration: getCardContainerStyle(context),
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

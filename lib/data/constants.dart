@@ -20,3 +20,6 @@ const updateRequestCF = 'updateRequest';
 const deleteItemCF = 'deleteItem';
 const featureListingCF = 'featureListing';
 const redeemPurchaseCF = 'redeemPurchase';
+const logVisitCF = 'logVisit';
+
+const logVisitTimer = 1;

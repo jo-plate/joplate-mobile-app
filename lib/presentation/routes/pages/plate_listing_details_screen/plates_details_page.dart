@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,6 +16,7 @@ import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_listing_w
 import 'package:joplate/presentation/widgets/app_bar.dart/promote_listing_button.dart';
 import 'package:joplate/presentation/widgets/delete_item_popup.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
+import 'package:joplate/utils/log_visit.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 @RoutePage()
@@ -28,6 +31,7 @@ class PlatesDetailsPage extends StatefulWidget {
 
 class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
   late final Stream<PlateListing> _plateStream;
+  Timer? _timer;
 
   @override
   void initState() {
@@ -37,6 +41,20 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
         .doc(widget.listingId)
         .snapshots()
         .map((snapshot) => PlateListing.fromSnapshot(snapshot));
+
+    _timer = Timer(const Duration(seconds: logVisitTimer), () {
+      logVisit(
+        listingId: widget.listingId,
+        listingType: ListingType.ad,
+        itemType: ItemType.plateNumber,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -135,7 +153,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                       PromoteListingButton(listingId: snapshot.data!.id, itemType: ItemType.plateNumber),
                     ],
                     const SizedBox(height: 16),
-                    SellerDetails(userId: snapshot.data!.userId),
+                    SellerDetails(userId: snapshot.data!.userId, visits: snapshot.data!.visits),
                     const SizedBox(height: 16),
                     OtherSellersTable(
                       userId: snapshot.data!.userId,
@@ -191,8 +209,9 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
 }
 
 class SellerDetails extends StatefulWidget {
-  const SellerDetails({super.key, required this.userId});
+  const SellerDetails({super.key, required this.userId, required this.visits});
   final String userId;
+  final int visits;
 
   @override
   State<SellerDetails> createState() => _SellerDetailsState();
@@ -244,6 +263,19 @@ class _SellerDetailsState extends State<SellerDetails> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // if (widget.userId == FirebaseAuth.instance.currentUser?.uid)
+                ...[
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(text: '${m.home.visits}: '),
+                        TextSpan(text: widget.visits.toString()),
+                      ],
+                      style: const TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                ],
                 Row(
                   children: [
                     Container(

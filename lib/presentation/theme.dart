@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-final appTheme = ThemeData(
+ThemeData getLightTheme() => ThemeData(
   colorScheme: ColorScheme.fromSeed(
     seedColor: const Color(0xFF981C1E),
     primary: const Color(0xFF981C1E),
     secondary: Colors.black,
+        brightness: Brightness.light,
   ),
   useMaterial3: true,
   scaffoldBackgroundColor: Colors.grey[100],
@@ -121,12 +122,79 @@ final appTheme = ThemeData(
   // ),
 );
 
-final cardContainerStyle = BoxDecoration(
-  borderRadius: BorderRadius.circular(10),
-  color: Colors.white,
+ThemeData getDarkTheme() => ThemeData(
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: const Color(0xFF981C1E),
+        primary: const Color(0xFF981C1E),
+        secondary: Colors.white,
+        brightness: Brightness.dark,
+        background: const Color(0xFF1A1B2E), // Dark blue background
+        surface: const Color(0xFF252A41), // Slightly lighter blue for surfaces
+      ),
+      useMaterial3: true,
+      scaffoldBackgroundColor: const Color(0xFF1A1B2E),
+
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: const Color(0xFF252A41),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Color(0xFF3D4266)),
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Color(0xFF3D4266)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Color(0xFF981C1E)),
+        ),
+        labelStyle: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+          color: Color(0xFF8B8FA3),
+        ),
+      ),
+
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Color(0xFF1A1B2E),
+        elevation: 0,
+        centerTitle: true,
+        titleTextStyle: TextStyle(
+          color: Colors.white,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
+
+      cardTheme: CardTheme(
+        color: const Color(0xFF252A41),
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+
+      dividerTheme: const DividerThemeData(
+        color: Color(0xFF3D4266),
+        thickness: 1,
+      ),
+
+      // Keep other theme properties similar to light theme but with dark mode colors
+      // ... rest of your theme properties with dark mode colors ...
+    );
+
+// Update the card container style to support dark mode
+BoxDecoration getCardContainerStyle(BuildContext context) => BoxDecoration(
+      borderRadius: BorderRadius.circular(10),
+      color: Theme.of(context).brightness == Brightness.dark ? const Color(0xFF252A41) : Colors.white,
   boxShadow: [
     BoxShadow(
-      color: Colors.grey.withOpacity(0.2),
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.black.withOpacity(0.3)
+              : Colors.grey.withOpacity(0.2),
       blurRadius: 8,
       spreadRadius: 2,
       offset: const Offset(0, 4),

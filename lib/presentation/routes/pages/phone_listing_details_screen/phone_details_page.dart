@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,6 +14,7 @@ import 'package:joplate/presentation/widgets/app_bar.dart/phone_number_listing_w
 import 'package:joplate/presentation/widgets/app_bar.dart/promote_listing_button.dart';
 import 'package:joplate/presentation/widgets/delete_item_popup.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
+import 'package:joplate/utils/log_visit.dart';
 
 @RoutePage()
 class PhoneDetailsPage extends StatefulWidget {
@@ -28,7 +31,7 @@ class PhoneDetailsPage extends StatefulWidget {
 
 class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
   late final Stream<PhoneListing> _phoneStream;
-
+  Timer? _timer;
   @override
   void initState() {
     super.initState();
@@ -37,6 +40,20 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
         .doc(widget.listingId)
         .snapshots()
         .map((snap) => PhoneListing.fromSnapshot(snap));
+
+    _timer = Timer(const Duration(seconds: logVisitTimer), () {
+      logVisit(
+        listingId: widget.listingId,
+        listingType: ListingType.ad,
+        itemType: ItemType.phoneNumber,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -148,7 +165,7 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
                 const SizedBox(
                   height: 16,
                 ),
-                SellerDetails(userId: phone.userId),
+                SellerDetails(userId: phone.userId, visits: phone.visits),
                 const SizedBox(
                   height: 16,
                 ),

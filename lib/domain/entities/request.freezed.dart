@@ -29,6 +29,7 @@ mixin _$PhoneRequest {
   DateTime? get createdAt => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime? get expiresAt => throw _privateConstructorUsedError;
+  int get visits => throw _privateConstructorUsedError;
 
   /// Serializes this PhoneRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -53,7 +54,8 @@ abstract class $PhoneRequestCopyWith<$Res> {
       String userId,
       PhoneNumber item,
       @TimestampConverter() DateTime? createdAt,
-      @TimestampConverter() DateTime? expiresAt});
+      @TimestampConverter() DateTime? expiresAt,
+      int visits});
 
   $PhoneNumberCopyWith<$Res> get item;
 }
@@ -80,6 +82,7 @@ class _$PhoneRequestCopyWithImpl<$Res, $Val extends PhoneRequest>
     Object? item = null,
     Object? createdAt = freezed,
     Object? expiresAt = freezed,
+    Object? visits = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -110,6 +113,10 @@ class _$PhoneRequestCopyWithImpl<$Res, $Val extends PhoneRequest>
           ? _value.expiresAt
           : expiresAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      visits: null == visits
+          ? _value.visits
+          : visits // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 
@@ -139,7 +146,8 @@ abstract class _$$PhoneRequestImplCopyWith<$Res>
       String userId,
       PhoneNumber item,
       @TimestampConverter() DateTime? createdAt,
-      @TimestampConverter() DateTime? expiresAt});
+      @TimestampConverter() DateTime? expiresAt,
+      int visits});
 
   @override
   $PhoneNumberCopyWith<$Res> get item;
@@ -165,6 +173,7 @@ class __$$PhoneRequestImplCopyWithImpl<$Res>
     Object? item = null,
     Object? createdAt = freezed,
     Object? expiresAt = freezed,
+    Object? visits = null,
   }) {
     return _then(_$PhoneRequestImpl(
       id: null == id
@@ -195,6 +204,10 @@ class __$$PhoneRequestImplCopyWithImpl<$Res>
           ? _value.expiresAt
           : expiresAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      visits: null == visits
+          ? _value.visits
+          : visits // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -209,7 +222,8 @@ class _$PhoneRequestImpl extends _PhoneRequest {
       required this.userId,
       required this.item,
       @TimestampConverter() this.createdAt,
-      @TimestampConverter() this.expiresAt})
+      @TimestampConverter() this.expiresAt,
+      this.visits = 0})
       : super._();
 
   factory _$PhoneRequestImpl.fromJson(Map<String, dynamic> json) =>
@@ -233,10 +247,13 @@ class _$PhoneRequestImpl extends _PhoneRequest {
   @override
   @TimestampConverter()
   final DateTime? expiresAt;
+  @override
+  @JsonKey()
+  final int visits;
 
   @override
   String toString() {
-    return 'PhoneRequest(id: $id, price: $price, isDisabled: $isDisabled, userId: $userId, item: $item, createdAt: $createdAt, expiresAt: $expiresAt)';
+    return 'PhoneRequest(id: $id, price: $price, isDisabled: $isDisabled, userId: $userId, item: $item, createdAt: $createdAt, expiresAt: $expiresAt, visits: $visits)';
   }
 
   @override
@@ -253,13 +270,14 @@ class _$PhoneRequestImpl extends _PhoneRequest {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.expiresAt, expiresAt) ||
-                other.expiresAt == expiresAt));
+                other.expiresAt == expiresAt) &&
+            (identical(other.visits, visits) || other.visits == visits));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, price, isDisabled, userId, item, createdAt, expiresAt);
+  int get hashCode => Object.hash(runtimeType, id, price, isDisabled, userId,
+      item, createdAt, expiresAt, visits);
 
   /// Create a copy of PhoneRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -285,7 +303,8 @@ abstract class _PhoneRequest extends PhoneRequest {
       required final String userId,
       required final PhoneNumber item,
       @TimestampConverter() final DateTime? createdAt,
-      @TimestampConverter() final DateTime? expiresAt}) = _$PhoneRequestImpl;
+      @TimestampConverter() final DateTime? expiresAt,
+      final int visits}) = _$PhoneRequestImpl;
   _PhoneRequest._() : super._();
 
   factory _PhoneRequest.fromJson(Map<String, dynamic> json) =
@@ -307,6 +326,8 @@ abstract class _PhoneRequest extends PhoneRequest {
   @override
   @TimestampConverter()
   DateTime? get expiresAt;
+  @override
+  int get visits;
 
   /// Create a copy of PhoneRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -331,6 +352,7 @@ mixin _$PlateRequest {
   DateTime? get createdAt => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime? get expiresAt => throw _privateConstructorUsedError;
+  int get visits => throw _privateConstructorUsedError;
 
   /// Serializes this PlateRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -355,7 +377,8 @@ abstract class $PlateRequestCopyWith<$Res> {
       String userId,
       PlateNumber item,
       @TimestampConverter() DateTime? createdAt,
-      @TimestampConverter() DateTime? expiresAt});
+      @TimestampConverter() DateTime? expiresAt,
+      int visits});
 
   $PlateNumberCopyWith<$Res> get item;
 }
@@ -382,6 +405,7 @@ class _$PlateRequestCopyWithImpl<$Res, $Val extends PlateRequest>
     Object? item = null,
     Object? createdAt = freezed,
     Object? expiresAt = freezed,
+    Object? visits = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -412,6 +436,10 @@ class _$PlateRequestCopyWithImpl<$Res, $Val extends PlateRequest>
           ? _value.expiresAt
           : expiresAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      visits: null == visits
+          ? _value.visits
+          : visits // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 
@@ -441,7 +469,8 @@ abstract class _$$PlateRequestImplCopyWith<$Res>
       String userId,
       PlateNumber item,
       @TimestampConverter() DateTime? createdAt,
-      @TimestampConverter() DateTime? expiresAt});
+      @TimestampConverter() DateTime? expiresAt,
+      int visits});
 
   @override
   $PlateNumberCopyWith<$Res> get item;
@@ -467,6 +496,7 @@ class __$$PlateRequestImplCopyWithImpl<$Res>
     Object? item = null,
     Object? createdAt = freezed,
     Object? expiresAt = freezed,
+    Object? visits = null,
   }) {
     return _then(_$PlateRequestImpl(
       id: null == id
@@ -497,6 +527,10 @@ class __$$PlateRequestImplCopyWithImpl<$Res>
           ? _value.expiresAt
           : expiresAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      visits: null == visits
+          ? _value.visits
+          : visits // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -511,7 +545,8 @@ class _$PlateRequestImpl extends _PlateRequest {
       required this.userId,
       required this.item,
       @TimestampConverter() this.createdAt,
-      @TimestampConverter() this.expiresAt})
+      @TimestampConverter() this.expiresAt,
+      this.visits = 0})
       : super._();
 
   factory _$PlateRequestImpl.fromJson(Map<String, dynamic> json) =>
@@ -535,10 +570,13 @@ class _$PlateRequestImpl extends _PlateRequest {
   @override
   @TimestampConverter()
   final DateTime? expiresAt;
+  @override
+  @JsonKey()
+  final int visits;
 
   @override
   String toString() {
-    return 'PlateRequest(id: $id, price: $price, isDisabled: $isDisabled, userId: $userId, item: $item, createdAt: $createdAt, expiresAt: $expiresAt)';
+    return 'PlateRequest(id: $id, price: $price, isDisabled: $isDisabled, userId: $userId, item: $item, createdAt: $createdAt, expiresAt: $expiresAt, visits: $visits)';
   }
 
   @override
@@ -555,13 +593,14 @@ class _$PlateRequestImpl extends _PlateRequest {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.expiresAt, expiresAt) ||
-                other.expiresAt == expiresAt));
+                other.expiresAt == expiresAt) &&
+            (identical(other.visits, visits) || other.visits == visits));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, price, isDisabled, userId, item, createdAt, expiresAt);
+  int get hashCode => Object.hash(runtimeType, id, price, isDisabled, userId,
+      item, createdAt, expiresAt, visits);
 
   /// Create a copy of PlateRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -587,7 +626,8 @@ abstract class _PlateRequest extends PlateRequest {
       required final String userId,
       required final PlateNumber item,
       @TimestampConverter() final DateTime? createdAt,
-      @TimestampConverter() final DateTime? expiresAt}) = _$PlateRequestImpl;
+      @TimestampConverter() final DateTime? expiresAt,
+      final int visits}) = _$PlateRequestImpl;
   _PlateRequest._() : super._();
 
   factory _PlateRequest.fromJson(Map<String, dynamic> json) =
@@ -609,6 +649,8 @@ abstract class _PlateRequest extends PlateRequest {
   @override
   @TimestampConverter()
   DateTime? get expiresAt;
+  @override
+  int get visits;
 
   /// Create a copy of PlateRequest
   /// with the given fields replaced by the non-null parameter values.
