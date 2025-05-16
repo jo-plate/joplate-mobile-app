@@ -64,46 +64,129 @@ class _ProfilePictureWidgetState extends State<ProfilePictureWidget> {
 
   Future<void> _pickAndUploadImage(ImageSource source) async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: source);
-
-    if (pickedFile == null) return;
-
-    setState(() {
-      _isUploading = true;
-    });
-
+    
     try {
+      // Simple configuration with basic options only
+      final pickedFile = await picker.pickImage(
+        source: source,
+        maxWidth: 800, // Reduced size
+        maxHeight: 800, // Reduced size
+        imageQuality: 70, // Reduced quality
+      );
+
+      if (pickedFile == null) return;
+
+      setState(() {
+        _isUploading = true;
+      });
+
       final currentUser = FirebaseAuth.instance.currentUser;
-      if (currentUser == null) return;
+      if (currentUser == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('You must be logged in to upload images')),
+        );
+        setState(() {
+          _isUploading = false;
+        });
+        return;
+      }
 
+      // Simple approach: use the picked file directly
       final imageFile = File(pickedFile.path);
-      final storageRef = FirebaseStorage.instance.ref().child('profile_images').child('${currentUser.uid}.jpg');
+      final timestamp = DateTime.now().millisecondsSinceEpoch;
+      final filename = '${currentUser.uid}_$timestamp.jpg';
 
-      // Upload the image
-      await storageRef.putFile(imageFile);
+      // Get file size for diagnostic purposes
+      final fileSize = await imageFile.length();
+      print('Image file size: ${(fileSize / 1024).toStringAsFixed(2)} KB');
 
-      // Get the download URL
-      final downloadUrl = await storageRef.getDownloadURL();
+      // Use a simple reference path
+      final storageRef = FirebaseStorage.instance.ref().child('profile_images').child(filename);
 
-      // Update the user profile with the image URL
-      await FirebaseFirestore.instance
-          .collection(userProfileCollectionId)
-          .doc(currentUser.uid)
-          .update({'imageUrl': downloadUrl});
+      try {
+        // Simplest upload approach
+        final uploadTask = storageRef.putFile(imageFile);
 
-      if (widget.onImageUpdated != null) {
-        widget.onImageUpdated!(downloadUrl);
+        // Add progress listener for diagnostics
+        uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
+          final progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          print('Upload progress: ${progress.toStringAsFixed(2)}%');
+        });
+
+        // Wait for upload to complete
+        await uploadTask;
+        print('Upload completed successfully');
+
+        // Get download URL
+        final downloadUrl = await storageRef.getDownloadURL();
+        print('Download URL obtained: $downloadUrl');
+        
+        // Update Firestore
+        print('Updating Firestore with new image URL');
+        await FirebaseFirestore.instance
+            .collection(userProfileCollectionId)
+            .doc(currentUser.uid)
+            .update({'imageUrl': downloadUrl});
+
+        if (widget.onImageUpdated != null) {
+          widget.onImageUpdated!(downloadUrl);
+        }
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Profile picture updated successfully')),
+          );
+        }
+      } catch (e) {
+        print('===== FIREBASE UPLOAD ERROR =====');
+        print('Error type: ${e.runtimeType}');
+        print('Error message: $e');
+
+        if (e is FirebaseException) {
+          print('Firebase error code: ${e.code}');
+          print('Firebase error message: ${e.message}');
+          print('Firebase error details: ${e.stackTrace}');
+        }
+
+        String errorMessage = 'Failed to upload image';
+
+        if (e.toString().contains('parse response') ||
+            e.toString().contains('network') ||
+            e.toString().contains('timeout')) {
+          errorMessage = 'Network error. Check your connection and try again with a smaller image.';
+        } else if (e is FirebaseException) {
+          switch (e.code) {
+            case 'unauthorized':
+            case 'permission-denied':
+              errorMessage = 'Not authorized to upload. Please log in again.';
+              break;
+            case 'storage/quota-exceeded':
+              errorMessage = 'Storage quota exceeded.';
+              break;
+            default:
+              errorMessage = 'Upload failed: ${e.message ?? e.code}';
+          }
+        }
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(errorMessage)),
+          );
+        }
       }
     } catch (e) {
-      // Handle errors
-      print('Error uploading image: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to upload image: $e')),
-      );
+      print('Error selecting image: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error selecting image: ${e.toString()}')),
+        );
+      }
     } finally {
-      setState(() {
-        _isUploading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isUploading = false;
+        });
+      }
     }
   }
 
