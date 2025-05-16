@@ -28,6 +28,7 @@ mixin _$UserProfile {
   bool get isVerified => throw _privateConstructorUsedError;
   bool get pendingVerification => throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
+  List<String> get followingList => throw _privateConstructorUsedError;
 
   /// Serializes this UserProfile to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -53,7 +54,8 @@ abstract class $UserProfileCopyWith<$Res> {
       String phonenumber,
       bool isVerified,
       bool pendingVerification,
-      String imageUrl});
+      String imageUrl,
+      List<String> followingList});
 }
 
 /// @nodoc
@@ -79,6 +81,7 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
     Object? isVerified = null,
     Object? pendingVerification = null,
     Object? imageUrl = null,
+    Object? followingList = null,
   }) {
     return _then(_value.copyWith(
       displayName: null == displayName
@@ -113,6 +116,10 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
               as String,
+      followingList: null == followingList
+          ? _value.followingList
+          : followingList // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -133,7 +140,8 @@ abstract class _$$UserProfileImplCopyWith<$Res>
       String phonenumber,
       bool isVerified,
       bool pendingVerification,
-      String imageUrl});
+      String imageUrl,
+      List<String> followingList});
 }
 
 /// @nodoc
@@ -157,6 +165,7 @@ class __$$UserProfileImplCopyWithImpl<$Res>
     Object? isVerified = null,
     Object? pendingVerification = null,
     Object? imageUrl = null,
+    Object? followingList = null,
   }) {
     return _then(_$UserProfileImpl(
       displayName: null == displayName
@@ -191,6 +200,10 @@ class __$$UserProfileImplCopyWithImpl<$Res>
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
               as String,
+      followingList: null == followingList
+          ? _value._followingList
+          : followingList // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -206,8 +219,10 @@ class _$UserProfileImpl extends _UserProfile {
       this.phonenumber = '',
       this.isVerified = false,
       this.pendingVerification = false,
-      this.imageUrl = ''})
-      : super._();
+      this.imageUrl = '',
+      final List<String> followingList = const []})
+      : _followingList = followingList,
+        super._();
 
   factory _$UserProfileImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserProfileImplFromJson(json);
@@ -236,10 +251,18 @@ class _$UserProfileImpl extends _UserProfile {
   @override
   @JsonKey()
   final String imageUrl;
+  final List<String> _followingList;
+  @override
+  @JsonKey()
+  List<String> get followingList {
+    if (_followingList is EqualUnmodifiableListView) return _followingList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_followingList);
+  }
 
   @override
   String toString() {
-    return 'UserProfile(displayName: $displayName, name: $name, id: $id, email: $email, phonenumber: $phonenumber, isVerified: $isVerified, pendingVerification: $pendingVerification, imageUrl: $imageUrl)';
+    return 'UserProfile(displayName: $displayName, name: $name, id: $id, email: $email, phonenumber: $phonenumber, isVerified: $isVerified, pendingVerification: $pendingVerification, imageUrl: $imageUrl, followingList: $followingList)';
   }
 
   @override
@@ -259,13 +282,24 @@ class _$UserProfileImpl extends _UserProfile {
             (identical(other.pendingVerification, pendingVerification) ||
                 other.pendingVerification == pendingVerification) &&
             (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl));
+                other.imageUrl == imageUrl) &&
+            const DeepCollectionEquality()
+                .equals(other._followingList, _followingList));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, displayName, name, id, email,
-      phonenumber, isVerified, pendingVerification, imageUrl);
+  int get hashCode => Object.hash(
+      runtimeType,
+      displayName,
+      name,
+      id,
+      email,
+      phonenumber,
+      isVerified,
+      pendingVerification,
+      imageUrl,
+      const DeepCollectionEquality().hash(_followingList));
 
   /// Create a copy of UserProfile
   /// with the given fields replaced by the non-null parameter values.
@@ -292,7 +326,8 @@ abstract class _UserProfile extends UserProfile {
       final String phonenumber,
       final bool isVerified,
       final bool pendingVerification,
-      final String imageUrl}) = _$UserProfileImpl;
+      final String imageUrl,
+      final List<String> followingList}) = _$UserProfileImpl;
   const _UserProfile._() : super._();
 
   factory _UserProfile.fromJson(Map<String, dynamic> json) =
@@ -314,6 +349,8 @@ abstract class _UserProfile extends UserProfile {
   bool get pendingVerification;
   @override
   String get imageUrl;
+  @override
+  List<String> get followingList;
 
   /// Create a copy of UserProfile
   /// with the given fields replaced by the non-null parameter values.

@@ -23,13 +23,15 @@ class AuthCubit extends Cubit<AuthState> {
   final FirebaseAnalytics _analytics = injector();
 
   AuthCubit(this._firestoreUserRepository) : super(AuthState.initial()) {
+    if (_authService.currentUser?.isAnonymous == true) {
+      logout();
+    }
     if (_authService.currentUser != null) {
       _initAuthStateListener(_authService.currentUser!.uid);
 
       _firestoreUserRepository
           .getUserProfile(_authService.currentUser!.uid)
-          .then((value) => emit(state.copyWith(
-              user: _authService.currentUser, userProfile: value)));
+          .then((value) => emit(state.copyWith(user: _authService.currentUser, userProfile: value)));
     }
   }
 
@@ -37,15 +39,12 @@ class AuthCubit extends Cubit<AuthState> {
     _authService.authStateChanges().listen((user) async {
       if (user == state.user) return;
       if (user != null) {
-        final userProfile =
-            await _firestoreUserRepository.getUserProfile(user.uid);
+        final userProfile = await _firestoreUserRepository.getUserProfile(user.uid);
         await _analytics.setUserId(id: user.uid);
 
         await _analytics.setUserProperty(name: 'email', value: user.email);
-        await _analytics.setUserProperty(
-            name: 'name', value: userProfile.displayName);
-        await _analytics.setUserProperty(
-            name: 'phone', value: userProfile.phonenumber);
+        await _analytics.setUserProperty(name: 'name', value: userProfile.displayName);
+        await _analytics.setUserProperty(name: 'phone', value: userProfile.phonenumber);
 
         emit(state.copyWith(user: user, userProfile: userProfile));
       } else {
@@ -59,15 +58,13 @@ class AuthCubit extends Cubit<AuthState> {
       emit(state.copyWith(isLoading: true, errorMessage: null));
       print("signup");
       // Call Cloud Function to create user profile
-      final HttpsCallable callable =
-          FirebaseFunctions.instance.httpsCallable(signupCF);
+      final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(signupCF);
       final result = await callable.call(input.toJson());
       print(result);
       print(result.data);
       if (result.data != null && result.data['success'] == true) {
         loginWithEmailAndPassword(input.toLoginInput());
-        emit(state.copyWith(
-            user: FirebaseAuth.instance.currentUser, isLoading: false));
+        emit(state.copyWith(user: FirebaseAuth.instance.currentUser, isLoading: false));
       } else {
         emit(state.copyWith(isLoading: false, errorMessage: "Signup failed."));
       }
@@ -75,8 +72,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(state.copyWith(isLoading: false, errorMessage: e.message));
     } catch (e) {
       print(e);
-      emit(state.copyWith(
-          isLoading: false, errorMessage: "An unexpected error occurred."));
+      emit(state.copyWith(isLoading: false, errorMessage: "An unexpected error occurred."));
     }
   }
 
@@ -88,8 +84,7 @@ class AuthCubit extends Cubit<AuthState> {
         email: input.email,
         password: input.password,
       );
-      final userProfile = await _firestoreUserRepository
-          .getUserProfile(userCredential.user!.uid);
+      final userProfile = await _firestoreUserRepository.getUserProfile(userCredential.user!.uid);
 
       emit(state.copyWith(
         user: userCredential.user,
@@ -108,7 +103,6 @@ class AuthCubit extends Cubit<AuthState> {
       ));
     }
   }
-
 
   Future<void> logout() async {
     try {

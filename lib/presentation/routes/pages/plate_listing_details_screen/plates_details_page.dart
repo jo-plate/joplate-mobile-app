@@ -317,55 +317,66 @@ class _SellerDetailsState extends State<SellerDetails> {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        ProfilePictureWidget(
-                          imageUrl: userProfile.imageUrl,
-                          size: 48,
-                          showUploadButton: false,
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(userProfile.displayName,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
-                                        color: textColor,
-                                      )),
-                                  const SizedBox(width: 6),
-                                  if (userProfile.isVerified)
-                                    Icon(
-                                      Icons.verified,
-                                      color: Colors.blue.shade600,
-                                      size: 20,
-                                    ),
-                                  if (plan != PlanType.free_plan) ...[
-                                    const SizedBox(width: 8),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                      decoration: BoxDecoration(
-                                        color: accentColor,
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: Text(
-                                        plan.name,
-                                        style: const TextStyle(
-                                            fontSize: 12, color: Colors.white, fontWeight: FontWeight.w600),
-                                      ),
-                                    ),
-                                  ],
-                                ],
-                              ),
-                            ],
+                    InkWell(
+                      onTap: () {
+                        // Navigate to user profile
+                        AutoRouter.of(context).push(UserProfileRoute(userId: widget.userId));
+                      },
+                      child: Row(
+                        children: [
+                          ProfilePictureWidget(
+                            imageUrl: userProfile.imageUrl,
+                            size: 48,
+                            showUploadButton: false,
                           ),
-                        ),
-                      ],
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(userProfile.displayName,
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                          color: textColor,
+                                        )),
+                                    const SizedBox(width: 6),
+                                    if (userProfile.isVerified)
+                                      Icon(
+                                        Icons.verified,
+                                        color: Colors.blue.shade600,
+                                        size: 20,
+                                      ),
+                                    if (plan != PlanType.free_plan) ...[
+                                      const SizedBox(width: 8),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                        decoration: BoxDecoration(
+                                          color: accentColor,
+                                          borderRadius: BorderRadius.circular(12),
+                                        ),
+                                        child: Text(
+                                          plan.name,
+                                          style: const TextStyle(
+                                              fontSize: 12, color: Colors.white, fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 16,
+                            color: textColor.withOpacity(0.6),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 16),
                     Row(

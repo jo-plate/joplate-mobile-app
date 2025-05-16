@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
+import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/dto/signup_input.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
 
@@ -9,7 +10,6 @@ class FirestoreUserRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   Stream<UserProfile>? _userProfileStream;
   String? _currentUserId;
-
 
   Stream<UserProfile> get userProfileStream {
     _userProfileStream ??= _createProfileStream();
@@ -22,6 +22,19 @@ class FirestoreUserRepository {
     }
 
     yield* _firestore.collection(_collectionName).doc(_currentUserId).snapshots().handleError((error) {
+      throw FirebaseException(
+        plugin: 'user_profile',
+        message: 'Error fetching user profile',
+        code: error.code,
+      );
+    }).asyncMap((snapshot) {
+      if (!snapshot.exists) return UserProfile.empty();
+      return UserProfile.fromJson(snapshot.data()!);
+    });
+  }
+
+  Stream<UserProfile> getUserProfileStream(String userId) async* {
+    yield* _firestore.collection(_collectionName).doc(userId).snapshots().handleError((error) {
       throw FirebaseException(
         plugin: 'user_profile',
         message: 'Error fetching user profile',

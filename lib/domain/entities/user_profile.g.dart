@@ -16,6 +16,10 @@ _$UserProfileImpl _$$UserProfileImplFromJson(Map<String, dynamic> json) =>
       isVerified: json['isVerified'] as bool? ?? false,
       pendingVerification: json['pendingVerification'] as bool? ?? false,
       imageUrl: json['imageUrl'] as String? ?? '',
+      followingList: (json['followingList'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$UserProfileImplToJson(_$UserProfileImpl instance) =>
@@ -28,4 +32,5 @@ Map<String, dynamic> _$$UserProfileImplToJson(_$UserProfileImpl instance) =>
       'isVerified': instance.isVerified,
       'pendingVerification': instance.pendingVerification,
       'imageUrl': instance.imageUrl,
+      'followingList': instance.followingList,
     };

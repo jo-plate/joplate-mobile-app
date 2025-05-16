@@ -22,8 +22,11 @@ home:
 
 profile:
   title: "Profile"
-  Requests: "My Requests"
-  Numbers: "My Numbers"
+  Requests: "Requests"
+  Ads: "Ads"
+  myAds: "My Ads"
+  myRequests: "My Requests"
+  Numbers: "Numbers"
   packages: "Packages"
   my_current_plan: "My Current Plan"
   language: "Language"
@@ -49,6 +52,7 @@ footer:
   home: "Home"
   profile: "Profile"
   favorites: "Favorites"
+  feed: "Feed"
 
 edit profile:
   header: "Profile"

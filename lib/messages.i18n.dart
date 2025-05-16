@@ -203,14 +203,29 @@ class ProfileMessages {
   String get title => """Profile""";
 
   /// ```dart
-  /// "My Requests"
+  /// "Requests"
   /// ```
-  String get Requests => """My Requests""";
+  String get Requests => """Requests""";
 
   /// ```dart
-  /// "My Numbers"
+  /// "Ads"
   /// ```
-  String get Numbers => """My Numbers""";
+  String get Ads => """Ads""";
+
+  /// ```dart
+  /// "My Ads"
+  /// ```
+  String get myAds => """My Ads""";
+
+  /// ```dart
+  /// "My Requests"
+  /// ```
+  String get myRequests => """My Requests""";
+
+  /// ```dart
+  /// "Numbers"
+  /// ```
+  String get Numbers => """Numbers""";
 
   /// ```dart
   /// "Packages"
@@ -331,6 +346,11 @@ class FooterMessages {
   /// "Favorites"
   /// ```
   String get favorites => """Favorites""";
+
+  /// ```dart
+  /// "Feed"
+  /// ```
+  String get feed => """Feed""";
 }
 
 class EditProfileMessages {
@@ -1464,8 +1484,11 @@ Map<String, String> get messagesMap => {
   """home.disabled""": """Deleted""",
   """home.visits""": """Visits""",
   """profile.title""": """Profile""",
-  """profile.Requests""": """My Requests""",
-  """profile.Numbers""": """My Numbers""",
+  """profile.Requests""": """Requests""",
+  """profile.Ads""": """Ads""",
+  """profile.myAds""": """My Ads""",
+  """profile.myRequests""": """My Requests""",
+  """profile.Numbers""": """Numbers""",
   """profile.packages""": """Packages""",
   """profile.my_current_plan""": """My Current Plan""",
   """profile.language""": """Language""",
@@ -1489,6 +1512,7 @@ Map<String, String> get messagesMap => {
   """footer.home""": """Home""",
   """footer.profile""": """Profile""",
   """footer.favorites""": """Favorites""",
+  """footer.feed""": """Feed""",
   """edit profile.header""": """Profile""",
   """edit profile.Full_Name""": """Full Name""",
   """edit profile.phone_number""": """Phone Number""",

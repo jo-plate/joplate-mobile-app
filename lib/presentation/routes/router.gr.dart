@@ -351,6 +351,106 @@ class FavoritesRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [FeedPage]
+class FeedRoute extends PageRouteInfo<void> {
+  const FeedRoute({List<PageRouteInfo>? children})
+    : super(FeedRoute.name, initialChildren: children);
+
+  static const String name = 'FeedRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const FeedPage();
+    },
+  );
+}
+
+/// generated route for
+/// [FollowersPage]
+class FollowersRoute extends PageRouteInfo<FollowersRouteArgs> {
+  FollowersRoute({
+    Key? key,
+    required String userId,
+    List<PageRouteInfo>? children,
+  }) : super(
+         FollowersRoute.name,
+         args: FollowersRouteArgs(key: key, userId: userId),
+         rawPathParams: {'userId': userId},
+         initialChildren: children,
+       );
+
+  static const String name = 'FollowersRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final pathParams = data.inheritedPathParams;
+      final args = data.argsAs<FollowersRouteArgs>(
+        orElse:
+            () => FollowersRouteArgs(userId: pathParams.getString('userId')),
+      );
+      return FollowersPage(key: args.key, userId: args.userId);
+    },
+  );
+}
+
+class FollowersRouteArgs {
+  const FollowersRouteArgs({this.key, required this.userId});
+
+  final Key? key;
+
+  final String userId;
+
+  @override
+  String toString() {
+    return 'FollowersRouteArgs{key: $key, userId: $userId}';
+  }
+}
+
+/// generated route for
+/// [FollowingPage]
+class FollowingRoute extends PageRouteInfo<FollowingRouteArgs> {
+  FollowingRoute({
+    Key? key,
+    required String userId,
+    List<PageRouteInfo>? children,
+  }) : super(
+         FollowingRoute.name,
+         args: FollowingRouteArgs(key: key, userId: userId),
+         rawPathParams: {'userId': userId},
+         initialChildren: children,
+       );
+
+  static const String name = 'FollowingRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final pathParams = data.inheritedPathParams;
+      final args = data.argsAs<FollowingRouteArgs>(
+        orElse:
+            () => FollowingRouteArgs(userId: pathParams.getString('userId')),
+      );
+      return FollowingPage(key: args.key, userId: args.userId);
+    },
+  );
+}
+
+class FollowingRouteArgs {
+  const FollowingRouteArgs({this.key, required this.userId});
+
+  final Key? key;
+
+  final String userId;
+
+  @override
+  String toString() {
+    return 'FollowingRouteArgs{key: $key, userId: $userId}';
+  }
+}
+
+/// generated route for
 /// [HomePage]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})
@@ -720,4 +820,46 @@ class TermsAndConditionsRoute extends PageRouteInfo<void> {
       return const TermsAndConditionsPage();
     },
   );
+}
+
+/// generated route for
+/// [UserProfilePage]
+class UserProfileRoute extends PageRouteInfo<UserProfileRouteArgs> {
+  UserProfileRoute({
+    Key? key,
+    required String userId,
+    List<PageRouteInfo>? children,
+  }) : super(
+         UserProfileRoute.name,
+         args: UserProfileRouteArgs(key: key, userId: userId),
+         rawPathParams: {'userId': userId},
+         initialChildren: children,
+       );
+
+  static const String name = 'UserProfileRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final pathParams = data.inheritedPathParams;
+      final args = data.argsAs<UserProfileRouteArgs>(
+        orElse:
+            () => UserProfileRouteArgs(userId: pathParams.getString('userId')),
+      );
+      return UserProfilePage(key: args.key, userId: args.userId);
+    },
+  );
+}
+
+class UserProfileRouteArgs {
+  const UserProfileRouteArgs({this.key, required this.userId});
+
+  final Key? key;
+
+  final String userId;
+
+  @override
+  String toString() {
+    return 'UserProfileRouteArgs{key: $key, userId: $userId}';
+  }
 }

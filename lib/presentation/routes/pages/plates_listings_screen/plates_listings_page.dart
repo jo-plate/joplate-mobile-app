@@ -337,7 +337,6 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
           IconButton(
             icon: const Icon(Icons.add),
             iconSize: 30,
-
             onPressed: () {
               if (FirebaseAuth.instance.currentUser == null) {
                 context.router.push(const AuthRoute());
@@ -358,7 +357,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                   child: DropdownButtonFormField<String>(
                     decoration: inputFieldStyle.copyWith(labelText: m.plates.code),
                     value: _selectedCode,
-                    icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF981C1E)),
+                    icon: const Icon(Icons.arrow_drop_down),
                     items: [m.plates.code, ..._codes].map((c) {
                       return DropdownMenuItem(
                         value: c,
@@ -378,7 +377,9 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                   child: DropdownButtonFormField<String>(
                     decoration: inputFieldStyle.copyWith(labelText: m.plates.digit_count),
                     value: _selectedDigits,
-                    icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF981C1E)),
+                    icon: const Icon(
+                      Icons.arrow_drop_down,
+                    ),
                     items: [m.plates.digit_count, ...digitOptions].map((d) {
                       return DropdownMenuItem(
                         value: d,
@@ -400,7 +401,9 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
             DropdownButtonFormField<String>(
               decoration: inputFieldStyle.copyWith(labelText: m.plates.format),
               value: _selectedFormat,
-              icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF981C1E)),
+              icon: const Icon(
+                Icons.arrow_drop_down,
+              ),
               items: [
                 DropdownMenuItem(value: null, child: Text(m.plates.format)),
                 ...formatMap.entries.map((e) => DropdownMenuItem(
@@ -453,9 +456,10 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
               child: Row(
                 children: [
                   Text(_isExpanded ? m.plates.show_less : m.plates.see_more,
-                      style: const TextStyle(color: Color(0xFF981C1E), fontWeight: FontWeight.bold)),
-                  Icon(_isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                      color: const Color(0xFF981C1E)),
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  Icon(
+                    _isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                  ),
                 ],
               ),
             ),

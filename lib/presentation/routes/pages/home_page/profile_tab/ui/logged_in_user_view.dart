@@ -125,7 +125,9 @@ class _UserProfileViewState extends State<_UserProfileView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const ProfileBanner(),
+        const ProfileBanner(
+          showTicketCount: true,
+        ),
         if (joinDate != null)
           Padding(
             padding: const EdgeInsets.only(top: 8.0, left: 8.0),
@@ -151,7 +153,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
         Expanded(
           child: _buildFeatureCard(
             icon: Icons.notes_rounded,
-            label: m.profile.Numbers,
+            label: m.profile.myAds,
             onTap: () {
               AutoRouter.of(context).push(const MyNumbersRoute());
             },
@@ -171,7 +173,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
         Expanded(
           child: _buildFeatureCard(
             icon: Icons.draw,
-            label: m.profile.Requests,
+            label: m.profile.myRequests,
             onTap: () {
               AutoRouter.of(context).push(const MyRequestsRoute());
             },

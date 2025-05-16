@@ -15,6 +15,9 @@ import 'package:joplate/presentation/routes/pages/edit_phone_listing_screen/edit
 import 'package:joplate/presentation/routes/pages/edit_phone_request_screen/edit_phone_request_page.dart';
 import 'package:joplate/presentation/routes/pages/edit_plate_listing_screen/edit_plate_listing_page.dart';
 import 'package:joplate/presentation/routes/pages/edit_plate_request_screen/edit_plate_request_page.dart';
+import 'package:joplate/presentation/routes/pages/feed_screen/feed_page.dart';
+import 'package:joplate/presentation/routes/pages/followers_screen/followers_page.dart';
+import 'package:joplate/presentation/routes/pages/following_screen/following_page.dart';
 import 'package:joplate/presentation/routes/pages/home_page/home_tab/homescreen.dart';
 import 'package:joplate/presentation/routes/pages/home_page/dashboard_page.dart';
 import 'package:joplate/presentation/routes/pages/home_page/profile_tab/profile_screen.dart';
@@ -35,6 +38,7 @@ import 'package:joplate/presentation/routes/pages/phone_listings_screen/phone_li
 import 'package:joplate/presentation/routes/pages/quicksale_screen/quicksale_page.dart';
 import 'package:joplate/presentation/routes/pages/requests_screen/requests_page.dart';
 import 'package:joplate/presentation/routes/pages/terms_and_conditions_screen/terms_and_conditions_page.dart';
+import 'package:joplate/presentation/routes/pages/user_profile_screen/user_profile_page.dart';
 part 'router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Page,Route')
@@ -50,7 +54,7 @@ class AppRouter extends RootStackRouter {
           children: [
             AutoRoute(path: 'home', page: HomeRoute.page, initial: true),
             AutoRoute(path: 'profile', page: ProfileRoute.page),
-            AutoRoute(path: 'favorites', page: FavoritesRoute.page)
+            AutoRoute(path: 'feed', page: FeedRoute.page)
           ],
         ),
         AutoRoute(page: AuthRoute.page),
@@ -81,5 +85,10 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: QuicksaleRoute.page, path: "/quicksale"),
         AutoRoute(page: EditPlateRequestRoute.page, path: "/edit_plate_request"),
         AutoRoute(page: EditPhoneRequestRoute.page, path: "/edit_phone_request"),
+        AutoRoute(page: UserProfileRoute.page, path: "/user/:userId"),
+        AutoRoute(page: FollowersRoute.page, path: "/followers/:userId"),
+        AutoRoute(page: FollowingRoute.page, path: "/following/:userId"),
+        AutoRoute(page: FavoritesRoute.page, path: "/favorites"),
+        AutoRoute(page: FeedRoute.page, path: "/feed"),
       ];
 }

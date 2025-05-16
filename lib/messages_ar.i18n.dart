@@ -206,9 +206,24 @@ class ProfileMessagesAr extends ProfileMessages {
   String get title => """الملف الشخصي""";
 
   /// ```dart
+  /// "طلبات"
+  /// ```
+  String get Requests => """طلبات""";
+
+  /// ```dart
+  /// "إعلانات"
+  /// ```
+  String get Ads => """إعلانات""";
+
+  /// ```dart
+  /// "إعلاناتي"
+  /// ```
+  String get myAds => """إعلاناتي""";
+
+  /// ```dart
   /// "طلباتي"
   /// ```
-  String get Requests => """طلباتي""";
+  String get myRequests => """طلباتي""";
 
   /// ```dart
   /// "أرقامي"
@@ -334,6 +349,11 @@ class FooterMessagesAr extends FooterMessages {
   /// "المفضلة"
   /// ```
   String get favorites => """المفضلة""";
+
+  /// ```dart
+  /// "المتابعة"
+  /// ```
+  String get feed => """المتابعة""";
 }
 
 class EditProfileMessagesAr extends EditProfileMessages {
@@ -1468,7 +1488,10 @@ Map<String, String> get messagesArMap => {
   """home.disabled""": """محذوف""",
   """home.visits""": """المشاهدات""",
   """profile.title""": """الملف الشخصي""",
-  """profile.Requests""": """طلباتي""",
+  """profile.Requests""": """طلبات""",
+  """profile.Ads""": """إعلانات""",
+  """profile.myAds""": """إعلاناتي""",
+  """profile.myRequests""": """طلباتي""",
   """profile.Numbers""": """أرقامي""",
   """profile.packages""": """الباقات""",
   """profile.my_current_plan""": """باقتي الحالية""",
@@ -1493,6 +1516,7 @@ Map<String, String> get messagesArMap => {
   """footer.home""": """الرئيسية""",
   """footer.profile""": """الملف الشخصي""",
   """footer.favorites""": """المفضلة""",
+  """footer.feed""": """المتابعة""",
   """edit profile.header""": """ الملف الشخصي""",
   """edit profile.Full_Name""": """الاسم الكامل""",
   """edit profile.phone_number""": """رقم الهاتف""",

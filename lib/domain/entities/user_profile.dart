@@ -17,6 +17,7 @@ class UserProfile with _$UserProfile {
     @Default(false) bool isVerified,
     @Default(false) bool pendingVerification,
     @Default('') String imageUrl,
+    @Default([]) List<String> followingList,
   }) = _UserProfile;
 
   factory UserProfile.fromSnapshot(DocumentSnapshot snapshot) {
@@ -34,6 +35,7 @@ class UserProfile with _$UserProfile {
         email: '',
         name: '',
         imageUrl: '',
+        followingList: [],
       );
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => _$UserProfileFromJson(json);
@@ -47,6 +49,7 @@ class UserProfile with _$UserProfile {
       'phonenumber': phonenumber,
       'name': name,
       'imageUrl': imageUrl,
+      'followingList': followingList,
     };
   }
 }

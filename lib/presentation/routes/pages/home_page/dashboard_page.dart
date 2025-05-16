@@ -14,7 +14,7 @@ class DashboardPage extends StatelessWidget {
       routes: const [
         ProfileRoute(),
         HomeRoute(),
-        FavoritesRoute(),
+        FeedRoute(),
       ],
       bottomNavigationBuilder: (_, tabsRouter) {
         return BottomNavigationBar(
@@ -23,7 +23,7 @@ class DashboardPage extends StatelessWidget {
           items: [
             BottomNavigationBarItem(icon: const Icon(Icons.person), label: m.footer.profile),
             BottomNavigationBarItem(icon: const Icon(Icons.home), label: m.footer.home),
-            BottomNavigationBarItem(icon: const Icon(Icons.favorite), label: m.footer.favorites),
+            BottomNavigationBarItem(icon: const Icon(Icons.rss_feed), label: m.footer.feed),
           ],
         );
       },

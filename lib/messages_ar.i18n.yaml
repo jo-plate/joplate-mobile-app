@@ -21,7 +21,10 @@ home:
   visits: "المشاهدات"
 profile:
   title: "الملف الشخصي"
-  Requests: "طلباتي"
+  Requests: "طلبات"
+  Ads: "إعلانات"
+  myAds: "إعلاناتي"
+  myRequests: "طلباتي"
   Numbers: "أرقامي"
   packages: "الباقات"
   my_current_plan : "باقتي الحالية"
@@ -48,6 +51,7 @@ footer:
   home: "الرئيسية"
   profile: "الملف الشخصي"
   favorites: "المفضلة"
+  feed: "المتابعة"
 
 edit profile:
  header: " الملف الشخصي"
