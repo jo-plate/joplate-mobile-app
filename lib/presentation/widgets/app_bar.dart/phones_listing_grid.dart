@@ -7,9 +7,11 @@ class PhonesListingGrid extends StatelessWidget {
   const PhonesListingGrid({
     super.key,
     required this.itemList,
+    this.shrinkWrap = true,
   });
 
   final List<PhoneListing> itemList;
+  final bool shrinkWrap;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class PhonesListingGrid extends StatelessWidget {
         crossAxisCount: 2,
         mainAxisSpacing: 10,
         crossAxisSpacing: 10,
-        shrinkWrap: true,
+        shrinkWrap: shrinkWrap,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: itemList.length,
         itemBuilder: (context, index) {

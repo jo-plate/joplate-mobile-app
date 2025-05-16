@@ -16,6 +16,7 @@ import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/utils/user_plan_theme.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_request_widget.dart';
 import 'package:joplate/presentation/widgets/delete_item_popup.dart';
+import 'package:joplate/presentation/widgets/profile_picture_widget.dart';
 import 'package:joplate/utils/log_visit.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -310,13 +311,10 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
                     const SizedBox(height: 10),
                     Row(
                       children: [
-                        CircleAvatar(
-                          radius: 25,
-                          backgroundColor: accentColor.withOpacity(0.1),
-                          child: Icon(
-                            Icons.person,
-                            color: iconColor,
-                          ),
+                        ProfilePictureWidget(
+                          imageUrl: userProfile.imageUrl,
+                          size: 50,
+                          showUploadButton: false,
                         ),
                         const SizedBox(width: 10),
                         Column(

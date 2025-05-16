@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/user_plans.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
-
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/buy_tickets_dialog.dart';
 import 'package:joplate/presentation/widgets/icons/plan_icon.dart';
+import 'package:joplate/presentation/widgets/profile_picture_widget.dart';
 import 'package:joplate/presentation/utils/user_plan_theme.dart';
 
 class ProfileBanner extends StatefulWidget {
@@ -48,6 +49,7 @@ class _ProfileBannerState extends State<ProfileBanner> {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return StreamBuilder(
         stream: userStream,
@@ -76,21 +78,10 @@ class _ProfileBannerState extends State<ProfileBanner> {
                     padding: const EdgeInsets.all(12),
                     child: Row(
                       children: [
-                        Column(
-                          children: [
-                            Container(
-                              width: 100,
-                              height: 100,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.white,
-                                image: DecorationImage(
-                                  image: AssetImage('assets/images/avatar3.jpg'),
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                            ),
-                          ],
+                        ProfilePictureWidget(
+                          imageUrl: profile?.imageUrl,
+                          showUploadButton: true,
+                          size: 100,
                         ),
                         const SizedBox(width: 14),
                         Expanded(

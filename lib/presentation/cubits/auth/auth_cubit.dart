@@ -109,27 +109,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> loginAnonymously() async {
-    try {
-      emit(state.copyWith(isLoading: true, errorMessage: null));
-
-      final userCredential = await _authService.signInAnonymously();
-      emit(state.copyWith(
-        user: userCredential.user,
-        isLoading: false,
-      ));
-    } on FirebaseAuthException catch (e) {
-      emit(state.copyWith(
-        isLoading: false,
-        errorMessage: _getFirebaseErrorMessage(e),
-      ));
-    } catch (e) {
-      emit(state.copyWith(
-        isLoading: false,
-        errorMessage: 'An unexpected error occurred',
-      ));
-    }
-  }
 
   Future<void> logout() async {
     try {

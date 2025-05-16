@@ -206,14 +206,14 @@ class ProfileMessagesAr extends ProfileMessages {
   String get title => """الملف الشخصي""";
 
   /// ```dart
-  /// "الطلبات"
+  /// "طلباتي"
   /// ```
-  String get Requests => """الطلبات""";
+  String get Requests => """طلباتي""";
 
   /// ```dart
-  /// "الأرقام"
+  /// "أرقامي"
   /// ```
-  String get Numbers => """الأرقام""";
+  String get Numbers => """أرقامي""";
 
   /// ```dart
   /// "الباقات"
@@ -284,6 +284,36 @@ class ProfileMessagesAr extends ProfileMessages {
   /// "تسجيل الدخول"
   /// ```
   String get signin => """تسجيل الدخول""";
+
+  /// ```dart
+  /// "تحميل"
+  /// ```
+  String get upload => """تحميل""";
+
+  /// ```dart
+  /// "اختر مصدر الصورة"
+  /// ```
+  String get choose_source => """اختر مصدر الصورة""";
+
+  /// ```dart
+  /// "معرض الصور"
+  /// ```
+  String get gallery => """معرض الصور""";
+
+  /// ```dart
+  /// "الكاميرا"
+  /// ```
+  String get camera => """الكاميرا""";
+
+  /// ```dart
+  /// "رمز ترويجي"
+  /// ```
+  String get promo_code => """رمز ترويجي""";
+
+  /// ```dart
+  /// "عضو منذ {date}"
+  /// ```
+  String get joined_on => """عضو منذ {date}""";
 }
 
 class FooterMessagesAr extends FooterMessages {
@@ -1438,8 +1468,8 @@ Map<String, String> get messagesArMap => {
   """home.disabled""": """محذوف""",
   """home.visits""": """المشاهدات""",
   """profile.title""": """الملف الشخصي""",
-  """profile.Requests""": """الطلبات""",
-  """profile.Numbers""": """الأرقام""",
+  """profile.Requests""": """طلباتي""",
+  """profile.Numbers""": """أرقامي""",
   """profile.packages""": """الباقات""",
   """profile.my_current_plan""": """باقتي الحالية""",
   """profile.language""": """اللغة""",
@@ -1454,6 +1484,12 @@ Map<String, String> get messagesArMap => {
   """profile.delete_account""": """حذف الحساب""",
   """profile.notsignedin""": """غير مسجل الدخول""",
   """profile.signin""": """تسجيل الدخول""",
+  """profile.upload""": """تحميل""",
+  """profile.choose_source""": """اختر مصدر الصورة""",
+  """profile.gallery""": """معرض الصور""",
+  """profile.camera""": """الكاميرا""",
+  """profile.promo_code""": """رمز ترويجي""",
+  """profile.joined_on""": """عضو منذ {date}""",
   """footer.home""": """الرئيسية""",
   """footer.profile""": """الملف الشخصي""",
   """footer.favorites""": """المفضلة""",

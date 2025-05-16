@@ -17,6 +17,7 @@ import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_listing_w
 import 'package:joplate/presentation/widgets/app_bar.dart/promote_listing_button.dart';
 import 'package:joplate/presentation/widgets/delete_item_popup.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
+import 'package:joplate/presentation/widgets/profile_picture_widget.dart';
 import 'package:joplate/utils/log_visit.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:joplate/presentation/utils/user_plan_theme.dart';
@@ -318,18 +319,10 @@ class _SellerDetailsState extends State<SellerDetails> {
                     const SizedBox(height: 16),
                     Row(
                       children: [
-                        Container(
-                          width: 48,
-                          height: 48,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: accentColor.withOpacity(0.1),
-                          ),
-                          child: Icon(
-                            Icons.person_outline,
-                            size: 24,
-                            color: iconColor,
-                          ),
+                        ProfilePictureWidget(
+                          imageUrl: userProfile.imageUrl,
+                          size: 48,
+                          showUploadButton: false,
                         ),
                         const SizedBox(width: 16),
                         Expanded(

@@ -38,6 +38,10 @@
 			<key>NSAllowsArbitraryLoads</key>
 			<true/>
 		</dict>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>This app requires access to your photo library to upload profile pictures</string>
+		<key>NSCameraUsageDescription</key>
+		<string>This app requires access to your camera to take profile pictures</string>
 		<key>SKAdNetworkItems</key>
 		<array>
 			<dict>

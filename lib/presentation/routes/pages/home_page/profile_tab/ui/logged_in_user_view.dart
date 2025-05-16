@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
 import 'package:joplate/presentation/cubits/localization/localization_cubit.dart';
@@ -83,14 +84,21 @@ class _UserProfileViewState extends State<_UserProfileView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (snapshot.data != null) ...[
-                  const ProfileBanner(),
+                  _buildProfileHeader(snapshot.data!),
                   const SizedBox(height: 16),
                   _buildFeaturesSection(),
                   const SizedBox(height: 16),
                   MenuItem(
-                      title: m.profile.packages,
-                      icon: Icons.wallet_giftcard_outlined,
-                      onTap: () => AutoRouter.of(context).push(const PlansRoute())),
+                    title: m.profile.packages,
+                    icon: Icons.wallet_giftcard_outlined,
+                    onTap: () => AutoRouter.of(context).push(const PlansRoute()),
+                  ),
+                  const SizedBox(height: 16),
+                  MenuItem(
+                    title: m.profile.promo_code,
+                    icon: Icons.card_giftcard_outlined,
+                    onTap: _showPromoCodeDialog,
+                  ),
                 ] else
                   const AnonUserView(),
                 const SizedBox(height: 16),
@@ -105,11 +113,40 @@ class _UserProfileViewState extends State<_UserProfileView> {
         });
   }
 
+  Widget _buildProfileHeader(User user) {
+    final m = Localization.of(context);
+    final joinDate = user.metadata.creationTime;
+    String formattedDate = '';
+
+    if (joinDate != null) {
+      formattedDate = DateFormat('MMM d, yyyy').format(joinDate);
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const ProfileBanner(),
+        if (joinDate != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0, left: 8.0),
+            child: Text(
+              "Joined on $formattedDate",
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey[600],
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
   Widget _buildFeaturesSection() {
     final m = Localization.of(context);
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Expanded(
           child: _buildFeatureCard(
@@ -121,6 +158,15 @@ class _UserProfileViewState extends State<_UserProfileView> {
           ),
         ),
         const SizedBox(width: 8),
+        Expanded(
+          child: _buildFeatureCard(
+            icon: Icons.favorite_border,
+            label: m.footer.favorites,
+            onTap: () {
+              AutoRouter.of(context).push(const FavoritesRoute());
+            },
+          ),
+        ),
         const SizedBox(width: 8),
         Expanded(
           child: _buildFeatureCard(
@@ -145,23 +191,69 @@ class _UserProfileViewState extends State<_UserProfileView> {
       child: Container(
         decoration: getCardContainerStyle(context),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: 12),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, size: 50, color: const Color(0xFF981C1E)),
-              const SizedBox(height: 8),
+              Icon(icon, size: 40, color: const Color(0xFF981C1E)),
+              const SizedBox(height: 4),
               Text(
                 label,
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
                 textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void _showPromoCodeDialog() {
+    final controller = TextEditingController();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Enter Promo Code'),
+        content: TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            hintText: 'Enter your promo code',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              // Process the promo code
+              final code = controller.text.trim();
+              if (code.isNotEmpty) {
+                // TODO: Implement promo code redemption
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Promo code applied: $code')),
+                );
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF981C1E),
+            ),
+            child: Text('Apply'),
+          ),
+        ],
       ),
     );
   }
@@ -356,7 +448,9 @@ class _UserProfileViewState extends State<_UserProfileView> {
         MenuItem(
           title: m.profile.delete_account,
           icon: Icons.delete,
-          onTap: () {},
+          onTap: () {
+            FirebaseAuth.instance.currentUser?.delete();
+          },
         ),
       ],
     );

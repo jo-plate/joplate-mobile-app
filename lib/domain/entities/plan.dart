@@ -20,12 +20,12 @@ class Plan with _$Plan {
 
   String get productId {
     switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        return productIds["android"]!;    
       case TargetPlatform.iOS:
         return productIds["ios"]!;
-      case TargetPlatform.android:
-        return productIds["android"]!;
       default:
-        throw Exception("Unsupported platform: $defaultTargetPlatform");
+        return productIds["ios"]!;
     }
   }
 

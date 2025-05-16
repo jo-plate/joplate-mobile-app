@@ -15,6 +15,7 @@ _$UserProfileImpl _$$UserProfileImplFromJson(Map<String, dynamic> json) =>
       phonenumber: json['phonenumber'] as String? ?? '',
       isVerified: json['isVerified'] as bool? ?? false,
       pendingVerification: json['pendingVerification'] as bool? ?? false,
+      imageUrl: json['imageUrl'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$UserProfileImplToJson(_$UserProfileImpl instance) =>
@@ -26,4 +27,5 @@ Map<String, dynamic> _$$UserProfileImplToJson(_$UserProfileImpl instance) =>
       'phonenumber': instance.phonenumber,
       'isVerified': instance.isVerified,
       'pendingVerification': instance.pendingVerification,
+      'imageUrl': instance.imageUrl,
     };

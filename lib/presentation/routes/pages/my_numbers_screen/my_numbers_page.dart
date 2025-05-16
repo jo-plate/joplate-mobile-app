@@ -41,7 +41,6 @@ class _MyNumbersPageState extends State<MyNumbersPage> with SingleTickerProvider
           IconButton(
             icon: const Icon(Icons.add),
             iconSize: 30,
-            color: const Color(0xFF981C1E),
             onPressed: () {
               if (tabController.index == 0) {
                 context.router.push(const AddPlateNumberRoute());

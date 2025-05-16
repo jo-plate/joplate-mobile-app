@@ -1,7 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/domain/dto/login_input.dart';
-import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/utils/validators.dart';
@@ -131,7 +131,7 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                   const SizedBox(height: 20),
                   OutlinedButton(
-                    onPressed: isSubmitting ? null : _handleGuestLogin,
+                    onPressed: isSubmitting ? null : () => AutoRouter.of(context).maybePop(),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: primaryColor,
                       side: BorderSide(color: primaryColor),
@@ -163,9 +163,6 @@ class _LoginFormState extends State<LoginForm> {
     }
   }
 
-  void _handleGuestLogin() {
-    context.read<AuthCubit>().loginAnonymously();
-  }
 
   void _handlePasswordReset() {
     final m = Localization.of(context);

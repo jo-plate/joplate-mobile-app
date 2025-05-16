@@ -203,14 +203,14 @@ class ProfileMessages {
   String get title => """Profile""";
 
   /// ```dart
-  /// "Requests"
+  /// "My Requests"
   /// ```
-  String get Requests => """Requests""";
+  String get Requests => """My Requests""";
 
   /// ```dart
-  /// "Numbers"
+  /// "My Numbers"
   /// ```
-  String get Numbers => """Numbers""";
+  String get Numbers => """My Numbers""";
 
   /// ```dart
   /// "Packages"
@@ -281,6 +281,36 @@ class ProfileMessages {
   /// "Sign In"
   /// ```
   String get signin => """Sign In""";
+
+  /// ```dart
+  /// "Upload"
+  /// ```
+  String get upload => """Upload""";
+
+  /// ```dart
+  /// "Choose Image Source"
+  /// ```
+  String get choose_source => """Choose Image Source""";
+
+  /// ```dart
+  /// "Gallery"
+  /// ```
+  String get gallery => """Gallery""";
+
+  /// ```dart
+  /// "Camera"
+  /// ```
+  String get camera => """Camera""";
+
+  /// ```dart
+  /// "Promo Code"
+  /// ```
+  String get promo_code => """Promo Code""";
+
+  /// ```dart
+  /// "Joined on {date}"
+  /// ```
+  String get joined_on => """Joined on {date}""";
 }
 
 class FooterMessages {
@@ -1434,8 +1464,8 @@ Map<String, String> get messagesMap => {
   """home.disabled""": """Deleted""",
   """home.visits""": """Visits""",
   """profile.title""": """Profile""",
-  """profile.Requests""": """Requests""",
-  """profile.Numbers""": """Numbers""",
+  """profile.Requests""": """My Requests""",
+  """profile.Numbers""": """My Numbers""",
   """profile.packages""": """Packages""",
   """profile.my_current_plan""": """My Current Plan""",
   """profile.language""": """Language""",
@@ -1450,6 +1480,12 @@ Map<String, String> get messagesMap => {
   """profile.delete_account""": """Delete Account""",
   """profile.notsignedin""": """Not Signed In""",
   """profile.signin""": """Sign In""",
+  """profile.upload""": """Upload""",
+  """profile.choose_source""": """Choose Image Source""",
+  """profile.gallery""": """Gallery""",
+  """profile.camera""": """Camera""",
+  """profile.promo_code""": """Promo Code""",
+  """profile.joined_on""": """Joined on {date}""",
   """footer.home""": """Home""",
   """footer.profile""": """Profile""",
   """footer.favorites""": """Favorites""",

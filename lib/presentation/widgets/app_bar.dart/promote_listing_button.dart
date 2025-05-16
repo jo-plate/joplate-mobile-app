@@ -43,6 +43,7 @@ class _PromoteListingButtonState extends State<PromoteListingButton> {
           return ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.yellow[900],
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),

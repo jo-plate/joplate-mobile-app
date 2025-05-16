@@ -22,8 +22,8 @@ home:
 
 profile:
   title: "Profile"
-  Requests: "Requests"
-  Numbers: "Numbers"
+  Requests: "My Requests"
+  Numbers: "My Numbers"
   packages: "Packages"
   my_current_plan: "My Current Plan"
   language: "Language"
@@ -38,6 +38,12 @@ profile:
   delete_account: "Delete Account"
   notsignedin: "Not Signed In"
   signin: "Sign In"
+  upload: "Upload"
+  choose_source: "Choose Image Source"
+  gallery: "Gallery"
+  camera: "Camera"
+  promo_code: "Promo Code"
+  joined_on: "Joined on {date}"
 
 footer:
   home: "Home"

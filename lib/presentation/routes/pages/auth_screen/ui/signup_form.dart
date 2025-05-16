@@ -1,7 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/domain/dto/signup_input.dart';
-import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
 import 'package:joplate/presentation/utils/validators.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
@@ -145,7 +145,7 @@ class _SignupFormState extends State<SignupForm> {
                   ),
                   const SizedBox(height: 20),
                   OutlinedButton(
-                    onPressed: isSubmitting ? null : () => injector<AuthCubit>().loginAnonymously(),
+                    onPressed: isSubmitting ? null : () => () => AutoRouter.of(context).maybePop(),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: primaryColor,
                       side: BorderSide(color: primaryColor),

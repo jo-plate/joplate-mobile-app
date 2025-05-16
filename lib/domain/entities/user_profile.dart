@@ -16,15 +16,25 @@ class UserProfile with _$UserProfile {
     @Default('') String phonenumber,
     @Default(false) bool isVerified,
     @Default(false) bool pendingVerification,
+    @Default('') String imageUrl,
   }) = _UserProfile;
 
   factory UserProfile.fromSnapshot(DocumentSnapshot snapshot) {
+    final data = snapshot.data() as Map<String, dynamic>?;
+    if (data == null) return UserProfile.empty();
     return UserProfile.fromJson(
-      {'id': snapshot.id, ...snapshot.data() as Map<String, dynamic>},
+      {'id': snapshot.id, ...data},
     );
   }
 
-  factory UserProfile.empty() => const UserProfile(id: '-1', displayName: '', phonenumber: '', email: '', name: '');
+  factory UserProfile.empty() => const UserProfile(
+        id: '-1',
+        displayName: '',
+        phonenumber: '',
+        email: '',
+        name: '',
+        imageUrl: '',
+      );
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => _$UserProfileFromJson(json);
 
@@ -36,6 +46,7 @@ class UserProfile with _$UserProfile {
       'email': email,
       'phonenumber': phonenumber,
       'name': name,
+      'imageUrl': imageUrl,
     };
   }
 }

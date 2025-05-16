@@ -119,7 +119,7 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.add, size: 30, color: Color(0xFF981C1E)),
+            icon: const Icon(Icons.add, size: 30),
             onPressed: () => {
               if (FirebaseAuth.instance.currentUser == null)
                 {context.router.push(const AuthRoute())}
@@ -139,7 +139,7 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
                   child: DropdownButtonFormField<PhoneOperator>(
                     decoration: _inputDecoration.copyWith(labelText: m.phones.company_label),
                     value: _operator,
-                    icon: const Icon(Icons.arrow_drop_down, color: Color(0xFF981C1E)),
+                    icon: const Icon(Icons.arrow_drop_down),
                     items: PhoneOperator.values
                         .map((op) => DropdownMenuItem(
                               value: op,
@@ -205,11 +205,10 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
                 children: [
                   Text(
                     _showAdvanced ? m.phones.show_less : m.phones.see_more,
-                    style: const TextStyle(color: Color(0xFF981C1E), fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Icon(
                     _showAdvanced ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                    color: const Color(0xFF981C1E),
                   ),
                 ],
               ),
