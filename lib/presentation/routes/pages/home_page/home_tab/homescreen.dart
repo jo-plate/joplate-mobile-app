@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
-
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -52,11 +52,6 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 2),
                 child: CategorySection(),
               ),
-              Text(
-                m.home.featured_numbers,
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-
               StreamBuilder<List<PlateListing>>(
                   stream: _platesStream,
                   builder: (context, snapshot) {
@@ -123,7 +118,9 @@ class _HomePageState extends State<HomePage> {
                                 margin: const EdgeInsets.symmetric(horizontal: 4),
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: _currentCarouselIndex == index ? Colors.black : Colors.grey,
+                                  color: _currentCarouselIndex == index
+                                      ? (isDark ? Colors.white : Colors.black)
+                                      : Colors.grey,
                                 ),
                               );
                             }),

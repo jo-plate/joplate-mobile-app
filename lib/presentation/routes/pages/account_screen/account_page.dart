@@ -19,11 +19,8 @@ class AccountPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(m.editProfile.header),
         centerTitle: true,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
         elevation: 0,
       ),
-      backgroundColor: const Color.fromARGB(255, 244, 242, 242),
       body: BlocProvider.value(
         value: injector<AuthCubit>(),
         child: Builder(builder: (context) {

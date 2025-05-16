@@ -67,7 +67,7 @@ class _ProfileBannerState extends State<ProfileBanner> {
                   final accentColor = UserPlanTheme.getAccentColor(plan, isDarkMode: isDark);
                   final iconColor = UserPlanTheme.getIconColor(plan, isDarkMode: isDark);
                   final backgroundColor = UserPlanTheme.getBackgroundColor(plan, isDarkMode: isDark);
-                  
+
                   return Container(
                     decoration: BoxDecoration(
                       color: backgroundColor,
@@ -102,9 +102,7 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    profile?.name.isNotEmpty == true
-                                        ? profile?.name ?? 'Guest'
-                                        : profile?.displayName ?? 'Guest',
+                                    profile?.displayName ?? 'Guest',
                                     style: TextStyle(
                                       fontSize: 22,
                                       fontWeight: FontWeight.w600,
