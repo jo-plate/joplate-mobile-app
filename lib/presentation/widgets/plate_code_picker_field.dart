@@ -137,7 +137,13 @@ class PlateCodePickerField extends StatelessWidget {
                 scrollController: controller,
                 itemExtent: 44,
                 onSelectedItemChanged: (index) => selectedIndex = index,
-                children: codes.map((c) => Center(child: Text(c))).toList(),
+                children: codes
+                    .map((c) => Center(
+                            child: Text(
+                          c,
+                          style: const TextStyle(color: Colors.black),
+                        )))
+                    .toList(),
               ),
             ),
           ],
