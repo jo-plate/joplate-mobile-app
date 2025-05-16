@@ -95,7 +95,6 @@ class PlateCodePickerField extends StatelessWidget {
 
     await showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.white,
       builder: (_) => SizedBox(
         height: 300,
         child: Column(

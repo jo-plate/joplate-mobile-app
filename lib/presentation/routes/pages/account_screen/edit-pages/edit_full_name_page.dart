@@ -34,8 +34,7 @@ class _EditFullNamePageState extends State<EditFullNamePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(m.editProfile.edit_fullname),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

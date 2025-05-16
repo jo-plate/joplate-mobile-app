@@ -2,21 +2,19 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/data/constants.dart';
-import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/entities/phone_listing.dart';
 import 'package:joplate/domain/entities/plate_listing.dart';
 import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
-import 'package:joplate/injection/injector.dart';
-import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/profile_banner.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phones_listing_grid.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plates_listing_grid.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 @RoutePage()
 class UserProfilePage extends StatefulWidget {
@@ -57,6 +55,17 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
         .map((snapshot) => snapshot.exists ? UserProfile.fromJson(snapshot.data()!) : UserProfile.empty());
   }
 
+  // Function to obfuscate phone number (hide 5 digits)
+  String obfuscatePhoneNumber(String phoneNumber) {
+    if (phoneNumber.length <= 5) return phoneNumber;
+
+    final visibleStart = phoneNumber.substring(0, 2);
+    final visibleEnd = phoneNumber.substring(phoneNumber.length - 3);
+    final hidden = "*****";
+
+    return "$visibleStart$hidden$visibleEnd";
+  }
+
   @override
   void dispose() {
     _tabController.dispose();
@@ -64,14 +73,14 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
   }
 
   Future<void> _handleFollowPress(bool currentlyFollowing) async {
-    if (_currentUserId == null) {
-      if (mounted) {
-        AppSnackbar.showError('You must be logged in to follow users');
-      }
-      return;
-    }
-
     try {
+      if (_currentUserId == null) {
+        if (mounted) {
+          AppSnackbar.showError('You must be logged in to follow users');
+        }
+        return;
+      }
+
       if (currentlyFollowing) {
         // Direct Firestore update to unfollow
         await FirebaseFirestore.instance.collection(userProfileCollectionId).doc(_currentUserId).update({
@@ -92,65 +101,162 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
         }
       }
     } catch (e) {
-      print('Follow/unfollow error: $e');
       if (mounted) {
         AppSnackbar.showError('Error: ${e.toString()}');
       }
+      print('Follow/unfollow error: $e');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final primaryColor = Theme.of(context).colorScheme.primary;
+
     return Scaffold(
       appBar: AppBar(
-        title: StreamBuilder<UserProfile>(
-          stream: userProfileStream,
-          builder: (context, snapshot) {
-            if (snapshot.hasData && snapshot.data?.id != '-1') {
-              return Text(snapshot.data!.displayName);
-            }
-            return const Text('User Profile');
-          },
-        ),
+        title: const Text('User Profile'),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Profile banner at the top
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: ProfileBanner(
-                userId: widget.userId,
-                clickable: false,
-                showUploadButton: false,
-                showTicketCount: false,
-                onFollowPressed: _handleFollowPress,
-              ),
+      body: StreamBuilder<UserProfile>(
+        stream: userProfileStream,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+
+          final userProfile = snapshot.data;
+          if (userProfile == null) {
+            return const Center(child: Text('User not found'));
+          }
+
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                // Profile banner at the top
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ProfileBanner(
+                    userId: widget.userId,
+                    clickable: false,
+                    showUploadButton: false,
+                    showTicketCount: false,
+                    onFollowPressed: _handleFollowPress,
+                  ),
+                ),
+                
+                // Contact buttons (WhatsApp and Call)
+                if (widget.userId != _currentUserId && userProfile.phonenumber.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.green.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: InkWell(
+                              onTap: () {
+                                launchUrlString("https://wa.me/962${userProfile.phonenumber.substring(1)}",
+                                    mode: LaunchMode.externalApplication);
+                              },
+                              borderRadius: BorderRadius.circular(8),
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  FaIcon(
+                                    FontAwesomeIcons.whatsapp,
+                                    color: Colors.green,
+                                    size: 20,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    'WhatsApp',
+                                    style: TextStyle(
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: primaryColor,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: InkWell(
+                              onTap: () async {
+                                final uri = 'tel:+962${userProfile.phonenumber.substring(1)}';
+                                if (await canLaunchUrlString(uri)) {
+                                  await launchUrlString(uri);
+                                } else {
+                                  throw 'Could not launch dialer';
+                                }
+                              },
+                              borderRadius: BorderRadius.circular(8),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.phone,
+                                    size: 16,
+                                    color: Colors.white,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    obfuscatePhoneNumber(userProfile.phonenumber),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                // Tabs section below the profile banner
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: TabBar(
+                    controller: _tabController,
+                    tabs: [
+                      Tab(text: m.profile.Numbers),
+                      Tab(text: m.profile.Requests),
+                    ],
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    labelColor: Theme.of(context).colorScheme.primary,
+                    unselectedLabelColor: Colors.grey,
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+
+                // Tab content based on selected tab
+                _mainTabIndex == 0 ? _buildListingsTab() : _buildRequestsTab(),
+              ],
             ),
-
-            // Main tabs
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: TabBar(
-                controller: _tabController,
-                tabs: [
-                  Tab(text: m.profile.Numbers),
-                  Tab(text: m.profile.Requests),
-                ],
-                indicatorSize: TabBarIndicatorSize.tab,
-                labelColor: Theme.of(context).colorScheme.primary,
-                unselectedLabelColor: Colors.grey,
-              ),
-            ),
-
-            const SizedBox(height: 16),
-
-            // Tab content based on selected tab
-            _mainTabIndex == 0 ? _buildListingsTab() : _buildRequestsTab(),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

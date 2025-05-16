@@ -25,11 +25,11 @@ class _HomePageState extends State<HomePage> {
   int _currentCarouselIndex = 0;
   int _selectedTabIndex = 0; // 0 for plates, 1 for phones
   final CarouselSliderController _carouselController = CarouselSliderController();
-  
+
   @override
   void initState() {
     super.initState();
-    
+
     // Stream for featured plate listings
     _platesStream = FirebaseFirestore.instance
         .collection(carPlatesCollectionId)
@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs.map((doc) => PlateListing.fromSnapshot(doc)).toList());
-        
+
     // Stream for featured phone listings
     _phonesStream = FirebaseFirestore.instance
         .collection(phoneNumbersCollectionId)
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
     final m = Localization.of(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final primaryColor = Theme.of(context).colorScheme.primary;
-    
+
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -71,12 +71,12 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 2),
                 child: CategorySection(),
               ),
-              
+
               // Tab toggle for plates and phones
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
                 child: Container(
-                  height: 40,
+                  height: 45,
                   decoration: BoxDecoration(
                     color: isDark ? const Color(0xFF252A41) : Colors.grey.shade200,
                     borderRadius: BorderRadius.circular(30),
@@ -203,7 +203,7 @@ class _HomePageState extends State<HomePage> {
                     padEnds: true,
                     viewportFraction: 1,
                     enableInfiniteScroll: chunkedPlates.length > 1,
-                    aspectRatio: 1.1,
+                    aspectRatio: 1.13,
                     enlargeCenterPage: false),
                 items: chunkedPlates
                     .map((plates) => Padding(
@@ -319,7 +319,6 @@ class _HomePageState extends State<HomePage> {
                 ),
             ],
           );
-        }
-    );
+        });
   }
 }

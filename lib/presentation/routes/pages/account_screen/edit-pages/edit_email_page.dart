@@ -84,8 +84,6 @@ class _EditEmailPageState extends State<EditEmailPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(m.editProfile.edit_email),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

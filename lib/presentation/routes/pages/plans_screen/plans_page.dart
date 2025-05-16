@@ -37,15 +37,18 @@ class _PlansPageState extends State<PlansPage> {
   }
 
   Plan _createBasicPlan() {
-    return Plan(
+    return const Plan(
       displayName: 'Basic',
       price: 0,
-      color: const Color(0xFFCD7F32), // Bronze color
+      color: Color(0xFFCD7F32), // Bronze color
       activePerks: ['Post up to 3 listings per month', 'Basic search features', 'Contact sellers directly'],
       disabledPerks: ['Premium listings', 'Featured listings', 'Verified badge'],
-      activePerksAr: ['نشر ما يصل إلى 3 إعلانات شهريًا', 'ميزات البحث الأساسية', 'التواصل مع البائعين مباشرة'],
+      activePerksAr: ['نشر ما يصل إلى 5 إعلانات شهريًا', 'ميزات البحث الأساسية', 'التواصل مع البائعين مباشرة'],
       disabledPerksAr: ['إعلانات مميزة', 'إعلانات مميزة', 'شارة موثقة'],
-      productIds: {}, // Empty product IDs as it's a free plan
+      productIds: {
+        'ios': '',
+        'android': '',
+      }, // Empty product IDs as it's a free plan
     );
   }
 

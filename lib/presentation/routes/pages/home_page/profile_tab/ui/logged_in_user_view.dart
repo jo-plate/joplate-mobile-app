@@ -14,6 +14,8 @@ import 'package:joplate/presentation/theme.dart';
 import 'package:joplate/presentation/widgets/menu_item.dart';
 import 'package:joplate/presentation/widgets/profile_banner.dart';
 import 'package:joplate/presentation/cubits/theme_cubit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class LoggedInUserView extends StatefulWidget {
   const LoggedInUserView({super.key});
@@ -71,6 +73,17 @@ class _UserProfileViewState extends State<_UserProfileView> {
     super.initState();
     _authStateStream = FirebaseAuth.instance.authStateChanges();
   }
+  
+  // Function to obfuscate phone number (hide 5 digits)
+  String obfuscatePhoneNumber(String phoneNumber) {
+    if (phoneNumber.length <= 5) return phoneNumber;
+
+    final visibleStart = phoneNumber.substring(0, 2);
+    final visibleEnd = phoneNumber.substring(phoneNumber.length - 3);
+    final hidden = "*****";
+
+    return "$visibleStart$hidden$visibleEnd";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +97,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (snapshot.data != null) ...[
-                  _buildProfileHeader(snapshot.data!),
+                  _buildProfileHeader(snapshot.data!, widget.profile),
                   const SizedBox(height: 16),
                   _buildFeaturesSection(),
                   const SizedBox(height: 16),
@@ -113,9 +126,10 @@ class _UserProfileViewState extends State<_UserProfileView> {
         });
   }
 
-  Widget _buildProfileHeader(User user) {
+  Widget _buildProfileHeader(User user, UserProfile profile) {
     final m = Localization.of(context);
     final joinDate = user.metadata.creationTime;
+    final primaryColor = Theme.of(context).colorScheme.primary;
     String formattedDate = '';
 
     if (joinDate != null) {
@@ -138,6 +152,91 @@ class _UserProfileViewState extends State<_UserProfileView> {
                 color: Colors.grey[600],
                 fontStyle: FontStyle.italic,
               ),
+            ),
+          ),
+          
+        // Contact buttons for current user
+        if (profile.phonenumber.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.green.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        launchUrlString("https://wa.me/962${profile.phonenumber.substring(1)}",
+                            mode: LaunchMode.externalApplication);
+                      },
+                      borderRadius: BorderRadius.circular(8),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          FaIcon(
+                            FontAwesomeIcons.whatsapp,
+                            color: Colors.green,
+                            size: 20,
+                          ),
+                          SizedBox(width: 8),
+                          Text(
+                            'WhatsApp',
+                            style: TextStyle(
+                              color: Colors.green,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: InkWell(
+                      onTap: () async {
+                        final uri = 'tel:+962${profile.phonenumber.substring(1)}';
+                        if (await canLaunchUrlString(uri)) {
+                          await launchUrlString(uri);
+                        } else {
+                          throw 'Could not launch dialer';
+                        }
+                      },
+                      borderRadius: BorderRadius.circular(8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.phone,
+                            size: 16,
+                            color: Colors.white,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            obfuscatePhoneNumber(profile.phonenumber),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
       ],

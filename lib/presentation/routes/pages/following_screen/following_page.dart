@@ -244,6 +244,7 @@ class _FollowingPageState extends State<FollowingPage> {
                             AutoRouter.of(context).push(UserProfileRoute(userId: user.id));
                           },
                           onFollowPressed: isCurrentUser ? null : () => _handleFollowToggle(user.id, isFollowing),
+                          showPlanBadge: true,
                         );
                       },
                     );

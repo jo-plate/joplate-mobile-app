@@ -89,7 +89,6 @@ class _DeleteListingDialogState extends State<DeleteListingDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Delete listing?'),
-      backgroundColor: Colors.white,
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
