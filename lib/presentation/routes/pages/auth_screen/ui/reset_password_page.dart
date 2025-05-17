@@ -123,15 +123,15 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             controller: _confirmPasswordController,
             obscureText: !_passwordVisible,
             decoration: InputDecoration(
-              labelText: m.auth.confirm_password ?? 'Confirm New Password',
-              hintText: m.auth.confirm_new_password ?? 'Confirm your new password',
+              labelText: m.auth.confirm_password,
+              hintText: m.auth.confirm_new_password,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
             validator: (value) {
               if (value != _passwordController.text) {
-                return m.auth.passwords_not_match ?? 'Passwords do not match';
+                return m.auth.passwords_not_match;
               }
               return null;
             },
@@ -151,7 +151,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                     ),
                   )
                 : Text(
-                    m.auth.reset_password ?? 'Reset Password',
+                    m.auth.reset_password,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w900,
@@ -166,7 +166,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
   Widget _buildSuccessView(BuildContext context) {
     final m = Localization.of(context);
-    final theme = Theme.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -179,7 +178,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         ),
         const SizedBox(height: 30),
         Text(
-          m.auth.password_reset_successful ?? 'Password Reset Successful',
+          m.auth.password_reset_successful,
           style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -188,8 +187,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         ),
         const SizedBox(height: 16),
         Text(
-          m.auth.password_reset_success_message ??
-              'Your password has been reset successfully. You can now login with your new password.',
+          m.auth.password_reset_success_message,
           style: const TextStyle(fontSize: 16),
           textAlign: TextAlign.center,
         ),
@@ -200,7 +198,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             AutoRouter.of(context).replaceAll([const AuthRoute()]);
           },
           child: Text(
-            m.auth.login ?? 'Login',
+            m.auth.login,
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w900,

@@ -145,13 +145,13 @@ class AuthCubit extends Cubit<AuthState> {
         isLoading: false,
         errorMessage: _getFirebaseErrorMessage(e),
       ));
-      throw e;
+      rethrow;
     } catch (e) {
       emit(state.copyWith(
         isLoading: false,
         errorMessage: 'Password reset failed: ${e.toString()}',
       ));
-      throw e;
+      rethrow;
     }
   }
 
@@ -169,13 +169,13 @@ class AuthCubit extends Cubit<AuthState> {
         isLoading: false,
         errorMessage: _getFirebaseErrorMessage(e),
       ));
-      throw e;
+      rethrow;
     } catch (e) {
       emit(state.copyWith(
         isLoading: false,
         errorMessage: 'Code verification failed: ${e.toString()}',
       ));
-      throw e;
+      rethrow;
     }
   }
 
@@ -193,13 +193,13 @@ class AuthCubit extends Cubit<AuthState> {
         isLoading: false,
         errorMessage: _getFirebaseErrorMessage(e),
       ));
-      throw e;
+      rethrow;
     } catch (e) {
       emit(state.copyWith(
         isLoading: false,
         errorMessage: 'Password reset failed: ${e.toString()}',
       ));
-      throw e;
+      rethrow;
     }
   }
 

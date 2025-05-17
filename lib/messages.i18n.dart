@@ -1473,6 +1473,110 @@ class AuthMessages {
   /// "Continue as a guest"
   /// ```
   String get guest => """Continue as a guest""";
+
+  /// ```dart
+  /// "Verification Code"
+  /// ```
+  String get verification_code => """Verification Code""";
+
+  /// ```dart
+  /// "Enter the verification code"
+  /// ```
+  String get enter_verification_code => """Enter the verification code""";
+
+  /// ```dart
+  /// "We sent a verification code to $email. Enter the code to continue."
+  /// ```
+  String code_sent_to_email(String email) =>
+      """We sent a verification code to $email. Enter the code to continue.""";
+
+  /// ```dart
+  /// "The code should arrive within a few minutes. Check your spam/junk folder if you don't see it."
+  /// ```
+  String get code_check_spam =>
+      """The code should arrive within a few minutes. Check your spam/junk folder if you don't see it.""";
+
+  /// ```dart
+  /// "Enter the code from your email"
+  /// ```
+  String get enter_code_from_email => """Enter the code from your email""";
+
+  /// ```dart
+  /// "Please enter the verification code"
+  /// ```
+  String get please_enter_code => """Please enter the verification code""";
+
+  /// ```dart
+  /// "Verify Code"
+  /// ```
+  String get verify_code => """Verify Code""";
+
+  /// ```dart
+  /// "Verification code resent to $email"
+  /// ```
+  String code_resent(String email) => """Verification code resent to $email""";
+
+  /// ```dart
+  /// "Resend Code"
+  /// ```
+  String get resend_code => """Resend Code""";
+
+  /// ```dart
+  /// "Back"
+  /// ```
+  String get back => """Back""";
+
+  /// ```dart
+  /// "Create New Password"
+  /// ```
+  String get create_new_password => """Create New Password""";
+
+  /// ```dart
+  /// "Your email has been verified. Please set your new password."
+  /// ```
+  String get verified_set_password =>
+      """Your email has been verified. Please set your new password.""";
+
+  /// ```dart
+  /// "New Password"
+  /// ```
+  String get new_password => """New Password""";
+
+  /// ```dart
+  /// "Enter your new password"
+  /// ```
+  String get enter_new_password => """Enter your new password""";
+
+  /// ```dart
+  /// "Confirm New Password"
+  /// ```
+  String get confirm_password => """Confirm New Password""";
+
+  /// ```dart
+  /// "Confirm your new password"
+  /// ```
+  String get confirm_new_password => """Confirm your new password""";
+
+  /// ```dart
+  /// "Passwords do not match"
+  /// ```
+  String get passwords_not_match => """Passwords do not match""";
+
+  /// ```dart
+  /// "Password Reset Successful"
+  /// ```
+  String get password_reset_successful => """Password Reset Successful""";
+
+  /// ```dart
+  /// "Your password has been reset successfully. You can now login with your new password."
+  /// ```
+  String get password_reset_success_message =>
+      """Your password has been reset successfully. You can now login with your new password.""";
+
+  /// ```dart
+  /// "Login"
+  /// ```
+  String get login => """Login""";
 }
 
 class FeedMessages {
@@ -1849,6 +1953,27 @@ Map<String, String> get messagesMap => {
   """auth.reset""": """Reset""",
   """auth.reset_sent""": """Password reset instructions sent to your email""",
   """auth.guest""": """Continue as a guest""",
+  """auth.verification_code""": """Verification Code""",
+  """auth.enter_verification_code""": """Enter the verification code""",
+  """auth.code_check_spam""":
+      """The code should arrive within a few minutes. Check your spam/junk folder if you don't see it.""",
+  """auth.enter_code_from_email""": """Enter the code from your email""",
+  """auth.please_enter_code""": """Please enter the verification code""",
+  """auth.verify_code""": """Verify Code""",
+  """auth.resend_code""": """Resend Code""",
+  """auth.back""": """Back""",
+  """auth.create_new_password""": """Create New Password""",
+  """auth.verified_set_password""":
+      """Your email has been verified. Please set your new password.""",
+  """auth.new_password""": """New Password""",
+  """auth.enter_new_password""": """Enter your new password""",
+  """auth.confirm_password""": """Confirm New Password""",
+  """auth.confirm_new_password""": """Confirm your new password""",
+  """auth.passwords_not_match""": """Passwords do not match""",
+  """auth.password_reset_successful""": """Password Reset Successful""",
+  """auth.password_reset_success_message""":
+      """Your password has been reset successfully. You can now login with your new password.""",
+  """auth.login""": """Login""",
   """feed.title""": """Feed""",
   """feed.login_required""": """You need to sign in to view your feed""",
   """feed.sign_in""": """Sign In""",

@@ -1,15 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/plan.dart';
-import 'package:joplate/domain/entities/user_profile.dart';
-import 'package:joplate/injection/injector.dart';
-import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
 import 'package:joplate/presentation/routes/pages/plans_screen/ui/plan_widget.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
 class PlansPage extends StatefulWidget {

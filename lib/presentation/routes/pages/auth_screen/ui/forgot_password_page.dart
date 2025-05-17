@@ -31,9 +31,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
-    final theme = Theme.of(context);
-    final primaryColor = theme.colorScheme.primary;
-    final isDark = theme.brightness == Brightness.dark;
 
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
@@ -74,14 +71,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const SizedBox(height: 20),
-          Text(
+          const Text(
             'Enter your email address to reset your password',
-            style: const TextStyle(fontSize: 16),
+            style: TextStyle(fontSize: 16),
           ),
           const SizedBox(height: 8),
-          Text(
+          const Text(
             'We will send you a verification code to reset your password',
-            style: const TextStyle(fontSize: 14, color: Colors.grey),
+            style: TextStyle(fontSize: 14, color: Colors.grey),
           ),
           const SizedBox(height: 30),
           TextFormField(
@@ -110,9 +107,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       color: Colors.white,
                     ),
                   )
-                : Text(
+                : const Text(
                     'Send Reset Code',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w900,
                       color: Colors.white,
@@ -162,9 +159,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 16),
-        Text(
+        const Text(
           'Check your email for a verification code. Enter the code on the next screen to reset your password.',
-          style: const TextStyle(fontSize: 16),
+          style: TextStyle(fontSize: 16),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 40),

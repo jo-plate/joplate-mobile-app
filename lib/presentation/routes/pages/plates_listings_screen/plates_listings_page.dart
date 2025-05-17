@@ -371,7 +371,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                     items: [m.plates.code, ..._codes].map((c) {
                       return DropdownMenuItem<String>(
                         value: c,
-                        child: Text(c, style: TextStyle(fontSize: 14)),
+                        child: Text(c, style: const TextStyle(fontSize: 14)),
                       );
                     }).toList(),
                     onChanged: (val) => setState(() {
@@ -396,7 +396,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                     items: [m.plates.digit_count, ...digitOptions].map((d) {
                       return DropdownMenuItem(
                         value: d,
-                        child: Text(d, style: TextStyle(fontSize: 14)),
+                        child: Text(d, style: const TextStyle(fontSize: 14)),
                       );
                     }).toList(),
                     onChanged: (val) => setState(() {
@@ -424,7 +424,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                 DropdownMenuItem(value: null, child: Text(m.plates.format)),
                 ...formatMap.entries.map((e) => DropdownMenuItem(
                       value: e.key,
-                      child: Text(e.value, style: TextStyle(fontSize: 14)),
+                      child: Text(e.value, style: const TextStyle(fontSize: 14)),
                     )),
               ],
               onChanged: (val) => setState(() => _selectedFormat = val),

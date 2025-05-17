@@ -12,6 +12,7 @@ const normalTicketsPackagesCollectionId = 'normalTicketsPackages';
 const featuredPlansCollectionId = 'featuredPlans';
 const userNotificationsCollectionId = 'userNotifications';
 const anonymousNotificationsCollectionId = 'anonymousNotifications';
+const socialLinksCollectionId = 'socialLinks';
 
 // cloud functions
 const signupCF = 'signUpUser';

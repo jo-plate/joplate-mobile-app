@@ -50,7 +50,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(m.auth.verification_code ?? 'Verification Code'),
+            title: Text(m.auth.verification_code),
             centerTitle: true,
           ),
           body: SingleChildScrollView(
@@ -67,7 +67,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                   ),
                   const SizedBox(height: 30),
                   Text(
-                    m.auth.enter_verification_code ?? 'Enter the verification code',
+                    m.auth.enter_verification_code,
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -76,15 +76,13 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    m.auth.code_sent_to_email?.replaceAll('{email}', widget.email) ??
-                        'We sent a verification code to ${widget.email}. Enter the code to continue.',
+                    m.auth.code_sent_to_email(widget.email),
                     style: const TextStyle(fontSize: 16),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    m.auth.code_check_spam ??
-                        'The code should arrive within a few minutes. Check your spam/junk folder if you don\'t see it.',
+                    m.auth.code_check_spam,
                     style: const TextStyle(fontSize: 14, color: Colors.grey),
                     textAlign: TextAlign.center,
                   ),
@@ -94,15 +92,15 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                     keyboardType: TextInputType.text,
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
-                      labelText: m.auth.verification_code ?? 'Verification Code',
-                      hintText: m.auth.enter_code_from_email ?? 'Enter the code from your email',
+                      labelText: m.auth.verification_code,
+                      hintText: m.auth.enter_code_from_email,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return m.auth.please_enter_code ?? 'Please enter the verification code';
+                        return m.auth.please_enter_code;
                       }
                       return null;
                     },
@@ -122,7 +120,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                             ),
                           )
                         : Text(
-                            m.auth.verify_code ?? 'Verify Code',
+                            m.auth.verify_code,
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w900,
@@ -135,18 +133,17 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                     onPressed: () {
                       // Resend the verification code
                       injector<AuthCubit>().sendPasswordResetEmail(widget.email);
-                      AppSnackbar.showSuccess(m.auth.code_resent?.replaceAll('{email}', widget.email) ??
-                          'Verification code resent to ${widget.email}');
+                      AppSnackbar.showSuccess(m.auth.code_resent(widget.email));
                     },
                     child: Text(
-                      m.auth.resend_code ?? 'Resend Code',
+                      m.auth.resend_code,
                       style: TextStyle(color: primaryColor),
                     ),
                   ),
                   TextButton(
                     onPressed: () => AutoRouter.of(context).maybePop(),
                     child: Text(
-                      m.auth.back ?? 'Back',
+                      m.auth.back,
                       style: TextStyle(color: primaryColor),
                     ),
                   ),
