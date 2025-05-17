@@ -101,9 +101,9 @@ class PlateNumberRequestWidget extends StatelessWidget {
 
   Widget _buildPriceLabel(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+    final m = Localization.of(context);
     return Text(
-      'Requested',
+      m.home.requested,
       style: TextStyle(
         fontSize: priceLabelFontSize,
         fontFamily: 'Mandatory',

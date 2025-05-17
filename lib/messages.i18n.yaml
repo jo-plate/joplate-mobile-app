@@ -19,6 +19,7 @@ home:
   search: "Search"
   disabled: "Deleted"
   visits: "Visits"
+  requested: "Requested"
 
 profile:
   title: "Profile"
@@ -326,3 +327,6 @@ common:
   no_data_found: "No data found"
   no_results: "No results"
   no_items: "No items"
+  follow: "Follow"
+  unfollow: "Unfollow"
+  following: "Following"

@@ -52,14 +52,28 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   // Store FCM token for anonymous users if needed
-  final fcmToken = await FirebaseMessaging.instance.getToken();
-  if (fcmToken != null) {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('fcm_token', fcmToken);
+  try {
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    if (fcmToken != null) {
+      final prefs = await SharedPreferences.getInstance();
+      // Save the current token
+      await prefs.setString('fcm_token', fcmToken);
+      
+      // If this is the first time, also save as previous_fcm_token to initialize the migration chain
+      if (!prefs.containsKey('previous_fcm_token')) {
+        await prefs.setString('previous_fcm_token', fcmToken);
+      }
+    }
+  } catch (e) {
+    debugPrint('Error getting FCM token: $e');
   }
 
-  // Initialize FCM Service
-  await injector<FCMService>().initialize();
+  // Initialize FCM Service - catch errors to prevent app freezing
+  try {
+    await injector<FCMService>().initialize();
+  } catch (e) {
+    debugPrint('Error initializing FCM service: $e');
+  }
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 

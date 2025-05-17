@@ -304,22 +304,27 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
     return !plate.isDisabled && !plate.isExpired;
   }
 
-  InputDecoration get inputFieldStyle => InputDecoration(
-        labelStyle: const TextStyle(color: Colors.black, fontSize: 14),
-        border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          borderSide: BorderSide(color: Colors.grey, width: 1),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-          borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
-        ),
-        focusedBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          borderSide: BorderSide(color: Colors.red, width: 1.5),
-        ),
-        contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-      );
+  InputDecoration get inputFieldStyle {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    return InputDecoration(
+      labelStyle: TextStyle(
+        color: isDark ? Colors.white70 : Colors.grey,
+        fontSize: 14,
+      ),
+      hintStyle: TextStyle(
+        color: isDark ? Colors.white70 : Colors.grey.shade500,
+        fontSize: 14,
+      ),
+      border: theme.inputDecorationTheme.border,
+      enabledBorder: theme.inputDecorationTheme.enabledBorder,
+      focusedBorder: theme.inputDecorationTheme.focusedBorder,
+      contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      filled: true,
+      fillColor: isDark ? theme.colorScheme.surface : Colors.grey.shade50,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -328,6 +333,9 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
     final isArabic = m.languageCode == 'ar';
     final digitOptions = isArabic ? _digitCountsAR : _digitCountsEN;
     final formatMap = getFormatMap(context);
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final primaryColor = theme.colorScheme.primary;
 
     return Scaffold(
       appBar: AppBar(
@@ -357,11 +365,13 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                   child: DropdownButtonFormField<String>(
                     decoration: inputFieldStyle.copyWith(labelText: m.plates.code),
                     value: _selectedCode,
-                    icon: const Icon(Icons.arrow_drop_down),
+                    icon: Icon(Icons.arrow_drop_down, color: primaryColor),
+                    style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontSize: 14),
+                    dropdownColor: isDark ? theme.colorScheme.surface : Colors.grey.shade50,
                     items: [m.plates.code, ..._codes].map((c) {
                       return DropdownMenuItem<String>(
                         value: c,
-                        child: Text(c, style: const TextStyle(fontSize: 14)),
+                        child: Text(c, style: TextStyle(fontSize: 14)),
                       );
                     }).toList(),
                     onChanged: (val) => setState(() {
@@ -377,13 +387,16 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                   child: DropdownButtonFormField<String>(
                     decoration: inputFieldStyle.copyWith(labelText: m.plates.digit_count),
                     value: _selectedDigits,
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.arrow_drop_down,
+                      color: primaryColor,
                     ),
+                    dropdownColor: isDark ? theme.colorScheme.surface : Colors.grey.shade50,
+                    style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontSize: 14),
                     items: [m.plates.digit_count, ...digitOptions].map((d) {
                       return DropdownMenuItem(
                         value: d,
-                        child: Text(d, style: const TextStyle(fontSize: 14)),
+                        child: Text(d, style: TextStyle(fontSize: 14)),
                       );
                     }).toList(),
                     onChanged: (val) => setState(() {
@@ -401,14 +414,17 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
             DropdownButtonFormField<String>(
               decoration: inputFieldStyle.copyWith(labelText: m.plates.format),
               value: _selectedFormat,
-              icon: const Icon(
+              icon: Icon(
                 Icons.arrow_drop_down,
+                color: primaryColor,
               ),
+              dropdownColor: isDark ? theme.colorScheme.surface : Colors.grey.shade50,
+              style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontSize: 14),
               items: [
                 DropdownMenuItem(value: null, child: Text(m.plates.format)),
                 ...formatMap.entries.map((e) => DropdownMenuItem(
                       value: e.key,
-                      child: Text(e.value, style: const TextStyle(fontSize: 14)),
+                      child: Text(e.value, style: TextStyle(fontSize: 14)),
                     )),
               ],
               onChanged: (val) => setState(() => _selectedFormat = val),
@@ -420,16 +436,19 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                   Expanded(
                       child: TextFormField(
                           controller: _containsController,
+                          style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontSize: 14),
                           decoration: inputFieldStyle.copyWith(labelText: m.plates.contains))),
                   const SizedBox(width: 8),
                   Expanded(
                       child: TextFormField(
                           controller: _startsWithController,
+                          style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontSize: 14),
                           decoration: inputFieldStyle.copyWith(labelText: m.plates.starts_with))),
                   const SizedBox(width: 8),
                   Expanded(
                       child: TextFormField(
                           controller: _endsWithController,
+                          style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontSize: 14),
                           decoration: inputFieldStyle.copyWith(labelText: m.plates.ends_with))),
                 ],
               ),
@@ -440,30 +459,43 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                       child: TextFormField(
                           controller: _minPriceController,
                           keyboardType: TextInputType.number,
+                          style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontSize: 14),
                           decoration: inputFieldStyle.copyWith(labelText: m.plates.min_price))),
                   const SizedBox(width: 8),
                   Expanded(
                       child: TextFormField(
                           controller: _maxPriceController,
                           keyboardType: TextInputType.number,
+                          style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontSize: 14),
                           decoration: inputFieldStyle.copyWith(labelText: m.plates.max_price))),
                 ],
               ),
             ],
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
             GestureDetector(
               onTap: () => setState(() => _isExpanded = !_isExpanded),
               child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(_isExpanded ? m.plates.show_less : m.plates.see_more,
-                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  Text(
+                    _isExpanded ? m.plates.show_less : m.plates.see_more,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: primaryColor,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
                   Icon(
                     _isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                    color: primaryColor,
+                    size: 18,
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
+            Divider(height: 1, thickness: 1, color: isDark ? theme.dividerTheme.color : const Color(0xFFEEEEEE)),
+            const SizedBox(height: 16),
             PlatesListingsGrid(itemList: visiblePlates),
           ],
         ),

@@ -198,6 +198,11 @@ class HomeMessagesAr extends HomeMessages {
   /// "المشاهدات"
   /// ```
   String get visits => """المشاهدات""";
+
+  /// ```dart
+  /// "مطلوب"
+  /// ```
+  String get requested => """مطلوب""";
 }
 
 class ProfileMessagesAr extends ProfileMessages {
@@ -1483,9 +1488,9 @@ class FeedMessagesAr extends FeedMessages {
   String get title => """المتابعة""";
 
   /// ```dart
-  /// "يجب تسجيل الدخول لعرض التغذية الخاصة بك"
+  /// "يجب تسجيل الدخول لعرض الاعلانات"
   /// ```
-  String get login_required => """يجب تسجيل الدخول لعرض التغذية الخاصة بك""";
+  String get login_required => """يجب تسجيل الدخول لعرض الاعلانات""";
 
   /// ```dart
   /// "تسجيل الدخول"
@@ -1508,9 +1513,9 @@ class FeedMessagesAr extends FeedMessages {
   String get user_not_found => """لم يتم العثور على الملف الشخصي""";
 
   /// ```dart
-  /// "التغذية الخاصة بك فارغة"
+  /// "لا يوجد اعلانات"
   /// ```
-  String get empty_feed => """التغذية الخاصة بك فارغة""";
+  String get empty_feed => """لا يوجد اعلانات""";
 
   /// ```dart
   /// "تابع المستخدمين لرؤية إعلاناتهم هنا"
@@ -1593,6 +1598,21 @@ class CommonMessagesAr extends CommonMessages {
   /// "لا توجد عناصر"
   /// ```
   String get no_items => """لا توجد عناصر""";
+
+  /// ```dart
+  /// "متابعة"
+  /// ```
+  String get follow => """متابعة""";
+
+  /// ```dart
+  /// "إلغاء المتابعة"
+  /// ```
+  String get unfollow => """إلغاء المتابعة""";
+
+  /// ```dart
+  /// "متابع"
+  /// ```
+  String get following => """متابع""";
 }
 
 Map<String, String> get messagesArMap => {
@@ -1613,6 +1633,7 @@ Map<String, String> get messagesArMap => {
   """home.search""": """بحث""",
   """home.disabled""": """محذوف""",
   """home.visits""": """المشاهدات""",
+  """home.requested""": """مطلوب""",
   """profile.title""": """الملف الشخصي""",
   """profile.Requests""": """طلبات""",
   """profile.Ads""": """إعلانات""",
@@ -1837,12 +1858,12 @@ Map<String, String> get messagesArMap => {
       """تم إرسال تعليمات استعادة كلمة المرور إلى بريدك الإلكتروني""",
   """auth.guest""": """الاستمرار كزائر""",
   """feed.title""": """المتابعة""",
-  """feed.login_required""": """يجب تسجيل الدخول لعرض التغذية الخاصة بك""",
+  """feed.login_required""": """يجب تسجيل الدخول لعرض الاعلانات""",
   """feed.sign_in""": """تسجيل الدخول""",
   """feed.error_loading""": """خطأ في تحميل الملف الشخصي:""",
   """feed.retry""": """إعادة المحاولة""",
   """feed.user_not_found""": """لم يتم العثور على الملف الشخصي""",
-  """feed.empty_feed""": """التغذية الخاصة بك فارغة""",
+  """feed.empty_feed""": """لا يوجد اعلانات""",
   """feed.follow_users""": """تابع المستخدمين لرؤية إعلاناتهم هنا""",
   """feed.explore_listings""": """استكشاف الإعلانات""",
   """feed.no_users_followed""": """أنت لا تتابع أي مستخدمين""",
@@ -1858,4 +1879,7 @@ Map<String, String> get messagesArMap => {
   """common.no_data_found""": """لا توجد بيانات""",
   """common.no_results""": """لا توجد نتائج""",
   """common.no_items""": """لا توجد عناصر""",
+  """common.follow""": """متابعة""",
+  """common.unfollow""": """إلغاء المتابعة""",
+  """common.following""": """متابع""",
 };

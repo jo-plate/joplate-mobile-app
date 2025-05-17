@@ -19,6 +19,8 @@ home:
   search: "بحث"
   disabled: "محذوف"
   visits: "المشاهدات"
+  requested: "مطلوب"
+
 profile:
   title: "الملف الشخصي"
   Requests: "طلبات"
@@ -302,12 +304,12 @@ auth:
 
 feed:
   title: "المتابعة"
-  login_required: "يجب تسجيل الدخول لعرض التغذية الخاصة بك"
+  login_required: "يجب تسجيل الدخول لعرض الاعلانات"
   sign_in: "تسجيل الدخول"
   error_loading: "خطأ في تحميل الملف الشخصي:"
   retry: "إعادة المحاولة"
   user_not_found: "لم يتم العثور على الملف الشخصي"
-  empty_feed: "التغذية الخاصة بك فارغة"
+  empty_feed: "لا يوجد اعلانات"
   follow_users: "تابع المستخدمين لرؤية إعلاناتهم هنا"
   explore_listings: "استكشاف الإعلانات"
   no_users_followed: "أنت لا تتابع أي مستخدمين"
@@ -327,3 +329,6 @@ common:
   no_data_found: "لا توجد بيانات"
   no_results: "لا توجد نتائج"
   no_items: "لا توجد عناصر"
+  follow: "متابعة"
+  unfollow: "إلغاء المتابعة"
+  following: "متابع"

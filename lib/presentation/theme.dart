@@ -134,7 +134,6 @@ ThemeData getDarkTheme() => ThemeData(
       useMaterial3: true,
       scaffoldBackgroundColor: const Color(0xFF1A1B2E),
 
-      
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: const Color(0xFF252A41),
@@ -179,6 +178,8 @@ ThemeData getDarkTheme() => ThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF981C1E),
           foregroundColor: Colors.white,
+          disabledForegroundColor: Colors.grey.shade300,
+          disabledBackgroundColor: Colors.grey.shade600,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),

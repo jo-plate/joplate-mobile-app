@@ -1,13 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/plate_listing.dart';
 import 'package:joplate/domain/entities/phone_listing.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
-import 'package:joplate/presentation/routes/router.dart';
 import 'ui/logo_section.dart';
 import 'ui/category_section.dart';
 import '../../../../widgets/app_bar.dart/plates_listing_grid.dart';
@@ -64,17 +62,26 @@ class _HomePageState extends State<HomePage> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          actions: const [NotificationBadge()],
-        ),
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
-              const LogoSection(),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AbsorbPointer(
+                    child: Opacity(
+                      opacity: 0,
+                      child: NotificationBadge(),
+                    ),
+                  ),
+                  LogoSection(),
+                  NotificationBadge(),
+                ],
+              ),
               const Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: 16.0,
@@ -99,7 +106,7 @@ class _HomePageState extends State<HomePage> {
                           onTap: () => setState(() => _selectedTabIndex = 0),
                           child: Container(
                             decoration: BoxDecoration(
-                              color: _selectedTabIndex == 0 ? primaryColor : Colors.transparent,
+                              color: _selectedTabIndex == 0 ? const Color(0xFF981C1E) : Colors.transparent,
                               borderRadius: BorderRadius.circular(30),
                             ),
                             child: Center(
@@ -125,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                           onTap: () => setState(() => _selectedTabIndex = 1),
                           child: Container(
                             decoration: BoxDecoration(
-                              color: _selectedTabIndex == 1 ? primaryColor : Colors.transparent,
+                              color: _selectedTabIndex == 1 ? const Color(0xFF981C1E) : Colors.transparent,
                               borderRadius: BorderRadius.circular(30),
                             ),
                             child: Center(

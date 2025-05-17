@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/domain/entities/user_plans.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/utils/user_plan_theme.dart';
 import 'package:joplate/presentation/widgets/profile_picture_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -24,6 +25,7 @@ class UserListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     return InkWell(
       onTap: onTap,
       child: Padding(
@@ -78,20 +80,27 @@ class UserListItem extends StatelessWidget {
               ),
             ),
             if (onFollowPressed != null)
-              TextButton(
+              ElevatedButton(
                 onPressed: onFollowPressed,
-                style: TextButton.styleFrom(
-                  backgroundColor: isFollowing ? Colors.grey[200] : Theme.of(context).colorScheme.primary,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: isFollowing ? const Color(0xFF981C1E) : Colors.white70,
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  minimumSize: Size.zero,
+                  elevation: 0,
+                  shadowColor: Colors.transparent,
+                  textStyle: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
                 child: Text(
-                  isFollowing ? 'Unfollow' : 'Follow',
+                  isFollowing ? m.common.following : m.common.follow,
                   style: TextStyle(
-                    color: isFollowing ? Colors.black87 : Colors.white,
+                    color: isFollowing ? Colors.white : const Color(0xFF981C1E),
                     fontWeight: FontWeight.bold,
+                    fontSize: 14,
                   ),
                 ),
               ),
@@ -100,7 +109,7 @@ class UserListItem extends StatelessWidget {
       ),
     );
   }
-  
+
   Widget _buildNameWithPlanBadge(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 

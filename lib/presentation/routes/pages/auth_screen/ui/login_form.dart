@@ -108,10 +108,6 @@ class _LoginFormState extends State<LoginForm> {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: isSubmitting ? null : _handleSubmit,
-                    style: ElevatedButton.styleFrom(
-                      disabledForegroundColor: Colors.grey.shade300,
-                      disabledBackgroundColor: Colors.grey.shade600,
-                    ),
                     child: isSubmitting
                         ? const SizedBox(
                             height: 20,
@@ -163,7 +159,6 @@ class _LoginFormState extends State<LoginForm> {
       widget.onPressed?.call(input);
     }
   }
-
 
   void _handlePasswordReset() {
     final m = Localization.of(context);

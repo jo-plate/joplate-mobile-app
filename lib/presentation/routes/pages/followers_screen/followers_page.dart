@@ -22,63 +22,41 @@ class FollowersPage extends StatefulWidget {
 }
 
 class _FollowersPageState extends State<FollowersPage> {
-  late Future<List<UserProfile>> _followersFuture;
-  late String? _currentUserId;
-  bool _isLoading = true;
-  String? _errorMessage;
-  List<String> _currentUserFollowing = [];
-  UserProfile? _currentUserProfile;
+  String? _currentUserId;
+  Stream<List<UserProfile>>? _followersStream;
+  Stream<List<String>>? _followingStream;
 
   @override
   void initState() {
     super.initState();
     _currentUserId = FirebaseAuth.instance.currentUser?.uid;
-    _loadFollowers();
-    _loadCurrentUserProfile();
+    _initStreams();
   }
 
-  Future<void> _loadCurrentUserProfile() async {
-    if (_currentUserId != null) {
-      try {
-        // Direct Firestore call to get current user profile
-        final docSnapshot =
-            await FirebaseFirestore.instance.collection(userProfileCollectionId).doc(_currentUserId).get();
-
-        if (docSnapshot.exists && mounted) {
-          _currentUserProfile = UserProfile.fromJson(docSnapshot.data()!);
-          setState(() {
-            _currentUserFollowing = _currentUserProfile?.followingList ?? [];
-          });
-        }
-      } catch (e) {
-        print('Error loading current user profile: $e');
-      }
-    }
-  }
-
-  Future<void> _loadFollowers() async {
-    setState(() {
-      _isLoading = true;
-      _errorMessage = null;
+  void _initStreams() {
+    // Stream for followers of the specified user
+    _followersStream = FirebaseFirestore.instance
+        .collection(userProfileCollectionId)
+        .where('followingList', arrayContains: widget.userId)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) => UserProfile.fromJson(doc.data())).toList();
     });
 
-    try {
-      // Direct Firestore query to get followers
-      _followersFuture = FirebaseFirestore.instance
+    // Stream for the current user's following list
+    if (_currentUserId != null) {
+      _followingStream = FirebaseFirestore.instance
           .collection(userProfileCollectionId)
-          .where('followingList', arrayContains: widget.userId)
-          .get()
-          .then((querySnapshot) {
-        return querySnapshot.docs.map((doc) => UserProfile.fromJson(doc.data())).toList();
-      });
-
-      setState(() {
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        _isLoading = false;
-        _errorMessage = 'Failed to load followers: ${e.toString()}';
+          .doc(_currentUserId)
+          .snapshots()
+          .map((snapshot) {
+        if (snapshot.exists && snapshot.data() != null) {
+          final data = snapshot.data()!;
+          if (data['followingList'] != null) {
+            return List<String>.from(data['followingList']);
+          }
+        }
+        return <String>[];
       });
     }
   }
@@ -90,29 +68,19 @@ class _FollowersPageState extends State<FollowersPage> {
     }
 
     try {
+      final userRef = FirebaseFirestore.instance.collection(userProfileCollectionId).doc(_currentUserId);
+      
       if (isCurrentlyFollowing) {
-        // Direct Firestore update to unfollow
-        await FirebaseFirestore.instance.collection(userProfileCollectionId).doc(_currentUserId).update({
+        // Unfollow user
+        await userRef.update({
           'followingList': FieldValue.arrayRemove([userId])
         });
-
-        // Update local state
-        setState(() {
-          _currentUserFollowing.remove(userId);
-        });
-
         AppSnackbar.showSuccess('Unfollowed user');
       } else {
-        // Direct Firestore update to follow
-        await FirebaseFirestore.instance.collection(userProfileCollectionId).doc(_currentUserId).update({
+        // Follow user
+        await userRef.update({
           'followingList': FieldValue.arrayUnion([userId])
         });
-
-        // Update local state
-        setState(() {
-          _currentUserFollowing.add(userId);
-        });
-
         AppSnackbar.showSuccess('Following user');
       }
     } catch (e) {
@@ -127,84 +95,81 @@ class _FollowersPageState extends State<FollowersPage> {
       appBar: AppBar(
         title: const Text('Followers'),
       ),
-      body: _isLoading
+      body: _followersStream == null
           ? const Center(child: CircularProgressIndicator())
-          : _errorMessage != null
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        _errorMessage!,
-                        style: const TextStyle(color: Colors.red),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 16),
-                      ElevatedButton(
-                        onPressed: _loadFollowers,
-                        child: const Text('Retry'),
-                      ),
-                    ],
-                  ),
-                )
-              : FutureBuilder<List<UserProfile>>(
-                  future: _followersFuture,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
+          : StreamBuilder<List<UserProfile>>(
+              stream: _followersStream,
+              builder: (context, followersSnapshot) {
+                if (followersSnapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-                    if (snapshot.hasError) {
-                      return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Error: ${snapshot.error}',
-                              style: const TextStyle(color: Colors.red),
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(height: 16),
-                            ElevatedButton(
-                              onPressed: _loadFollowers,
-                              child: const Text('Retry'),
-                            ),
-                          ],
+                if (followersSnapshot.hasError) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Error: ${followersSnapshot.error}',
+                          style: const TextStyle(color: Colors.red),
+                          textAlign: TextAlign.center,
                         ),
-                      );
-                    }
-
-                    final followers = snapshot.data ?? [];
-
-                    if (followers.isEmpty) {
-                      return const Center(
-                        child: Text(
-                          'No followers yet',
-                          style: TextStyle(fontSize: 16),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () => setState(() => _initStreams()),
+                          child: const Text('Retry'),
                         ),
-                      );
-                    }
+                      ],
+                    ),
+                  );
+                }
 
-                    return ListView.separated(
-                      padding: const EdgeInsets.all(16),
-                      itemCount: followers.length,
-                      separatorBuilder: (context, index) => const Divider(),
-                      itemBuilder: (context, index) {
-                        final user = followers[index];
-                        final isFollowing = _currentUserFollowing.contains(user.id);
-                        final isCurrentUser = user.id == _currentUserId;
+                final followers = followersSnapshot.data ?? [];
 
-                        return UserListItem(
-                          user: user,
-                          isFollowing: isFollowing,
-                          onTap: () => AutoRouter.of(context).push(UserProfileRoute(userId: user.id)),
-                          onFollowPressed: isCurrentUser ? null : () => _handleFollowToggle(user.id, isFollowing),
-                          showPlanBadge: true,
-                        );
-                      },
-                    );
+                if (followers.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      'No followers yet',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  );
+                }
+
+                if (_currentUserId == null || _followingStream == null) {
+                  // Display followers without follow button functionality
+                  return _buildFollowersList(followers, []);
+                }
+
+                return StreamBuilder<List<String>>(
+                  stream: _followingStream,
+                  builder: (context, followingSnapshot) {
+                    final followingList = followingSnapshot.data ?? [];
+                    return _buildFollowersList(followers, followingList);
                   },
-                ),
+                );
+              },
+            ),
+    );
+  }
+
+  Widget _buildFollowersList(List<UserProfile> followers, List<String> followingList) {
+    return ListView.separated(
+      padding: const EdgeInsets.all(16),
+      itemCount: followers.length,
+      separatorBuilder: (context, index) => const Divider(),
+      itemBuilder: (context, index) {
+        final user = followers[index];
+        final isFollowing = followingList.contains(user.id);
+        final isCurrentUser = user.id == _currentUserId;
+
+        return UserListItem(
+          user: user,
+          isFollowing: isFollowing,
+          onTap: () => AutoRouter.of(context).push(UserProfileRoute(userId: user.id)),
+          onFollowPressed: isCurrentUser ? null : () => _handleFollowToggle(user.id, isFollowing),
+          showPlanBadge: true,
+        );
+      },
     );
   }
 }

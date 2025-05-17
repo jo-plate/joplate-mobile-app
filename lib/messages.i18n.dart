@@ -195,6 +195,11 @@ class HomeMessages {
   /// "Visits"
   /// ```
   String get visits => """Visits""";
+
+  /// ```dart
+  /// "Requested"
+  /// ```
+  String get requested => """Requested""";
 }
 
 class ProfileMessages {
@@ -1588,6 +1593,21 @@ class CommonMessages {
   /// "No items"
   /// ```
   String get no_items => """No items""";
+
+  /// ```dart
+  /// "Follow"
+  /// ```
+  String get follow => """Follow""";
+
+  /// ```dart
+  /// "Unfollow"
+  /// ```
+  String get unfollow => """Unfollow""";
+
+  /// ```dart
+  /// "Following"
+  /// ```
+  String get following => """Following""";
 }
 
 Map<String, String> get messagesMap => {
@@ -1608,6 +1628,7 @@ Map<String, String> get messagesMap => {
   """home.search""": """Search""",
   """home.disabled""": """Deleted""",
   """home.visits""": """Visits""",
+  """home.requested""": """Requested""",
   """profile.title""": """Profile""",
   """profile.Requests""": """Requests""",
   """profile.Ads""": """Ads""",
@@ -1848,4 +1869,7 @@ Map<String, String> get messagesMap => {
   """common.no_data_found""": """No data found""",
   """common.no_results""": """No results""",
   """common.no_items""": """No items""",
+  """common.follow""": """Follow""",
+  """common.unfollow""": """Unfollow""",
+  """common.following""": """Following""",
 };

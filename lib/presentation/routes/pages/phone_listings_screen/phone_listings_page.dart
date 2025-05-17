@@ -92,26 +92,35 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
     return true;
   }
 
-  InputDecoration get _inputDecoration => InputDecoration(
-        labelStyle: const TextStyle(color: Colors.black, fontSize: 14),
-        border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-          borderSide: BorderSide(color: Colors.grey.shade300),
-        ),
-        focusedBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          borderSide: BorderSide(color: Colors.red, width: 1.5),
-        ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      );
+  InputDecoration get inputFieldStyle {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    return InputDecoration(
+      labelStyle: TextStyle(
+        color: isDark ? Colors.white70 : Colors.grey,
+        fontSize: 14,
+      ),
+      hintStyle: TextStyle(
+        color: isDark ? Colors.white70 : Colors.grey.shade500,
+        fontSize: 14,
+      ),
+      border: theme.inputDecorationTheme.border,
+      enabledBorder: theme.inputDecorationTheme.enabledBorder,
+      focusedBorder: theme.inputDecorationTheme.focusedBorder,
+      contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      filled: true,
+      fillColor: isDark ? theme.colorScheme.surface : Colors.grey.shade50,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
     final visiblePhones = _allPhones.where(_matches).toList();
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final primaryColor = theme.colorScheme.primary;
 
     return Scaffold(
       appBar: AppBar(
@@ -137,9 +146,11 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
               children: [
                 Expanded(
                   child: DropdownButtonFormField<PhoneOperator>(
-                    decoration: _inputDecoration.copyWith(labelText: m.phones.company_label),
+                    decoration: inputFieldStyle.copyWith(labelText: m.phones.company_label),
                     value: _operator,
-                    icon: const Icon(Icons.arrow_drop_down),
+                    icon: Icon(Icons.arrow_drop_down, color: primaryColor),
+                    style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontSize: 14),
+                    dropdownColor: isDark ? theme.colorScheme.surface : Colors.grey.shade50,
                     items: PhoneOperator.values
                         .map((op) => DropdownMenuItem(
                               value: op,
@@ -156,23 +167,26 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
               Row(
                 children: [
                   Expanded(
-                    child: TextField(
+                    child: TextFormField(
                       controller: _containsCtrl,
-                      decoration: _inputDecoration.copyWith(labelText: m.phones.contains),
+                      style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontSize: 14),
+                      decoration: inputFieldStyle.copyWith(labelText: m.phones.contains),
                     ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
-                    child: TextField(
+                    child: TextFormField(
                       controller: _startsWithCtrl,
-                      decoration: _inputDecoration.copyWith(labelText: m.phones.starts_with),
+                      style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontSize: 14),
+                      decoration: inputFieldStyle.copyWith(labelText: m.phones.starts_with),
                     ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
-                    child: TextField(
+                    child: TextFormField(
                       controller: _endsWithCtrl,
-                      decoration: _inputDecoration.copyWith(labelText: m.phones.ends_with),
+                      style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontSize: 14),
+                      decoration: inputFieldStyle.copyWith(labelText: m.phones.ends_with),
                     ),
                   ),
                 ],
@@ -181,39 +195,50 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
               Row(
                 children: [
                   Expanded(
-                    child: TextField(
+                    child: TextFormField(
                       controller: _minPriceCtrl,
                       keyboardType: TextInputType.number,
-                      decoration: _inputDecoration.copyWith(labelText: m.phones.min_price),
+                      style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontSize: 14),
+                      decoration: inputFieldStyle.copyWith(labelText: m.phones.min_price),
                     ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
-                    child: TextField(
+                    child: TextFormField(
                       controller: _maxPriceCtrl,
                       keyboardType: TextInputType.number,
-                      decoration: _inputDecoration.copyWith(labelText: m.phones.max_price),
+                      style: TextStyle(color: isDark ? Colors.white : Colors.black87, fontSize: 14),
+                      decoration: inputFieldStyle.copyWith(labelText: m.phones.max_price),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
             ],
+            const SizedBox(height: 16),
             GestureDetector(
               onTap: () => setState(() => _showAdvanced = !_showAdvanced),
               child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     _showAdvanced ? m.phones.show_less : m.phones.see_more,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: primaryColor,
+                    ),
                   ),
+                  const SizedBox(width: 4),
                   Icon(
                     _showAdvanced ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                    color: primaryColor,
+                    size: 18,
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
+            Divider(height: 1, thickness: 1, color: isDark ? theme.dividerTheme.color : const Color(0xFFEEEEEE)),
+            const SizedBox(height: 16),
             PhonesListingGrid(itemList: visiblePhones),
           ],
         ),

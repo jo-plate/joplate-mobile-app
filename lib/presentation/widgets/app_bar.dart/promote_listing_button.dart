@@ -47,6 +47,11 @@ class _PromoteListingButtonState extends State<PromoteListingButton> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
+              textStyle: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
             onPressed: () {
               showDialog(

@@ -11,6 +11,7 @@ import 'package:joplate/presentation/routes/pages/home_page/profile_tab/ui/anon_
 import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/theme.dart';
+import 'package:joplate/presentation/widgets/app_snackbar.dart';
 import 'package:joplate/presentation/widgets/menu_item.dart';
 import 'package:joplate/presentation/widgets/profile_banner.dart';
 import 'package:joplate/presentation/cubits/theme_cubit.dart';
@@ -25,15 +26,7 @@ class LoggedInUserView extends StatefulWidget {
 class _LoggedInUserViewState extends State<LoggedInUserView> {
   @override
   Widget build(BuildContext context) {
-    final m = Localization.of(context);
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text(m.profile.title),
-        centerTitle: true,
-        foregroundColor: Colors.black,
-        elevation: 0,
-      ),
       body: BlocProvider.value(
         value: injector<AuthCubit>(),
         child: Builder(builder: (context) {
@@ -97,7 +90,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
                   MenuItem(
                     title: m.profile.promo_code,
                     icon: Icons.card_giftcard_outlined,
-                    onTap: _showPromoCodeDialog,
+                    onTap: () => AutoRouter.of(context).push(const AuthRoute()),
                   ),
                 ] else
                   const AnonUserView(),
@@ -245,17 +238,13 @@ class _UserProfileViewState extends State<_UserProfileView> {
               // Process the promo code
               final code = controller.text.trim();
               if (code.isNotEmpty) {
-                // TODO: Implement promo code redemption
                 Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Promo code applied: $code')),
+                AppSnackbar.showSuccess(
+                  'Promo code applied: $code',
                 );
               }
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF981C1E),
-            ),
-            child: const Text('Apply'),
+            child: const Text('Apply', style: TextStyle(color: Colors.white)),
           ),
         ],
       ),

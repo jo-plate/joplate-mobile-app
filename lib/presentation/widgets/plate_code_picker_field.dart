@@ -13,6 +13,23 @@ class PlateCodePickerField extends StatelessWidget {
     required this.enabled,
   });
 
+  InputDecoration get inputFieldStyle => InputDecoration(
+        labelStyle: const TextStyle(color: Colors.black, fontSize: 14),
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderSide: BorderSide(color: Colors.grey, width: 1),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
+        ),
+        focusedBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderSide: BorderSide(color: Colors.red, width: 1.5),
+        ),
+        contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      );
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -24,7 +41,7 @@ class PlateCodePickerField extends StatelessWidget {
               )
           : null,
       child: InputDecorator(
-        decoration: const InputDecoration(
+        decoration: inputFieldStyle.copyWith(
           hintText: 'Code',
         ),
         child: value.isEmpty
@@ -89,8 +106,7 @@ class PlateCodePickerField extends StatelessWidget {
     ];
 
     final initialIndex = codes.indexOf(currentValue);
-    final controller = FixedExtentScrollController(
-        initialItem: initialIndex >= 0 ? initialIndex : 0);
+    final controller = FixedExtentScrollController(initialItem: initialIndex >= 0 ? initialIndex : 0);
     int selectedIndex = controller.initialItem;
 
     await showModalBottomSheet(
@@ -109,10 +125,7 @@ class PlateCodePickerField extends StatelessWidget {
                     onPressed: () => Navigator.pop(context),
                     child: const Text(
                       'Cancel',
-                      style: TextStyle(
-                          color: Color(0xFF981C1E),
-                          fontSize: 16,
-                          decoration: TextDecoration.none),
+                      style: TextStyle(color: Color(0xFF981C1E), fontSize: 16, decoration: TextDecoration.none),
                     ),
                   ),
                   TextButton(
@@ -122,10 +135,7 @@ class PlateCodePickerField extends StatelessWidget {
                     },
                     child: const Text(
                       'Done',
-                      style: TextStyle(
-                          color: Color(0xFF981C1E),
-                          fontSize: 16,
-                          decoration: TextDecoration.none),
+                      style: TextStyle(color: Color(0xFF981C1E), fontSize: 16, decoration: TextDecoration.none),
                     ),
                   ),
                 ],

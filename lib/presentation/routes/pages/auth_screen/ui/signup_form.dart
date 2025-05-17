@@ -117,10 +117,6 @@ class _SignupFormState extends State<SignupForm> {
                   const SizedBox(height: 30),
                   ElevatedButton(
                     onPressed: isSubmitting ? null : _handleSignup,
-                    style: ElevatedButton.styleFrom(
-                      disabledForegroundColor: Colors.grey.shade300,
-                      disabledBackgroundColor: Colors.grey.shade600,
-                    ),
                     child: isSubmitting
                         ? const SizedBox(
                             height: 20,

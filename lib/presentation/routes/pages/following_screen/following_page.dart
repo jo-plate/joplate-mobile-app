@@ -7,6 +7,7 @@ import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
 import 'package:joplate/presentation/widgets/user_list_item.dart';
+import 'package:rxdart/rxdart.dart';
 
 @RoutePage()
 class FollowingPage extends StatefulWidget {
@@ -22,105 +23,44 @@ class FollowingPage extends StatefulWidget {
 }
 
 class _FollowingPageState extends State<FollowingPage> {
-  late Future<List<UserProfile>> _followingFuture;
-  bool _isLoading = true;
-  String? _errorMessage;
   String? _currentUserId;
-  List<String> _currentUserFollowing = [];
+  Stream<List<String>>? _userFollowingIdsStream;
+  Stream<List<String>>? _currentUserFollowingStream;
 
   @override
   void initState() {
     super.initState();
     _currentUserId = FirebaseAuth.instance.currentUser?.uid;
-    _loadFollowing();
-    if (_currentUserId != null) {
-      _loadCurrentUserFollowing();
-    }
+    _initStreams();
   }
 
-  Future<void> _loadCurrentUserFollowing() async {
-    try {
-      final docSnapshot =
-          await FirebaseFirestore.instance.collection(userProfileCollectionId).doc(_currentUserId).get();
-
-      if (docSnapshot.exists && mounted) {
-        final data = docSnapshot.data();
-        if (data != null && data['followingList'] != null) {
-          setState(() {
-            _currentUserFollowing = List<String>.from(data['followingList']);
-          });
+  void _initStreams() {
+    // Stream for the displayed user's followingList
+    _userFollowingIdsStream =
+        FirebaseFirestore.instance.collection(userProfileCollectionId).doc(widget.userId).snapshots().map((snapshot) {
+      if (snapshot.exists && snapshot.data() != null) {
+        final data = snapshot.data()!;
+        if (data['followingList'] != null) {
+          return List<String>.from(data['followingList']);
         }
       }
-    } catch (e) {
-      print('Error loading current user following: $e');
-    }
-  }
-
-  Future<void> _loadFollowing() async {
-    setState(() {
-      _isLoading = true;
-      _errorMessage = null;
+      return <String>[];
     });
 
-    try {
-      // Get user profile to access the followingList
-      final userDoc = await FirebaseFirestore.instance.collection(userProfileCollectionId).doc(widget.userId).get();
-
-      if (!userDoc.exists) {
-        setState(() {
-          _isLoading = false;
-          _followingFuture = Future.value([]);
-        });
-        return;
-      }
-
-      final userData = userDoc.data();
-      if (userData == null) {
-        setState(() {
-          _isLoading = false;
-          _followingFuture = Future.value([]);
-        });
-        return;
-      }
-
-      final followingList = userData['followingList'];
-      if (followingList == null || (followingList as List).isEmpty) {
-        setState(() {
-          _isLoading = false;
-          _followingFuture = Future.value([]);
-        });
-        return;
-      }
-
-      // If there are many users being followed, we need to batch the queries
-      // Firestore has a limit of 10 items for 'whereIn' queries
-      final List<String> followingIds = List<String>.from(followingList);
-      const batchSize = 10;
-      final batches = <List<String>>[];
-
-      for (var i = 0; i < followingIds.length; i += batchSize) {
-        final end = (i + batchSize < followingIds.length) ? i + batchSize : followingIds.length;
-        batches.add(followingIds.sublist(i, end));
-      }
-
-      // Execute batch queries and combine results
-      _followingFuture = Future.wait(batches.map((batch) => FirebaseFirestore.instance
+    // Stream for the current user's followingList (for the follow/unfollow button state)
+    if (_currentUserId != null) {
+      _currentUserFollowingStream = FirebaseFirestore.instance
           .collection(userProfileCollectionId)
-          .where(FieldPath.documentId, whereIn: batch)
-          .get()
-          .then((snapshot) => snapshot.docs.map((doc) => UserProfile.fromJson(doc.data())).toList()))).then((results) {
-        // Flatten the list of lists
-        return results.expand((profiles) => profiles).toList();
-      });
-
-      setState(() {
-        _isLoading = false;
-      });
-    } catch (e) {
-      print('Error loading following: $e');
-      setState(() {
-        _isLoading = false;
-        _errorMessage = 'Failed to load following: ${e.toString()}';
+          .doc(_currentUserId)
+          .snapshots()
+          .map((snapshot) {
+        if (snapshot.exists && snapshot.data() != null) {
+          final data = snapshot.data()!;
+          if (data['followingList'] != null) {
+            return List<String>.from(data['followingList']);
+          }
+        }
+        return <String>[];
       });
     }
   }
@@ -132,29 +72,19 @@ class _FollowingPageState extends State<FollowingPage> {
     }
 
     try {
+      final userRef = FirebaseFirestore.instance.collection(userProfileCollectionId).doc(_currentUserId);
+      
       if (isCurrentlyFollowing) {
-        // Direct Firestore update to unfollow
-        await FirebaseFirestore.instance.collection(userProfileCollectionId).doc(_currentUserId).update({
+        // Unfollow user
+        await userRef.update({
           'followingList': FieldValue.arrayRemove([userId])
         });
-
-        // Update local state
-        setState(() {
-          _currentUserFollowing.remove(userId);
-        });
-
         AppSnackbar.showSuccess('Unfollowed user');
       } else {
-        // Direct Firestore update to follow
-        await FirebaseFirestore.instance.collection(userProfileCollectionId).doc(_currentUserId).update({
+        // Follow user
+        await userRef.update({
           'followingList': FieldValue.arrayUnion([userId])
         });
-
-        // Update local state
-        setState(() {
-          _currentUserFollowing.add(userId);
-        });
-
         AppSnackbar.showSuccess('Following user');
       }
     } catch (e) {
@@ -169,46 +99,67 @@ class _FollowingPageState extends State<FollowingPage> {
       appBar: AppBar(
         title: const Text('Following'),
       ),
-      body: _isLoading
+      body: _userFollowingIdsStream == null
           ? const Center(child: CircularProgressIndicator())
-          : _errorMessage != null
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        _errorMessage!,
-                        style: const TextStyle(color: Colors.red),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 16),
-                      ElevatedButton(
-                        onPressed: _loadFollowing,
-                        child: const Text('Retry'),
-                      ),
-                    ],
-                  ),
-                )
-              : FutureBuilder<List<UserProfile>>(
-                  future: _followingFuture,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
+          : StreamBuilder<List<String>>(
+              stream: _userFollowingIdsStream,
+              builder: (context, followingIdsSnapshot) {
+                if (followingIdsSnapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (followingIdsSnapshot.hasError) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Error: ${followingIdsSnapshot.error}',
+                          style: const TextStyle(color: Colors.red),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () => setState(() => _initStreams()),
+                          child: const Text('Retry'),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+
+                final followingIds = followingIdsSnapshot.data ?? [];
+
+                if (followingIds.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      'Not following anyone yet',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  );
+                }
+
+                // Use a stream builder to fetch all the user profiles of the people being followed
+                return StreamBuilder<List<UserProfile>>(
+                  stream: _fetchUserProfiles(followingIds),
+                  builder: (context, profilesSnapshot) {
+                    if (profilesSnapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     }
 
-                    if (snapshot.hasError) {
+                    if (profilesSnapshot.hasError) {
                       return Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Error: ${snapshot.error}',
+                              'Error loading profiles: ${profilesSnapshot.error}',
                               style: const TextStyle(color: Colors.red),
                               textAlign: TextAlign.center,
                             ),
                             const SizedBox(height: 16),
                             ElevatedButton(
-                              onPressed: _loadFollowing,
+                              onPressed: () => setState(() => _initStreams()),
                               child: const Text('Retry'),
                             ),
                           ],
@@ -216,40 +167,84 @@ class _FollowingPageState extends State<FollowingPage> {
                       );
                     }
 
-                    final following = snapshot.data ?? [];
+                    final profiles = profilesSnapshot.data ?? [];
 
-                    if (following.isEmpty) {
-                      return const Center(
-                        child: Text(
-                          'Not following anyone yet',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      );
+                    if (_currentUserId == null || _currentUserFollowingStream == null) {
+                      // If not logged in, just show the profiles without follow button functionality
+                      return _buildFollowingList(profiles, []);
                     }
 
-                    return ListView.separated(
-                      padding: const EdgeInsets.all(16),
-                      itemCount: following.length,
-                      separatorBuilder: (context, index) => const Divider(),
-                      itemBuilder: (context, index) {
-                        final user = following[index];
-                        final isFollowing = _currentUserFollowing.contains(user.id);
-                        final isCurrentUser = user.id == _currentUserId;
-
-                        return UserListItem(
-                          user: user,
-                          isFollowing: isFollowing,
-                          onTap: () {
-                            // Navigate to user profile
-                            AutoRouter.of(context).push(UserProfileRoute(userId: user.id));
-                          },
-                          onFollowPressed: isCurrentUser ? null : () => _handleFollowToggle(user.id, isFollowing),
-                          showPlanBadge: true,
-                        );
+                    // Get the current user's following list for the follow button states
+                    return StreamBuilder<List<String>>(
+                      stream: _currentUserFollowingStream,
+                      builder: (context, currentFollowingSnapshot) {
+                        final currentFollowingList = currentFollowingSnapshot.data ?? [];
+                        return _buildFollowingList(profiles, currentFollowingList);
                       },
                     );
                   },
-                ),
+                );
+              },
+            ),
+    );
+  }
+
+  Stream<List<UserProfile>> _fetchUserProfiles(List<String> userIds) {
+    if (userIds.isEmpty) {
+      return Stream.value([]);
+    }
+
+    // Firestore has a limit of 10 items for 'whereIn' queries
+    // Split into batches if needed
+    const batchSize = 10;
+    final batches = <List<String>>[];
+
+    for (var i = 0; i < userIds.length; i += batchSize) {
+      final end = (i + batchSize < userIds.length) ? i + batchSize : userIds.length;
+      batches.add(userIds.sublist(i, end));
+    }
+
+    // Create a stream for each batch and merge them
+    final streams = batches.map((batch) {
+      return FirebaseFirestore.instance
+          .collection(userProfileCollectionId)
+          .where(FieldPath.documentId, whereIn: batch)
+          .snapshots()
+          .map((snapshot) => snapshot.docs.map((doc) => UserProfile.fromJson(doc.data())).toList());
+    }).toList();
+
+    // If there's only one batch, return its stream directly
+    if (streams.length == 1) {
+      return streams.first;
+    }
+
+    // Otherwise, merge all streams with Rx.combineLatest
+    return Rx.combineLatestList(streams).map((results) {
+      // Flatten the list of lists
+      return results.expand((profiles) => profiles).toList();
+    });
+  }
+
+  Widget _buildFollowingList(List<UserProfile> profiles, List<String> currentUserFollowingList) {
+    return ListView.separated(
+      padding: const EdgeInsets.all(16),
+      itemCount: profiles.length,
+      separatorBuilder: (context, index) => const Divider(),
+      itemBuilder: (context, index) {
+        final user = profiles[index];
+        final isFollowing = currentUserFollowingList.contains(user.id);
+        final isCurrentUser = user.id == _currentUserId;
+
+        return UserListItem(
+          user: user,
+          isFollowing: isFollowing,
+          onTap: () {
+            AutoRouter.of(context).push(UserProfileRoute(userId: user.id));
+          },
+          onFollowPressed: isCurrentUser ? null : () => _handleFollowToggle(user.id, isFollowing),
+          showPlanBadge: true,
+        );
+      },
     );
   }
 }
