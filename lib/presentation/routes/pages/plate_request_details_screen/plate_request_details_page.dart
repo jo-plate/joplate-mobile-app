@@ -341,21 +341,8 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
                                         color: Colors.blue.shade600,
                                         size: 20,
                                       ),
-                                    if (plan != PlanType.free_plan) ...[
-                                      const SizedBox(width: 8),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                        decoration: BoxDecoration(
-                                          color: accentColor,
-                                          borderRadius: BorderRadius.circular(12),
-                                        ),
-                                        child: Text(
-                                          plan.name,
-                                          style: const TextStyle(
-                                              fontSize: 12, color: Colors.white, fontWeight: FontWeight.w600),
-                                        ),
-                                      ),
-                                    ],
+                                    const SizedBox(width: 8),
+                                    _buildPlanBadge(plan, accentColor),
                                   ],
                                 ),
                               ],
@@ -455,6 +442,70 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
               }),
         );
       },
+    );
+  }
+
+  Widget _buildPlanBadge(PlanType plan, Color accentColor) {
+    // For Diamond plan, keep the original styling
+    if (plan == PlanType.diamond_plan) {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        decoration: BoxDecoration(
+          color: accentColor,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Text(
+          plan.name,
+          style: const TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w600),
+        ),
+      );
+    }
+
+    // For other plans, use the new stylized badge
+    Color badgeColor;
+    IconData badgeIcon;
+
+    switch (plan) {
+      case PlanType.gold_plan:
+        badgeColor = const Color(0xFFFFD700); // Gold color
+        badgeIcon = Icons.workspace_premium;
+        break;
+      case PlanType.free_plan:
+      default:
+        badgeColor = const Color(0xFFCD7F32); // Bronze color
+        badgeIcon = Icons.account_circle;
+        break;
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      decoration: BoxDecoration(
+        color: badgeColor.withOpacity(0.15),
+        border: Border.all(color: badgeColor, width: 1.5),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: badgeColor.withOpacity(0.3),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(badgeIcon, color: badgeColor, size: 14),
+          const SizedBox(width: 4),
+          Text(
+            plan.name,
+            style: TextStyle(
+              color: badgeColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 11,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

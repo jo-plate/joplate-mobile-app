@@ -228,18 +228,15 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
                   ),
 
                 // Tabs section below the profile banner
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: TabBar(
-                    controller: _tabController,
-                    tabs: [
-                      Tab(text: m.profile.Numbers),
-                      Tab(text: m.profile.Requests),
-                    ],
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    labelColor: Theme.of(context).colorScheme.primary,
-                    unselectedLabelColor: Colors.grey,
-                  ),
+                TabBar(
+                  controller: _tabController,
+                  tabs: [
+                    Tab(text: m.profile.Numbers),
+                    Tab(text: m.profile.Requests),
+                  ],
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  labelColor: Theme.of(context).colorScheme.primary,
+                  unselectedLabelColor: Colors.grey,
                 ),
 
                 const SizedBox(height: 16),
