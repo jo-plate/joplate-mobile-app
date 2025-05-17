@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
+import 'package:joplate/presentation/widgets/app_snackbar.dart';
 import 'package:joplate/presentation/widgets/phone_number_input.dart';
 
 @RoutePage()
@@ -75,9 +76,7 @@ class _EditPhoneNumberPageState extends State<EditPhoneNumberPage> {
       if (context.mounted) Navigator.pop(context, _phoneController.text);
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to save phone number. Please try again.')),
-        );
+        AppSnackbar.showError('Failed to save phone number. Please try again.');
       }
     } finally {
       setState(() => _isSaving = false);

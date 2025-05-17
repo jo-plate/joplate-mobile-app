@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:joplate/presentation/widgets/app_snackbar.dart';
 
 class ProfilePictureWidget extends StatefulWidget {
   final String? imageUrl;
@@ -64,6 +65,7 @@ class _ProfilePictureWidgetState extends State<ProfilePictureWidget> {
 
   Future<void> _pickAndUploadImage(ImageSource source) async {
     final picker = ImagePicker();
+    final m = Localization.of(context);
     
     try {
       // Simple configuration with basic options only
@@ -82,9 +84,7 @@ class _ProfilePictureWidgetState extends State<ProfilePictureWidget> {
 
       final currentUser = FirebaseAuth.instance.currentUser;
       if (currentUser == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('You must be logged in to upload images')),
-        );
+        AppSnackbar.showError(m.auth.signin);
         setState(() {
           _isUploading = false;
         });
@@ -132,11 +132,7 @@ class _ProfilePictureWidgetState extends State<ProfilePictureWidget> {
           widget.onImageUpdated!(downloadUrl);
         }
 
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Profile picture updated successfully')),
-          );
-        }
+        AppSnackbar.showSuccess(m.editprofile.save);
       } catch (e) {
         print('===== FIREBASE UPLOAD ERROR =====');
         print('Error type: ${e.runtimeType}');
@@ -148,7 +144,7 @@ class _ProfilePictureWidgetState extends State<ProfilePictureWidget> {
           print('Firebase error details: ${e.stackTrace}');
         }
 
-        String errorMessage = 'Failed to upload image';
+        String errorMessage = m.common.no_data_found;
 
         if (e.toString().contains('parse response') ||
             e.toString().contains('network') ||
@@ -168,19 +164,11 @@ class _ProfilePictureWidgetState extends State<ProfilePictureWidget> {
           }
         }
 
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(errorMessage)),
-          );
-        }
+        AppSnackbar.showError(errorMessage);
       }
     } catch (e) {
       print('Error selecting image: $e');
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error selecting image: ${e.toString()}')),
-        );
-      }
+      AppSnackbar.showError('${m.common.no_data_found}: ${e.toString()}');
     } finally {
       if (mounted) {
         setState(() {

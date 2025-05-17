@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
+import 'package:joplate/presentation/widgets/app_snackbar.dart';
 
 @RoutePage()
 class EditEmailPage extends StatefulWidget {
@@ -37,9 +38,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
     String newEmail = _emailController.text.trim();
 
     if (newEmail.isEmpty || !RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(newEmail)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please enter a valid email address")),
-      );
+      AppSnackbar.showError("Please enter a valid email address");
       return;
     }
 
@@ -48,13 +47,9 @@ class _EditEmailPageState extends State<EditEmailPage> {
       setState(() {
         emailVerificationVisible = true;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Verification email sent to $newEmail. Please check your inbox.")),
-      );
+      AppSnackbar.showSuccess("Verification email sent to $newEmail. Please check your inbox.");
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Failed to send verification email: ${e.toString()}")),
-      );
+      AppSnackbar.showError("Failed to send verification email: ${e.toString()}");
     }
   }
 
@@ -62,19 +57,13 @@ class _EditEmailPageState extends State<EditEmailPage> {
     try {
       await _auth.currentUser?.reload();
       if (_auth.currentUser?.email == _emailController.text.trim()) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Email updated successfully!")),
-        );
+        AppSnackbar.showSuccess("Email updated successfully!");
         Navigator.pop(context);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Email update not verified yet.")),
-        );
+        AppSnackbar.showError("Email update not verified yet.");
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error updating email: ${e.toString()}")),
-      );
+      AppSnackbar.showError("Error updating email: ${e.toString()}");
     }
   }
 

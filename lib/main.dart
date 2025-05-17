@@ -160,9 +160,7 @@ void initIAPListener(BuildContext context) {
       }
     },
     onError: (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('خطأ في عملية الشراء')),
-      );
+      AppSnackbar.showError('خطأ في عملية الشراء');
     },
   );
 }
@@ -180,21 +178,15 @@ Future<void> _handlePurchase(PurchaseDetails purchase, BuildContext context) asy
       final callable = FirebaseFunctions.instance.httpsCallable(redeemPurchaseCF);
       await callable.call(iapData.toJson());
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('✅ تم تفعيل التذكرة بنجاح')),
-      );
+      AppSnackbar.showSuccess('✅ تم تفعيل التذكرة بنجاح');
     } on FirebaseFunctionsException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('❌ فشل التفعيل: ${e.message ?? "خطأ غير معروف"}')),
-      );
+      AppSnackbar.showError('❌ فشل التفعيل: ${e.message ?? "خطأ غير معروف"}');
     } finally {
       if (purchase.pendingCompletePurchase) {
         await InAppPurchase.instance.completePurchase(purchase);
       }
     }
   } else if (purchase.status == PurchaseStatus.error) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('فشل الشراء')),
-    );
+    AppSnackbar.showError('فشل الشراء');
   }
 }

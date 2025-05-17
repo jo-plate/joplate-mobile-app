@@ -90,7 +90,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
                   MenuItem(
                     title: m.profile.promo_code,
                     icon: Icons.card_giftcard_outlined,
-                    onTap: () => AutoRouter.of(context).push(const AuthRoute()),
+                    onTap: _showPromoCodeDialog,
                   ),
                 ] else
                   const AnonUserView(),

@@ -6,6 +6,7 @@ import 'package:joplate/presentation/routes/pages/add_phone_number_screen/cubit/
 import 'package:joplate/presentation/routes/pages/add_phone_number_screen/cubit/phone_form_state.dart';
 import 'package:joplate/presentation/routes/pages/add_phone_number_screen/ui/single_phone_form.dart';
 import 'package:joplate/presentation/routes/router.dart'; // import your router
+import 'package:joplate/presentation/widgets/app_snackbar.dart';
 
 @RoutePage()
 class AddPhoneNumberPage extends StatelessWidget {
@@ -66,9 +67,7 @@ class AddPhoneNumberPage extends StatelessWidget {
                                   AutoRouter.of(context).replace(PhoneDetailsRoute(listingId: listingId));
                                 },
                                 onError: (msg) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(msg)),
-                                  );
+                                  AppSnackbar.showError(msg);
                                 },
                               );
                             },

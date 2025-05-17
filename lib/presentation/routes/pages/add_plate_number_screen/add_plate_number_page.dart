@@ -6,6 +6,7 @@ import 'package:joplate/presentation/routes/pages/add_plate_number_screen/cubit/
 import 'package:joplate/presentation/routes/pages/add_plate_number_screen/cubit/plate_form_state.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_number_screen/ui/single_plate_form.dart';
 import 'package:joplate/presentation/routes/router.dart';
+import 'package:joplate/presentation/widgets/app_snackbar.dart';
 
 @RoutePage()
 class AddPlateNumberPage extends StatefulWidget {
@@ -72,9 +73,7 @@ class _AddPlateNumberPageState extends State<AddPlateNumberPage> {
                                   AutoRouter.of(context).replace(PlatesDetailsRoute(listingId: listingId));
                                 },
                                 onError: (msg) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(msg)),
-                                  );
+                                  AppSnackbar.showError(msg);
                                 },
                               );
                             },

@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
+import 'package:joplate/presentation/widgets/app_snackbar.dart';
 
 @RoutePage()
 class ChangePasswordPage extends StatefulWidget {
@@ -20,9 +21,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
   Future<void> _changePassword() async {
     if (_newPasswordController.text != _confirmPasswordController.text) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Passwords do not match")),
-      );
+      AppSnackbar.showError("Passwords do not match");
       return;
     }
 
@@ -39,14 +38,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
       await user.reauthenticateWithCredential(credential);
       await user.updatePassword(_newPasswordController.text);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Password changed successfully")),
-      );
+      AppSnackbar.showSuccess("Password changed successfully");
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.message ?? "Error changing password")),
-      );
+      AppSnackbar.showError(e.message ?? "Error changing password");
     } finally {
       setState(() {
         _isLoading = false;

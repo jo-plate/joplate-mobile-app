@@ -6,6 +6,7 @@ import 'package:joplate/domain/entities/plan.dart';
 import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/cubits/localization/localization_cubit.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
+import 'package:joplate/presentation/widgets/app_snackbar.dart';
 import 'package:joplate/presentation/widgets/icons/plan_icon.dart';
 
 class PlanWidget extends StatelessWidget {
@@ -58,44 +59,32 @@ class PlanWidget extends StatelessWidget {
     );
   }
 
-  void _buyProduct(BuildContext context) async {
+  void _buyProduct() async {
     _logPurchaseAttempt();
-    final isIOS = Platform.isIOS;
-
-    print("📦 Platform: ${isIOS ? "iOS" : "Android"}");
-    print("📦 Retrieved Product ID: ${plan.productId}");
 
     if (plan.productId.trim().isEmpty) {
       _logPurchaseError('No product ID available');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("No product ID available for this platform.")),
-      );
+      AppSnackbar.showError("No product ID available for this platform.");
       return;
     }
     try {
       final isAvailable = await InAppPurchase.instance.isAvailable();
       if (!isAvailable) {
         _logPurchaseError('IAP not available');
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("In-app purchases not available.")),
-        );
+        AppSnackbar.showError("In-app purchases not available.");
         return;
       }
     } catch (e) {
       _logPurchaseError('IAP availability check failed: $e');
       debugPrint("❌ IAP Error: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error checking IAP availability: $e")),
-      );
+      AppSnackbar.showError("Error checking IAP availability: $e");
       return;
     }
 
     final response = await InAppPurchase.instance.queryProductDetails({plan.productId});
     if (response.notFoundIDs.isNotEmpty || response.productDetails.isEmpty) {
       _logPurchaseError('Product not found');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Product not found.")),
-      );
+      AppSnackbar.showError("Product not found.");
       return;
     }
 
@@ -110,7 +99,7 @@ class PlanWidget extends StatelessWidget {
     _logPlanInteraction();
     final isEn = injector<LocalizationCubit>().state.languageCode == "en";
     final m = Localization.of(context);
-    
+
     return isSmallCard ? _buildSmallCard(context, isEn, m) : _buildLargeCard(context, isEn, m);
   }
 
@@ -225,7 +214,7 @@ class PlanWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   FilledButton(
-                    onPressed: () => _buyProduct(context),
+                    onPressed: () => _buyProduct(),
                     child: Text(m.iap.purchase),
                   )
                 ],
@@ -334,7 +323,7 @@ class PlanWidget extends StatelessWidget {
                   _buildDisabledPerks(isEn),
                   const SizedBox(height: 16),
                   FilledButton(
-                    onPressed: () => _buyProduct(context),
+                    onPressed: () => _buyProduct(),
                     child: Text(m.iap.purchase),
                   )
                 ],
