@@ -40,6 +40,9 @@ import 'package:joplate/presentation/routes/pages/quicksale_screen/quicksale_pag
 import 'package:joplate/presentation/routes/pages/requests_screen/requests_page.dart';
 import 'package:joplate/presentation/routes/pages/terms_and_conditions_screen/terms_and_conditions_page.dart';
 import 'package:joplate/presentation/routes/pages/user_profile_screen/user_profile_page.dart';
+import 'package:joplate/presentation/routes/pages/auth_screen/ui/forgot_password_page.dart';
+import 'package:joplate/presentation/routes/pages/auth_screen/ui/reset_password_page.dart';
+import 'package:joplate/presentation/routes/pages/auth_screen/ui/verification_code_page.dart';
 part 'router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Page,Route')
@@ -92,5 +95,8 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: FavoritesRoute.page, path: "/favorites"),
         AutoRoute(page: FeedRoute.page, path: "/feed"),
         AutoRoute(page: NotificationsRoute.page, path: "/notifications"),
+        AutoRoute(page: ForgotPasswordRoute.page, path: "/forgot-password"),
+        AutoRoute(page: ResetPasswordRoute.page, path: "/reset-password"),
+        AutoRoute(page: VerificationCodeRoute.page, path: "/verification-code"),
       ];
 }

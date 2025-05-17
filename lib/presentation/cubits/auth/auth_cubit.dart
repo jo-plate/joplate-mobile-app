@@ -122,6 +122,87 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      emit(state.copyWith(isLoading: true, errorMessage: null));
+
+      // Send a password reset email with a code
+      await _authService.sendPasswordResetEmail(
+        email: email,
+        // Force in-app handling so the email contains a code you can extract
+        actionCodeSettings: ActionCodeSettings(
+          handleCodeInApp: true,
+          url: 'https://joplate.page.link/reset',
+          androidPackageName: 'com.joplate.app',
+          iOSBundleId: 'com.joplate.app',
+        ),
+      );
+
+      emit(state.copyWith(isLoading: false));
+      return;
+    } on FirebaseAuthException catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        errorMessage: _getFirebaseErrorMessage(e),
+      ));
+      throw e;
+    } catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        errorMessage: 'Password reset failed: ${e.toString()}',
+      ));
+      throw e;
+    }
+  }
+
+  Future<void> verifyPasswordResetCode(String code) async {
+    try {
+      emit(state.copyWith(isLoading: true, errorMessage: null));
+
+      // Verify the action code is valid
+      await _authService.verifyPasswordResetCode(code);
+
+      emit(state.copyWith(isLoading: false));
+      return;
+    } on FirebaseAuthException catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        errorMessage: _getFirebaseErrorMessage(e),
+      ));
+      throw e;
+    } catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        errorMessage: 'Code verification failed: ${e.toString()}',
+      ));
+      throw e;
+    }
+  }
+
+  Future<void> confirmPasswordReset(String code, String newPassword) async {
+    try {
+      emit(state.copyWith(isLoading: true, errorMessage: null));
+
+      // Confirm the password reset with the new password
+      await _authService.confirmPasswordReset(code: code, newPassword: newPassword);
+
+      emit(state.copyWith(isLoading: false));
+      return;
+    } on FirebaseAuthException catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        errorMessage: _getFirebaseErrorMessage(e),
+      ));
+      throw e;
+    } catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        errorMessage: 'Password reset failed: ${e.toString()}',
+      ));
+      throw e;
+    }
+  }
+
   Future<void> sendVerifyNewEmailCode(String newEmail) async {
     try {
       emit(state.copyWith(isLoading: true, errorMessage: null));

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/domain/dto/login_input.dart';
 import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
+import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/utils/validators.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
 
@@ -163,44 +164,7 @@ class _LoginFormState extends State<LoginForm> {
   void _handlePasswordReset() {
     final m = Localization.of(context);
     final primaryColor = Theme.of(context).colorScheme.primary;
-    // Show a dialog to enter email for password reset
-    final resetEmailController = TextEditingController();
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(m.auth.reset_password_title, style: TextStyle(color: primaryColor)),
-        content: TextField(
-          controller: resetEmailController,
-          decoration: InputDecoration(
-            labelText: m.auth.email,
-            hintText: m.auth.enter_email,
-          ),
-          keyboardType: TextInputType.emailAddress,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(m.auth.cancel),
-          ),
-          TextButton(
-            onPressed: () {
-              // Handle password reset logic
-              final email = resetEmailController.text.trim();
-              if (email.isNotEmpty) {
-                // TODO: Implement password reset functionality
-                // For now just close the dialog
-                Navigator.pop(context);
-                AppSnackbar.showSuccess(m.auth.reset_sent);
-              }
-            },
-            style: TextButton.styleFrom(
-              foregroundColor: primaryColor,
-            ),
-            child: Text(m.auth.reset),
-          ),
-        ],
-      ),
-    );
+    // Navigate to the forgot password page
+    AutoRouter.of(context).push(const ForgotPasswordRoute());
   }
 }
