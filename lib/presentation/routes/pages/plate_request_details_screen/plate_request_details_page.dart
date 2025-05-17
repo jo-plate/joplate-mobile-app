@@ -11,7 +11,6 @@ import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/domain/entities/user_plans.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
-import 'package:joplate/presentation/routes/pages/phone_request_details_screen/phone_request_details_page.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/utils/user_plan_theme.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_request_widget.dart';

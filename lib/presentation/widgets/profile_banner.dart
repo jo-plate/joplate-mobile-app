@@ -36,9 +36,9 @@ class ProfileBanner extends StatefulWidget {
 class _ProfileBannerState extends State<ProfileBanner> {
   late final Stream<UserProfile?> userStream;
   late final Stream<UserPlans> userPlansStream;
+  late final Stream<int> followersCountStream;
   String? _currentUserId;
-  int _followersCount = 0;
-  bool _isLoading = true;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -59,33 +59,16 @@ class _ProfileBannerState extends State<ProfileBanner> {
         .snapshots()
         .map((snapshot) => snapshot.exists ? UserPlans.fromJson(snapshot.data()!) : UserPlans.freePlan());
 
-    _fetchFollowersCount();
-  }
-
-  Future<void> _fetchFollowersCount() async {
-    if (widget.userId != null || _currentUserId != null) {
-      final userId = widget.userId ?? _currentUserId!;
-      try {
-        // Direct Firestore query to count followers
-        final querySnapshot = await FirebaseFirestore.instance
-            .collection(userProfileCollectionId)
-            .where('followingList', arrayContains: userId)
-            .get();
-
-        if (mounted) {
-          setState(() {
-            _followersCount = querySnapshot.docs.length;
-            _isLoading = false;
-          });
-        }
-      } catch (e) {
-        print('Error fetching followers count: $e');
-        if (mounted) {
-          setState(() {
-            _isLoading = false;
-          });
-        }
-      }
+    // Create a stream for followers count
+    if (profileId != null) {
+      followersCountStream = FirebaseFirestore.instance
+          .collection(userProfileCollectionId)
+          .where('followingList', arrayContains: profileId)
+          .snapshots()
+          .map((snapshot) => snapshot.docs.length);
+    } else {
+      // Fallback if no user ID (shouldn't happen in normal usage)
+      followersCountStream = Stream.value(0);
     }
   }
 
@@ -108,7 +91,6 @@ class _ProfileBannerState extends State<ProfileBanner> {
       final List<dynamic> followingList = userData['followingList'] ?? [];
       return followingList.contains(targetUserId);
     } catch (e) {
-      print('Error checking following status: $e');
       return false;
     }
   }
@@ -128,12 +110,8 @@ class _ProfileBannerState extends State<ProfileBanner> {
         'followingList': FieldValue.arrayUnion([targetUserId])
       });
 
-      // Refresh followers count
-      await _fetchFollowersCount();
-
       AppSnackbar.showSuccess('Following user successfully');
     } catch (e) {
-      print('Error following user: $e');
       AppSnackbar.showError('Failed to follow user: $e');
     }
   }
@@ -150,12 +128,8 @@ class _ProfileBannerState extends State<ProfileBanner> {
         'followingList': FieldValue.arrayRemove([targetUserId])
       });
 
-      // Refresh followers count
-      await _fetchFollowersCount();
-
       AppSnackbar.showSuccess('Unfollowed user successfully');
     } catch (e) {
-      print('Error unfollowing user: $e');
       AppSnackbar.showError('Failed to unfollow user: $e');
     }
   }
@@ -376,29 +350,44 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
-                                    _buildCountColumn(
-                                      context,
-                                      _isLoading ? -1 : _followersCount,
-                                      'Followers',
-                                      textColor,
-                                      () {
-                                        if (!_isLoading && _followersCount > 0) {
-                                          AutoRouter.of(context)
-                                              .push(FollowersRoute(userId: widget.userId ?? _currentUserId!));
+                                    StreamBuilder<int>(
+                                        stream: followersCountStream,
+                                        builder: (context, snapshot) {
+                                          final count = snapshot.hasData ? snapshot.data! : 0;
+                                          final isLoading = snapshot.connectionState == ConnectionState.waiting;
+
+                                          return _buildCountColumn(
+                                            context,
+                                            isLoading ? -1 : count,
+                                            'Followers',
+                                            textColor,
+                                            () {
+                                              if (!isLoading && count > 0 && userId != null) {
+                                                AutoRouter.of(context).push(FollowersRoute(userId: userId));
+                                              }
+                                            },
+                                          );
                                         }
-                                      },
                                     ),
-                                    _buildCountColumn(
-                                      context,
-                                      profile?.followingList.length ?? 0,
-                                      'Following',
-                                      textColor,
-                                      () {
-                                        if (profile != null && profile.followingList.isNotEmpty) {
-                                          AutoRouter.of(context)
-                                              .push(FollowingRoute(userId: widget.userId ?? _currentUserId!));
+                                    StreamBuilder<UserProfile?>(
+                                        stream: userStream,
+                                        builder: (context, snapshot) {
+                                          final profile = snapshot.data;
+                                          final followingCount = profile?.followingList.length ?? 0;
+                                          final isLoading = snapshot.connectionState == ConnectionState.waiting;
+
+                                          return _buildCountColumn(
+                                            context,
+                                            isLoading ? -1 : followingCount,
+                                            'Following',
+                                            textColor,
+                                            () {
+                                              if (!isLoading && followingCount > 0 && userId != null) {
+                                                AutoRouter.of(context).push(FollowingRoute(userId: userId));
+                                              }
+                                            },
+                                          );
                                         }
-                                      },
                                     ),
                                   ],
                                 ),

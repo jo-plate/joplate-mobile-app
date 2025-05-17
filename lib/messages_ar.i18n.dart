@@ -860,9 +860,9 @@ class AddplateMessagesAr extends AddplateMessages {
   String get company_label => """الشركة""";
 
   /// ```dart
-  /// "رقم السيارة"
+  /// "رقم اللوحة"
   /// ```
-  String get plate_number_label => """رقم السيارة""";
+  String get plate_number_label => """رقم اللوحة""";
 
   /// ```dart
   /// "نشر"
@@ -980,9 +980,9 @@ class AddplaterequestMessagesAr extends AddplaterequestMessages {
   String get company_label => """الشركة""";
 
   /// ```dart
-  /// "رقم السيارة"
+  /// "رقم اللوحة"
   /// ```
-  String get plate_number_label => """رقم السيارة""";
+  String get plate_number_label => """رقم اللوحة""";
 
   /// ```dart
   /// "نشر"
@@ -995,9 +995,9 @@ class AddplaterequestMessagesAr extends AddplaterequestMessages {
   String get cancel_button => """إلغاء""";
 
   /// ```dart
-  /// "رقم السيارة المطلوب"
+  /// "رقم اللوحة المطلوب"
   /// ```
-  String get required_plate_number => """رقم السيارة المطلوب""";
+  String get required_plate_number => """رقم اللوحة المطلوب""";
 
   /// ```dart
   /// "ترميز اللوحة"
@@ -1085,9 +1085,9 @@ class PlatesdetailsMessagesAr extends PlatesdetailsMessages {
   const PlatesdetailsMessagesAr(this._parent) : super(_parent);
 
   /// ```dart
-  /// "تفاصيل رقم السيارة"
+  /// "تفاصيل رقم اللوحة"
   /// ```
-  String get title => """تفاصيل رقم السيارة""";
+  String get title => """تفاصيل رقم اللوحة""";
 
   /// ```dart
   /// "حدث خطأ أثناء جلب بيانات الرقم: $plateNumber"
@@ -1733,7 +1733,7 @@ Map<String, String> get messagesArMap => {
   """addphonenumber.price_after_discount""": """السعر بعد الخصم""",
   """addplate.title""": """إضافة رقم سيارة""",
   """addplate.company_label""": """الشركة""",
-  """addplate.plate_number_label""": """رقم السيارة""",
+  """addplate.plate_number_label""": """رقم اللوحة""",
   """addplate.save_button""": """نشر""",
   """addplate.cancel_button""": """إلغاء""",
   """addplate.addmore""": """إضافة أكثر""",
@@ -1755,10 +1755,10 @@ Map<String, String> get messagesArMap => {
   """addphonerequest.optional_price""": """السعر اختياري""",
   """addplaterequest.title""": """إضافة طلب رقم سيارة""",
   """addplaterequest.company_label""": """الشركة""",
-  """addplaterequest.plate_number_label""": """رقم السيارة""",
+  """addplaterequest.plate_number_label""": """رقم اللوحة""",
   """addplaterequest.save_button""": """نشر""",
   """addplaterequest.cancel_button""": """إلغاء""",
-  """addplaterequest.required_plate_number""": """رقم السيارة المطلوب""",
+  """addplaterequest.required_plate_number""": """رقم اللوحة المطلوب""",
   """addplaterequest.code""": """ترميز اللوحة""",
   """addplaterequest.number""": """رقم اللوحة""",
   """addplaterequest.optional_price""": """السعر اختياري""",
@@ -1771,7 +1771,7 @@ Map<String, String> get messagesArMap => {
   """sellerdetails.user_not_found""": """لم يتم العثور على المستخدم""",
   """sellerdetails.whatsapp""": """واتساب""",
   """sellerdetails.phone_call""": """اتصال""",
-  """platesdetails.title""": """تفاصيل رقم السيارة""",
+  """platesdetails.title""": """تفاصيل رقم اللوحة""",
   """platesdetails.originally_posted_by""": """نُشر بواسطة""",
   """platesdetails.whatsapp""": """واتساب""",
   """platesdetails.call""": """اتصال""",

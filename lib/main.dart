@@ -3,10 +3,12 @@ import 'dart:ui';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:joplate/data/constants.dart';
+import 'package:joplate/data/services/fcm_service.dart';
 import 'package:joplate/domain/dto/feature_listing_dto.dart';
 import 'package:joplate/injection/dependencies.dart';
 import 'package:joplate/injection/injector.dart';
@@ -18,6 +20,7 @@ import 'package:joplate/presentation/cubits/localization/localization_cubit.dart
 import 'package:joplate/presentation/cubits/theme_cubit.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:joplate/presentation/theme.dart';
@@ -27,6 +30,16 @@ import 'firebase_options.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
+// Handle background messages
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  print("Handling a background message: ${message.messageId}");
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -34,6 +47,19 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await DependencyManager.inject();
+
+  // Initialize Firebase Messaging for background messages
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  // Store FCM token for anonymous users if needed
+  final fcmToken = await FirebaseMessaging.instance.getToken();
+  if (fcmToken != null) {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('fcm_token', fcmToken);
+  }
+
+  // Initialize FCM Service
+  await injector<FCMService>().initialize();
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
@@ -71,6 +97,25 @@ class MyApp extends StatelessWidget {
                 themeMode: themeState.themeMode,
                 scaffoldMessengerKey: AppSnackbar.key,
                 builder: (ctx, widget) {
+                  // Set up a listener for foreground FCM messages that need context
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    // Set up FCM message listener to show snackbars
+                    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+                      if (message.notification != null) {
+                        // Show a snackbar for the notification
+                        injector<FCMService>().showNotificationSnackbar(ctx, message);
+                      }
+                    });
+
+                    // Check for initial message from a terminated state
+                    FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
+                      if (message != null && message.notification != null) {
+                        // Handle notification that opened the app
+                        injector<FCMService>().handleNotificationTap(ctx, message.data);
+                      }
+                    });
+                  });
+
                   return Directionality(
                     textDirection: isEnglish ? TextDirection.ltr : TextDirection.rtl,
                     child: LocalizationProvider(
@@ -108,21 +153,17 @@ void initIAPListener(BuildContext context) {
   );
 }
 
-Future<void> _handlePurchase(
-    PurchaseDetails purchase, BuildContext context) async {
+Future<void> _handlePurchase(PurchaseDetails purchase, BuildContext context) async {
   if (purchase.status == PurchaseStatus.purchased) {
     final iapData = IAPData(
       productId: purchase.productID,
       transactionId: purchase.transactionDate ?? '',
       purchaseToken: purchase.verificationData.serverVerificationData,
-      receipt: Platform.isIOS
-          ? purchase.verificationData.localVerificationData
-          : null,
+      receipt: Platform.isIOS ? purchase.verificationData.localVerificationData : null,
     );
 
     try {
-      final callable =
-          FirebaseFunctions.instance.httpsCallable(redeemPurchaseCF);
+      final callable = FirebaseFunctions.instance.httpsCallable(redeemPurchaseCF);
       await callable.call(iapData.toJson());
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -130,8 +171,7 @@ Future<void> _handlePurchase(
       );
     } on FirebaseFunctionsException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text('❌ فشل التفعيل: ${e.message ?? "خطأ غير معروف"}')),
+        SnackBar(content: Text('❌ فشل التفعيل: ${e.message ?? "خطأ غير معروف"}')),
       );
     } finally {
       if (purchase.pendingCompletePurchase) {

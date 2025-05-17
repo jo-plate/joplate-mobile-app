@@ -161,7 +161,7 @@ addphonenumber:
 addplate:
   title: "إضافة رقم سيارة"
   company_label: "الشركة"
-  plate_number_label: "رقم السيارة"
+  plate_number_label: "رقم اللوحة"
   save_button: "نشر"
   cancel_button: "إلغاء"
   addmore: "إضافة أكثر"
@@ -188,10 +188,10 @@ addphonerequest:
 addplaterequest:
   title: "إضافة طلب رقم سيارة"
   company_label: "الشركة"
-  plate_number_label: "رقم السيارة"
+  plate_number_label: "رقم اللوحة"
   save_button: "نشر"
   cancel_button: "إلغاء"
-  required_plate_number: "رقم السيارة المطلوب"
+  required_plate_number: "رقم اللوحة المطلوب"
   code: "ترميز اللوحة"
   number: "رقم اللوحة"
   optional_price: "السعر اختياري"
@@ -214,7 +214,7 @@ sellerdetails:
   phone_call: "اتصال"
 
 platesdetails:
-  title: "تفاصيل رقم السيارة"
+  title: "تفاصيل رقم اللوحة"
   error_loading_data(String plateNumber): "حدث خطأ أثناء جلب بيانات الرقم: $plateNumber"
   originally_posted_by: "نُشر بواسطة"
   member_since(String year): "عضو منذ $year"

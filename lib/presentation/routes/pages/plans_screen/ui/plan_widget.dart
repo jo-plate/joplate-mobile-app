@@ -220,12 +220,9 @@ class PlanWidget extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  SizedBox(
-                    height: 36,
-                    child: FilledButton(
-                      onPressed: () => _buyProduct(context),
-                      child: Text(m.iap.purchase),
-                    ),
+                  FilledButton(
+                    onPressed: () => _buyProduct(context),
+                    child: Text(m.iap.purchase),
                   )
                 ],
               ),

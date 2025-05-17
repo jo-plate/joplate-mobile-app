@@ -70,8 +70,6 @@ class _PlansPageState extends State<PlansPage> {
       appBar: AppBar(
         title: Text(m.profile.packages),
         centerTitle: true,
-        backgroundColor: Colors.grey[100],
-        foregroundColor: Colors.black,
       ),
       body: SafeArea(
         child: StreamBuilder<List<Plan>>(
@@ -98,8 +96,8 @@ class _PlansPageState extends State<PlansPage> {
                   child: GridView.builder(
                     padding: const EdgeInsets.all(12),
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.7,
+                      crossAxisCount: 1,
+                      childAspectRatio: 0.6,
                       crossAxisSpacing: 12,
                       mainAxisSpacing: 12,
                     ),
@@ -107,7 +105,7 @@ class _PlansPageState extends State<PlansPage> {
                     itemBuilder: (context, index) {
                       return PlanWidget(
                         plan: snapshot.data![index],
-                        isSmallCard: true,
+                        isSmallCard: false,
                       );
                     },
                   ),

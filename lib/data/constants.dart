@@ -10,6 +10,8 @@ const phoneNumbersCollectionId = 'phoneNumbers';
 const quicksaleProfilesCollectionId = 'quicksaleProfiles';
 const normalTicketsPackagesCollectionId = 'normalTicketsPackages';
 const featuredPlansCollectionId = 'featuredPlans';
+const userNotificationsCollectionId = 'userNotifications';
+const anonymousNotificationsCollectionId = 'anonymousNotifications';
 
 // cloud functions
 const signupCF = 'signUpUser';

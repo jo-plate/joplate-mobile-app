@@ -29,6 +29,7 @@ mixin _$UserProfile {
   bool get pendingVerification => throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
   List<String> get followingList => throw _privateConstructorUsedError;
+  List<String> get fcmTokens => throw _privateConstructorUsedError;
 
   /// Serializes this UserProfile to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -55,7 +56,8 @@ abstract class $UserProfileCopyWith<$Res> {
       bool isVerified,
       bool pendingVerification,
       String imageUrl,
-      List<String> followingList});
+      List<String> followingList,
+      List<String> fcmTokens});
 }
 
 /// @nodoc
@@ -82,6 +84,7 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
     Object? pendingVerification = null,
     Object? imageUrl = null,
     Object? followingList = null,
+    Object? fcmTokens = null,
   }) {
     return _then(_value.copyWith(
       displayName: null == displayName
@@ -120,6 +123,10 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
           ? _value.followingList
           : followingList // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      fcmTokens: null == fcmTokens
+          ? _value.fcmTokens
+          : fcmTokens // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -141,7 +148,8 @@ abstract class _$$UserProfileImplCopyWith<$Res>
       bool isVerified,
       bool pendingVerification,
       String imageUrl,
-      List<String> followingList});
+      List<String> followingList,
+      List<String> fcmTokens});
 }
 
 /// @nodoc
@@ -166,6 +174,7 @@ class __$$UserProfileImplCopyWithImpl<$Res>
     Object? pendingVerification = null,
     Object? imageUrl = null,
     Object? followingList = null,
+    Object? fcmTokens = null,
   }) {
     return _then(_$UserProfileImpl(
       displayName: null == displayName
@@ -204,6 +213,10 @@ class __$$UserProfileImplCopyWithImpl<$Res>
           ? _value._followingList
           : followingList // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      fcmTokens: null == fcmTokens
+          ? _value._fcmTokens
+          : fcmTokens // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -220,8 +233,10 @@ class _$UserProfileImpl extends _UserProfile {
       this.isVerified = false,
       this.pendingVerification = false,
       this.imageUrl = '',
-      final List<String> followingList = const []})
+      final List<String> followingList = const [],
+      final List<String> fcmTokens = const []})
       : _followingList = followingList,
+        _fcmTokens = fcmTokens,
         super._();
 
   factory _$UserProfileImpl.fromJson(Map<String, dynamic> json) =>
@@ -260,9 +275,18 @@ class _$UserProfileImpl extends _UserProfile {
     return EqualUnmodifiableListView(_followingList);
   }
 
+  final List<String> _fcmTokens;
+  @override
+  @JsonKey()
+  List<String> get fcmTokens {
+    if (_fcmTokens is EqualUnmodifiableListView) return _fcmTokens;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_fcmTokens);
+  }
+
   @override
   String toString() {
-    return 'UserProfile(displayName: $displayName, name: $name, id: $id, email: $email, phonenumber: $phonenumber, isVerified: $isVerified, pendingVerification: $pendingVerification, imageUrl: $imageUrl, followingList: $followingList)';
+    return 'UserProfile(displayName: $displayName, name: $name, id: $id, email: $email, phonenumber: $phonenumber, isVerified: $isVerified, pendingVerification: $pendingVerification, imageUrl: $imageUrl, followingList: $followingList, fcmTokens: $fcmTokens)';
   }
 
   @override
@@ -284,7 +308,9 @@ class _$UserProfileImpl extends _UserProfile {
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
             const DeepCollectionEquality()
-                .equals(other._followingList, _followingList));
+                .equals(other._followingList, _followingList) &&
+            const DeepCollectionEquality()
+                .equals(other._fcmTokens, _fcmTokens));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -299,7 +325,8 @@ class _$UserProfileImpl extends _UserProfile {
       isVerified,
       pendingVerification,
       imageUrl,
-      const DeepCollectionEquality().hash(_followingList));
+      const DeepCollectionEquality().hash(_followingList),
+      const DeepCollectionEquality().hash(_fcmTokens));
 
   /// Create a copy of UserProfile
   /// with the given fields replaced by the non-null parameter values.
@@ -327,7 +354,8 @@ abstract class _UserProfile extends UserProfile {
       final bool isVerified,
       final bool pendingVerification,
       final String imageUrl,
-      final List<String> followingList}) = _$UserProfileImpl;
+      final List<String> followingList,
+      final List<String> fcmTokens}) = _$UserProfileImpl;
   const _UserProfile._() : super._();
 
   factory _UserProfile.fromJson(Map<String, dynamic> json) =
@@ -351,6 +379,8 @@ abstract class _UserProfile extends UserProfile {
   String get imageUrl;
   @override
   List<String> get followingList;
+  @override
+  List<String> get fcmTokens;
 
   /// Create a copy of UserProfile
   /// with the given fields replaced by the non-null parameter values.

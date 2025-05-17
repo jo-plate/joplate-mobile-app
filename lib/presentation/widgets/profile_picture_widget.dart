@@ -208,7 +208,7 @@ class _ProfilePictureWidgetState extends State<ProfilePictureWidget> {
               fit: BoxFit.cover,
               placeholder: (context, url) => Container(
                 color: Colors.grey[300],
-                child: Center(
+                child: const Center(
                   child: SizedBox(
                     width: 24,
                     height: 24,

@@ -18,6 +18,7 @@ class UserProfile with _$UserProfile {
     @Default(false) bool pendingVerification,
     @Default('') String imageUrl,
     @Default([]) List<String> followingList,
+    @Default([]) List<String> fcmTokens,
   }) = _UserProfile;
 
   factory UserProfile.fromSnapshot(DocumentSnapshot snapshot) {
@@ -50,6 +51,7 @@ class UserProfile with _$UserProfile {
       'name': name,
       'imageUrl': imageUrl,
       'followingList': followingList,
+      'fcmTokens': fcmTokens,
     };
   }
 }
