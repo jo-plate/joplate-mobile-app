@@ -18,6 +18,7 @@ class SinglePlateForm extends StatefulWidget {
     required this.onDiscountChanged,
     required this.onFeaturedToggle,
     required this.onDiscountToggle,
+    required this.onCallForPriceToggle,
     this.onRemoveForm,
   });
 
@@ -29,6 +30,7 @@ class SinglePlateForm extends StatefulWidget {
   final ValueChanged<String> onDiscountChanged;
   final ValueChanged<bool> onDiscountToggle;
   final ValueChanged<bool> onFeaturedToggle;
+  final ValueChanged<bool> onCallForPriceToggle;
   final VoidCallback? onRemoveForm;
 
   @override
@@ -112,33 +114,50 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
                   decoration: InputDecoration(labelText: m.addplate.number),
                 ),
                 const SizedBox(height: 16),
-                TextField(
-                  controller: priceController,
-                  onChanged: widget.onPriceChanged,
-                  keyboardType: TextInputType.number,
-                  enabled: !isSubmitting,
-                  decoration: InputDecoration(
-                      labelText: widget.formState.withDiscount ? m.addplate.price_before_discount : m.addplate.price),
-                ),
-                const SizedBox(height: 16),
+                
+                // Call for price toggle
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(m.addplate.with_discount, style: const TextStyle(fontSize: 16)),
+                    Text(m.platesdetails.call_for_price, style: const TextStyle(fontSize: 16)),
                     Switch(
-                      value: widget.formState.withDiscount,
-                      onChanged: isSubmitting ? null : widget.onDiscountToggle,
+                      value: widget.formState.callForPrice,
+                      onChanged: isSubmitting ? null : widget.onCallForPriceToggle,
                     ),
                   ],
                 ),
-                if (widget.formState.withDiscount)
+
+                // Only show price fields if not "Call for Price"
+                if (!widget.formState.callForPrice) ...[
+                  const SizedBox(height: 16),
                   TextField(
-                    controller: discountController,
-                    onChanged: widget.onDiscountChanged,
+                    controller: priceController,
+                    onChanged: widget.onPriceChanged,
                     keyboardType: TextInputType.number,
                     enabled: !isSubmitting,
-                    decoration: InputDecoration(labelText: m.addplate.price_after_discount),
+                    decoration: InputDecoration(
+                        labelText: widget.formState.withDiscount ? m.addplate.price_before_discount : m.addplate.price),
                   ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(m.addplate.with_discount, style: const TextStyle(fontSize: 16)),
+                      Switch(
+                        value: widget.formState.withDiscount,
+                        onChanged: isSubmitting ? null : widget.onDiscountToggle,
+                      ),
+                    ],
+                  ),
+                  if (widget.formState.withDiscount)
+                    TextField(
+                      controller: discountController,
+                      onChanged: widget.onDiscountChanged,
+                      keyboardType: TextInputType.number,
+                      enabled: !isSubmitting,
+                      decoration: InputDecoration(labelText: m.addplate.price_after_discount),
+                    ),
+                ],
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

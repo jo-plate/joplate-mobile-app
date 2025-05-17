@@ -21,6 +21,7 @@ mixin _$PlateFormState {
   String get price => throw _privateConstructorUsedError;
   bool get withDiscount => throw _privateConstructorUsedError;
   bool get isFeatured => throw _privateConstructorUsedError;
+  bool get callForPrice => throw _privateConstructorUsedError;
   String? get discountPrice => throw _privateConstructorUsedError;
   bool get isSubmitting => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
@@ -44,6 +45,7 @@ abstract class $PlateFormStateCopyWith<$Res> {
       String price,
       bool withDiscount,
       bool isFeatured,
+      bool callForPrice,
       String? discountPrice,
       bool isSubmitting,
       String? errorMessage});
@@ -69,6 +71,7 @@ class _$PlateFormStateCopyWithImpl<$Res, $Val extends PlateFormState>
     Object? price = null,
     Object? withDiscount = null,
     Object? isFeatured = null,
+    Object? callForPrice = null,
     Object? discountPrice = freezed,
     Object? isSubmitting = null,
     Object? errorMessage = freezed,
@@ -93,6 +96,10 @@ class _$PlateFormStateCopyWithImpl<$Res, $Val extends PlateFormState>
       isFeatured: null == isFeatured
           ? _value.isFeatured
           : isFeatured // ignore: cast_nullable_to_non_nullable
+              as bool,
+      callForPrice: null == callForPrice
+          ? _value.callForPrice
+          : callForPrice // ignore: cast_nullable_to_non_nullable
               as bool,
       discountPrice: freezed == discountPrice
           ? _value.discountPrice
@@ -124,6 +131,7 @@ abstract class _$$PlateFormStateImplCopyWith<$Res>
       String price,
       bool withDiscount,
       bool isFeatured,
+      bool callForPrice,
       String? discountPrice,
       bool isSubmitting,
       String? errorMessage});
@@ -147,6 +155,7 @@ class __$$PlateFormStateImplCopyWithImpl<$Res>
     Object? price = null,
     Object? withDiscount = null,
     Object? isFeatured = null,
+    Object? callForPrice = null,
     Object? discountPrice = freezed,
     Object? isSubmitting = null,
     Object? errorMessage = freezed,
@@ -171,6 +180,10 @@ class __$$PlateFormStateImplCopyWithImpl<$Res>
       isFeatured: null == isFeatured
           ? _value.isFeatured
           : isFeatured // ignore: cast_nullable_to_non_nullable
+              as bool,
+      callForPrice: null == callForPrice
+          ? _value.callForPrice
+          : callForPrice // ignore: cast_nullable_to_non_nullable
               as bool,
       discountPrice: freezed == discountPrice
           ? _value.discountPrice
@@ -197,6 +210,7 @@ class _$PlateFormStateImpl implements _PlateFormState {
       required this.price,
       required this.withDiscount,
       required this.isFeatured,
+      this.callForPrice = false,
       this.discountPrice,
       this.isSubmitting = false,
       this.errorMessage});
@@ -212,6 +226,9 @@ class _$PlateFormStateImpl implements _PlateFormState {
   @override
   final bool isFeatured;
   @override
+  @JsonKey()
+  final bool callForPrice;
+  @override
   final String? discountPrice;
   @override
   @JsonKey()
@@ -221,7 +238,7 @@ class _$PlateFormStateImpl implements _PlateFormState {
 
   @override
   String toString() {
-    return 'PlateFormState(code: $code, number: $number, price: $price, withDiscount: $withDiscount, isFeatured: $isFeatured, discountPrice: $discountPrice, isSubmitting: $isSubmitting, errorMessage: $errorMessage)';
+    return 'PlateFormState(code: $code, number: $number, price: $price, withDiscount: $withDiscount, isFeatured: $isFeatured, callForPrice: $callForPrice, discountPrice: $discountPrice, isSubmitting: $isSubmitting, errorMessage: $errorMessage)';
   }
 
   @override
@@ -236,6 +253,8 @@ class _$PlateFormStateImpl implements _PlateFormState {
                 other.withDiscount == withDiscount) &&
             (identical(other.isFeatured, isFeatured) ||
                 other.isFeatured == isFeatured) &&
+            (identical(other.callForPrice, callForPrice) ||
+                other.callForPrice == callForPrice) &&
             (identical(other.discountPrice, discountPrice) ||
                 other.discountPrice == discountPrice) &&
             (identical(other.isSubmitting, isSubmitting) ||
@@ -245,8 +264,17 @@ class _$PlateFormStateImpl implements _PlateFormState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, code, number, price,
-      withDiscount, isFeatured, discountPrice, isSubmitting, errorMessage);
+  int get hashCode => Object.hash(
+      runtimeType,
+      code,
+      number,
+      price,
+      withDiscount,
+      isFeatured,
+      callForPrice,
+      discountPrice,
+      isSubmitting,
+      errorMessage);
 
   /// Create a copy of PlateFormState
   /// with the given fields replaced by the non-null parameter values.
@@ -265,6 +293,7 @@ abstract class _PlateFormState implements PlateFormState {
       required final String price,
       required final bool withDiscount,
       required final bool isFeatured,
+      final bool callForPrice,
       final String? discountPrice,
       final bool isSubmitting,
       final String? errorMessage}) = _$PlateFormStateImpl;
@@ -279,6 +308,8 @@ abstract class _PlateFormState implements PlateFormState {
   bool get withDiscount;
   @override
   bool get isFeatured;
+  @override
+  bool get callForPrice;
   @override
   String? get discountPrice;
   @override

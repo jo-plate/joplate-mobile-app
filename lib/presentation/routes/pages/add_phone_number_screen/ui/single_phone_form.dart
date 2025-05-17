@@ -15,6 +15,7 @@ class SinglePhoneForm extends StatefulWidget {
     required this.onDiscountChanged,
     required this.onDiscountToggle,
     required this.onFeaturedToggle,
+    required this.onCallForPriceToggle,
     this.onRemoveForm,
   });
 
@@ -26,6 +27,7 @@ class SinglePhoneForm extends StatefulWidget {
   final ValueChanged<String> onDiscountChanged;
   final ValueChanged<bool> onDiscountToggle;
   final ValueChanged<bool> onFeaturedToggle;
+  final ValueChanged<bool> onCallForPriceToggle;
 
   /// Callback to remove this form from the parent
   final VoidCallback? onRemoveForm;
@@ -104,35 +106,53 @@ class _SinglePhoneFormState extends State<SinglePhoneForm> {
                   enabled: !isSubmitting,
                 ),
                 const SizedBox(height: 16),
-                TextField(
-                  controller: priceController,
-                  onChanged: widget.onPriceChanged,
-                  keyboardType: TextInputType.number,
-                  enabled: !isSubmitting,
-                  decoration: InputDecoration(
-                      labelText: widget.formState.withDiscount
-                          ? m.addphonenumber.price_before_discount
-                          : m.addphonenumber.price),
-                ),
-                const SizedBox(height: 16),
+                
+                // Call for price toggle
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(m.addphonenumber.with_discount, style: const TextStyle(fontSize: 16)),
+                    Text(m.platesdetails.call_for_price, style: const TextStyle(fontSize: 16)),
                     Switch(
-                      value: widget.formState.withDiscount,
-                      onChanged: isSubmitting ? null : widget.onDiscountToggle,
+                      value: widget.formState.callForPrice,
+                      onChanged: isSubmitting ? null : widget.onCallForPriceToggle,
                     ),
                   ],
                 ),
-                if (widget.formState.withDiscount)
+
+                // Only show price fields if not "Call for Price"
+                if (!widget.formState.callForPrice) ...[
+                  const SizedBox(height: 16),
                   TextField(
-                    controller: discountController,
-                    onChanged: widget.onDiscountChanged,
+                    controller: priceController,
+                    onChanged: widget.onPriceChanged,
                     keyboardType: TextInputType.number,
                     enabled: !isSubmitting,
-                    decoration: InputDecoration(labelText: m.addphonenumber.price_after_discount),
+                    decoration: InputDecoration(
+                        labelText: widget.formState.withDiscount
+                            ? m.addphonenumber.price_before_discount
+                            : m.addphonenumber.price),
                   ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(m.addphonenumber.with_discount, style: const TextStyle(fontSize: 16)),
+                      Switch(
+                        value: widget.formState.withDiscount,
+                        onChanged: isSubmitting ? null : widget.onDiscountToggle,
+                      ),
+                    ],
+                  ),
+                  if (widget.formState.withDiscount)
+                    TextField(
+                      controller: discountController,
+                      onChanged: widget.onDiscountChanged,
+                      keyboardType: TextInputType.number,
+                      enabled: !isSubmitting,
+                      decoration: InputDecoration(labelText: m.addphonenumber.price_after_discount),
+                    ),
+                ],
+                
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

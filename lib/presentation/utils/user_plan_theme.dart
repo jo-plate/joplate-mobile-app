@@ -30,7 +30,7 @@ class UserPlanTheme {
       case PlanType.gold_plan:
         return const Color(0xFF2D2A1F);
       case PlanType.diamond_plan:
-        return isDarkMode ? const Color(0xFF1E274E) : const Color.fromARGB(68, 85, 90, 255);
+        return const Color(0xFF1E274E);
       default:
         return isDarkMode ? const Color(0xFF252A41) : const Color.fromARGB(255, 255, 214, 214);
     }

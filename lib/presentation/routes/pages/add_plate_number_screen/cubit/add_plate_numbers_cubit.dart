@@ -24,6 +24,7 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
       isSubmitting: false,
       errorMessage: null,
       isFeatured: false,
+      callForPrice: false,
     );
     emit(state.copyWith(forms: [...state.forms, newForm]));
   }
@@ -70,6 +71,10 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
     _updateForm(index, state.forms[index].copyWith(discountPrice: discount, errorMessage: null));
   }
 
+  void toggleCallForPrice(int index, bool enable) {
+    _updateForm(index, state.forms[index].copyWith(callForPrice: enable, errorMessage: null));
+  }
+
   /// Submit all forms in sequence, with callbacks
   Future<void> submitAllForms({
     required void Function(String listingId) onSuccess,
@@ -81,7 +86,7 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
       final form = forms[i];
 
       // Basic validation
-      if (form.code.isEmpty || form.number.isEmpty || form.price.isEmpty) {
+      if (form.code.isEmpty || form.number.isEmpty || (!form.callForPrice && form.price.isEmpty)) {
         forms[i] = form.copyWith(errorMessage: 'Please fill all required fields');
         emit(state.copyWith(forms: forms));
         continue;
@@ -91,11 +96,20 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
       forms[i] = form.copyWith(isSubmitting: true, errorMessage: null);
       emit(state.copyWith(forms: forms));
 
+      // Use actual price if provided, or 0 if call for price is enabled
+      final priceValue = form.callForPrice ? 0 : int.tryParse(form.price) ?? 0;
+      if (priceValue == 0 && !form.callForPrice) {
+        forms[i] = form.copyWith(isSubmitting: false, errorMessage: 'Price cannot be 0');
+        emit(state.copyWith(forms: forms));
+        onError('Price cannot be 0');
+        continue;
+      }
+
       final input = AddPlateNumberInput(
         code: form.code,
         number: form.number,
-        price: int.parse(form.price),
-        discountPrice: form.withDiscount ? int.tryParse(form.discountPrice ?? '') : null,
+        price: priceValue,
+        discountPrice: form.withDiscount && !form.callForPrice ? int.tryParse(form.discountPrice ?? '') : null,
         isFeatured: form.isFeatured,
       );
 

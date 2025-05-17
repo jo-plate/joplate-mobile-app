@@ -11,6 +11,7 @@ class PlateFormState with _$PlateFormState {
     required String price,
     required bool withDiscount,
     required bool isFeatured,
+    @Default(false) bool callForPrice,
     String? discountPrice,
     @Default(false) bool isSubmitting,
     String? errorMessage,

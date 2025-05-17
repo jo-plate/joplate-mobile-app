@@ -18,6 +18,7 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
       discountPrice: null,
       isSubmitting: false,
       isFeatured: false,
+      callForPrice: false,
       errorMessage: null,
     );
     emit(state.copyWith(forms: [...state.forms, newForm]));
@@ -83,6 +84,16 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
     );
   }
 
+  void toggleCallForPrice(int index, bool enable) {
+    _updateForm(
+      index,
+      state.forms[index].copyWith(
+        callForPrice: enable,
+        errorMessage: null,
+      ),
+    );
+  }
+
   Future<void> submitAllForms({
     required void Function(String listingId) onSuccess,
     required void Function(String errorMessage) onError,
@@ -92,7 +103,7 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
     for (int i = 0; i < forms.length; i++) {
       final form = forms[i];
 
-      if (form.number.isEmpty || form.price.isEmpty) {
+      if (form.number.isEmpty || (!form.callForPrice && form.price.isEmpty)) {
         forms[i] = form.copyWith(errorMessage: 'Please fill all required fields');
         emit(state.copyWith(forms: forms));
         continue;
@@ -101,10 +112,18 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
       forms[i] = form.copyWith(isSubmitting: true, errorMessage: null);
       emit(state.copyWith(forms: forms));
 
+      final priceValue = form.callForPrice ? 0 : int.tryParse(form.price) ?? 0;
+      if (priceValue == 0 && !form.callForPrice) {
+        forms[i] = form.copyWith(isSubmitting: false, errorMessage: 'Price cannot be 0');
+        emit(state.copyWith(forms: forms));
+        onError('Price cannot be 0');
+        continue;
+      }
+
       final input = AddPhoneNumberInput(
         number: form.number,
-        price: int.tryParse(form.price) ?? 0,
-        discountPrice: form.withDiscount ? int.tryParse(form.discountPrice ?? '') : null,
+        price: priceValue,
+        discountPrice: form.withDiscount && !form.callForPrice ? int.tryParse(form.discountPrice ?? '') : null,
       );
 
       final addListingDto = AddListingDto(
