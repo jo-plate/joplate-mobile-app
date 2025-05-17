@@ -10,10 +10,14 @@ import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/utils/strings.dart';
+import 'package:joplate/presentation/widgets/app_bar.dart/phone_number_request_widget.dart';
+import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_request_widget.dart';
 import 'package:joplate/presentation/widgets/profile_banner.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phones_listing_grid.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plates_listing_grid.dart';
+import 'package:joplate/presentation/widgets/app_bar.dart/plates_request_grid.dart';
+import 'package:joplate/presentation/widgets/app_bar.dart/phones_requests_grid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -473,7 +477,6 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: PlatesListingsGrid(
             itemList: plateListings,
-            shrinkWrap: true,
           ),
         );
       },
@@ -536,7 +539,6 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: PhonesListingGrid(
             itemList: phoneListings,
-            shrinkWrap: true,
           ),
         );
       },
@@ -596,31 +598,8 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
 
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: plateRequests.length,
-            itemBuilder: (context, index) {
-              final request = plateRequests[index];
-              return Card(
-                margin: const EdgeInsets.only(bottom: 12),
-                child: ListTile(
-                  title: Text(
-                    '${request.item.code} - ${request.item.number}',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(
-                    request.price > 0 ? 'Price: JOD ${request.price}' : 'No price specified',
-                  ),
-                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                  onTap: () {
-                    AutoRouter.of(context).push(
-                      PlateRequestDetailsRoute(requestId: request.id),
-                    );
-                  },
-                ),
-              );
-            },
+          child: PlatesRequestGrid(
+            itemList: plateRequests,
           ),
         );
       },
@@ -680,31 +659,8 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
 
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: phoneRequests.length,
-            itemBuilder: (context, index) {
-              final request = phoneRequests[index];
-              return Card(
-                margin: const EdgeInsets.only(bottom: 12),
-                child: ListTile(
-                  title: Text(
-                    request.item.number,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(
-                    request.price > 0 ? 'Price: JOD ${request.price}' : 'No price specified',
-                  ),
-                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                  onTap: () {
-                    AutoRouter.of(context).push(
-                      PhoneRequestDetailsRoute(phoneNumberRequestId: request.id),
-                    );
-                  },
-                ),
-              );
-            },
+          child: PhonesRequestsGrid(
+            itemList: phoneRequests,
           ),
         );
       },
