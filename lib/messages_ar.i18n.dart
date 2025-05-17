@@ -1582,6 +1582,11 @@ class AuthMessagesAr extends AuthMessages {
   /// "تسجيل الدخول"
   /// ```
   String get login => """تسجيل الدخول""";
+
+  /// ```dart
+  /// "تابعنا على"
+  /// ```
+  String get follow_us => """تابعنا على""";
 }
 
 class FeedMessagesAr extends FeedMessages {
@@ -1984,6 +1989,7 @@ Map<String, String> get messagesArMap => {
   """auth.password_reset_success_message""":
       """تم إعادة تعيين كلمة المرور بنجاح. يمكنك الآن تسجيل الدخول باستخدام كلمة المرور الجديدة.""",
   """auth.login""": """تسجيل الدخول""",
+  """auth.follow_us""": """تابعنا على""",
   """feed.title""": """المتابعة""",
   """feed.login_required""": """يجب تسجيل الدخول لعرض الاعلانات""",
   """feed.sign_in""": """تسجيل الدخول""",

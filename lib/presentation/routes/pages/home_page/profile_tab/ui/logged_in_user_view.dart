@@ -15,6 +15,7 @@ import 'package:joplate/presentation/widgets/app_snackbar.dart';
 import 'package:joplate/presentation/widgets/menu_item.dart';
 import 'package:joplate/presentation/widgets/profile_banner.dart';
 import 'package:joplate/presentation/cubits/theme_cubit.dart';
+import 'package:joplate/presentation/widgets/social_links.dart';
 
 class LoggedInUserView extends StatefulWidget {
   const LoggedInUserView({super.key});
@@ -98,6 +99,8 @@ class _UserProfileViewState extends State<_UserProfileView> {
                 _buildSettingsSection(),
                 const SizedBox(height: 16),
                 _buildDeveloperSection(context),
+                const SizedBox(height: 16),
+                const SocialLinks(),
                 const SizedBox(height: 16),
                 if (snapshot.data != null) _buildLogOutSection(),
               ],
@@ -376,13 +379,13 @@ class _UserProfileViewState extends State<_UserProfileView> {
 
     return Column(
       children: [
-        _buildClickableItem(m.profile.aboutus, Icons.info_outline),
+        // _buildClickableItem(m.profile.aboutus, Icons.info_outline),
         _buildClickableItem(m.profile.privacy_policy, Icons.privacy_tip_outlined, () {
           AutoRouter.of(context).push(const PrivacyPolicyRoute());
         }),
         _buildClickableItem(m.profile.terms_conditions, Icons.description_outlined,
             () => AutoRouter.of(context).push(const TermsAndConditionsRoute())),
-        _buildClickableItem(m.profile.instructions, Icons.help_outline),
+        // _buildClickableItem(m.profile.instructions, Icons.help_outline),
       ],
     );
   }

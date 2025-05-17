@@ -319,6 +319,7 @@ auth:
   password_reset_successful: "Password Reset Successful"
   password_reset_success_message: "Your password has been reset successfully. You can now login with your new password."
   login: "Login"
+  follow_us: "Follow us on"
 
 feed:
   title: "Feed"

@@ -1577,6 +1577,11 @@ class AuthMessages {
   /// "Login"
   /// ```
   String get login => """Login""";
+
+  /// ```dart
+  /// "Follow us on"
+  /// ```
+  String get follow_us => """Follow us on""";
 }
 
 class FeedMessages {
@@ -1974,6 +1979,7 @@ Map<String, String> get messagesMap => {
   """auth.password_reset_success_message""":
       """Your password has been reset successfully. You can now login with your new password.""",
   """auth.login""": """Login""",
+  """auth.follow_us""": """Follow us on""",
   """feed.title""": """Feed""",
   """feed.login_required""": """You need to sign in to view your feed""",
   """feed.sign_in""": """Sign In""",

@@ -7,6 +7,7 @@ import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/auth_screen/ui/login_form.dart';
 import 'package:joplate/presentation/routes/pages/auth_screen/ui/signup_form.dart';
 import 'package:joplate/presentation/routes/pages/home_page/home_tab/ui/logo_section.dart';
+import 'package:joplate/presentation/widgets/social_links.dart';
 
 @RoutePage()
 class AuthPage extends StatefulWidget {
@@ -92,6 +93,25 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
                     // Sign up Tab Content
                     SignupForm(
                       onPressed: injector<AuthCubit>().signUpWithEmailAndPassword,
+                    ),
+                  ],
+                ),
+              ),
+              // Social Links Section
+              Padding(
+                padding: const EdgeInsets.only(bottom: 24.0),
+                child: Column(
+                  children: [
+                    Text(
+                      m.auth.follow_us,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: isDark ? Colors.white70 : Colors.black54,
+                          ),
+                    ),
+                    const SizedBox(height: 8),
+                    const SocialLinks(
+                      iconSize: 28.0,
+                      spacing: 24.0,
                     ),
                   ],
                 ),
