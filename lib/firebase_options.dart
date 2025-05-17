@@ -59,11 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAoRd2Ab3dtPy-EdnLa3l7xPZW1L1TfVn0',
-    appId: '1:907242765194:ios:aff9929f1d1e16d3a7e673',
+    appId: '1:907242765194:ios:541cdddcc2eadce7a7e673',
     messagingSenderId: '907242765194',
     projectId: 'joplate',
     storageBucket: 'joplate.firebasestorage.app',
-    iosBundleId: 'com.joplate.app',
+    iosBundleId: 'com.joplate.joplate',
   );
 
 }
