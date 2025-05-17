@@ -83,7 +83,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
     final m = Localization.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(m.editProfile.edit_email),
+        title: Text(m.editprofile.edit_email),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -92,7 +92,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
           children: [
             TextField(
               controller: _emailController,
-              decoration: InputDecoration(labelText: m.editProfile.email),
+              decoration: InputDecoration(labelText: m.editprofile.email),
               keyboardType: TextInputType.emailAddress,
             ),
             const SizedBox(height: 16),
@@ -111,7 +111,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
                 }
               },
               child:
-                  Text(emailVerificationVisible ? m.editProfile.verifyandsave : m.editProfile.send_verification_code),
+                  Text(emailVerificationVisible ? m.editprofile.verifyandsave : m.editprofile.send_verification_code),
             ),
           ],
         ),

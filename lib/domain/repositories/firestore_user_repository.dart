@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
-import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/dto/signup_input.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
 

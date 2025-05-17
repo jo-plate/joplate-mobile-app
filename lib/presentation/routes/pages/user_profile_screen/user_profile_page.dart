@@ -9,6 +9,7 @@ import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
+import 'package:joplate/presentation/utils/strings.dart';
 import 'package:joplate/presentation/widgets/profile_banner.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phones_listing_grid.dart';
@@ -53,17 +54,6 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
         .doc(widget.userId)
         .snapshots()
         .map((snapshot) => snapshot.exists ? UserProfile.fromJson(snapshot.data()!) : UserProfile.empty());
-  }
-
-  // Function to obfuscate phone number (hide 5 digits)
-  String obfuscatePhoneNumber(String phoneNumber) {
-    if (phoneNumber.length <= 5) return phoneNumber;
-
-    final visibleStart = phoneNumber.substring(0, 2);
-    final visibleEnd = phoneNumber.substring(phoneNumber.length - 3);
-    final hidden = "*****";
-
-    return "$visibleStart$hidden$visibleEnd";
   }
 
   @override
@@ -148,89 +138,92 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
                     onFollowPressed: _handleFollowPress,
                   ),
                 ),
-                
+
                 // Contact buttons (WhatsApp and Call)
                 if (widget.userId != _currentUserId && userProfile.phonenumber.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.green.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: InkWell(
-                              onTap: () {
-                                launchUrlString("https://wa.me/962${userProfile.phonenumber.substring(1)}",
-                                    mode: LaunchMode.externalApplication);
-                              },
-                              borderRadius: BorderRadius.circular(8),
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  FaIcon(
-                                    FontAwesomeIcons.whatsapp,
-                                    color: Colors.green,
-                                    size: 20,
-                                  ),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    'WhatsApp',
-                                    style: TextStyle(
+                  Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: Colors.green.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: InkWell(
+                                onTap: () {
+                                  launchUrlString("https://wa.me/962${userProfile.phonenumber.substring(1)}",
+                                      mode: LaunchMode.externalApplication);
+                                },
+                                borderRadius: BorderRadius.circular(8),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    FaIcon(
+                                      FontAwesomeIcons.whatsapp,
                                       color: Colors.green,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
+                                      size: 20,
                                     ),
-                                  ),
-                                ],
+                                    SizedBox(width: 8),
+                                    Text(
+                                      'WhatsApp',
+                                      style: TextStyle(
+                                        color: Colors.green,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: primaryColor,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: InkWell(
-                              onTap: () async {
-                                final uri = 'tel:+962${userProfile.phonenumber.substring(1)}';
-                                if (await canLaunchUrlString(uri)) {
-                                  await launchUrlString(uri);
-                                } else {
-                                  throw 'Could not launch dialer';
-                                }
-                              },
-                              borderRadius: BorderRadius.circular(8),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    Icons.phone,
-                                    size: 16,
-                                    color: Colors.white,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    obfuscatePhoneNumber(userProfile.phonenumber),
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF981C1E),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: InkWell(
+                                onTap: () async {
+                                  final uri = 'tel:+962${userProfile.phonenumber.substring(1)}';
+                                  if (await canLaunchUrlString(uri)) {
+                                    await launchUrlString(uri);
+                                  } else {
+                                    throw 'Could not launch dialer';
+                                  }
+                                },
+                                borderRadius: BorderRadius.circular(8),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      Icons.phone,
+                                      size: 16,
                                       color: Colors.white,
                                     ),
-                                  ),
-                                ],
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      obfuscatePhoneNumber(userProfile.phonenumber),
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
 

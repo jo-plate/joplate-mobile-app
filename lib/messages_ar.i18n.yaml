@@ -45,7 +45,7 @@ profile:
   gallery: "معرض الصور"
   camera: "الكاميرا"
   promo_code: "رمز ترويجي"
-  joined_on: "عضو منذ {date}"
+  joined_on(String date): "عضو منذ $date"
 
 footer:
   home: "الرئيسية"
@@ -53,9 +53,9 @@ footer:
   favorites: "المفضلة"
   feed: "المتابعة"
 
-edit profile:
+editprofile:
  header: " الملف الشخصي"
- Full_Name: "الاسم الكامل"
+ full_name: "الاسم الكامل"
  phone_number: "رقم الهاتف"
  email: "البريد الالكتروني"
  change_password: "تغيير كلمة المرور"
@@ -202,7 +202,7 @@ listingdetails:
 
 phonedetails:
   title: "تفاصيل رقم الهاتف"
-  share_message: "اطلع على رقم اللوحة هذا: {number}"
+  share_message(String number): "اطلع على رقم اللوحة هذا: $number"
   important_note: "ملاحظات هامة:"
   dont_transfer_money: "لا تقم بتحويل الأموال عبر الإنترنت"
   meet_in_person: "قابل البائع شخصياً"
@@ -215,9 +215,9 @@ sellerdetails:
 
 platesdetails:
   title: "تفاصيل رقم السيارة"
-  error_loading_data: "حدث خطأ أثناء جلب بيانات الرقم: {plateNumber}"
+  error_loading_data(String plateNumber): "حدث خطأ أثناء جلب بيانات الرقم: $plateNumber"
   originally_posted_by: "نُشر بواسطة"
-  member_since: "عضو منذ {year}"
+  member_since(String year): "عضو منذ $year"
   whatsapp: "واتساب"
   call: "اتصال"
   other_sellers: "بائعون آخرون"
@@ -227,7 +227,7 @@ platesdetails:
   important_note: "ملاحظة هامة:"
   dont_transfer_money: "لا تقم بتحويل الأموال عبر الإنترنت"
   meet_in_person: "قابل البائع شخصياً"
-  days_ago: "منذ {days}"
+  days_ago(String days): "منذ $days"
   call_for_price: "اتصل لمعرفة السعر"
   
 quicksale:
@@ -278,10 +278,10 @@ iap:
   purchase: "شراء"
 
 datetime:
-  days_ago: "{days} يوم"
-  hours_ago: "{hours} ساعة"
-  minutes_ago: "{minutes} دقيقة"
-  seconds_ago: "{seconds} ثانية"
+  days_ago(String days): "$days يوم"
+  hours_ago(String hours): "$hours ساعة"
+  minutes_ago(String minutes): "$minutes دقيقة"
+  seconds_ago(String seconds): "$seconds ثانية"
   just_now: "الآن"
 
 auth:
@@ -299,3 +299,31 @@ auth:
   reset: "استعادة"
   reset_sent: "تم إرسال تعليمات استعادة كلمة المرور إلى بريدك الإلكتروني"
   guest: "الاستمرار كزائر"
+
+feed:
+  title: "المتابعة"
+  login_required: "يجب تسجيل الدخول لعرض التغذية الخاصة بك"
+  sign_in: "تسجيل الدخول"
+  error_loading: "خطأ في تحميل الملف الشخصي:"
+  retry: "إعادة المحاولة"
+  user_not_found: "لم يتم العثور على الملف الشخصي"
+  empty_feed: "التغذية الخاصة بك فارغة"
+  follow_users: "تابع المستخدمين لرؤية إعلاناتهم هنا"
+  explore_listings: "استكشاف الإعلانات"
+  no_users_followed: "أنت لا تتابع أي مستخدمين"
+  error_generic: "خطأ في تحميل البيانات:"
+  no_plate_listings: "لا توجد إعلانات لوحات من المستخدمين الذين تتابعهم"
+  no_phone_listings: "لا توجد إعلانات هواتف من المستخدمين الذين تتابعهم"
+
+privacy:
+  title: "سياسة الخصوصية"
+
+terms:
+  title: "الشروط والأحكام"
+
+common:
+  no_items_found: "لا توجد عناصر"
+  no_results_found: "لا توجد نتائج"
+  no_data_found: "لا توجد بيانات"
+  no_results: "لا توجد نتائج"
+  no_items: "لا توجد عناصر"

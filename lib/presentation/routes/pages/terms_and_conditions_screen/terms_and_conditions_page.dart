@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 
 @RoutePage()
 class TermsAndConditionsPage extends StatelessWidget {
@@ -7,9 +8,10 @@ class TermsAndConditionsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Terms and Conditions'),
+        title: Text(m.terms.title),
         backgroundColor: const Color(0xFF981C1E),
         foregroundColor: Colors.white,
         surfaceTintColor: Colors.white,
@@ -26,63 +28,94 @@ class TermsAndConditionsPage extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildSection("1. Introduction",
-                  "Welcome to Joplate. Our platform connects sellers of phone numbers or car plate numbers with potential buyers. By using this app, you agree to be bound by these Terms and Conditions. If you do not accept them, you must refrain from using the app."),
-              _buildSection("2. Nature of Our Service",
-                  "Joplate only provides a listing platform. We do not facilitate any transactions or transfers of funds between users. We do not offer in-app messaging, payment services, or escrow. Joplate is not responsible for any aspect of user-to-user interactions beyond listing advertisements."),
-              _buildSection(
-                  "3. User Responsibilities",
-                  "• You are solely responsible for verifying the legitimacy of any listings and for conducting safe transactions. We do not guarantee or endorse any listings.\n\n"
-                      "• Exercise caution and do your own due diligence to avoid scams.\n\n"
-                      "• If you choose to share personal or financial information with another user, you do so at your own risk."),
-              _buildSection("4. Seller Verification",
-                  "We offer a paid verification service for sellers who wish to display a special checkmark. Verification involves additional vetting by Joplate, but does not imply any guarantee of the seller’s identity, reputation, or transaction outcome. Joplate is not liable for the behavior or claims of verified sellers."),
-              _buildSection("5. No Liability for Transactions",
-                  "Because we do not facilitate or monitor transactions, Joplate will not be liable for any disputes, scams, losses, or damages arising from interactions between buyers and sellers. All transactions and negotiations take place solely between users."),
-              _buildSection("6. Disclaimer of Warranties",
-                  "Joplate is provided on an “as is” and “as available” basis. We disclaim all warranties, express or implied, to the fullest extent permitted by law. We make no representations or warranties about the accuracy, reliability, or completeness of listings."),
-              _buildSection("7. Limitation of Liability",
-                  "To the fullest extent permitted by law, Joplate shall not be liable for any direct, indirect, incidental, special, or consequential damages resulting from the use or inability to use the app, including scams, fraud, or personal injury incurred through third-party transactions."),
-              _buildSection("8. Changes to Terms",
-                  "We may update or modify these Terms and Conditions at any time. Any significant changes will be posted within the app or on our official website. Continued use of Joplate after changes become effective means you accept the updated Terms."),
-              _buildSection("9. Governing Law",
-                  "These Terms and Conditions shall be governed by and construed in accordance with the laws of your jurisdiction, without regard to its conflict of law provisions."),
-              _buildSection(
-                  "10. Contact Us",
-                  "For questions or concerns regarding these Terms and Conditions, please contact us at:\n\n"
-                      "• Email: [Insert Email]\n"
-                      "• Address: [Insert Address]\n\n"
-                      "By continuing to use Joplate, you acknowledge that you have read and agree to these Terms and Conditions."),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSection(String title, String content) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0, top: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (title.isNotEmpty)
+      body: const SingleChildScrollView(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             Text(
-              title,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              'Effective Date: January 1, 2023',
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
-          const SizedBox(height: 4),
-          Text(
-            content,
-            style: const TextStyle(fontSize: 16, height: 1.5),
-          ),
-        ],
+            SizedBox(height: 16),
+            Text(
+              'Please read these Terms and Conditions carefully before using the Joplate mobile application. By accessing or using our service, you agree to be bound by these Terms and Conditions.',
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Acceptance of Terms',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'By using our app, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions. If you do not agree to these terms, please do not use our services.',
+            ),
+            SizedBox(height: 16),
+            Text(
+              'User Accounts',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            SizedBox(height: 8),
+            Text(
+              '• You are responsible for maintaining the confidentiality of your account and password.\n'
+              '• You accept responsibility for all activities that occur under your account.\n'
+              '• You must be at least 18 years old to use this service.\n'
+              '• You agree to provide accurate and complete information when creating an account.',
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Listing and Transactions',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            SizedBox(height: 8),
+            Text(
+              '• You are solely responsible for the accuracy of your listings.\n'
+              '• All transactions are between buyers and sellers directly. Joplate only facilitates connections.\n'
+              '• Joplate does not guarantee the quality, safety, or legality of listed items.\n'
+              '• Listing fees and transaction fees may apply as specified in the app.',
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Prohibited Activities',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            SizedBox(height: 8),
+            Text(
+              '• Posting false, inaccurate, or misleading information\n'
+              '• Using the service for any illegal purpose\n'
+              '• Attempting to bypass any security measures\n'
+              '• Impersonating another person or entity\n'
+              '• Harassing or threatening other users',
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Termination',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'We reserve the right to terminate or suspend access to our service immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms and Conditions.',
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Changes to Terms',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'We reserve the right to modify or replace these Terms at any time. We will provide notice of significant changes. Your continued use of the service after such changes constitutes your acceptance of the new Terms.',
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Contact Us',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'If you have any questions about these Terms, please contact us at legal@joplate.com',
+            ),
+          ],
+        ),
       ),
     );
   }

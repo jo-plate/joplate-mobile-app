@@ -56,11 +56,13 @@ class _LoginFormState extends State<LoginForm> {
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   TextFormField(
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
                     validator: Validators.validateEmail,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
                       labelText: m.auth.email,
                       prefixIcon: Icon(Icons.email_outlined, color: primaryColor.withOpacity(0.8)),
@@ -73,6 +75,7 @@ class _LoginFormState extends State<LoginForm> {
                     controller: passwordController,
                     obscureText: _obscurePassword,
                     validator: Validators.validatePassword,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
                       labelText: m.auth.password,
                       prefixIcon: Icon(Icons.lock_outline, color: primaryColor.withOpacity(0.8)),
@@ -106,8 +109,6 @@ class _LoginFormState extends State<LoginForm> {
                   ElevatedButton(
                     onPressed: isSubmitting ? null : _handleSubmit,
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: primaryColor,
                       disabledForegroundColor: Colors.grey.shade300,
                       disabledBackgroundColor: Colors.grey.shade600,
                     ),

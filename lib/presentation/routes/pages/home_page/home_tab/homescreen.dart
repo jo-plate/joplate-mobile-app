@@ -68,13 +68,15 @@ class _HomePageState extends State<HomePage> {
             children: [
               const LogoSection(),
               const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 2),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                ),
                 child: CategorySection(),
               ),
 
               // Tab toggle for plates and phones
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+                padding: const EdgeInsets.only(top: 8.0, left: 16.0, right: 16.0, bottom: 16.0),
                 child: Container(
                   height: 45,
                   decoration: BoxDecoration(

@@ -66,7 +66,7 @@ class Messages {
   HomeMessages get home => HomeMessages(this);
   ProfileMessages get profile => ProfileMessages(this);
   FooterMessages get footer => FooterMessages(this);
-  EditProfileMessages get editProfile => EditProfileMessages(this);
+  EditprofileMessages get editprofile => EditprofileMessages(this);
   PlanMessages get plan => PlanMessages(this);
   FavoritesScMessages get favoritesSc => FavoritesScMessages(this);
   PhonesMessages get phones => PhonesMessages(this);
@@ -91,6 +91,10 @@ class Messages {
   IapMessages get iap => IapMessages(this);
   DatetimeMessages get datetime => DatetimeMessages(this);
   AuthMessages get auth => AuthMessages(this);
+  FeedMessages get feed => FeedMessages(this);
+  PrivacyMessages get privacy => PrivacyMessages(this);
+  TermsMessages get terms => TermsMessages(this);
+  CommonMessages get common => CommonMessages(this);
 }
 
 class AppMessages {
@@ -323,9 +327,9 @@ class ProfileMessages {
   String get promo_code => """Promo Code""";
 
   /// ```dart
-  /// "Joined on {date}"
+  /// "Joined on $date"
   /// ```
-  String get joined_on => """Joined on {date}""";
+  String joined_on(String date) => """Joined on $date""";
 }
 
 class FooterMessages {
@@ -353,9 +357,9 @@ class FooterMessages {
   String get feed => """Feed""";
 }
 
-class EditProfileMessages {
+class EditprofileMessages {
   final Messages _parent;
-  const EditProfileMessages(this._parent);
+  const EditprofileMessages(this._parent);
 
   /// ```dart
   /// "Profile"
@@ -365,7 +369,7 @@ class EditProfileMessages {
   /// ```dart
   /// "Full Name"
   /// ```
-  String get Full_Name => """Full Name""";
+  String get full_name => """Full Name""";
 
   /// ```dart
   /// "Phone Number"
@@ -1028,9 +1032,10 @@ class PhonedetailsMessages {
   String get title => """Phone Number Details""";
 
   /// ```dart
-  /// "Check out this plate number: {number}"
+  /// "Check out this plate number: $number"
   /// ```
-  String get share_message => """Check out this plate number: {number}""";
+  String share_message(String number) =>
+      """Check out this plate number: $number""";
 
   /// ```dart
   /// "Important Note:"
@@ -1083,10 +1088,10 @@ class PlatesdetailsMessages {
   String get title => """Plate Details""";
 
   /// ```dart
-  /// "Error getting data for Plate Number: {plateNumber}"
+  /// "Error getting data for Plate Number: $plateNumber"
   /// ```
-  String get error_loading_data =>
-      """Error getting data for Plate Number: {plateNumber}""";
+  String error_loading_data(String plateNumber) =>
+      """Error getting data for Plate Number: $plateNumber""";
 
   /// ```dart
   /// "Posted by"
@@ -1094,9 +1099,9 @@ class PlatesdetailsMessages {
   String get originally_posted_by => """Posted by""";
 
   /// ```dart
-  /// "Member since {year}"
+  /// "Member since $year"
   /// ```
-  String get member_since => """Member since {year}""";
+  String member_since(String year) => """Member since $year""";
 
   /// ```dart
   /// "WhatsApp"
@@ -1144,9 +1149,9 @@ class PlatesdetailsMessages {
   String get meet_in_person => """Meet the seller in person""";
 
   /// ```dart
-  /// "{days} ago"
+  /// "$days ago"
   /// ```
-  String get days_ago => """{days} ago""";
+  String days_ago(String days) => """$days ago""";
 
   /// ```dart
   /// "Call for Price"
@@ -1365,24 +1370,24 @@ class DatetimeMessages {
   const DatetimeMessages(this._parent);
 
   /// ```dart
-  /// "{days} days ago"
+  /// "$days days ago"
   /// ```
-  String get days_ago => """{days} days ago""";
+  String days_ago(String days) => """$days days ago""";
 
   /// ```dart
-  /// "{hours} hours ago"
+  /// "$hours hours ago"
   /// ```
-  String get hours_ago => """{hours} hours ago""";
+  String hours_ago(String hours) => """$hours hours ago""";
 
   /// ```dart
-  /// "{minutes} minutes ago"
+  /// "$minutes minutes ago"
   /// ```
-  String get minutes_ago => """{minutes} minutes ago""";
+  String minutes_ago(String minutes) => """$minutes minutes ago""";
 
   /// ```dart
-  /// "{seconds} seconds ago"
+  /// "$seconds seconds ago"
   /// ```
-  String get seconds_ago => """{seconds} seconds ago""";
+  String seconds_ago(String seconds) => """$seconds seconds ago""";
 
   /// ```dart
   /// "Just now"
@@ -1465,6 +1470,126 @@ class AuthMessages {
   String get guest => """Continue as a guest""";
 }
 
+class FeedMessages {
+  final Messages _parent;
+  const FeedMessages(this._parent);
+
+  /// ```dart
+  /// "Feed"
+  /// ```
+  String get title => """Feed""";
+
+  /// ```dart
+  /// "You need to sign in to view your feed"
+  /// ```
+  String get login_required => """You need to sign in to view your feed""";
+
+  /// ```dart
+  /// "Sign In"
+  /// ```
+  String get sign_in => """Sign In""";
+
+  /// ```dart
+  /// "Error loading profile:"
+  /// ```
+  String get error_loading => """Error loading profile:""";
+
+  /// ```dart
+  /// "Retry"
+  /// ```
+  String get retry => """Retry""";
+
+  /// ```dart
+  /// "User profile not found"
+  /// ```
+  String get user_not_found => """User profile not found""";
+
+  /// ```dart
+  /// "Your feed is empty"
+  /// ```
+  String get empty_feed => """Your feed is empty""";
+
+  /// ```dart
+  /// "Follow users to see their listings here"
+  /// ```
+  String get follow_users => """Follow users to see their listings here""";
+
+  /// ```dart
+  /// "Explore Listings"
+  /// ```
+  String get explore_listings => """Explore Listings""";
+
+  /// ```dart
+  /// "You are not following any users"
+  /// ```
+  String get no_users_followed => """You are not following any users""";
+
+  /// ```dart
+  /// "Error loading data:"
+  /// ```
+  String get error_generic => """Error loading data:""";
+
+  /// ```dart
+  /// "No plate listings from users you follow"
+  /// ```
+  String get no_plate_listings => """No plate listings from users you follow""";
+
+  /// ```dart
+  /// "No phone listings from users you follow"
+  /// ```
+  String get no_phone_listings => """No phone listings from users you follow""";
+}
+
+class PrivacyMessages {
+  final Messages _parent;
+  const PrivacyMessages(this._parent);
+
+  /// ```dart
+  /// "Privacy Policy"
+  /// ```
+  String get title => """Privacy Policy""";
+}
+
+class TermsMessages {
+  final Messages _parent;
+  const TermsMessages(this._parent);
+
+  /// ```dart
+  /// "Terms & Conditions"
+  /// ```
+  String get title => """Terms & Conditions""";
+}
+
+class CommonMessages {
+  final Messages _parent;
+  const CommonMessages(this._parent);
+
+  /// ```dart
+  /// "No items found"
+  /// ```
+  String get no_items_found => """No items found""";
+
+  /// ```dart
+  /// "No results found"
+  /// ```
+  String get no_results_found => """No results found""";
+
+  /// ```dart
+  /// "No data found"
+  /// ```
+  String get no_data_found => """No data found""";
+
+  /// ```dart
+  /// "No results"
+  /// ```
+  String get no_results => """No results""";
+
+  /// ```dart
+  /// "No items"
+  /// ```
+  String get no_items => """No items""";
+}
+
 Map<String, String> get messagesMap => {
   """app.title""": """Joplate""",
   """home.welcome""": """Welcome to Joplate!""",
@@ -1508,25 +1633,24 @@ Map<String, String> get messagesMap => {
   """profile.gallery""": """Gallery""",
   """profile.camera""": """Camera""",
   """profile.promo_code""": """Promo Code""",
-  """profile.joined_on""": """Joined on {date}""",
   """footer.home""": """Home""",
   """footer.profile""": """Profile""",
   """footer.favorites""": """Favorites""",
   """footer.feed""": """Feed""",
-  """edit profile.header""": """Profile""",
-  """edit profile.Full_Name""": """Full Name""",
-  """edit profile.phone_number""": """Phone Number""",
-  """edit profile.email""": """Email""",
-  """edit profile.change_password""": """Change Password""",
-  """edit profile.edit_fullname""": """Edit Full Name""",
-  """edit profile.edit_email""": """Edit Email""",
-  """edit profile.edit_phone""": """Edit Phone Number""",
-  """edit profile.save""": """Save""",
-  """edit profile.send_verification_code""": """Send Verification Code""",
-  """edit profile.verifyandsave""": """Verify & Save""",
-  """edit profile.oldpassword""": """Old Password""",
-  """edit profile.newpassword""": """New Password""",
-  """edit profile.confirmpassword""": """Confirm Password""",
+  """editprofile.header""": """Profile""",
+  """editprofile.full_name""": """Full Name""",
+  """editprofile.phone_number""": """Phone Number""",
+  """editprofile.email""": """Email""",
+  """editprofile.change_password""": """Change Password""",
+  """editprofile.edit_fullname""": """Edit Full Name""",
+  """editprofile.edit_email""": """Edit Email""",
+  """editprofile.edit_phone""": """Edit Phone Number""",
+  """editprofile.save""": """Save""",
+  """editprofile.send_verification_code""": """Send Verification Code""",
+  """editprofile.verifyandsave""": """Verify & Save""",
+  """editprofile.oldpassword""": """Old Password""",
+  """editprofile.newpassword""": """New Password""",
+  """editprofile.confirmpassword""": """Confirm Password""",
   """plan.title""": """My Current Plan""",
   """plan.plan_name""": """Plan Name""",
   """plan.balance""": """0 / JOD""",
@@ -1634,7 +1758,6 @@ Map<String, String> get messagesMap => {
   """addplaterequest.number""": """Plate Number""",
   """addplaterequest.optional_price""": """Optional Price""",
   """phonedetails.title""": """Phone Number Details""",
-  """phonedetails.share_message""": """Check out this plate number: {number}""",
   """phonedetails.important_note""": """Important Note:""",
   """phonedetails.dont_transfer_money""": """Don't transfer money online""",
   """phonedetails.meet_in_person""": """Meet the seller in person""",
@@ -1643,10 +1766,7 @@ Map<String, String> get messagesMap => {
   """sellerdetails.whatsapp""": """WhatsApp""",
   """sellerdetails.phone_call""": """Call""",
   """platesdetails.title""": """Plate Details""",
-  """platesdetails.error_loading_data""":
-      """Error getting data for Plate Number: {plateNumber}""",
   """platesdetails.originally_posted_by""": """Posted by""",
-  """platesdetails.member_since""": """Member since {year}""",
   """platesdetails.whatsapp""": """WhatsApp""",
   """platesdetails.call""": """Call""",
   """platesdetails.other_sellers""": """Other Sellers""",
@@ -1656,7 +1776,6 @@ Map<String, String> get messagesMap => {
   """platesdetails.important_note""": """Important Note:""",
   """platesdetails.dont_transfer_money""": """Don't transfer money online""",
   """platesdetails.meet_in_person""": """Meet the seller in person""",
-  """platesdetails.days_ago""": """{days} ago""",
   """platesdetails.call_for_price""": """Call for Price""",
   """quicksale.title""": """Quick Sale""",
   """quicksale.description""":
@@ -1694,10 +1813,6 @@ Map<String, String> get messagesMap => {
   """editplaterequest.price_optional""": """Price (optional)""",
   """editplaterequest.save_changes""": """Save Changes""",
   """iap.purchase""": """Purchase""",
-  """datetime.days_ago""": """{days} days ago""",
-  """datetime.hours_ago""": """{hours} hours ago""",
-  """datetime.minutes_ago""": """{minutes} minutes ago""",
-  """datetime.seconds_ago""": """{seconds} seconds ago""",
   """datetime.just_now""": """Just now""",
   """auth.signin""": """Sign in""",
   """auth.signup""": """Sign up""",
@@ -1713,4 +1828,24 @@ Map<String, String> get messagesMap => {
   """auth.reset""": """Reset""",
   """auth.reset_sent""": """Password reset instructions sent to your email""",
   """auth.guest""": """Continue as a guest""",
+  """feed.title""": """Feed""",
+  """feed.login_required""": """You need to sign in to view your feed""",
+  """feed.sign_in""": """Sign In""",
+  """feed.error_loading""": """Error loading profile:""",
+  """feed.retry""": """Retry""",
+  """feed.user_not_found""": """User profile not found""",
+  """feed.empty_feed""": """Your feed is empty""",
+  """feed.follow_users""": """Follow users to see their listings here""",
+  """feed.explore_listings""": """Explore Listings""",
+  """feed.no_users_followed""": """You are not following any users""",
+  """feed.error_generic""": """Error loading data:""",
+  """feed.no_plate_listings""": """No plate listings from users you follow""",
+  """feed.no_phone_listings""": """No phone listings from users you follow""",
+  """privacy.title""": """Privacy Policy""",
+  """terms.title""": """Terms & Conditions""",
+  """common.no_items_found""": """No items found""",
+  """common.no_results_found""": """No results found""",
+  """common.no_data_found""": """No data found""",
+  """common.no_results""": """No results""",
+  """common.no_items""": """No items""",
 };

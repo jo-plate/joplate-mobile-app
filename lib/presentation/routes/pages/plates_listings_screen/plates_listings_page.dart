@@ -359,7 +359,7 @@ class _PlatesListingsPageState extends State<PlatesListingsPage> {
                     value: _selectedCode,
                     icon: const Icon(Icons.arrow_drop_down),
                     items: [m.plates.code, ..._codes].map((c) {
-                      return DropdownMenuItem(
+                      return DropdownMenuItem<String>(
                         value: c,
                         child: Text(c, style: const TextStyle(fontSize: 14)),
                       );

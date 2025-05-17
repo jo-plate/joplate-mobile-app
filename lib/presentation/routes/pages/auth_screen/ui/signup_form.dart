@@ -5,6 +5,7 @@ import 'package:joplate/domain/dto/signup_input.dart';
 import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
 import 'package:joplate/presentation/utils/validators.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
+import 'package:joplate/presentation/widgets/phone_number_input.dart';
 
 class SignupForm extends StatefulWidget {
   const SignupForm({super.key, this.onPressed});
@@ -36,8 +37,6 @@ class _SignupFormState extends State<SignupForm> {
   @override
   Widget build(BuildContext context) {
     final primaryColor = Theme.of(context).colorScheme.primary;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state.isLoading != isSubmitting) {
@@ -58,11 +57,13 @@ class _SignupFormState extends State<SignupForm> {
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   TextFormField(
                     controller: displayNameController,
                     keyboardType: TextInputType.name,
                     validator: Validators.validateName,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
                       labelText: 'Display Name',
                       prefixIcon: Icon(Icons.person_outline, color: primaryColor.withOpacity(0.8)),
@@ -75,6 +76,7 @@ class _SignupFormState extends State<SignupForm> {
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
                     validator: Validators.validateEmail,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
                       labelText: 'Email',
                       prefixIcon: Icon(Icons.email_outlined, color: primaryColor.withOpacity(0.8)),
@@ -83,24 +85,20 @@ class _SignupFormState extends State<SignupForm> {
                     enabled: !isSubmitting,
                   ),
                   const SizedBox(height: 20),
-                  TextFormField(
+                  PhoneNumberInput(
                     controller: phoneNumberController,
-                    keyboardType: TextInputType.phone,
-                    validator: Validators.validateJordanianPhone,
-                    maxLength: 10,
-                    decoration: InputDecoration(
-                      labelText: 'Phone number',
-                      prefixIcon: Icon(Icons.phone_outlined, color: primaryColor.withOpacity(0.8)),
-                      hintText: '07X XXX XXXX',
-                    ),
+                    labelText: 'Phone number',
+                    hintText: '7X XXX XXXX',
                     textInputAction: TextInputAction.next,
                     enabled: !isSubmitting,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: passwordController,
                     obscureText: passwordHidden,
                     validator: Validators.validatePassword,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
                       labelText: 'Password',
                       prefixIcon: Icon(Icons.lock_outline, color: primaryColor.withOpacity(0.8)),
@@ -120,8 +118,6 @@ class _SignupFormState extends State<SignupForm> {
                   ElevatedButton(
                     onPressed: isSubmitting ? null : _handleSignup,
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: primaryColor,
                       disabledForegroundColor: Colors.grey.shade300,
                       disabledBackgroundColor: Colors.grey.shade600,
                     ),
@@ -145,7 +141,7 @@ class _SignupFormState extends State<SignupForm> {
                   ),
                   const SizedBox(height: 20),
                   OutlinedButton(
-                    onPressed: isSubmitting ? null : () => () => AutoRouter.of(context).maybePop(),
+                    onPressed: isSubmitting ? null : () => AutoRouter.of(context).maybePop(),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: primaryColor,
                       side: BorderSide(color: primaryColor),

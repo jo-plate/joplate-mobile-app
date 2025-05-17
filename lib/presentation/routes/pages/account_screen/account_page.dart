@@ -17,7 +17,7 @@ class AccountPage extends StatelessWidget {
     final m = Localization.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(m.editProfile.header),
+        title: Text(m.editprofile.header),
         centerTitle: true,
         elevation: 0,
       ),
@@ -44,24 +44,24 @@ class AccountPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     MenuItem(
-                        title: m.editProfile.Full_Name,
+                        title: m.editprofile.full_name,
                         icon: Icons.person,
                         onTap: () => AutoRouter.of(context).push(const EditFullNameRoute())),
                     const SizedBox(height: 16),
                     MenuItem(
-                      title: m.editProfile.phone_number,
+                      title: m.editprofile.phone_number,
                       icon: Icons.phone_outlined,
                       onTap: () => AutoRouter.of(context)
                           .push(const EditPhoneNumberRoute()),
                     ),
                     const SizedBox(height: 16),
                     MenuItem(
-                        title: m.editProfile.email,
+                        title: m.editprofile.email,
                         icon: Icons.email_outlined,
                         onTap: () => AutoRouter.of(context).push(const EditEmailRoute())),
                     const SizedBox(height: 16),
                     MenuItem(
-                      title: m.editProfile.change_password,
+                      title: m.editprofile.change_password,
                       icon: Icons.password_outlined,
                       onTap: () => AutoRouter.of(context).push(const ChangePasswordRoute()),
                     ),

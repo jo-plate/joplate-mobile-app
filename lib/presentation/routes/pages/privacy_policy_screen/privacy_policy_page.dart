@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 
 @RoutePage()
 class PrivacyPolicyPage extends StatelessWidget {
@@ -7,9 +8,10 @@ class PrivacyPolicyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Privacy Policy'),
+        title: Text(m.privacy.title),
         backgroundColor: const Color(0xFF981C1E),
         foregroundColor: Colors.white,
         surfaceTintColor: Colors.white,
@@ -22,70 +24,75 @@ class PrivacyPolicyPage extends StatelessWidget {
             icon: const Icon(Icons.arrow_back, color: Colors.white)),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildSection("",
-                  "Welcome to Joplate! This Privacy Policy outlines how we collect, use, disclose, and protect the information you provide when using our platform for buying and selling phone numbers and car plate numbers."),
-              _buildSection(
-                  "1. Information We Collect",
-                  "a. Personal Information: When you register for an account, we collect your email address, name, phone number, and password.\n\n"
-                      "b. Additional Information: When listing phone numbers or car plates, you may provide additional details such as images, descriptions, and price information."),
-              _buildSection(
-                  "2. How We Use Your Information",
-                  "We use the information collected for the following purposes:\n"
-                      "- To create and manage user accounts.\n"
-                      "- To facilitate the buying and selling of phone numbers and car plates.\n"
-                      "- To communicate with you about your account, transactions, and platform updates.\n"
-                      "- To improve our services and enhance user experience."
-                      "- To verify the identity of sellers and their records."),
-              _buildSection("3. Data Security",
-                  "We implement industry-standard security measures to protect your personal data from unauthorized access, disclosure, alteration, and destruction. However, no online system is completely secure, and we cannot guarantee absolute security."),
-              _buildSection(
-                  "4. Sharing of Information",
-                  "a. Third-Party Service Providers: We may share your information with third-party service providers to help us deliver our services. These providers are required to keep your information confidential.\n\n"
-                      "b. Legal Compliance: We may disclose your information if required by law or when necessary to protect our rights, interests, or the safety of others."),
-              _buildSection(
-                  "5. Your Choices and Rights",
-                  "a. Account Information: You can review and update your account details within the app settings.\n\n"
-                      "b. Marketing Communications: You may opt out of promotional emails by following the instructions provided in the emails."),
-              _buildSection("6. Children's Privacy",
-                  "Joplate is not intended for individuals under the age of 13. We do not knowingly collect personal information from children."),
-              _buildSection("7. Changes to This Privacy Policy",
-                  "We may update this Privacy Policy periodically to reflect changes in our practices, legal requirements, or operational needs. Any significant updates will be communicated through our website or other official channels."),
-              _buildSection(
-                  "8. Contact Us",
-                  "If you have any questions, concerns, or requests regarding this Privacy Policy, please contact us at:\n\n"
-                      "**Website:** [Insert Website]\n"
-                      "**Email:** [Insert Email]\n"
-                      "**Address:** [Insert Address]\n\n"
-                      "By using Joplate, you agree to the terms outlined in this Privacy Policy."),
-            ],
-          ),
+      body: const SingleChildScrollView(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Effective Date: January 1, 2023',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 16),
+            Text(
+              'At Joplate, we value your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your information when you use our mobile application.',
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Information We Collect',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            SizedBox(height: 8),
+            Text(
+              '• Personal Information: Name, email address, phone number, and profile picture\n'
+              '• User Content: Information you provide about listings, including images and descriptions\n'
+              '• Device Information: Device type, operating system, and unique device identifiers\n'
+              '• Usage Data: How you interact with our app, features you use, and time spent on the app',
+            ),
+            SizedBox(height: 16),
+            Text(
+              'How We Use Your Information',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            SizedBox(height: 8),
+            Text(
+              '• To provide and maintain our service\n'
+              '• To notify you about changes to our service\n'
+              '• To allow you to participate in interactive features\n'
+              '• To provide customer support\n'
+              '• To gather analysis or valuable information to improve our service\n'
+              '• To monitor the usage of our service\n'
+              '• To detect, prevent and address technical issues',
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Security',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'We value your trust in providing us your personal information, thus we are striving to use commercially acceptable means of protecting it. But remember that no method of transmission over the internet, or method of electronic storage is 100% secure and reliable, and we cannot guarantee its absolute security.',
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Changes to This Privacy Policy',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Privacy Policy on this page. These changes are effective immediately after they are posted on this page.',
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Contact Us',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at support@joplate.com',
+            ),
+          ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildSection(String title, String content) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            content,
-            style: const TextStyle(fontSize: 16, height: 1.5),
-          ),
-        ],
       ),
     );
   }

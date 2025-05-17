@@ -14,8 +14,6 @@ import 'package:joplate/presentation/theme.dart';
 import 'package:joplate/presentation/widgets/menu_item.dart';
 import 'package:joplate/presentation/widgets/profile_banner.dart';
 import 'package:joplate/presentation/cubits/theme_cubit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class LoggedInUserView extends StatefulWidget {
   const LoggedInUserView({super.key});
@@ -74,17 +72,6 @@ class _UserProfileViewState extends State<_UserProfileView> {
     _authStateStream = FirebaseAuth.instance.authStateChanges();
   }
 
-  // Function to obfuscate phone number (hide 5 digits)
-  String obfuscatePhoneNumber(String phoneNumber) {
-    if (phoneNumber.length <= 5) return phoneNumber;
-
-    final visibleStart = phoneNumber.substring(0, 2);
-    final visibleEnd = phoneNumber.substring(phoneNumber.length - 3);
-    final hidden = "*****";
-
-    return "$visibleStart$hidden$visibleEnd";
-  }
-
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
@@ -129,7 +116,6 @@ class _UserProfileViewState extends State<_UserProfileView> {
   Widget _buildProfileHeader(User user, UserProfile profile) {
     final m = Localization.of(context);
     final joinDate = user.metadata.creationTime;
-    final primaryColor = Theme.of(context).colorScheme.primary;
     String formattedDate = '';
 
     if (joinDate != null) {
@@ -146,7 +132,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
           Padding(
             padding: const EdgeInsets.only(top: 8.0, left: 8.0),
             child: Text(
-              "Joined on $formattedDate",
+              m.profile.joined_on(formattedDate),
               style: TextStyle(
                 fontSize: 12,
                 color: Colors.grey[600],
@@ -239,7 +225,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Enter Promo Code'),
+        title: const Text('Enter Promo Code'),
         content: TextField(
           controller: controller,
           decoration: InputDecoration(
@@ -252,7 +238,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Cancel'),
+            child: const Text('Cancel'),
           ),
           ElevatedButton(
             onPressed: () {
@@ -269,7 +255,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF981C1E),
             ),
-            child: Text('Apply'),
+            child: const Text('Apply'),
           ),
         ],
       ),
@@ -279,6 +265,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
   Widget _buildSettingsSection() {
     final m = Localization.of(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    const primaryColor = Color(0xFF981C1E);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -311,24 +298,12 @@ class _UserProfileViewState extends State<_UserProfileView> {
               BlocBuilder<LocalizationCubit, Locale>(
                 builder: (context, locale) {
                   final isEnglish = locale.languageCode == 'en';
-                  return Row(
-                    children: [
-                      _buildSettingButton(
-                        label: 'العربية',
-                        isSelected: !isEnglish,
-                        onTap: () {
-                          context.read<LocalizationCubit>().setLocale(const Locale('ar'));
-                        },
-                      ),
-                      const SizedBox(width: 8),
-                      _buildSettingButton(
-                        label: 'English',
-                        isSelected: isEnglish,
-                        onTap: () {
-                          context.read<LocalizationCubit>().setLocale(const Locale('en'));
-                        },
-                      ),
-                    ],
+                  return _buildToggleButton(
+                    currentValue: isEnglish ? 'English' : 'العربية',
+                    onTap: () {
+                      final newLocale = isEnglish ? const Locale('ar') : const Locale('en');
+                      context.read<LocalizationCubit>().setLocale(newLocale);
+                    },
                   );
                 },
               )
@@ -356,28 +331,11 @@ class _UserProfileViewState extends State<_UserProfileView> {
               const Spacer(),
               BlocBuilder<ThemeCubit, ThemeState>(
                 builder: (context, state) {
-                  return Row(
-                    children: [
-                      _buildSettingButton(
-                        label: m.profile.light_mode,
-                        isSelected: !state.isDarkMode,
-                        onTap: () {
-                          if (state.isDarkMode) {
-                            context.read<ThemeCubit>().toggleTheme();
-                          }
-                        },
-                      ),
-                      const SizedBox(width: 8),
-                      _buildSettingButton(
-                        label: m.profile.dark_mode,
-                        isSelected: state.isDarkMode,
-                        onTap: () {
-                          if (!state.isDarkMode) {
-                            context.read<ThemeCubit>().toggleTheme();
-                          }
-                        },
-                      ),
-                    ],
+                  return _buildToggleButton(
+                    currentValue: state.isDarkMode ? m.profile.dark_mode : m.profile.light_mode,
+                    onTap: () {
+                      context.read<ThemeCubit>().toggleTheme();
+                    },
                   );
                 },
               )
@@ -394,42 +352,32 @@ class _UserProfileViewState extends State<_UserProfileView> {
     );
   }
 
-  Widget _buildSettingButton({
-    required String label,
-    required bool isSelected,
+  Widget _buildToggleButton({
+    required String currentValue,
     required VoidCallback onTap,
   }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return ElevatedButton(
       onPressed: onTap,
       style: ElevatedButton.styleFrom(
         elevation: 0,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        foregroundColor: isSelected
-            ? Colors.white
-            : isDark
-                ? Colors.white
-                : Colors.black,
-        backgroundColor: isSelected
-            ? const Color(0xFF981C1E)
-            : isDark
-                ? const Color(0xFF252A41)
-                : Colors.white,
+        foregroundColor: Colors.white,
+        backgroundColor: const Color(0xFF981C1E),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
-          side: BorderSide(
-            color: isSelected
-                ? Colors.transparent
-                : isDark
-                    ? const Color(0xFF3D4266)
-                    : const Color(0xFF981C1E),
-            width: 1,
-          ),
         ),
       ),
-      child: Text(
-        label,
-        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+      child: Row(
+        children: [
+          Text(
+            currentValue,
+            style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
+          ),
+          const SizedBox(width: 8),
+          const Icon(Icons.swap_horiz, size: 18, color: Colors.white),
+        ],
       ),
     );
   }

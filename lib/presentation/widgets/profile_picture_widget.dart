@@ -194,7 +194,7 @@ class _ProfilePictureWidgetState extends State<ProfilePictureWidget> {
   Widget build(BuildContext context) {
     final m = Localization.of(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final primaryColor = const Color(0xFF981C1E);
+    const primaryColor = Color(0xFF981C1E);
 
     return Stack(
       clipBehavior: Clip.none,

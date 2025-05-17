@@ -24,7 +24,9 @@ class _PlansPageState extends State<PlansPage> {
     _logPlansPageViewed();
 
     plans = FirebaseFirestore.instance.collection('plans').snapshots().map((snapshot) {
-      snapshot.docs.forEach((e) => print(e.data()));
+      for (var e in snapshot.docs) {
+        print(e.data());
+      }
       final firebasePlans = snapshot.docs.map((doc) => Plan.fromJson(doc.data())).toList();
 
       // Add the Basic (bronze) plan if it doesn't exist

@@ -92,7 +92,7 @@ class CategorySection extends StatelessWidget {
         InkWell(
           onTap: () => AutoRouter.of(context).push(const QuicksaleRoute()),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               decoration: BoxDecoration(

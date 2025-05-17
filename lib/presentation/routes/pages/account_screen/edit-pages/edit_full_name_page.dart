@@ -33,7 +33,7 @@ class _EditFullNamePageState extends State<EditFullNamePage> {
     final m = Localization.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(m.editProfile.edit_fullname),
+        title: Text(m.editprofile.edit_fullname),
 
       ),
       body: Padding(
@@ -43,7 +43,7 @@ class _EditFullNamePageState extends State<EditFullNamePage> {
           children: [
             TextField(
               controller: _nameController,
-              decoration: InputDecoration(labelText: m.editProfile.Full_Name),
+              decoration: InputDecoration(labelText: m.editprofile.full_name),
             ),
             const SizedBox(height: 20),
             FilledButton(
@@ -55,7 +55,7 @@ class _EditFullNamePageState extends State<EditFullNamePage> {
                     .set({'name': _nameController.text}, SetOptions(merge: true));
                 if (context.mounted) Navigator.of(context).pop();
               },
-              child: Text(m.editProfile.save),
+              child: Text(m.editprofile.save),
             ),
           ],
         ),

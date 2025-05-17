@@ -120,10 +120,10 @@ class PlateNumberListingWidget extends StatelessWidget {
 
   Widget _buildPriceLabel(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+    final m = Localization.of(context);
     if (item.priceHidden) {
       return Text(
-        'Call for Price',
+        m.platesdetails.call_for_price,
         style: TextStyle(
           fontSize: priceLabelFontSize,
           fontFamily: 'Mandatory',
@@ -217,7 +217,7 @@ class CreatedAtLabelWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Text(
-      formatCreatedAt(createdAt),
+      formatCreatedAt(createdAt, context),
       style: TextStyle(
         fontSize: fontSize,
         fontWeight: FontWeight.w400,

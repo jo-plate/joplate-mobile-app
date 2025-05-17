@@ -13,6 +13,7 @@ import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/domain/entities/user_plans.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
+import 'package:joplate/presentation/utils/strings.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_listing_widget.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/promote_listing_button.dart';
 import 'package:joplate/presentation/widgets/delete_item_popup.dart';
@@ -379,84 +380,87 @@ class _SellerDetailsState extends State<SellerDetails> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.green.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: InkWell(
-                              onTap: () {
-                                launchUrlString("https://wa.me/962${userProfile.phonenumber.substring(1)}",
-                                    mode: LaunchMode.externalApplication);
-                              },
-                              borderRadius: BorderRadius.circular(8),
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  FaIcon(
-                                    FontAwesomeIcons.whatsapp,
-                                    color: Colors.green,
-                                    size: 20,
-                                  ),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    'WhatsApp',
-                                    style: TextStyle(
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: Colors.green.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: InkWell(
+                                onTap: () {
+                                  launchUrlString("https://wa.me/962${userProfile.phonenumber.substring(1)}",
+                                      mode: LaunchMode.externalApplication);
+                                },
+                                borderRadius: BorderRadius.circular(8),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    FaIcon(
+                                      FontAwesomeIcons.whatsapp,
                                       color: Colors.green,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
+                                      size: 20,
                                     ),
-                                  ),
-                                ],
+                                    SizedBox(width: 8),
+                                    Text(
+                                      'WhatsApp',
+                                      style: TextStyle(
+                                        color: Colors.green,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: accentColor,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: InkWell(
-                              onTap: () async {
-                                final uri = 'tel:+962${userProfile.phonenumber.substring(1)}';
-                                if (await canLaunchUrlString(uri)) {
-                                  await launchUrlString(uri);
-                                } else {
-                                  throw 'Could not launch dialer';
-                                }
-                              },
-                              borderRadius: BorderRadius.circular(8),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.phone,
-                                    size: 16,
-                                    color: Colors.white,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    userProfile.phonenumber,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF981C1E),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: InkWell(
+                                onTap: () async {
+                                  final uri = 'tel:+962${userProfile.phonenumber.substring(1)}';
+                                  if (await canLaunchUrlString(uri)) {
+                                    await launchUrlString(uri);
+                                  } else {
+                                    throw 'Could not launch dialer';
+                                  }
+                                },
+                                borderRadius: BorderRadius.circular(8),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      Icons.phone,
+                                      size: 16,
                                       color: Colors.white,
                                     ),
-                                  ),
-                                ],
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      obfuscatePhoneNumber(userProfile.phonenumber),
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 );

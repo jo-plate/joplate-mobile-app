@@ -66,7 +66,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   Widget build(BuildContext context) {
     final m = Localization.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(m.editProfile.change_password)),
+      appBar: AppBar(title: Text(m.editprofile.change_password)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -74,20 +74,20 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           children: [
             TextField(
               controller: _oldPasswordController,
-              decoration: InputDecoration(labelText: m.editProfile.oldpassword),
+              decoration: InputDecoration(labelText: m.editprofile.oldpassword),
               obscureText: true,
             ),
             const SizedBox(height: 16),
             TextField(
               controller: _newPasswordController,
-              decoration: InputDecoration(labelText: m.editProfile.newpassword),
+              decoration: InputDecoration(labelText: m.editprofile.newpassword),
               obscureText: true,
             ),
             const SizedBox(height: 16),
 
             TextField(
               controller: _confirmPasswordController,
-              decoration: InputDecoration(labelText: m.editProfile.confirmpassword),
+              decoration: InputDecoration(labelText: m.editprofile.confirmpassword),
               obscureText: true,
             ),
             const SizedBox(height: 20),
@@ -95,7 +95,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 ? const CircularProgressIndicator()
                 : FilledButton(
                     onPressed: _changePassword,
-                    child: Text(m.editProfile.save),
+                    child: Text(m.editprofile.save),
                   ),
           ],
         ),

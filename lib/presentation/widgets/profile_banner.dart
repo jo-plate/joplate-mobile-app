@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/user_plans.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
-import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';

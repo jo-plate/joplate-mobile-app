@@ -67,7 +67,7 @@ class MessagesAr extends Messages {
   HomeMessagesAr get home => HomeMessagesAr(this);
   ProfileMessagesAr get profile => ProfileMessagesAr(this);
   FooterMessagesAr get footer => FooterMessagesAr(this);
-  EditProfileMessagesAr get editProfile => EditProfileMessagesAr(this);
+  EditprofileMessagesAr get editprofile => EditprofileMessagesAr(this);
   PlanMessagesAr get plan => PlanMessagesAr(this);
   FavoritesScMessagesAr get favoritesSc => FavoritesScMessagesAr(this);
   PhonesMessagesAr get phones => PhonesMessagesAr(this);
@@ -94,6 +94,10 @@ class MessagesAr extends Messages {
   IapMessagesAr get iap => IapMessagesAr(this);
   DatetimeMessagesAr get datetime => DatetimeMessagesAr(this);
   AuthMessagesAr get auth => AuthMessagesAr(this);
+  FeedMessagesAr get feed => FeedMessagesAr(this);
+  PrivacyMessagesAr get privacy => PrivacyMessagesAr(this);
+  TermsMessagesAr get terms => TermsMessagesAr(this);
+  CommonMessagesAr get common => CommonMessagesAr(this);
 }
 
 class AppMessagesAr extends AppMessages {
@@ -326,9 +330,9 @@ class ProfileMessagesAr extends ProfileMessages {
   String get promo_code => """رمز ترويجي""";
 
   /// ```dart
-  /// "عضو منذ {date}"
+  /// "عضو منذ $date"
   /// ```
-  String get joined_on => """عضو منذ {date}""";
+  String joined_on(String date) => """عضو منذ $date""";
 }
 
 class FooterMessagesAr extends FooterMessages {
@@ -356,9 +360,9 @@ class FooterMessagesAr extends FooterMessages {
   String get feed => """المتابعة""";
 }
 
-class EditProfileMessagesAr extends EditProfileMessages {
+class EditprofileMessagesAr extends EditprofileMessages {
   final MessagesAr _parent;
-  const EditProfileMessagesAr(this._parent) : super(_parent);
+  const EditprofileMessagesAr(this._parent) : super(_parent);
 
   /// ```dart
   /// " الملف الشخصي"
@@ -368,7 +372,7 @@ class EditProfileMessagesAr extends EditProfileMessages {
   /// ```dart
   /// "الاسم الكامل"
   /// ```
-  String get Full_Name => """الاسم الكامل""";
+  String get full_name => """الاسم الكامل""";
 
   /// ```dart
   /// "رقم الهاتف"
@@ -1031,9 +1035,9 @@ class PhonedetailsMessagesAr extends PhonedetailsMessages {
   String get title => """تفاصيل رقم الهاتف""";
 
   /// ```dart
-  /// "اطلع على رقم اللوحة هذا: {number}"
+  /// "اطلع على رقم اللوحة هذا: $number"
   /// ```
-  String get share_message => """اطلع على رقم اللوحة هذا: {number}""";
+  String share_message(String number) => """اطلع على رقم اللوحة هذا: $number""";
 
   /// ```dart
   /// "ملاحظات هامة:"
@@ -1086,10 +1090,10 @@ class PlatesdetailsMessagesAr extends PlatesdetailsMessages {
   String get title => """تفاصيل رقم السيارة""";
 
   /// ```dart
-  /// "حدث خطأ أثناء جلب بيانات الرقم: {plateNumber}"
+  /// "حدث خطأ أثناء جلب بيانات الرقم: $plateNumber"
   /// ```
-  String get error_loading_data =>
-      """حدث خطأ أثناء جلب بيانات الرقم: {plateNumber}""";
+  String error_loading_data(String plateNumber) =>
+      """حدث خطأ أثناء جلب بيانات الرقم: $plateNumber""";
 
   /// ```dart
   /// "نُشر بواسطة"
@@ -1097,9 +1101,9 @@ class PlatesdetailsMessagesAr extends PlatesdetailsMessages {
   String get originally_posted_by => """نُشر بواسطة""";
 
   /// ```dart
-  /// "عضو منذ {year}"
+  /// "عضو منذ $year"
   /// ```
-  String get member_since => """عضو منذ {year}""";
+  String member_since(String year) => """عضو منذ $year""";
 
   /// ```dart
   /// "واتساب"
@@ -1147,9 +1151,9 @@ class PlatesdetailsMessagesAr extends PlatesdetailsMessages {
   String get meet_in_person => """قابل البائع شخصياً""";
 
   /// ```dart
-  /// "منذ {days}"
+  /// "منذ $days"
   /// ```
-  String get days_ago => """منذ {days}""";
+  String days_ago(String days) => """منذ $days""";
 
   /// ```dart
   /// "اتصل لمعرفة السعر"
@@ -1368,24 +1372,24 @@ class DatetimeMessagesAr extends DatetimeMessages {
   const DatetimeMessagesAr(this._parent) : super(_parent);
 
   /// ```dart
-  /// "{days} يوم"
+  /// "$days يوم"
   /// ```
-  String get days_ago => """{days} يوم""";
+  String days_ago(String days) => """$days يوم""";
 
   /// ```dart
-  /// "{hours} ساعة"
+  /// "$hours ساعة"
   /// ```
-  String get hours_ago => """{hours} ساعة""";
+  String hours_ago(String hours) => """$hours ساعة""";
 
   /// ```dart
-  /// "{minutes} دقيقة"
+  /// "$minutes دقيقة"
   /// ```
-  String get minutes_ago => """{minutes} دقيقة""";
+  String minutes_ago(String minutes) => """$minutes دقيقة""";
 
   /// ```dart
-  /// "{seconds} ثانية"
+  /// "$seconds ثانية"
   /// ```
-  String get seconds_ago => """{seconds} ثانية""";
+  String seconds_ago(String seconds) => """$seconds ثانية""";
 
   /// ```dart
   /// "الآن"
@@ -1469,6 +1473,128 @@ class AuthMessagesAr extends AuthMessages {
   String get guest => """الاستمرار كزائر""";
 }
 
+class FeedMessagesAr extends FeedMessages {
+  final MessagesAr _parent;
+  const FeedMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "المتابعة"
+  /// ```
+  String get title => """المتابعة""";
+
+  /// ```dart
+  /// "يجب تسجيل الدخول لعرض التغذية الخاصة بك"
+  /// ```
+  String get login_required => """يجب تسجيل الدخول لعرض التغذية الخاصة بك""";
+
+  /// ```dart
+  /// "تسجيل الدخول"
+  /// ```
+  String get sign_in => """تسجيل الدخول""";
+
+  /// ```dart
+  /// "خطأ في تحميل الملف الشخصي:"
+  /// ```
+  String get error_loading => """خطأ في تحميل الملف الشخصي:""";
+
+  /// ```dart
+  /// "إعادة المحاولة"
+  /// ```
+  String get retry => """إعادة المحاولة""";
+
+  /// ```dart
+  /// "لم يتم العثور على الملف الشخصي"
+  /// ```
+  String get user_not_found => """لم يتم العثور على الملف الشخصي""";
+
+  /// ```dart
+  /// "التغذية الخاصة بك فارغة"
+  /// ```
+  String get empty_feed => """التغذية الخاصة بك فارغة""";
+
+  /// ```dart
+  /// "تابع المستخدمين لرؤية إعلاناتهم هنا"
+  /// ```
+  String get follow_users => """تابع المستخدمين لرؤية إعلاناتهم هنا""";
+
+  /// ```dart
+  /// "استكشاف الإعلانات"
+  /// ```
+  String get explore_listings => """استكشاف الإعلانات""";
+
+  /// ```dart
+  /// "أنت لا تتابع أي مستخدمين"
+  /// ```
+  String get no_users_followed => """أنت لا تتابع أي مستخدمين""";
+
+  /// ```dart
+  /// "خطأ في تحميل البيانات:"
+  /// ```
+  String get error_generic => """خطأ في تحميل البيانات:""";
+
+  /// ```dart
+  /// "لا توجد إعلانات لوحات من المستخدمين الذين تتابعهم"
+  /// ```
+  String get no_plate_listings =>
+      """لا توجد إعلانات لوحات من المستخدمين الذين تتابعهم""";
+
+  /// ```dart
+  /// "لا توجد إعلانات هواتف من المستخدمين الذين تتابعهم"
+  /// ```
+  String get no_phone_listings =>
+      """لا توجد إعلانات هواتف من المستخدمين الذين تتابعهم""";
+}
+
+class PrivacyMessagesAr extends PrivacyMessages {
+  final MessagesAr _parent;
+  const PrivacyMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "سياسة الخصوصية"
+  /// ```
+  String get title => """سياسة الخصوصية""";
+}
+
+class TermsMessagesAr extends TermsMessages {
+  final MessagesAr _parent;
+  const TermsMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "الشروط والأحكام"
+  /// ```
+  String get title => """الشروط والأحكام""";
+}
+
+class CommonMessagesAr extends CommonMessages {
+  final MessagesAr _parent;
+  const CommonMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "لا توجد عناصر"
+  /// ```
+  String get no_items_found => """لا توجد عناصر""";
+
+  /// ```dart
+  /// "لا توجد نتائج"
+  /// ```
+  String get no_results_found => """لا توجد نتائج""";
+
+  /// ```dart
+  /// "لا توجد بيانات"
+  /// ```
+  String get no_data_found => """لا توجد بيانات""";
+
+  /// ```dart
+  /// "لا توجد نتائج"
+  /// ```
+  String get no_results => """لا توجد نتائج""";
+
+  /// ```dart
+  /// "لا توجد عناصر"
+  /// ```
+  String get no_items => """لا توجد عناصر""";
+}
+
 Map<String, String> get messagesArMap => {
   """app.title""": """Joplate""",
   """home.welcome""": """مرحبًا بك في Joplate!""",
@@ -1512,25 +1638,24 @@ Map<String, String> get messagesArMap => {
   """profile.gallery""": """معرض الصور""",
   """profile.camera""": """الكاميرا""",
   """profile.promo_code""": """رمز ترويجي""",
-  """profile.joined_on""": """عضو منذ {date}""",
   """footer.home""": """الرئيسية""",
   """footer.profile""": """الملف الشخصي""",
   """footer.favorites""": """المفضلة""",
   """footer.feed""": """المتابعة""",
-  """edit profile.header""": """ الملف الشخصي""",
-  """edit profile.Full_Name""": """الاسم الكامل""",
-  """edit profile.phone_number""": """رقم الهاتف""",
-  """edit profile.email""": """البريد الالكتروني""",
-  """edit profile.change_password""": """تغيير كلمة المرور""",
-  """edit profile.edit_fullname""": """تعديل الاسم الكامل""",
-  """edit profile.edit_email""": """تعديل البريد الالكتروني""",
-  """edit profile.edit_phone""": """تعديل رقم الهاتف""",
-  """edit profile.save""": """حفظ""",
-  """edit profile.send_verification_code""": """ارسال كود التحقق""",
-  """edit profile.verifyandsave""": """تحقق وحفظ""",
-  """edit profile.oldpassword""": """كلمة المرور القديمة""",
-  """edit profile.newpassword""": """كلمة المرور الجديدة""",
-  """edit profile.confirmpassword""": """تأكيد كلمة المرور""",
+  """editprofile.header""": """ الملف الشخصي""",
+  """editprofile.full_name""": """الاسم الكامل""",
+  """editprofile.phone_number""": """رقم الهاتف""",
+  """editprofile.email""": """البريد الالكتروني""",
+  """editprofile.change_password""": """تغيير كلمة المرور""",
+  """editprofile.edit_fullname""": """تعديل الاسم الكامل""",
+  """editprofile.edit_email""": """تعديل البريد الالكتروني""",
+  """editprofile.edit_phone""": """تعديل رقم الهاتف""",
+  """editprofile.save""": """حفظ""",
+  """editprofile.send_verification_code""": """ارسال كود التحقق""",
+  """editprofile.verifyandsave""": """تحقق وحفظ""",
+  """editprofile.oldpassword""": """كلمة المرور القديمة""",
+  """editprofile.newpassword""": """كلمة المرور الجديدة""",
+  """editprofile.confirmpassword""": """تأكيد كلمة المرور""",
   """plan.title""": """خطتي الحالية""",
   """plan.plan_name""": """اسم الخطة""",
   """plan.balance""": """0 / JOD""",
@@ -1638,7 +1763,6 @@ Map<String, String> get messagesArMap => {
   """addplaterequest.number""": """رقم اللوحة""",
   """addplaterequest.optional_price""": """السعر اختياري""",
   """phonedetails.title""": """تفاصيل رقم الهاتف""",
-  """phonedetails.share_message""": """اطلع على رقم اللوحة هذا: {number}""",
   """phonedetails.important_note""": """ملاحظات هامة:""",
   """phonedetails.dont_transfer_money""":
       """لا تقم بتحويل الأموال عبر الإنترنت""",
@@ -1648,10 +1772,7 @@ Map<String, String> get messagesArMap => {
   """sellerdetails.whatsapp""": """واتساب""",
   """sellerdetails.phone_call""": """اتصال""",
   """platesdetails.title""": """تفاصيل رقم السيارة""",
-  """platesdetails.error_loading_data""":
-      """حدث خطأ أثناء جلب بيانات الرقم: {plateNumber}""",
   """platesdetails.originally_posted_by""": """نُشر بواسطة""",
-  """platesdetails.member_since""": """عضو منذ {year}""",
   """platesdetails.whatsapp""": """واتساب""",
   """platesdetails.call""": """اتصال""",
   """platesdetails.other_sellers""": """بائعون آخرون""",
@@ -1662,7 +1783,6 @@ Map<String, String> get messagesArMap => {
   """platesdetails.dont_transfer_money""":
       """لا تقم بتحويل الأموال عبر الإنترنت""",
   """platesdetails.meet_in_person""": """قابل البائع شخصياً""",
-  """platesdetails.days_ago""": """منذ {days}""",
   """platesdetails.call_for_price""": """اتصل لمعرفة السعر""",
   """quicksale.title""": """البيع السريع""",
   """quicksale.description""":
@@ -1700,10 +1820,6 @@ Map<String, String> get messagesArMap => {
   """editplaterequest.price_optional""": """السعر (اختياري)""",
   """editplaterequest.save_changes""": """حفظ التعديلات""",
   """iap.purchase""": """شراء""",
-  """datetime.days_ago""": """{days} يوم""",
-  """datetime.hours_ago""": """{hours} ساعة""",
-  """datetime.minutes_ago""": """{minutes} دقيقة""",
-  """datetime.seconds_ago""": """{seconds} ثانية""",
   """datetime.just_now""": """الآن""",
   """auth.signin""": """تسجيل الدخول""",
   """auth.signup""": """تسجيل حساب""",
@@ -1720,4 +1836,26 @@ Map<String, String> get messagesArMap => {
   """auth.reset_sent""":
       """تم إرسال تعليمات استعادة كلمة المرور إلى بريدك الإلكتروني""",
   """auth.guest""": """الاستمرار كزائر""",
+  """feed.title""": """المتابعة""",
+  """feed.login_required""": """يجب تسجيل الدخول لعرض التغذية الخاصة بك""",
+  """feed.sign_in""": """تسجيل الدخول""",
+  """feed.error_loading""": """خطأ في تحميل الملف الشخصي:""",
+  """feed.retry""": """إعادة المحاولة""",
+  """feed.user_not_found""": """لم يتم العثور على الملف الشخصي""",
+  """feed.empty_feed""": """التغذية الخاصة بك فارغة""",
+  """feed.follow_users""": """تابع المستخدمين لرؤية إعلاناتهم هنا""",
+  """feed.explore_listings""": """استكشاف الإعلانات""",
+  """feed.no_users_followed""": """أنت لا تتابع أي مستخدمين""",
+  """feed.error_generic""": """خطأ في تحميل البيانات:""",
+  """feed.no_plate_listings""":
+      """لا توجد إعلانات لوحات من المستخدمين الذين تتابعهم""",
+  """feed.no_phone_listings""":
+      """لا توجد إعلانات هواتف من المستخدمين الذين تتابعهم""",
+  """privacy.title""": """سياسة الخصوصية""",
+  """terms.title""": """الشروط والأحكام""",
+  """common.no_items_found""": """لا توجد عناصر""",
+  """common.no_results_found""": """لا توجد نتائج""",
+  """common.no_data_found""": """لا توجد بيانات""",
+  """common.no_results""": """لا توجد نتائج""",
+  """common.no_items""": """لا توجد عناصر""",
 };

@@ -16,7 +16,7 @@ class PhoneNumberWidget extends StatelessWidget {
       builder: (context, constraints) {
         final width = constraints.maxWidth;
         final fontSize = width * 0.14; // scales with container width
-
+        final isDark = Theme.of(context).brightness == Brightness.dark;
         return Stack(
           fit: StackFit.passthrough,
           clipBehavior: Clip.hardEdge,
@@ -30,9 +30,14 @@ class PhoneNumberWidget extends StatelessWidget {
                 fit: BoxFit.contain,
               )
             else if (phoneNumber.phoneOperator == PhoneOperator.umniah)
-              Assets.images.umniahPhonebg.image(
-                fit: BoxFit.contain,
-              ),
+              if (isDark)
+                Assets.images.umniahPhonebgDark.image(
+                  fit: BoxFit.contain,
+                )
+              else
+                Assets.images.umniahPhonebg.image(
+                  fit: BoxFit.contain,
+                ),
             Positioned(
               bottom: width * 0.02,
               left: 0,

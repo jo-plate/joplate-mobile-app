@@ -95,7 +95,7 @@ class _FollowingPageState extends State<FollowingPage> {
       // If there are many users being followed, we need to batch the queries
       // Firestore has a limit of 10 items for 'whereIn' queries
       final List<String> followingIds = List<String>.from(followingList);
-      final batchSize = 10;
+      const batchSize = 10;
       final batches = <List<String>>[];
 
       for (var i = 0; i < followingIds.length; i += batchSize) {

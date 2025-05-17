@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
+import 'package:joplate/presentation/widgets/phone_number_input.dart';
 
 @RoutePage()
 class EditPhoneNumberPage extends StatefulWidget {
@@ -17,6 +18,7 @@ class _EditPhoneNumberPageState extends State<EditPhoneNumberPage> {
   late TextEditingController _phoneController;
   bool _isLoading = true;
   bool _isSaving = false;
+  final _formKey = GlobalKey<FormState>(); // Add form key for validation
 
   @override
   void initState() {
@@ -32,8 +34,15 @@ class _EditPhoneNumberPageState extends State<EditPhoneNumberPage> {
       final doc = await FirebaseFirestore.instance.collection(userProfileCollectionId).doc(user?.uid).get();
 
       if (doc.exists) {
+        String phoneNumber = doc.data()?['phonenumber'] ?? '';
+
+        // Convert number format if it has 0 prefix
+        if (phoneNumber.startsWith('0')) {
+          phoneNumber = phoneNumber.substring(1);
+        }
+        
         setState(() {
-          _phoneController.text = doc.data()?['phonenumber'] ?? '';
+          _phoneController.text = phoneNumber;
           _isLoading = false;
         });
       } else {
@@ -50,6 +59,10 @@ class _EditPhoneNumberPageState extends State<EditPhoneNumberPage> {
   }
 
   Future<void> _savePhoneNumber() async {
+    if (!_formKey.currentState!.validate()) {
+      return; // Don't save if validation fails
+    }
+    
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
 
@@ -81,24 +94,36 @@ class _EditPhoneNumberPageState extends State<EditPhoneNumberPage> {
   Widget build(BuildContext context) {
     final m = Localization.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(m.editProfile.edit_phone)),
+      appBar: AppBar(title: Text(m.editprofile.edit_phone)),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  TextField(
-                    controller: _phoneController,
-                    decoration: InputDecoration(labelText: m.editProfile.phone_number),
-                    keyboardType: TextInputType.phone,
-                  ),
-                  const SizedBox(height: 20),
-                  FilledButton(
-                    onPressed: _isSaving ? null : _savePhoneNumber,
-                    child: _isSaving ? const CircularProgressIndicator() : Text(m.editProfile.save),
-                  ),
-                ],
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    PhoneNumberInput(
+                      controller: _phoneController,
+                      labelText: m.editprofile.phone_number,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                    ),
+                    const SizedBox(height: 20),
+                    FilledButton(
+                      onPressed: _isSaving ? null : _savePhoneNumber,
+                      child: _isSaving
+                          ? const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.0,
+                                color: Colors.white,
+                              ),
+                            )
+                          : Text(m.editprofile.save),
+                    ),
+                  ],
+                ),
               ),
             ),
     );

@@ -423,7 +423,7 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.phone,
                                     size: 16,
                                     color: Colors.white,

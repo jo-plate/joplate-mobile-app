@@ -130,7 +130,6 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
                       item: snapshot.data!,
                       disabled: true,
                       priceLabelFontSize: 24,
-                      aspectRatio: 2.1,
                     ),
                     if (snapshot.data!.userId == FirebaseAuth.instance.currentUser?.uid &&
                         snapshot.data!.expiresAt != null &&
@@ -160,9 +159,9 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Important Note:',
-                            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                          Text(
+                            m.platesdetails.important_note,
+                            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(height: 10),
                           Row(
@@ -172,10 +171,10 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
                                       ? Colors.white70
                                       : const Color(0xFF981C1E)),
                               const SizedBox(width: 8),
-                              const Expanded(
+                              Expanded(
                                 child: Text(
-                                  "Don't transfer money online",
-                                  style: TextStyle(fontSize: 16),
+                                  m.platesdetails.dont_transfer_money,
+                                  style: const TextStyle(fontSize: 16),
                                 ),
                               ),
                             ],
@@ -188,10 +187,10 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
                                       ? Colors.white70
                                       : const Color(0xFF981C1E)),
                               const SizedBox(width: 8),
-                              const Expanded(
+                              Expanded(
                                 child: Text(
-                                  "Meet the seller in person",
-                                  style: TextStyle(fontSize: 16),
+                                  m.platesdetails.meet_in_person,
+                                  style: const TextStyle(fontSize: 16),
                                 ),
                               ),
                             ],
@@ -299,7 +298,7 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
                         ),
                         const SizedBox(width: 12),
                         Text(
-                          'Requested by',
+                          m.quicksale.requested_by,
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -431,7 +430,7 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.phone,
                                     size: 16,
                                     color: Colors.white,

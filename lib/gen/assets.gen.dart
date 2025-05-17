@@ -94,6 +94,10 @@ class $AssetsImagesGen {
   AssetGenImage get umniahPhonebg =>
       const AssetGenImage('assets/images/umniah_phonebg.png');
 
+  /// File path: assets/images/umniah_phonebg_dark.png
+  AssetGenImage get umniahPhonebgDark =>
+      const AssetGenImage('assets/images/umniah_phonebg_dark.png');
+
   /// File path: assets/images/zain.png
   AssetGenImage get zainPng => const AssetGenImage('assets/images/zain.png');
 
@@ -128,6 +132,7 @@ class $AssetsImagesGen {
     umniahPng,
     umniahSvg,
     umniahPhonebg,
+    umniahPhonebgDark,
     zainPng,
     zainSvg,
     zainPhonebg,

@@ -6,6 +6,7 @@ import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/auth_screen/ui/login_form.dart';
 import 'package:joplate/presentation/routes/pages/auth_screen/ui/signup_form.dart';
+import 'package:joplate/presentation/routes/pages/home_page/home_tab/ui/logo_section.dart';
 
 @RoutePage()
 class AuthPage extends StatefulWidget {
@@ -37,56 +38,33 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
   Widget build(BuildContext context) {
     final m = Localization.of(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final primaryColor = Theme.of(context).colorScheme.primary;
-    final backgroundColor = isDark ? const Color(0xFF1A1B2E) : const Color.fromARGB(255, 251, 251, 251);
-    final appBarColor = isDark ? const Color(0xFF252A41) : Colors.white;
+    const primaryColor = Color(0xFF981C1E);
 
-    return BlocListener<AuthCubit, AuthState>(
-      listener: (context, state) {
-        if (state.isLoggedIn) AutoRouter.of(context).maybePopTop();
-      },
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        backgroundColor: backgroundColor,
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(200),
-          child: AppBar(
-            backgroundColor: appBarColor,
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: BlocListener<AuthCubit, AuthState>(
+        listener: (context, state) {
+          if (state.isLoggedIn) AutoRouter.of(context).maybePopTop();
+        },
+        child: Scaffold(
+          resizeToAvoidBottomInset: true,
+          appBar: AppBar(
             elevation: 0,
-            automaticallyImplyLeading: false,
-            flexibleSpace: SafeArea(
-              child: Column(
-                children: [
-                  // Back Button
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: IconButton(
-                      icon: Icon(Icons.arrow_back_ios, color: primaryColor),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 20), // Space below the back button
-      
-                  // JOPLATE Logo
-                  Text(
-                    'JOPLATE',
-                    style: TextStyle(
-                      fontSize: 50,
-                      fontWeight: FontWeight.bold,
-                      color: primaryColor,
-                    ),
-                  ),
-                ],
+            // automaticallyImplyLeading: false,
+          ),
+          // TabBarView for Sign in and Sign up tabs
+          body: Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: LogoSection(size: 125),
               ),
-            ),
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(60), // Height of TabBar
-              child: TabBar(
+              TabBar(
                 controller: _tabController,
                 indicator: const BoxDecoration(),
                 dividerColor: Colors.transparent,
+                labelPadding: EdgeInsets.zero,
+                tabAlignment: TabAlignment.fill,
                 tabs: [
                   // Custom Tabs
                   _buildCustomTab(
@@ -101,23 +79,25 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
                   ),
                 ],
               ),
-            ),
-          ),
-        ),
-        // TabBarView for Sign in and Sign up tabs
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            // Sign in Tab Content
-            LoginForm(
-              onPressed: injector<AuthCubit>().loginWithEmailAndPassword,
-            ),
+              Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    // Sign in Tab Content
+                    LoginForm(
+                      onPressed: injector<AuthCubit>().loginWithEmailAndPassword,
+                    ),
       
-            // Sign up Tab Content
-            SignupForm(
-              onPressed: injector<AuthCubit>().signUpWithEmailAndPassword,
-            ),
-          ],
+                    // Sign up Tab Content
+                    SignupForm(
+                      onPressed: injector<AuthCubit>().signUpWithEmailAndPassword,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -135,7 +115,7 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
           bottomRight: Radius.circular(0),
         ),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 13),
+      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 16),
       child: Text(
         text,
         textAlign: TextAlign.center,

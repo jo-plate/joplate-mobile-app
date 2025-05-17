@@ -46,7 +46,7 @@ profile:
   gallery: "Gallery"
   camera: "Camera"
   promo_code: "Promo Code"
-  joined_on: "Joined on {date}"
+  joined_on(String date): "Joined on $date"
 
 footer:
   home: "Home"
@@ -54,9 +54,9 @@ footer:
   favorites: "Favorites"
   feed: "Feed"
 
-edit profile:
+editprofile:
   header: "Profile"
-  Full_Name: "Full Name"
+  full_name: "Full Name"
   phone_number: "Phone Number"
   email: "Email"
   change_password: "Change Password"
@@ -201,7 +201,7 @@ listingdetails:
 
 phonedetails:
   title: "Phone Number Details"
-  share_message: "Check out this plate number: {number}"
+  share_message(String number): "Check out this plate number: $number"
   important_note: "Important Note:"
   dont_transfer_money: "Don't transfer money online"
   meet_in_person: "Meet the seller in person"
@@ -214,9 +214,9 @@ sellerdetails:
 
 platesdetails:
   title: "Plate Details"
-  error_loading_data: "Error getting data for Plate Number: {plateNumber}"
+  error_loading_data(String plateNumber): "Error getting data for Plate Number: $plateNumber"
   originally_posted_by: "Posted by"
-  member_since: "Member since {year}"
+  member_since(String year): "Member since $year"
   whatsapp: "WhatsApp"
   call: "Call"
   other_sellers: "Other Sellers"
@@ -226,7 +226,7 @@ platesdetails:
   important_note: "Important Note:"
   dont_transfer_money: "Don't transfer money online"
   meet_in_person: "Meet the seller in person"
-  days_ago: "{days} ago"
+  days_ago(String days): "$days ago"
   call_for_price: "Call for Price"
 
 quicksale:
@@ -277,10 +277,10 @@ iap:
   purchase: "Purchase"
 
 datetime:
-  days_ago: "{days} days ago"
-  hours_ago: "{hours} hours ago"
-  minutes_ago: "{minutes} minutes ago"
-  seconds_ago: "{seconds} seconds ago"
+  days_ago(String days): "$days days ago"
+  hours_ago(String hours): "$hours hours ago"
+  minutes_ago(String minutes): "$minutes minutes ago"
+  seconds_ago(String seconds): "$seconds seconds ago"
   just_now: "Just now"
 
 auth:
@@ -298,3 +298,31 @@ auth:
   reset: "Reset"
   reset_sent: "Password reset instructions sent to your email"
   guest: "Continue as a guest"
+
+feed:
+  title: "Feed"
+  login_required: "You need to sign in to view your feed"
+  sign_in: "Sign In"
+  error_loading: "Error loading profile:"
+  retry: "Retry"
+  user_not_found: "User profile not found"
+  empty_feed: "Your feed is empty"
+  follow_users: "Follow users to see their listings here"
+  explore_listings: "Explore Listings"
+  no_users_followed: "You are not following any users"
+  error_generic: "Error loading data:"
+  no_plate_listings: "No plate listings from users you follow"
+  no_phone_listings: "No phone listings from users you follow"
+
+privacy:
+  title: "Privacy Policy"
+
+terms:
+  title: "Terms & Conditions"
+
+common:
+  no_items_found: "No items found"
+  no_results_found: "No results found"
+  no_data_found: "No data found"
+  no_results: "No results"
+  no_items: "No items"

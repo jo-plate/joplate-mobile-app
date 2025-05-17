@@ -21,52 +21,11 @@ class FeedPage extends StatefulWidget {
 
 class _FeedPageState extends State<FeedPage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  late Stream<UserProfile?> _currentUserStream;
-  List<String> _followingIds = [];
-  bool _isLoading = true;
-  String? _errorMessage;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    _loadCurrentUser();
-  }
-
-  Future<void> _loadCurrentUser() async {
-    final currentUserId = FirebaseAuth.instance.currentUser?.uid;
-    if (currentUserId == null) {
-      setState(() {
-        _isLoading = false;
-        _errorMessage = 'You must be logged in to view the feed';
-      });
-      return;
-    }
-
-    _currentUserStream = FirebaseFirestore.instance
-        .collection(userProfileCollectionId)
-        .doc(currentUserId)
-        .snapshots()
-        .map((snapshot) => snapshot.exists ? UserProfile.fromJson(snapshot.data()!) : null);
-
-    _currentUserStream.listen((profile) {
-      if (profile != null) {
-        setState(() {
-          _followingIds = profile.followingList;
-          _isLoading = false;
-        });
-      } else {
-        setState(() {
-          _isLoading = false;
-          _errorMessage = 'Could not load user profile';
-        });
-      }
-    }, onError: (error) {
-      setState(() {
-        _isLoading = false;
-        _errorMessage = 'Error loading user data: $error';
-      });
-    });
   }
 
   @override
@@ -81,7 +40,7 @@ class _FeedPageState extends State<FeedPage> with SingleTickerProviderStateMixin
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Feed'),
+        title: Text(m.feed.title),
         bottom: TabBar(
           controller: _tabController,
           tabs: [
@@ -90,80 +49,127 @@ class _FeedPageState extends State<FeedPage> with SingleTickerProviderStateMixin
           ],
         ),
       ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : _errorMessage != null
-              ? Center(
+      body: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, authSnapshot) {
+          // Handle authentication state
+          if (authSnapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          final currentUser = authSnapshot.data;
+          if (currentUser == null) {
+            // User is not logged in
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    m.feed.login_required,
+                    style: const TextStyle(fontSize: 16),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () => AutoRouter.of(context).push(const AuthRoute()),
+                    child: Text(m.feed.sign_in),
+                  )
+                ],
+              ),
+            );
+          }
+
+          // User is logged in, now fetch their profile
+          return StreamBuilder<DocumentSnapshot>(
+            stream: FirebaseFirestore.instance.collection(userProfileCollectionId).doc(currentUser.uid).snapshots(),
+            builder: (context, profileSnapshot) {
+              if (profileSnapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if (profileSnapshot.hasError) {
+                return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        _errorMessage!,
+                        '${m.feed.error_loading} ${profileSnapshot.error}',
                         style: const TextStyle(color: Colors.red),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 16),
-                      if (_errorMessage == 'You must be logged in to view the feed')
-                        ElevatedButton(
-                          onPressed: () => AutoRouter.of(context).push(const AuthRoute()),
-                          child: const Text('Sign In'),
-                        )
-                      else
-                        ElevatedButton(
-                          onPressed: _loadCurrentUser,
-                          child: const Text('Retry'),
-                        ),
+                      ElevatedButton(
+                        onPressed: () => setState(() {}), // Refresh
+                        child: Text(m.feed.retry),
+                      ),
                     ],
                   ),
-                )
-              : _followingIds.isEmpty
-                  ? Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'Your feed is empty',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(height: 8),
-                          const Text(
-                            'Follow users to see their listings here',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          const SizedBox(height: 16),
-                          ElevatedButton(
-                            onPressed: () => AutoRouter.of(context).push(const PlatesListingsRoute()),
-                            child: const Text('Explore Listings'),
-                          ),
-                        ],
+                );
+              }
+
+              if (!profileSnapshot.hasData || !profileSnapshot.data!.exists) {
+                return Center(child: Text(m.feed.user_not_found));
+              }
+
+              // Extract following list from the user profile
+              final userData = profileSnapshot.data!.data() as Map<String, dynamic>?;
+              final userProfile = userData != null ? UserProfile.fromJson(userData) : UserProfile.empty();
+              final followingIds = userProfile.followingList;
+
+              if (followingIds.isEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        m.feed.empty_feed,
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                    )
-                  : TabBarView(
-                      controller: _tabController,
-                      children: [
-                        _buildPlateListingsTab(),
-                        _buildPhoneListingsTab(),
-                      ],
-                    ),
+                      const SizedBox(height: 8),
+                      Text(
+                        m.feed.follow_users,
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: () => AutoRouter.of(context).push(const PlatesListingsRoute()),
+                        child: Text(m.feed.explore_listings),
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              // User has followings, show the TabBarView
+              return TabBarView(
+                controller: _tabController,
+                children: [
+                  _buildPlateListingsTab(followingIds),
+                  _buildPhoneListingsTab(followingIds),
+                ],
+              );
+            },
+          );
+        },
+      ),
     );
   }
 
-  Widget _buildPlateListingsTab() {
-    if (_followingIds.isEmpty) {
-      return const Center(child: Text('No users followed yet'));
+  Widget _buildPlateListingsTab(List<String> followingIds) {
+    final m = Localization.of(context);
+    if (followingIds.isEmpty) {
+      return Center(child: Text(m.feed.no_users_followed));
     }
 
-    return StreamBuilder<List<PlateListing>>(
+    return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection(carPlatesCollectionId)
-          .where('userId', whereIn: _followingIds)
+          .where('userId', whereIn: followingIds)
           .where('isDisabled', isEqualTo: false)
           .where('isSold', isEqualTo: false)
-          .where('expiresAt', isGreaterThan: DateTime.now())
-          .orderBy('createdAt', descending: true)
-          .limit(50)
-          .snapshots()
-          .map((snapshot) => snapshot.docs.map((doc) => PlateListing.fromSnapshot(doc)).toList()),
+          .where('expiresAt', isGreaterThan: Timestamp.fromDate(DateTime.now()))
+          .orderBy('expiresAt', descending: true)
+          .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -171,45 +177,47 @@ class _FeedPageState extends State<FeedPage> with SingleTickerProviderStateMixin
 
         if (snapshot.hasError) {
           return Center(
-            child: Text('Error: ${snapshot.error}'),
+            child: Text('${m.feed.error_generic} ${snapshot.error}'),
           );
         }
 
-        final plates = snapshot.data ?? [];
+        final plates = snapshot.data?.docs.map((doc) => PlateListing.fromSnapshot(doc)).toList() ?? [];
 
         if (plates.isEmpty) {
-          return const Center(
-            child: Text('No plate listings from users you follow'),
+          return Center(
+            child: Text(m.feed.no_plate_listings),
           );
         }
 
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: PlatesListingsGrid(
-            itemList: plates,
-            shrinkWrap: true,
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+            child: PlatesListingsGrid(
+              itemList: plates,
+              shrinkWrap: true,
+            ),
           ),
         );
       },
     );
   }
 
-  Widget _buildPhoneListingsTab() {
-    if (_followingIds.isEmpty) {
-      return const Center(child: Text('No users followed yet'));
+  Widget _buildPhoneListingsTab(List<String> followingIds) {
+    final m = Localization.of(context);
+    if (followingIds.isEmpty) {
+      return Center(child: Text(m.feed.no_users_followed));
     }
 
-    return StreamBuilder<List<PhoneListing>>(
+    return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection(phoneNumbersCollectionId)
-          .where('userId', whereIn: _followingIds)
+          .where('userId', whereIn: followingIds)
           .where('isDisabled', isEqualTo: false)
           .where('isSold', isEqualTo: false)
-          .where('expiresAt', isGreaterThan: DateTime.now())
-          .orderBy('createdAt', descending: true)
+          .where('expiresAt', isGreaterThan: Timestamp.fromDate(DateTime.now()))
+          .orderBy('expiresAt', descending: true)
           .limit(50)
-          .snapshots()
-          .map((snapshot) => snapshot.docs.map((doc) => PhoneListing.fromSnapshot(doc)).toList()),
+          .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -217,23 +225,25 @@ class _FeedPageState extends State<FeedPage> with SingleTickerProviderStateMixin
 
         if (snapshot.hasError) {
           return Center(
-            child: Text('Error: ${snapshot.error}'),
+            child: Text('${m.feed.error_generic} ${snapshot.error}'),
           );
         }
 
-        final phones = snapshot.data ?? [];
+        final phones = snapshot.data?.docs.map((doc) => PhoneListing.fromSnapshot(doc)).toList() ?? [];
 
         if (phones.isEmpty) {
-          return const Center(
-            child: Text('No phone listings from users you follow'),
+          return Center(
+            child: Text(m.feed.no_phone_listings),
           );
         }
 
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: PhonesListingGrid(
-            itemList: phones,
-            shrinkWrap: true,
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+            child: PhonesListingGrid(
+              itemList: phones,
+              shrinkWrap: true,
+            ),
           ),
         );
       },

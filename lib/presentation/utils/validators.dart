@@ -43,15 +43,23 @@ class Validators {
 
     // Remove any non-digit characters
     final digitsOnly = value.replaceAll(RegExp(r'\D'), '');
-
+    
+    // Remove any leading 0 if present
+    final normalizedNumber = digitsOnly.startsWith('0') ? digitsOnly.substring(1) : digitsOnly;
+    
     // Check if it starts with valid Jordanian prefixes
-    if (!digitsOnly.startsWith('077') && !digitsOnly.startsWith('078') && !digitsOnly.startsWith('079')) {
-      return 'Number must start with 077, 078, or 079';
+    if (!normalizedNumber.startsWith('7')) {
+      return 'Number must start with 7';
+    }
+    
+    final secondDigit = normalizedNumber.length > 1 ? normalizedNumber[1] : '';
+    if (secondDigit != '7' && secondDigit != '8' && secondDigit != '9') {
+      return 'Number must be 77, 78, or 79';
     }
 
-    // Check for 10 digits total
-    if (digitsOnly.length != 10) {
-      return 'Phone must be 10 digits';
+    // Check for 9 digits total (without the leading 0)
+    if (normalizedNumber.length != 9) {
+      return 'Phone must be 9 digits (excluding country code)';
     }
 
     return null;
