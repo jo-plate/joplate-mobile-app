@@ -62,15 +62,12 @@ class _MyNumbersPageState extends State<MyNumbersPage> with SingleTickerProvider
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: TabBarView(
-          controller: tabController,
-          children: [
-            PlateListingsByUserId(userId: FirebaseAuth.instance.currentUser?.uid ?? ''),
-            PhoneListingsByUserId(userId: FirebaseAuth.instance.currentUser?.uid ?? ''),
-          ],
-        ),
+      body: TabBarView(
+        controller: tabController,
+        children: [
+          PlateListingsByUserId(userId: FirebaseAuth.instance.currentUser?.uid ?? ''),
+          PhoneListingsByUserId(userId: FirebaseAuth.instance.currentUser?.uid ?? ''),
+        ],
       ),
     );
   }

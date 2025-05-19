@@ -25,10 +25,9 @@ class PhoneListing with _$PhoneListing {
     required String userId,
   }) = _PhoneListing;
 
-  bool get isFeatured {
-    if (featuredUntil == null) return false;
-    return featuredUntil!.isAfter(DateTime.now());
-  }
+  bool get isFeatured => featuredUntil != null && featuredUntil!.isAfter(DateTime.now());
+  bool get isActive => !isDisabled && !isExpired;
+  bool get isExpired => expiresAt != null && expiresAt!.isBefore(DateTime.now());
 
   factory PhoneListing.fromJson(Map<String, dynamic> json) =>
       _$PhoneListingFromJson(json);
@@ -50,10 +49,5 @@ class PhoneListing with _$PhoneListing {
         createdAt: DateTime.now(),
         expiresAt: DateTime.now().add(const Duration(days: 7)),
         userId: 'mockUserId');
-  }
-
-  bool get isExpired {
-    if (expiresAt == null) return false;
-    return expiresAt!.isBefore(DateTime.now());
   }
 }

@@ -422,6 +422,13 @@ common:
   missing_product_id: "Missing product ID"
   promotion_success: "Your listing has been promoted successfully!"
   promotion_failed: "Failed to promote listing"
+  listing_status:
+    featured: "Featured"
+    active: "Active"
+    inactive: "Inactive"
+    disabled: "Disabled"
+    expired: "Expired"
+    sold: "Sold"
 
 account:
   delete_account: "Delete Account"

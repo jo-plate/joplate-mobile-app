@@ -422,6 +422,13 @@ common:
   missing_product_id: "معرف المنتج مفقود"
   promotion_success: "تمت ترقية إعلانك بنجاح!"
   promotion_failed: "فشل في ترقية الإعلان"
+  listing_status:
+    featured: "مميز"
+    active: "نشط"
+    inactive: "غير نشط"
+    disabled: "معطل"
+    expired: "منتهي"
+    sold: "مباع"
 
 account:
   delete_account: "حذف الحساب"

@@ -24,10 +24,9 @@ class PlateListing with _$PlateListing {
     @Default(0) int visits,
   }) = _PlateListing;
 
-  bool get isFeatured {
-    if (featuredUntil == null) return false;
-    return featuredUntil!.isAfter(DateTime.now());
-  }
+  bool get isFeatured => featuredUntil != null && featuredUntil!.isAfter(DateTime.now());
+  bool get isActive => !isDisabled && !isExpired;
+  bool get isExpired => expiresAt != null && expiresAt!.isBefore(DateTime.now());
 
   factory PlateListing.fromJson(Map<String, dynamic> json) => _$PlateListingFromJson(json);
   factory PlateListing.fromSnapshot(DocumentSnapshot snapshot) =>
@@ -46,10 +45,5 @@ class PlateListing with _$PlateListing {
         createdAt: DateTime.now(),
         expiresAt: DateTime.now().add(const Duration(days: 7)),
         userId: 'mockUserId');
-  }
-
-  bool get isExpired {
-    if (expiresAt == null) return false;
-    return expiresAt!.isBefore(DateTime.now());
   }
 }
