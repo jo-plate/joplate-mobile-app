@@ -67,10 +67,10 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: EditEmailRoute.page),
         AutoRoute(page: EditPhoneNumberRoute.page),
         AutoRoute(page: ChangePasswordRoute.page),
-        AutoRoute(page: PlatesDetailsRoute.page, ),
-        AutoRoute(page: PhoneDetailsRoute.page, ),
-        AutoRoute(page: PhoneRequestDetailsRoute.page, ),
-        AutoRoute(page: PlateRequestDetailsRoute.page, ),
+        AutoRoute(page: PlatesDetailsRoute.page),
+        AutoRoute(page: PhoneDetailsRoute.page),
+        AutoRoute(page: PhoneRequestDetailsRoute.page),
+        AutoRoute(page: PlateRequestDetailsRoute.page),
         AutoRoute(page: MyPlanRoute.page, path: '/myplan'),
         AutoRoute(page: PlansRoute.page, path: '/plans'),
         AutoRoute(page: AddPlateNumberRoute.page),
@@ -99,4 +99,8 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: ResetPasswordRoute.page, path: "/reset-password"),
         AutoRoute(page: VerificationCodeRoute.page, path: "/verification-code"),
       ];
+
+  bool get preserveState => true;
+
+  bool get restoreState => true;
 }

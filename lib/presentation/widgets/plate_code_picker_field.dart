@@ -111,52 +111,72 @@ class PlateCodePickerField extends StatelessWidget {
 
     await showModalBottomSheet(
       context: context,
-      builder: (_) => SizedBox(
-        height: 300,
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              height: 50,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(color: Color(0xFF981C1E), fontSize: 16, decoration: TextDecoration.none),
+      backgroundColor: Colors.white,
+      builder: (_) => Container(
+        color: Colors.white,
+        child: SizedBox(
+          height: 300,
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                height: 50,
+                color: Colors.white,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text(
+                        'Cancel',
+                        style: TextStyle(color: Color(0xFF981C1E), fontSize: 16, decoration: TextDecoration.none),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        onSelected(codes[selectedIndex]);
+                      },
+                      child: const Text(
+                        'Done',
+                        style: TextStyle(color: Color(0xFF981C1E), fontSize: 16, decoration: TextDecoration.none),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Divider(height: 1),
+              Expanded(
+                child: Container(
+                  color: Colors.white,
+                  child: CupertinoTheme(
+                    data: const CupertinoThemeData(
+                      primaryColor: Color(0xFF981C1E),
+                      brightness: Brightness.light,
+                    ),
+                    child: CupertinoPicker(
+                      scrollController: controller,
+                      itemExtent: 44,
+                      backgroundColor: Colors.white,
+                      onSelectedItemChanged: (index) => selectedIndex = index,
+                      children: codes
+                          .map((c) => Center(
+                                child: Text(
+                                  c,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ))
+                          .toList(),
                     ),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      onSelected(codes[selectedIndex]);
-                    },
-                    child: const Text(
-                      'Done',
-                      style: TextStyle(color: Color(0xFF981C1E), fontSize: 16, decoration: TextDecoration.none),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-            const Divider(height: 1),
-            Expanded(
-              child: CupertinoPicker(
-                scrollController: controller,
-                itemExtent: 44,
-                onSelectedItemChanged: (index) => selectedIndex = index,
-                children: codes
-                    .map((c) => Center(
-                            child: Text(
-                          c,
-                          style: const TextStyle(color: Colors.black),
-                        )))
-                    .toList(),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

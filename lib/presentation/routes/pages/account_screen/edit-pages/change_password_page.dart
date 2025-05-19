@@ -25,27 +25,85 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       return;
     }
 
+    if (_newPasswordController.text.length < 6) {
+      AppSnackbar.showError("New password must be at least 6 characters");
+      return;
+    }
+
     setState(() {
       _isLoading = true;
     });
 
     try {
-      User? user = _auth.currentUser;
-      AuthCredential credential = EmailAuthProvider.credential(
-        email: user!.email!,
+      final user = _auth.currentUser;
+      if (user == null) {
+        throw FirebaseAuthException(
+          code: 'user-not-found',
+          message: 'No user is currently signed in',
+        );
+      }
+
+      if (user.email == null) {
+        throw FirebaseAuthException(
+          code: 'invalid-email',
+          message: 'User email is not available',
+        );
+      }
+
+      // First reauthenticate with old credentials
+      final oldCredential = EmailAuthProvider.credential(
+        email: user.email!,
         password: _oldPasswordController.text,
       );
 
-      await user.reauthenticateWithCredential(credential);
+      await user.reauthenticateWithCredential(oldCredential);
+
+      // Then update the password
       await user.updatePassword(_newPasswordController.text);
+
+      // Reauthenticate with new credentials to maintain session
+      final newCredential = EmailAuthProvider.credential(
+        email: user.email!,
+        password: _newPasswordController.text,
+      );
+      await user.reauthenticateWithCredential(newCredential);
+
+      // Clear the form
+      _oldPasswordController.clear();
+      _newPasswordController.clear();
+      _confirmPasswordController.clear();
+
       AppSnackbar.showSuccess("Password changed successfully");
-      Navigator.pop(context);
+      if (mounted) {
+        Navigator.pop(context);
+      }
     } on FirebaseAuthException catch (e) {
-      AppSnackbar.showError(e.message ?? "Error changing password");
+      String message;
+      switch (e.code) {
+        case 'wrong-password':
+          message = "Current password is incorrect";
+          break;
+        case 'weak-password':
+          message = "New password is too weak";
+          break;
+        case 'requires-recent-login':
+          message = "Please log in again to change your password";
+          break;
+        case 'invalid-credential':
+          message = "Invalid or expired credentials";
+          break;
+        default:
+          message = e.message ?? "Error changing password";
+      }
+      AppSnackbar.showError(message);
+    } catch (e) {
+      AppSnackbar.showError("An unexpected error occurred");
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -71,27 +129,36 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               controller: _oldPasswordController,
               decoration: InputDecoration(labelText: m.editprofile.oldpassword),
               obscureText: true,
+              enabled: !_isLoading,
             ),
             const SizedBox(height: 16),
             TextField(
               controller: _newPasswordController,
               decoration: InputDecoration(labelText: m.editprofile.newpassword),
               obscureText: true,
+              enabled: !_isLoading,
             ),
             const SizedBox(height: 16),
-
             TextField(
               controller: _confirmPasswordController,
               decoration: InputDecoration(labelText: m.editprofile.confirmpassword),
               obscureText: true,
+              enabled: !_isLoading,
             ),
             const SizedBox(height: 20),
-            _isLoading
-                ? const CircularProgressIndicator()
-                : FilledButton(
-                    onPressed: _changePassword,
-                    child: Text(m.editprofile.save),
-                  ),
+            FilledButton(
+              onPressed: _isLoading ? null : _changePassword,
+              child: _isLoading
+                  ? const SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                    )
+                  : Text(m.editprofile.save),
+            ),
           ],
         ),
       ),

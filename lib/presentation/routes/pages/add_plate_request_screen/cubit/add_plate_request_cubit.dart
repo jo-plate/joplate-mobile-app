@@ -14,7 +14,13 @@ class AddPlateRequestCubit extends Cubit<PlateRequestState> {
   }
 
   void updateNumber(String number) {
-    emit(state.copyWith(number: number, errorMessage: null));
+    String? errorMessage;
+    if (number.isEmpty) {
+      errorMessage = 'Number is required';
+    } else if (number.startsWith('0')) {
+      errorMessage = 'Number cannot start with 0';
+    }
+    emit(state.copyWith(number: number, errorMessage: errorMessage));
   }
 
   void updatePrice(int? price) {
@@ -24,6 +30,11 @@ class AddPlateRequestCubit extends Cubit<PlateRequestState> {
   Future<void> submitRequest() async {
     if (state.code.isEmpty || state.number.isEmpty) {
       emit(state.copyWith(errorMessage: 'Code and Number are required'));
+      return;
+    }
+
+    if (state.number.startsWith('0')) {
+      emit(state.copyWith(errorMessage: 'Number cannot start with 0'));
       return;
     }
 

@@ -10,7 +10,11 @@ String formatCreatedAt(DateTime createdAt, BuildContext context) {
   final now = DateTime.now();
   final difference = now.difference(createdAt);
   final m = Localization.of(context);
-  if (difference.inDays > 0) {
+  if (difference.inDays >= 30) {
+    return m.datetime.months_ago((difference.inDays / 30).floor().toString());
+  } else if (difference.inDays >= 7) {
+    return m.datetime.weeks_ago((difference.inDays / 7).floor().toString());
+  } else if (difference.inDays > 0) {
     return m.datetime.days_ago(difference.inDays.toString());
   } else if (difference.inHours > 0) {
     return m.datetime.hours_ago(difference.inHours.toString());

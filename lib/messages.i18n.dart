@@ -1375,6 +1375,16 @@ class DatetimeMessages {
   const DatetimeMessages(this._parent);
 
   /// ```dart
+  /// "$months months ago"
+  /// ```
+  String months_ago(String months) => """$months months ago""";
+
+  /// ```dart
+  /// "$weeks weeks ago"
+  /// ```
+  String weeks_ago(String weeks) => """$weeks weeks ago""";
+
+  /// ```dart
   /// "$days days ago"
   /// ```
   String days_ago(String days) => """$days days ago""";
@@ -1662,6 +1672,121 @@ class PrivacyMessages {
   /// "Privacy Policy"
   /// ```
   String get title => """Privacy Policy""";
+
+  /// ```dart
+  /// "Effective Date: January 1, 2023"
+  /// ```
+  String get effective_date => """Effective Date: January 1, 2023""";
+
+  /// ```dart
+  /// "At Joplate, we value your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your information when you use our mobile application."
+  /// ```
+  String get intro =>
+      """At Joplate, we value your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your information when you use our mobile application.""";
+
+  /// ```dart
+  /// "Information We Collect"
+  /// ```
+  String get information_collected => """Information We Collect""";
+
+  /// ```dart
+  /// "• Personal Information: Name, email address, phone number, and profile picture"
+  /// ```
+  String get personal_info =>
+      """• Personal Information: Name, email address, phone number, and profile picture""";
+
+  /// ```dart
+  /// "• User Content: Information you provide about listings, including images and descriptions"
+  /// ```
+  String get user_content =>
+      """• User Content: Information you provide about listings, including images and descriptions""";
+
+  /// ```dart
+  /// "• Device Information: Device type, operating system, and unique device identifiers"
+  /// ```
+  String get device_info =>
+      """• Device Information: Device type, operating system, and unique device identifiers""";
+
+  /// ```dart
+  /// "• Usage Data: How you interact with our app, features you use, and time spent on the app"
+  /// ```
+  String get usage_data =>
+      """• Usage Data: How you interact with our app, features you use, and time spent on the app""";
+
+  /// ```dart
+  /// "How We Use Your Information"
+  /// ```
+  String get how_we_use => """How We Use Your Information""";
+
+  /// ```dart
+  /// "• To provide and maintain our service"
+  /// ```
+  String get use_1 => """• To provide and maintain our service""";
+
+  /// ```dart
+  /// "• To notify you about changes to our service"
+  /// ```
+  String get use_2 => """• To notify you about changes to our service""";
+
+  /// ```dart
+  /// "• To allow you to participate in interactive features"
+  /// ```
+  String get use_3 =>
+      """• To allow you to participate in interactive features""";
+
+  /// ```dart
+  /// "• To provide customer support"
+  /// ```
+  String get use_4 => """• To provide customer support""";
+
+  /// ```dart
+  /// "• To gather analysis or valuable information to improve our service"
+  /// ```
+  String get use_5 =>
+      """• To gather analysis or valuable information to improve our service""";
+
+  /// ```dart
+  /// "• To monitor the usage of our service"
+  /// ```
+  String get use_6 => """• To monitor the usage of our service""";
+
+  /// ```dart
+  /// "• To detect, prevent and address technical issues"
+  /// ```
+  String get use_7 => """• To detect, prevent and address technical issues""";
+
+  /// ```dart
+  /// "Security"
+  /// ```
+  String get security => """Security""";
+
+  /// ```dart
+  /// "We value your trust in providing us your personal information, thus we are striving to use commercially acceptable means of protecting it. But remember that no method of transmission over the internet, or method of electronic storage is 100% secure and reliable, and we cannot guarantee its absolute security."
+  /// ```
+  String get security_text =>
+      """We value your trust in providing us your personal information, thus we are striving to use commercially acceptable means of protecting it. But remember that no method of transmission over the internet, or method of electronic storage is 100% secure and reliable, and we cannot guarantee its absolute security.""";
+
+  /// ```dart
+  /// "Changes to This Privacy Policy"
+  /// ```
+  String get changes => """Changes to This Privacy Policy""";
+
+  /// ```dart
+  /// "We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Privacy Policy on this page. These changes are effective immediately after they are posted on this page."
+  /// ```
+  String get changes_text =>
+      """We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Privacy Policy on this page. These changes are effective immediately after they are posted on this page.""";
+
+  /// ```dart
+  /// "Contact Us"
+  /// ```
+  String get contact => """Contact Us""";
+
+  /// ```dart
+  /// "If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at support@joplate.com"
+  /// ```
+  String get contact_text =>
+      """If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at support@joplate.com""";
 }
 
 class TermsMessages {
@@ -1672,6 +1797,150 @@ class TermsMessages {
   /// "Terms & Conditions"
   /// ```
   String get title => """Terms & Conditions""";
+
+  /// ```dart
+  /// "Effective Date: January 1, 2023"
+  /// ```
+  String get effective_date => """Effective Date: January 1, 2023""";
+
+  /// ```dart
+  /// "Please read these Terms and Conditions carefully before using the Joplate mobile application. By accessing or using our service, you agree to be bound by these Terms and Conditions."
+  /// ```
+  String get intro =>
+      """Please read these Terms and Conditions carefully before using the Joplate mobile application. By accessing or using our service, you agree to be bound by these Terms and Conditions.""";
+
+  /// ```dart
+  /// "Acceptance of Terms"
+  /// ```
+  String get acceptance => """Acceptance of Terms""";
+
+  /// ```dart
+  /// "By using our app, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions. If you do not agree to these terms, please do not use our services."
+  /// ```
+  String get acceptance_text =>
+      """By using our app, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions. If you do not agree to these terms, please do not use our services.""";
+
+  /// ```dart
+  /// "User Accounts"
+  /// ```
+  String get user_accounts => """User Accounts""";
+
+  /// ```dart
+  /// "• You are responsible for maintaining the confidentiality of your account and password."
+  /// ```
+  String get account_1 =>
+      """• You are responsible for maintaining the confidentiality of your account and password.""";
+
+  /// ```dart
+  /// "• You accept responsibility for all activities that occur under your account."
+  /// ```
+  String get account_2 =>
+      """• You accept responsibility for all activities that occur under your account.""";
+
+  /// ```dart
+  /// "• You must be at least 18 years old to use this service."
+  /// ```
+  String get account_3 =>
+      """• You must be at least 18 years old to use this service.""";
+
+  /// ```dart
+  /// "• You agree to provide accurate and complete information when creating an account."
+  /// ```
+  String get account_4 =>
+      """• You agree to provide accurate and complete information when creating an account.""";
+
+  /// ```dart
+  /// "Listing and Transactions"
+  /// ```
+  String get listings => """Listing and Transactions""";
+
+  /// ```dart
+  /// "• You are solely responsible for the accuracy of your listings."
+  /// ```
+  String get listing_1 =>
+      """• You are solely responsible for the accuracy of your listings.""";
+
+  /// ```dart
+  /// "• All transactions are between buyers and sellers directly. Joplate only facilitates connections."
+  /// ```
+  String get listing_2 =>
+      """• All transactions are between buyers and sellers directly. Joplate only facilitates connections.""";
+
+  /// ```dart
+  /// "• Joplate does not guarantee the quality, safety, or legality of listed items."
+  /// ```
+  String get listing_3 =>
+      """• Joplate does not guarantee the quality, safety, or legality of listed items.""";
+
+  /// ```dart
+  /// "• Listing fees and transaction fees may apply as specified in the app."
+  /// ```
+  String get listing_4 =>
+      """• Listing fees and transaction fees may apply as specified in the app.""";
+
+  /// ```dart
+  /// "Prohibited Activities"
+  /// ```
+  String get prohibited => """Prohibited Activities""";
+
+  /// ```dart
+  /// "• Posting false, inaccurate, or misleading information"
+  /// ```
+  String get prohibited_1 =>
+      """• Posting false, inaccurate, or misleading information""";
+
+  /// ```dart
+  /// "• Using the service for any illegal purpose"
+  /// ```
+  String get prohibited_2 => """• Using the service for any illegal purpose""";
+
+  /// ```dart
+  /// "• Attempting to bypass any security measures"
+  /// ```
+  String get prohibited_3 => """• Attempting to bypass any security measures""";
+
+  /// ```dart
+  /// "• Impersonating another person or entity"
+  /// ```
+  String get prohibited_4 => """• Impersonating another person or entity""";
+
+  /// ```dart
+  /// "• Harassing or threatening other users"
+  /// ```
+  String get prohibited_5 => """• Harassing or threatening other users""";
+
+  /// ```dart
+  /// "Termination"
+  /// ```
+  String get termination => """Termination""";
+
+  /// ```dart
+  /// "We reserve the right to terminate or suspend access to our service immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms and Conditions."
+  /// ```
+  String get termination_text =>
+      """We reserve the right to terminate or suspend access to our service immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms and Conditions.""";
+
+  /// ```dart
+  /// "Changes to Terms"
+  /// ```
+  String get changes => """Changes to Terms""";
+
+  /// ```dart
+  /// "We reserve the right to modify or replace these Terms at any time. We will provide notice of significant changes. Your continued use of the service after such changes constitutes your acceptance of the new Terms."
+  /// ```
+  String get changes_text =>
+      """We reserve the right to modify or replace these Terms at any time. We will provide notice of significant changes. Your continued use of the service after such changes constitutes your acceptance of the new Terms.""";
+
+  /// ```dart
+  /// "Contact Us"
+  /// ```
+  String get contact => """Contact Us""";
+
+  /// ```dart
+  /// "If you have any questions about these Terms, please contact us at legal@joplate.com"
+  /// ```
+  String get contact_text =>
+      """If you have any questions about these Terms, please contact us at legal@joplate.com""";
 }
 
 class CommonMessages {
@@ -1994,7 +2263,78 @@ Map<String, String> get messagesMap => {
   """feed.no_plate_listings""": """No plate listings from users you follow""",
   """feed.no_phone_listings""": """No phone listings from users you follow""",
   """privacy.title""": """Privacy Policy""",
+  """privacy.effective_date""": """Effective Date: January 1, 2023""",
+  """privacy.intro""":
+      """At Joplate, we value your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your information when you use our mobile application.""",
+  """privacy.information_collected""": """Information We Collect""",
+  """privacy.personal_info""":
+      """• Personal Information: Name, email address, phone number, and profile picture""",
+  """privacy.user_content""":
+      """• User Content: Information you provide about listings, including images and descriptions""",
+  """privacy.device_info""":
+      """• Device Information: Device type, operating system, and unique device identifiers""",
+  """privacy.usage_data""":
+      """• Usage Data: How you interact with our app, features you use, and time spent on the app""",
+  """privacy.how_we_use""": """How We Use Your Information""",
+  """privacy.use_1""": """• To provide and maintain our service""",
+  """privacy.use_2""": """• To notify you about changes to our service""",
+  """privacy.use_3""":
+      """• To allow you to participate in interactive features""",
+  """privacy.use_4""": """• To provide customer support""",
+  """privacy.use_5""":
+      """• To gather analysis or valuable information to improve our service""",
+  """privacy.use_6""": """• To monitor the usage of our service""",
+  """privacy.use_7""": """• To detect, prevent and address technical issues""",
+  """privacy.security""": """Security""",
+  """privacy.security_text""":
+      """We value your trust in providing us your personal information, thus we are striving to use commercially acceptable means of protecting it. But remember that no method of transmission over the internet, or method of electronic storage is 100% secure and reliable, and we cannot guarantee its absolute security.""",
+  """privacy.changes""": """Changes to This Privacy Policy""",
+  """privacy.changes_text""":
+      """We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Privacy Policy on this page. These changes are effective immediately after they are posted on this page.""",
+  """privacy.contact""": """Contact Us""",
+  """privacy.contact_text""":
+      """If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at support@joplate.com""",
   """terms.title""": """Terms & Conditions""",
+  """terms.effective_date""": """Effective Date: January 1, 2023""",
+  """terms.intro""":
+      """Please read these Terms and Conditions carefully before using the Joplate mobile application. By accessing or using our service, you agree to be bound by these Terms and Conditions.""",
+  """terms.acceptance""": """Acceptance of Terms""",
+  """terms.acceptance_text""":
+      """By using our app, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions. If you do not agree to these terms, please do not use our services.""",
+  """terms.user_accounts""": """User Accounts""",
+  """terms.account_1""":
+      """• You are responsible for maintaining the confidentiality of your account and password.""",
+  """terms.account_2""":
+      """• You accept responsibility for all activities that occur under your account.""",
+  """terms.account_3""":
+      """• You must be at least 18 years old to use this service.""",
+  """terms.account_4""":
+      """• You agree to provide accurate and complete information when creating an account.""",
+  """terms.listings""": """Listing and Transactions""",
+  """terms.listing_1""":
+      """• You are solely responsible for the accuracy of your listings.""",
+  """terms.listing_2""":
+      """• All transactions are between buyers and sellers directly. Joplate only facilitates connections.""",
+  """terms.listing_3""":
+      """• Joplate does not guarantee the quality, safety, or legality of listed items.""",
+  """terms.listing_4""":
+      """• Listing fees and transaction fees may apply as specified in the app.""",
+  """terms.prohibited""": """Prohibited Activities""",
+  """terms.prohibited_1""":
+      """• Posting false, inaccurate, or misleading information""",
+  """terms.prohibited_2""": """• Using the service for any illegal purpose""",
+  """terms.prohibited_3""": """• Attempting to bypass any security measures""",
+  """terms.prohibited_4""": """• Impersonating another person or entity""",
+  """terms.prohibited_5""": """• Harassing or threatening other users""",
+  """terms.termination""": """Termination""",
+  """terms.termination_text""":
+      """We reserve the right to terminate or suspend access to our service immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms and Conditions.""",
+  """terms.changes""": """Changes to Terms""",
+  """terms.changes_text""":
+      """We reserve the right to modify or replace these Terms at any time. We will provide notice of significant changes. Your continued use of the service after such changes constitutes your acceptance of the new Terms.""",
+  """terms.contact""": """Contact Us""",
+  """terms.contact_text""":
+      """If you have any questions about these Terms, please contact us at legal@joplate.com""",
   """common.no_items_found""": """No items found""",
   """common.no_results_found""": """No results found""",
   """common.no_data_found""": """No data found""",

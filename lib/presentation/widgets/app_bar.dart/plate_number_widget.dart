@@ -30,7 +30,7 @@ class PlateNumberWidget extends StatelessWidget {
           double numberHeight = constraints.maxWidth * 0.9;
           double codeDigitMinWidth = 10;
           double numberDigitMinWidth = 13;
-          double separatorHeight = numberHeight * 0.043;
+          double separatorHeight = numberHeight * 0.038;
 
           List<String> codeDigits = plate.code.split("");
           List<String> numberDigits = plate.number.split("");

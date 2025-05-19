@@ -44,7 +44,13 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
   }
 
   void updateNumber(int index, String newNumber) {
-    _updateForm(index, state.forms[index].copyWith(number: newNumber, errorMessage: null));
+    String? errorMessage;
+    if (newNumber.isEmpty) {
+      errorMessage = 'Number is required';
+    } else if (newNumber.startsWith('0')) {
+      errorMessage = 'Number cannot start with 0';
+    }
+    _updateForm(index, state.forms[index].copyWith(number: newNumber, errorMessage: errorMessage));
   }
 
   void updatePrice(int index, String newPrice) {
@@ -88,6 +94,13 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
       // Basic validation
       if (form.code.isEmpty || form.number.isEmpty || (!form.callForPrice && form.price.isEmpty)) {
         forms[i] = form.copyWith(errorMessage: 'Please fill all required fields');
+        emit(state.copyWith(forms: forms));
+        continue;
+      }
+
+      // Validate number format
+      if (form.number.startsWith('0')) {
+        forms[i] = form.copyWith(errorMessage: 'Number cannot start with 0');
         emit(state.copyWith(forms: forms));
         continue;
       }

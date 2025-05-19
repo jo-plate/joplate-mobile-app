@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/injection/injector.dart';
@@ -51,8 +52,7 @@ class AccountPage extends StatelessWidget {
                     MenuItem(
                       title: m.editprofile.phone_number,
                       icon: Icons.phone_outlined,
-                      onTap: () => AutoRouter.of(context)
-                          .push(const EditPhoneNumberRoute()),
+                      onTap: () => AutoRouter.of(context).push(const EditPhoneNumberRoute()),
                     ),
                     const SizedBox(height: 16),
                     MenuItem(
@@ -64,6 +64,14 @@ class AccountPage extends StatelessWidget {
                       title: m.editprofile.change_password,
                       icon: Icons.password_outlined,
                       onTap: () => AutoRouter.of(context).push(const ChangePasswordRoute()),
+                    ),
+                    const SizedBox(height: 16),
+                    MenuItem(
+                      title: m.profile.delete_account,
+                      icon: Icons.delete,
+                      onTap: () {
+                        FirebaseAuth.instance.currentUser?.delete();
+                      },
                     ),
                   ],
                 ),

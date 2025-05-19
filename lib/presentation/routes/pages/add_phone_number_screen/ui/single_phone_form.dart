@@ -106,8 +106,6 @@ class _SinglePhoneFormState extends State<SinglePhoneForm> {
                   enabled: !isSubmitting,
                 ),
                 const SizedBox(height: 16),
-                
-                // Call for price toggle
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

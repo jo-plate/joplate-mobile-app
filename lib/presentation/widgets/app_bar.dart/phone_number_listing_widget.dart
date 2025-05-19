@@ -110,10 +110,10 @@ class PhoneNumberListingWidget extends StatelessWidget {
 
   Widget _buildPriceLabel(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+    final m = Localization.of(context);
     if (item.price == 0) {
       return Text(
-        'Call for Price',
+        m.platesdetails.call_for_price,
         style: TextStyle(
           fontSize: priceLabelFontSize,
           fontFamily: 'Mandatory',

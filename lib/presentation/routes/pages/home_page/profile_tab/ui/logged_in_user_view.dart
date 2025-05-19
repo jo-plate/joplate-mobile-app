@@ -402,14 +402,6 @@ class _UserProfileViewState extends State<_UserProfileView> {
             injector<AuthCubit>().logout();
           },
         ),
-        const SizedBox(height: 16),
-        MenuItem(
-          title: m.profile.delete_account,
-          icon: Icons.delete,
-          onTap: () {
-            FirebaseAuth.instance.currentUser?.delete();
-          },
-        ),
       ],
     );
   }

@@ -143,6 +143,8 @@ class MyApp extends StatelessWidget {
                     FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
                   ],
                 ),
+                restorationScopeId: 'joplate_app',
+                debugShowCheckedModeBanner: false,
               );
             },
           );

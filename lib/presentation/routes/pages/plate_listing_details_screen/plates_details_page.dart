@@ -19,6 +19,7 @@ import 'package:joplate/presentation/widgets/app_bar.dart/promote_listing_button
 import 'package:joplate/presentation/widgets/delete_item_popup.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
 import 'package:joplate/presentation/widgets/profile_picture_widget.dart';
+import 'package:joplate/presentation/widgets/user_plan_badge.dart';
 import 'package:joplate/utils/log_visit.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:joplate/presentation/utils/user_plan_theme.dart';
@@ -352,7 +353,7 @@ class _SellerDetailsState extends State<SellerDetails> {
                                         size: 20,
                                       ),
                                     const SizedBox(width: 8),
-                                    _buildPlanBadge(plan, accentColor),
+                                    UserPlanBadge(plan: plan),
                                   ],
                                 ),
                               ],
@@ -375,7 +376,7 @@ class _SellerDetailsState extends State<SellerDetails> {
                             child: Container(
                               height: 50,
                               decoration: BoxDecoration(
-                                color: Colors.green.withOpacity(0.1),
+                                color: Colors.green.withOpacity(isDark ? 0.1 : 0.1),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: InkWell(
@@ -454,70 +455,6 @@ class _SellerDetailsState extends State<SellerDetails> {
               }),
         );
       },
-    );
-  }
-
-  Widget _buildPlanBadge(PlanType plan, Color accentColor) {
-    // For Diamond plan, keep the original styling
-    if (plan == PlanType.diamond_plan) {
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        decoration: BoxDecoration(
-          color: accentColor,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Text(
-          plan.name,
-          style: const TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w600),
-        ),
-      );
-    }
-
-    // For other plans, use the new stylized badge
-    Color badgeColor;
-    IconData badgeIcon;
-
-    switch (plan) {
-      case PlanType.gold_plan:
-        badgeColor = const Color(0xFFFFD700); // Gold color
-        badgeIcon = Icons.workspace_premium;
-        break;
-      case PlanType.free_plan:
-      default:
-        badgeColor = const Color(0xFFCD7F32); // Bronze color
-        badgeIcon = Icons.account_circle;
-        break;
-    }
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration: BoxDecoration(
-        color: badgeColor.withOpacity(0.15),
-        border: Border.all(color: badgeColor, width: 1.5),
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: badgeColor.withOpacity(0.3),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(badgeIcon, color: badgeColor, size: 14),
-          const SizedBox(width: 4),
-          Text(
-            plan.name,
-            style: TextStyle(
-              color: badgeColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 11,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
@@ -612,23 +549,26 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: isDark ? Colors.white70 : const Color(0xFF981C1E).withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(8),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: isDark ? Colors.white70 : const Color(0xFF981C1E).withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Icon(Icons.people_outline,
+                          color: isDark ? Colors.white70 : const Color(0xFF981C1E), size: 20),
                     ),
-                    child:
-                        Icon(Icons.people_outline, color: isDark ? Colors.white70 : const Color(0xFF981C1E), size: 20),
-                  ),
-                  const SizedBox(width: 12),
-                  Text(
-                    m.platesdetails.other_sellers,
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ],
+                    const SizedBox(width: 12),
+                    Text(
+                      m.platesdetails.other_sellers,
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 16),
               Table(
@@ -662,7 +602,10 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
         border: Border(bottom: BorderSide(color: isDark ? const Color(0xFF3D4266) : const Color(0xFFE0E0E0), width: 1)),
       ),
       children: [
-        _headerText(m.platesdetails.seller, isDark),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: _headerText(m.platesdetails.seller, isDark),
+        ),
         _headerText(m.platesdetails.contact, isDark),
       ],
     );
@@ -719,14 +662,27 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12.0),
             child: Row(
               children: [
-                CircleAvatar(
-                  radius: 16,
-                  backgroundColor: accentColor.withOpacity(0.1),
-                  child: Icon(
-                    Icons.person_outline,
-                    size: 18,
-                    color: iconColor,
-                  ),
+                StreamBuilder<DocumentSnapshot>(
+                  stream: FirebaseFirestore.instance.collection(userProfileCollectionId).doc(phoneNumber).snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData && snapshot.data!.exists) {
+                      final userProfile = UserProfile.fromSnapshot(snapshot.data!);
+                      return ProfilePictureWidget(
+                        imageUrl: userProfile.imageUrl,
+                        size: 32,
+                        showUploadButton: false,
+                      );
+                    }
+                    return CircleAvatar(
+                      radius: 16,
+                      backgroundColor: accentColor.withOpacity(0.1),
+                      child: Icon(
+                        Icons.person_outline,
+                        size: 18,
+                        color: iconColor,
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -752,7 +708,7 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
                         ),
                       ],
                       const SizedBox(width: 6),
-                      _buildPlanBadge(plan, accentColor)
+                      UserPlanBadge(plan: plan),
                     ],
                   ),
                 ),
@@ -805,70 +761,6 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
         padding: EdgeInsets.zero,
         icon: Icon(icon, size: 16, color: buttonColor),
         onPressed: onPressed,
-      ),
-    );
-  }
-
-  Widget _buildPlanBadge(PlanType plan, Color accentColor) {
-    // For Diamond plan, keep the original styling
-    if (plan == PlanType.diamond_plan) {
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        decoration: BoxDecoration(
-          color: accentColor,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Text(
-          plan.name,
-          style: const TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w600),
-        ),
-      );
-    }
-
-    // For other plans, use the new stylized badge
-    Color badgeColor;
-    IconData badgeIcon;
-
-    switch (plan) {
-      case PlanType.gold_plan:
-        badgeColor = const Color(0xFFFFD700); // Gold color
-        badgeIcon = Icons.workspace_premium;
-        break;
-      case PlanType.free_plan:
-      default:
-        badgeColor = const Color(0xFFCD7F32); // Bronze color
-        badgeIcon = Icons.account_circle;
-        break;
-    }
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration: BoxDecoration(
-        color: badgeColor.withOpacity(0.15),
-        border: Border.all(color: badgeColor, width: 1.5),
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: badgeColor.withOpacity(0.3),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(badgeIcon, color: badgeColor, size: 14),
-          const SizedBox(width: 4),
-          Text(
-            plan.name,
-            style: TextStyle(
-              color: badgeColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 11,
-            ),
-          ),
-        ],
       ),
     );
   }

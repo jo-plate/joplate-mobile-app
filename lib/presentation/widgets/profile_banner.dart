@@ -12,6 +12,7 @@ import 'package:joplate/presentation/widgets/buy_tickets_dialog.dart';
 import 'package:joplate/presentation/widgets/icons/plan_icon.dart';
 import 'package:joplate/presentation/widgets/profile_picture_widget.dart';
 import 'package:joplate/presentation/utils/user_plan_theme.dart';
+import 'package:joplate/presentation/widgets/user_plan_badge.dart';
 
 class ProfileBanner extends StatefulWidget {
   const ProfileBanner({
@@ -246,22 +247,7 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                       else if ((profile?.pendingVerification ?? false))
                                         Icon(Icons.verified, color: Colors.grey.shade600),
                                       if (widget.showTicketCount)
-                                        Flexible(
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                            margin: const EdgeInsets.only(left: 4),
-                                            decoration: BoxDecoration(
-                                              color: accentColor,
-                                              borderRadius: BorderRadius.circular(12),
-                                            ),
-                                            child: Text(
-                                              plansSnapshot.data?.plan.name ?? PlanType.free_plan.name,
-                                              style: const TextStyle(
-                                                  fontSize: 12, color: Colors.white, fontWeight: FontWeight.w600),
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                        )
+                                        UserPlanBadge(plan: plan)
                                     ],
                                   ),
                                   if (!widget.showTicketCount && plan != PlanType.free_plan) ...[

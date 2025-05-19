@@ -24,73 +24,65 @@ class PrivacyPolicyPage extends StatelessWidget {
             icon: const Icon(Icons.arrow_back, color: Colors.white)),
         centerTitle: true,
       ),
-      body: const SingleChildScrollView(
-        padding: EdgeInsets.all(16),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Effective Date: January 1, 2023',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              m.privacy.effective_date,
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
+            Text(m.privacy.intro),
+            const SizedBox(height: 16),
             Text(
-              'At Joplate, we value your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your information when you use our mobile application.',
+              m.privacy.information_collected,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 8),
             Text(
-              'Information We Collect',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              '${m.privacy.personal_info}\n'
+              '${m.privacy.user_content}\n'
+              '${m.privacy.device_info}\n'
+              '${m.privacy.usage_data}',
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 16),
             Text(
-              '• Personal Information: Name, email address, phone number, and profile picture\n'
-              '• User Content: Information you provide about listings, including images and descriptions\n'
-              '• Device Information: Device type, operating system, and unique device identifiers\n'
-              '• Usage Data: How you interact with our app, features you use, and time spent on the app',
+              m.privacy.how_we_use,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 8),
             Text(
-              'How We Use Your Information',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              '${m.privacy.use_1}\n'
+              '${m.privacy.use_2}\n'
+              '${m.privacy.use_3}\n'
+              '${m.privacy.use_4}\n'
+              '${m.privacy.use_5}\n'
+              '${m.privacy.use_6}\n'
+              '${m.privacy.use_7}',
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 16),
             Text(
-              '• To provide and maintain our service\n'
-              '• To notify you about changes to our service\n'
-              '• To allow you to participate in interactive features\n'
-              '• To provide customer support\n'
-              '• To gather analysis or valuable information to improve our service\n'
-              '• To monitor the usage of our service\n'
-              '• To detect, prevent and address technical issues',
+              m.privacy.security,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 8),
+            Text(m.privacy.security_text),
+            const SizedBox(height: 16),
             Text(
-              'Security',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              m.privacy.changes,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
+            Text(m.privacy.changes_text),
+            const SizedBox(height: 16),
             Text(
-              'We value your trust in providing us your personal information, thus we are striving to use commercially acceptable means of protecting it. But remember that no method of transmission over the internet, or method of electronic storage is 100% secure and reliable, and we cannot guarantee its absolute security.',
+              m.privacy.contact,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
-            SizedBox(height: 16),
-            Text(
-              'Changes to This Privacy Policy',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Privacy Policy on this page. These changes are effective immediately after they are posted on this page.',
-            ),
-            SizedBox(height: 16),
-            Text(
-              'Contact Us',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at support@joplate.com',
-            ),
+            const SizedBox(height: 8),
+            Text(m.privacy.contact_text),
           ],
         ),
       ),
