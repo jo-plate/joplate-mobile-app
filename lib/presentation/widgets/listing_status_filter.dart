@@ -7,11 +7,12 @@ class ListingStatusFilter extends StatelessWidget {
     super.key,
     required this.selectedFilters,
     required this.onFilterChanged,
+    this.enabledFilters = ListingStatus.values,
   });
 
   final Set<ListingStatus> selectedFilters;
   final Function(ListingStatus) onFilterChanged;
-
+  final List<ListingStatus> enabledFilters;
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
@@ -20,7 +21,7 @@ class ListingStatusFilter extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
-          children: ListingStatus.values.map((status) {
+          children: enabledFilters.map((status) {
             final isSelected = selectedFilters.contains(status);
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -56,17 +57,17 @@ class ListingStatusFilter extends StatelessWidget {
   String _getStatusLabel(ListingStatus status, dynamic m) {
     switch (status) {
       case ListingStatus.featured:
-        return m.common.listing_status.featured;
+        return m.listingstatus.featured;
       case ListingStatus.active:
-        return m.common.listing_status.active;
+        return m.listingstatus.active;
       case ListingStatus.inactive:
-        return m.common.listing_status.inactive;
+        return m.listingstatus.inactive;
       case ListingStatus.disabled:
-        return m.common.listing_status.disabled;
+        return m.listingstatus.disabled;
       case ListingStatus.expired:
-        return m.common.listing_status.expired;
+        return m.listingstatus.expired;
       case ListingStatus.sold:
-        return m.common.listing_status.sold;
+        return m.listingstatus.sold;
     }
   }
 }

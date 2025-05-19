@@ -325,7 +325,7 @@ auth:
   login: "تسجيل الدخول"
   follow_us: "تابعنا على"
   reset_password_description: "أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور"
-  reset_password_instructions: "سنرسل لك رابطًا لإعادة تعيين كلمة المرور"    
+  reset_password_instructions: "سنرسل لك رابطًا لإعادة تعيين كلمة المرور"
   send_reset_code: "إرسال رابط إعادة التعيين"
   check_email_instructions: "تحقق من بريدك الإلكتروني للحصول على رابط إعادة التعيين. استخدم الرابط لإعادة تعيين كلمة المرور."
 
@@ -422,13 +422,14 @@ common:
   missing_product_id: "معرف المنتج مفقود"
   promotion_success: "تمت ترقية إعلانك بنجاح!"
   promotion_failed: "فشل في ترقية الإعلان"
-  listing_status:
-    featured: "مميز"
-    active: "نشط"
-    inactive: "غير نشط"
-    disabled: "معطل"
-    expired: "منتهي"
-    sold: "مباع"
+
+listingstatus:
+  featured: "مميز"
+  active: "نشط"
+  inactive: "غير نشط"
+  disabled: "معطل"
+  expired: "منتهي"
+  sold: "مباع"
 
 account:
   delete_account: "حذف الحساب"

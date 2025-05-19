@@ -208,7 +208,7 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
         FirebaseFirestore.instance.collection(userProfileCollectionId).doc(widget.userId).snapshots().map((snapshot) {
       return UserProfile.fromSnapshot(snapshot);
     });
-    
+
     userPlansStream = FirebaseFirestore.instance
         .collection(userPlansCollectionId)
         .doc(widget.userId)
@@ -224,7 +224,7 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
       builder: (context, plansSnapshot) {
         final plan = plansSnapshot.data?.plan ?? PlanType.free_plan;
         final isDark = Theme.of(context).brightness == Brightness.dark;
-        
+
         return Container(
           padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
@@ -252,11 +252,11 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
                 if (userProfile == null) {
                   return const Text('User not found');
                 }
-                
+
                 final textColor = UserPlanTheme.getTextColor(plan, isDarkMode: isDark);
                 final accentColor = UserPlanTheme.getAccentColor(plan, isDarkMode: isDark);
                 final iconColor = UserPlanTheme.getIconColor(plan, isDarkMode: isDark);
-                
+
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -406,7 +406,7 @@ class _RequestedByWidggetState extends State<RequestedByWidgget> {
                           child: Container(
                             height: 50,
                             decoration: BoxDecoration(
-                              color: accentColor,
+                              color: const Color(0xFF981C1E),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: InkWell(
