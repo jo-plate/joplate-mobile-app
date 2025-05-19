@@ -285,7 +285,10 @@ class _UserProfileViewState extends State<_UserProfileView> {
                         AppSnackbar.showError(m.common.error_applying_promo_code);
                       }
                     },
-                    child: Text(m.common.confirm),
+                    child: Text(
+                      m.common.confirm,
+                      style: const TextStyle(color: Colors.white),
+                    ),
                   ),
                 ],
               ),

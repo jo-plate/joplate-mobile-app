@@ -97,6 +97,7 @@ class Messages {
   CommonMessages get common => CommonMessages(this);
   AccountMessages get account => AccountMessages(this);
   UserprofileMessages get userprofile => UserprofileMessages(this);
+  PromoteMessages get promote => PromoteMessages(this);
 }
 
 class AppMessages {
@@ -1604,6 +1605,29 @@ class AuthMessages {
   /// "Follow us on"
   /// ```
   String get follow_us => """Follow us on""";
+
+  /// ```dart
+  /// "Enter your email address to reset your password"
+  /// ```
+  String get reset_password_description =>
+      """Enter your email address to reset your password""";
+
+  /// ```dart
+  /// "We will send you a link to reset your password"
+  /// ```
+  String get reset_password_instructions =>
+      """We will send you a link to reset your password""";
+
+  /// ```dart
+  /// "Send Reset Code"
+  /// ```
+  String get send_reset_code => """Send Reset Code""";
+
+  /// ```dart
+  /// "Check your email for a Password Reset Link and instructions"
+  /// ```
+  String get check_email_instructions =>
+      """Check your email for a Password Reset Link and instructions""";
 }
 
 class FeedMessages {
@@ -2062,6 +2086,27 @@ class CommonMessages {
   /// ```
   String get error_applying_promo_code =>
       """Error applying promo code. Please try again.""";
+
+  /// ```dart
+  /// "No plans available."
+  /// ```
+  String get no_plans_available => """No plans available.""";
+
+  /// ```dart
+  /// "Missing product ID"
+  /// ```
+  String get missing_product_id => """Missing product ID""";
+
+  /// ```dart
+  /// "Your listing has been promoted successfully!"
+  /// ```
+  String get promotion_success =>
+      """Your listing has been promoted successfully!""";
+
+  /// ```dart
+  /// "Failed to promote listing"
+  /// ```
+  String get promotion_failed => """Failed to promote listing""";
 }
 
 class AccountMessages {
@@ -2159,6 +2204,52 @@ class UserprofileMessages {
   /// "Error: "
   /// ```
   String get error => """Error: """;
+}
+
+class PromoteMessages {
+  final Messages _parent;
+  const PromoteMessages(this._parent);
+
+  /// ```dart
+  /// "✨ Free Promotion"
+  /// ```
+  String get title_free => """✨ Free Promotion""";
+
+  /// ```dart
+  /// "Sell Faster!"
+  /// ```
+  String get title_paid => """Sell Faster!""";
+
+  /// ```dart
+  /// "Get 30 days of featuring for one golden ticket."
+  /// ```
+  String get description_free =>
+      """Get 30 days of featuring for one golden ticket.""";
+
+  /// ```dart
+  /// "Increase your listing visibility by 10x."
+  /// ```
+  String get description_paid => """Increase your listing visibility by 10x.""";
+
+  /// ```dart
+  /// "Promote"
+  /// ```
+  String get promote_button => """Promote""";
+
+  /// ```dart
+  /// "Make Featured"
+  /// ```
+  String get make_featured => """Make Featured""";
+
+  /// ```dart
+  /// "Loading..."
+  /// ```
+  String get loading => """Loading...""";
+
+  /// ```dart
+  /// "Purchasing..."
+  /// ```
+  String get purchasing => """Purchasing...""";
 }
 
 Map<String, String> get messagesMap => {
@@ -2424,6 +2515,13 @@ Map<String, String> get messagesMap => {
       """Your password has been reset successfully. You can now login with your new password.""",
   """auth.login""": """Login""",
   """auth.follow_us""": """Follow us on""",
+  """auth.reset_password_description""":
+      """Enter your email address to reset your password""",
+  """auth.reset_password_instructions""":
+      """We will send you a link to reset your password""",
+  """auth.send_reset_code""": """Send Reset Code""",
+  """auth.check_email_instructions""":
+      """Check your email for a Password Reset Link and instructions""",
   """feed.title""": """Feed""",
   """feed.login_required""": """You need to sign in to view your feed""",
   """feed.sign_in""": """Sign In""",
@@ -2534,6 +2632,11 @@ Map<String, String> get messagesMap => {
   """common.promo_code_applied""": """Promo code applied successfully!""",
   """common.error_applying_promo_code""":
       """Error applying promo code. Please try again.""",
+  """common.no_plans_available""": """No plans available.""",
+  """common.missing_product_id""": """Missing product ID""",
+  """common.promotion_success""":
+      """Your listing has been promoted successfully!""",
+  """common.promotion_failed""": """Failed to promote listing""",
   """account.delete_account""": """Delete Account""",
   """account.password""": """Password""",
   """userprofile.title""": """User Profile""",
@@ -2553,4 +2656,14 @@ Map<String, String> get messagesMap => {
   """userprofile.unfollow_success""": """Unfollowed user successfully""",
   """userprofile.login_required""": """You must be logged in to follow users""",
   """userprofile.error""": """Error: """,
+  """promote.title_free""": """✨ Free Promotion""",
+  """promote.title_paid""": """Sell Faster!""",
+  """promote.description_free""":
+      """Get 30 days of featuring for one golden ticket.""",
+  """promote.description_paid""":
+      """Increase your listing visibility by 10x.""",
+  """promote.promote_button""": """Promote""",
+  """promote.make_featured""": """Make Featured""",
+  """promote.loading""": """Loading...""",
+  """promote.purchasing""": """Purchasing...""",
 };

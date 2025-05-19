@@ -100,6 +100,7 @@ class MessagesAr extends Messages {
   CommonMessagesAr get common => CommonMessagesAr(this);
   AccountMessagesAr get account => AccountMessagesAr(this);
   UserprofileMessagesAr get userprofile => UserprofileMessagesAr(this);
+  PromoteMessagesAr get promote => PromoteMessagesAr(this);
 }
 
 class AppMessagesAr extends AppMessages {
@@ -1609,6 +1610,29 @@ class AuthMessagesAr extends AuthMessages {
   /// "تابعنا على"
   /// ```
   String get follow_us => """تابعنا على""";
+
+  /// ```dart
+  /// "أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور"
+  /// ```
+  String get reset_password_description =>
+      """أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور""";
+
+  /// ```dart
+  /// "سنرسل لك رابطًا لإعادة تعيين كلمة المرور"
+  /// ```
+  String get reset_password_instructions =>
+      """سنرسل لك رابطًا لإعادة تعيين كلمة المرور""";
+
+  /// ```dart
+  /// "إرسال رابط إعادة التعيين"
+  /// ```
+  String get send_reset_code => """إرسال رابط إعادة التعيين""";
+
+  /// ```dart
+  /// "تحقق من بريدك الإلكتروني للحصول على رابط إعادة التعيين. استخدم الرابط لإعادة تعيين كلمة المرور."
+  /// ```
+  String get check_email_instructions =>
+      """تحقق من بريدك الإلكتروني للحصول على رابط إعادة التعيين. استخدم الرابط لإعادة تعيين كلمة المرور.""";
 }
 
 class FeedMessagesAr extends FeedMessages {
@@ -2067,6 +2091,26 @@ class CommonMessagesAr extends CommonMessages {
   /// ```
   String get error_applying_promo_code =>
       """خطأ في تطبيق الرمز الترويجي. يرجى المحاولة مرة أخرى.""";
+
+  /// ```dart
+  /// "لا توجد خطط متاحة."
+  /// ```
+  String get no_plans_available => """لا توجد خطط متاحة.""";
+
+  /// ```dart
+  /// "معرف المنتج مفقود"
+  /// ```
+  String get missing_product_id => """معرف المنتج مفقود""";
+
+  /// ```dart
+  /// "تمت ترقية إعلانك بنجاح!"
+  /// ```
+  String get promotion_success => """تمت ترقية إعلانك بنجاح!""";
+
+  /// ```dart
+  /// "فشل في ترقية الإعلان"
+  /// ```
+  String get promotion_failed => """فشل في ترقية الإعلان""";
 }
 
 class AccountMessagesAr extends AccountMessages {
@@ -2162,6 +2206,52 @@ class UserprofileMessagesAr extends UserprofileMessages {
   /// "خطأ: "
   /// ```
   String get error => """خطأ: """;
+}
+
+class PromoteMessagesAr extends PromoteMessages {
+  final MessagesAr _parent;
+  const PromoteMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "✨ ترقية مجانية"
+  /// ```
+  String get title_free => """✨ ترقية مجانية""";
+
+  /// ```dart
+  /// "بيع أسرع!"
+  /// ```
+  String get title_paid => """بيع أسرع!""";
+
+  /// ```dart
+  /// "احصل على 30 يوم من التمييز مقابل تذكرة ذهبية واحدة."
+  /// ```
+  String get description_free =>
+      """احصل على 30 يوم من التمييز مقابل تذكرة ذهبية واحدة.""";
+
+  /// ```dart
+  /// "زد ظهور إعلانك 10 مرات."
+  /// ```
+  String get description_paid => """زد ظهور إعلانك 10 مرات.""";
+
+  /// ```dart
+  /// "ترقية"
+  /// ```
+  String get promote_button => """ترقية""";
+
+  /// ```dart
+  /// "اجعلها مميزة"
+  /// ```
+  String get make_featured => """اجعلها مميزة""";
+
+  /// ```dart
+  /// "جاري التحميل..."
+  /// ```
+  String get loading => """جاري التحميل...""";
+
+  /// ```dart
+  /// "جاري الشراء..."
+  /// ```
+  String get purchasing => """جاري الشراء...""";
 }
 
 Map<String, String> get messagesArMap => {
@@ -2430,6 +2520,13 @@ Map<String, String> get messagesArMap => {
       """تم إعادة تعيين كلمة المرور بنجاح. يمكنك الآن تسجيل الدخول باستخدام كلمة المرور الجديدة.""",
   """auth.login""": """تسجيل الدخول""",
   """auth.follow_us""": """تابعنا على""",
+  """auth.reset_password_description""":
+      """أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور""",
+  """auth.reset_password_instructions""":
+      """سنرسل لك رابطًا لإعادة تعيين كلمة المرور""",
+  """auth.send_reset_code""": """إرسال رابط إعادة التعيين""",
+  """auth.check_email_instructions""":
+      """تحقق من بريدك الإلكتروني للحصول على رابط إعادة التعيين. استخدم الرابط لإعادة تعيين كلمة المرور.""",
   """feed.title""": """المتابعة""",
   """feed.login_required""": """يجب تسجيل الدخول لعرض الاعلانات""",
   """feed.sign_in""": """تسجيل الدخول""",
@@ -2540,6 +2637,10 @@ Map<String, String> get messagesArMap => {
   """common.promo_code_applied""": """تم تطبيق الرمز الترويجي بنجاح!""",
   """common.error_applying_promo_code""":
       """خطأ في تطبيق الرمز الترويجي. يرجى المحاولة مرة أخرى.""",
+  """common.no_plans_available""": """لا توجد خطط متاحة.""",
+  """common.missing_product_id""": """معرف المنتج مفقود""",
+  """common.promotion_success""": """تمت ترقية إعلانك بنجاح!""",
+  """common.promotion_failed""": """فشل في ترقية الإعلان""",
   """account.delete_account""": """حذف الحساب""",
   """account.password""": """كلمة المرور""",
   """userprofile.title""": """الملف الشخصي""",
@@ -2559,4 +2660,13 @@ Map<String, String> get messagesArMap => {
   """userprofile.unfollow_success""": """تم إلغاء المتابعة بنجاح""",
   """userprofile.login_required""": """يجب تسجيل الدخول لمتابعة المستخدمين""",
   """userprofile.error""": """خطأ: """,
+  """promote.title_free""": """✨ ترقية مجانية""",
+  """promote.title_paid""": """بيع أسرع!""",
+  """promote.description_free""":
+      """احصل على 30 يوم من التمييز مقابل تذكرة ذهبية واحدة.""",
+  """promote.description_paid""": """زد ظهور إعلانك 10 مرات.""",
+  """promote.promote_button""": """ترقية""",
+  """promote.make_featured""": """اجعلها مميزة""",
+  """promote.loading""": """جاري التحميل...""",
+  """promote.purchasing""": """جاري الشراء...""",
 };

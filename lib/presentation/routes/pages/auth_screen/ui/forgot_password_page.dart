@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
-import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/utils/validators.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
 
@@ -71,14 +70,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const SizedBox(height: 20),
-          const Text(
-            'Enter your email address to reset your password',
-            style: TextStyle(fontSize: 16),
+          Text(
+            m.auth.reset_password_description,
+            style: const TextStyle(fontSize: 16),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'We will send you a verification code to reset your password',
-            style: TextStyle(fontSize: 14, color: Colors.grey),
+          Text(
+            m.auth.reset_password_instructions,
+            style: const TextStyle(fontSize: 14, color: Colors.grey),
           ),
           const SizedBox(height: 30),
           TextFormField(
@@ -107,9 +106,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       color: Colors.white,
                     ),
                   )
-                : const Text(
-                    'Send Reset Code',
-                    style: TextStyle(
+                : Text(
+                    m.auth.send_reset_code,
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w900,
                       color: Colors.white,
@@ -159,9 +158,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 16),
-        const Text(
-          'Check your email for a verification code. Enter the code on the next screen to reset your password.',
-          style: TextStyle(fontSize: 16),
+        Text(
+          m.auth.check_email_instructions,
+          style: const TextStyle(fontSize: 16),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 40),
@@ -190,9 +189,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         });
 
         // Navigate to verification code page after a short delay
-        Future.delayed(const Duration(seconds: 2), () {
-          AutoRouter.of(context).push(VerificationCodeRoute(email: email));
-        });
+        // Future.delayed(const Duration(seconds: 2), () {
+        //   AutoRouter.of(context).push(VerificationCodeRoute(email: email));
+        // });
       } catch (e) {
         // Error already handled in the BlocConsumer
       }

@@ -324,6 +324,10 @@ auth:
   password_reset_success_message: "Your password has been reset successfully. You can now login with your new password."
   login: "Login"
   follow_us: "Follow us on"
+  reset_password_description: "Enter your email address to reset your password"
+  reset_password_instructions: "We will send you a link to reset your password"
+  send_reset_code: "Send Reset Code"
+  check_email_instructions: "Check your email for a Password Reset Link and instructions"
 
 feed:
   title: "Feed"
@@ -414,6 +418,10 @@ common:
   invalid_promo_code: "Invalid promo code. Please try again."
   promo_code_applied: "Promo code applied successfully!"
   error_applying_promo_code: "Error applying promo code. Please try again."
+  no_plans_available: "No plans available."
+  missing_product_id: "Missing product ID"
+  promotion_success: "Your listing has been promoted successfully!"
+  promotion_failed: "Failed to promote listing"
 
 account:
   delete_account: "Delete Account"
@@ -435,4 +443,14 @@ userprofile:
   unfollow_success: "Unfollowed user successfully"
   login_required: "You must be logged in to follow users"
   error: "Error: "
+
+promote:
+  title_free: "✨ Free Promotion"
+  title_paid: "Sell Faster!"
+  description_free: "Get 30 days of featuring for one golden ticket."
+  description_paid: "Increase your listing visibility by 10x."
+  promote_button: "Promote"
+  make_featured: "Make Featured"
+  loading: "Loading..."
+  purchasing: "Purchasing..."
 

@@ -39,6 +39,7 @@ ThemeData getLightTheme() => ThemeData(
             borderRadius: BorderRadius.circular(10),
           ),
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+          iconColor: Colors.white,
           textStyle: const TextStyle(
             fontSize: 16,
             color: Colors.white,

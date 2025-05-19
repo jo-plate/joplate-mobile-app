@@ -7,11 +7,10 @@ import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/entities/ticket_plan.dart';
 import 'package:joplate/presentation/cubits/iap_cubit.dart';
 import 'package:joplate/presentation/cubits/iap_state.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
 import 'package:joplate/presentation/widgets/buy_tickets_dialog.dart';
 
-const kDialogBG = Color.fromARGB(255, 255, 255, 255);
-const kCardBG = Color(0xFFFFFFFF);
 const kAccent = Color(0xFF981C1E);
 const kGold = Color(0xFFFFC107);
 
@@ -38,7 +37,7 @@ class _FeaturePlanDialogState extends State<FeaturePlanDialog> {
   void initState() {
     super.initState();
     plansStream = FirebaseFirestore.instance
-        .collection(featuredPlansCollectionId) // collection name in Firestore
+        .collection(featuredPlansCollectionId)
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map((doc) => TicketPlan.fromJson(doc.data()))
@@ -47,19 +46,53 @@ class _FeaturePlanDialogState extends State<FeaturePlanDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     return Dialog(
-      backgroundColor: kDialogBG,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: StreamBuilder<List<TicketPlan>>(
         stream: plansStream,
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const CircularProgressIndicator(),
+                  const SizedBox(height: 16),
+                  Text(m.promote.loading),
+                ],
+              ),
+            );
+          }
+
+          if (snapshot.hasError) {
+            return Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.error_outline, color: Colors.red, size: 48),
+                  const SizedBox(height: 16),
+                  Text(m.common.promotion_failed),
+                ],
+              ),
+            );
           }
 
           final plans = snapshot.data!;
           if (plans.isEmpty) {
-            return const Center(child: Text('No plans available.'));
+            return Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.info_outline, color: Colors.blue, size: 48),
+                  const SizedBox(height: 16),
+                  Text(m.common.no_plans_available),
+                ],
+              ),
+            );
           }
 
           return Column(
@@ -112,7 +145,7 @@ class _FeaturePlanDialogState extends State<FeaturePlanDialog> {
                               final plan = plans[current];
                               final productId = plan.productId;
                               if (productId == null || productId.isEmpty) {
-                                AppSnackbar.showError('Missing product ID');
+                                AppSnackbar.showError(m.common.missing_product_id);
                                 return;
                               }
 
@@ -124,15 +157,30 @@ class _FeaturePlanDialogState extends State<FeaturePlanDialog> {
                                 ..purchaseProduct(productId, context);
                             },
                       child: state.isPurchasing
-                          ? const CircularProgressIndicator()
-                          : const Text(
-                              'اجعلها مميزة',
-                              style: TextStyle(color: Colors.white),
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2.0,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Text(m.promote.purchasing),
+                              ],
+                            )
+                          : Text(
+                              m.promote.make_featured,
+                              style: const TextStyle(color: Colors.white),
                             ),
                     );
                   },
                 ),
               ),
+              const SizedBox(height: 16),
             ],
           );
         },

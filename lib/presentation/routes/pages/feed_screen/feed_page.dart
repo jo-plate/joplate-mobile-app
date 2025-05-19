@@ -72,7 +72,9 @@ class _FeedPageState extends State<FeedPage> with SingleTickerProviderStateMixin
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () => AutoRouter.of(context).push(const AuthRoute()),
-                    child: Text(m.feed.sign_in),
+                    child: Text(
+                      m.feed.sign_in,
+                    ),
                   )
                 ],
               ),
@@ -133,7 +135,10 @@ class _FeedPageState extends State<FeedPage> with SingleTickerProviderStateMixin
                       const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () => AutoRouter.of(context).push(const PlatesListingsRoute()),
-                        child: Text(m.feed.explore_listings),
+                        child: Text(
+                          m.feed.explore_listings,
+                          style: const TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   ),

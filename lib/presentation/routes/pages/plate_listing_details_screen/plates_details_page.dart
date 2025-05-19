@@ -510,7 +510,8 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
       final plan = plans[i];
 
       return {
-        "name": profile.displayName,
+        "id": profile.id,
+        "displayName": profile.displayName,
         "phone": profile.phonenumber,
         "isVerified": profile.isVerified,
         "listingId": listing.id,
@@ -579,6 +580,7 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
                 children: [
                   _buildTableHeader(context),
                   ...sellers.map((s) => _buildSellerRow(
+                        userId: s['id'],
                         name: s['displayName'],
                         phoneNumber: s['phone'],
                         isVerified: s['isVerified'],
@@ -624,6 +626,7 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
       );
 
   TableRow _buildSellerRow({
+    required String userId,
     required String name,
     required String phoneNumber,
     required bool isVerified,
@@ -663,10 +666,14 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
             child: Row(
               children: [
                 StreamBuilder<DocumentSnapshot>(
-                  stream: FirebaseFirestore.instance.collection(userProfileCollectionId).doc(phoneNumber).snapshots(),
+                  stream: FirebaseFirestore.instance.collection(userProfileCollectionId).doc(userId).snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData && snapshot.data!.exists) {
                       final userProfile = UserProfile.fromSnapshot(snapshot.data!);
+                      if (userProfile.imageUrl.isEmpty) {
+                        return Icon(Icons.people_outline,
+                            color: isDark ? Colors.white70 : const Color(0xFF981C1E), size: 20);
+                      }
                       return ProfilePictureWidget(
                         imageUrl: userProfile.imageUrl,
                         size: 32,

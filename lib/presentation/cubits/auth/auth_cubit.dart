@@ -63,7 +63,7 @@ class AuthCubit extends Cubit<AuthState> {
       print(result);
       print(result.data);
       if (result.data != null && result.data['success'] == true) {
-        loginWithEmailAndPassword(input.toLoginInput());
+        await loginWithEmailAndPassword(input.toLoginInput());
         emit(state.copyWith(user: FirebaseAuth.instance.currentUser, isLoading: false));
       } else {
         emit(state.copyWith(isLoading: false, errorMessage: "Signup failed."));
