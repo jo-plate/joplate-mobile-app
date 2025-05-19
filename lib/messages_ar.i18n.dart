@@ -98,6 +98,7 @@ class MessagesAr extends Messages {
   PrivacyMessagesAr get privacy => PrivacyMessagesAr(this);
   TermsMessagesAr get terms => TermsMessagesAr(this);
   CommonMessagesAr get common => CommonMessagesAr(this);
+  AccountMessagesAr get account => AccountMessagesAr(this);
 }
 
 class AppMessagesAr extends AppMessages {
@@ -1989,6 +1990,65 @@ class CommonMessagesAr extends CommonMessages {
   /// "متابع"
   /// ```
   String get following => """متابع""";
+
+  /// ```dart
+  /// "تأكيد"
+  /// ```
+  String get confirm => """تأكيد""";
+
+  /// ```dart
+  /// "إلغاء"
+  /// ```
+  String get cancel => """إلغاء""";
+
+  /// ```dart
+  /// "هل أنت متأكد من رغبتك في حذف حسابك؟ لا يمكن التراجع عن هذا الإجراء."
+  /// ```
+  String get delete_account_confirmation =>
+      """هل أنت متأكد من رغبتك في حذف حسابك؟ لا يمكن التراجع عن هذا الإجراء.""";
+
+  /// ```dart
+  /// "يرجى إدخال كلمة المرور لتأكيد حذف الحساب."
+  /// ```
+  String get enter_password_to_delete =>
+      """يرجى إدخال كلمة المرور لتأكيد حذف الحساب.""";
+
+  /// ```dart
+  /// "تم حذف الحساب بنجاح."
+  /// ```
+  String get account_deleted => """تم حذف الحساب بنجاح.""";
+
+  /// ```dart
+  /// "فشل في حذف الحساب: "
+  /// ```
+  String get delete_account_failed => """فشل في حذف الحساب: """;
+
+  /// ```dart
+  /// "يرجى إعادة إدخال كلمة المرور لتأكيد هذا الإجراء."
+  /// ```
+  String get requires_recent_login =>
+      """يرجى إعادة إدخال كلمة المرور لتأكيد هذا الإجراء.""";
+
+  /// ```dart
+  /// "كلمة المرور غير صحيحة. يرجى المحاولة مرة أخرى."
+  /// ```
+  String get invalid_credentials =>
+      """كلمة المرور غير صحيحة. يرجى المحاولة مرة أخرى.""";
+}
+
+class AccountMessagesAr extends AccountMessages {
+  final MessagesAr _parent;
+  const AccountMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "حذف الحساب"
+  /// ```
+  String get delete_account => """حذف الحساب""";
+
+  /// ```dart
+  /// "كلمة المرور"
+  /// ```
+  String get password => """كلمة المرور""";
 }
 
 Map<String, String> get messagesArMap => {
@@ -2347,4 +2407,18 @@ Map<String, String> get messagesArMap => {
   """common.follow""": """متابعة""",
   """common.unfollow""": """إلغاء المتابعة""",
   """common.following""": """متابع""",
+  """common.confirm""": """تأكيد""",
+  """common.cancel""": """إلغاء""",
+  """common.delete_account_confirmation""":
+      """هل أنت متأكد من رغبتك في حذف حسابك؟ لا يمكن التراجع عن هذا الإجراء.""",
+  """common.enter_password_to_delete""":
+      """يرجى إدخال كلمة المرور لتأكيد حذف الحساب.""",
+  """common.account_deleted""": """تم حذف الحساب بنجاح.""",
+  """common.delete_account_failed""": """فشل في حذف الحساب: """,
+  """common.requires_recent_login""":
+      """يرجى إعادة إدخال كلمة المرور لتأكيد هذا الإجراء.""",
+  """common.invalid_credentials""":
+      """كلمة المرور غير صحيحة. يرجى المحاولة مرة أخرى.""",
+  """account.delete_account""": """حذف الحساب""",
+  """account.password""": """كلمة المرور""",
 };

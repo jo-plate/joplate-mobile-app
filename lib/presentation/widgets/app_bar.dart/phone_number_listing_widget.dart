@@ -16,13 +16,14 @@ class PhoneNumberListingWidget extends StatelessWidget {
   final bool disabled;
   final double priceLabelFontSize;
   final bool hideLikeButton;
-
+  final bool showCreatedAt;
   const PhoneNumberListingWidget({
     super.key,
     required this.item,
     this.disabled = false,
     this.priceLabelFontSize = 16,
     this.hideLikeButton = false,
+    this.showCreatedAt = true,
   });
 
   @override
@@ -70,7 +71,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
                           child: PhoneNumberWidget(phoneNumber: item.item),
                         ),
                         _buildPriceLabel(context),
-                        if (item.createdAt != null)
+                        if (item.createdAt != null && showCreatedAt)
                           CreatedAtLabelWidget(
                             createdAt: item.createdAt!,
                           ),

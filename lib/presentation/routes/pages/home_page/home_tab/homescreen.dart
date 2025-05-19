@@ -307,7 +307,7 @@ class _HomePageState extends State<HomePage> {
                     padEnds: true,
                     viewportFraction: 1,
                     enableInfiniteScroll: chunkedPhones.length > 1,
-                    aspectRatio: 0.95,
+                    aspectRatio: 1.08,
                     enlargeCenterPage: false),
                 items: chunkedPhones
                     .map((phones) => Padding(
@@ -315,6 +315,7 @@ class _HomePageState extends State<HomePage> {
                           child: PhonesListingGrid(
                             itemList: phones,
                             shrinkWrap: false,
+                            showCreatedAt: false,
                           ),
                         ))
                     .toList(),

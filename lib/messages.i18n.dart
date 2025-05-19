@@ -95,6 +95,7 @@ class Messages {
   PrivacyMessages get privacy => PrivacyMessages(this);
   TermsMessages get terms => TermsMessages(this);
   CommonMessages get common => CommonMessages(this);
+  AccountMessages get account => AccountMessages(this);
 }
 
 class AppMessages {
@@ -1986,6 +1987,64 @@ class CommonMessages {
   /// "Following"
   /// ```
   String get following => """Following""";
+
+  /// ```dart
+  /// "Confirm"
+  /// ```
+  String get confirm => """Confirm""";
+
+  /// ```dart
+  /// "Cancel"
+  /// ```
+  String get cancel => """Cancel""";
+
+  /// ```dart
+  /// "Are you sure you want to delete your account? This action cannot be undone."
+  /// ```
+  String get delete_account_confirmation =>
+      """Are you sure you want to delete your account? This action cannot be undone.""";
+
+  /// ```dart
+  /// "Please enter your password to confirm account deletion."
+  /// ```
+  String get enter_password_to_delete =>
+      """Please enter your password to confirm account deletion.""";
+
+  /// ```dart
+  /// "Account deleted successfully."
+  /// ```
+  String get account_deleted => """Account deleted successfully.""";
+
+  /// ```dart
+  /// "Failed to delete account: "
+  /// ```
+  String get delete_account_failed => """Failed to delete account: """;
+
+  /// ```dart
+  /// "Please re-enter your password to confirm this action."
+  /// ```
+  String get requires_recent_login =>
+      """Please re-enter your password to confirm this action.""";
+
+  /// ```dart
+  /// "Invalid password. Please try again."
+  /// ```
+  String get invalid_credentials => """Invalid password. Please try again.""";
+}
+
+class AccountMessages {
+  final Messages _parent;
+  const AccountMessages(this._parent);
+
+  /// ```dart
+  /// "Delete Account"
+  /// ```
+  String get delete_account => """Delete Account""";
+
+  /// ```dart
+  /// "Password"
+  /// ```
+  String get password => """Password""";
 }
 
 Map<String, String> get messagesMap => {
@@ -2343,4 +2402,17 @@ Map<String, String> get messagesMap => {
   """common.follow""": """Follow""",
   """common.unfollow""": """Unfollow""",
   """common.following""": """Following""",
+  """common.confirm""": """Confirm""",
+  """common.cancel""": """Cancel""",
+  """common.delete_account_confirmation""":
+      """Are you sure you want to delete your account? This action cannot be undone.""",
+  """common.enter_password_to_delete""":
+      """Please enter your password to confirm account deletion.""",
+  """common.account_deleted""": """Account deleted successfully.""",
+  """common.delete_account_failed""": """Failed to delete account: """,
+  """common.requires_recent_login""":
+      """Please re-enter your password to confirm this action.""",
+  """common.invalid_credentials""": """Invalid password. Please try again.""",
+  """account.delete_account""": """Delete Account""",
+  """account.password""": """Password""",
 };

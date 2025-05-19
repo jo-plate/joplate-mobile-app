@@ -400,3 +400,15 @@ common:
   follow: "Follow"
   unfollow: "Unfollow"
   following: "Following"
+  confirm: "Confirm"
+  cancel: "Cancel"
+  delete_account_confirmation: "Are you sure you want to delete your account? This action cannot be undone."
+  enter_password_to_delete: "Please enter your password to confirm account deletion."
+  account_deleted: "Account deleted successfully."
+  delete_account_failed: "Failed to delete account: "
+  requires_recent_login: "Please re-enter your password to confirm this action."
+  invalid_credentials: "Invalid password. Please try again."
+
+account:
+  delete_account: "Delete Account"
+  password: "Password"

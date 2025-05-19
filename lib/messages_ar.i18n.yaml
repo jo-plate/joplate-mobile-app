@@ -402,3 +402,15 @@ common:
   follow: "متابعة"
   unfollow: "إلغاء المتابعة"
   following: "متابع"
+  confirm: "تأكيد"
+  cancel: "إلغاء"
+  delete_account_confirmation: "هل أنت متأكد من رغبتك في حذف حسابك؟ لا يمكن التراجع عن هذا الإجراء."
+  enter_password_to_delete: "يرجى إدخال كلمة المرور لتأكيد حذف الحساب."
+  account_deleted: "تم حذف الحساب بنجاح."
+  delete_account_failed: "فشل في حذف الحساب: "
+  requires_recent_login: "يرجى إعادة إدخال كلمة المرور لتأكيد هذا الإجراء."
+  invalid_credentials: "كلمة المرور غير صحيحة. يرجى المحاولة مرة أخرى."
+
+account:
+  delete_account: "حذف الحساب"
+  password: "كلمة المرور"
