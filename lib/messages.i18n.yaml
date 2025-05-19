@@ -71,6 +71,7 @@ editprofile:
   oldpassword: "Old Password"
   newpassword: "New Password"
   confirmpassword: "Confirm Password"
+  phone_number_already_used: "This phone number is already used by another user"
 
 plan:
   title: "My Current Plan"

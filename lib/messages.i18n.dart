@@ -444,6 +444,12 @@ class EditprofileMessages {
   /// "Confirm Password"
   /// ```
   String get confirmpassword => """Confirm Password""";
+
+  /// ```dart
+  /// "This phone number is already used by another user"
+  /// ```
+  String get phone_number_already_used =>
+      """This phone number is already used by another user""";
 }
 
 class PlanMessages {
@@ -2351,6 +2357,8 @@ Map<String, String> get messagesMap => {
   """editprofile.oldpassword""": """Old Password""",
   """editprofile.newpassword""": """New Password""",
   """editprofile.confirmpassword""": """Confirm Password""",
+  """editprofile.phone_number_already_used""":
+      """This phone number is already used by another user""",
   """plan.title""": """My Current Plan""",
   """plan.plan_name""": """Plan Name""",
   """plan.balance""": """0 / JOD""",

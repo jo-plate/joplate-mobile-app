@@ -71,6 +71,7 @@ editprofile:
   oldpassword: "كلمة المرور القديمة"
   newpassword: "كلمة المرور الجديدة"
   confirmpassword: "تأكيد كلمة المرور"
+  phone_number_already_used: "رقم الهاتف مستخدم من قبل مستخدم آخر"
 
 plan:
   title: "خطتي الحالية"

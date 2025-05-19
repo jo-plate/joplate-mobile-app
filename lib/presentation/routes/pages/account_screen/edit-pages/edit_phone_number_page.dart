@@ -19,7 +19,7 @@ class _EditPhoneNumberPageState extends State<EditPhoneNumberPage> {
   late TextEditingController _phoneController;
   bool _isLoading = true;
   bool _isSaving = false;
-  final _formKey = GlobalKey<FormState>(); // Add form key for validation
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -59,21 +59,47 @@ class _EditPhoneNumberPageState extends State<EditPhoneNumberPage> {
     }
   }
 
+  Future<bool> _isPhoneNumberUnique(String phoneNumber) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return false;
+
+    // Query to find any user with the same phone number
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection(userProfileCollectionId)
+        .where('phonenumber', isEqualTo: phoneNumber)
+        .get();
+
+    // If no documents found, or if the only document found is the current user's
+    return querySnapshot.docs.isEmpty || (querySnapshot.docs.length == 1 && querySnapshot.docs.first.id == user.uid);
+  }
+
   Future<void> _savePhoneNumber() async {
     if (!_formKey.currentState!.validate()) {
-      return; // Don't save if validation fails
+      return;
     }
     
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
+
+    final phoneNumber = _phoneController.text.trim();
+
+    // Check if phone number is unique
+    final isUnique = await _isPhoneNumberUnique(phoneNumber);
+    if (!isUnique) {
+      if (context.mounted) {
+        final m = Localization.of(context);
+        AppSnackbar.showError(m.editprofile.phone_number_already_used);
+      }
+      return;
+    }
 
     setState(() => _isSaving = true);
     try {
       await FirebaseFirestore.instance
           .collection(userProfileCollectionId)
           .doc(user.uid)
-          .set({'phonenumber': _phoneController.text}, SetOptions(merge: true));
-      if (context.mounted) Navigator.pop(context, _phoneController.text);
+          .set({'phonenumber': phoneNumber}, SetOptions(merge: true));
+      if (context.mounted) Navigator.pop(context, phoneNumber);
     } catch (e) {
       if (context.mounted) {
         AppSnackbar.showError('Failed to save phone number. Please try again.');

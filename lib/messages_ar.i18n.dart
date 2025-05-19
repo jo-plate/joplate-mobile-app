@@ -447,6 +447,12 @@ class EditprofileMessagesAr extends EditprofileMessages {
   /// "تأكيد كلمة المرور"
   /// ```
   String get confirmpassword => """تأكيد كلمة المرور""";
+
+  /// ```dart
+  /// "رقم الهاتف مستخدم من قبل مستخدم آخر"
+  /// ```
+  String get phone_number_already_used =>
+      """رقم الهاتف مستخدم من قبل مستخدم آخر""";
 }
 
 class PlanMessagesAr extends PlanMessages {
@@ -2353,6 +2359,8 @@ Map<String, String> get messagesArMap => {
   """editprofile.oldpassword""": """كلمة المرور القديمة""",
   """editprofile.newpassword""": """كلمة المرور الجديدة""",
   """editprofile.confirmpassword""": """تأكيد كلمة المرور""",
+  """editprofile.phone_number_already_used""":
+      """رقم الهاتف مستخدم من قبل مستخدم آخر""",
   """plan.title""": """خطتي الحالية""",
   """plan.plan_name""": """اسم الخطة""",
   """plan.balance""": """0 / JOD""",
