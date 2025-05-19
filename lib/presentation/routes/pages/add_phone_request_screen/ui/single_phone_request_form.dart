@@ -16,25 +16,20 @@ class SinglePhoneRequestForm extends StatefulWidget {
 
 class _SinglePhoneRequestFormState extends State<SinglePhoneRequestForm> {
   late final TextEditingController phoneController;
-  // late final TextEditingController priceController;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-
-    // Read initial state
     final state = context.read<AddPhoneRequestCubit>().state;
     phoneController = TextEditingController(text: state.phoneNumber);
-    // priceController = TextEditingController(text: state.price ?? '');
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // If the cubit updates the data from outside, we can sync the controllers
     final state = context.read<AddPhoneRequestCubit>().state;
     _maybeSyncText(phoneController, state.phoneNumber);
-    // _maybeSyncText(priceController, state.price ?? '');
   }
 
   void _maybeSyncText(TextEditingController controller, String newText) {
@@ -49,6 +44,19 @@ class _SinglePhoneRequestFormState extends State<SinglePhoneRequestForm> {
     }
   }
 
+  String? _validatePhoneNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Phone number is required';
+    }
+    if (!value.startsWith('077') && !value.startsWith('078') && !value.startsWith('079')) {
+      return 'Phone number must start with 077, 078, or 079';
+    }
+    if (value.length != 10) {
+      return 'Phone number must be 10 digits';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
@@ -59,39 +67,37 @@ class _SinglePhoneRequestFormState extends State<SinglePhoneRequestForm> {
         return Container(
           decoration: getCardContainerStyle(context),
           padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              if (state.errorMessage != null)
-                Text(
-                  state.errorMessage!,
-                  style: const TextStyle(color: Colors.red),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (state.errorMessage != null)
+                  Text(
+                    state.errorMessage!,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                const SizedBox(height: 8),
+
+                // Required phone number
+                TextFormField(
+                  controller: phoneController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: m.addphonerequest.required_phone_number,
+                    hintText: "07XXXXXXXX",
+                    errorMaxLines: 2,
+                  ),
+                  onChanged: cubit.updatePhoneNumber,
+                  maxLength: 10,
+                  enabled: !state.isSubmitting,
+                  validator: _validatePhoneNumber,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
-              const SizedBox(height: 8),
 
-              // Required phone number
-              TextField(
-                controller: phoneController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: m.addphonerequest.required_phone_number, hintText: "07XXXXXXXX"),
-                onChanged: cubit.updatePhoneNumber,
-                maxLength: 10,
-                enabled: !state.isSubmitting,
-              ),
-              // const SizedBox(height: 16),
-
-              // // Optional Price
-              // TextField(
-              //   controller: priceController,
-              //   keyboardType: TextInputType.number,
-              //   decoration: InputDecoration(labelText: m.addphonerequest.optional_price),
-              //   onChanged: cubit.updatePrice,
-              //   enabled: !state.isSubmitting,
-              // ),
-              // const SizedBox(height: 16),
-
-              if (state.isSubmitting) const Center(child: CircularProgressIndicator()),
-            ],
+                if (state.isSubmitting) const Center(child: CircularProgressIndicator()),
+              ],
+            ),
           ),
         );
       },

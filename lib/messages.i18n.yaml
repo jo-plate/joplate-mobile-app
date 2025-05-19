@@ -409,7 +409,7 @@ common:
   following: "Following"
   confirm: "Confirm"
   cancel: "Cancel"
-  confirm_logout: "Are you sure you want to log out?"
+  confirm_logout: "Are you sure you want to logout?"
   delete_account_confirmation: "Are you sure you want to delete your account? This action cannot be undone."
   enter_password_to_delete: "Please enter your password to confirm account deletion."
   account_deleted: "Account deleted successfully."
@@ -423,6 +423,10 @@ common:
   missing_product_id: "Missing product ID"
   promotion_success: "Your listing has been promoted successfully!"
   promotion_failed: "Failed to promote listing"
+  phone_required: "Phone number is required"
+  phone_start_with_7: "Number must start with 7"
+  phone_start_with_77_78_79: "Number must be 77, 78, or 79"
+  phone_length: "Phone must be 9 digits after +962"
 
 listingstatus:
   featured: "Featured"

@@ -2118,6 +2118,27 @@ class CommonMessagesAr extends CommonMessages {
   /// "فشل في ترقية الإعلان"
   /// ```
   String get promotion_failed => """فشل في ترقية الإعلان""";
+
+  /// ```dart
+  /// "رقم الهاتف مطلوب"
+  /// ```
+  String get phone_required => """رقم الهاتف مطلوب""";
+
+  /// ```dart
+  /// "يجب أن يبدأ الرقم بـ 7"
+  /// ```
+  String get phone_start_with_7 => """يجب أن يبدأ الرقم بـ 7""";
+
+  /// ```dart
+  /// "يجب أن يكون الرقم 77 أو 78 أو 79"
+  /// ```
+  String get phone_start_with_77_78_79 =>
+      """يجب أن يكون الرقم 77 أو 78 أو 79""";
+
+  /// ```dart
+  /// "يجب أن يكون رقم الهاتف 9 أرقام بعد +962"
+  /// ```
+  String get phone_length => """يجب أن يكون رقم الهاتف 9 أرقام بعد +962""";
 }
 
 class ListingstatusMessagesAr extends ListingstatusMessages {
@@ -2685,6 +2706,11 @@ Map<String, String> get messagesArMap => {
   """common.missing_product_id""": """معرف المنتج مفقود""",
   """common.promotion_success""": """تمت ترقية إعلانك بنجاح!""",
   """common.promotion_failed""": """فشل في ترقية الإعلان""",
+  """common.phone_required""": """رقم الهاتف مطلوب""",
+  """common.phone_start_with_7""": """يجب أن يبدأ الرقم بـ 7""",
+  """common.phone_start_with_77_78_79""":
+      """يجب أن يكون الرقم 77 أو 78 أو 79""",
+  """common.phone_length""": """يجب أن يكون رقم الهاتف 9 أرقام بعد +962""",
   """listingstatus.featured""": """مميز""",
   """listingstatus.active""": """نشط""",
   """listingstatus.inactive""": """غير نشط""",

@@ -423,6 +423,10 @@ common:
   missing_product_id: "معرف المنتج مفقود"
   promotion_success: "تمت ترقية إعلانك بنجاح!"
   promotion_failed: "فشل في ترقية الإعلان"
+  phone_required: "رقم الهاتف مطلوب"
+  phone_start_with_7: "يجب أن يبدأ الرقم بـ 7"
+  phone_start_with_77_78_79: "يجب أن يكون الرقم 77 أو 78 أو 79"
+  phone_length: "يجب أن يكون رقم الهاتف 9 أرقام بعد +962"
 
 listingstatus:
   featured: "مميز"

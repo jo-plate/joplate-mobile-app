@@ -77,6 +77,19 @@ class _SinglePhoneFormState extends State<SinglePhoneForm> {
     );
   }
 
+  String? _validatePhoneNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Phone number is required';
+    }
+    if (!value.startsWith('077') && !value.startsWith('078') && !value.startsWith('079')) {
+      return 'Phone number must start with 077, 078, or 079';
+    }
+    if (value.length != 10) {
+      return 'Phone number must be 10 digits';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
@@ -97,13 +110,19 @@ class _SinglePhoneFormState extends State<SinglePhoneForm> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 if (hasError) Text(errorText, style: const TextStyle(color: Colors.red)),
-                TextField(
+                TextFormField(
                   controller: numberController,
                   onChanged: widget.onNumberChanged,
-                  decoration: InputDecoration(labelText: m.addphonenumber.number, hintText: "07XXXXXXXX"),
+                  decoration: InputDecoration(
+                    labelText: m.addphonenumber.number,
+                    hintText: "07XXXXXXXX",
+                    errorMaxLines: 2,
+                  ),
                   maxLength: 10,
                   keyboardType: TextInputType.number,
                   enabled: !isSubmitting,
+                  validator: _validatePhoneNumber,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
                 const SizedBox(height: 16),
                 Row(

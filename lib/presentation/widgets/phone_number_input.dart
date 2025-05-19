@@ -1,26 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 
 class PhoneNumberInput extends StatefulWidget {
   final TextEditingController controller;
-  final String? labelText;
-  final String? hintText;
-  final bool enabled;
-  final TextInputAction textInputAction;
-  final ValueChanged<String>? onFieldSubmitted;
-  final FormFieldValidator<String>? validator;
-  final AutovalidateMode? autovalidateMode;
+  final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
+  final bool autovalidate;
 
   const PhoneNumberInput({
     super.key,
     required this.controller,
-    this.labelText,
-    this.hintText,
-    this.enabled = true,
-    this.textInputAction = TextInputAction.next,
-    this.onFieldSubmitted,
     this.validator,
-    this.autovalidateMode,
+    this.onChanged,
+    this.autovalidate = false,
   });
 
   @override
@@ -28,55 +21,51 @@ class PhoneNumberInput extends StatefulWidget {
 }
 
 class _PhoneNumberInputState extends State<PhoneNumberInput> {
-  @override
-  Widget build(BuildContext context) {
-    final primaryColor = Theme.of(context).colorScheme.primary;
+  String? _validatePhoneNumber(String? value) {
+    final m = Localization.of(context);
 
-    return TextFormField(
-      controller: widget.controller,
-      keyboardType: TextInputType.phone,
-      maxLength: 9, // 9 digits after removing the first 0
-      enabled: widget.enabled,
-      textInputAction: widget.textInputAction,
-      onFieldSubmitted: widget.onFieldSubmitted,
-      validator: widget.validator ?? _validateJordanianPhone,
-      autovalidateMode: widget.autovalidateMode,
-      inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly,
-      ],
-      decoration: InputDecoration(
-        labelText: widget.labelText ?? 'Phone number',
-        hintText: widget.hintText ?? '7X XXX XXXX',
-        prefixIcon: Icon(Icons.phone_outlined, color: primaryColor.withOpacity(0.8)),
-        prefixText: '+962 ',
-        counterText: '', // Hide the character counter
-      ),
-    );
-  }
-
-  String? _validateJordanianPhone(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Phone number is required';
+      return m.common.phone_required;
     }
 
-    // We're already enforcing digit-only input with the inputFormatters
-    final digitsOnly = value;
+    // Remove any non-digit characters
+    final digits = value.replaceAll(RegExp(r'[^\d]'), '');
 
-    // Check if it starts with valid Jordanian prefixes (7X without the leading 0)
-    if (!digitsOnly.startsWith('7')) {
-      return 'Number must start with 7';
+    // Check if number starts with 7
+    if (!digits.startsWith('7')) {
+      return m.common.phone_start_with_7;
     }
 
-    final secondDigit = digitsOnly.length > 1 ? digitsOnly[1] : '';
-    if (secondDigit != '7' && secondDigit != '8' && secondDigit != '9') {
-      return 'Number must be 77, 78, or 79';
+    // Check if number starts with 77, 78, or 79
+    if (!digits.startsWith('77') && !digits.startsWith('78') && !digits.startsWith('79')) {
+      return m.common.phone_start_with_77_78_79;
     }
 
-    // Check for 9 digits (without the leading 0)
-    if (digitsOnly.length != 9) {
-      return 'Phone must be 9 digits after +962';
+    // Check if number is exactly 10 digits (including the leading 7)
+    if (digits.length != 10) {
+      return m.common.phone_length;
     }
 
     return null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: widget.controller,
+      keyboardType: TextInputType.phone,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+        LengthLimitingTextInputFormatter(10),
+      ],
+      decoration: const InputDecoration(
+        prefixText: '+962 ',
+        hintText: '7XXXXXXXX',
+        border: OutlineInputBorder(),
+      ),
+      validator: widget.validator ?? _validatePhoneNumber,
+      autovalidateMode: widget.autovalidate ? AutovalidateMode.onUserInteraction : null,
+      onChanged: widget.onChanged,
+    );
   }
 }

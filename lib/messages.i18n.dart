@@ -2041,9 +2041,9 @@ class CommonMessages {
   String get cancel => """Cancel""";
 
   /// ```dart
-  /// "Are you sure you want to log out?"
+  /// "Are you sure you want to logout?"
   /// ```
-  String get confirm_logout => """Are you sure you want to log out?""";
+  String get confirm_logout => """Are you sure you want to logout?""";
 
   /// ```dart
   /// "Are you sure you want to delete your account? This action cannot be undone."
@@ -2114,6 +2114,26 @@ class CommonMessages {
   /// "Failed to promote listing"
   /// ```
   String get promotion_failed => """Failed to promote listing""";
+
+  /// ```dart
+  /// "Phone number is required"
+  /// ```
+  String get phone_required => """Phone number is required""";
+
+  /// ```dart
+  /// "Number must start with 7"
+  /// ```
+  String get phone_start_with_7 => """Number must start with 7""";
+
+  /// ```dart
+  /// "Number must be 77, 78, or 79"
+  /// ```
+  String get phone_start_with_77_78_79 => """Number must be 77, 78, or 79""";
+
+  /// ```dart
+  /// "Phone must be 9 digits after +962"
+  /// ```
+  String get phone_length => """Phone must be 9 digits after +962""";
 }
 
 class ListingstatusMessages {
@@ -2662,7 +2682,7 @@ Map<String, String> get messagesMap => {
   """common.following""": """Following""",
   """common.confirm""": """Confirm""",
   """common.cancel""": """Cancel""",
-  """common.confirm_logout""": """Are you sure you want to log out?""",
+  """common.confirm_logout""": """Are you sure you want to logout?""",
   """common.delete_account_confirmation""":
       """Are you sure you want to delete your account? This action cannot be undone.""",
   """common.enter_password_to_delete""":
@@ -2681,6 +2701,10 @@ Map<String, String> get messagesMap => {
   """common.promotion_success""":
       """Your listing has been promoted successfully!""",
   """common.promotion_failed""": """Failed to promote listing""",
+  """common.phone_required""": """Phone number is required""",
+  """common.phone_start_with_7""": """Number must start with 7""",
+  """common.phone_start_with_77_78_79""": """Number must be 77, 78, or 79""",
+  """common.phone_length""": """Phone must be 9 digits after +962""",
   """listingstatus.featured""": """Featured""",
   """listingstatus.active""": """Active""",
   """listingstatus.inactive""": """Inactive""",
