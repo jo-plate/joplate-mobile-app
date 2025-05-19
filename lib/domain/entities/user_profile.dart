@@ -10,7 +10,6 @@ class UserProfile with _$UserProfile {
 
   const factory UserProfile({
     @Default('Guest') String displayName,
-    @Default('Guest') String name,
     @Default('-1') String id,
     @Default('') String email,
     @Default('') String phonenumber,
@@ -34,7 +33,6 @@ class UserProfile with _$UserProfile {
         displayName: '',
         phonenumber: '',
         email: '',
-        name: '',
         imageUrl: '',
         followingList: [],
       );
@@ -48,7 +46,6 @@ class UserProfile with _$UserProfile {
       'displayName': displayName,
       'email': email,
       'phonenumber': phonenumber,
-      'name': name,
       'imageUrl': imageUrl,
       'followingList': followingList,
       'fcmTokens': fcmTokens,

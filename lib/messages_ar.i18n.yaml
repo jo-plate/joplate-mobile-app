@@ -7,9 +7,9 @@ home:
   button_list_item: "أضف إعلان"
   button_view_items: "عرض الإعلانات"
   featured_numbers: "الأرقام المميزة"
-  car_number : "ارقام السيارات"
-  phone_numbers : "ارقام الهواتف"
-  requests: "الطلبات" 
+  car_number: "ارقام السيارات"
+  phone_numbers: "ارقام الهواتف"
+  requests: "الطلبات"
   quick_sale: "البيع السريع"
   featured: "مميز"
   sold: "تم البيع"
@@ -29,7 +29,7 @@ profile:
   myRequests: "طلباتي"
   Numbers: "أرقامي"
   packages: "الباقات"
-  my_current_plan : "باقتي الحالية"
+  my_current_plan: "باقتي الحالية"
   language: "اللغة"
   theme: "الوضع الليلي"
   dark_mode: "ليل"
@@ -47,6 +47,7 @@ profile:
   gallery: "معرض الصور"
   camera: "الكاميرا"
   promo_code: "رمز ترويجي"
+  promo_code_hint: "أدخل الرمز الترويجي"
   joined_on(String date): "عضو منذ $date"
 
 footer:
@@ -56,20 +57,20 @@ footer:
   feed: "المتابعة"
 
 editprofile:
- header: " الملف الشخصي"
- full_name: "الاسم الكامل"
- phone_number: "رقم الهاتف"
- email: "البريد الالكتروني"
- change_password: "تغيير كلمة المرور"
- edit_fullname: "تعديل الاسم الكامل"
- edit_email: "تعديل البريد الالكتروني"
- edit_phone: "تعديل رقم الهاتف"
- save: "حفظ"
- send_verification_code: "ارسال كود التحقق"
- verifyandsave: "تحقق وحفظ"
- oldpassword: "كلمة المرور القديمة"
- newpassword: "كلمة المرور الجديدة"
- confirmpassword: "تأكيد كلمة المرور"
+  header: " الملف الشخصي"
+  full_name: "الاسم الكامل"
+  phone_number: "رقم الهاتف"
+  email: "البريد الالكتروني"
+  change_password: "تغيير كلمة المرور"
+  edit_fullname: "تعديل الاسم الكامل"
+  edit_email: "تعديل البريد الالكتروني"
+  edit_phone: "تعديل رقم الهاتف"
+  save: "حفظ"
+  send_verification_code: "ارسال كود التحقق"
+  verifyandsave: "تحقق وحفظ"
+  oldpassword: "كلمة المرور القديمة"
+  newpassword: "كلمة المرور الجديدة"
+  confirmpassword: "تأكيد كلمة المرور"
 
 plan:
   title: "خطتي الحالية"
@@ -80,8 +81,8 @@ plan:
   your_plan_label: "خطتك"
 
 favorites sc:
- no_favorites: "لا يوجد عناصر في المفضلة"
- failed_to_load: "فشل في تحميل المفضلة"
+  no_favorites: "لا يوجد عناصر في المفضلة"
+  failed_to_load: "فشل في تحميل المفضلة"
 
 phones:
   title: "أرقام الهواتف"
@@ -95,7 +96,7 @@ phones:
   search: "بحث"
   see_more: "عرض المزيد"
   show_less: "عرض أقل"
-  
+
 plates:
   title: "أرقام السيارات"
   code: "الترميز"
@@ -111,39 +112,39 @@ plates:
   show_less: "عرض أقل"
 
 digitcounts:
-    d1: "رقم واحد"
-    d2: "رقمان"
-    d3: "ثلاثي"
-    d4: "رباعي"
-    d5: "خماسي"
+  d1: "رقم واحد"
+  d2: "رقمان"
+  d3: "ثلاثي"
+  d4: "رباعي"
+  d5: "خماسي"
 
 formats:
-    title: "النمط"
-    repeat_2: "يحتوي على رقم مكرر مرتين"
-    repeat_3: "يحتوي على رقم مكرر ثلاث مرات"
-    repeat_4: "يحتوي على رقم مكرر أربع مرات"
-    f_5_1: "X???X (خماسي)"
-    f_5_2: "XYZYX (خماسي)"
-    f_5_3: "XXXZX (خماسي)"
-    f_5_4: "?XXX? (خماسي)"
-    f_5_5: "XYXYX (خماسي)"
-    f_5_6: "XYYYX (خماسي)"
-    f_5_7: "??XXX (خماسي)"
-    f_5_8: "XXX?? (خماسي)"
-    f_5_9: "XXXXX (خماسي)"
-    f_4_1: "X??X (رباعي)"
-    f_4_2: "XYXX (رباعي)"
-    f_4_3: "XYXY (رباعي)"
-    f_4_4: "?XX? (رباعي)"
-    f_4_5: "XXXY (رباعي)"
-    f_4_6: "XYYY (رباعي)"
-    f_4_7: "XXXX (رباعي)"
-    f_3_1: "XYX (ثلاثي)"
-    f_3_2: "XYZ (ثلاثي)"
-    f_3_3: "XYY (ثلاثي)"
-    f_3_4: "XXY (ثلاثي)"
-    f_3_5: "XXX (ثلاثي)"
-  
+  title: "النمط"
+  repeat_2: "يحتوي على رقم مكرر مرتين"
+  repeat_3: "يحتوي على رقم مكرر ثلاث مرات"
+  repeat_4: "يحتوي على رقم مكرر أربع مرات"
+  f_5_1: "X???X (خماسي)"
+  f_5_2: "XYZYX (خماسي)"
+  f_5_3: "XXXZX (خماسي)"
+  f_5_4: "?XXX? (خماسي)"
+  f_5_5: "XYXYX (خماسي)"
+  f_5_6: "XYYYX (خماسي)"
+  f_5_7: "??XXX (خماسي)"
+  f_5_8: "XXX?? (خماسي)"
+  f_5_9: "XXXXX (خماسي)"
+  f_4_1: "X??X (رباعي)"
+  f_4_2: "XYXX (رباعي)"
+  f_4_3: "XYXY (رباعي)"
+  f_4_4: "?XX? (رباعي)"
+  f_4_5: "XXXY (رباعي)"
+  f_4_6: "XYYY (رباعي)"
+  f_4_7: "XXXX (رباعي)"
+  f_3_1: "XYX (ثلاثي)"
+  f_3_2: "XYZ (ثلاثي)"
+  f_3_3: "XYY (ثلاثي)"
+  f_3_4: "XXY (ثلاثي)"
+  f_3_5: "XXX (ثلاثي)"
+
 addphonenumber:
   title: "إضافة رقم هاتف"
   company_label: "الشركة"
@@ -176,6 +177,7 @@ addplate:
   price_before_discount: "السعر قبل الخصم"
   price_after_discount: "السعر بعد الخصم"
   code: "الترميز"
+  select_code: "اختر الترميز"
 
 addphonerequest:
   title: "إضافة طلب هاتف"
@@ -185,7 +187,6 @@ addphonerequest:
   cancel_button: "إلغاء"
   required_phone_number: "رقم الهاتف المطلوب"
   optional_price: "السعر اختياري"
-
 
 addplaterequest:
   title: "إضافة طلب رقم سيارة"
@@ -200,7 +201,6 @@ addplaterequest:
 
 listingdetails:
   expires_on(DateTime date): "تنتهي صلاحية الاعلان في $date"
-  
 
 phonedetails:
   title: "تفاصيل رقم الهاتف"
@@ -231,7 +231,7 @@ platesdetails:
   meet_in_person: "قابل البائع شخصياً"
   days_ago(String days): "منذ $days"
   call_for_price: "اتصل لمعرفة السعر"
-  
+
 quicksale:
   title: "البيع السريع"
   description: "هل ترغب بأن نجد لك مشتريًا لرقم سيارتك؟ يمكننا مساعدتك في ذلك."
@@ -404,13 +404,34 @@ common:
   following: "متابع"
   confirm: "تأكيد"
   cancel: "إلغاء"
+  confirm_logout: "هل أنت متأكد من رغبتك في تسجيل الخروج؟"
   delete_account_confirmation: "هل أنت متأكد من رغبتك في حذف حسابك؟ لا يمكن التراجع عن هذا الإجراء."
   enter_password_to_delete: "يرجى إدخال كلمة المرور لتأكيد حذف الحساب."
   account_deleted: "تم حذف الحساب بنجاح."
   delete_account_failed: "فشل في حذف الحساب: "
   requires_recent_login: "يرجى إعادة إدخال كلمة المرور لتأكيد هذا الإجراء."
   invalid_credentials: "كلمة المرور غير صحيحة. يرجى المحاولة مرة أخرى."
+  invalid_promo_code: "رمز ترويجي غير صالح. يرجى المحاولة مرة أخرى."
+  promo_code_applied: "تم تطبيق الرمز الترويجي بنجاح!"
+  error_applying_promo_code: "خطأ في تطبيق الرمز الترويجي. يرجى المحاولة مرة أخرى."
 
 account:
   delete_account: "حذف الحساب"
   password: "كلمة المرور"
+
+userprofile:
+  title: "الملف الشخصي"
+  user_not_found: "لم يتم العثور على المستخدم"
+  no_plate_listings: "لا توجد إعلانات لوحات"
+  no_phone_listings: "لا توجد إعلانات هواتف"
+  no_plate_requests: "لا توجد طلبات لوحات"
+  no_phone_requests: "لا توجد طلبات هواتف"
+  error_loading: "خطأ في تحميل الملف الشخصي:"
+  error_loading_plates: "خطأ في تحميل إعلانات اللوحات:"
+  error_loading_phones: "خطأ في تحميل إعلانات الهواتف:"
+  error_loading_plate_requests: "خطأ في تحميل طلبات اللوحات:"
+  error_loading_phone_requests: "خطأ في تحميل طلبات الهواتف:"
+  follow_success: "تمت المتابعة بنجاح"
+  unfollow_success: "تم إلغاء المتابعة بنجاح"
+  login_required: "يجب تسجيل الدخول لمتابعة المستخدمين"
+  error: "خطأ: "

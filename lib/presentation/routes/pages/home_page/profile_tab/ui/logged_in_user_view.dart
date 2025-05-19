@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:joplate/data/constants.dart';
+import 'package:joplate/domain/dto/apply_promo_code_dto.dart';
 import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
 import 'package:joplate/presentation/cubits/localization/localization_cubit.dart';
@@ -16,6 +18,7 @@ import 'package:joplate/presentation/widgets/menu_item.dart';
 import 'package:joplate/presentation/widgets/profile_banner.dart';
 import 'package:joplate/presentation/cubits/theme_cubit.dart';
 import 'package:joplate/presentation/widgets/social_links.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 class LoggedInUserView extends StatefulWidget {
   const LoggedInUserView({super.key});
@@ -216,40 +219,79 @@ class _UserProfileViewState extends State<_UserProfileView> {
 
   void _showPromoCodeDialog() {
     final controller = TextEditingController();
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
+    final m = Localization.of(context);
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Enter Promo Code'),
-        content: TextField(
-          controller: controller,
-          decoration: InputDecoration(
-            hintText: 'Enter your promo code',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
+      builder: (context) => Dialog(
+        insetPadding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.1, // 80% width
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                m.profile.promo_code,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: controller,
+                decoration: InputDecoration(
+                  hintText: m.profile.promo_code_hint,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(m.common.cancel),
+                  ),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: () async {
+                      final code = controller.text.trim();
+                      if (code.isEmpty) {
+                        AppSnackbar.showError(m.common.invalid_promo_code);
+                        return;
+                      }
+
+                      try {
+                        // Call cloud function to validate and apply promo code
+                        final result = await FirebaseFunctions.instance
+                            .httpsCallable(applyPromoCodeCF)
+                            .call(ApplyPromoCodeDto(promoCode: code).toJson());
+
+                        if (result.data['success'] == true) {
+                          if (mounted) {
+                            Navigator.pop(context);
+                            AppSnackbar.showSuccess(m.common.promo_code_applied);
+                          }
+                        } else {
+                          AppSnackbar.showError(result.data['message'] ?? m.common.invalid_promo_code);
+                        }
+                      } catch (e) {
+                        AppSnackbar.showError(m.common.error_applying_promo_code);
+                      }
+                    },
+                    child: Text(m.common.confirm),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              // Process the promo code
-              final code = controller.text.trim();
-              if (code.isNotEmpty) {
-                Navigator.pop(context);
-                AppSnackbar.showSuccess(
-                  'Promo code applied: $code',
-                );
-              }
-            },
-            child: const Text('Apply', style: TextStyle(color: Colors.white)),
-          ),
-        ],
       ),
     );
   }
@@ -257,7 +299,6 @@ class _UserProfileViewState extends State<_UserProfileView> {
   Widget _buildSettingsSection() {
     final m = Localization.of(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    const primaryColor = Color(0xFF981C1E);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -399,7 +440,26 @@ class _UserProfileViewState extends State<_UserProfileView> {
           title: m.profile.logout,
           icon: Icons.logout,
           onTap: () {
-            injector<AuthCubit>().logout();
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text(m.profile.logout),
+                content: Text(m.common.confirm_logout),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(m.common.cancel),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      injector<AuthCubit>().logout();
+                    },
+                    child: Text(m.common.confirm),
+                  ),
+                ],
+              ),
+            );
           },
         ),
       ],

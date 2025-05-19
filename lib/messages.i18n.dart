@@ -96,6 +96,7 @@ class Messages {
   TermsMessages get terms => TermsMessages(this);
   CommonMessages get common => CommonMessages(this);
   AccountMessages get account => AccountMessages(this);
+  UserprofileMessages get userprofile => UserprofileMessages(this);
 }
 
 class AppMessages {
@@ -331,6 +332,11 @@ class ProfileMessages {
   /// "Promo Code"
   /// ```
   String get promo_code => """Promo Code""";
+
+  /// ```dart
+  /// "Enter your promo code"
+  /// ```
+  String get promo_code_hint => """Enter your promo code""";
 
   /// ```dart
   /// "Joined on $date"
@@ -926,6 +932,11 @@ class AddplateMessages {
   /// "Code"
   /// ```
   String get code => """Code""";
+
+  /// ```dart
+  /// "Select Code"
+  /// ```
+  String get select_code => """Select Code""";
 }
 
 class AddphonerequestMessages {
@@ -1999,6 +2010,11 @@ class CommonMessages {
   String get cancel => """Cancel""";
 
   /// ```dart
+  /// "Are you sure you want to log out?"
+  /// ```
+  String get confirm_logout => """Are you sure you want to log out?""";
+
+  /// ```dart
   /// "Are you sure you want to delete your account? This action cannot be undone."
   /// ```
   String get delete_account_confirmation =>
@@ -2030,6 +2046,22 @@ class CommonMessages {
   /// "Invalid password. Please try again."
   /// ```
   String get invalid_credentials => """Invalid password. Please try again.""";
+
+  /// ```dart
+  /// "Invalid promo code. Please try again."
+  /// ```
+  String get invalid_promo_code => """Invalid promo code. Please try again.""";
+
+  /// ```dart
+  /// "Promo code applied successfully!"
+  /// ```
+  String get promo_code_applied => """Promo code applied successfully!""";
+
+  /// ```dart
+  /// "Error applying promo code. Please try again."
+  /// ```
+  String get error_applying_promo_code =>
+      """Error applying promo code. Please try again.""";
 }
 
 class AccountMessages {
@@ -2045,6 +2077,88 @@ class AccountMessages {
   /// "Password"
   /// ```
   String get password => """Password""";
+}
+
+class UserprofileMessages {
+  final Messages _parent;
+  const UserprofileMessages(this._parent);
+
+  /// ```dart
+  /// "User Profile"
+  /// ```
+  String get title => """User Profile""";
+
+  /// ```dart
+  /// "User not found"
+  /// ```
+  String get user_not_found => """User not found""";
+
+  /// ```dart
+  /// "No plate listings found"
+  /// ```
+  String get no_plate_listings => """No plate listings found""";
+
+  /// ```dart
+  /// "No phone listings found"
+  /// ```
+  String get no_phone_listings => """No phone listings found""";
+
+  /// ```dart
+  /// "No plate requests found"
+  /// ```
+  String get no_plate_requests => """No plate requests found""";
+
+  /// ```dart
+  /// "No phone requests found"
+  /// ```
+  String get no_phone_requests => """No phone requests found""";
+
+  /// ```dart
+  /// "Error loading profile:"
+  /// ```
+  String get error_loading => """Error loading profile:""";
+
+  /// ```dart
+  /// "Error loading plate listings:"
+  /// ```
+  String get error_loading_plates => """Error loading plate listings:""";
+
+  /// ```dart
+  /// "Error loading phone listings:"
+  /// ```
+  String get error_loading_phones => """Error loading phone listings:""";
+
+  /// ```dart
+  /// "Error loading plate requests:"
+  /// ```
+  String get error_loading_plate_requests =>
+      """Error loading plate requests:""";
+
+  /// ```dart
+  /// "Error loading phone requests:"
+  /// ```
+  String get error_loading_phone_requests =>
+      """Error loading phone requests:""";
+
+  /// ```dart
+  /// "Following user successfully"
+  /// ```
+  String get follow_success => """Following user successfully""";
+
+  /// ```dart
+  /// "Unfollowed user successfully"
+  /// ```
+  String get unfollow_success => """Unfollowed user successfully""";
+
+  /// ```dart
+  /// "You must be logged in to follow users"
+  /// ```
+  String get login_required => """You must be logged in to follow users""";
+
+  /// ```dart
+  /// "Error: "
+  /// ```
+  String get error => """Error: """;
 }
 
 Map<String, String> get messagesMap => {
@@ -2091,6 +2205,7 @@ Map<String, String> get messagesMap => {
   """profile.gallery""": """Gallery""",
   """profile.camera""": """Camera""",
   """profile.promo_code""": """Promo Code""",
+  """profile.promo_code_hint""": """Enter your promo code""",
   """footer.home""": """Home""",
   """footer.profile""": """Profile""",
   """footer.favorites""": """Favorites""",
@@ -2199,6 +2314,7 @@ Map<String, String> get messagesMap => {
   """addplate.price_before_discount""": """Price before Discount""",
   """addplate.price_after_discount""": """Price after Discount""",
   """addplate.code""": """Code""",
+  """addplate.select_code""": """Select Code""",
   """addphonerequest.title""": """Add Phone Request""",
   """addphonerequest.company_label""": """Company""",
   """addphonerequest.phone_number_label""": """Phone Number""",
@@ -2404,6 +2520,7 @@ Map<String, String> get messagesMap => {
   """common.following""": """Following""",
   """common.confirm""": """Confirm""",
   """common.cancel""": """Cancel""",
+  """common.confirm_logout""": """Are you sure you want to log out?""",
   """common.delete_account_confirmation""":
       """Are you sure you want to delete your account? This action cannot be undone.""",
   """common.enter_password_to_delete""":
@@ -2413,6 +2530,27 @@ Map<String, String> get messagesMap => {
   """common.requires_recent_login""":
       """Please re-enter your password to confirm this action.""",
   """common.invalid_credentials""": """Invalid password. Please try again.""",
+  """common.invalid_promo_code""": """Invalid promo code. Please try again.""",
+  """common.promo_code_applied""": """Promo code applied successfully!""",
+  """common.error_applying_promo_code""":
+      """Error applying promo code. Please try again.""",
   """account.delete_account""": """Delete Account""",
   """account.password""": """Password""",
+  """userprofile.title""": """User Profile""",
+  """userprofile.user_not_found""": """User not found""",
+  """userprofile.no_plate_listings""": """No plate listings found""",
+  """userprofile.no_phone_listings""": """No phone listings found""",
+  """userprofile.no_plate_requests""": """No plate requests found""",
+  """userprofile.no_phone_requests""": """No phone requests found""",
+  """userprofile.error_loading""": """Error loading profile:""",
+  """userprofile.error_loading_plates""": """Error loading plate listings:""",
+  """userprofile.error_loading_phones""": """Error loading phone listings:""",
+  """userprofile.error_loading_plate_requests""":
+      """Error loading plate requests:""",
+  """userprofile.error_loading_phone_requests""":
+      """Error loading phone requests:""",
+  """userprofile.follow_success""": """Following user successfully""",
+  """userprofile.unfollow_success""": """Unfollowed user successfully""",
+  """userprofile.login_required""": """You must be logged in to follow users""",
+  """userprofile.error""": """Error: """,
 };

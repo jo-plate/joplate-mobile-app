@@ -21,7 +21,6 @@ UserProfile _$UserProfileFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$UserProfile {
   String get displayName => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get phonenumber => throw _privateConstructorUsedError;
@@ -49,7 +48,6 @@ abstract class $UserProfileCopyWith<$Res> {
   @useResult
   $Res call(
       {String displayName,
-      String name,
       String id,
       String email,
       String phonenumber,
@@ -76,7 +74,6 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
   @override
   $Res call({
     Object? displayName = null,
-    Object? name = null,
     Object? id = null,
     Object? email = null,
     Object? phonenumber = null,
@@ -90,10 +87,6 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
       displayName: null == displayName
           ? _value.displayName
           : displayName // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
               as String,
       id: null == id
           ? _value.id
@@ -141,7 +134,6 @@ abstract class _$$UserProfileImplCopyWith<$Res>
   @useResult
   $Res call(
       {String displayName,
-      String name,
       String id,
       String email,
       String phonenumber,
@@ -166,7 +158,6 @@ class __$$UserProfileImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? displayName = null,
-    Object? name = null,
     Object? id = null,
     Object? email = null,
     Object? phonenumber = null,
@@ -180,10 +171,6 @@ class __$$UserProfileImplCopyWithImpl<$Res>
       displayName: null == displayName
           ? _value.displayName
           : displayName // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
               as String,
       id: null == id
           ? _value.id
@@ -226,7 +213,6 @@ class __$$UserProfileImplCopyWithImpl<$Res>
 class _$UserProfileImpl extends _UserProfile {
   const _$UserProfileImpl(
       {this.displayName = 'Guest',
-      this.name = 'Guest',
       this.id = '-1',
       this.email = '',
       this.phonenumber = '',
@@ -245,9 +231,6 @@ class _$UserProfileImpl extends _UserProfile {
   @override
   @JsonKey()
   final String displayName;
-  @override
-  @JsonKey()
-  final String name;
   @override
   @JsonKey()
   final String id;
@@ -286,7 +269,7 @@ class _$UserProfileImpl extends _UserProfile {
 
   @override
   String toString() {
-    return 'UserProfile(displayName: $displayName, name: $name, id: $id, email: $email, phonenumber: $phonenumber, isVerified: $isVerified, pendingVerification: $pendingVerification, imageUrl: $imageUrl, followingList: $followingList, fcmTokens: $fcmTokens)';
+    return 'UserProfile(displayName: $displayName, id: $id, email: $email, phonenumber: $phonenumber, isVerified: $isVerified, pendingVerification: $pendingVerification, imageUrl: $imageUrl, followingList: $followingList, fcmTokens: $fcmTokens)';
   }
 
   @override
@@ -296,7 +279,6 @@ class _$UserProfileImpl extends _UserProfile {
             other is _$UserProfileImpl &&
             (identical(other.displayName, displayName) ||
                 other.displayName == displayName) &&
-            (identical(other.name, name) || other.name == name) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.phonenumber, phonenumber) ||
@@ -318,7 +300,6 @@ class _$UserProfileImpl extends _UserProfile {
   int get hashCode => Object.hash(
       runtimeType,
       displayName,
-      name,
       id,
       email,
       phonenumber,
@@ -347,7 +328,6 @@ class _$UserProfileImpl extends _UserProfile {
 abstract class _UserProfile extends UserProfile {
   const factory _UserProfile(
       {final String displayName,
-      final String name,
       final String id,
       final String email,
       final String phonenumber,
@@ -363,8 +343,6 @@ abstract class _UserProfile extends UserProfile {
 
   @override
   String get displayName;
-  @override
-  String get name;
   @override
   String get id;
   @override

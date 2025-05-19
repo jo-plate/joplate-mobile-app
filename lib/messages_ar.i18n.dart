@@ -99,6 +99,7 @@ class MessagesAr extends Messages {
   TermsMessagesAr get terms => TermsMessagesAr(this);
   CommonMessagesAr get common => CommonMessagesAr(this);
   AccountMessagesAr get account => AccountMessagesAr(this);
+  UserprofileMessagesAr get userprofile => UserprofileMessagesAr(this);
 }
 
 class AppMessagesAr extends AppMessages {
@@ -334,6 +335,11 @@ class ProfileMessagesAr extends ProfileMessages {
   /// "رمز ترويجي"
   /// ```
   String get promo_code => """رمز ترويجي""";
+
+  /// ```dart
+  /// "أدخل الرمز الترويجي"
+  /// ```
+  String get promo_code_hint => """أدخل الرمز الترويجي""";
 
   /// ```dart
   /// "عضو منذ $date"
@@ -929,6 +935,11 @@ class AddplateMessagesAr extends AddplateMessages {
   /// "الترميز"
   /// ```
   String get code => """الترميز""";
+
+  /// ```dart
+  /// "اختر الترميز"
+  /// ```
+  String get select_code => """اختر الترميز""";
 }
 
 class AddphonerequestMessagesAr extends AddphonerequestMessages {
@@ -2002,6 +2013,11 @@ class CommonMessagesAr extends CommonMessages {
   String get cancel => """إلغاء""";
 
   /// ```dart
+  /// "هل أنت متأكد من رغبتك في تسجيل الخروج؟"
+  /// ```
+  String get confirm_logout => """هل أنت متأكد من رغبتك في تسجيل الخروج؟""";
+
+  /// ```dart
   /// "هل أنت متأكد من رغبتك في حذف حسابك؟ لا يمكن التراجع عن هذا الإجراء."
   /// ```
   String get delete_account_confirmation =>
@@ -2034,6 +2050,23 @@ class CommonMessagesAr extends CommonMessages {
   /// ```
   String get invalid_credentials =>
       """كلمة المرور غير صحيحة. يرجى المحاولة مرة أخرى.""";
+
+  /// ```dart
+  /// "رمز ترويجي غير صالح. يرجى المحاولة مرة أخرى."
+  /// ```
+  String get invalid_promo_code =>
+      """رمز ترويجي غير صالح. يرجى المحاولة مرة أخرى.""";
+
+  /// ```dart
+  /// "تم تطبيق الرمز الترويجي بنجاح!"
+  /// ```
+  String get promo_code_applied => """تم تطبيق الرمز الترويجي بنجاح!""";
+
+  /// ```dart
+  /// "خطأ في تطبيق الرمز الترويجي. يرجى المحاولة مرة أخرى."
+  /// ```
+  String get error_applying_promo_code =>
+      """خطأ في تطبيق الرمز الترويجي. يرجى المحاولة مرة أخرى.""";
 }
 
 class AccountMessagesAr extends AccountMessages {
@@ -2049,6 +2082,86 @@ class AccountMessagesAr extends AccountMessages {
   /// "كلمة المرور"
   /// ```
   String get password => """كلمة المرور""";
+}
+
+class UserprofileMessagesAr extends UserprofileMessages {
+  final MessagesAr _parent;
+  const UserprofileMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "الملف الشخصي"
+  /// ```
+  String get title => """الملف الشخصي""";
+
+  /// ```dart
+  /// "لم يتم العثور على المستخدم"
+  /// ```
+  String get user_not_found => """لم يتم العثور على المستخدم""";
+
+  /// ```dart
+  /// "لا توجد إعلانات لوحات"
+  /// ```
+  String get no_plate_listings => """لا توجد إعلانات لوحات""";
+
+  /// ```dart
+  /// "لا توجد إعلانات هواتف"
+  /// ```
+  String get no_phone_listings => """لا توجد إعلانات هواتف""";
+
+  /// ```dart
+  /// "لا توجد طلبات لوحات"
+  /// ```
+  String get no_plate_requests => """لا توجد طلبات لوحات""";
+
+  /// ```dart
+  /// "لا توجد طلبات هواتف"
+  /// ```
+  String get no_phone_requests => """لا توجد طلبات هواتف""";
+
+  /// ```dart
+  /// "خطأ في تحميل الملف الشخصي:"
+  /// ```
+  String get error_loading => """خطأ في تحميل الملف الشخصي:""";
+
+  /// ```dart
+  /// "خطأ في تحميل إعلانات اللوحات:"
+  /// ```
+  String get error_loading_plates => """خطأ في تحميل إعلانات اللوحات:""";
+
+  /// ```dart
+  /// "خطأ في تحميل إعلانات الهواتف:"
+  /// ```
+  String get error_loading_phones => """خطأ في تحميل إعلانات الهواتف:""";
+
+  /// ```dart
+  /// "خطأ في تحميل طلبات اللوحات:"
+  /// ```
+  String get error_loading_plate_requests => """خطأ في تحميل طلبات اللوحات:""";
+
+  /// ```dart
+  /// "خطأ في تحميل طلبات الهواتف:"
+  /// ```
+  String get error_loading_phone_requests => """خطأ في تحميل طلبات الهواتف:""";
+
+  /// ```dart
+  /// "تمت المتابعة بنجاح"
+  /// ```
+  String get follow_success => """تمت المتابعة بنجاح""";
+
+  /// ```dart
+  /// "تم إلغاء المتابعة بنجاح"
+  /// ```
+  String get unfollow_success => """تم إلغاء المتابعة بنجاح""";
+
+  /// ```dart
+  /// "يجب تسجيل الدخول لمتابعة المستخدمين"
+  /// ```
+  String get login_required => """يجب تسجيل الدخول لمتابعة المستخدمين""";
+
+  /// ```dart
+  /// "خطأ: "
+  /// ```
+  String get error => """خطأ: """;
 }
 
 Map<String, String> get messagesArMap => {
@@ -2095,6 +2208,7 @@ Map<String, String> get messagesArMap => {
   """profile.gallery""": """معرض الصور""",
   """profile.camera""": """الكاميرا""",
   """profile.promo_code""": """رمز ترويجي""",
+  """profile.promo_code_hint""": """أدخل الرمز الترويجي""",
   """footer.home""": """الرئيسية""",
   """footer.profile""": """الملف الشخصي""",
   """footer.favorites""": """المفضلة""",
@@ -2203,6 +2317,7 @@ Map<String, String> get messagesArMap => {
   """addplate.price_before_discount""": """السعر قبل الخصم""",
   """addplate.price_after_discount""": """السعر بعد الخصم""",
   """addplate.code""": """الترميز""",
+  """addplate.select_code""": """اختر الترميز""",
   """addphonerequest.title""": """إضافة طلب هاتف""",
   """addphonerequest.company_label""": """الشركة""",
   """addphonerequest.phone_number_label""": """رقم الهاتف""",
@@ -2409,6 +2524,7 @@ Map<String, String> get messagesArMap => {
   """common.following""": """متابع""",
   """common.confirm""": """تأكيد""",
   """common.cancel""": """إلغاء""",
+  """common.confirm_logout""": """هل أنت متأكد من رغبتك في تسجيل الخروج؟""",
   """common.delete_account_confirmation""":
       """هل أنت متأكد من رغبتك في حذف حسابك؟ لا يمكن التراجع عن هذا الإجراء.""",
   """common.enter_password_to_delete""":
@@ -2419,6 +2535,28 @@ Map<String, String> get messagesArMap => {
       """يرجى إعادة إدخال كلمة المرور لتأكيد هذا الإجراء.""",
   """common.invalid_credentials""":
       """كلمة المرور غير صحيحة. يرجى المحاولة مرة أخرى.""",
+  """common.invalid_promo_code""":
+      """رمز ترويجي غير صالح. يرجى المحاولة مرة أخرى.""",
+  """common.promo_code_applied""": """تم تطبيق الرمز الترويجي بنجاح!""",
+  """common.error_applying_promo_code""":
+      """خطأ في تطبيق الرمز الترويجي. يرجى المحاولة مرة أخرى.""",
   """account.delete_account""": """حذف الحساب""",
   """account.password""": """كلمة المرور""",
+  """userprofile.title""": """الملف الشخصي""",
+  """userprofile.user_not_found""": """لم يتم العثور على المستخدم""",
+  """userprofile.no_plate_listings""": """لا توجد إعلانات لوحات""",
+  """userprofile.no_phone_listings""": """لا توجد إعلانات هواتف""",
+  """userprofile.no_plate_requests""": """لا توجد طلبات لوحات""",
+  """userprofile.no_phone_requests""": """لا توجد طلبات هواتف""",
+  """userprofile.error_loading""": """خطأ في تحميل الملف الشخصي:""",
+  """userprofile.error_loading_plates""": """خطأ في تحميل إعلانات اللوحات:""",
+  """userprofile.error_loading_phones""": """خطأ في تحميل إعلانات الهواتف:""",
+  """userprofile.error_loading_plate_requests""":
+      """خطأ في تحميل طلبات اللوحات:""",
+  """userprofile.error_loading_phone_requests""":
+      """خطأ في تحميل طلبات الهواتف:""",
+  """userprofile.follow_success""": """تمت المتابعة بنجاح""",
+  """userprofile.unfollow_success""": """تم إلغاء المتابعة بنجاح""",
+  """userprofile.login_required""": """يجب تسجيل الدخول لمتابعة المستخدمين""",
+  """userprofile.error""": """خطأ: """,
 };

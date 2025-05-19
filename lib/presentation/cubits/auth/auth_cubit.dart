@@ -141,12 +141,15 @@ class AuthCubit extends Cubit<AuthState> {
       emit(state.copyWith(isLoading: false));
       return;
     } on FirebaseAuthException catch (e) {
+      print(e);
+      print(e.message);
       emit(state.copyWith(
         isLoading: false,
         errorMessage: _getFirebaseErrorMessage(e),
       ));
       rethrow;
     } catch (e) {
+      print(e);
       emit(state.copyWith(
         isLoading: false,
         errorMessage: 'Password reset failed: ${e.toString()}',

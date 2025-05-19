@@ -32,5 +32,5 @@ String obfuscatePhoneNumber(String phoneNumber) {
   final visibleEnd = phoneNumber.substring(phoneNumber.length - 3);
   const hidden = "*****";
 
-  return "$visibleStart$hidden$visibleEnd";
+  return "+962 $visibleStart$hidden$visibleEnd";
 }

@@ -47,6 +47,7 @@ profile:
   gallery: "Gallery"
   camera: "Camera"
   promo_code: "Promo Code"
+  promo_code_hint: "Enter your promo code"
   joined_on(String date): "Joined on $date"
 
 footer:
@@ -176,6 +177,7 @@ addplate:
   price_before_discount: "Price before Discount"
   price_after_discount: "Price after Discount"
   code: "Code"
+  select_code: "Select Code"
 
 addphonerequest:
   title: "Add Phone Request"
@@ -402,13 +404,35 @@ common:
   following: "Following"
   confirm: "Confirm"
   cancel: "Cancel"
+  confirm_logout: "Are you sure you want to log out?"
   delete_account_confirmation: "Are you sure you want to delete your account? This action cannot be undone."
   enter_password_to_delete: "Please enter your password to confirm account deletion."
   account_deleted: "Account deleted successfully."
   delete_account_failed: "Failed to delete account: "
   requires_recent_login: "Please re-enter your password to confirm this action."
   invalid_credentials: "Invalid password. Please try again."
+  invalid_promo_code: "Invalid promo code. Please try again."
+  promo_code_applied: "Promo code applied successfully!"
+  error_applying_promo_code: "Error applying promo code. Please try again."
 
 account:
   delete_account: "Delete Account"
   password: "Password"
+
+userprofile:
+  title: "User Profile"
+  user_not_found: "User not found"
+  no_plate_listings: "No plate listings found"
+  no_phone_listings: "No phone listings found"
+  no_plate_requests: "No plate requests found"
+  no_phone_requests: "No phone requests found"
+  error_loading: "Error loading profile:"
+  error_loading_plates: "Error loading plate listings:"
+  error_loading_phones: "Error loading phone listings:"
+  error_loading_plate_requests: "Error loading plate requests:"
+  error_loading_phone_requests: "Error loading phone requests:"
+  follow_success: "Following user successfully"
+  unfollow_success: "Unfollowed user successfully"
+  login_required: "You must be logged in to follow users"
+  error: "Error: "
+

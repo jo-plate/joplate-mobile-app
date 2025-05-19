@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 
 class PlateCodePickerField extends StatelessWidget {
   final String value;
@@ -32,6 +33,7 @@ class PlateCodePickerField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
     return GestureDetector(
       onTap: enabled
           ? () => showPlateCodePicker(
@@ -42,11 +44,11 @@ class PlateCodePickerField extends StatelessWidget {
           : null,
       child: InputDecorator(
         decoration: inputFieldStyle.copyWith(
-          hintText: 'Code',
+          hintText: m.plates.code,
         ),
         child: value.isEmpty
             ? Text(
-                "Select Code",
+                m.addplate.select_code,
                 style: TextStyle(color: Colors.grey[500]!, fontSize: 16),
               )
             : Text(value),

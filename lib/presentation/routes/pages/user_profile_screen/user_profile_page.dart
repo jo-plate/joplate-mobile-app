@@ -64,10 +64,11 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
   }
 
   Future<void> _handleFollowPress(bool currentlyFollowing) async {
+    final m = Localization.of(context);
     try {
       if (_currentUserId == null) {
         if (mounted) {
-          AppSnackbar.showError('You must be logged in to follow users');
+          AppSnackbar.showError(m.userprofile.login_required);
         }
         return;
       }
@@ -79,7 +80,7 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
         });
 
         if (mounted) {
-          AppSnackbar.showSuccess('Unfollowed user successfully');
+          AppSnackbar.showSuccess(m.userprofile.unfollow_success);
         }
       } else {
         // Direct Firestore update to follow
@@ -88,26 +89,23 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
         });
 
         if (mounted) {
-          AppSnackbar.showSuccess('Following user successfully');
+          AppSnackbar.showSuccess(m.userprofile.follow_success);
         }
       }
     } catch (e) {
       if (mounted) {
-        AppSnackbar.showError('Error: ${e.toString()}');
+        AppSnackbar.showError('${m.userprofile.error}${e.toString()}');
       }
-      print('Follow/unfollow error: $e');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final primaryColor = Theme.of(context).colorScheme.primary;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('User Profile'),
+        title: Text(m.userprofile.title),
       ),
       body: StreamBuilder<UserProfile>(
         stream: userProfileStream,
@@ -117,12 +115,12 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
           }
 
           if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(child: Text('${m.userprofile.error_loading}${snapshot.error}'));
           }
 
           final userProfile = snapshot.data;
           if (userProfile == null) {
-            return const Center(child: Text('User not found'));
+            return Center(child: Text(m.userprofile.user_not_found));
           }
 
           return SingleChildScrollView(
@@ -253,9 +251,9 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
   }
 
   Widget _buildListingsTab() {
+    final m = Localization.of(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final primaryColor = Theme.of(context).colorScheme.primary;
-    final m = Localization.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -336,9 +334,9 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
   }
 
   Widget _buildRequestsTab() {
+    final m = Localization.of(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final primaryColor = Theme.of(context).colorScheme.primary;
-    final m = Localization.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -419,6 +417,7 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
   }
 
   Widget _buildPlateListings() {
+    final m = Localization.of(context);
     return StreamBuilder<List<PlateListing>>(
       stream: FirebaseFirestore.instance
           .collection(carPlatesCollectionId)
@@ -454,7 +453,7 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
           return SizedBox(
             height: 300,
             child: Center(
-              child: Text('Error: ${snapshot.error}'),
+              child: Text('${m.userprofile.error_loading_plates}${snapshot.error}'),
             ),
           );
         }
@@ -462,10 +461,10 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
         final plateListings = snapshot.data ?? [];
 
         if (plateListings.isEmpty) {
-          return const SizedBox(
+          return SizedBox(
             height: 300,
             child: Center(
-              child: Text('No plate listings found'),
+              child: Text(m.userprofile.no_plate_listings),
             ),
           );
         }
@@ -481,6 +480,7 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
   }
 
   Widget _buildPhoneListings() {
+    final m = Localization.of(context);
     return StreamBuilder<List<PhoneListing>>(
       stream: FirebaseFirestore.instance
           .collection(phoneNumbersCollectionId)
@@ -516,7 +516,7 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
           return SizedBox(
             height: 300,
             child: Center(
-              child: Text('Error: ${snapshot.error}'),
+              child: Text('${m.userprofile.error_loading_phones}${snapshot.error}'),
             ),
           );
         }
@@ -524,10 +524,10 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
         final phoneListings = snapshot.data ?? [];
 
         if (phoneListings.isEmpty) {
-          return const SizedBox(
+          return SizedBox(
             height: 300,
             child: Center(
-              child: Text('No phone listings found'),
+              child: Text(m.userprofile.no_phone_listings),
             ),
           );
         }
@@ -543,6 +543,7 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
   }
 
   Widget _buildPlateRequests() {
+    final m = Localization.of(context);
     return StreamBuilder<List<PlateRequest>>(
       stream: FirebaseFirestore.instance
           .collection(platesRequestsCollectionId)
@@ -577,7 +578,7 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
           return SizedBox(
             height: 300,
             child: Center(
-              child: Text('Error: ${snapshot.error}'),
+              child: Text('${m.userprofile.error_loading_plate_requests}${snapshot.error}'),
             ),
           );
         }
@@ -585,10 +586,10 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
         final plateRequests = snapshot.data ?? [];
 
         if (plateRequests.isEmpty) {
-          return const SizedBox(
+          return SizedBox(
             height: 300,
             child: Center(
-              child: Text('No plate requests found'),
+              child: Text(m.userprofile.no_plate_requests),
             ),
           );
         }
@@ -604,6 +605,7 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
   }
 
   Widget _buildPhoneRequests() {
+    final m = Localization.of(context);
     return StreamBuilder<List<PhoneRequest>>(
       stream: FirebaseFirestore.instance
           .collection(phonesRequestsCollectionId)
@@ -638,7 +640,7 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
           return SizedBox(
             height: 300,
             child: Center(
-              child: Text('Error: ${snapshot.error}'),
+              child: Text('${m.userprofile.error_loading_phone_requests}${snapshot.error}'),
             ),
           );
         }
@@ -646,10 +648,10 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
         final phoneRequests = snapshot.data ?? [];
 
         if (phoneRequests.isEmpty) {
-          return const SizedBox(
+          return SizedBox(
             height: 300,
             child: Center(
-              child: Text('No phone requests found'),
+              child: Text(m.userprofile.no_phone_requests),
             ),
           );
         }

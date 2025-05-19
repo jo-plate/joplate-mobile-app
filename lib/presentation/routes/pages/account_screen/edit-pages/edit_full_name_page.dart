@@ -52,7 +52,7 @@ class _EditFullNamePageState extends State<EditFullNamePage> {
                 await FirebaseFirestore.instance
                     .collection(userProfileCollectionId)
                     .doc(FirebaseAuth.instance.currentUser?.uid)
-                    .set({'name': _nameController.text}, SetOptions(merge: true));
+                    .set({'displayName': _nameController.text}, SetOptions(merge: true));
                 if (context.mounted) Navigator.of(context).pop();
               },
               child: Text(m.editprofile.save),

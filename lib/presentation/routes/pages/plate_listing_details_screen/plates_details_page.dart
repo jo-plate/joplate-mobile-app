@@ -579,7 +579,7 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
                 children: [
                   _buildTableHeader(context),
                   ...sellers.map((s) => _buildSellerRow(
-                        name: s['name'],
+                        name: s['displayName'],
                         phoneNumber: s['phone'],
                         isVerified: s['isVerified'],
                         listingId: s['listingId'],

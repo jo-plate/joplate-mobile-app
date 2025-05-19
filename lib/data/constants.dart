@@ -24,5 +24,6 @@ const deleteItemCF = 'deleteItem';
 const featureListingCF = 'featureListing';
 const redeemPurchaseCF = 'redeemPurchase';
 const logVisitCF = 'logVisit';
+const applyPromoCodeCF = 'applyPromoCode';
 
 const logVisitTimer = 1;
