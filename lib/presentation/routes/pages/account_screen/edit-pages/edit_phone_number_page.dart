@@ -131,7 +131,7 @@ class _EditPhoneNumberPageState extends State<EditPhoneNumberPage> {
                     PhoneNumberInput(
                       controller: _phoneController,
                       labelText: m.editprofile.phone_number,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      autoValidateMode: AutovalidateMode.onUserInteraction,
                     ),
                     const SizedBox(height: 20),
                     FilledButton(

@@ -6,14 +6,21 @@ class PhoneNumberInput extends StatefulWidget {
   final TextEditingController controller;
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
-  final bool autovalidate;
-
+  final AutovalidateMode autoValidateMode;
+  final String? labelText;
+  final String hintText;
+  final TextInputAction textInputAction;
+  final bool enabled;
   const PhoneNumberInput({
     super.key,
     required this.controller,
     this.validator,
     this.onChanged,
-    this.autovalidate = false,
+    this.autoValidateMode = AutovalidateMode.onUserInteraction,
+    this.labelText,
+    this.hintText = '7X XXX XXXX',
+    this.textInputAction = TextInputAction.done,
+    this.enabled = true,
   });
 
   @override
@@ -58,14 +65,17 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
         FilteringTextInputFormatter.digitsOnly,
         LengthLimitingTextInputFormatter(10),
       ],
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         prefixText: '+962 ',
-        hintText: '7XXXXXXXX',
-        border: OutlineInputBorder(),
+        hintText: widget.hintText,
+        border: const OutlineInputBorder(),
+        labelText: widget.labelText,
       ),
       validator: widget.validator ?? _validatePhoneNumber,
-      autovalidateMode: widget.autovalidate ? AutovalidateMode.onUserInteraction : null,
+      autovalidateMode: widget.autoValidateMode,
       onChanged: widget.onChanged,
+      textInputAction: widget.textInputAction,
+      enabled: widget.enabled,
     );
   }
 }

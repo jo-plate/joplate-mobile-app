@@ -91,7 +91,7 @@ class _SignupFormState extends State<SignupForm> {
                     hintText: '7X XXX XXXX',
                     textInputAction: TextInputAction.next,
                     enabled: !isSubmitting,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    autoValidateMode: AutovalidateMode.onUserInteraction,
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
