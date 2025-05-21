@@ -15,6 +15,7 @@ class PlateFormState with _$PlateFormState {
     String? discountPrice,
     @Default(false) bool isSubmitting,
     String? errorMessage,
+    @Default('') String description,
   }) = _PlateFormState;
 }
 

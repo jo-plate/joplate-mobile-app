@@ -12,5 +12,6 @@ class PlateRequestState with _$PlateRequestState {
     int? price, // optional
     @Default(false) bool isSubmitting,
     String? errorMessage,
+    @Default('') String description,
   }) = _PlateRequestState;
 }

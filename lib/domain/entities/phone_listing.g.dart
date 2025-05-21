@@ -23,6 +23,7 @@ _$PhoneListingImpl _$$PhoneListingImplFromJson(Map<String, dynamic> json) =>
           json['expiresAt'], const TimestampConverter().fromJson),
       visits: (json['visits'] as num?)?.toInt() ?? 0,
       userId: json['userId'] as String,
+      description: json['description'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$PhoneListingImplToJson(_$PhoneListingImpl instance) =>
@@ -42,6 +43,7 @@ Map<String, dynamic> _$$PhoneListingImplToJson(_$PhoneListingImpl instance) =>
           instance.expiresAt, const TimestampConverter().toJson),
       'visits': instance.visits,
       'userId': instance.userId,
+      'description': instance.description,
     };
 
 Value? _$JsonConverterFromJson<Json, Value>(

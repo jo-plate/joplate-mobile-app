@@ -427,6 +427,9 @@ common:
   phone_start_with_7: "يجب أن يبدأ الرقم بـ 7"
   phone_start_with_77_78_79: "يجب أن يكون الرقم 77 أو 78 أو 79"
   phone_length: "يجب أن يكون رقم الهاتف 9 أرقام بعد +962"
+  description: "الوصف (اختياري)"
+  description_hint: "أضف وصفًا (الحد الأقصى 150 حرفًا)"
+  description_too_long: "يجب أن يكون الوصف 150 حرفًا أو أقل"
 
 listingstatus:
   featured: "مميز"

@@ -22,6 +22,7 @@ class PlateListing with _$PlateListing {
     @TimestampConverter() DateTime? expiresAt,
     required String userId,
     @Default(0) int visits,
+    @Default('') String description,
   }) = _PlateListing;
 
   bool get isFeatured => featuredUntil != null && featuredUntil!.isAfter(DateTime.now());

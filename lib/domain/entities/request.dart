@@ -23,6 +23,7 @@ class PhoneRequest with _$PhoneRequest {
     @TimestampConverter() DateTime? createdAt,
     @TimestampConverter() DateTime? expiresAt,
     @Default(0) int visits,
+    @Default('') String description,
   }) = _PhoneRequest;
 
   factory PhoneRequest.fromJson(Map<String, dynamic> json) => _$PhoneRequestFromJson(json);
@@ -60,6 +61,8 @@ class PlateRequest with _$PlateRequest {
     @TimestampConverter() DateTime? createdAt,
     @TimestampConverter() DateTime? expiresAt,
     @Default(0) int visits,
+    @Default('') String description,
+
   }) = _PlateRequest;
 
   factory PlateRequest.fromJson(Map<String, dynamic> json) => _$PlateRequestFromJson(json);

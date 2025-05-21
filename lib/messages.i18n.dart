@@ -2134,6 +2134,22 @@ class CommonMessages {
   /// "Phone must be 9 digits after +962"
   /// ```
   String get phone_length => """Phone must be 9 digits after +962""";
+
+  /// ```dart
+  /// "Description (optional)"
+  /// ```
+  String get description => """Description (optional)""";
+
+  /// ```dart
+  /// "Add a description (max 150 characters)"
+  /// ```
+  String get description_hint => """Add a description (max 150 characters)""";
+
+  /// ```dart
+  /// "Description must be 150 characters or less"
+  /// ```
+  String get description_too_long =>
+      """Description must be 150 characters or less""";
 }
 
 class ListingstatusMessages {
@@ -2705,6 +2721,10 @@ Map<String, String> get messagesMap => {
   """common.phone_start_with_7""": """Number must start with 7""",
   """common.phone_start_with_77_78_79""": """Number must be 77, 78, or 79""",
   """common.phone_length""": """Phone must be 9 digits after +962""",
+  """common.description""": """Description (optional)""",
+  """common.description_hint""": """Add a description (max 150 characters)""",
+  """common.description_too_long""":
+      """Description must be 150 characters or less""",
   """listingstatus.featured""": """Featured""",
   """listingstatus.active""": """Active""",
   """listingstatus.inactive""": """Inactive""",

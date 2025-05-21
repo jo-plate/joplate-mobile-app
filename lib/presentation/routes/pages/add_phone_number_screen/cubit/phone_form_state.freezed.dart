@@ -24,6 +24,7 @@ mixin _$PhoneFormState {
   bool get callForPrice => throw _privateConstructorUsedError;
   bool get isSubmitting => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
+  String get description => throw _privateConstructorUsedError;
 
   /// Create a copy of PhoneFormState
   /// with the given fields replaced by the non-null parameter values.
@@ -46,7 +47,8 @@ abstract class $PhoneFormStateCopyWith<$Res> {
       bool isFeatured,
       bool callForPrice,
       bool isSubmitting,
-      String? errorMessage});
+      String? errorMessage,
+      String description});
 }
 
 /// @nodoc
@@ -72,6 +74,7 @@ class _$PhoneFormStateCopyWithImpl<$Res, $Val extends PhoneFormState>
     Object? callForPrice = null,
     Object? isSubmitting = null,
     Object? errorMessage = freezed,
+    Object? description = null,
   }) {
     return _then(_value.copyWith(
       number: null == number
@@ -106,6 +109,10 @@ class _$PhoneFormStateCopyWithImpl<$Res, $Val extends PhoneFormState>
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
               as String?,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -126,7 +133,8 @@ abstract class _$$PhoneFormStateImplCopyWith<$Res>
       bool isFeatured,
       bool callForPrice,
       bool isSubmitting,
-      String? errorMessage});
+      String? errorMessage,
+      String description});
 }
 
 /// @nodoc
@@ -150,6 +158,7 @@ class __$$PhoneFormStateImplCopyWithImpl<$Res>
     Object? callForPrice = null,
     Object? isSubmitting = null,
     Object? errorMessage = freezed,
+    Object? description = null,
   }) {
     return _then(_$PhoneFormStateImpl(
       number: null == number
@@ -184,6 +193,10 @@ class __$$PhoneFormStateImplCopyWithImpl<$Res>
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
               as String?,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -199,7 +212,8 @@ class _$PhoneFormStateImpl implements _PhoneFormState {
       required this.isFeatured,
       this.callForPrice = false,
       this.isSubmitting = false,
-      this.errorMessage});
+      this.errorMessage,
+      this.description = ''});
 
   @override
   final String number;
@@ -219,10 +233,13 @@ class _$PhoneFormStateImpl implements _PhoneFormState {
   final bool isSubmitting;
   @override
   final String? errorMessage;
+  @override
+  @JsonKey()
+  final String description;
 
   @override
   String toString() {
-    return 'PhoneFormState(number: $number, price: $price, withDiscount: $withDiscount, discountPrice: $discountPrice, isFeatured: $isFeatured, callForPrice: $callForPrice, isSubmitting: $isSubmitting, errorMessage: $errorMessage)';
+    return 'PhoneFormState(number: $number, price: $price, withDiscount: $withDiscount, discountPrice: $discountPrice, isFeatured: $isFeatured, callForPrice: $callForPrice, isSubmitting: $isSubmitting, errorMessage: $errorMessage, description: $description)';
   }
 
   @override
@@ -243,12 +260,23 @@ class _$PhoneFormStateImpl implements _PhoneFormState {
             (identical(other.isSubmitting, isSubmitting) ||
                 other.isSubmitting == isSubmitting) &&
             (identical(other.errorMessage, errorMessage) ||
-                other.errorMessage == errorMessage));
+                other.errorMessage == errorMessage) &&
+            (identical(other.description, description) ||
+                other.description == description));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, number, price, withDiscount,
-      discountPrice, isFeatured, callForPrice, isSubmitting, errorMessage);
+  int get hashCode => Object.hash(
+      runtimeType,
+      number,
+      price,
+      withDiscount,
+      discountPrice,
+      isFeatured,
+      callForPrice,
+      isSubmitting,
+      errorMessage,
+      description);
 
   /// Create a copy of PhoneFormState
   /// with the given fields replaced by the non-null parameter values.
@@ -269,7 +297,8 @@ abstract class _PhoneFormState implements PhoneFormState {
       required final bool isFeatured,
       final bool callForPrice,
       final bool isSubmitting,
-      final String? errorMessage}) = _$PhoneFormStateImpl;
+      final String? errorMessage,
+      final String description}) = _$PhoneFormStateImpl;
 
   @override
   String get number;
@@ -287,6 +316,8 @@ abstract class _PhoneFormState implements PhoneFormState {
   bool get isSubmitting;
   @override
   String? get errorMessage;
+  @override
+  String get description;
 
   /// Create a copy of PhoneFormState
   /// with the given fields replaced by the non-null parameter values.

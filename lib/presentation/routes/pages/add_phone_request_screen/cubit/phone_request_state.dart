@@ -11,5 +11,6 @@ class PhoneRequestState with _$PhoneRequestState {
     String? price, // optional
     @Default(false) bool isSubmitting,
     String? errorMessage,
+    @Default('') String description,
   }) = _PhoneRequestState;
 }

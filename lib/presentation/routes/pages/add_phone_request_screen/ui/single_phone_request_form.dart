@@ -94,7 +94,18 @@ class _SinglePhoneRequestFormState extends State<SinglePhoneRequestForm> {
                   validator: _validatePhoneNumber,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
-
+                const SizedBox(height: 16),
+                TextField(
+                  maxLines: 3,
+                  maxLength: 150,
+                  enabled: !state.isSubmitting,
+                  decoration: InputDecoration(
+                    labelText: m.common.description,
+                    hintText: m.common.description_hint,
+                    errorText: state.description.length > 150 ? m.common.description_too_long : null,
+                  ),
+                  onChanged: cubit.updateDescription,
+                ),
                 if (state.isSubmitting) const Center(child: CircularProgressIndicator()),
               ],
             ),

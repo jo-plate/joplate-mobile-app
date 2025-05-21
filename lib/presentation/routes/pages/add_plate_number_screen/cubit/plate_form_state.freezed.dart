@@ -25,6 +25,7 @@ mixin _$PlateFormState {
   String? get discountPrice => throw _privateConstructorUsedError;
   bool get isSubmitting => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
+  String get description => throw _privateConstructorUsedError;
 
   /// Create a copy of PlateFormState
   /// with the given fields replaced by the non-null parameter values.
@@ -48,7 +49,8 @@ abstract class $PlateFormStateCopyWith<$Res> {
       bool callForPrice,
       String? discountPrice,
       bool isSubmitting,
-      String? errorMessage});
+      String? errorMessage,
+      String description});
 }
 
 /// @nodoc
@@ -75,6 +77,7 @@ class _$PlateFormStateCopyWithImpl<$Res, $Val extends PlateFormState>
     Object? discountPrice = freezed,
     Object? isSubmitting = null,
     Object? errorMessage = freezed,
+    Object? description = null,
   }) {
     return _then(_value.copyWith(
       code: null == code
@@ -113,6 +116,10 @@ class _$PlateFormStateCopyWithImpl<$Res, $Val extends PlateFormState>
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
               as String?,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -134,7 +141,8 @@ abstract class _$$PlateFormStateImplCopyWith<$Res>
       bool callForPrice,
       String? discountPrice,
       bool isSubmitting,
-      String? errorMessage});
+      String? errorMessage,
+      String description});
 }
 
 /// @nodoc
@@ -159,6 +167,7 @@ class __$$PlateFormStateImplCopyWithImpl<$Res>
     Object? discountPrice = freezed,
     Object? isSubmitting = null,
     Object? errorMessage = freezed,
+    Object? description = null,
   }) {
     return _then(_$PlateFormStateImpl(
       code: null == code
@@ -197,6 +206,10 @@ class __$$PlateFormStateImplCopyWithImpl<$Res>
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
               as String?,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -213,7 +226,8 @@ class _$PlateFormStateImpl implements _PlateFormState {
       this.callForPrice = false,
       this.discountPrice,
       this.isSubmitting = false,
-      this.errorMessage});
+      this.errorMessage,
+      this.description = ''});
 
   @override
   final String code;
@@ -235,10 +249,13 @@ class _$PlateFormStateImpl implements _PlateFormState {
   final bool isSubmitting;
   @override
   final String? errorMessage;
+  @override
+  @JsonKey()
+  final String description;
 
   @override
   String toString() {
-    return 'PlateFormState(code: $code, number: $number, price: $price, withDiscount: $withDiscount, isFeatured: $isFeatured, callForPrice: $callForPrice, discountPrice: $discountPrice, isSubmitting: $isSubmitting, errorMessage: $errorMessage)';
+    return 'PlateFormState(code: $code, number: $number, price: $price, withDiscount: $withDiscount, isFeatured: $isFeatured, callForPrice: $callForPrice, discountPrice: $discountPrice, isSubmitting: $isSubmitting, errorMessage: $errorMessage, description: $description)';
   }
 
   @override
@@ -260,7 +277,9 @@ class _$PlateFormStateImpl implements _PlateFormState {
             (identical(other.isSubmitting, isSubmitting) ||
                 other.isSubmitting == isSubmitting) &&
             (identical(other.errorMessage, errorMessage) ||
-                other.errorMessage == errorMessage));
+                other.errorMessage == errorMessage) &&
+            (identical(other.description, description) ||
+                other.description == description));
   }
 
   @override
@@ -274,7 +293,8 @@ class _$PlateFormStateImpl implements _PlateFormState {
       callForPrice,
       discountPrice,
       isSubmitting,
-      errorMessage);
+      errorMessage,
+      description);
 
   /// Create a copy of PlateFormState
   /// with the given fields replaced by the non-null parameter values.
@@ -296,7 +316,8 @@ abstract class _PlateFormState implements PlateFormState {
       final bool callForPrice,
       final String? discountPrice,
       final bool isSubmitting,
-      final String? errorMessage}) = _$PlateFormStateImpl;
+      final String? errorMessage,
+      final String description}) = _$PlateFormStateImpl;
 
   @override
   String get code;
@@ -316,6 +337,8 @@ abstract class _PlateFormState implements PlateFormState {
   bool get isSubmitting;
   @override
   String? get errorMessage;
+  @override
+  String get description;
 
   /// Create a copy of PlateFormState
   /// with the given fields replaced by the non-null parameter values.

@@ -24,6 +24,14 @@ class AddPhoneRequestCubit extends Cubit<PhoneRequestState> {
     ));
   }
 
+  // Update description (optional field)
+  void updateDescription(String description) {
+    emit(state.copyWith(
+      description: description,
+      errorMessage: null,
+    ));
+  }
+
   // Submit the request
   Future<void> submitRequest() async {
     // Basic validation: phoneNumber must not be empty
@@ -43,6 +51,7 @@ class AddPhoneRequestCubit extends Cubit<PhoneRequestState> {
         isFeatured: false,
         item: {
           "number": state.phoneNumber,
+          "description": state.description,
         },
       );
 

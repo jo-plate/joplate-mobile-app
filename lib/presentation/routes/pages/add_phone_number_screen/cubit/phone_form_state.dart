@@ -16,6 +16,7 @@ class PhoneFormState with _$PhoneFormState {
     @Default(false) bool callForPrice,
     @Default(false) bool isSubmitting,
     String? errorMessage,
+    @Default('') String description,
   }) = _PhoneFormState;
 }
 

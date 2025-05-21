@@ -22,6 +22,7 @@ _$PlateListingImpl _$$PlateListingImplFromJson(Map<String, dynamic> json) =>
           json['expiresAt'], const TimestampConverter().fromJson),
       userId: json['userId'] as String,
       visits: (json['visits'] as num?)?.toInt() ?? 0,
+      description: json['description'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$PlateListingImplToJson(_$PlateListingImpl instance) =>
@@ -40,6 +41,7 @@ Map<String, dynamic> _$$PlateListingImplToJson(_$PlateListingImpl instance) =>
           instance.expiresAt, const TimestampConverter().toJson),
       'userId': instance.userId,
       'visits': instance.visits,
+      'description': instance.description,
     };
 
 Value? _$JsonConverterFromJson<Json, Value>(

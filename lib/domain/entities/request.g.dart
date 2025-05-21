@@ -18,6 +18,7 @@ _$PhoneRequestImpl _$$PhoneRequestImplFromJson(Map<String, dynamic> json) =>
       expiresAt: _$JsonConverterFromJson<Timestamp, DateTime>(
           json['expiresAt'], const TimestampConverter().fromJson),
       visits: (json['visits'] as num?)?.toInt() ?? 0,
+      description: json['description'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$PhoneRequestImplToJson(_$PhoneRequestImpl instance) =>
@@ -32,6 +33,7 @@ Map<String, dynamic> _$$PhoneRequestImplToJson(_$PhoneRequestImpl instance) =>
       'expiresAt': _$JsonConverterToJson<Timestamp, DateTime>(
           instance.expiresAt, const TimestampConverter().toJson),
       'visits': instance.visits,
+      'description': instance.description,
     };
 
 Value? _$JsonConverterFromJson<Json, Value>(
@@ -58,6 +60,7 @@ _$PlateRequestImpl _$$PlateRequestImplFromJson(Map<String, dynamic> json) =>
       expiresAt: _$JsonConverterFromJson<Timestamp, DateTime>(
           json['expiresAt'], const TimestampConverter().fromJson),
       visits: (json['visits'] as num?)?.toInt() ?? 0,
+      description: json['description'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$PlateRequestImplToJson(_$PlateRequestImpl instance) =>
@@ -72,4 +75,5 @@ Map<String, dynamic> _$$PlateRequestImplToJson(_$PlateRequestImpl instance) =>
       'expiresAt': _$JsonConverterToJson<Timestamp, DateTime>(
           instance.expiresAt, const TimestampConverter().toJson),
       'visits': instance.visits,
+      'description': instance.description,
     };

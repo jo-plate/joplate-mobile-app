@@ -23,6 +23,7 @@ class PhoneListing with _$PhoneListing {
     @TimestampConverter() DateTime? expiresAt,
     @Default(0) int visits,
     required String userId,
+    @Default('') String description,
   }) = _PhoneListing;
 
   bool get isFeatured => featuredUntil != null && featuredUntil!.isAfter(DateTime.now());

@@ -35,6 +35,7 @@ mixin _$PhoneListing {
   DateTime? get expiresAt => throw _privateConstructorUsedError;
   int get visits => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
+  String get description => throw _privateConstructorUsedError;
 
   /// Serializes this PhoneListing to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -64,7 +65,8 @@ abstract class $PhoneListingCopyWith<$Res> {
       @TimestampConverter() DateTime? createdAt,
       @TimestampConverter() DateTime? expiresAt,
       int visits,
-      String userId});
+      String userId,
+      String description});
 
   $PhoneNumberCopyWith<$Res> get item;
 }
@@ -96,6 +98,7 @@ class _$PhoneListingCopyWithImpl<$Res, $Val extends PhoneListing>
     Object? expiresAt = freezed,
     Object? visits = null,
     Object? userId = null,
+    Object? description = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -146,6 +149,10 @@ class _$PhoneListingCopyWithImpl<$Res, $Val extends PhoneListing>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 
@@ -180,7 +187,8 @@ abstract class _$$PhoneListingImplCopyWith<$Res>
       @TimestampConverter() DateTime? createdAt,
       @TimestampConverter() DateTime? expiresAt,
       int visits,
-      String userId});
+      String userId,
+      String description});
 
   @override
   $PhoneNumberCopyWith<$Res> get item;
@@ -211,6 +219,7 @@ class __$$PhoneListingImplCopyWithImpl<$Res>
     Object? expiresAt = freezed,
     Object? visits = null,
     Object? userId = null,
+    Object? description = null,
   }) {
     return _then(_$PhoneListingImpl(
       id: null == id
@@ -261,6 +270,10 @@ class __$$PhoneListingImplCopyWithImpl<$Res>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -280,7 +293,8 @@ class _$PhoneListingImpl extends _PhoneListing {
       @TimestampConverter() this.createdAt,
       @TimestampConverter() this.expiresAt,
       this.visits = 0,
-      required this.userId})
+      required this.userId,
+      this.description = ''})
       : super._();
 
   factory _$PhoneListingImpl.fromJson(Map<String, dynamic> json) =>
@@ -319,10 +333,13 @@ class _$PhoneListingImpl extends _PhoneListing {
   final int visits;
   @override
   final String userId;
+  @override
+  @JsonKey()
+  final String description;
 
   @override
   String toString() {
-    return 'PhoneListing(id: $id, item: $item, price: $price, discountPrice: $discountPrice, priceNegotiable: $priceNegotiable, isDisabled: $isDisabled, isSold: $isSold, featuredUntil: $featuredUntil, createdAt: $createdAt, expiresAt: $expiresAt, visits: $visits, userId: $userId)';
+    return 'PhoneListing(id: $id, item: $item, price: $price, discountPrice: $discountPrice, priceNegotiable: $priceNegotiable, isDisabled: $isDisabled, isSold: $isSold, featuredUntil: $featuredUntil, createdAt: $createdAt, expiresAt: $expiresAt, visits: $visits, userId: $userId, description: $description)';
   }
 
   @override
@@ -347,7 +364,9 @@ class _$PhoneListingImpl extends _PhoneListing {
             (identical(other.expiresAt, expiresAt) ||
                 other.expiresAt == expiresAt) &&
             (identical(other.visits, visits) || other.visits == visits) &&
-            (identical(other.userId, userId) || other.userId == userId));
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.description, description) ||
+                other.description == description));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -365,7 +384,8 @@ class _$PhoneListingImpl extends _PhoneListing {
       createdAt,
       expiresAt,
       visits,
-      userId);
+      userId,
+      description);
 
   /// Create a copy of PhoneListing
   /// with the given fields replaced by the non-null parameter values.
@@ -396,7 +416,8 @@ abstract class _PhoneListing extends PhoneListing {
       @TimestampConverter() final DateTime? createdAt,
       @TimestampConverter() final DateTime? expiresAt,
       final int visits,
-      required final String userId}) = _$PhoneListingImpl;
+      required final String userId,
+      final String description}) = _$PhoneListingImpl;
   const _PhoneListing._() : super._();
 
   factory _PhoneListing.fromJson(Map<String, dynamic> json) =
@@ -429,6 +450,8 @@ abstract class _PhoneListing extends PhoneListing {
   int get visits;
   @override
   String get userId;
+  @override
+  String get description;
 
   /// Create a copy of PhoneListing
   /// with the given fields replaced by the non-null parameter values.

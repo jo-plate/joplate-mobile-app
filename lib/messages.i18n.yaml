@@ -427,6 +427,9 @@ common:
   phone_start_with_7: "Number must start with 7"
   phone_start_with_77_78_79: "Number must be 77, 78, or 79"
   phone_length: "Phone must be 9 digits after +962"
+  description: "Description (optional)"
+  description_hint: "Add a description (max 150 characters)"
+  description_too_long: "Description must be 150 characters or less"
 
 listingstatus:
   featured: "Featured"

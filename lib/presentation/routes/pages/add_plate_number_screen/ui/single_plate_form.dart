@@ -19,6 +19,7 @@ class SinglePlateForm extends StatefulWidget {
     required this.onFeaturedToggle,
     required this.onDiscountToggle,
     required this.onCallForPriceToggle,
+    required this.onDescriptionChanged,
     this.onRemoveForm,
   });
 
@@ -31,6 +32,7 @@ class SinglePlateForm extends StatefulWidget {
   final ValueChanged<bool> onDiscountToggle;
   final ValueChanged<bool> onFeaturedToggle;
   final ValueChanged<bool> onCallForPriceToggle;
+  final ValueChanged<String> onDescriptionChanged;
   final VoidCallback? onRemoveForm;
 
   @override
@@ -168,6 +170,21 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
                       onChanged: isSubmitting ? null : widget.onFeaturedToggle,
                     ),
                   ],
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  maxLines: 3,
+                  maxLength: 150,
+                  enabled: !isSubmitting,
+                  textAlignVertical: TextAlignVertical.top,
+                  expands: false,
+                  decoration: InputDecoration(
+                    labelText: m.common.description,
+                    hintText: m.common.description_hint,
+                    errorText: widget.formState.description.length > 150 ? m.common.description_too_long : null,
+                    alignLabelWithHint: true,
+                  ),
+                  onChanged: widget.onDescriptionChanged,
                 ),
                 if (isSubmitting) const Center(child: CircularProgressIndicator()),
               ],

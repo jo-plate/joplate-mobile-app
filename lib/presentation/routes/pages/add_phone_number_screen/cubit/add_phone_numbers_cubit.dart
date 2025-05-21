@@ -74,14 +74,10 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
     );
   }
 
-  void updateDiscountPrice(int index, String discount) {
-    _updateForm(
-      index,
-      state.forms[index].copyWith(
-        discountPrice: discount,
-        errorMessage: null,
-      ),
-    );
+  void updateDiscountPrice(int index, String price) {
+    final forms = List<PhoneFormState>.from(state.forms);
+    forms[index] = forms[index].copyWith(discountPrice: price);
+    emit(AddPhoneNumbersState(forms: forms));
   }
 
   void toggleCallForPrice(int index, bool enable) {
@@ -92,6 +88,12 @@ class AddPhoneNumbersCubit extends Cubit<AddPhoneNumbersState> {
         errorMessage: null,
       ),
     );
+  }
+
+  void updateDescription(int index, String description) {
+    final forms = List<PhoneFormState>.from(state.forms);
+    forms[index] = forms[index].copyWith(description: description);
+    emit(AddPhoneNumbersState(forms: forms));
   }
 
   Future<void> submitAllForms({

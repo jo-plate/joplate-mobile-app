@@ -52,6 +52,7 @@ class _AddPlateNumberPageState extends State<AddPlateNumberPage> {
                           onRemoveForm: () => cubit.removeForm(index),
                           onFeaturedToggle: (val) => cubit.toggleFeatured(index, val),
                           onCallForPriceToggle: (val) => cubit.toggleCallForPrice(index, val),
+                          onDescriptionChanged: (val) => cubit.updateDescription(index, val),
                         );
                       },
                     ),

@@ -73,12 +73,20 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
     );
   }
 
-  void updateDiscountPrice(int index, String discount) {
-    _updateForm(index, state.forms[index].copyWith(discountPrice: discount, errorMessage: null));
+  void updateDiscountPrice(int index, String price) {
+    final forms = List<PlateFormState>.from(state.forms);
+    forms[index] = forms[index].copyWith(discountPrice: price);
+    emit(AddPlateNumbersState(forms: forms));
   }
 
   void toggleCallForPrice(int index, bool enable) {
     _updateForm(index, state.forms[index].copyWith(callForPrice: enable, errorMessage: null));
+  }
+
+  void updateDescription(int index, String description) {
+    final forms = List<PlateFormState>.from(state.forms);
+    forms[index] = forms[index].copyWith(description: description);
+    emit(AddPlateNumbersState(forms: forms));
   }
 
   /// Submit all forms in sequence, with callbacks

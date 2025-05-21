@@ -16,6 +16,7 @@ class SinglePhoneForm extends StatefulWidget {
     required this.onDiscountToggle,
     required this.onFeaturedToggle,
     required this.onCallForPriceToggle,
+    required this.onDescriptionChanged,
     this.onRemoveForm,
   });
 
@@ -28,6 +29,7 @@ class SinglePhoneForm extends StatefulWidget {
   final ValueChanged<bool> onDiscountToggle;
   final ValueChanged<bool> onFeaturedToggle;
   final ValueChanged<bool> onCallForPriceToggle;
+  final ValueChanged<String> onDescriptionChanged;
 
   /// Callback to remove this form from the parent
   final VoidCallback? onRemoveForm;
@@ -170,6 +172,7 @@ class _SinglePhoneFormState extends State<SinglePhoneForm> {
                     ),
                 ],
                 
+                const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -179,6 +182,21 @@ class _SinglePhoneFormState extends State<SinglePhoneForm> {
                       onChanged: isSubmitting ? null : widget.onFeaturedToggle,
                     ),
                   ],
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  maxLines: 3,
+                  maxLength: 150,
+                  enabled: !isSubmitting,
+                  textAlignVertical: TextAlignVertical.top,
+                  expands: false,
+                  decoration: InputDecoration(
+                    labelText: m.common.description,
+                    hintText: m.common.description_hint,
+                    errorText: widget.formState.description.length > 150 ? m.common.description_too_long : null,
+                    alignLabelWithHint: true,
+                  ),
+                  onChanged: widget.onDescriptionChanged,
                 ),
                 if (isSubmitting) const Center(child: CircularProgressIndicator()),
               ],

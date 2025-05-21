@@ -27,6 +27,10 @@ class AddPlateRequestCubit extends Cubit<PlateRequestState> {
     emit(state.copyWith(price: price, errorMessage: null));
   }
 
+  void updateDescription(String description) {
+    emit(state.copyWith(description: description, errorMessage: null));
+  }
+
   Future<void> submitRequest() async {
     if (state.code.isEmpty || state.number.isEmpty) {
       emit(state.copyWith(errorMessage: 'Code and Number are required'));
@@ -50,6 +54,7 @@ class AddPlateRequestCubit extends Cubit<PlateRequestState> {
         item: {
           "code": state.code,
           "number": state.number,
+          "description": state.description,
         },
       );
 

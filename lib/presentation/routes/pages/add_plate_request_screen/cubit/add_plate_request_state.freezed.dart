@@ -21,6 +21,7 @@ mixin _$PlateRequestState {
   int? get price => throw _privateConstructorUsedError; // optional
   bool get isSubmitting => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
+  String get description => throw _privateConstructorUsedError;
 
   /// Create a copy of PlateRequestState
   /// with the given fields replaced by the non-null parameter values.
@@ -40,7 +41,8 @@ abstract class $PlateRequestStateCopyWith<$Res> {
       String number,
       int? price,
       bool isSubmitting,
-      String? errorMessage});
+      String? errorMessage,
+      String description});
 }
 
 /// @nodoc
@@ -63,6 +65,7 @@ class _$PlateRequestStateCopyWithImpl<$Res, $Val extends PlateRequestState>
     Object? price = freezed,
     Object? isSubmitting = null,
     Object? errorMessage = freezed,
+    Object? description = null,
   }) {
     return _then(_value.copyWith(
       code: null == code
@@ -85,6 +88,10 @@ class _$PlateRequestStateCopyWithImpl<$Res, $Val extends PlateRequestState>
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
               as String?,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -102,7 +109,8 @@ abstract class _$$PlateRequestStateImplCopyWith<$Res>
       String number,
       int? price,
       bool isSubmitting,
-      String? errorMessage});
+      String? errorMessage,
+      String description});
 }
 
 /// @nodoc
@@ -123,6 +131,7 @@ class __$$PlateRequestStateImplCopyWithImpl<$Res>
     Object? price = freezed,
     Object? isSubmitting = null,
     Object? errorMessage = freezed,
+    Object? description = null,
   }) {
     return _then(_$PlateRequestStateImpl(
       code: null == code
@@ -145,6 +154,10 @@ class __$$PlateRequestStateImplCopyWithImpl<$Res>
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
               as String?,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -157,7 +170,8 @@ class _$PlateRequestStateImpl implements _PlateRequestState {
       this.number = '',
       this.price,
       this.isSubmitting = false,
-      this.errorMessage});
+      this.errorMessage,
+      this.description = ''});
 
   @override
   @JsonKey()
@@ -173,10 +187,13 @@ class _$PlateRequestStateImpl implements _PlateRequestState {
   final bool isSubmitting;
   @override
   final String? errorMessage;
+  @override
+  @JsonKey()
+  final String description;
 
   @override
   String toString() {
-    return 'PlateRequestState(code: $code, number: $number, price: $price, isSubmitting: $isSubmitting, errorMessage: $errorMessage)';
+    return 'PlateRequestState(code: $code, number: $number, price: $price, isSubmitting: $isSubmitting, errorMessage: $errorMessage, description: $description)';
   }
 
   @override
@@ -190,12 +207,14 @@ class _$PlateRequestStateImpl implements _PlateRequestState {
             (identical(other.isSubmitting, isSubmitting) ||
                 other.isSubmitting == isSubmitting) &&
             (identical(other.errorMessage, errorMessage) ||
-                other.errorMessage == errorMessage));
+                other.errorMessage == errorMessage) &&
+            (identical(other.description, description) ||
+                other.description == description));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, code, number, price, isSubmitting, errorMessage);
+  int get hashCode => Object.hash(runtimeType, code, number, price,
+      isSubmitting, errorMessage, description);
 
   /// Create a copy of PlateRequestState
   /// with the given fields replaced by the non-null parameter values.
@@ -213,7 +232,8 @@ abstract class _PlateRequestState implements PlateRequestState {
       final String number,
       final int? price,
       final bool isSubmitting,
-      final String? errorMessage}) = _$PlateRequestStateImpl;
+      final String? errorMessage,
+      final String description}) = _$PlateRequestStateImpl;
 
   @override
   String get code;
@@ -225,6 +245,8 @@ abstract class _PlateRequestState implements PlateRequestState {
   bool get isSubmitting;
   @override
   String? get errorMessage;
+  @override
+  String get description;
 
   /// Create a copy of PlateRequestState
   /// with the given fields replaced by the non-null parameter values.

@@ -2139,6 +2139,21 @@ class CommonMessagesAr extends CommonMessages {
   /// "يجب أن يكون رقم الهاتف 9 أرقام بعد +962"
   /// ```
   String get phone_length => """يجب أن يكون رقم الهاتف 9 أرقام بعد +962""";
+
+  /// ```dart
+  /// "الوصف (اختياري)"
+  /// ```
+  String get description => """الوصف (اختياري)""";
+
+  /// ```dart
+  /// "أضف وصفًا (الحد الأقصى 150 حرفًا)"
+  /// ```
+  String get description_hint => """أضف وصفًا (الحد الأقصى 150 حرفًا)""";
+
+  /// ```dart
+  /// "يجب أن يكون الوصف 150 حرفًا أو أقل"
+  /// ```
+  String get description_too_long => """يجب أن يكون الوصف 150 حرفًا أو أقل""";
 }
 
 class ListingstatusMessagesAr extends ListingstatusMessages {
@@ -2711,6 +2726,9 @@ Map<String, String> get messagesArMap => {
   """common.phone_start_with_77_78_79""":
       """يجب أن يكون الرقم 77 أو 78 أو 79""",
   """common.phone_length""": """يجب أن يكون رقم الهاتف 9 أرقام بعد +962""",
+  """common.description""": """الوصف (اختياري)""",
+  """common.description_hint""": """أضف وصفًا (الحد الأقصى 150 حرفًا)""",
+  """common.description_too_long""": """يجب أن يكون الوصف 150 حرفًا أو أقل""",
   """listingstatus.featured""": """مميز""",
   """listingstatus.active""": """نشط""",
   """listingstatus.inactive""": """غير نشط""",
