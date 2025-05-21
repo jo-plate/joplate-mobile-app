@@ -11,6 +11,7 @@ class UpdateListingDtoV2 with _$UpdateListingDtoV2 {
     required ItemType itemType,
     int? price,
     int? discountPrice,
+    String? description,
   }) = _UpdateListingDtoV2;
 
   factory UpdateListingDtoV2.fromJson(Map<String, dynamic> json) =>
