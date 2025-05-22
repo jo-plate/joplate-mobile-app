@@ -14,6 +14,7 @@ _$AddListingDtoImpl _$$AddListingDtoImplFromJson(Map<String, dynamic> json) =>
       itemType: $enumDecode(_$ItemTypeEnumMap, json['itemType']),
       isFeatured: json['isFeatured'] as bool,
       item: json['item'] as Map<String, dynamic>,
+      description: json['description'] as String?,
     );
 
 Map<String, dynamic> _$$AddListingDtoImplToJson(_$AddListingDtoImpl instance) =>
@@ -24,6 +25,7 @@ Map<String, dynamic> _$$AddListingDtoImplToJson(_$AddListingDtoImpl instance) =>
       'itemType': _$ItemTypeEnumMap[instance.itemType]!,
       'isFeatured': instance.isFeatured,
       'item': instance.item,
+      'description': instance.description,
     };
 
 const _$ListingTypeEnumMap = {

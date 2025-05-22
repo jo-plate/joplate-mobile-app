@@ -21,6 +21,7 @@ mixin _$AddPlateNumberInput {
   int get price => throw _privateConstructorUsedError;
   int? get discountPrice => throw _privateConstructorUsedError;
   bool get isFeatured => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
 
   /// Create a copy of AddPlateNumberInput
   /// with the given fields replaced by the non-null parameter values.
@@ -40,7 +41,8 @@ abstract class $AddPlateNumberInputCopyWith<$Res> {
       String number,
       int price,
       int? discountPrice,
-      bool isFeatured});
+      bool isFeatured,
+      String? description});
 }
 
 /// @nodoc
@@ -63,6 +65,7 @@ class _$AddPlateNumberInputCopyWithImpl<$Res, $Val extends AddPlateNumberInput>
     Object? price = null,
     Object? discountPrice = freezed,
     Object? isFeatured = null,
+    Object? description = freezed,
   }) {
     return _then(_value.copyWith(
       code: null == code
@@ -85,6 +88,10 @@ class _$AddPlateNumberInputCopyWithImpl<$Res, $Val extends AddPlateNumberInput>
           ? _value.isFeatured
           : isFeatured // ignore: cast_nullable_to_non_nullable
               as bool,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -102,7 +109,8 @@ abstract class _$$AddPlateNumberInputImplCopyWith<$Res>
       String number,
       int price,
       int? discountPrice,
-      bool isFeatured});
+      bool isFeatured,
+      String? description});
 }
 
 /// @nodoc
@@ -123,6 +131,7 @@ class __$$AddPlateNumberInputImplCopyWithImpl<$Res>
     Object? price = null,
     Object? discountPrice = freezed,
     Object? isFeatured = null,
+    Object? description = freezed,
   }) {
     return _then(_$AddPlateNumberInputImpl(
       code: null == code
@@ -145,6 +154,10 @@ class __$$AddPlateNumberInputImplCopyWithImpl<$Res>
           ? _value.isFeatured
           : isFeatured // ignore: cast_nullable_to_non_nullable
               as bool,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -157,7 +170,8 @@ class _$AddPlateNumberInputImpl implements _AddPlateNumberInput {
       required this.number,
       required this.price,
       this.discountPrice,
-      this.isFeatured = false});
+      this.isFeatured = false,
+      this.description});
 
   @override
   final String code;
@@ -170,10 +184,12 @@ class _$AddPlateNumberInputImpl implements _AddPlateNumberInput {
   @override
   @JsonKey()
   final bool isFeatured;
+  @override
+  final String? description;
 
   @override
   String toString() {
-    return 'AddPlateNumberInput(code: $code, number: $number, price: $price, discountPrice: $discountPrice, isFeatured: $isFeatured)';
+    return 'AddPlateNumberInput(code: $code, number: $number, price: $price, discountPrice: $discountPrice, isFeatured: $isFeatured, description: $description)';
   }
 
   @override
@@ -187,12 +203,14 @@ class _$AddPlateNumberInputImpl implements _AddPlateNumberInput {
             (identical(other.discountPrice, discountPrice) ||
                 other.discountPrice == discountPrice) &&
             (identical(other.isFeatured, isFeatured) ||
-                other.isFeatured == isFeatured));
+                other.isFeatured == isFeatured) &&
+            (identical(other.description, description) ||
+                other.description == description));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, code, number, price, discountPrice, isFeatured);
+  int get hashCode => Object.hash(
+      runtimeType, code, number, price, discountPrice, isFeatured, description);
 
   /// Create a copy of AddPlateNumberInput
   /// with the given fields replaced by the non-null parameter values.
@@ -210,7 +228,8 @@ abstract class _AddPlateNumberInput implements AddPlateNumberInput {
       required final String number,
       required final int price,
       final int? discountPrice,
-      final bool isFeatured}) = _$AddPlateNumberInputImpl;
+      final bool isFeatured,
+      final String? description}) = _$AddPlateNumberInputImpl;
 
   @override
   String get code;
@@ -222,6 +241,8 @@ abstract class _AddPlateNumberInput implements AddPlateNumberInput {
   int? get discountPrice;
   @override
   bool get isFeatured;
+  @override
+  String? get description;
 
   /// Create a copy of AddPlateNumberInput
   /// with the given fields replaced by the non-null parameter values.
@@ -237,6 +258,7 @@ mixin _$AddPhoneNumberInput {
   int get price => throw _privateConstructorUsedError;
   int? get discountPrice => throw _privateConstructorUsedError;
   bool get isFeatured => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
 
   /// Create a copy of AddPhoneNumberInput
   /// with the given fields replaced by the non-null parameter values.
@@ -251,7 +273,12 @@ abstract class $AddPhoneNumberInputCopyWith<$Res> {
           AddPhoneNumberInput value, $Res Function(AddPhoneNumberInput) then) =
       _$AddPhoneNumberInputCopyWithImpl<$Res, AddPhoneNumberInput>;
   @useResult
-  $Res call({String number, int price, int? discountPrice, bool isFeatured});
+  $Res call(
+      {String number,
+      int price,
+      int? discountPrice,
+      bool isFeatured,
+      String? description});
 }
 
 /// @nodoc
@@ -273,6 +300,7 @@ class _$AddPhoneNumberInputCopyWithImpl<$Res, $Val extends AddPhoneNumberInput>
     Object? price = null,
     Object? discountPrice = freezed,
     Object? isFeatured = null,
+    Object? description = freezed,
   }) {
     return _then(_value.copyWith(
       number: null == number
@@ -291,6 +319,10 @@ class _$AddPhoneNumberInputCopyWithImpl<$Res, $Val extends AddPhoneNumberInput>
           ? _value.isFeatured
           : isFeatured // ignore: cast_nullable_to_non_nullable
               as bool,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -303,7 +335,12 @@ abstract class _$$AddPhoneNumberInputImplCopyWith<$Res>
       __$$AddPhoneNumberInputImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String number, int price, int? discountPrice, bool isFeatured});
+  $Res call(
+      {String number,
+      int price,
+      int? discountPrice,
+      bool isFeatured,
+      String? description});
 }
 
 /// @nodoc
@@ -323,6 +360,7 @@ class __$$AddPhoneNumberInputImplCopyWithImpl<$Res>
     Object? price = null,
     Object? discountPrice = freezed,
     Object? isFeatured = null,
+    Object? description = freezed,
   }) {
     return _then(_$AddPhoneNumberInputImpl(
       number: null == number
@@ -341,6 +379,10 @@ class __$$AddPhoneNumberInputImplCopyWithImpl<$Res>
           ? _value.isFeatured
           : isFeatured // ignore: cast_nullable_to_non_nullable
               as bool,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -352,7 +394,8 @@ class _$AddPhoneNumberInputImpl implements _AddPhoneNumberInput {
       {required this.number,
       required this.price,
       this.discountPrice,
-      this.isFeatured = false});
+      this.isFeatured = false,
+      this.description});
 
   @override
   final String number;
@@ -363,10 +406,12 @@ class _$AddPhoneNumberInputImpl implements _AddPhoneNumberInput {
   @override
   @JsonKey()
   final bool isFeatured;
+  @override
+  final String? description;
 
   @override
   String toString() {
-    return 'AddPhoneNumberInput(number: $number, price: $price, discountPrice: $discountPrice, isFeatured: $isFeatured)';
+    return 'AddPhoneNumberInput(number: $number, price: $price, discountPrice: $discountPrice, isFeatured: $isFeatured, description: $description)';
   }
 
   @override
@@ -379,12 +424,14 @@ class _$AddPhoneNumberInputImpl implements _AddPhoneNumberInput {
             (identical(other.discountPrice, discountPrice) ||
                 other.discountPrice == discountPrice) &&
             (identical(other.isFeatured, isFeatured) ||
-                other.isFeatured == isFeatured));
+                other.isFeatured == isFeatured) &&
+            (identical(other.description, description) ||
+                other.description == description));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, number, price, discountPrice, isFeatured);
+  int get hashCode => Object.hash(
+      runtimeType, number, price, discountPrice, isFeatured, description);
 
   /// Create a copy of AddPhoneNumberInput
   /// with the given fields replaced by the non-null parameter values.
@@ -401,7 +448,8 @@ abstract class _AddPhoneNumberInput implements AddPhoneNumberInput {
       {required final String number,
       required final int price,
       final int? discountPrice,
-      final bool isFeatured}) = _$AddPhoneNumberInputImpl;
+      final bool isFeatured,
+      final String? description}) = _$AddPhoneNumberInputImpl;
 
   @override
   String get number;
@@ -411,6 +459,8 @@ abstract class _AddPhoneNumberInput implements AddPhoneNumberInput {
   int? get discountPrice;
   @override
   bool get isFeatured;
+  @override
+  String? get description;
 
   /// Create a copy of AddPhoneNumberInput
   /// with the given fields replaced by the non-null parameter values.

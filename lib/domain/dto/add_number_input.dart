@@ -10,6 +10,7 @@ class AddPlateNumberInput with _$AddPlateNumberInput {
     required int price,
     int? discountPrice,
     @Default(false) bool isFeatured,
+    String? description,
   }) = _AddPlateNumberInput;
 }
 
@@ -20,5 +21,6 @@ class AddPhoneNumberInput with _$AddPhoneNumberInput {
     required int price,
     int? discountPrice,
     @Default(false) bool isFeatured,
+    String? description,
   }) = _AddPhoneNumberInput;
 }

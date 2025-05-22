@@ -35,6 +35,7 @@ class AddListingDto with _$AddListingDto {
     required ItemType itemType,
     required bool isFeatured,
     required Map<String, dynamic> item,
+    String? description,
   }) = _AddListingDto;
 
   factory AddListingDto.fromJson(Map<String, dynamic> json) => _$AddListingDtoFromJson(json);

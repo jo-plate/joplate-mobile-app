@@ -23,7 +23,6 @@ _$PlateListingImpl _$$PlateListingImplFromJson(Map<String, dynamic> json) =>
       userId: json['userId'] as String,
       visits: (json['visits'] as num?)?.toInt() ?? 0,
       description: json['description'] as String? ?? '',
-      priceHidden: json['priceHidden'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$PlateListingImplToJson(_$PlateListingImpl instance) =>
@@ -43,7 +42,6 @@ Map<String, dynamic> _$$PlateListingImplToJson(_$PlateListingImpl instance) =>
       'userId': instance.userId,
       'visits': instance.visits,
       'description': instance.description,
-      'priceHidden': instance.priceHidden,
     };
 
 Value? _$JsonConverterFromJson<Json, Value>(

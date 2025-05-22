@@ -26,6 +26,7 @@ mixin _$AddListingDto {
   ItemType get itemType => throw _privateConstructorUsedError;
   bool get isFeatured => throw _privateConstructorUsedError;
   Map<String, dynamic> get item => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
 
   /// Serializes this AddListingDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -49,7 +50,8 @@ abstract class $AddListingDtoCopyWith<$Res> {
       ListingType listingType,
       ItemType itemType,
       bool isFeatured,
-      Map<String, dynamic> item});
+      Map<String, dynamic> item,
+      String? description});
 }
 
 /// @nodoc
@@ -73,6 +75,7 @@ class _$AddListingDtoCopyWithImpl<$Res, $Val extends AddListingDto>
     Object? itemType = null,
     Object? isFeatured = null,
     Object? item = null,
+    Object? description = freezed,
   }) {
     return _then(_value.copyWith(
       price: null == price
@@ -99,6 +102,10 @@ class _$AddListingDtoCopyWithImpl<$Res, $Val extends AddListingDto>
           ? _value.item
           : item // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -117,7 +124,8 @@ abstract class _$$AddListingDtoImplCopyWith<$Res>
       ListingType listingType,
       ItemType itemType,
       bool isFeatured,
-      Map<String, dynamic> item});
+      Map<String, dynamic> item,
+      String? description});
 }
 
 /// @nodoc
@@ -139,6 +147,7 @@ class __$$AddListingDtoImplCopyWithImpl<$Res>
     Object? itemType = null,
     Object? isFeatured = null,
     Object? item = null,
+    Object? description = freezed,
   }) {
     return _then(_$AddListingDtoImpl(
       price: null == price
@@ -165,6 +174,10 @@ class __$$AddListingDtoImplCopyWithImpl<$Res>
           ? _value._item
           : item // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -178,7 +191,8 @@ class _$AddListingDtoImpl implements _AddListingDto {
       required this.listingType,
       required this.itemType,
       required this.isFeatured,
-      required final Map<String, dynamic> item})
+      required final Map<String, dynamic> item,
+      this.description})
       : _item = item;
 
   factory _$AddListingDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -203,8 +217,11 @@ class _$AddListingDtoImpl implements _AddListingDto {
   }
 
   @override
+  final String? description;
+
+  @override
   String toString() {
-    return 'AddListingDto(price: $price, discountPrice: $discountPrice, listingType: $listingType, itemType: $itemType, isFeatured: $isFeatured, item: $item)';
+    return 'AddListingDto(price: $price, discountPrice: $discountPrice, listingType: $listingType, itemType: $itemType, isFeatured: $isFeatured, item: $item, description: $description)';
   }
 
   @override
@@ -221,7 +238,9 @@ class _$AddListingDtoImpl implements _AddListingDto {
                 other.itemType == itemType) &&
             (identical(other.isFeatured, isFeatured) ||
                 other.isFeatured == isFeatured) &&
-            const DeepCollectionEquality().equals(other._item, _item));
+            const DeepCollectionEquality().equals(other._item, _item) &&
+            (identical(other.description, description) ||
+                other.description == description));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -233,7 +252,8 @@ class _$AddListingDtoImpl implements _AddListingDto {
       listingType,
       itemType,
       isFeatured,
-      const DeepCollectionEquality().hash(_item));
+      const DeepCollectionEquality().hash(_item),
+      description);
 
   /// Create a copy of AddListingDto
   /// with the given fields replaced by the non-null parameter values.
@@ -258,7 +278,8 @@ abstract class _AddListingDto implements AddListingDto {
       required final ListingType listingType,
       required final ItemType itemType,
       required final bool isFeatured,
-      required final Map<String, dynamic> item}) = _$AddListingDtoImpl;
+      required final Map<String, dynamic> item,
+      final String? description}) = _$AddListingDtoImpl;
 
   factory _AddListingDto.fromJson(Map<String, dynamic> json) =
       _$AddListingDtoImpl.fromJson;
@@ -275,6 +296,8 @@ abstract class _AddListingDto implements AddListingDto {
   bool get isFeatured;
   @override
   Map<String, dynamic> get item;
+  @override
+  String? get description;
 
   /// Create a copy of AddListingDto
   /// with the given fields replaced by the non-null parameter values.

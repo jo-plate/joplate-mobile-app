@@ -95,6 +95,7 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
     required void Function(String errorMessage) onError,
   }) async {
     final forms = [...state.forms];
+    final successfulSubmissions = <String>[];
 
     for (int i = 0; i < forms.length; i++) {
       final form = forms[i];
@@ -132,6 +133,7 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
         price: priceValue,
         discountPrice: form.withDiscount && !form.callForPrice ? int.tryParse(form.discountPrice ?? '') : null,
         isFeatured: form.isFeatured,
+        description: form.description,
       );
 
       final addListingDto = AddListingDto(
@@ -140,6 +142,7 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
         listingType: ListingType.ad,
         itemType: ItemType.plateNumber,
         isFeatured: input.isFeatured,
+        description: input.description,
         item: {
           'code': input.code,
           'number': input.number,
@@ -152,7 +155,7 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
 
         if (response.data != null && response.data['success'] == true) {
           final id = response.data['listingId'] as String;
-          onSuccess(id);
+          successfulSubmissions.add(id);
           _analytics.logEvent(
             name: 'add_plate_number_ad',
             parameters: {
@@ -182,6 +185,16 @@ class AddPlateNumbersCubit extends Cubit<AddPlateNumbersState> {
       }
 
       emit(state.copyWith(forms: forms));
+    }
+
+    // Handle navigation based on successful submissions
+    if (successfulSubmissions.isNotEmpty) {
+      if (successfulSubmissions.length == 1) {
+        onSuccess(successfulSubmissions.first);
+      } else {
+        // Navigate to my numbers page
+        onSuccess('my_numbers');
+      }
     }
   }
 
