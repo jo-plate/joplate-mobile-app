@@ -98,8 +98,10 @@ class EditPhoneListingCubit extends Cubit<EditPhoneListingState> {
         ));
       }
     } on FirebaseFunctionsException catch (e) {
+      print(e);
       emit(state.copyWith(isSubmitting: false, errorMessage: 'Error: ${e.message}'));
     } catch (e) {
+      print(e);
       emit(state.copyWith(isSubmitting: false, errorMessage: e.toString()));
     }
   }

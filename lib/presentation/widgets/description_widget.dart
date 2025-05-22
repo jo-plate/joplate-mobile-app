@@ -9,14 +9,18 @@ class DescriptionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
+        color: isDark ? const Color(0xFF2D334D) : Colors.white,
+        borderRadius: BorderRadius.circular(12.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 4,
+            color: isDark ? Colors.black.withOpacity(0.2) : Colors.grey.withOpacity(0.1),
+            blurRadius: 10,
+            spreadRadius: 0,
             offset: const Offset(0, 2),
           ),
         ],
@@ -29,11 +33,13 @@ class DescriptionWidget extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
+                  color: isDark ? Colors.white70 : const Color(0xFF981C1E).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.description_outlined,
                   size: 20,
+                  color: isDark ? Colors.white70 : const Color(0xFF981C1E),
                 ),
               ),
               const SizedBox(width: 12),
@@ -49,7 +55,10 @@ class DescriptionWidget extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             description,
-            style: const TextStyle(fontSize: 16),
+            style: TextStyle(
+              fontSize: 16,
+              color: isDark ? Colors.white70 : Colors.black87,
+            ),
           ),
         ],
       ),

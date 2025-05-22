@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -25,6 +26,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:joplate/presentation/theme.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
+import 'package:joplate/services/tracking_service.dart';
 
 import 'firebase_options.dart';
 
@@ -58,7 +60,7 @@ void main() async {
       final prefs = await SharedPreferences.getInstance();
       // Save the current token
       await prefs.setString('fcm_token', fcmToken);
-      
+
       // If this is the first time, also save as previous_fcm_token to initialize the migration chain
       if (!prefs.containsKey('previous_fcm_token')) {
         await prefs.setString('previous_fcm_token', fcmToken);
@@ -81,6 +83,37 @@ void main() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
+
+  try {
+    // Request tracking authorization on iOS and Android
+    if (Platform.isIOS) {
+      final status = await AppTrackingTransparency.requestTrackingAuthorization();
+      debugPrint('App Tracking Transparency status: $status');
+      if (status == TrackingStatus.authorized) {
+        await FirebaseAnalytics.instance.setConsent(
+          adStorageConsentGranted: true,
+          analyticsStorageConsentGranted: true,
+          adPersonalizationSignalsConsentGranted: true,
+          adUserDataConsentGranted: true,
+        );
+      }
+    } else if (Platform.isAndroid) {
+      // For Android, we'll show a custom dialog first
+      final status = await AppTrackingTransparency.requestTrackingAuthorization();
+      debugPrint('App Tracking Transparency status: $status');
+      if (status == TrackingStatus.authorized) {
+        await FirebaseAnalytics.instance.setConsent(
+          adStorageConsentGranted: true,
+          analyticsStorageConsentGranted: true,
+          adPersonalizationSignalsConsentGranted: true,
+          adUserDataConsentGranted: true,
+        );
+      }
+    }
+    await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
+  } catch (e) {
+    debugPrint('Error setting analytics collection enabled: $e');
+  }
 
   runApp(const MyApp());
 }
@@ -134,7 +167,9 @@ class MyApp extends StatelessWidget {
                     textDirection: isEnglish ? TextDirection.ltr : TextDirection.rtl,
                     child: LocalizationProvider(
                       messages: messages,
-                      child: widget!,
+                      child: TrackingPermissionWrapper(
+                        child: widget!,
+                      ),
                     ),
                   );
                 },
@@ -151,6 +186,34 @@ class MyApp extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+class TrackingPermissionWrapper extends StatefulWidget {
+  final Widget child;
+
+  const TrackingPermissionWrapper({
+    super.key,
+    required this.child,
+  });
+
+  @override
+  State<TrackingPermissionWrapper> createState() => _TrackingPermissionWrapperState();
+}
+
+class _TrackingPermissionWrapperState extends State<TrackingPermissionWrapper> {
+  @override
+  void initState() {
+    super.initState();
+    // Request tracking permission after the widget is built
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      TrackingService.requestTrackingPermission(context);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
   }
 }
 

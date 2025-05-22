@@ -42,6 +42,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
 
   @override
   void initState() {
+    print(widget.listingId);
     super.initState();
     _plateStream = FirebaseFirestore.instance
         .collection(carPlatesCollectionId)
@@ -72,6 +73,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
         stream: _plateStream,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
+            print(snapshot.error);
             return Padding(
               padding: EdgeInsets.only(left: 24.0, right: 24, top: MediaQuery.of(context).size.height / 4),
               child: Text(
@@ -89,6 +91,7 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
+          print(snapshot.data);
           return Scaffold(
               appBar: AppBar(
                 title: Text(m.platesdetails.title),

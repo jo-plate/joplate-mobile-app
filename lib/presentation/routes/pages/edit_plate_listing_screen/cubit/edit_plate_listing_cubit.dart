@@ -69,7 +69,13 @@ class EditPlateListingCubit extends Cubit<EditPlateListingState> {
 
   void updateDiscountPrice(String value) => emit(state.copyWith(discountPrice: value, errorMessage: null));
 
-  void updateDescription(String description) => emit(state.copyWith(description: description, errorMessage: null));
+  void updateDescription(String description) {
+    print('Updating description: $description');
+    emit(state.copyWith(
+      description: description,
+      errorMessage: null,
+    ));
+  }
 
   void loadListing(PlateListing listing) {
     emit(EditPlateListingState(
@@ -100,6 +106,8 @@ class EditPlateListingCubit extends Cubit<EditPlateListingState> {
 
     emit(state.copyWith(isSubmitting: true, errorMessage: null));
 
+    print('Submitting edit with description: ${state.description}');
+
     final dto = UpdateListingDtoV2(
       listingId: state.listingId,
       itemType: ItemType.plateNumber,
@@ -109,10 +117,12 @@ class EditPlateListingCubit extends Cubit<EditPlateListingState> {
       priceHidden: state.priceHidden,
     );
 
+    print('DTO being sent: ${dto.toJson()}');
+
     try {
       final callable = FirebaseFunctions.instance.httpsCallable(updateListingCF);
       final response = await callable.call(dto.toJson());
-
+      print('Update response: ${response.data}');
       if (response.data != null && response.data['success'] == true) {
         emit(state.copyWith(isSubmitting: false));
       } else {
@@ -122,8 +132,10 @@ class EditPlateListingCubit extends Cubit<EditPlateListingState> {
         ));
       }
     } on FirebaseFunctionsException catch (e) {
+      print('FirebaseFunctionsException: $e');
       emit(state.copyWith(isSubmitting: false, errorMessage: 'Error: ${e.message}'));
     } catch (e) {
+      print('General error: $e');
       emit(state.copyWith(isSubmitting: false, errorMessage: e.toString()));
     }
   }

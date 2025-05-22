@@ -69,6 +69,11 @@ class EditPlateListingPageState extends State<EditPlateListingPage> {
             builder: (context, state) {
               final cubit = context.read<EditPlateListingCubit>();
 
+              // Update controllers when state changes
+              if (_descriptionCtrl.text != state.description) {
+                _descriptionCtrl.text = state.description ?? '';
+              }
+
               return SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
                 child: Column(
