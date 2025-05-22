@@ -28,7 +28,7 @@ class EditPhoneListingCubit extends Cubit<EditPhoneListingState> {
       listingId: listing.id,
       number: listing.item.number,
       price: listing.price.toString(),
-      withDiscount: listing.discountPrice != 0,
+      withDiscount: listing.discountPrice != 0 && !listing.priceHidden,
       discountPrice: listing.discountPrice.toString(),
       description: listing.description,
       isFeatured: listing.isFeatured,
