@@ -22,7 +22,6 @@ class EditPhoneListingPageState extends State<EditPhoneListingPage> {
   late final TextEditingController _priceCtrl;
   late final TextEditingController _discountCtrl;
   late final TextEditingController _descriptionCtrl;
-  bool _showDiscount = false;
 
   @override
   void initState() {
@@ -32,7 +31,6 @@ class EditPhoneListingPageState extends State<EditPhoneListingPage> {
     _priceCtrl = TextEditingController(text: l.price.toString());
     _discountCtrl = TextEditingController(text: l.discountPrice.toString());
     _descriptionCtrl = TextEditingController(text: l.description);
-    _showDiscount = (l.discountPrice > 0);
   }
 
   @override
@@ -79,18 +77,25 @@ class EditPhoneListingPageState extends State<EditPhoneListingPage> {
                     const SizedBox(height: 16),
 
                     // Price
-                    SwitchListTile(
-                      title: Text(m.platesdetails.call_for_price),
-                      value: state.priceHidden,
-                      onChanged: state.isSubmitting
-                          ? null
-                          : (val) {
-                              cubit.updatePriceHidden(val);
-                              if (val) {
-                                _priceCtrl.clear();
-                                cubit.updatePrice('');
-                              }
-                            },
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(m.platesdetails.call_for_price, style: const TextStyle(fontSize: 16)),
+                        Switch(
+                          value: state.priceHidden,
+                          onChanged: state.isSubmitting
+                              ? null
+                              : (val) {
+                                  cubit.updatePriceHidden(val);
+                                  if (val) {
+                                    _priceCtrl.clear();
+                                    cubit.updatePrice('');
+                                    _discountCtrl.clear();
+                                    cubit.updateDiscountPrice('');
+                                  }
+                                },
+                        ),
+                      ],
                     ),
                     if (!state.priceHidden) ...[
                       const SizedBox(height: 16),
@@ -101,33 +106,33 @@ class EditPhoneListingPageState extends State<EditPhoneListingPage> {
                         enabled: !state.isSubmitting,
                         onChanged: cubit.updatePrice,
                       ),
-                    ],
-                    const SizedBox(height: 16),
-
-                    // Discount switch (UI only)
-                    SwitchListTile(
-                      title: Text(m.editphone.discount),
-                      value: state.discountPrice?.isNotEmpty == true,
-                      onChanged: state.isSubmitting
-                          ? null
-                          : (val) {
-                              if (!val) {
-                                _discountCtrl.clear();
-                                cubit.updateDiscountPrice('');
-                              }
-                            },
-                    ),
-
-                    // Discount price field
-                    if (state.discountPrice?.isNotEmpty == true) ...[
                       const SizedBox(height: 16),
-                      TextField(
-                        controller: _discountCtrl,
-                        decoration: InputDecoration(labelText: m.editphone.discount_price),
-                        keyboardType: TextInputType.number,
-                        enabled: !state.isSubmitting,
-                        onChanged: cubit.updateDiscountPrice,
+
+                      // Discount switch (UI only)
+                      SwitchListTile(
+                        title: Text(m.editphone.discount),
+                        value: state.discountPrice?.isNotEmpty == true,
+                        onChanged: state.isSubmitting
+                            ? null
+                            : (val) {
+                                if (!val) {
+                                  _discountCtrl.clear();
+                                  cubit.updateDiscountPrice('');
+                                }
+                              },
                       ),
+
+                      // Discount price field
+                      if (state.discountPrice?.isNotEmpty == true) ...[
+                        const SizedBox(height: 16),
+                        TextField(
+                          controller: _discountCtrl,
+                          decoration: InputDecoration(labelText: m.editphone.discount_price),
+                          keyboardType: TextInputType.number,
+                          enabled: !state.isSubmitting,
+                          onChanged: cubit.updateDiscountPrice,
+                        ),
+                      ],
                     ],
 
                     // Description field

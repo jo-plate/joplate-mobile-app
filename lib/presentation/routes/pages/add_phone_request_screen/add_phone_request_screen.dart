@@ -5,13 +5,13 @@ import 'package:joplate/presentation/routes/pages/add_phone_request_screen/cubit
 import 'package:joplate/presentation/routes/pages/add_phone_request_screen/cubit/phone_request_state.dart';
 
 class AddPhoneRequestScreen extends StatefulWidget {
-  const AddPhoneRequestScreen({Key? key}) : super(key: key);
+  const AddPhoneRequestScreen({super.key});
 
   @override
-  _AddPhoneRequestScreenState createState() => _AddPhoneRequestScreenState();
+  AddPhoneRequestScreenState createState() => AddPhoneRequestScreenState();
 }
 
-class _AddPhoneRequestScreenState extends State<AddPhoneRequestScreen> {
+class AddPhoneRequestScreenState extends State<AddPhoneRequestScreen> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();

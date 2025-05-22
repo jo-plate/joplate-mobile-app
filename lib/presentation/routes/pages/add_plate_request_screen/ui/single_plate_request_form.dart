@@ -94,6 +94,7 @@ class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
                   labelText: m.common.description,
                   hintText: m.common.description_hint,
                   errorText: state.description.length > 150 ? m.common.description_too_long : null,
+                  alignLabelWithHint: true,
                 ),
                 textAlign: TextAlign.justify,
                 textAlignVertical: TextAlignVertical.top,

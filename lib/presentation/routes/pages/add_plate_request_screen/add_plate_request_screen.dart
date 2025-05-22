@@ -5,13 +5,13 @@ import 'package:joplate/presentation/routes/pages/add_plate_request_screen/cubit
 import 'package:joplate/presentation/routes/pages/add_plate_request_screen/cubit/add_plate_request_state.dart';
 
 class AddPlateRequestScreen extends StatefulWidget {
-  const AddPlateRequestScreen({Key? key}) : super(key: key);
+  const AddPlateRequestScreen({super.key});
 
   @override
-  _AddPlateRequestScreenState createState() => _AddPlateRequestScreenState();
+  AddPlateRequestScreenState createState() => AddPlateRequestScreenState();
 }
 
-class _AddPlateRequestScreenState extends State<AddPlateRequestScreen> {
+class AddPlateRequestScreenState extends State<AddPlateRequestScreen> {
   final TextEditingController _codeController = TextEditingController();
   final TextEditingController _numberController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
