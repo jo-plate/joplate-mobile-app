@@ -16,6 +16,7 @@ import 'package:joplate/presentation/utils/strings.dart';
 import 'package:joplate/presentation/utils/user_plan_theme.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_request_widget.dart';
 import 'package:joplate/presentation/widgets/delete_item_popup.dart';
+import 'package:joplate/presentation/widgets/description_widget.dart';
 import 'package:joplate/presentation/widgets/profile_picture_widget.dart';
 import 'package:joplate/presentation/widgets/user_plan_badge.dart';
 import 'package:joplate/utils/log_visit.dart';
@@ -152,56 +153,8 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
                     const SizedBox(height: 16),
                     RequestedByWidgget(userId: snapshot.data!.userId, visits: snapshot.data!.visits),
                     const SizedBox(height: 16),
-                    if (snapshot.data!.description?.isNotEmpty ?? false) ...[
-                      Container(
-                        padding: const EdgeInsets.all(16.0),
-                        decoration: BoxDecoration(
-                          color:
-                              Theme.of(context).brightness == Brightness.dark ? const Color(0xFF252A41) : Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 4,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFF981C1E).withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: const Icon(
-                                    Icons.description_outlined,
-                                    color: Color(0xFF981C1E),
-                                    size: 20,
-                                  ),
-                                ),
-                                const SizedBox(width: 12),
-                                Text(
-                                  m.common.description,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 16),
-                            Text(
-                              snapshot.data!.description!,
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                          ],
-                        ),
-                      ),
+                    if (snapshot.data!.description.isNotEmpty) ...[
+                      DescriptionWidget(description: snapshot.data!.description),
                       const SizedBox(height: 16),
                     ],
                     Container(

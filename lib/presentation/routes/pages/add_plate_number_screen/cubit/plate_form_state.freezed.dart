@@ -221,8 +221,8 @@ class _$PlateFormStateImpl implements _PlateFormState {
       {required this.code,
       required this.number,
       required this.price,
-      required this.withDiscount,
-      required this.isFeatured,
+      this.withDiscount = false,
+      this.isFeatured = false,
       this.callForPrice = false,
       this.discountPrice,
       this.isSubmitting = false,
@@ -236,8 +236,10 @@ class _$PlateFormStateImpl implements _PlateFormState {
   @override
   final String price;
   @override
+  @JsonKey()
   final bool withDiscount;
   @override
+  @JsonKey()
   final bool isFeatured;
   @override
   @JsonKey()
@@ -311,8 +313,8 @@ abstract class _PlateFormState implements PlateFormState {
       {required final String code,
       required final String number,
       required final String price,
-      required final bool withDiscount,
-      required final bool isFeatured,
+      final bool withDiscount,
+      final bool isFeatured,
       final bool callForPrice,
       final String? discountPrice,
       final bool isSubmitting,

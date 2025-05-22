@@ -51,7 +51,6 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
           resizeToAvoidBottomInset: true,
           appBar: AppBar(
             elevation: 0,
-            // automaticallyImplyLeading: false,
           ),
           // TabBarView for Sign in and Sign up tabs
           body: Column(
@@ -80,24 +79,21 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
                   ),
                 ],
               ),
-              Expanded(
-                child: TabBarView(
-                  controller: _tabController,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    // Sign in Tab Content
-                    LoginForm(
-                      onPressed: injector<AuthCubit>().loginWithEmailAndPassword,
-                    ),
-      
-                    // Sign up Tab Content
-                    SignupForm(
-                      onPressed: injector<AuthCubit>().signUpWithEmailAndPassword,
-                    ),
-                  ],
-                ),
+              TabBarView(
+                controller: _tabController,
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  // Sign in Tab Content
+                  LoginForm(
+                    onPressed: injector<AuthCubit>().loginWithEmailAndPassword,
+                  ),
+
+                  // Sign up Tab Content
+                  SignupForm(
+                    onPressed: injector<AuthCubit>().signUpWithEmailAndPassword,
+                  ),
+                ],
               ),
-              // Social Links Section
               Padding(
                 padding: const EdgeInsets.only(bottom: 24.0),
                 child: Column(
@@ -116,6 +112,7 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
                   ],
                 ),
               ),
+              // Social Links Section
             ],
           ),
         ),

@@ -207,9 +207,9 @@ class _$PhoneFormStateImpl implements _PhoneFormState {
   const _$PhoneFormStateImpl(
       {required this.number,
       required this.price,
-      required this.withDiscount,
+      this.withDiscount = false,
       this.discountPrice,
-      required this.isFeatured,
+      this.isFeatured = false,
       this.callForPrice = false,
       this.isSubmitting = false,
       this.errorMessage,
@@ -220,10 +220,12 @@ class _$PhoneFormStateImpl implements _PhoneFormState {
   @override
   final String price;
   @override
+  @JsonKey()
   final bool withDiscount;
   @override
   final String? discountPrice;
   @override
+  @JsonKey()
   final bool isFeatured;
   @override
   @JsonKey()
@@ -292,9 +294,9 @@ abstract class _PhoneFormState implements PhoneFormState {
   const factory _PhoneFormState(
       {required final String number,
       required final String price,
-      required final bool withDiscount,
+      final bool withDiscount,
       final String? discountPrice,
-      required final bool isFeatured,
+      final bool isFeatured,
       final bool callForPrice,
       final bool isSubmitting,
       final String? errorMessage,

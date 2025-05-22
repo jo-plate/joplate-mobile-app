@@ -10,9 +10,9 @@ class PhoneFormState with _$PhoneFormState {
   const factory PhoneFormState({
     required String number,
     required String price,
-    required bool withDiscount,
+    @Default(false) bool withDiscount,
     String? discountPrice,
-    required bool isFeatured,
+    @Default(false) bool isFeatured,
     @Default(false) bool callForPrice,
     @Default(false) bool isSubmitting,
     String? errorMessage,

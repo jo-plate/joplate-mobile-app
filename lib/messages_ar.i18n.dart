@@ -2143,7 +2143,12 @@ class CommonMessagesAr extends CommonMessages {
   /// ```dart
   /// "الوصف (اختياري)"
   /// ```
-  String get description => """الوصف (اختياري)""";
+  String get description_optional => """الوصف (اختياري)""";
+
+  /// ```dart
+  /// "الوصف"
+  /// ```
+  String get description => """الوصف""";
 
   /// ```dart
   /// "أضف وصفًا (الحد الأقصى 150 حرفًا)"
@@ -2726,7 +2731,8 @@ Map<String, String> get messagesArMap => {
   """common.phone_start_with_77_78_79""":
       """يجب أن يكون الرقم 77 أو 78 أو 79""",
   """common.phone_length""": """يجب أن يكون رقم الهاتف 9 أرقام بعد +962""",
-  """common.description""": """الوصف (اختياري)""",
+  """common.description_optional""": """الوصف (اختياري)""",
+  """common.description""": """الوصف""",
   """common.description_hint""": """أضف وصفًا (الحد الأقصى 150 حرفًا)""",
   """common.description_too_long""": """يجب أن يكون الوصف 150 حرفًا أو أقل""",
   """listingstatus.featured""": """مميز""",

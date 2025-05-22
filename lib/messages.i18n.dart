@@ -2138,7 +2138,12 @@ class CommonMessages {
   /// ```dart
   /// "Description (optional)"
   /// ```
-  String get description => """Description (optional)""";
+  String get description_optional => """Description (optional)""";
+
+  /// ```dart
+  /// "Description"
+  /// ```
+  String get description => """Description""";
 
   /// ```dart
   /// "Add a description (max 150 characters)"
@@ -2721,7 +2726,8 @@ Map<String, String> get messagesMap => {
   """common.phone_start_with_7""": """Number must start with 7""",
   """common.phone_start_with_77_78_79""": """Number must be 77, 78, or 79""",
   """common.phone_length""": """Phone must be 9 digits after +962""",
-  """common.description""": """Description (optional)""",
+  """common.description_optional""": """Description (optional)""",
+  """common.description""": """Description""",
   """common.description_hint""": """Add a description (max 150 characters)""",
   """common.description_too_long""":
       """Description must be 150 characters or less""",
