@@ -116,7 +116,7 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
                   decoration: InputDecoration(labelText: m.addplate.number),
                 ),
                 const SizedBox(height: 16),
-                
+
                 // Call for price toggle
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -176,6 +176,7 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
                   maxLines: 3,
                   maxLength: 150,
                   enabled: !isSubmitting,
+                  textAlign: TextAlign.justify,
                   textAlignVertical: TextAlignVertical.top,
                   expands: false,
                   decoration: InputDecoration(

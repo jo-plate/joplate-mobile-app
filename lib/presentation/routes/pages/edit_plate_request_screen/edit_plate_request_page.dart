@@ -53,6 +53,15 @@ class EditPlateRequestPage extends StatelessWidget {
                       onChanged: cubit.updateNumber,
                     ),
                     const SizedBox(height: 16),
+                    TextField(
+                      decoration: InputDecoration(labelText: m.common.description, alignLabelWithHint: true),
+                      maxLines: 3,
+                      enabled: !state.isSubmitting,
+                      textAlign: TextAlign.justify,
+                      textAlignVertical: TextAlignVertical.top,
+                      onChanged: cubit.updateDescription,
+                    ),
+                    const SizedBox(height: 16),
                     // TextField(
                     //   decoration: InputDecoration(
                     //       labelText: m.editplaterequest.price_optional),

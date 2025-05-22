@@ -14,6 +14,7 @@ _$UpdateListingDtoV2Impl _$$UpdateListingDtoV2ImplFromJson(
       price: (json['price'] as num?)?.toInt(),
       discountPrice: (json['discountPrice'] as num?)?.toInt(),
       description: json['description'] as String?,
+      priceHidden: json['priceHidden'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$UpdateListingDtoV2ImplToJson(
@@ -24,6 +25,7 @@ Map<String, dynamic> _$$UpdateListingDtoV2ImplToJson(
       'price': instance.price,
       'discountPrice': instance.discountPrice,
       'description': instance.description,
+      'priceHidden': instance.priceHidden,
     };
 
 const _$ItemTypeEnumMap = {

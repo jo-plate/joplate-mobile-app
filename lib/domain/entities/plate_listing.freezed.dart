@@ -35,6 +35,7 @@ mixin _$PlateListing {
   String get userId => throw _privateConstructorUsedError;
   int get visits => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
+  bool get priceHidden => throw _privateConstructorUsedError;
 
   /// Serializes this PlateListing to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -64,7 +65,8 @@ abstract class $PlateListingCopyWith<$Res> {
       @TimestampConverter() DateTime? expiresAt,
       String userId,
       int visits,
-      String description});
+      String description,
+      bool priceHidden});
 
   $PlateNumberCopyWith<$Res> get item;
 }
@@ -96,6 +98,7 @@ class _$PlateListingCopyWithImpl<$Res, $Val extends PlateListing>
     Object? userId = null,
     Object? visits = null,
     Object? description = null,
+    Object? priceHidden = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -146,6 +149,10 @@ class _$PlateListingCopyWithImpl<$Res, $Val extends PlateListing>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      priceHidden: null == priceHidden
+          ? _value.priceHidden
+          : priceHidden // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -180,7 +187,8 @@ abstract class _$$PlateListingImplCopyWith<$Res>
       @TimestampConverter() DateTime? expiresAt,
       String userId,
       int visits,
-      String description});
+      String description,
+      bool priceHidden});
 
   @override
   $PlateNumberCopyWith<$Res> get item;
@@ -211,6 +219,7 @@ class __$$PlateListingImplCopyWithImpl<$Res>
     Object? userId = null,
     Object? visits = null,
     Object? description = null,
+    Object? priceHidden = null,
   }) {
     return _then(_$PlateListingImpl(
       id: null == id
@@ -261,6 +270,10 @@ class __$$PlateListingImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
+      priceHidden: null == priceHidden
+          ? _value.priceHidden
+          : priceHidden // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -280,7 +293,8 @@ class _$PlateListingImpl extends _PlateListing {
       @TimestampConverter() this.expiresAt,
       required this.userId,
       this.visits = 0,
-      this.description = ''})
+      this.description = '',
+      this.priceHidden = false})
       : super._();
 
   factory _$PlateListingImpl.fromJson(Map<String, dynamic> json) =>
@@ -319,10 +333,13 @@ class _$PlateListingImpl extends _PlateListing {
   @override
   @JsonKey()
   final String description;
+  @override
+  @JsonKey()
+  final bool priceHidden;
 
   @override
   String toString() {
-    return 'PlateListing(id: $id, item: $item, price: $price, discountPrice: $discountPrice, isDisabled: $isDisabled, isSold: $isSold, featuredUntil: $featuredUntil, createdAt: $createdAt, expiresAt: $expiresAt, userId: $userId, visits: $visits, description: $description)';
+    return 'PlateListing(id: $id, item: $item, price: $price, discountPrice: $discountPrice, isDisabled: $isDisabled, isSold: $isSold, featuredUntil: $featuredUntil, createdAt: $createdAt, expiresAt: $expiresAt, userId: $userId, visits: $visits, description: $description, priceHidden: $priceHidden)';
   }
 
   @override
@@ -347,7 +364,9 @@ class _$PlateListingImpl extends _PlateListing {
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.visits, visits) || other.visits == visits) &&
             (identical(other.description, description) ||
-                other.description == description));
+                other.description == description) &&
+            (identical(other.priceHidden, priceHidden) ||
+                other.priceHidden == priceHidden));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -365,7 +384,8 @@ class _$PlateListingImpl extends _PlateListing {
       expiresAt,
       userId,
       visits,
-      description);
+      description,
+      priceHidden);
 
   /// Create a copy of PlateListing
   /// with the given fields replaced by the non-null parameter values.
@@ -396,7 +416,8 @@ abstract class _PlateListing extends PlateListing {
       @TimestampConverter() final DateTime? expiresAt,
       required final String userId,
       final int visits,
-      final String description}) = _$PlateListingImpl;
+      final String description,
+      final bool priceHidden}) = _$PlateListingImpl;
   const _PlateListing._() : super._();
 
   factory _PlateListing.fromJson(Map<String, dynamic> json) =
@@ -429,6 +450,8 @@ abstract class _PlateListing extends PlateListing {
   int get visits;
   @override
   String get description;
+  @override
+  bool get priceHidden;
 
   /// Create a copy of PlateListing
   /// with the given fields replaced by the non-null parameter values.

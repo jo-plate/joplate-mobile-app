@@ -69,6 +69,15 @@ class _EditPhoneRequestPageState extends State<EditPhoneRequestPage> {
                       onChanged: cubit.updateNumber,
                     ),
                     const SizedBox(height: 16),
+                    TextField(
+                      decoration: InputDecoration(labelText: m.common.description, alignLabelWithHint: true),
+                      maxLines: 3,
+                      enabled: !state.isSubmitting,
+                      textAlign: TextAlign.justify,
+                      textAlignVertical: TextAlignVertical.top,
+                      onChanged: cubit.updateDescription,
+                    ),
+                    const SizedBox(height: 16),
                     if (state.isSubmitting)
                       const Center(child: CircularProgressIndicator())
                     else

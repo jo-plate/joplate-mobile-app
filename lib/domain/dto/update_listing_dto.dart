@@ -12,11 +12,11 @@ class UpdateListingDtoV2 with _$UpdateListingDtoV2 {
     int? price,
     int? discountPrice,
     String? description,
+    @Default(false) bool priceHidden,
   }) = _UpdateListingDtoV2;
 
   factory UpdateListingDtoV2.fromJson(Map<String, dynamic> json) =>
       _$UpdateListingDtoV2FromJson(json);
 
   const UpdateListingDtoV2._();
-
 }

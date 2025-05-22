@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/dto/update_listing_dto.dart';
 import 'package:joplate/data/constants.dart';
+import 'package:joplate/domain/entities/plate_listing.dart';
 import 'package:joplate/presentation/routes/pages/edit_plate_listing_screen/cubit/edit_plate_listing_state.dart';
 
 class EditPlateListingCubit extends Cubit<EditPlateListingState> {
@@ -13,6 +14,7 @@ class EditPlateListingCubit extends Cubit<EditPlateListingState> {
           plateNumber: '',
           price: '',
           discountPrice: null,
+          description: null,
           isFeatured: false,
           isDisabled: false,
           isSold: false,
@@ -26,6 +28,7 @@ class EditPlateListingCubit extends Cubit<EditPlateListingState> {
     required String plateNumber,
     required int price,
     int? discountPrice,
+    String? description,
     bool isFeatured = false,
     bool isDisabled = false,
     bool isSold = false,
@@ -37,6 +40,7 @@ class EditPlateListingCubit extends Cubit<EditPlateListingState> {
         plateNumber: plateNumber,
         price: price.toString(),
         discountPrice: discountPrice?.toString(),
+        description: description,
         isFeatured: isFeatured,
         isDisabled: isDisabled,
         isSold: isSold,
@@ -52,6 +56,7 @@ class EditPlateListingCubit extends Cubit<EditPlateListingState> {
       plateNumber: plateNumber,
       price: price.toString(),
       discountPrice: discountPrice?.toString(),
+      description: description,
       isFeatured: isFeatured,
       isDisabled: isDisabled,
       isSold: isSold,
@@ -64,14 +69,32 @@ class EditPlateListingCubit extends Cubit<EditPlateListingState> {
 
   void updateDiscountPrice(String value) => emit(state.copyWith(discountPrice: value, errorMessage: null));
 
-  Future<void> submitEdit() async {
-    if (state.listingId.isEmpty || state.code.isEmpty || state.plateNumber.isEmpty || state.price.isEmpty) {
-      emit(state.copyWith(errorMessage: 'All fields are required'));
-      return;
-    }
+  void updateDescription(String description) => emit(state.copyWith(description: description, errorMessage: null));
 
-    if (state.plateNumber.startsWith('0')) {
-      emit(state.copyWith(errorMessage: 'Number cannot start with 0'));
+  void loadListing(PlateListing listing) {
+    emit(EditPlateListingState(
+      listingId: listing.id,
+      code: listing.item.code,
+      plateNumber: listing.item.number,
+      price: listing.price.toString(),
+      discountPrice: listing.discountPrice.toString(),
+      description: listing.description,
+      isFeatured: listing.isFeatured,
+      isDisabled: listing.isDisabled,
+      isSold: listing.isSold,
+      priceHidden: listing.priceHidden,
+      isSubmitting: false,
+      errorMessage: null,
+    ));
+  }
+
+  void updatePriceHidden(bool hidden) {
+    emit(state.copyWith(priceHidden: hidden, errorMessage: null));
+  }
+
+  Future<void> submitEdit() async {
+    if (state.listingId.isEmpty || (!state.priceHidden && state.price.isEmpty)) {
+      emit(state.copyWith(errorMessage: 'Please fill all required fields.'));
       return;
     }
 
@@ -80,8 +103,10 @@ class EditPlateListingCubit extends Cubit<EditPlateListingState> {
     final dto = UpdateListingDtoV2(
       listingId: state.listingId,
       itemType: ItemType.plateNumber,
-      price: int.tryParse(state.price),
+      price: state.priceHidden ? 0 : int.tryParse(state.price),
       discountPrice: state.discountPrice?.isNotEmpty == true ? int.tryParse(state.discountPrice!) : null,
+      description: state.description,
+      priceHidden: state.priceHidden,
     );
 
     try {

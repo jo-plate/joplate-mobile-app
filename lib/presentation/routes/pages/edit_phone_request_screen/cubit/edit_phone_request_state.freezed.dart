@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$EditPhoneRequestState {
   String get requestId => throw _privateConstructorUsedError;
   String get number => throw _privateConstructorUsedError;
+  String get description => throw _privateConstructorUsedError;
   bool get isSubmitting => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
 
@@ -37,6 +38,7 @@ abstract class $EditPhoneRequestStateCopyWith<$Res> {
   $Res call(
       {String requestId,
       String number,
+      String description,
       bool isSubmitting,
       String? errorMessage});
 }
@@ -59,6 +61,7 @@ class _$EditPhoneRequestStateCopyWithImpl<$Res,
   $Res call({
     Object? requestId = null,
     Object? number = null,
+    Object? description = null,
     Object? isSubmitting = null,
     Object? errorMessage = freezed,
   }) {
@@ -70,6 +73,10 @@ class _$EditPhoneRequestStateCopyWithImpl<$Res,
       number: null == number
           ? _value.number
           : number // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String,
       isSubmitting: null == isSubmitting
           ? _value.isSubmitting
@@ -95,6 +102,7 @@ abstract class _$$EditPhoneRequestStateImplCopyWith<$Res>
   $Res call(
       {String requestId,
       String number,
+      String description,
       bool isSubmitting,
       String? errorMessage});
 }
@@ -115,6 +123,7 @@ class __$$EditPhoneRequestStateImplCopyWithImpl<$Res>
   $Res call({
     Object? requestId = null,
     Object? number = null,
+    Object? description = null,
     Object? isSubmitting = null,
     Object? errorMessage = freezed,
   }) {
@@ -126,6 +135,10 @@ class __$$EditPhoneRequestStateImplCopyWithImpl<$Res>
       number: null == number
           ? _value.number
           : number // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String,
       isSubmitting: null == isSubmitting
           ? _value.isSubmitting
@@ -145,6 +158,7 @@ class _$EditPhoneRequestStateImpl implements _EditPhoneRequestState {
   const _$EditPhoneRequestStateImpl(
       {required this.requestId,
       required this.number,
+      this.description = '',
       this.isSubmitting = false,
       this.errorMessage});
 
@@ -154,13 +168,16 @@ class _$EditPhoneRequestStateImpl implements _EditPhoneRequestState {
   final String number;
   @override
   @JsonKey()
+  final String description;
+  @override
+  @JsonKey()
   final bool isSubmitting;
   @override
   final String? errorMessage;
 
   @override
   String toString() {
-    return 'EditPhoneRequestState(requestId: $requestId, number: $number, isSubmitting: $isSubmitting, errorMessage: $errorMessage)';
+    return 'EditPhoneRequestState(requestId: $requestId, number: $number, description: $description, isSubmitting: $isSubmitting, errorMessage: $errorMessage)';
   }
 
   @override
@@ -171,6 +188,8 @@ class _$EditPhoneRequestStateImpl implements _EditPhoneRequestState {
             (identical(other.requestId, requestId) ||
                 other.requestId == requestId) &&
             (identical(other.number, number) || other.number == number) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.isSubmitting, isSubmitting) ||
                 other.isSubmitting == isSubmitting) &&
             (identical(other.errorMessage, errorMessage) ||
@@ -178,8 +197,8 @@ class _$EditPhoneRequestStateImpl implements _EditPhoneRequestState {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, requestId, number, isSubmitting, errorMessage);
+  int get hashCode => Object.hash(
+      runtimeType, requestId, number, description, isSubmitting, errorMessage);
 
   /// Create a copy of EditPhoneRequestState
   /// with the given fields replaced by the non-null parameter values.
@@ -195,6 +214,7 @@ abstract class _EditPhoneRequestState implements EditPhoneRequestState {
   const factory _EditPhoneRequestState(
       {required final String requestId,
       required final String number,
+      final String description,
       final bool isSubmitting,
       final String? errorMessage}) = _$EditPhoneRequestStateImpl;
 
@@ -202,6 +222,8 @@ abstract class _EditPhoneRequestState implements EditPhoneRequestState {
   String get requestId;
   @override
   String get number;
+  @override
+  String get description;
   @override
   bool get isSubmitting;
   @override

@@ -104,6 +104,8 @@ class _SinglePhoneRequestFormState extends State<SinglePhoneRequestForm> {
                     hintText: m.common.description_hint,
                     errorText: state.description.length > 150 ? m.common.description_too_long : null,
                   ),
+                  textAlign: TextAlign.justify,
+                  textAlignVertical: TextAlignVertical.top,
                   onChanged: cubit.updateDescription,
                 ),
                 if (state.isSubmitting) const Center(child: CircularProgressIndicator()),

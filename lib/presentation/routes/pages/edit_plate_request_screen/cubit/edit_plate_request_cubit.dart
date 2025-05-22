@@ -25,6 +25,7 @@ class EditPlateRequestCubit extends Cubit<EditPlateRequestState> {
       requestId: request.id,
       code: request.item.code,
       number: request.item.number,
+      description: request.description ?? '',
       isSubmitting: false,
       errorMessage: null,
     ));
@@ -44,6 +45,13 @@ class EditPlateRequestCubit extends Cubit<EditPlateRequestState> {
     ));
   }
 
+  void updateDescription(String description) {
+    emit(state.copyWith(
+      description: description,
+      errorMessage: null,
+    ));
+  }
+
   Future<void> submitEdit() async {
     if (state.requestId.isEmpty || state.code.isEmpty || state.number.isEmpty) {
       emit(state.copyWith(errorMessage: 'Code and Number are required'));
@@ -55,7 +63,11 @@ class EditPlateRequestCubit extends Cubit<EditPlateRequestState> {
     final dto = UpdateRequestDto(
       id: state.requestId,
       itemType: ItemType.plateNumber,
-      data: PlateNumber(code: state.code, number: state.number).toJson(),
+      data: PlateNumber(
+        code: state.code,
+        number: state.number,
+        description: state.description,
+      ).toJson(),
     );
 
     try {

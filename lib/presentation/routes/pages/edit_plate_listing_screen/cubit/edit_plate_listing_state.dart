@@ -10,9 +10,11 @@ class EditPlateListingState with _$EditPlateListingState {
     required String plateNumber,
     required String price,
     String? discountPrice,
+    String? description,
     required bool isFeatured,
     required bool isDisabled,
     required bool isSold,
+    @Default(false) bool priceHidden,
     required bool isSubmitting,
     String? errorMessage,
   }) = _EditPlateListingState;

@@ -19,6 +19,7 @@ mixin _$EditPlateRequestState {
   String get requestId => throw _privateConstructorUsedError;
   String get code => throw _privateConstructorUsedError;
   String get number => throw _privateConstructorUsedError;
+  String get description => throw _privateConstructorUsedError;
   bool get isSubmitting => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
 
@@ -39,6 +40,7 @@ abstract class $EditPlateRequestStateCopyWith<$Res> {
       {String requestId,
       String code,
       String number,
+      String description,
       bool isSubmitting,
       String? errorMessage});
 }
@@ -62,6 +64,7 @@ class _$EditPlateRequestStateCopyWithImpl<$Res,
     Object? requestId = null,
     Object? code = null,
     Object? number = null,
+    Object? description = null,
     Object? isSubmitting = null,
     Object? errorMessage = freezed,
   }) {
@@ -77,6 +80,10 @@ class _$EditPlateRequestStateCopyWithImpl<$Res,
       number: null == number
           ? _value.number
           : number // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String,
       isSubmitting: null == isSubmitting
           ? _value.isSubmitting
@@ -103,6 +110,7 @@ abstract class _$$EditPlateRequestStateImplCopyWith<$Res>
       {String requestId,
       String code,
       String number,
+      String description,
       bool isSubmitting,
       String? errorMessage});
 }
@@ -124,6 +132,7 @@ class __$$EditPlateRequestStateImplCopyWithImpl<$Res>
     Object? requestId = null,
     Object? code = null,
     Object? number = null,
+    Object? description = null,
     Object? isSubmitting = null,
     Object? errorMessage = freezed,
   }) {
@@ -139,6 +148,10 @@ class __$$EditPlateRequestStateImplCopyWithImpl<$Res>
       number: null == number
           ? _value.number
           : number // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String,
       isSubmitting: null == isSubmitting
           ? _value.isSubmitting
@@ -159,6 +172,7 @@ class _$EditPlateRequestStateImpl implements _EditPlateRequestState {
       {required this.requestId,
       required this.code,
       required this.number,
+      this.description = '',
       this.isSubmitting = false,
       this.errorMessage});
 
@@ -170,13 +184,16 @@ class _$EditPlateRequestStateImpl implements _EditPlateRequestState {
   final String number;
   @override
   @JsonKey()
+  final String description;
+  @override
+  @JsonKey()
   final bool isSubmitting;
   @override
   final String? errorMessage;
 
   @override
   String toString() {
-    return 'EditPlateRequestState(requestId: $requestId, code: $code, number: $number, isSubmitting: $isSubmitting, errorMessage: $errorMessage)';
+    return 'EditPlateRequestState(requestId: $requestId, code: $code, number: $number, description: $description, isSubmitting: $isSubmitting, errorMessage: $errorMessage)';
   }
 
   @override
@@ -188,6 +205,8 @@ class _$EditPlateRequestStateImpl implements _EditPlateRequestState {
                 other.requestId == requestId) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.number, number) || other.number == number) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.isSubmitting, isSubmitting) ||
                 other.isSubmitting == isSubmitting) &&
             (identical(other.errorMessage, errorMessage) ||
@@ -195,8 +214,8 @@ class _$EditPlateRequestStateImpl implements _EditPlateRequestState {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, requestId, code, number, isSubmitting, errorMessage);
+  int get hashCode => Object.hash(runtimeType, requestId, code, number,
+      description, isSubmitting, errorMessage);
 
   /// Create a copy of EditPlateRequestState
   /// with the given fields replaced by the non-null parameter values.
@@ -213,6 +232,7 @@ abstract class _EditPlateRequestState implements EditPlateRequestState {
       {required final String requestId,
       required final String code,
       required final String number,
+      final String description,
       final bool isSubmitting,
       final String? errorMessage}) = _$EditPlateRequestStateImpl;
 
@@ -222,6 +242,8 @@ abstract class _EditPlateRequestState implements EditPlateRequestState {
   String get code;
   @override
   String get number;
+  @override
+  String get description;
   @override
   bool get isSubmitting;
   @override

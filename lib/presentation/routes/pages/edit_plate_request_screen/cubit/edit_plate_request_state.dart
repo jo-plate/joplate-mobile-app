@@ -8,6 +8,7 @@ class EditPlateRequestState with _$EditPlateRequestState {
     required String requestId,
     required String code,
     required String number,
+    @Default('') String description,
     @Default(false) bool isSubmitting,
     String? errorMessage,
   }) = _EditPlateRequestState;

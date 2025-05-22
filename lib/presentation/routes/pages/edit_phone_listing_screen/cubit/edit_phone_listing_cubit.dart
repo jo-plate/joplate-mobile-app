@@ -4,8 +4,7 @@ import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/dto/update_listing_dto.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/phone_listing.dart';
-
-part 'edit_phone_listing_state.dart';
+import 'edit_phone_listing_state.dart';
 
 class EditPhoneListingCubit extends Cubit<EditPhoneListingState> {
   EditPhoneListingCubit()
@@ -14,10 +13,12 @@ class EditPhoneListingCubit extends Cubit<EditPhoneListingState> {
           number: '',
           price: '',
           discountPrice: null,
+          description: null,
           withDiscount: false,
           isFeatured: false,
           isDisabled: false,
           isSold: false,
+          priceHidden: false,
           isSubmitting: false,
           errorMessage: null,
         ));
@@ -29,9 +30,11 @@ class EditPhoneListingCubit extends Cubit<EditPhoneListingState> {
       price: listing.price.toString(),
       withDiscount: listing.discountPrice != 0,
       discountPrice: listing.discountPrice.toString(),
+      description: listing.description,
       isFeatured: listing.isFeatured,
       isDisabled: listing.isDisabled,
       isSold: listing.isSold,
+      priceHidden: listing.priceHidden,
       isSubmitting: false,
       errorMessage: null,
     ));
@@ -41,8 +44,16 @@ class EditPhoneListingCubit extends Cubit<EditPhoneListingState> {
     emit(state.copyWith(price: newPrice, errorMessage: null));
   }
 
+  void updatePriceHidden(bool hidden) {
+    emit(state.copyWith(priceHidden: hidden, errorMessage: null));
+  }
+
   void updateDiscountPrice(String newDiscount) {
     emit(state.copyWith(discountPrice: newDiscount, errorMessage: null));
+  }
+
+  void updateDescription(String description) {
+    emit(state.copyWith(description: description, errorMessage: null));
   }
 
   void toggleFeatured(bool enable) {
@@ -58,7 +69,7 @@ class EditPhoneListingCubit extends Cubit<EditPhoneListingState> {
   }
 
   Future<void> submitEdit() async {
-    if (state.listingId.isEmpty || state.price.isEmpty) {
+    if (state.listingId.isEmpty || (!state.priceHidden && state.price.isEmpty)) {
       emit(state.copyWith(errorMessage: 'Please fill all required fields.'));
       return;
     }
@@ -68,8 +79,10 @@ class EditPhoneListingCubit extends Cubit<EditPhoneListingState> {
     final dto = UpdateListingDtoV2(
       listingId: state.listingId,
       itemType: ItemType.phoneNumber,
-      price: int.tryParse(state.price),
+      price: state.priceHidden ? 0 : int.tryParse(state.price),
       discountPrice: state.discountPrice?.isNotEmpty == true ? int.tryParse(state.discountPrice!) : null,
+      description: state.description,
+      priceHidden: state.priceHidden,
     );
 
     try {

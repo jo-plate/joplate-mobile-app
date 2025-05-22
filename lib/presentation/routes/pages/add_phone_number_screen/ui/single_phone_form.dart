@@ -171,7 +171,7 @@ class _SinglePhoneFormState extends State<SinglePhoneForm> {
                       decoration: InputDecoration(labelText: m.addphonenumber.price_after_discount),
                     ),
                 ],
-                
+
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -188,6 +188,7 @@ class _SinglePhoneFormState extends State<SinglePhoneForm> {
                   maxLines: 3,
                   maxLength: 150,
                   enabled: !isSubmitting,
+                  textAlign: TextAlign.justify,
                   textAlignVertical: TextAlignVertical.top,
                   expands: false,
                   decoration: InputDecoration(

@@ -22,6 +22,7 @@ class EditPlateListingPageState extends State<EditPlateListingPage> {
   late final TextEditingController _plateCtrl;
   late final TextEditingController _priceCtrl;
   late final TextEditingController _discountCtrl;
+  late final TextEditingController _descriptionCtrl;
   bool _showDiscount = false;
 
   @override
@@ -32,6 +33,7 @@ class EditPlateListingPageState extends State<EditPlateListingPage> {
     _plateCtrl = TextEditingController(text: l.item.number);
     _priceCtrl = TextEditingController(text: l.price.toString());
     _discountCtrl = TextEditingController(text: l.discountPrice > 0 ? l.discountPrice.toString() : '');
+    _descriptionCtrl = TextEditingController(text: l.description);
     _showDiscount = l.discountPrice > 0;
   }
 
@@ -41,6 +43,7 @@ class EditPlateListingPageState extends State<EditPlateListingPage> {
     _plateCtrl.dispose();
     _priceCtrl.dispose();
     _discountCtrl.dispose();
+    _descriptionCtrl.dispose();
     super.dispose();
   }
 
@@ -56,6 +59,7 @@ class EditPlateListingPageState extends State<EditPlateListingPage> {
           plateNumber: widget.listing.item.number,
           price: widget.listing.price,
           discountPrice: widget.listing.discountPrice,
+          description: widget.listing.description,
           isFeatured: widget.listing.isFeatured,
           isDisabled: widget.listing.isDisabled,
           isSold: widget.listing.isSold,
@@ -94,23 +98,38 @@ class EditPlateListingPageState extends State<EditPlateListingPage> {
                     const SizedBox(height: 16),
 
                     // Price
-                    TextField(
-                      controller: _priceCtrl,
-                      decoration: InputDecoration(labelText: m.editplaterequest.price_optional),
-                      keyboardType: TextInputType.number,
-                      enabled: !state.isSubmitting,
-                      onChanged: cubit.updatePrice,
+                    SwitchListTile(
+                      title: Text(m.platesdetails.call_for_price),
+                      value: state.priceHidden,
+                      onChanged: state.isSubmitting
+                          ? null
+                          : (val) {
+                              cubit.updatePriceHidden(val);
+                              if (val) {
+                                _priceCtrl.clear();
+                                cubit.updatePrice('');
+                              }
+                            },
                     ),
+                    if (!state.priceHidden) ...[
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: _priceCtrl,
+                        decoration: InputDecoration(labelText: m.editplaterequest.price_optional),
+                        keyboardType: TextInputType.number,
+                        enabled: !state.isSubmitting,
+                        onChanged: cubit.updatePrice,
+                      ),
+                    ],
                     const SizedBox(height: 16),
 
                     // Discount switch (UI only)
                     SwitchListTile(
                       title: Text(m.editphone.discount),
-                      value: _showDiscount,
+                      value: state.discountPrice?.isNotEmpty == true,
                       onChanged: state.isSubmitting
                           ? null
                           : (val) {
-                              setState(() => _showDiscount = val);
                               if (!val) {
                                 _discountCtrl.clear();
                                 cubit.updateDiscountPrice('');
@@ -119,7 +138,7 @@ class EditPlateListingPageState extends State<EditPlateListingPage> {
                     ),
 
                     // Discount price field
-                    if (_showDiscount) ...[
+                    if (state.discountPrice?.isNotEmpty == true) ...[
                       const SizedBox(height: 16),
                       TextField(
                         controller: _discountCtrl,
@@ -129,6 +148,18 @@ class EditPlateListingPageState extends State<EditPlateListingPage> {
                         onChanged: cubit.updateDiscountPrice,
                       ),
                     ],
+
+                    // Description field
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: _descriptionCtrl,
+                      decoration: InputDecoration(labelText: m.common.description, alignLabelWithHint: true),
+                      maxLines: 3,
+                      enabled: !state.isSubmitting,
+                      onChanged: cubit.updateDescription,
+                      textAlign: TextAlign.justify,
+                      textAlignVertical: TextAlignVertical.top,
+                    ),
 
                     const SizedBox(height: 24),
 

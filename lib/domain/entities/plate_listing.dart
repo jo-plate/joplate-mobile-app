@@ -23,6 +23,7 @@ class PlateListing with _$PlateListing {
     required String userId,
     @Default(0) int visits,
     @Default('') String description,
+    @Default(false) bool priceHidden,
   }) = _PlateListing;
 
   bool get isFeatured => featuredUntil != null && featuredUntil!.isAfter(DateTime.now());
@@ -32,8 +33,6 @@ class PlateListing with _$PlateListing {
   factory PlateListing.fromJson(Map<String, dynamic> json) => _$PlateListingFromJson(json);
   factory PlateListing.fromSnapshot(DocumentSnapshot snapshot) =>
       PlateListing.fromJson({'id': snapshot.id, ...snapshot.data() as Map<String, dynamic>});
-
-  bool get priceHidden => discountPrice == 0 && price == 0;
 
   static PlateListing mockListing() {
     return PlateListing(

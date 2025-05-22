@@ -48,6 +48,7 @@ class PhoneNumber with _$PhoneNumber {
 
   const factory PhoneNumber({
     required String number,
+    @Default('') String description,
   }) = _PhoneNumber;
 
   static List<PhoneNumber> mockList(int number) {

@@ -23,6 +23,7 @@ class EditPhoneRequestCubit extends Cubit<EditPhoneRequestState> {
     emit(state.copyWith(
       requestId: request.id,
       number: request.item.number.toString(),
+      description: request.description,
       isSubmitting: false,
       errorMessage: null,
     ));
@@ -31,6 +32,13 @@ class EditPhoneRequestCubit extends Cubit<EditPhoneRequestState> {
   void updateNumber(String number) {
     emit(state.copyWith(
       number: number,
+      errorMessage: null,
+    ));
+  }
+
+  void updateDescription(String description) {
+    emit(state.copyWith(
+      description: description,
       errorMessage: null,
     ));
   }
@@ -46,12 +54,14 @@ class EditPhoneRequestCubit extends Cubit<EditPhoneRequestState> {
     final dto = UpdateRequestDto(
       id: state.requestId,
       itemType: ItemType.phoneNumber,
-      data: PhoneNumber(number: state.number).toJson(),
+      data: PhoneNumber(
+        number: state.number,
+        description: state.description,
+      ).toJson(),
     );
 
     try {
-      final callable =
-          FirebaseFunctions.instance.httpsCallable(updateRequestCF);
+      final callable = FirebaseFunctions.instance.httpsCallable(updateRequestCF);
       final response = await callable.call(dto.toJson());
 
       if (response.data != null && response.data['success'] == true) {

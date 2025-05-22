@@ -25,6 +25,7 @@ mixin _$UpdateListingDtoV2 {
   int? get price => throw _privateConstructorUsedError;
   int? get discountPrice => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
+  bool get priceHidden => throw _privateConstructorUsedError;
 
   /// Serializes this UpdateListingDtoV2 to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -47,7 +48,8 @@ abstract class $UpdateListingDtoV2CopyWith<$Res> {
       ItemType itemType,
       int? price,
       int? discountPrice,
-      String? description});
+      String? description,
+      bool priceHidden});
 }
 
 /// @nodoc
@@ -70,6 +72,7 @@ class _$UpdateListingDtoV2CopyWithImpl<$Res, $Val extends UpdateListingDtoV2>
     Object? price = freezed,
     Object? discountPrice = freezed,
     Object? description = freezed,
+    Object? priceHidden = null,
   }) {
     return _then(_value.copyWith(
       listingId: null == listingId
@@ -92,6 +95,10 @@ class _$UpdateListingDtoV2CopyWithImpl<$Res, $Val extends UpdateListingDtoV2>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      priceHidden: null == priceHidden
+          ? _value.priceHidden
+          : priceHidden // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -109,7 +116,8 @@ abstract class _$$UpdateListingDtoV2ImplCopyWith<$Res>
       ItemType itemType,
       int? price,
       int? discountPrice,
-      String? description});
+      String? description,
+      bool priceHidden});
 }
 
 /// @nodoc
@@ -130,6 +138,7 @@ class __$$UpdateListingDtoV2ImplCopyWithImpl<$Res>
     Object? price = freezed,
     Object? discountPrice = freezed,
     Object? description = freezed,
+    Object? priceHidden = null,
   }) {
     return _then(_$UpdateListingDtoV2Impl(
       listingId: null == listingId
@@ -152,6 +161,10 @@ class __$$UpdateListingDtoV2ImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      priceHidden: null == priceHidden
+          ? _value.priceHidden
+          : priceHidden // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -164,7 +177,8 @@ class _$UpdateListingDtoV2Impl extends _UpdateListingDtoV2 {
       required this.itemType,
       this.price,
       this.discountPrice,
-      this.description})
+      this.description,
+      this.priceHidden = false})
       : super._();
 
   factory _$UpdateListingDtoV2Impl.fromJson(Map<String, dynamic> json) =>
@@ -180,10 +194,13 @@ class _$UpdateListingDtoV2Impl extends _UpdateListingDtoV2 {
   final int? discountPrice;
   @override
   final String? description;
+  @override
+  @JsonKey()
+  final bool priceHidden;
 
   @override
   String toString() {
-    return 'UpdateListingDtoV2(listingId: $listingId, itemType: $itemType, price: $price, discountPrice: $discountPrice, description: $description)';
+    return 'UpdateListingDtoV2(listingId: $listingId, itemType: $itemType, price: $price, discountPrice: $discountPrice, description: $description, priceHidden: $priceHidden)';
   }
 
   @override
@@ -199,13 +216,15 @@ class _$UpdateListingDtoV2Impl extends _UpdateListingDtoV2 {
             (identical(other.discountPrice, discountPrice) ||
                 other.discountPrice == discountPrice) &&
             (identical(other.description, description) ||
-                other.description == description));
+                other.description == description) &&
+            (identical(other.priceHidden, priceHidden) ||
+                other.priceHidden == priceHidden));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, listingId, itemType, price, discountPrice, description);
+  int get hashCode => Object.hash(runtimeType, listingId, itemType, price,
+      discountPrice, description, priceHidden);
 
   /// Create a copy of UpdateListingDtoV2
   /// with the given fields replaced by the non-null parameter values.
@@ -230,7 +249,8 @@ abstract class _UpdateListingDtoV2 extends UpdateListingDtoV2 {
       required final ItemType itemType,
       final int? price,
       final int? discountPrice,
-      final String? description}) = _$UpdateListingDtoV2Impl;
+      final String? description,
+      final bool priceHidden}) = _$UpdateListingDtoV2Impl;
   const _UpdateListingDtoV2._() : super._();
 
   factory _UpdateListingDtoV2.fromJson(Map<String, dynamic> json) =
@@ -246,6 +266,8 @@ abstract class _UpdateListingDtoV2 extends UpdateListingDtoV2 {
   int? get discountPrice;
   @override
   String? get description;
+  @override
+  bool get priceHidden;
 
   /// Create a copy of UpdateListingDtoV2
   /// with the given fields replaced by the non-null parameter values.

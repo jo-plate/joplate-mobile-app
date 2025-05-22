@@ -10,6 +10,7 @@ class PlateNumber with _$PlateNumber {
   const factory PlateNumber({
     required String code,
     required String number,
+    @Default('') String description,
   }) = _PlateNumber;
 
   static List<PlateNumber> mockList(int number) {

@@ -5,6 +5,7 @@ import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/entities/phone_listing.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/edit_phone_listing_screen/cubit/edit_phone_listing_cubit.dart';
+import 'package:joplate/presentation/routes/pages/edit_phone_listing_screen/cubit/edit_phone_listing_state.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/promote_listing_button.dart';
 
 @RoutePage()
@@ -20,6 +21,7 @@ class EditPhoneListingPageState extends State<EditPhoneListingPage> {
   late final TextEditingController _numberCtrl;
   late final TextEditingController _priceCtrl;
   late final TextEditingController _discountCtrl;
+  late final TextEditingController _descriptionCtrl;
   bool _showDiscount = false;
 
   @override
@@ -29,6 +31,7 @@ class EditPhoneListingPageState extends State<EditPhoneListingPage> {
     _numberCtrl = TextEditingController(text: l.item.number);
     _priceCtrl = TextEditingController(text: l.price.toString());
     _discountCtrl = TextEditingController(text: l.discountPrice.toString());
+    _descriptionCtrl = TextEditingController(text: l.description);
     _showDiscount = (l.discountPrice > 0);
   }
 
@@ -37,6 +40,7 @@ class EditPhoneListingPageState extends State<EditPhoneListingPage> {
     _numberCtrl.dispose();
     _priceCtrl.dispose();
     _discountCtrl.dispose();
+    _descriptionCtrl.dispose();
     super.dispose();
   }
 
@@ -75,23 +79,38 @@ class EditPhoneListingPageState extends State<EditPhoneListingPage> {
                     const SizedBox(height: 16),
 
                     // Price
-                    TextField(
-                      controller: _priceCtrl,
-                      decoration: InputDecoration(labelText: m.editphone.price),
-                      keyboardType: TextInputType.number,
-                      enabled: !state.isSubmitting,
-                      onChanged: cubit.updatePrice,
+                    SwitchListTile(
+                      title: Text(m.platesdetails.call_for_price),
+                      value: state.priceHidden,
+                      onChanged: state.isSubmitting
+                          ? null
+                          : (val) {
+                              cubit.updatePriceHidden(val);
+                              if (val) {
+                                _priceCtrl.clear();
+                                cubit.updatePrice('');
+                              }
+                            },
                     ),
+                    if (!state.priceHidden) ...[
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: _priceCtrl,
+                        decoration: InputDecoration(labelText: m.editphone.price),
+                        keyboardType: TextInputType.number,
+                        enabled: !state.isSubmitting,
+                        onChanged: cubit.updatePrice,
+                      ),
+                    ],
                     const SizedBox(height: 16),
 
                     // Discount switch (UI only)
                     SwitchListTile(
                       title: Text(m.editphone.discount),
-                      value: _showDiscount,
+                      value: state.discountPrice?.isNotEmpty == true,
                       onChanged: state.isSubmitting
                           ? null
                           : (val) {
-                              setState(() => _showDiscount = val);
                               if (!val) {
                                 _discountCtrl.clear();
                                 cubit.updateDiscountPrice('');
@@ -100,7 +119,7 @@ class EditPhoneListingPageState extends State<EditPhoneListingPage> {
                     ),
 
                     // Discount price field
-                    if (_showDiscount) ...[
+                    if (state.discountPrice?.isNotEmpty == true) ...[
                       const SizedBox(height: 16),
                       TextField(
                         controller: _discountCtrl,
@@ -110,6 +129,18 @@ class EditPhoneListingPageState extends State<EditPhoneListingPage> {
                         onChanged: cubit.updateDiscountPrice,
                       ),
                     ],
+
+                    // Description field
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: _descriptionCtrl,
+                      decoration: InputDecoration(labelText: m.common.description, alignLabelWithHint: true),
+                      maxLines: 3,
+                      enabled: !state.isSubmitting,
+                      onChanged: cubit.updateDescription,
+                      textAlign: TextAlign.justify,
+                      textAlignVertical: TextAlignVertical.top,
+                    ),
 
                     const SizedBox(height: 24),
 
