@@ -31,7 +31,11 @@ import 'package:joplate/services/tracking_service.dart';
 import 'firebase_options.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
+final routerConfig = AppRouter().config(
+  navigatorObservers: () => [
+    FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
+  ],
+);
 // Handle background messages
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -115,11 +119,12 @@ void main() async {
     debugPrint('Error setting analytics collection enabled: $e');
   }
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+  final _appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context) {
@@ -173,13 +178,18 @@ class MyApp extends StatelessWidget {
                     ),
                   );
                 },
-                routerConfig: AppRouter().config(
-                  navigatorObservers: () => [
-                    FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
-                  ],
-                ),
+                // routerConfig: routerConfig,
                 restorationScopeId: 'joplate_app',
                 debugShowCheckedModeBanner: false,
+                routeInformationParser: _appRouter.defaultRouteParser(),
+                routerDelegate: _appRouter.delegate(
+                  navRestorationScopeId: 'joplate_app',
+                  navigatorObservers: () => [
+                    FirebaseAnalyticsObserver(
+                      analytics: FirebaseAnalytics.instance,
+                    ),
+                  ],
+                ),
               );
             },
           );
@@ -225,12 +235,15 @@ void initIAPListener(BuildContext context) {
       }
     },
     onError: (error) {
-      AppSnackbar.showError('خطأ في عملية الشراء');
+      final m = Localization.of(context);
+      AppSnackbar.showError(m.common.purchase_error);
     },
   );
 }
 
 Future<void> _handlePurchase(PurchaseDetails purchase, BuildContext context) async {
+  final m = Localization.of(context);
+
   if (purchase.status == PurchaseStatus.purchased) {
     final iapData = IAPData(
       productId: purchase.productID,
@@ -243,15 +256,15 @@ Future<void> _handlePurchase(PurchaseDetails purchase, BuildContext context) asy
       final callable = FirebaseFunctions.instance.httpsCallable(redeemPurchaseCF);
       await callable.call(iapData.toJson());
 
-      AppSnackbar.showSuccess('✅ تم تفعيل التذكرة بنجاح');
+      AppSnackbar.showSuccess(m.common.activation_success);
     } on FirebaseFunctionsException catch (e) {
-      AppSnackbar.showError('❌ فشل التفعيل: ${e.message ?? "خطأ غير معروف"}');
+      AppSnackbar.showError('${m.common.activation_failed}${e.message ?? m.common.unknown_error}');
     } finally {
       if (purchase.pendingCompletePurchase) {
         await InAppPurchase.instance.completePurchase(purchase);
       }
     }
   } else if (purchase.status == PurchaseStatus.error) {
-    AppSnackbar.showError('فشل الشراء');
+    AppSnackbar.showError(m.common.purchase_error);
   }
 }

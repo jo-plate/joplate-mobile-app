@@ -2180,6 +2180,26 @@ class CommonMessages {
   /// ```
   String get description_too_long =>
       """Description must be 150 characters or less""";
+
+  /// ```dart
+  /// "Purchase failed"
+  /// ```
+  String get purchase_error => """Purchase failed""";
+
+  /// ```dart
+  /// "✅ Ticket activated successfully"
+  /// ```
+  String get activation_success => """✅ Ticket activated successfully""";
+
+  /// ```dart
+  /// "❌ Activation failed: "
+  /// ```
+  String get activation_failed => """❌ Activation failed: """;
+
+  /// ```dart
+  /// "Unknown error"
+  /// ```
+  String get unknown_error => """Unknown error""";
 }
 
 class ListingstatusMessages {
@@ -2761,6 +2781,10 @@ Map<String, String> get messagesMap => {
   """common.description_hint""": """Add a description (max 150 characters)""",
   """common.description_too_long""":
       """Description must be 150 characters or less""",
+  """common.purchase_error""": """Purchase failed""",
+  """common.activation_success""": """✅ Ticket activated successfully""",
+  """common.activation_failed""": """❌ Activation failed: """,
+  """common.unknown_error""": """Unknown error""",
   """listingstatus.featured""": """Featured""",
   """listingstatus.active""": """Active""",
   """listingstatus.inactive""": """Inactive""",

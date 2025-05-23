@@ -436,6 +436,10 @@ common:
   description: "Description"
   description_hint: "Add a description (max 150 characters)"
   description_too_long: "Description must be 150 characters or less"
+  purchase_error: "Purchase failed"
+  activation_success: "✅ Ticket activated successfully"
+  activation_failed: "❌ Activation failed: "
+  unknown_error: "Unknown error"
 
 listingstatus:
   featured: "Featured"

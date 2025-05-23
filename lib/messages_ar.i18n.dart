@@ -2184,6 +2184,26 @@ class CommonMessagesAr extends CommonMessages {
   /// "يجب أن يكون الوصف 150 حرفًا أو أقل"
   /// ```
   String get description_too_long => """يجب أن يكون الوصف 150 حرفًا أو أقل""";
+
+  /// ```dart
+  /// "فشل الشراء"
+  /// ```
+  String get purchase_error => """فشل الشراء""";
+
+  /// ```dart
+  /// "✅ تم تفعيل التذكرة بنجاح"
+  /// ```
+  String get activation_success => """✅ تم تفعيل التذكرة بنجاح""";
+
+  /// ```dart
+  /// "❌ فشل التفعيل: "
+  /// ```
+  String get activation_failed => """❌ فشل التفعيل: """;
+
+  /// ```dart
+  /// "خطأ غير معروف"
+  /// ```
+  String get unknown_error => """خطأ غير معروف""";
 }
 
 class ListingstatusMessagesAr extends ListingstatusMessages {
@@ -2765,6 +2785,10 @@ Map<String, String> get messagesArMap => {
   """common.description""": """الوصف""",
   """common.description_hint""": """أضف وصفًا (الحد الأقصى 150 حرفًا)""",
   """common.description_too_long""": """يجب أن يكون الوصف 150 حرفًا أو أقل""",
+  """common.purchase_error""": """فشل الشراء""",
+  """common.activation_success""": """✅ تم تفعيل التذكرة بنجاح""",
+  """common.activation_failed""": """❌ فشل التفعيل: """,
+  """common.unknown_error""": """خطأ غير معروف""",
   """listingstatus.featured""": """مميز""",
   """listingstatus.active""": """نشط""",
   """listingstatus.inactive""": """غير نشط""",

@@ -436,6 +436,10 @@ common:
   description: "الوصف"
   description_hint: "أضف وصفًا (الحد الأقصى 150 حرفًا)"
   description_too_long: "يجب أن يكون الوصف 150 حرفًا أو أقل"
+  purchase_error: "فشل الشراء"
+  activation_success: "✅ تم تفعيل التذكرة بنجاح"
+  activation_failed: "❌ فشل التفعيل: "
+  unknown_error: "خطأ غير معروف"
 
 listingstatus:
   featured: "مميز"
