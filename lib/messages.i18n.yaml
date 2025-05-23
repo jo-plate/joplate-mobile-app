@@ -179,6 +179,11 @@ addplate:
   price_after_discount: "Price after Discount"
   code: "Code"
   select_code: "Select Code"
+  code_required: "Plate code is required"
+  number_required: "Plate number is required"
+  invalid_code: "Invalid plate code"
+  invalid_number: "Invalid plate number"
+  mask_instructions: "You can use X or Y to mask any digit"
 
 addphonerequest:
   title: "Add Phone Request"

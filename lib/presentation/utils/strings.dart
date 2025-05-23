@@ -34,3 +34,79 @@ String obfuscatePhoneNumber(String phoneNumber) {
 
   return "+962 $visibleStart$hidden$visibleEnd";
 }
+
+/// Validates and formats a car number with support for masking.
+///
+/// [number] is the input car number string
+/// [maskWithX] if true, replaces numbers with 'X'
+/// [maskWithY] if true, replaces numbers with 'Y'
+///
+/// Returns a formatted string with the following rules:
+/// - Allows only numbers, 'X', and 'Y' characters
+/// - Maximum length of 9 characters
+/// - Automatically adds spaces between groups of characters
+/// - Returns null if the input is invalid
+String? formatCarNumber(String number, {bool maskWithX = false, bool maskWithY = false}) {
+  // Remove any existing spaces
+  final cleanNumber = number.replaceAll(' ', '');
+
+  // Check if the number contains only valid characters
+  if (!RegExp(r'^[0-9XY]+$').hasMatch(cleanNumber)) {
+    return null;
+  }
+
+  // Check maximum length
+  if (cleanNumber.length > 9) {
+    return null;
+  }
+
+  // Apply masking if requested
+  String maskedNumber = cleanNumber;
+  if (maskWithX) {
+    maskedNumber = maskedNumber.replaceAll(RegExp(r'[0-9]'), 'X');
+  } else if (maskWithY) {
+    maskedNumber = maskedNumber.replaceAll(RegExp(r'[0-9]'), 'Y');
+  }
+
+  // Format with spaces
+  final buffer = StringBuffer();
+  for (int i = 0; i < maskedNumber.length; i++) {
+    if (i > 0 && i % 3 == 0) {
+      buffer.write(' ');
+    }
+    buffer.write(maskedNumber[i]);
+  }
+
+  return buffer.toString();
+}
+
+/// Validates if a car number is in a valid format.
+///
+/// [number] is the input car number string
+/// [allowMasking] if true, allows 'X' and 'Y' characters in the validation
+///
+/// Returns true if the number is valid according to the following rules:
+/// - Contains only numbers (and optionally 'X'/'Y' if allowMasking is true)
+/// - Has a length between 1 and 9 characters
+bool isValidCarNumber(String number, {bool allowMasking = false}) {
+  // Remove any existing spaces
+  final cleanNumber = number.replaceAll(' ', '');
+
+  // Check if the number contains only valid characters
+  if (allowMasking) {
+    if (!RegExp(r'^[0-9XY]+$').hasMatch(cleanNumber)) {
+      return false;
+    }
+  } else {
+    if (!RegExp(r'^[0-9]+$').hasMatch(cleanNumber)) {
+      return false;
+    }
+  }
+
+  // Check length
+  if (cleanNumber.isEmpty || cleanNumber.length > 9) {
+    return false;
+  }
+
+  return true;
+}

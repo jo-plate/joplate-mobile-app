@@ -179,6 +179,11 @@ addplate:
   price_after_discount: "السعر بعد الخصم"
   code: "الترميز"
   select_code: "اختر الترميز"
+  code_required: "الترميز مطلوب"
+  number_required: "رقم اللوحة مطلوب"
+  invalid_code: "ترميز غير صالح"
+  invalid_number: "رقم لوحة غير صالح"
+  mask_instructions: "يمكنك استخدام X أو Y لإخفاء أي رقم"
 
 addphonerequest:
   title: "إضافة طلب هاتف"

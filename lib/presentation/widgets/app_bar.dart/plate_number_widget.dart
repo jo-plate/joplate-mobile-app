@@ -97,7 +97,7 @@ class PlateNumberWidget extends StatelessWidget {
       constraints: BoxConstraints(minWidth: minWidth),
       padding: const EdgeInsets.symmetric(horizontal: 1),
       child: Image.asset(
-        'assets/images/numbers/number_$digit.png',
+        'assets/images/numbers/number_${digit.toLowerCase()}.png',
         height: height,
         fit: BoxFit.contain,
       ),

@@ -186,6 +186,14 @@ class $AssetsImagesNumbersGen {
   AssetGenImage get number9 =>
       const AssetGenImage('assets/images/numbers/number_9.png');
 
+  /// File path: assets/images/numbers/number_x.png
+  AssetGenImage get numberX =>
+      const AssetGenImage('assets/images/numbers/number_x.png');
+
+  /// File path: assets/images/numbers/number_y.png
+  AssetGenImage get numberY =>
+      const AssetGenImage('assets/images/numbers/number_y.png');
+
   /// File path: assets/images/numbers/separator.png
   AssetGenImage get separator =>
       const AssetGenImage('assets/images/numbers/separator.png');
@@ -203,6 +211,8 @@ class $AssetsImagesNumbersGen {
     number7,
     number8,
     number9,
+    numberX,
+    numberY,
     separator,
   ];
 }

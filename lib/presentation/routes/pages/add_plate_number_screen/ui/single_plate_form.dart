@@ -5,6 +5,7 @@ import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_number_screen/cubit/plate_form_state.dart';
 import 'package:joplate/presentation/theme.dart';
 import 'package:joplate/presentation/widgets/plate_code_picker_field.dart';
+import 'package:joplate/presentation/widgets/plate_number_field.dart';
 
 /// A single plate form row, with an optional remove button in the top-right corner.
 class SinglePlateForm extends StatefulWidget {
@@ -122,13 +123,11 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
                   controller: codeController,
                 ),
                 const SizedBox(height: 16),
-                TextField(
-                  controller: numberController,
+                PlateNumberField(
+                  value: widget.formState.number,
+                  enabled: !widget.formState.isSubmitting,
                   onChanged: widget.onNumberChanged,
-                  maxLength: 5,
-                  keyboardType: TextInputType.number,
-                  enabled: !isSubmitting,
-                  decoration: InputDecoration(labelText: m.addplate.number),
+                  controller: numberController,
                 ),
                 const SizedBox(height: 16),
 

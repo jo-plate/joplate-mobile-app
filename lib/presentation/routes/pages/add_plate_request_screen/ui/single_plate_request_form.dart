@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/widgets/plate_code_picker_field.dart';
+import 'package:joplate/presentation/widgets/plate_number_field.dart';
 import '../cubit/add_plate_request_cubit.dart';
 import '../cubit/add_plate_request_state.dart';
 import 'package:joplate/presentation/theme.dart';
@@ -90,13 +91,11 @@ class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
                   controller: codeController,
                 ),
                 const SizedBox(height: 16),
-                TextField(
-                  controller: numberController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(labelText: m.addplaterequest.number),
-                  onChanged: cubit.updateNumber,
-                  maxLength: 5,
+                PlateNumberField(
+                  value: state.number,
                   enabled: !state.isSubmitting,
+                  onChanged: cubit.updateNumber,
+                  controller: numberController,
                 ),
                 const SizedBox(height: 16),
                 TextField(

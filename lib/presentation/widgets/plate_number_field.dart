@@ -3,13 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/utils/formatters/upper_case_text_formatter.dart';
 
-class PlateCodePickerField extends StatelessWidget {
+class PlateNumberField extends StatelessWidget {
   final String value;
   final bool enabled;
   final void Function(String) onChanged;
   final TextEditingController controller;
 
-  const PlateCodePickerField({
+  const PlateNumberField({
     super.key,
     required this.value,
     required this.onChanged,
@@ -17,100 +17,34 @@ class PlateCodePickerField extends StatelessWidget {
     required this.controller,
   });
 
-  static const validCodes = [
-    '10',
-    '11',
-    '12',
-    '13',
-    '14',
-    '15',
-    '16',
-    '17',
-    '18',
-    '19',
-    '20',
-    '21',
-    '22',
-    '23',
-    '24',
-    '25',
-    '26',
-    '27',
-    '28',
-    '29',
-    '30',
-    '31',
-    '32',
-    '33',
-    '34',
-    '35',
-    '36',
-    '37',
-    '38',
-    '39',
-    '40',
-    '41',
-    '42',
-    '43',
-    '44',
-    '45',
-    '46',
-    '47',
-    '48',
-    '49',
-    '77',
-    '80',
-    '88',
-  ];
+  bool _isValidNumber(String number) {
+    if (number.isEmpty) return false;
+    if (number.length > 5) return false;
 
-  bool _isValidCode(String code) {
-    // Check if it's a direct match with valid codes
-    if (validCodes.contains(code)) {
-      return true;
+    // Check if it contains only valid characters
+    if (!RegExp(r'^[0-9XY]+$').hasMatch(number)) {
+      return false;
     }
 
-    // Check if it's a valid code with X or Y
-    if (code.length == 2) {
-      // Replace X or Y with 0-9 and check if any combination matches a valid code
-      final firstChar = code[0];
-      final secondChar = code[1];
-
-      if (secondChar == 'X' || secondChar == 'Y') {
-        // Try all possible numbers for the second position
-        for (var i = 0; i <= 9; i++) {
-          final testCode = '$firstChar$i';
-          if (validCodes.contains(testCode)) {
-            return true;
-          }
-        }
-      }
-
-      if (firstChar == 'X' || firstChar == 'Y') {
-        // Try all possible numbers for the first position
-        for (var i = 0; i <= 9; i++) {
-          final testCode = '$i$secondChar';
-          if (validCodes.contains(testCode)) {
-            return true;
-          }
-        }
+    // If it contains X or Y, ensure the rest are numbers
+    if (number.contains('X') || number.contains('Y')) {
+      final digits = number.replaceAll('X', '').replaceAll('Y', '');
+      if (!RegExp(r'^[0-9]+$').hasMatch(digits)) {
+        return false;
       }
     }
 
-    return false;
+    return true;
   }
 
-  String? validatePlateCode(String? value, BuildContext context) {
+  String? validateNumber(String? value, BuildContext context) {
     final m = Localization.of(context);
     if (value == null || value.isEmpty) {
-      return m.addplate.code_required;
+      return m.addplate.number_required;
     }
 
-    // Remove any spaces
-    final cleanValue = value.replaceAll(' ', '');
-
-    // Check if it's a valid code
-    if (!_isValidCode(cleanValue)) {
-      return m.addplate.invalid_code;
+    if (!_isValidNumber(value)) {
+      return m.addplate.invalid_number;
     }
 
     return null;
@@ -122,17 +56,16 @@ class PlateCodePickerField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       enabled: enabled,
-      maxLength: 2,
+      maxLength: 5,
       keyboardType: TextInputType.text,
       inputFormatters: [
         UppercaseTextFormatter(),
         FilteringTextInputFormatter.allow(RegExp(r'[0-9XY]')),
       ],
       decoration: InputDecoration(
-        labelText: m.plates.code,
-        hintText: m.addplate.select_code,
+        labelText: m.addplate.number,
         counterText: '',
-        labelStyle: const TextStyle(fontSize: 14),
+        labelStyle: const TextStyle(color: Colors.black, fontSize: 14),
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           borderSide: BorderSide(color: Colors.grey, width: 1),
@@ -155,7 +88,7 @@ class PlateCodePickerField extends StatelessWidget {
           ),
         ),
       ),
-      validator: (value) => validatePlateCode(value, context),
+      validator: (value) => validateNumber(value, context),
       onChanged: onChanged,
       autovalidateMode: AutovalidateMode.onUserInteraction,
     );

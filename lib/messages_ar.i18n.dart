@@ -948,6 +948,31 @@ class AddplateMessagesAr extends AddplateMessages {
   /// "اختر الترميز"
   /// ```
   String get select_code => """اختر الترميز""";
+
+  /// ```dart
+  /// "الترميز مطلوب"
+  /// ```
+  String get code_required => """الترميز مطلوب""";
+
+  /// ```dart
+  /// "رقم اللوحة مطلوب"
+  /// ```
+  String get number_required => """رقم اللوحة مطلوب""";
+
+  /// ```dart
+  /// "ترميز غير صالح"
+  /// ```
+  String get invalid_code => """ترميز غير صالح""";
+
+  /// ```dart
+  /// "رقم لوحة غير صالح"
+  /// ```
+  String get invalid_number => """رقم لوحة غير صالح""";
+
+  /// ```dart
+  /// "يمكنك استخدام X أو Y لإخفاء أي رقم"
+  /// ```
+  String get mask_instructions => """يمكنك استخدام X أو Y لإخفاء أي رقم""";
 }
 
 class AddphonerequestMessagesAr extends AddphonerequestMessages {
@@ -2493,6 +2518,11 @@ Map<String, String> get messagesArMap => {
   """addplate.price_after_discount""": """السعر بعد الخصم""",
   """addplate.code""": """الترميز""",
   """addplate.select_code""": """اختر الترميز""",
+  """addplate.code_required""": """الترميز مطلوب""",
+  """addplate.number_required""": """رقم اللوحة مطلوب""",
+  """addplate.invalid_code""": """ترميز غير صالح""",
+  """addplate.invalid_number""": """رقم لوحة غير صالح""",
+  """addplate.mask_instructions""": """يمكنك استخدام X أو Y لإخفاء أي رقم""",
   """addphonerequest.title""": """إضافة طلب هاتف""",
   """addphonerequest.company_label""": """الشركة""",
   """addphonerequest.phone_number_label""": """رقم الهاتف""",

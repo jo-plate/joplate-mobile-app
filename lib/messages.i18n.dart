@@ -945,6 +945,31 @@ class AddplateMessages {
   /// "Select Code"
   /// ```
   String get select_code => """Select Code""";
+
+  /// ```dart
+  /// "Plate code is required"
+  /// ```
+  String get code_required => """Plate code is required""";
+
+  /// ```dart
+  /// "Plate number is required"
+  /// ```
+  String get number_required => """Plate number is required""";
+
+  /// ```dart
+  /// "Invalid plate code"
+  /// ```
+  String get invalid_code => """Invalid plate code""";
+
+  /// ```dart
+  /// "Invalid plate number"
+  /// ```
+  String get invalid_number => """Invalid plate number""";
+
+  /// ```dart
+  /// "You can use X or Y to mask any digit"
+  /// ```
+  String get mask_instructions => """You can use X or Y to mask any digit""";
 }
 
 class AddphonerequestMessages {
@@ -2491,6 +2516,11 @@ Map<String, String> get messagesMap => {
   """addplate.price_after_discount""": """Price after Discount""",
   """addplate.code""": """Code""",
   """addplate.select_code""": """Select Code""",
+  """addplate.code_required""": """Plate code is required""",
+  """addplate.number_required""": """Plate number is required""",
+  """addplate.invalid_code""": """Invalid plate code""",
+  """addplate.invalid_number""": """Invalid plate number""",
+  """addplate.mask_instructions""": """You can use X or Y to mask any digit""",
   """addphonerequest.title""": """Add Phone Request""",
   """addphonerequest.company_label""": """Company""",
   """addphonerequest.phone_number_label""": """Phone Number""",
