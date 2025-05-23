@@ -151,12 +151,12 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
                         ),
                     ],
                     const SizedBox(height: 16),
-                    RequestedByWidgget(userId: snapshot.data!.userId, visits: snapshot.data!.visits),
-                    const SizedBox(height: 16),
                     if (snapshot.data!.description.isNotEmpty) ...[
                       DescriptionWidget(description: snapshot.data!.description),
                       const SizedBox(height: 16),
                     ],
+                    RequestedByWidgget(userId: snapshot.data!.userId, visits: snapshot.data!.visits),
+                    const SizedBox(height: 16),
                     Container(
                       padding: const EdgeInsets.all(12.0),
                       decoration: BoxDecoration(

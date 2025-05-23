@@ -167,16 +167,13 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
                 const SizedBox(
                   height: 16,
                 ),
-                SellerDetails(userId: phone.userId, visits: phone.visits),
-                const SizedBox(
-                  height: 16,
-                ),
                 if (phone.description.isNotEmpty) ...[
                   DescriptionWidget(description: phone.description),
                   const SizedBox(
                     height: 16,
                   ),
                 ],
+                SellerDetails(userId: phone.userId, visits: phone.visits),
                 const SizedBox(
                   height: 16,
                 ),

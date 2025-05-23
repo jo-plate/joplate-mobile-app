@@ -164,12 +164,12 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                       PromoteListingButton(listingId: snapshot.data!.id, itemType: ItemType.plateNumber),
                     ],
                     const SizedBox(height: 16),
-                    SellerDetails(userId: snapshot.data!.userId, visits: snapshot.data!.visits),
-                    const SizedBox(height: 16),
                     if (snapshot.data!.description.isNotEmpty) ...[
                       DescriptionWidget(description: snapshot.data!.description),
                       const SizedBox(height: 16),
                     ],
+                    SellerDetails(userId: snapshot.data!.userId, visits: snapshot.data!.visits),
+                    const SizedBox(height: 16),
                     OtherSellersTable(
                       userId: snapshot.data!.userId,
                       plateNumber: snapshot.data!.item,
