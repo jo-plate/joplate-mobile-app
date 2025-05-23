@@ -53,67 +53,81 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
             elevation: 0,
           ),
           // TabBarView for Sign in and Sign up tabs
-          body: Column(
-            children: [
-              const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: LogoSection(size: 125),
+          body: SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: MediaQuery.of(context).size.height - AppBar().preferredSize.height,
               ),
-              TabBar(
-                controller: _tabController,
-                indicator: const BoxDecoration(),
-                dividerColor: Colors.transparent,
-                labelPadding: EdgeInsets.zero,
-                tabAlignment: TabAlignment.fill,
-                tabs: [
-                  // Custom Tabs
-                  _buildCustomTab(
-                    text: m.auth.signin,
-                    isActive: _tabController.index == 0,
-                    primaryColor: primaryColor,
-                  ),
-                  _buildCustomTab(
-                    text: m.auth.signup,
-                    isActive: _tabController.index == 1,
-                    primaryColor: primaryColor,
-                  ),
-                ],
-              ),
-              TabBarView(
-                controller: _tabController,
-                physics: const NeverScrollableScrollPhysics(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Sign in Tab Content
-                  LoginForm(
-                    onPressed: injector<AuthCubit>().loginWithEmailAndPassword,
-                  ),
+                  Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: LogoSection(size: 125),
+                      ),
+                      TabBar(
+                        controller: _tabController,
+                        indicator: const BoxDecoration(),
+                        dividerColor: Colors.transparent,
+                        labelPadding: EdgeInsets.zero,
+                        tabAlignment: TabAlignment.fill,
+                        tabs: [
+                          // Custom Tabs
+                          _buildCustomTab(
+                            text: m.auth.signin,
+                            isActive: _tabController.index == 0,
+                            primaryColor: primaryColor,
+                          ),
+                          _buildCustomTab(
+                            text: m.auth.signup,
+                            isActive: _tabController.index == 1,
+                            primaryColor: primaryColor,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 400, // Fixed height for the form section
+                        child: TabBarView(
+                          controller: _tabController,
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: [
+                            // Sign in Tab Content
+                            LoginForm(
+                              onPressed: injector<AuthCubit>().loginWithEmailAndPassword,
+                            ),
 
-                  // Sign up Tab Content
-                  SignupForm(
-                    onPressed: injector<AuthCubit>().signUpWithEmailAndPassword,
+                            // Sign up Tab Content
+                            SignupForm(
+                              onPressed: injector<AuthCubit>().signUpWithEmailAndPassword,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 24.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          m.auth.follow_us,
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                color: isDark ? Colors.white70 : Colors.black54,
+                              ),
+                        ),
+                        const SizedBox(height: 8),
+                        const SocialLinks(
+                          iconSize: 28.0,
+                          spacing: 24.0,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 24.0),
-                child: Column(
-                  children: [
-                    Text(
-                      m.auth.follow_us,
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: isDark ? Colors.white70 : Colors.black54,
-                          ),
-                    ),
-                    const SizedBox(height: 8),
-                    const SocialLinks(
-                      iconSize: 28.0,
-                      spacing: 24.0,
-                    ),
-                  ],
-                ),
-              ),
-              // Social Links Section
-            ],
+            ),
           ),
         ),
       ),

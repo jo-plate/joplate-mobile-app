@@ -43,6 +43,7 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
   late final TextEditingController numberController;
   late final TextEditingController priceController;
   late final TextEditingController discountController;
+  late final TextEditingController codeController;
 
   @override
   void initState() {
@@ -50,6 +51,7 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
     numberController = TextEditingController(text: widget.formState.number);
     priceController = TextEditingController(text: widget.formState.price);
     discountController = TextEditingController(text: widget.formState.discountPrice ?? '');
+    codeController = TextEditingController(text: widget.formState.code);
   }
 
   @override
@@ -68,6 +70,18 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
         discountController.text != (widget.formState.discountPrice ?? '')) {
       _updateControllerText(discountController, widget.formState.discountPrice ?? '');
     }
+    if (oldWidget.formState.code != widget.formState.code && codeController.text != widget.formState.code) {
+      _updateControllerText(codeController, widget.formState.code);
+    }
+  }
+
+  @override
+  void dispose() {
+    numberController.dispose();
+    priceController.dispose();
+    discountController.dispose();
+    codeController.dispose();
+    super.dispose();
   }
 
   /// Helper to preserve cursor position if we set text manually
@@ -105,6 +119,7 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
                   value: widget.formState.code,
                   enabled: !widget.formState.isSubmitting,
                   onChanged: widget.onCodeChanged,
+                  controller: codeController,
                 ),
                 const SizedBox(height: 16),
                 TextField(

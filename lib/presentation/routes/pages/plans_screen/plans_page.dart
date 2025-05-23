@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/plan.dart';
 import 'package:joplate/presentation/routes/pages/plans_screen/ui/plan_widget.dart';
@@ -16,19 +17,19 @@ class PlansPage extends StatefulWidget {
 
 class _PlansPageState extends State<PlansPage> {
   late final Stream<List<Plan>> plans;
+  late final Stream<String> currentPlanStream;
   final _analytics = FirebaseAnalytics.instance;
-  String? currentPlanName;
 
   @override
   void initState() {
     super.initState();
     _logPlansPageViewed();
-    _getCurrentPlan();
+    plans = _createPlansStream();
+    currentPlanStream = _createCurrentPlanStream();
+  }
 
-    plans = FirebaseFirestore.instance.collection('plans').snapshots().map((snapshot) {
-      for (var e in snapshot.docs) {
-        print(e.data());
-      }
+  Stream<List<Plan>> _createPlansStream() {
+    return FirebaseFirestore.instance.collection('plans').snapshots().map((snapshot) {
       final firebasePlans = snapshot.docs.map((doc) => Plan.fromJson(doc.data())).toList();
 
       // Add the Basic (bronze) plan if it doesn't exist
@@ -43,33 +44,17 @@ class _PlansPageState extends State<PlansPage> {
     });
   }
 
-  void _getCurrentPlan() {
-    // For now, default to Basic plan
-    // In a real implementation, you would fetch the current plan from a subscription service
-    // or from user metadata in Firestore
-    setState(() {
-      currentPlanName = 'Basic';
+  Stream<String> _createCurrentPlanStream() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      return Stream.value('Basic');
+    }
 
-      // TODO: Fetch actual plan from user subscription data
-      // This could be implemented by adding a 'planId' or 'planName' field to UserProfile
-      // or by querying a separate subscriptions collection
+    return FirebaseFirestore.instance.collection('userPlans').doc(user.uid).snapshots().map((doc) {
+      if (!doc.exists) return 'Basic';
+      final data = doc.data();
+      return data?['plan'] ?? 'Basic';
     });
-
-    // Example of how you might fetch it if it were stored in a separate document:
-    // final user = FirebaseAuth.instance.currentUser;
-    // if (user != null) {
-    //   FirebaseFirestore.instance
-    //     .collection('subscriptions')
-    //     .doc(user.uid)
-    //     .get()
-    //     .then((doc) {
-    //       if (doc.exists) {
-    //         setState(() {
-    //           currentPlanName = doc.data()?['planName'] ?? 'Basic';
-    //         });
-    //       }
-    //     });
-    // }
   }
 
   Plan _createBasicPlan() {
@@ -105,45 +90,63 @@ class _PlansPageState extends State<PlansPage> {
         title: Text(m.profile.packages),
         centerTitle: true,
       ),
-      body: StreamBuilder<List<Plan>>(
-        stream: plans,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                child: Row(
-                  children: [
-                    Text(
-                      m.profile.my_current_plan,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+      body: StreamBuilder<String>(
+        stream: currentPlanStream,
+        builder: (context, currentPlanSnapshot) {
+          return StreamBuilder<List<Plan>>(
+            stream: plans,
+            builder: (context, plansSnapshot) {
+              if (plansSnapshot.hasError) {
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      'Error loading plans: ${plansSnapshot.error}',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.red),
                     ),
-                    const SizedBox(width: 8),
-                    if (currentPlanName != null) _buildPlanBadge(currentPlanName!),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    return PlanWidget(
-                      plan: snapshot.data![index],
-                      isSmallCard: false,
-                    );
-                  },
-                ),
-              ),
-            ],
+                  ),
+                );
+              }
+
+              if (!plansSnapshot.hasData) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    child: Row(
+                      children: [
+                        Text(
+                          m.profile.my_current_plan,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        if (currentPlanSnapshot.hasData) _buildPlanBadge(currentPlanSnapshot.data!),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      itemCount: plansSnapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        return PlanWidget(
+                          plan: plansSnapshot.data![index],
+                          isSmallCard: false,
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              );
+            },
           );
         },
       ),

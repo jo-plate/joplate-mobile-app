@@ -16,7 +16,7 @@ class SinglePlateRequestForm extends StatefulWidget {
 }
 
 class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
-  // late final TextEditingController codeController;
+  late final TextEditingController codeController;
   late final TextEditingController numberController;
   // late final TextEditingController priceController;
 
@@ -26,7 +26,7 @@ class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
     final cubit = context.read<AddPlateRequestCubit>();
     final state = cubit.state;
 
-    // codeController = TextEditingController(text: state.code);
+    codeController = TextEditingController(text: state.code);
     numberController = TextEditingController(text: state.number);
     // priceController = TextEditingController(text: state.price ?? '');
   }
@@ -35,9 +35,17 @@ class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final state = context.read<AddPlateRequestCubit>().state;
-    // _maybeSyncText(codeController, state.code);
+    _maybeSyncText(codeController, state.code);
     _maybeSyncText(numberController, state.number);
     // _maybeSyncText(priceController, state.price ?? '');
+  }
+
+  @override
+  void dispose() {
+    codeController.dispose();
+    numberController.dispose();
+    // priceController.dispose();
+    super.dispose();
   }
 
   void _maybeSyncText(TextEditingController controller, String newText) {
@@ -62,47 +70,53 @@ class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
         return Container(
           decoration: getCardContainerStyle(context),
           padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              if (state.errorMessage != null)
-                Text(
-                  state.errorMessage!,
-                  style: const TextStyle(color: Colors.red),
+          child: SingleChildScrollView(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (state.errorMessage != null)
+                  Text(
+                    state.errorMessage!,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                const SizedBox(height: 8),
+                PlateCodePickerField(
+                  value: state.code,
+                  enabled: !state.isSubmitting,
+                  onChanged: cubit.updateCode,
+                  controller: codeController,
                 ),
-              const SizedBox(height: 8),
-              PlateCodePickerField(
-                value: state.code,
-                enabled: !state.isSubmitting,
-                onChanged: cubit.updateCode,
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: numberController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: m.addplaterequest.number),
-                onChanged: cubit.updateNumber,
-                maxLength: 5,
-                enabled: !state.isSubmitting,
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                maxLines: 3,
-                maxLength: 150,
-                enabled: !state.isSubmitting,
-                decoration: InputDecoration(
-                  labelText: m.common.description,
-                  hintText: m.common.description_hint,
-                  errorText: state.description.length > 150 ? m.common.description_too_long : null,
-                  alignLabelWithHint: true,
+                const SizedBox(height: 16),
+                TextField(
+                  controller: numberController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(labelText: m.addplaterequest.number),
+                  onChanged: cubit.updateNumber,
+                  maxLength: 5,
+                  enabled: !state.isSubmitting,
                 ),
-                textAlign: TextAlign.justify,
-                textAlignVertical: TextAlignVertical.top,
-                onChanged: cubit.updateDescription,
-              ),
-              const SizedBox(height: 16),
-              if (state.isSubmitting) const Center(child: CircularProgressIndicator()),
-            ],
+                const SizedBox(height: 16),
+                TextField(
+                  maxLines: 3,
+                  maxLength: 150,
+                  enabled: !state.isSubmitting,
+                  decoration: InputDecoration(
+                    labelText: m.common.description,
+                    hintText: m.common.description_hint,
+                    errorText: state.description.length > 150 ? m.common.description_too_long : null,
+                    alignLabelWithHint: true,
+                  ),
+                  textAlign: TextAlign.justify,
+                  textAlignVertical: TextAlignVertical.top,
+                  onChanged: cubit.updateDescription,
+                ),
+                const SizedBox(height: 16),
+                if (state.isSubmitting) const Center(child: CircularProgressIndicator()),
+              ],
+            ),
           ),
         );
       },

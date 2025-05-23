@@ -15,39 +15,29 @@ class AddPlateRequestPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
-    return BlocProvider<AddPlateRequestCubit>(
-      create: (_) => AddPlateRequestCubit(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(m.addplaterequest.title),
-        ),
-        body: SafeArea(
-          child: BlocBuilder<AddPlateRequestCubit, PlateRequestState>(
-            builder: (context, state) {
-              final cubit = context.read<AddPlateRequestCubit>();
-
-              return SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(m.addplaterequest.title),
+      ),
+      resizeToAvoidBottomInset: true,
+      body: SafeArea(
+        child: BlocBuilder<AddPlateRequestCubit, PlateRequestState>(
+          builder: (context, state) {
+            final cubit = context.read<AddPlateRequestCubit>();
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // The single request form
                     const SinglePlateRequestForm(),
-                    const SizedBox(height: 24),
-
-                    // Submit button
+                    const SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: state.isSubmitting
                           ? null
                           : () async {
                               await cubit.submitRequest();
-
-                              // If submission succeeded, the form is reset
-                              if (cubit.state.errorMessage == null &&
-                                  !cubit.state.isSubmitting &&
-                                  cubit.state.code.isEmpty &&
-                                  cubit.state.number.isEmpty) {
-                                // e.g., navigate away
+                              if (context.mounted && cubit.state.errorMessage == null && !cubit.state.isSubmitting) {
                                 AutoRouter.of(context).maybePop();
                               }
                             },
@@ -55,9 +45,9 @@ class AddPlateRequestPage extends StatelessWidget {
                     ),
                   ],
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );

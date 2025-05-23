@@ -48,8 +48,8 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
       return m.common.phone_start_with_77_78_79;
     }
 
-    // Check if number is exactly 10 digits (including the leading 7)
-    if (digits.length != 10) {
+    // Check if number is exactly 9 digits
+    if (digits.length != 9) {
       return m.common.phone_length;
     }
 
@@ -63,7 +63,7 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
       keyboardType: TextInputType.phone,
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
-        LengthLimitingTextInputFormatter(10),
+        LengthLimitingTextInputFormatter(9),
       ],
       decoration: InputDecoration(
         prefixText: '+962 ',
