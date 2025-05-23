@@ -30,6 +30,7 @@ class FeaturePlanDialog extends StatefulWidget {
 
 class _FeaturePlanDialogState extends State<FeaturePlanDialog> {
   int current = 0;
+  bool isLoading = true;
 
   late final Stream<List<TicketPlan>> plansStream;
 
@@ -132,18 +133,21 @@ class _FeaturePlanDialogState extends State<FeaturePlanDialog> {
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: BlocBuilder<IAPCubit, IAPState>(
                   builder: (context, state) {
+                    final isPurchasing = state.isPurchasing;
+                    final plan = plans[current];
+                    final productId = plan.productId;
+                    final isButtonEnabled = !isPurchasing && (productId != null && productId.isNotEmpty);
+
                     return ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: kGold,
                         minimumSize: const Size.fromHeight(50),
                         elevation: 0,
                         textStyle: const TextStyle(color: Colors.white),
+                        disabledBackgroundColor: kGold.withOpacity(0.5),
                       ),
-                      onPressed: state.isPurchasing
-                          ? null
-                          : () {
-                              final plan = plans[current];
-                              final productId = plan.productId;
+                      onPressed: isButtonEnabled
+                          ? () {
                               if (productId == null || productId.isEmpty) {
                                 AppSnackbar.showError(m.common.missing_product_id);
                                 return;
@@ -155,8 +159,9 @@ class _FeaturePlanDialogState extends State<FeaturePlanDialog> {
                                   itemType: widget.itemType.name,
                                 )
                                 ..purchaseProduct(productId, context);
-                            },
-                      child: state.isPurchasing
+                            }
+                          : null,
+                      child: isPurchasing
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
