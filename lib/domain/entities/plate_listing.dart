@@ -25,9 +25,9 @@ class PlateListing with _$PlateListing {
     @Default('') String description,
   }) = _PlateListing;
 
-  bool get isFeatured => featuredUntil != null && featuredUntil!.isAfter(DateTime.now());
+  bool get isFeatured => featuredUntil?.isAfter(DateTime.now()) ?? false;
   bool get isActive => !isDisabled && !isExpired;
-  bool get isExpired => expiresAt != null && expiresAt!.isBefore(DateTime.now());
+  bool get isExpired => expiresAt?.isBefore(DateTime.now()) ?? false;
   bool get priceHidden => discountPrice == 0 && price == 0;
 
   factory PlateListing.fromJson(Map<String, dynamic> json) => _$PlateListingFromJson(json);

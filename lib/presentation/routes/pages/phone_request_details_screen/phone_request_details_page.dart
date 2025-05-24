@@ -138,53 +138,6 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
                   ],
                   RequestedByWidgget(userId: snapshot.data!.userId, visits: snapshot.data!.visits),
                   const SizedBox(height: 16),
-                  Container(
-                    padding: const EdgeInsets.all(12.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Important Note:',
-                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
-                          children: [
-                            Icon(Icons.payments,
-                                color: Theme.of(context).brightness == Brightness.dark
-                                    ? Colors.white70
-                                    : const Color(0xFF981C1E)),
-                            const SizedBox(width: 8),
-                            const Expanded(
-                              child: Text(
-                                "Don't transfer money online",
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Icon(Icons.location_on,
-                                color: Theme.of(context).brightness == Brightness.dark
-                                    ? Colors.white70
-                                    : const Color(0xFF981C1E)),
-                            const SizedBox(width: 8),
-                            const Expanded(
-                              child: Text(
-                                "Meet the seller in person",
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
                   const SizedBox(height: 20),
                   const DisclaimerWidget(),
                   const SizedBox(height: 20),

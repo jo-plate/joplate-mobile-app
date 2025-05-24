@@ -39,10 +39,7 @@ class PhoneRequest with _$PhoneRequest {
   @override
   Map<String, dynamic> toJson() => toJson();
 
-  bool get isExpired {
-    if (expiresAt == null) return false;
-    return DateTime.now().isAfter(expiresAt!);
-  }
+  bool get isExpired => expiresAt?.isBefore(DateTime.now()) ?? false;
 }
 
 @Freezed(
@@ -81,10 +78,7 @@ class PlateRequest with _$PlateRequest {
     );
   }
 
-  bool get isExpired {
-    if (expiresAt == null) return false;
-    return DateTime.now().isAfter(expiresAt!);
-  }
+  bool get isExpired => expiresAt?.isBefore(DateTime.now()) ?? false;
 
   @override
   Map<String, dynamic> toJson() => toJson();

@@ -7,7 +7,7 @@ import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/utils/strings.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_listing_widget.dart';
-import 'package:joplate/presentation/widgets/favorite_button.dart';
+import 'package:joplate/presentation/widgets/duration_ago_widget.dart';
 import 'package:joplate/presentation/widgets/phone_number_widget.dart';
 import 'package:joplate/presentation/widgets/top_ribbon.dart';
 
@@ -16,14 +16,12 @@ class PhoneNumberListingWidget extends StatelessWidget {
   final bool disabled;
   final double priceLabelFontSize;
   final bool hideLikeButton;
-  final bool showCreatedAt;
   const PhoneNumberListingWidget({
     super.key,
     required this.item,
     this.disabled = false,
     this.priceLabelFontSize = 16,
     this.hideLikeButton = false,
-    this.showCreatedAt = true,
   });
 
   @override
@@ -66,22 +64,12 @@ class PhoneNumberListingWidget extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: PhoneNumberWidget(phoneNumber: item.item),
-                        ),
+                        PhoneNumberWidget(phoneNumber: item.item),
                         _buildPriceLabel(context),
-                        if (item.createdAt != null && showCreatedAt)
-                          CreatedAtLabelWidget(
+                        if (item.createdAt != null)
+                          DurationAgoWidget(
                             createdAt: item.createdAt!,
                           ),
-                        if (!hideLikeButton) ...[
-                          const SizedBox(width: 8),
-                          FavoriteButton.phone(
-                            listingId: item.id,
-                            iconSize: 24,
-                          ),
-                        ],
                       ],
                     ),
                   ),
@@ -112,7 +100,7 @@ class PhoneNumberListingWidget extends StatelessWidget {
   Widget _buildPriceLabel(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final m = Localization.of(context);
-    if (item.price == 0) {
+    if (item.priceHidden) {
       return Text(
         m.platesdetails.call_for_price,
         style: TextStyle(

@@ -31,11 +31,13 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
+    final now = Timestamp.now();
+
     // Stream for featured plate listings
     _platesStream = FirebaseFirestore.instance
         .collection(carPlatesCollectionId)
-        .where('featuredUntil', isGreaterThan: DateTime.now())
-        .where('expiresAt', isGreaterThan: DateTime.now())
+        .where('featuredUntil', isGreaterThan: now)
+        .where('expiresAt', isGreaterThan: now)
         .where('isDisabled', isEqualTo: false)
         .where('isSold', isEqualTo: false)
         .orderBy('createdAt', descending: true)
@@ -45,8 +47,8 @@ class _HomePageState extends State<HomePage> {
     // Stream for featured phone listings
     _phonesStream = FirebaseFirestore.instance
         .collection(phoneNumbersCollectionId)
-        .where('featuredUntil', isGreaterThan: DateTime.now())
-        .where('expiresAt', isGreaterThan: DateTime.now())
+        .where('featuredUntil', isGreaterThan: now)
+        .where('expiresAt', isGreaterThan: now)
         .where('isDisabled', isEqualTo: false)
         .where('isSold', isEqualTo: false)
         .orderBy('createdAt', descending: true)
@@ -315,7 +317,6 @@ class _HomePageState extends State<HomePage> {
                           child: PhonesListingGrid(
                             itemList: phones,
                             shrinkWrap: false,
-                            showCreatedAt: false,
                           ),
                         ))
                     .toList(),

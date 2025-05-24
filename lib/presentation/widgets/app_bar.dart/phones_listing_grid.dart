@@ -9,12 +9,10 @@ class PhonesListingGrid extends StatelessWidget {
     super.key,
     required this.itemList,
     this.shrinkWrap = true,
-    this.showCreatedAt = true,
   });
 
   final List<PhoneListing> itemList;
   final bool shrinkWrap;
-  final bool showCreatedAt;
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
@@ -34,7 +32,6 @@ class PhonesListingGrid extends StatelessWidget {
         itemBuilder: (context, index) {
           return PhoneNumberListingWidget(
             item: itemList[index],
-            showCreatedAt: showCreatedAt,
           );
         },
       ),

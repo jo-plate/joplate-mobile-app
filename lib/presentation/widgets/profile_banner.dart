@@ -22,6 +22,7 @@ class ProfileBanner extends StatefulWidget {
     this.userId,
     this.onFollowPressed,
     this.showTicketCount = true,
+    this.showBadge = false,
   });
 
   final bool clickable;
@@ -29,6 +30,7 @@ class ProfileBanner extends StatefulWidget {
   final String? userId;
   final Function(bool isFollowing)? onFollowPressed;
   final bool showTicketCount;
+  final bool showBadge;
 
   @override
   State<ProfileBanner> createState() => _ProfileBannerState();
@@ -246,7 +248,7 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                         Icon(Icons.verified, color: Colors.blue.shade600)
                                       else if ((profile?.pendingVerification ?? false))
                                         Icon(Icons.verified, color: Colors.grey.shade600),
-                                      if (widget.showTicketCount)
+                                      if (widget.showBadge)
                                         UserPlanBadge(plan: plan)
                                     ],
                                   ),

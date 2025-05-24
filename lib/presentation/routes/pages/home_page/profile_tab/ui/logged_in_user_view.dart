@@ -3,8 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:joplate/data/constants.dart';
-import 'package:joplate/domain/dto/apply_promo_code_dto.dart';
 import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
 import 'package:joplate/presentation/cubits/localization/localization_cubit.dart';
@@ -13,12 +11,11 @@ import 'package:joplate/presentation/routes/pages/home_page/profile_tab/ui/anon_
 import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/theme.dart';
-import 'package:joplate/presentation/widgets/app_snackbar.dart';
 import 'package:joplate/presentation/widgets/menu_item.dart';
 import 'package:joplate/presentation/widgets/profile_banner.dart';
 import 'package:joplate/presentation/cubits/theme_cubit.dart';
 import 'package:joplate/presentation/widgets/social_links.dart';
-import 'package:cloud_functions/cloud_functions.dart';
+import 'package:joplate/presentation/widgets/promo_code_dialog.dart';
 
 class LoggedInUserView extends StatefulWidget {
   const LoggedInUserView({super.key});
@@ -86,15 +83,12 @@ class _UserProfileViewState extends State<_UserProfileView> {
                   _buildFeaturesSection(),
                   const SizedBox(height: 16),
                   MenuItem(
-                    title: m.profile.packages,
-                    icon: Icons.wallet_giftcard_outlined,
-                    onTap: () => AutoRouter.of(context).push(const PlansRoute()),
-                  ),
-                  const SizedBox(height: 16),
-                  MenuItem(
                     title: m.profile.promo_code,
                     icon: Icons.card_giftcard_outlined,
-                    onTap: _showPromoCodeDialog,
+                    onTap: () => showDialog(
+                      context: context,
+                      builder: (context) => const PromoCodeDialog(),
+                    ),
                   ),
                 ] else
                   const AnonUserView(),
@@ -180,6 +174,14 @@ class _UserProfileViewState extends State<_UserProfileView> {
             },
           ),
         ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: _buildFeatureCard(
+            icon: Icons.wallet_giftcard_outlined,
+            label: m.profile.packages,
+            onTap: () => AutoRouter.of(context).push(const PlansRoute()),
+          ),
+        ),
       ],
     );
   }
@@ -209,88 +211,6 @@ class _UserProfileViewState extends State<_UserProfileView> {
                 textAlign: TextAlign.center,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _showPromoCodeDialog() {
-    final controller = TextEditingController();
-    final m = Localization.of(context);
-    showDialog(
-      context: context,
-      builder: (context) => Dialog(
-        insetPadding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * 0.1, // 80% width
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                m.profile.promo_code,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: controller,
-                decoration: InputDecoration(
-                  hintText: m.profile.promo_code_hint,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text(m.common.cancel),
-                  ),
-                  const SizedBox(width: 8),
-                  ElevatedButton(
-                    onPressed: () async {
-                      final code = controller.text.trim();
-                      if (code.isEmpty) {
-                        AppSnackbar.showError(m.common.invalid_promo_code);
-                        return;
-                      }
-
-                      try {
-                        // Call cloud function to validate and apply promo code
-                        final result = await FirebaseFunctions.instance
-                            .httpsCallable(applyPromoCodeCF)
-                            .call(ApplyPromoCodeDto(promoCode: code).toJson());
-
-                        if (result.data['success'] == true) {
-                          if (mounted) {
-                            Navigator.pop(context);
-                            AppSnackbar.showSuccess(m.common.promo_code_applied);
-                          }
-                        } else {
-                          AppSnackbar.showError(result.data['message'] ?? m.common.invalid_promo_code);
-                        }
-                      } catch (e) {
-                        AppSnackbar.showError(m.common.error_applying_promo_code);
-                      }
-                    },
-                    child: Text(
-                      m.common.confirm,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ],
               ),
             ],
           ),
@@ -392,7 +312,6 @@ class _UserProfileViewState extends State<_UserProfileView> {
     required String currentValue,
     required VoidCallback onTap,
   }) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return ElevatedButton(
       onPressed: onTap,

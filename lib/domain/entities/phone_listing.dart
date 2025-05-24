@@ -26,9 +26,9 @@ class PhoneListing with _$PhoneListing {
     @Default('') String description,
   }) = _PhoneListing;
 
-  bool get isFeatured => featuredUntil != null && featuredUntil!.isAfter(DateTime.now());
+  bool get isFeatured => featuredUntil?.isAfter(DateTime.now()) ?? false;
   bool get isActive => !isDisabled && !isExpired;
-  bool get isExpired => expiresAt != null && expiresAt!.isBefore(DateTime.now());
+  bool get isExpired => expiresAt?.isBefore(DateTime.now()) ?? false;
 
   factory PhoneListing.fromJson(Map<String, dynamic> json) =>
       _$PhoneListingFromJson(json);

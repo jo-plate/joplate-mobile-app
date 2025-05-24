@@ -14,7 +14,7 @@ class CategorySection extends StatelessWidget {
     return FirebaseFirestore.instance
         .collection(carPlatesCollectionId)
         .where('isDisabled', isEqualTo: false)
-        .where('expiresAt', isGreaterThan: DateTime.now())
+        .where('expiresAt', isGreaterThan: Timestamp.now())
         .orderBy('featuredUntil', descending: true)
         .orderBy('isSold', descending: false)
         .orderBy('createdAt', descending: true)
@@ -26,7 +26,7 @@ class CategorySection extends StatelessWidget {
     return FirebaseFirestore.instance
         .collection(phoneNumbersCollectionId)
         .where('isDisabled', isEqualTo: false)
-        .where('expiresAt', isGreaterThan: DateTime.now())
+        .where('expiresAt', isGreaterThan: Timestamp.now())
         .orderBy('featuredUntil', descending: true)
         .orderBy('isSold', descending: false)
         .orderBy('createdAt', descending: true)
@@ -38,7 +38,7 @@ class CategorySection extends StatelessWidget {
     return FirebaseFirestore.instance
         .collection(platesRequestsCollectionId)
         .where('isDisabled', isEqualTo: false)
-        .where('expiresAt', isGreaterThan: DateTime.now())
+        .where('expiresAt', isGreaterThan: Timestamp.now())
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snapshot) {
@@ -82,7 +82,7 @@ class CategorySection extends StatelessWidget {
               onTap: () => AutoRouter.of(context).push(const PhoneListingsRoute()),
             ),
             _buildCategoryCard(
-              icon: Image.asset(isDark ? 'assets/images/requests_dark.png' : 'assets/images/requests.png', width: 50),
+              icon: Image.asset(isDark ? 'assets/images/requests_dark.png' : 'assets/images/requests.png', width: 60),
               title: m.home.requests,
               onTap: () => AutoRouter.of(context).push(const RequestsRoute()),
             ),

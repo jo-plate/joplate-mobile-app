@@ -20,7 +20,7 @@ class _PlatesRequestsListWidgetState extends State<PlatesRequestsListWidget> {
     platesRequestsStream = FirebaseFirestore.instance
         .collection(platesRequestsCollectionId)
         .where('isDisabled', isEqualTo: false)
-        .where('expiresAt', isGreaterThan: DateTime.now())
+        .where('expiresAt', isGreaterThan: Timestamp.now())
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snapshot) {

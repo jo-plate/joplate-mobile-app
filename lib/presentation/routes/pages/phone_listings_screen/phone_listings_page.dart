@@ -39,7 +39,7 @@ class _PhoneListingsPageState extends State<PhoneListingsPage> {
     _sub = FirebaseFirestore.instance
         .collection(phoneNumbersCollectionId)
         .where('isDisabled', isEqualTo: false)
-        .where('expiresAt', isGreaterThan: DateTime.now())
+        .where('expiresAt', isGreaterThan: Timestamp.now())
         .orderBy('isSold', descending: false)
         .orderBy('featuredUntil', descending: true)
         .orderBy('createdAt', descending: true)

@@ -21,11 +21,6 @@ enum ListingType {
   ad,
 }
 
-extension ItemTypeX on ItemType {
-  String toJson() => _$ItemTypeEnumMap[this]!;
-  static ItemType fromJson(String json) => _$ItemTypeEnumMap.entries.firstWhere((e) => e.value == json).key;
-}
-
 @freezed
 class AddListingDto with _$AddListingDto {
   const factory AddListingDto({

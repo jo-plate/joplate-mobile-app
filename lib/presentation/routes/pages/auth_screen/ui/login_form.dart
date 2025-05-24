@@ -35,7 +35,6 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     final m = Localization.of(context);
     final primaryColor = Theme.of(context).colorScheme.primary;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {

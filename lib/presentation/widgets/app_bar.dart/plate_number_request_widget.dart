@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
-import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_listing_widget.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_widget.dart';
+import 'package:joplate/presentation/widgets/duration_ago_widget.dart';
 import 'package:joplate/presentation/widgets/top_ribbon.dart';
 
 class PlateNumberRequestWidget extends StatelessWidget {
@@ -59,13 +59,15 @@ class PlateNumberRequestWidget extends StatelessWidget {
                           plate: item.item,
                           shape: shape,
                         ),
-                        // const SizedBox(height: 2),
+                        const SizedBox(height: 4),
                         _buildPriceLabel(context),
-                        if (item.createdAt != null)
-                          CreatedAtLabelWidget(
+                        if (item.createdAt != null) ...[
+                          const SizedBox(height: 4),
+                          DurationAgoWidget(
                             createdAt: item.createdAt!,
                             fontSize: priceLabelFontSize * 0.5,
                           ),
+                        ]
                       ],
                     ),
                   ),

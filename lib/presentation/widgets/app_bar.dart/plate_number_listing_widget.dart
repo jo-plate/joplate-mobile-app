@@ -7,7 +7,7 @@ import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/utils/strings.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_widget.dart';
-import 'package:joplate/presentation/widgets/favorite_button.dart';
+import 'package:joplate/presentation/widgets/duration_ago_widget.dart';
 import 'package:joplate/presentation/widgets/top_ribbon.dart';
 
 class PlateNumberListingWidget extends StatelessWidget {
@@ -78,19 +78,14 @@ class PlateNumberListingWidget extends StatelessWidget {
                           plate: item.item,
                           shape: shape,
                         ),
+                        const SizedBox(height: 4),
                         _buildPriceLabel(context),
                         if (item.createdAt != null)
-                          CreatedAtLabelWidget(
+                        const SizedBox(height: 4),
+                        DurationAgoWidget(
                             createdAt: item.createdAt!,
                             fontSize: priceLabelFontSize * 0.5,
-                          ),
-                        if (!hideLikeButton) ...[
-                          const SizedBox(height: 2),
-                          FavoriteButton.plate(
-                            listingId: item.id,
-                            iconSize: 20,
-                          ),
-                        ]
+                        ),
                       ],
                     ),
                   ),
@@ -198,30 +193,6 @@ class PlateNumberListingWidget extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class CreatedAtLabelWidget extends StatelessWidget {
-  const CreatedAtLabelWidget({
-    super.key,
-    required this.createdAt,
-    this.fontSize = 12,
-  });
-
-  final DateTime createdAt;
-  final double fontSize;
-
-  @override
-  Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return Text(
-      formatCreatedAt(createdAt, context),
-      style: TextStyle(
-        fontSize: fontSize,
-        fontWeight: FontWeight.w400,
-        color: isDark ? Colors.blueGrey.shade300 : Colors.blueGrey,
       ),
     );
   }

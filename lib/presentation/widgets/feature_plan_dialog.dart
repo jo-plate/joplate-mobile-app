@@ -148,7 +148,7 @@ class _FeaturePlanDialogState extends State<FeaturePlanDialog> {
                       ),
                       onPressed: isButtonEnabled
                           ? () {
-                              if (productId == null || productId.isEmpty) {
+                              if (productId.isEmpty) {
                                 AppSnackbar.showError(m.common.missing_product_id);
                                 return;
                               }

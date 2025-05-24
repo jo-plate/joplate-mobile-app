@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
-import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_listing_widget.dart';
+import 'package:joplate/presentation/widgets/duration_ago_widget.dart';
 import 'package:joplate/presentation/widgets/phone_number_widget.dart';
 import 'package:joplate/presentation/widgets/top_ribbon.dart';
 
@@ -20,7 +20,7 @@ class PhoneNumberRequestWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final m = Localization.of(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     return AspectRatio(
       aspectRatio: aspectRatio,
       child: Center(
@@ -48,20 +48,20 @@ class PhoneNumberRequestWidget extends StatelessWidget {
                   // crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(6.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: PhoneNumberWidget(phoneNumber: item.item),
-                          ),
+                          PhoneNumberWidget(phoneNumber: item.item),
+                          const SizedBox(height: 4),
                           _buildPriceLabel(context),
-                          if (item.createdAt != null)
-                            CreatedAtLabelWidget(
+                          if (item.createdAt != null) ...[
+                            const SizedBox(height: 4),
+                            DurationAgoWidget(
                               createdAt: item.createdAt!,
                             ),
+                          ]
                         ],
                       ),
                     ),

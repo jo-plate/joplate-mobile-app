@@ -451,7 +451,7 @@ class _OtherSellersTableState extends State<OtherSellersTable> {
         .where('item.number', isEqualTo: widget.plateNumber.number)
         .where('isDisabled', isEqualTo: false)
         .where('isSold', isEqualTo: false)
-        .where('expiresAt', isGreaterThan: DateTime.now())
+        .where('expiresAt', isGreaterThan: Timestamp.now())
         .where('userId', isNotEqualTo: widget.userId)
         .get();
 

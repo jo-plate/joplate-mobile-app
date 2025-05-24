@@ -27,7 +27,8 @@ class _RequestsPageState extends State<RequestsPage> with SingleTickerProviderSt
     platesRequestsStream = FirebaseFirestore.instance
         .collection(platesRequestsCollectionId)
         .where('isDisabled', isEqualTo: false)
-        // .where('expiresAt', isGreaterThan: DateTime.now())
+        .orderBy('isSold', descending: false)
+        .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snapshot) {
       return snapshot.docs.map((doc) {
@@ -38,7 +39,8 @@ class _RequestsPageState extends State<RequestsPage> with SingleTickerProviderSt
     phonesRequestsStream = FirebaseFirestore.instance
         .collection(phonesRequestsCollectionId)
         .where('isDisabled', isEqualTo: false)
-        // .where('expiresAt', isGreaterThan: DateTime.now())
+        .orderBy('isSold', descending: false)
+        .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snapshot) {
       return snapshot.docs.map((doc) {

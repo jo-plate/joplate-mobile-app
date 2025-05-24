@@ -135,6 +135,7 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
                     showUploadButton: false,
                     showTicketCount: false,
                     onFollowPressed: _handleFollowPress,
+                    showBadge: true,
                   ),
                 ),
 

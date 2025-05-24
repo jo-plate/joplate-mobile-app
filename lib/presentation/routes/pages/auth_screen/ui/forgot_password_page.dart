@@ -137,7 +137,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   Widget _buildSuccessView(BuildContext context) {
     final m = Localization.of(context);
-    final primaryColor = Theme.of(context).colorScheme.primary;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,

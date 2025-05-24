@@ -170,21 +170,7 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
                             style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(height: 10),
-                          Row(
-                            children: [
-                              Icon(Icons.payments,
-                                  color: Theme.of(context).brightness == Brightness.dark
-                                      ? Colors.white70
-                                      : const Color(0xFF981C1E)),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  m.platesdetails.dont_transfer_money,
-                                  style: const TextStyle(fontSize: 16),
-                                ),
-                              ),
-                            ],
-                          ),
+                          const DisclaimerWidget(),
                           const SizedBox(height: 8),
                           Row(
                             children: [

@@ -20,7 +20,7 @@ class _PhonesRequestsListWidgetState extends State<PhonesRequestsListWidget> {
     phonesRequestsStream = FirebaseFirestore.instance
         .collection(phonesRequestsCollectionId)
         .where('isDisabled', isEqualTo: false)
-        .where('expiresAt', isGreaterThan: DateTime.now())
+        .where('expiresAt', isGreaterThan: Timestamp.now())
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snapshot) {
