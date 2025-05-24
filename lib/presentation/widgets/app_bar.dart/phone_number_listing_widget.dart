@@ -65,11 +65,14 @@ class PhoneNumberListingWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         PhoneNumberWidget(phoneNumber: item.item),
+                        const SizedBox(height: 8),
                         _buildPriceLabel(context),
-                        if (item.createdAt != null)
+                        if (item.createdAt != null) ...[
+                          const SizedBox(height: 4),
                           DurationAgoWidget(
                             createdAt: item.createdAt!,
                           ),
+                        ],
                       ],
                     ),
                   ),

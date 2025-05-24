@@ -22,7 +22,7 @@ class ProfileBanner extends StatefulWidget {
     this.userId,
     this.onFollowPressed,
     this.showTicketCount = true,
-    this.showBadge = false,
+    this.showBadge = true,
   });
 
   final bool clickable;

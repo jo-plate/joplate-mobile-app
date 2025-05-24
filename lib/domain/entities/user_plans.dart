@@ -39,6 +39,8 @@ enum PlanType {
   gold_plan,
   @JsonValue("diamond_plan")
   diamond_plan,
+  @JsonValue("admin_plan")
+  admin_plan,
 }
 
 extension PlanTypeExtension on PlanType {
@@ -50,6 +52,8 @@ extension PlanTypeExtension on PlanType {
         return "Gold";
       case PlanType.diamond_plan:
         return "Diamond 💎";
+      case PlanType.admin_plan:
+        return "Admin";
     }
   }
 }

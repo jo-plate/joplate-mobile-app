@@ -26,6 +26,8 @@ class UserPlanTheme {
         return isDarkMode ? const Color(0xFFDAA520) : const Color(0xFF403301);
       case PlanType.diamond_plan:
         return const Color(0xff3F51B5);
+      case PlanType.admin_plan:
+        return isDarkMode ? Colors.white : const Color(0xFF1A1A1A);
       default:
         return isDarkMode ? Colors.white70 : const Color.fromARGB(255, 153, 31, 22);
     }
@@ -36,8 +38,9 @@ class UserPlanTheme {
       case PlanType.gold_plan:
         return isDarkMode ? const Color(0xFFDAA520) : const Color(0xFF403301);
       case PlanType.diamond_plan:
-        // For diamond plan, use a lighter color for better visibility
         return isDarkMode ? Colors.white70 : const Color(0xFF5C6BC0);
+      case PlanType.admin_plan:
+        return isDarkMode ? Colors.white : const Color(0xFF1A1A1A);
       default:
         return isDarkMode ? Colors.white70 : const Color.fromARGB(255, 153, 31, 22);
     }
@@ -49,6 +52,8 @@ class UserPlanTheme {
         return isDarkMode ? const Color(0xFF2D2A1F) : const Color.fromARGB(255, 255, 227, 116);
       case PlanType.diamond_plan:
         return true ? const Color(0xFF1E274E) : const Color(0xFF87ceeb);
+      case PlanType.admin_plan:
+        return isDarkMode ? const Color(0xFF1A1A1A) : const Color(0xFF2D2D2D);
       default:
         return isDarkMode ? const Color(0xFF252A41) : const Color.fromARGB(255, 255, 214, 214);
     }
@@ -60,6 +65,8 @@ class UserPlanTheme {
         return isDarkMode ? const Color(0xFFDAA520) : const Color(0xFF403301);
       case PlanType.diamond_plan:
         return Colors.white;
+      case PlanType.admin_plan:
+        return isDarkMode ? Colors.white : const Color(0xFFE0E0E0);
       default:
         return isDarkMode ? Colors.white70 : Colors.black;
     }
@@ -100,6 +107,16 @@ class UserPlanTheme {
           iconColor: goldColor,
           shadowColor: goldColor.withOpacity(0.3),
           icon: Icons.workspace_premium,
+        );
+      case PlanType.admin_plan:
+        final adminColor = isDarkMode ? Colors.white : const Color(0xFF1A1A1A);
+        return PlanBadgeStyle(
+          backgroundColor: isDarkMode ? const Color(0xFF1A1A1A) : const Color(0xFF2D2D2D),
+          borderColor: adminColor,
+          textColor: adminColor,
+          iconColor: adminColor,
+          shadowColor: adminColor.withOpacity(0.3),
+          icon: Icons.admin_panel_settings,
         );
       default:
         const bronzeColor = Color(0xFFCD7F32);

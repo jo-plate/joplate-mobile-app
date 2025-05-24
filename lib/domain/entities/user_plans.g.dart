@@ -25,4 +25,5 @@ const _$PlanTypeEnumMap = {
   PlanType.free_plan: 'free_plan',
   PlanType.gold_plan: 'gold_plan',
   PlanType.diamond_plan: 'diamond_plan',
+  PlanType.admin_plan: 'admin_plan',
 };

@@ -80,12 +80,12 @@ class PlateNumberListingWidget extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         _buildPriceLabel(context),
-                        if (item.createdAt != null)
-                        const SizedBox(height: 4),
-                        DurationAgoWidget(
+                        if (item.createdAt != null) ...[
+                          const SizedBox(height: 4),
+                          DurationAgoWidget(
                             createdAt: item.createdAt!,
-                            fontSize: priceLabelFontSize * 0.5,
-                        ),
+                          ),
+                        ]
                       ],
                     ),
                   ),

@@ -73,15 +73,15 @@ class _UserProfileViewState extends State<_UserProfileView> {
         stream: _authStateStream,
         builder: (context, snapshot) {
           return SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (snapshot.data != null) ...[
                   _buildProfileHeader(snapshot.data!, widget.profile),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
                   _buildFeaturesSection(),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
                   MenuItem(
                     title: m.profile.promo_code,
                     icon: Icons.card_giftcard_outlined,
@@ -92,13 +92,13 @@ class _UserProfileViewState extends State<_UserProfileView> {
                   ),
                 ] else
                   const AnonUserView(),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
                 _buildSettingsSection(),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
                 _buildDeveloperSection(context),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
                 const SocialLinks(),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
                 if (snapshot.data != null) _buildLogOutSection(),
               ],
             ),
@@ -231,9 +231,9 @@ class _UserProfileViewState extends State<_UserProfileView> {
           thickness: 1,
           color: isDark ? const Color(0xFF3D4266) : Colors.grey,
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 8),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Row(
             children: [
               const Icon(
@@ -266,8 +266,9 @@ class _UserProfileViewState extends State<_UserProfileView> {
             ],
           ),
         ),
+        const SizedBox(height: 8),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
           child: Row(
             children: [
               const Icon(
@@ -298,7 +299,7 @@ class _UserProfileViewState extends State<_UserProfileView> {
             ],
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 8),
         Divider(
           height: 1,
           thickness: 1,
@@ -312,7 +313,6 @@ class _UserProfileViewState extends State<_UserProfileView> {
     required String currentValue,
     required VoidCallback onTap,
   }) {
-
     return ElevatedButton(
       onPressed: onTap,
       style: ElevatedButton.styleFrom(
@@ -342,13 +342,17 @@ class _UserProfileViewState extends State<_UserProfileView> {
 
     return Column(
       children: [
-        // _buildClickableItem(m.profile.aboutus, Icons.info_outline),
-        _buildClickableItem(m.profile.privacy_policy, Icons.privacy_tip_outlined, () {
-          AutoRouter.of(context).push(const PrivacyPolicyRoute());
-        }),
-        _buildClickableItem(m.profile.terms_conditions, Icons.description_outlined,
-            () => AutoRouter.of(context).push(const TermsAndConditionsRoute())),
-        // _buildClickableItem(m.profile.instructions, Icons.help_outline),
+        MenuItem(
+          title: m.profile.privacy_policy,
+          icon: Icons.privacy_tip_outlined,
+          onTap: () => AutoRouter.of(context).push(const PrivacyPolicyRoute()),
+        ),
+        const SizedBox(height: 8),
+        MenuItem(
+          title: m.profile.terms_conditions,
+          icon: Icons.description_outlined,
+          onTap: () => AutoRouter.of(context).push(const TermsAndConditionsRoute()),
+        ),
       ],
     );
   }
@@ -385,27 +389,6 @@ class _UserProfileViewState extends State<_UserProfileView> {
           },
         ),
       ],
-    );
-  }
-
-  Widget _buildClickableItem(String title, IconData icon, [void Function()? onTap]) {
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        child: Row(
-          children: [
-            Icon(icon, color: const Color(0xFF981C1E), size: 24),
-            const SizedBox(width: 16),
-            Text(
-              title,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-            ),
-            const Spacer(),
-            const Icon(Icons.chevron_right, color: Color(0xFF981C1E), size: 26),
-          ],
-        ),
-      ),
     );
   }
 }
