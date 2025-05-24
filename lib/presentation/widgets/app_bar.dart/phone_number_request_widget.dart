@@ -45,7 +45,7 @@ class PhoneNumberRequestWidget extends StatelessWidget {
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  // crossAxisAlignment: CrossAxisAlignment.stretch,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -54,7 +54,7 @@ class PhoneNumberRequestWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           PhoneNumberWidget(phoneNumber: item.item),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: 8),
                           _buildPriceLabel(context),
                           if (item.createdAt != null) ...[
                             const SizedBox(height: 4),

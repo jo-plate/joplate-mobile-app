@@ -149,6 +149,7 @@ class _ProfileBannerState extends State<ProfileBanner> {
         stream: userStream,
         builder: (context, snapshot) {
           final profile = snapshot.data;
+          print(profile?.id);
           return GestureDetector(
             onTap: () {
               if (widget.clickable) {
@@ -252,25 +253,25 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                         UserPlanBadge(plan: plan)
                                     ],
                                   ),
-                                  if (!widget.showTicketCount && plan != PlanType.free_plan) ...[
-                                    const SizedBox(height: 6),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                      decoration: BoxDecoration(
-                                        color: accentColor,
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: Text(
-                                        plansSnapshot.data?.plan.name ?? PlanType.free_plan.name,
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ],
+                                  // if (!widget.showTicketCount && plan != PlanType.free_plan) ...[
+                                  //   const SizedBox(height: 6),
+                                  //   Container(
+                                  //     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  //     decoration: BoxDecoration(
+                                  //       color: accentColor,
+                                  //       borderRadius: BorderRadius.circular(12),
+                                  //     ),
+                                  //     child: Text(
+                                  //       plansSnapshot.data?.plan.name ?? PlanType.free_plan.name,
+                                  //       style: const TextStyle(
+                                  //         fontSize: 12,
+                                  //         color: Colors.white,
+                                  //         fontWeight: FontWeight.w600,
+                                  //       ),
+                                  //       overflow: TextOverflow.ellipsis,
+                                  //     ),
+                                  //   ),
+                                  // ],
                                   const SizedBox(height: 10),
                                   if (widget.showTicketCount)
                                     Row(

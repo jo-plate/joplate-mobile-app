@@ -13,7 +13,6 @@ import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/domain/entities/user_plans.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
-import 'package:joplate/presentation/utils/strings.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_listing_widget.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/promote_listing_button.dart';
 import 'package:joplate/presentation/widgets/delete_item_popup.dart';
@@ -25,6 +24,7 @@ import 'package:joplate/utils/log_visit.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:joplate/presentation/utils/user_plan_theme.dart';
 import 'package:joplate/presentation/widgets/disclaimer_widget.dart';
+import 'package:joplate/presentation/widgets/user_details_widget.dart';
 
 @RoutePage()
 class PlatesDetailsPage extends StatefulWidget {
@@ -168,7 +168,12 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                       DescriptionWidget(description: snapshot.data!.description),
                       const SizedBox(height: 16),
                     ],
-                    SellerDetails(userId: snapshot.data!.userId, visits: snapshot.data!.visits),
+                    UserDetailsWidget(
+                      userId: snapshot.data!.userId,
+                      visits: snapshot.data!.visits,
+                      title: m.platesdetails.originally_posted_by,
+                      showVisits: FirebaseAuth.instance.currentUser?.uid == snapshot.data?.userId,
+                    ),
                     const SizedBox(height: 16),
                     OtherSellersTable(
                       userId: snapshot.data!.userId,
@@ -181,251 +186,6 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                 ),
               ));
         });
-  }
-}
-
-class SellerDetails extends StatefulWidget {
-  const SellerDetails({super.key, required this.userId, required this.visits});
-  final String userId;
-  final int visits;
-
-  @override
-  State<SellerDetails> createState() => _SellerDetailsState();
-}
-
-class _SellerDetailsState extends State<SellerDetails> {
-  late final Stream<UserProfile> userProfileStream;
-  late final Stream<UserPlans> userPlansStream;
-
-  @override
-  void initState() {
-    super.initState();
-    userProfileStream =
-        FirebaseFirestore.instance.collection(userProfileCollectionId).doc(widget.userId).snapshots().map((snapshot) {
-      return UserProfile.fromJson(snapshot.data() ?? {});
-    });
-
-    userPlansStream = FirebaseFirestore.instance
-        .collection(userPlansCollectionId)
-        .doc(widget.userId)
-        .snapshots()
-        .map((snapshot) => snapshot.exists ? UserPlans.fromJson(snapshot.data()!) : UserPlans.freePlan());
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final m = Localization.of(context);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    return StreamBuilder<UserPlans>(
-      stream: userPlansStream,
-      builder: (context, plansSnapshot) {
-        final plan = plansSnapshot.data?.plan ?? PlanType.free_plan;
-
-        return Container(
-          padding: const EdgeInsets.all(16.0),
-          decoration: UserPlanTheme.getSellerContainerStyle(context, plan),
-          child: StreamBuilder<UserProfile>(
-              stream: userProfileStream,
-              builder: (context, snapshot) {
-                final userProfile = snapshot.data;
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                }
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-
-                if (userProfile == null) {
-                  return const Text('User not found');
-                }
-
-                final textColor = UserPlanTheme.getTextColor(plan, isDarkMode: isDark);
-                final accentColor = UserPlanTheme.getAccentColor(plan, isDarkMode: isDark);
-                final iconColor = UserPlanTheme.getIconColor(plan, isDarkMode: isDark);
-
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (widget.userId == FirebaseAuth.instance.currentUser?.uid) ...[
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(text: '${m.home.visits}: '),
-                            TextSpan(text: widget.visits.toString()),
-                          ],
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: textColor,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                    ],
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: accentColor.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Icon(
-                            Icons.person_outline,
-                            color: iconColor,
-                            size: 20,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Text(
-                          m.platesdetails.originally_posted_by,
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: textColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    InkWell(
-                      onTap: () {
-                        // Navigate to user profile
-                        AutoRouter.of(context).push(UserProfileRoute(userId: widget.userId));
-                      },
-                      child: Row(
-                        children: [
-                          ProfilePictureWidget(
-                            imageUrl: userProfile.imageUrl,
-                            size: 48,
-                            showUploadButton: false,
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(userProfile.displayName,
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600,
-                                          color: textColor,
-                                        )),
-                                    const SizedBox(width: 6),
-                                    if (userProfile.isVerified)
-                                      Icon(
-                                        Icons.verified,
-                                        color: Colors.blue.shade600,
-                                        size: 20,
-                                      ),
-                                    const SizedBox(width: 8),
-                                    UserPlanBadge(plan: plan),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            size: 16,
-                            color: textColor.withOpacity(0.6),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Directionality(
-                      textDirection: TextDirection.ltr,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: Colors.green.withOpacity(isDark ? 0.1 : 0.1),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: InkWell(
-                                onTap: () {
-                                  launchUrlString("https://wa.me/962${userProfile.phonenumber.substring(1)}",
-                                      mode: LaunchMode.externalApplication);
-                                },
-                                borderRadius: BorderRadius.circular(8),
-                                child: const Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    FaIcon(
-                                      FontAwesomeIcons.whatsapp,
-                                      color: Colors.green,
-                                      size: 20,
-                                    ),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      'WhatsApp',
-                                      style: TextStyle(
-                                        color: Colors.green,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Container(
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF981C1E),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: InkWell(
-                                onTap: () async {
-                                  final uri = 'tel:+962${userProfile.phonenumber.substring(1)}';
-                                  if (await canLaunchUrlString(uri)) {
-                                    await launchUrlString(uri);
-                                  } else {
-                                    throw 'Could not launch dialer';
-                                  }
-                                },
-                                borderRadius: BorderRadius.circular(8),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.phone,
-                                      size: 16,
-                                      color: Colors.white,
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      obfuscatePhoneNumber(userProfile.phonenumber),
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              }),
-        );
-      },
-    );
   }
 }
 

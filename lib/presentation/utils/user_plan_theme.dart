@@ -27,7 +27,7 @@ class UserPlanTheme {
       case PlanType.diamond_plan:
         return const Color(0xff3F51B5);
       case PlanType.admin_plan:
-        return isDarkMode ? Colors.white : const Color(0xFF1A1A1A);
+        return Colors.white;
       default:
         return isDarkMode ? Colors.white70 : const Color.fromARGB(255, 153, 31, 22);
     }
@@ -40,7 +40,7 @@ class UserPlanTheme {
       case PlanType.diamond_plan:
         return isDarkMode ? Colors.white70 : const Color(0xFF5C6BC0);
       case PlanType.admin_plan:
-        return isDarkMode ? Colors.white : const Color(0xFF1A1A1A);
+        return Colors.white;
       default:
         return isDarkMode ? Colors.white70 : const Color.fromARGB(255, 153, 31, 22);
     }
@@ -66,7 +66,7 @@ class UserPlanTheme {
       case PlanType.diamond_plan:
         return Colors.white;
       case PlanType.admin_plan:
-        return isDarkMode ? Colors.white : const Color(0xFFE0E0E0);
+        return Colors.white;
       default:
         return isDarkMode ? Colors.white70 : Colors.black;
     }
@@ -109,13 +109,16 @@ class UserPlanTheme {
           icon: Icons.workspace_premium,
         );
       case PlanType.admin_plan:
-        final adminColor = isDarkMode ? Colors.white : const Color(0xFF1A1A1A);
+        const adminColor = Colors.white;
+        const adminIconColor = Colors.white;
+        final adminShadowColor = Colors.grey.withOpacity(0.2);
+        const adminTextColor = Colors.white;
         return PlanBadgeStyle(
-          backgroundColor: isDarkMode ? const Color(0xFF1A1A1A) : const Color(0xFF2D2D2D),
+          backgroundColor: isDarkMode ? const Color(0xFF1A1A1A) : const Color(0xFF2D2D2D).withOpacity(0.15),
           borderColor: adminColor,
-          textColor: adminColor,
-          iconColor: adminColor,
-          shadowColor: adminColor.withOpacity(0.3),
+          textColor: adminTextColor,
+          iconColor: adminIconColor,
+          shadowColor: adminShadowColor,
           icon: Icons.admin_panel_settings,
         );
       default:

@@ -20,6 +20,7 @@ class PlateNumberField extends StatelessWidget {
   bool _isValidNumber(String number) {
     if (number.isEmpty) return false;
     if (number.length > 5) return false;
+    if (number.startsWith("0")) return false;
 
     // Check if it contains only valid characters
     if (!RegExp(r'^[0-9XY]+$').hasMatch(number)) {

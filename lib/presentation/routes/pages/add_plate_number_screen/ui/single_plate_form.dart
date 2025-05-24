@@ -74,6 +74,9 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
     if (oldWidget.formState.code != widget.formState.code && codeController.text != widget.formState.code) {
       _updateControllerText(codeController, widget.formState.code);
     }
+    if (oldWidget.formState.isSubmitting != widget.formState.isSubmitting) {
+      setState(() {});
+    }
   }
 
   @override
@@ -194,7 +197,8 @@ class _SinglePlateFormState extends State<SinglePlateForm> {
                   textAlignVertical: TextAlignVertical.top,
                   expands: false,
                   decoration: InputDecoration(
-                    labelText: m.common.description,
+                    labelText: m.common.description_optional,
+
                     hintText: m.common.description_hint,
                     errorText: widget.formState.description.length > 150 ? m.common.description_too_long : null,
                     alignLabelWithHint: true,

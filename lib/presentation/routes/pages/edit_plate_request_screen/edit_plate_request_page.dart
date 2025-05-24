@@ -54,7 +54,7 @@ class EditPlateRequestPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     TextField(
-                      decoration: InputDecoration(labelText: m.common.description, alignLabelWithHint: true),
+                      decoration: InputDecoration(labelText: m.common.description_optional, alignLabelWithHint: true),
                       maxLines: 3,
                       enabled: !state.isSubmitting,
                       textAlign: TextAlign.justify,

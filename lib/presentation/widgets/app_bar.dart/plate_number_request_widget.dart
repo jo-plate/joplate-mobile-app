@@ -65,7 +65,6 @@ class PlateNumberRequestWidget extends StatelessWidget {
                           const SizedBox(height: 4),
                           DurationAgoWidget(
                             createdAt: item.createdAt!,
-                            fontSize: priceLabelFontSize * 0.5,
                           ),
                         ]
                       ],

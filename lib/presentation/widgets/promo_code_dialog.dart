@@ -15,6 +15,7 @@ class PromoCodeDialog extends StatefulWidget {
 
 class _PromoCodeDialogState extends State<PromoCodeDialog> {
   final TextEditingController _controller = TextEditingController();
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -30,6 +31,10 @@ class _PromoCodeDialogState extends State<PromoCodeDialog> {
       AppSnackbar.showError(m.common.invalid_promo_code);
       return;
     }
+
+    setState(() {
+      _isLoading = true;
+    });
 
     try {
       final result = await FirebaseFunctions.instance
@@ -48,6 +53,12 @@ class _PromoCodeDialogState extends State<PromoCodeDialog> {
       AppSnackbar.showError(e.message ?? m.common.error_applying_promo_code);
     } catch (e) {
       AppSnackbar.showError(m.common.error_applying_promo_code);
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -95,16 +106,25 @@ class _PromoCodeDialogState extends State<PromoCodeDialog> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: _isLoading ? null : () => Navigator.pop(context),
                   child: Text(m.common.cancel),
                 ),
                 const SizedBox(width: 8),
                 ElevatedButton(
-                  onPressed: _applyPromoCode,
-                  child: Text(
-                    m.common.confirm,
-                    style: const TextStyle(color: Colors.white),
-                  ),
+                  onPressed: _isLoading ? null : _applyPromoCode,
+                  child: _isLoading
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          ),
+                        )
+                      : Text(
+                          m.common.confirm,
+                          style: const TextStyle(color: Colors.white),
+                        ),
                 ),
               ],
             ),

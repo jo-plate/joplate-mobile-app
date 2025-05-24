@@ -139,7 +139,7 @@ class EditPhoneListingPageState extends State<EditPhoneListingPage> {
                     const SizedBox(height: 16),
                     TextField(
                       controller: _descriptionCtrl,
-                      decoration: InputDecoration(labelText: m.common.description, alignLabelWithHint: true),
+                      decoration: InputDecoration(labelText: m.common.description_optional, alignLabelWithHint: true),
                       maxLines: 3,
                       enabled: !state.isSubmitting,
                       onChanged: cubit.updateDescription,

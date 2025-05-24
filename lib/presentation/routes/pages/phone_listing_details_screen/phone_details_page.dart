@@ -15,6 +15,7 @@ import 'package:joplate/presentation/widgets/app_bar.dart/promote_listing_button
 import 'package:joplate/presentation/widgets/delete_item_popup.dart';
 import 'package:joplate/presentation/widgets/description_widget.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
+import 'package:joplate/presentation/widgets/user_details_widget.dart';
 import 'package:joplate/utils/log_visit.dart';
 import 'package:joplate/presentation/widgets/disclaimer_widget.dart';
 
@@ -173,7 +174,12 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
                     height: 16,
                   ),
                 ],
-                SellerDetails(userId: phone.userId, visits: phone.visits),
+                UserDetailsWidget(
+                  userId: phone.userId,
+                  visits: phone.visits,
+                  title: m.platesdetails.originally_posted_by,
+                  showVisits: FirebaseAuth.instance.currentUser?.uid == phone.userId,
+                ),
                 const SizedBox(
                   height: 16,
                 ),

@@ -103,7 +103,7 @@ class _SinglePlateRequestFormState extends State<SinglePlateRequestForm> {
                   maxLength: 150,
                   enabled: !state.isSubmitting,
                   decoration: InputDecoration(
-                    labelText: m.common.description,
+                    labelText: m.common.description_optional,
                     hintText: m.common.description_hint,
                     errorText: state.description.length > 150 ? m.common.description_too_long : null,
                     alignLabelWithHint: true,
