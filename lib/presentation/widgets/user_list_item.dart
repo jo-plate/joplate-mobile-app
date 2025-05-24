@@ -4,6 +4,7 @@ import 'package:joplate/domain/entities/user_plans.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/widgets/profile_picture_widget.dart';
 import 'package:joplate/presentation/widgets/user_plan_badge.dart';
+import 'package:joplate/presentation/widgets/verified_badge.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:joplate/data/constants.dart';
 
@@ -44,39 +45,44 @@ class UserListItem extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Flexible(
-                        child: Text(
-                          user.displayName,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                      Expanded(
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            children: [
+                              Text(
+                                user.displayName,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                              VerifiedBadge(
+                                profile: user,
+                                size: 16,
+                              ),
+                              const SizedBox(width: 6),
+                              StreamBuilder<UserPlans>(
+                                stream: FirebaseFirestore.instance
+                                    .collection(userPlansCollectionId)
+                                    .doc(user.id)
+                                    .snapshots()
+                                    .map((snapshot) => UserPlans.fromJson(snapshot.data()!)),
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData) {
+                                    return const SizedBox.shrink();
+                                  }
+                                  return UserPlanBadge(
+                                    plan: snapshot.data!.plan,
+                                    size: 14,
+                                  );
+                                },
+                              ),
+                            ],
                           ),
-                          overflow: TextOverflow.ellipsis,
                         ),
-                      ),
-                      const SizedBox(width: 4),
-                      if (user.isVerified)
-                        Icon(
-                          Icons.verified,
-                          size: 16,
-                          color: Colors.blue.shade600,
-                        ),
-                      const SizedBox(width: 6),
-                      StreamBuilder<UserPlans>(
-                        stream: FirebaseFirestore.instance
-                            .collection(userPlansCollectionId)
-                            .doc(user.id)
-                            .snapshots()
-                            .map((snapshot) => UserPlans.fromJson(snapshot.data()!)),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return const SizedBox.shrink();
-                          }
-                          return UserPlanBadge(
-                            plan: snapshot.data!.plan,
-                            size: 14,
-                          );
-                        },
                       ),
                     ],
                   ),

@@ -13,6 +13,7 @@ import 'package:joplate/presentation/widgets/icons/plan_icon.dart';
 import 'package:joplate/presentation/widgets/profile_picture_widget.dart';
 import 'package:joplate/presentation/utils/user_plan_theme.dart';
 import 'package:joplate/presentation/widgets/user_plan_badge.dart';
+import 'package:joplate/presentation/widgets/verified_badge.dart';
 
 class ProfileBanner extends StatefulWidget {
   const ProfileBanner({
@@ -234,24 +235,30 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       Expanded(
-                                        child: Text(
-                                          profile?.displayName ?? 'Guest',
-                                          style: TextStyle(
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.w600,
-                                            color: textColor,
+                                        child: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          alignment: Alignment.centerLeft,
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                profile?.displayName ?? 'Guest',
+                                                style: TextStyle(
+                                                  fontSize: 22,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: textColor,
+                                                ),
+                                              ),
+                                              const SizedBox(width: 6),
+                                              VerifiedBadge(
+                                                profile: profile,
+                                                size: 22,
+                                              ),
+                                              if (widget.showBadge && followButton == null) UserPlanBadge(plan: plan)
+                                            ],
                                           ),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
-                                      const SizedBox(width: 6),
-                                      if ((profile?.isVerified ?? false))
-                                        Icon(Icons.verified, color: Colors.blue.shade600)
-                                      else if ((profile?.pendingVerification ?? false))
-                                        Icon(Icons.verified, color: Colors.grey.shade600),
-                                      if (widget.showBadge && followButton == null)
-                                        UserPlanBadge(plan: plan)
+                                      const SizedBox(width: 4),
                                     ],
                                   ),
                                   if (widget.showBadge && followButton != null) ...[

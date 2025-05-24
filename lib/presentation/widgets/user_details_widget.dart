@@ -13,6 +13,7 @@ import 'package:joplate/presentation/utils/user_plan_theme.dart';
 import 'package:joplate/presentation/widgets/disclaimer_widget.dart';
 import 'package:joplate/presentation/widgets/profile_picture_widget.dart';
 import 'package:joplate/presentation/widgets/user_plan_badge.dart';
+import 'package:joplate/presentation/widgets/verified_badge.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class UserDetailsWidget extends StatefulWidget {
@@ -139,6 +140,7 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
                       const SizedBox(height: 16),
                     ],
                     InkWell(
+                      enableFeedback: true,
                       onTap: () {
                         AutoRouter.of(context).push(UserProfileRoute(userId: widget.userId));
                       },
@@ -166,9 +168,8 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
                                     ),
                                     const SizedBox(width: 6),
                                     if (userProfile.isVerified)
-                                      Icon(
-                                        Icons.verified,
-                                        color: Colors.blue.shade600,
+                                      VerifiedBadge(
+                                        profile: userProfile,
                                         size: 20,
                                       ),
                                     const SizedBox(width: 8),
