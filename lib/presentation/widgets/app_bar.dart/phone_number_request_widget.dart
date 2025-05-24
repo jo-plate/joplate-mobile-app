@@ -5,6 +5,7 @@ import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/duration_ago_widget.dart';
 import 'package:joplate/presentation/widgets/phone_number_widget.dart';
+import 'package:joplate/presentation/widgets/price_label_widget.dart';
 import 'package:joplate/presentation/widgets/top_ribbon.dart';
 
 class PhoneNumberRequestWidget extends StatelessWidget {
@@ -55,7 +56,11 @@ class PhoneNumberRequestWidget extends StatelessWidget {
                         children: [
                           PhoneNumberWidget(phoneNumber: item.item),
                           const SizedBox(height: 8),
-                          _buildPriceLabel(context),
+                          PriceLabelWidget(
+                            price: 0,
+                            isRequested: true,
+                            fontSize: priceLabelFontSize,
+                          ),
                           if (item.createdAt != null) ...[
                             const SizedBox(height: 4),
                             DurationAgoWidget(
@@ -93,21 +98,6 @@ class PhoneNumberRequestWidget extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildPriceLabel(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final m = Localization.of(context);
-    return Text(
-      m.home.requested,
-      style: TextStyle(
-        fontSize: priceLabelFontSize,
-        fontFamily: 'Mandatory',
-        fontWeight: FontWeight.w700,
-        color: isDark ? Colors.white70 : const Color(0xFF981C1E),
-      ),
-      maxLines: 1,
     );
   }
 }

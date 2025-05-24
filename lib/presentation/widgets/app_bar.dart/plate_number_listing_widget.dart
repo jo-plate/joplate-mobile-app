@@ -5,9 +5,9 @@ import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/cubits/localization/localization_cubit.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
-import 'package:joplate/presentation/utils/strings.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_widget.dart';
 import 'package:joplate/presentation/widgets/duration_ago_widget.dart';
+import 'package:joplate/presentation/widgets/price_label_widget.dart';
 import 'package:joplate/presentation/widgets/top_ribbon.dart';
 
 class PlateNumberListingWidget extends StatelessWidget {
@@ -79,7 +79,12 @@ class PlateNumberListingWidget extends StatelessWidget {
                           shape: shape,
                         ),
                         const SizedBox(height: 4),
-                        _buildPriceLabel(context),
+                        PriceLabelWidget(
+                          price: item.price.toDouble(),
+                          discountPrice: item.discountPrice.toDouble(),
+                          priceHidden: item.priceHidden,
+                          fontSize: priceLabelFontSize,
+                        ),
                         if (item.createdAt != null) ...[
                           const SizedBox(height: 4),
                           DurationAgoWidget(
@@ -111,62 +116,6 @@ class PlateNumberListingWidget extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Widget _buildPriceLabel(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final m = Localization.of(context);
-    if (item.priceHidden) {
-      return Text(
-        m.platesdetails.call_for_price,
-        style: TextStyle(
-          fontSize: priceLabelFontSize,
-          fontFamily: 'Mandatory',
-          fontWeight: FontWeight.w700,
-          color: isDark ? Colors.white70 : const Color(0xFF981C1E),
-        ),
-        maxLines: 1,
-      );
-    } else if (item.discountPrice > 0 && item.discountPrice < item.price) {
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'JOD ${formatPrice(item.discountPrice)} ',
-            style: TextStyle(
-              fontSize: priceLabelFontSize,
-              fontFamily: 'Mandatory',
-              fontWeight: FontWeight.w700,
-              color: isDark ? Colors.white70 : const Color(0xFF981C1E),
-            ),
-            maxLines: 1,
-          ),
-          Text(
-            formatPrice(item.price),
-            style: TextStyle(
-              fontSize: priceLabelFontSize * 0.875,
-              fontWeight: FontWeight.w600,
-              decoration: TextDecoration.lineThrough,
-              decorationStyle: TextDecorationStyle.solid,
-              color: isDark ? Colors.white38 : Colors.black,
-            ),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-          ),
-        ],
-      );
-    } else {
-      return Text(
-        'JOD ${formatPrice(item.price)}',
-        style: TextStyle(
-          fontSize: priceLabelFontSize,
-          fontFamily: 'Mandatory',
-          fontWeight: FontWeight.w700,
-          color: isDark ? Colors.white70 : const Color(0xFF981C1E),
-        ),
-        maxLines: 1,
-      );
-    }
   }
 
   Widget _buildFeaturedRibbon(context) {

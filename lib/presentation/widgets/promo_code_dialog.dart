@@ -39,7 +39,7 @@ class _PromoCodeDialogState extends State<PromoCodeDialog> {
     try {
       final result = await FirebaseFunctions.instance
           .httpsCallable(applyPromoCodeCF)
-          .call(ApplyPromoCodeDto(promoCode: code).toJson());
+          .call(ApplyPromoCodeDto(promoCode: code.toUpperCase()).toJson());
 
       if (result.data['success'] == true) {
         if (mounted) {

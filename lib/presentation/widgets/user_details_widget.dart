@@ -10,6 +10,7 @@ import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/utils/strings.dart';
 import 'package:joplate/presentation/utils/user_plan_theme.dart';
+import 'package:joplate/presentation/widgets/disclaimer_widget.dart';
 import 'package:joplate/presentation/widgets/profile_picture_widget.dart';
 import 'package:joplate/presentation/widgets/user_plan_badge.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -21,12 +22,14 @@ class UserDetailsWidget extends StatefulWidget {
     this.visits,
     this.title,
     this.showVisits = false,
+    this.showDisclaimer = false,
   });
 
   final String userId;
   final int? visits;
   final String? title;
   final bool showVisits;
+  final bool showDisclaimer;
 
   @override
   State<UserDetailsWidget> createState() => _UserDetailsWidgetState();
@@ -102,6 +105,10 @@ class _UserDetailsWidgetState extends State<UserDetailsWidget> {
                         ),
                       ),
                       const SizedBox(height: 16),
+                    ],
+                    if (widget.showDisclaimer) ...[
+                      DisclaimerWidget(textColor: textColor, iconColor: iconColor),
+                      const SizedBox(height: 32),
                     ],
                     if (widget.title != null) ...[
                       Row(

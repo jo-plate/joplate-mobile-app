@@ -23,7 +23,6 @@ import 'package:joplate/presentation/widgets/user_plan_badge.dart';
 import 'package:joplate/utils/log_visit.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:joplate/presentation/utils/user_plan_theme.dart';
-import 'package:joplate/presentation/widgets/disclaimer_widget.dart';
 import 'package:joplate/presentation/widgets/user_details_widget.dart';
 
 @RoutePage()
@@ -173,14 +172,13 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                       visits: snapshot.data!.visits,
                       title: m.platesdetails.originally_posted_by,
                       showVisits: FirebaseAuth.instance.currentUser?.uid == snapshot.data?.userId,
+                      showDisclaimer: true,
                     ),
                     const SizedBox(height: 16),
                     OtherSellersTable(
                       userId: snapshot.data!.userId,
                       plateNumber: snapshot.data!.item,
                     ),
-                    const SizedBox(height: 16),
-                    const DisclaimerWidget(),
                     const SizedBox(height: 16),
                   ],
                 ),
