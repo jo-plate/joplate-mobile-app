@@ -30,7 +30,7 @@ class PriceLabelWidget extends StatelessWidget {
           fontSize: fontSize,
           fontFamily: 'Mandatory',
           fontWeight: FontWeight.w700,
-          color: isDark ? Colors.white70 : const Color(0xFF981C1E),
+          color: isDark ? Colors.white : const Color(0xFF981C1E),
         ),
         maxLines: 1,
       );
@@ -55,21 +55,24 @@ class PriceLabelWidget extends StatelessWidget {
               fontSize: fontSize,
               fontFamily: 'Mandatory',
               fontWeight: FontWeight.w700,
-              color: isDark ? Colors.white70 : const Color(0xFF981C1E),
+              color: isDark ? Colors.white : const Color(0xFF981C1E),
             ),
             maxLines: 1,
           ),
-          Text(
-            formatPrice(price),
-            style: TextStyle(
-              fontSize: fontSize * 0.875,
-              fontWeight: FontWeight.w600,
-              decoration: TextDecoration.lineThrough,
-              decorationStyle: TextDecorationStyle.solid,
-              color: isDark ? Colors.white38 : Colors.black,
+          Flexible(
+            fit: FlexFit.tight,
+            child: Text(
+              formatPrice(price),
+              style: TextStyle(
+                fontSize: fontSize * 0.875,
+                fontWeight: FontWeight.w600,
+                decoration: TextDecoration.lineThrough,
+                decorationStyle: TextDecorationStyle.solid,
+                color: isDark ? Colors.white38 : Colors.black,
+              ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
             ),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
           ),
         ],
       );
@@ -80,7 +83,7 @@ class PriceLabelWidget extends StatelessWidget {
           fontSize: fontSize,
           fontFamily: 'Mandatory',
           fontWeight: FontWeight.w700,
-          color: isDark ? Colors.white70 : const Color(0xFF981C1E),
+          color: isDark ? Colors.white : const Color(0xFF981C1E),
         ),
         maxLines: 1,
       );

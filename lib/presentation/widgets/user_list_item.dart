@@ -93,7 +93,7 @@ class UserListItem extends StatelessWidget {
               ElevatedButton(
                 onPressed: onFollowPressed,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: isFollowing ? const Color(0xFF981C1E) : Colors.white70,
+                  backgroundColor: isFollowing ? Colors.white70 : const Color(0xFF981C1E),
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   minimumSize: Size.zero,
@@ -108,7 +108,7 @@ class UserListItem extends StatelessWidget {
                 child: Text(
                   isFollowing ? m.common.following : m.common.follow,
                   style: TextStyle(
-                    color: isFollowing ? Colors.white : const Color(0xFF981C1E),
+                    color: isFollowing ? const Color(0xFF981C1E) : Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                   ),

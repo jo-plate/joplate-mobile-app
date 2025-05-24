@@ -194,16 +194,16 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                     widget.onFollowPressed?.call(isFollowing);
                                   },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: isFollowing ? const Color(0xFF981C1E) : Colors.white70,
+                              backgroundColor: isFollowing ? Colors.white70 : const Color(0xFF981C1E),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
                             ),
                             child: Text(
                               isFollowing ? m.common.following : m.common.follow,
                               style: TextStyle(
-                                color: isFollowing ? Colors.white : Colors.black,
+                                color: isFollowing ? Colors.black : Colors.white,
                                 fontSize: 16,
                               ),
                             ),

@@ -8,15 +8,13 @@ import 'package:joplate/domain/entities/plate_listing.dart';
 import 'package:joplate/domain/entities/request.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
-import 'package:joplate/presentation/utils/strings.dart';
+import 'package:joplate/presentation/widgets/contact_buttons_row.dart';
 import 'package:joplate/presentation/widgets/profile_banner.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phones_listing_grid.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plates_listing_grid.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plates_request_grid.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phones_requests_grid.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 @RoutePage()
 class UserProfilePage extends StatefulWidget {
@@ -128,7 +126,7 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
               children: [
                 // Profile banner at the top
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: ProfileBanner(
                     userId: widget.userId,
                     clickable: false,
@@ -140,92 +138,13 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
                 ),
 
                 // Contact buttons (WhatsApp and Call)
-                if (widget.userId != _currentUserId && userProfile.phonenumber.isNotEmpty)
-                  Directionality(
-                    textDirection: TextDirection.ltr,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: Colors.green.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: InkWell(
-                                onTap: () {
-                                  launchUrlString("https://wa.me/962${userProfile.phonenumber.substring(1)}",
-                                      mode: LaunchMode.externalApplication);
-                                },
-                                borderRadius: BorderRadius.circular(8),
-                                child: const Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    FaIcon(
-                                      FontAwesomeIcons.whatsapp,
-                                      color: Colors.green,
-                                      size: 20,
-                                    ),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      'WhatsApp',
-                                      style: TextStyle(
-                                        color: Colors.green,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Container(
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF981C1E),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: InkWell(
-                                onTap: () async {
-                                  final uri = 'tel:+962${userProfile.phonenumber.substring(1)}';
-                                  if (await canLaunchUrlString(uri)) {
-                                    await launchUrlString(uri);
-                                  } else {
-                                    throw 'Could not launch dialer';
-                                  }
-                                },
-                                borderRadius: BorderRadius.circular(8),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.phone,
-                                      size: 16,
-                                      color: Colors.white,
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      obfuscatePhoneNumber(userProfile.phonenumber),
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                if (widget.userId != _currentUserId && userProfile.phonenumber.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    child: ContactButtonsRow(phoneNumber: userProfile.phonenumber),
                   ),
+                ],
 
                 // Tabs section below the profile banner
                 TabBar(
@@ -254,7 +173,6 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
   Widget _buildListingsTab() {
     final m = Localization.of(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final primaryColor = Theme.of(context).colorScheme.primary;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -276,7 +194,7 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
                     onTap: () => setState(() => _selectedListingsTabIndex = 0),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: _selectedListingsTabIndex == 0 ? primaryColor : Colors.transparent,
+                        color: _selectedListingsTabIndex == 0 ? const Color(0xFF981C1E) : Colors.transparent,
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: Center(
@@ -302,7 +220,7 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
                     onTap: () => setState(() => _selectedListingsTabIndex = 1),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: _selectedListingsTabIndex == 1 ? primaryColor : Colors.transparent,
+                        color: _selectedListingsTabIndex == 1 ? const Color(0xFF981C1E) : Colors.transparent,
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: Center(
@@ -337,7 +255,6 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
   Widget _buildRequestsTab() {
     final m = Localization.of(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final primaryColor = Theme.of(context).colorScheme.primary;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -359,7 +276,7 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
                     onTap: () => setState(() => _selectedRequestsTabIndex = 0),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: _selectedRequestsTabIndex == 0 ? primaryColor : Colors.transparent,
+                        color: _selectedRequestsTabIndex == 0 ? const Color(0xFF981C1E) : Colors.transparent,
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: Center(
@@ -385,7 +302,7 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
                     onTap: () => setState(() => _selectedRequestsTabIndex = 1),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: _selectedRequestsTabIndex == 1 ? primaryColor : Colors.transparent,
+                        color: _selectedRequestsTabIndex == 1 ? const Color(0xFF981C1E) : Colors.transparent,
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: Center(
