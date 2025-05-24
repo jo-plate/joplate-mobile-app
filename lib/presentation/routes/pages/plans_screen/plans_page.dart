@@ -3,9 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/plan.dart';
+import 'package:joplate/domain/entities/user_plans.dart';
 import 'package:joplate/presentation/routes/pages/plans_screen/ui/plan_widget.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
+import 'package:joplate/presentation/widgets/user_plan_badge.dart';
 
 @RoutePage()
 class PlansPage extends StatefulWidget {
@@ -17,7 +20,7 @@ class PlansPage extends StatefulWidget {
 
 class _PlansPageState extends State<PlansPage> {
   late final Stream<List<Plan>> plans;
-  late final Stream<String> currentPlanStream;
+  late final Stream<UserPlans> currentPlanStream;
   final _analytics = FirebaseAnalytics.instance;
 
   @override
@@ -29,11 +32,11 @@ class _PlansPageState extends State<PlansPage> {
   }
 
   Stream<List<Plan>> _createPlansStream() {
-    return FirebaseFirestore.instance.collection('plans').snapshots().map((snapshot) {
+    return FirebaseFirestore.instance.collection(plansCollectionId).snapshots().map((snapshot) {
       final firebasePlans = snapshot.docs.map((doc) => Plan.fromJson(doc.data())).toList();
 
       // Add the Basic (bronze) plan if it doesn't exist
-      if (!firebasePlans.any((plan) => plan.displayName == 'Basic')) {
+      if (!firebasePlans.any((plan) => plan.planType == PlanType.free_plan)) {
         firebasePlans.insert(0, _createBasicPlan());
       }
 
@@ -44,16 +47,14 @@ class _PlansPageState extends State<PlansPage> {
     });
   }
 
-  Stream<String> _createCurrentPlanStream() {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      return Stream.value('Basic');
-    }
-
-    return FirebaseFirestore.instance.collection('userPlans').doc(user.uid).snapshots().map((doc) {
-      if (!doc.exists) return 'Basic';
-      final data = doc.data();
-      return data?['plan'] ?? 'Basic';
+  Stream<UserPlans> _createCurrentPlanStream() {
+    return FirebaseFirestore.instance
+        .collection(userPlansCollectionId)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .snapshots()
+        .map((doc) {
+      if (!doc.exists) return const UserPlans(plan: PlanType.free_plan);
+      return UserPlans.fromJson(doc.data()!);
     });
   }
 
@@ -70,6 +71,7 @@ class _PlansPageState extends State<PlansPage> {
         'ios': '',
         'android': '',
       }, // Empty product IDs as it's a free plan
+      planType: PlanType.free_plan,
     );
   }
 
@@ -90,7 +92,7 @@ class _PlansPageState extends State<PlansPage> {
         title: Text(m.profile.packages),
         centerTitle: true,
       ),
-      body: StreamBuilder<String>(
+      body: StreamBuilder<UserPlans>(
         stream: currentPlanStream,
         builder: (context, currentPlanSnapshot) {
           return StreamBuilder<List<Plan>>(
@@ -128,7 +130,7 @@ class _PlansPageState extends State<PlansPage> {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        if (currentPlanSnapshot.hasData) _buildPlanBadge(currentPlanSnapshot.data!),
+                        if (currentPlanSnapshot.hasData) UserPlanBadge(plan: currentPlanSnapshot.data!.plan),
                       ],
                     ),
                   ),
@@ -153,55 +155,4 @@ class _PlansPageState extends State<PlansPage> {
     );
   }
 
-  Widget _buildPlanBadge(String planName) {
-    Color badgeColor;
-    IconData badgeIcon;
-
-    switch (planName) {
-      case 'Gold':
-        badgeColor = const Color(0xFFFFD700); // Gold color
-        badgeIcon = Icons.workspace_premium;
-        break;
-      case 'Diamond':
-        badgeColor = const Color(0xFFB9F2FF); // Diamond light blue
-        badgeIcon = Icons.diamond;
-        break;
-      case 'Basic':
-      default:
-        badgeColor = const Color(0xFFCD7F32); // Bronze color
-        badgeIcon = Icons.account_circle;
-        break;
-    }
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: badgeColor.withOpacity(0.15),
-        border: Border.all(color: badgeColor, width: 1.5),
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: badgeColor.withOpacity(0.3),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(badgeIcon, color: badgeColor, size: 16),
-          const SizedBox(width: 4),
-          Text(
-            planName,
-            style: TextStyle(
-              color: badgeColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 13,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }

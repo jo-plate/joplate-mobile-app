@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:joplate/domain/entities/user_plans.dart';
 
 part 'plan.freezed.dart';
 
@@ -16,16 +17,17 @@ class Plan with _$Plan {
     @Default({}) Map<String, String> productIds,
     @Default([]) List<String> activePerksAr,
     @Default([]) List<String> disabledPerksAr,
+    @Default(PlanType.free_plan) PlanType planType,
   }) = _Plan;
 
   String get productId {
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        return productIds["android"]!;    
+        return productIds["android"] ?? "";
       case TargetPlatform.iOS:
-        return productIds["ios"]!;
+        return productIds["ios"] ?? "";
       default:
-        return productIds["ios"]!;
+        return productIds["ios"] ?? "";
     }
   }
 

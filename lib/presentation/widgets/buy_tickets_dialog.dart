@@ -198,15 +198,15 @@ class TicketCard extends StatelessWidget {
     super.key,
     required this.plan,
     this.icon,
+    this.productName,
   });
 
   final TicketPlan plan;
   final Widget? icon;
-
+  final String? productName;
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: kCardBG,
       elevation: 2,
       borderRadius: BorderRadius.circular(16),
       child: Container(
@@ -225,17 +225,17 @@ class TicketCard extends StatelessWidget {
               icon!,
             const SizedBox(height: 12),
             Text(
-              '${plan.amount} Tickets',
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              '${plan.amount} ${productName ?? 'Tickets'}',
+              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
             ),
             const SizedBox(height: 8),
             RichText(
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: 'JOD ',
+                    text: '\$ ',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 30,
                       fontWeight: FontWeight.w500,
                       color: Colors.grey.shade600,
                     ),

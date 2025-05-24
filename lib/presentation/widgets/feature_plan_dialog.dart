@@ -40,9 +40,7 @@ class _FeaturePlanDialogState extends State<FeaturePlanDialog> {
     plansStream = FirebaseFirestore.instance
         .collection(featuredPlansCollectionId)
         .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => TicketPlan.fromJson(doc.data()))
-            .toList());
+        .map((snapshot) => snapshot.docs.map((doc) => TicketPlan.fromJson(doc.data())).toList());
   }
 
   @override
@@ -50,6 +48,7 @@ class _FeaturePlanDialogState extends State<FeaturePlanDialog> {
     final m = Localization.of(context);
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      backgroundColor: kDialogBG,
       child: StreamBuilder<List<TicketPlan>>(
         stream: plansStream,
         builder: (context, snapshot) {
@@ -102,14 +101,18 @@ class _FeaturePlanDialogState extends State<FeaturePlanDialog> {
               CarouselSlider.builder(
                 itemCount: plans.length,
                 options: CarouselOptions(
-                  height: 300,
+                  height: 270,
                   enlargeCenterPage: true,
-                  viewportFraction: 0.85,
+                  viewportFraction: 1,
                   autoPlay: true,
                   onPageChanged: (i, __) => setState(() => current = i),
                 ),
-                itemBuilder: (_, i, __) => TicketCard(
-                  plan: plans[i],
+                itemBuilder: (_, i, __) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  child: TicketCard(
+                    plan: plans[i],
+                    productName: 'Days',
+                  ),
                 ),
               ),
               const SizedBox(height: 12),

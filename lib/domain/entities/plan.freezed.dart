@@ -24,6 +24,7 @@ mixin _$Plan {
   Map<String, String> get productIds => throw _privateConstructorUsedError;
   List<String> get activePerksAr => throw _privateConstructorUsedError;
   List<String> get disabledPerksAr => throw _privateConstructorUsedError;
+  PlanType get planType => throw _privateConstructorUsedError;
 
   /// Create a copy of Plan
   /// with the given fields replaced by the non-null parameter values.
@@ -44,7 +45,8 @@ abstract class $PlanCopyWith<$Res> {
       Color color,
       Map<String, String> productIds,
       List<String> activePerksAr,
-      List<String> disabledPerksAr});
+      List<String> disabledPerksAr,
+      PlanType planType});
 }
 
 /// @nodoc
@@ -66,10 +68,11 @@ class _$PlanCopyWithImpl<$Res, $Val extends Plan>
     Object? price = null,
     Object? activePerks = null,
     Object? disabledPerks = null,
-    Object? color = null,
+    Object? color = freezed,
     Object? productIds = null,
     Object? activePerksAr = null,
     Object? disabledPerksAr = null,
+    Object? planType = null,
   }) {
     return _then(_value.copyWith(
       displayName: null == displayName
@@ -88,7 +91,7 @@ class _$PlanCopyWithImpl<$Res, $Val extends Plan>
           ? _value.disabledPerks
           : disabledPerks // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      color: null == color
+      color: freezed == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as Color,
@@ -104,6 +107,10 @@ class _$PlanCopyWithImpl<$Res, $Val extends Plan>
           ? _value.disabledPerksAr
           : disabledPerksAr // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      planType: null == planType
+          ? _value.planType
+          : planType // ignore: cast_nullable_to_non_nullable
+              as PlanType,
     ) as $Val);
   }
 }
@@ -123,7 +130,8 @@ abstract class _$$PlanImplCopyWith<$Res> implements $PlanCopyWith<$Res> {
       Color color,
       Map<String, String> productIds,
       List<String> activePerksAr,
-      List<String> disabledPerksAr});
+      List<String> disabledPerksAr,
+      PlanType planType});
 }
 
 /// @nodoc
@@ -142,10 +150,11 @@ class __$$PlanImplCopyWithImpl<$Res>
     Object? price = null,
     Object? activePerks = null,
     Object? disabledPerks = null,
-    Object? color = null,
+    Object? color = freezed,
     Object? productIds = null,
     Object? activePerksAr = null,
     Object? disabledPerksAr = null,
+    Object? planType = null,
   }) {
     return _then(_$PlanImpl(
       displayName: null == displayName
@@ -164,7 +173,7 @@ class __$$PlanImplCopyWithImpl<$Res>
           ? _value._disabledPerks
           : disabledPerks // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      color: null == color
+      color: freezed == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as Color,
@@ -180,6 +189,10 @@ class __$$PlanImplCopyWithImpl<$Res>
           ? _value._disabledPerksAr
           : disabledPerksAr // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      planType: null == planType
+          ? _value.planType
+          : planType // ignore: cast_nullable_to_non_nullable
+              as PlanType,
     ));
   }
 }
@@ -195,7 +208,8 @@ class _$PlanImpl extends _Plan with DiagnosticableTreeMixin {
       this.color = Colors.white,
       final Map<String, String> productIds = const {},
       final List<String> activePerksAr = const [],
-      final List<String> disabledPerksAr = const []})
+      final List<String> disabledPerksAr = const [],
+      this.planType = PlanType.free_plan})
       : _activePerks = activePerks,
         _disabledPerks = disabledPerks,
         _productIds = productIds,
@@ -258,8 +272,12 @@ class _$PlanImpl extends _Plan with DiagnosticableTreeMixin {
   }
 
   @override
+  @JsonKey()
+  final PlanType planType;
+
+  @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Plan(displayName: $displayName, price: $price, activePerks: $activePerks, disabledPerks: $disabledPerks, color: $color, productIds: $productIds, activePerksAr: $activePerksAr, disabledPerksAr: $disabledPerksAr)';
+    return 'Plan(displayName: $displayName, price: $price, activePerks: $activePerks, disabledPerks: $disabledPerks, color: $color, productIds: $productIds, activePerksAr: $activePerksAr, disabledPerksAr: $disabledPerksAr, planType: $planType)';
   }
 
   @override
@@ -274,7 +292,8 @@ class _$PlanImpl extends _Plan with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('color', color))
       ..add(DiagnosticsProperty('productIds', productIds))
       ..add(DiagnosticsProperty('activePerksAr', activePerksAr))
-      ..add(DiagnosticsProperty('disabledPerksAr', disabledPerksAr));
+      ..add(DiagnosticsProperty('disabledPerksAr', disabledPerksAr))
+      ..add(DiagnosticsProperty('planType', planType));
   }
 
   @override
@@ -289,13 +308,15 @@ class _$PlanImpl extends _Plan with DiagnosticableTreeMixin {
                 .equals(other._activePerks, _activePerks) &&
             const DeepCollectionEquality()
                 .equals(other._disabledPerks, _disabledPerks) &&
-            (identical(other.color, color) || other.color == color) &&
+            const DeepCollectionEquality().equals(other.color, color) &&
             const DeepCollectionEquality()
                 .equals(other._productIds, _productIds) &&
             const DeepCollectionEquality()
                 .equals(other._activePerksAr, _activePerksAr) &&
             const DeepCollectionEquality()
-                .equals(other._disabledPerksAr, _disabledPerksAr));
+                .equals(other._disabledPerksAr, _disabledPerksAr) &&
+            (identical(other.planType, planType) ||
+                other.planType == planType));
   }
 
   @override
@@ -305,10 +326,11 @@ class _$PlanImpl extends _Plan with DiagnosticableTreeMixin {
       price,
       const DeepCollectionEquality().hash(_activePerks),
       const DeepCollectionEquality().hash(_disabledPerks),
-      color,
+      const DeepCollectionEquality().hash(color),
       const DeepCollectionEquality().hash(_productIds),
       const DeepCollectionEquality().hash(_activePerksAr),
-      const DeepCollectionEquality().hash(_disabledPerksAr));
+      const DeepCollectionEquality().hash(_disabledPerksAr),
+      planType);
 
   /// Create a copy of Plan
   /// with the given fields replaced by the non-null parameter values.
@@ -328,7 +350,8 @@ abstract class _Plan extends Plan {
       final Color color,
       final Map<String, String> productIds,
       final List<String> activePerksAr,
-      final List<String> disabledPerksAr}) = _$PlanImpl;
+      final List<String> disabledPerksAr,
+      final PlanType planType}) = _$PlanImpl;
   const _Plan._() : super._();
 
   @override
@@ -347,6 +370,8 @@ abstract class _Plan extends Plan {
   List<String> get activePerksAr;
   @override
   List<String> get disabledPerksAr;
+  @override
+  PlanType get planType;
 
   /// Create a copy of Plan
   /// with the given fields replaced by the non-null parameter values.

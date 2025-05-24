@@ -1,12 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/plate_listing.dart';
-import 'package:joplate/injection/injector.dart';
-import 'package:joplate/presentation/cubits/localization/localization_cubit.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_widget.dart';
 import 'package:joplate/presentation/widgets/duration_ago_widget.dart';
+import 'package:joplate/presentation/widgets/featured_ribbon.dart';
 import 'package:joplate/presentation/widgets/price_label_widget.dart';
 import 'package:joplate/presentation/widgets/top_ribbon.dart';
 
@@ -17,13 +16,14 @@ class PlateNumberListingWidget extends StatelessWidget {
   final double priceLabelFontSize;
   final bool hideLikeButton;
 
-  const PlateNumberListingWidget(
-      {super.key,
-      required this.item,
-      this.shape = PlateShape.horizontal,
-      this.disabled = false,
-      this.priceLabelFontSize = 16,
-      this.hideLikeButton = false});
+  const PlateNumberListingWidget({
+    super.key,
+    required this.item,
+    this.shape = PlateShape.horizontal,
+    this.disabled = false,
+    this.priceLabelFontSize = 16,
+    this.hideLikeButton = false,
+  });
 
   bool get isVertical => shape == PlateShape.vertical;
   bool get isHorizontal => shape == PlateShape.horizontal;
@@ -106,41 +106,13 @@ class PlateNumberListingWidget extends StatelessWidget {
                   ),
                 ),
               ),
-            if (item.isFeatured) _buildFeaturedRibbon(context),
+            if (item.isFeatured) FeaturedRibbon(),
             if (item.isSold)
               TopRibbon(text: m.home.sold, backgroundColor: const Color(0xFF981C1E), textColor: Colors.white),
             if (item.isExpired) TopRibbon(text: m.home.expired),
             if (item.isDisabled)
-              TopRibbon(backgroundColor: Colors.black, textColor: Colors.white, text: m.home.disabled)
+              TopRibbon(text: m.home.disabled, backgroundColor: Colors.black, textColor: Colors.white)
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFeaturedRibbon(context) {
-    final m = Localization.of(context);
-    return Positioned(
-      bottom: 20,
-      right: injector<LocalizationCubit>().state.languageCode == 'en' ? -20 : null,
-      left: injector<LocalizationCubit>().state.languageCode == 'ar' ? -20 : null,
-      child: Transform.rotate(
-        angle: injector<LocalizationCubit>().state.languageCode == 'en' ? -0.7854 : 0.7854,
-        child: Container(
-          width: 100,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: const Color(0xFFFFC107),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Text(
-            m.home.featured,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-            ),
-          ),
         ),
       ),
     );

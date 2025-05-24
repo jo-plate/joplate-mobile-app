@@ -18,7 +18,7 @@ class ContactButtonsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
-    final isSignedIn = false; //FirebaseAuth.instance.currentUser != null;
+    final isSignedIn = FirebaseAuth.instance.currentUser != null;
 
     return Directionality(
       textDirection: TextDirection.ltr,

@@ -233,29 +233,28 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                 children: [
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Expanded(
-                                        child: FittedBox(
-                                          fit: BoxFit.scaleDown,
-                                          alignment: Alignment.centerLeft,
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                profile?.displayName ?? 'Guest',
-                                                style: TextStyle(
-                                                  fontSize: 22,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: textColor,
-                                                ),
+                                      FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        alignment: Alignment.centerLeft,
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              profile?.displayName ?? 'Guest',
+                                              style: TextStyle(
+                                                fontSize: 22,
+                                                fontWeight: FontWeight.w600,
+                                                color: textColor,
                                               ),
-                                              const SizedBox(width: 6),
-                                              VerifiedBadge(
-                                                profile: profile,
-                                                size: 22,
-                                              ),
-                                              if (widget.showBadge && followButton == null) UserPlanBadge(plan: plan)
-                                            ],
-                                          ),
+                                            ),
+                                            const SizedBox(width: 6),
+                                            VerifiedBadge(
+                                              profile: profile,
+                                              size: 22,
+                                            ),
+                                            if (widget.showBadge && followButton == null) UserPlanBadge(plan: plan)
+                                          ],
                                         ),
                                       ),
                                       const SizedBox(width: 4),
