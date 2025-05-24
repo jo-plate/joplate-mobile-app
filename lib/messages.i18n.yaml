@@ -334,6 +334,7 @@ auth:
   reset_password_instructions: "We will send you a link to reset your password"
   send_reset_code: "Send Reset Code"
   check_email_instructions: "Check your email for a Password Reset Link and instructions"
+  signin_to_contact: "Sign up to view the contact details"
 
 feed:
   title: "Feed"

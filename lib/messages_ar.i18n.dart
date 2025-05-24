@@ -1665,6 +1665,11 @@ class AuthMessagesAr extends AuthMessages {
   /// ```
   String get check_email_instructions =>
       """تحقق من بريدك الإلكتروني للحصول على رابط إعادة التعيين. استخدم الرابط لإعادة تعيين كلمة المرور.""";
+
+  /// ```dart
+  /// "يجب تسجيل الدخول لعرض معلومات الاتصال"
+  /// ```
+  String get signin_to_contact => """يجب تسجيل الدخول لعرض معلومات الاتصال""";
 }
 
 class FeedMessagesAr extends FeedMessages {
@@ -2662,6 +2667,7 @@ Map<String, String> get messagesArMap => {
   """auth.send_reset_code""": """إرسال رابط إعادة التعيين""",
   """auth.check_email_instructions""":
       """تحقق من بريدك الإلكتروني للحصول على رابط إعادة التعيين. استخدم الرابط لإعادة تعيين كلمة المرور.""",
+  """auth.signin_to_contact""": """يجب تسجيل الدخول لعرض معلومات الاتصال""",
   """feed.title""": """المتابعة""",
   """feed.login_required""": """يجب تسجيل الدخول لعرض الاعلانات""",
   """feed.sign_in""": """تسجيل الدخول""",

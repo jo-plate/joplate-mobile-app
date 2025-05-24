@@ -1660,6 +1660,11 @@ class AuthMessages {
   /// ```
   String get check_email_instructions =>
       """Check your email for a Password Reset Link and instructions""";
+
+  /// ```dart
+  /// "Sign up to view the contact details"
+  /// ```
+  String get signin_to_contact => """Sign up to view the contact details""";
 }
 
 class FeedMessages {
@@ -2657,6 +2662,7 @@ Map<String, String> get messagesMap => {
   """auth.send_reset_code""": """Send Reset Code""",
   """auth.check_email_instructions""":
       """Check your email for a Password Reset Link and instructions""",
+  """auth.signin_to_contact""": """Sign up to view the contact details""",
   """feed.title""": """Feed""",
   """feed.login_required""": """You need to sign in to view your feed""",
   """feed.sign_in""": """Sign In""",
