@@ -179,6 +179,7 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
                   visits: phone.visits,
                   title: m.platesdetails.originally_posted_by,
                   showVisits: FirebaseAuth.instance.currentUser?.uid == phone.userId,
+                  showDisclaimer: true,
                 ),
                 const SizedBox(
                   height: 16,

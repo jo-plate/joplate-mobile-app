@@ -15,16 +15,17 @@ class QuicksalePage extends StatefulWidget {
 }
 
 class _QuicksalePageState extends State<QuicksalePage> {
-  late final Stream<List<UserProfile>> _profilesStream;
+  late final Stream<List<String>> _profilesIdsStream;
 
   @override
   void initState() {
     super.initState();
-    _profilesStream = FirebaseFirestore.instance
+    _profilesIdsStream =
+        FirebaseFirestore.instance
         .collection(quicksaleProfilesCollectionId)
         .snapshots()
         .map((snapshot) {
-      return snapshot.docs.map((doc) => UserProfile.fromSnapshot(doc)).toList();
+      return snapshot.docs.map((doc) => UserProfile.fromSnapshot(doc).id).toList();
     });
   }
 
@@ -35,8 +36,8 @@ class _QuicksalePageState extends State<QuicksalePage> {
       appBar: AppBar(
         title: Text(m.quicksale.title),
       ),
-      body: StreamBuilder<List<UserProfile>>(
-        stream: _profilesStream,
+      body: StreamBuilder<List<String>>(
+        stream: _profilesIdsStream,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return const Center(child: Text('Error loading profiles'));
@@ -60,10 +61,10 @@ class _QuicksalePageState extends State<QuicksalePage> {
                   m.quicksale.description,
                   style: const TextStyle(),
                 ),
-                ...profiles.map((profile) => Padding(
+                ...profiles.map((profileId) => Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10.0),
                       child: UserDetailsWidget(
-                        userId: profile.id,
+                        userId: profileId,
                       ),
                     )),
               ],

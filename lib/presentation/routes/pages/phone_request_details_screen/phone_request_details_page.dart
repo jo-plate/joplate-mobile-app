@@ -136,6 +136,7 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
                     visits: snapshot.data!.visits,
                     title: m.platesdetails.originally_posted_by,
                     showVisits: FirebaseAuth.instance.currentUser?.uid == snapshot.data?.userId,
+                    showDisclaimer: true,
                   ),
                   const SizedBox(height: 16),
                   const SizedBox(height: 20),

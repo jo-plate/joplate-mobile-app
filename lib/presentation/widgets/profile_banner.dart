@@ -233,7 +233,7 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      Flexible(
+                                      Expanded(
                                         child: Text(
                                           profile?.displayName ?? 'Guest',
                                           style: TextStyle(
@@ -241,6 +241,7 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                             fontWeight: FontWeight.w600,
                                             color: textColor,
                                           ),
+                                          maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
@@ -249,29 +250,14 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                         Icon(Icons.verified, color: Colors.blue.shade600)
                                       else if ((profile?.pendingVerification ?? false))
                                         Icon(Icons.verified, color: Colors.grey.shade600),
-                                      if (widget.showBadge)
+                                      if (widget.showBadge && followButton == null)
                                         UserPlanBadge(plan: plan)
                                     ],
                                   ),
-                                  // if (!widget.showTicketCount && plan != PlanType.free_plan) ...[
-                                  //   const SizedBox(height: 6),
-                                  //   Container(
-                                  //     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                  //     decoration: BoxDecoration(
-                                  //       color: accentColor,
-                                  //       borderRadius: BorderRadius.circular(12),
-                                  //     ),
-                                  //     child: Text(
-                                  //       plansSnapshot.data?.plan.name ?? PlanType.free_plan.name,
-                                  //       style: const TextStyle(
-                                  //         fontSize: 12,
-                                  //         color: Colors.white,
-                                  //         fontWeight: FontWeight.w600,
-                                  //       ),
-                                  //       overflow: TextOverflow.ellipsis,
-                                  //     ),
-                                  //   ),
-                                  // ],
+                                  if (widget.showBadge && followButton != null) ...[
+                                    const SizedBox(height: 6),
+                                    UserPlanBadge(plan: plan)
+                                  ],
                                   const SizedBox(height: 10),
                                   if (widget.showTicketCount)
                                     Row(
