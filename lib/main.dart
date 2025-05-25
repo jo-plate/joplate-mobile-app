@@ -16,6 +16,7 @@ import 'package:joplate/injection/injector.dart';
 import 'package:joplate/messages.i18n.dart';
 import 'package:joplate/messages_ar.i18n.dart';
 import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
+import 'package:joplate/presentation/cubits/fcm/fcm_cubit.dart';
 import 'package:joplate/presentation/cubits/iap_cubit.dart';
 import 'package:joplate/presentation/cubits/localization/localization_cubit.dart';
 import 'package:joplate/presentation/cubits/theme_cubit.dart';
@@ -74,13 +75,6 @@ void main() async {
     debugPrint('Error getting FCM token: $e');
   }
 
-  // Initialize FCM Service - catch errors to prevent app freezing
-  try {
-    await injector<FCMService>().initialize();
-  } catch (e) {
-    debugPrint('Error initializing FCM service: $e');
-  }
-
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
   PlatformDispatcher.instance.onError = (error, stack) {
@@ -91,18 +85,6 @@ void main() async {
   try {
     // Request tracking authorization on iOS and Android
     if (Platform.isIOS) {
-      final status = await AppTrackingTransparency.requestTrackingAuthorization();
-      debugPrint('App Tracking Transparency status: $status');
-      if (status == TrackingStatus.authorized) {
-        await FirebaseAnalytics.instance.setConsent(
-          adStorageConsentGranted: true,
-          analyticsStorageConsentGranted: true,
-          adPersonalizationSignalsConsentGranted: true,
-          adUserDataConsentGranted: true,
-        );
-      }
-    } else if (Platform.isAndroid) {
-      // For Android, we'll show a custom dialog first
       final status = await AppTrackingTransparency.requestTrackingAuthorization();
       debugPrint('App Tracking Transparency status: $status');
       if (status == TrackingStatus.authorized) {
@@ -134,6 +116,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => injector<LocalizationCubit>()),
         BlocProvider(create: (context) => injector<IAPCubit>()..initialize()),
         BlocProvider(create: (context) => injector<ThemeCubit>()..loadTheme()),
+        BlocProvider(create: (context) => injector<FCMCubit>()..initialize()),
       ],
       child: BlocBuilder<LocalizationCubit, Locale>(
         builder: (context, locale) {

@@ -13,10 +13,12 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
+import '../data/services/fcm_service.dart' as _i894;
 import '../domain/repositories/firestore_user_repository.dart' as _i832;
 import '../domain/repositories/listings_repository.dart' as _i871;
 import '../domain/usecases/auth/login_with_email.dart' as _i457;
 import '../presentation/cubits/auth/auth_cubit.dart' as _i352;
+import '../presentation/cubits/fcm/fcm_cubit.dart' as _i875;
 import '../presentation/cubits/iap_cubit.dart' as _i762;
 import '../presentation/cubits/localization/localization_cubit.dart' as _i340;
 import '../presentation/cubits/theme_cubit.dart' as _i203;
@@ -45,6 +47,7 @@ Future<_i174.GetIt> $initGetIt(
       () => _i832.FirestoreUserRepository());
   gh.singleton<_i762.IAPCubit>(() => _i762.IAPCubit());
   gh.singleton<_i985.AppSnackbar>(() => _i985.AppSnackbar());
+  gh.lazySingleton<_i894.FCMService>(() => _i894.FCMService());
   gh.lazySingleton<_i871.FirestoreListingRepository>(
       () => _i871.FirestoreListingRepository());
   gh.lazySingleton<_i340.LocalizationCubit>(() => _i340.LocalizationCubit());
@@ -52,6 +55,8 @@ Future<_i174.GetIt> $initGetIt(
       () => _i203.ThemeCubit(gh<_i460.SharedPreferences>()));
   gh.singleton<_i352.AuthCubit>(
       () => _i352.AuthCubit(gh<_i832.FirestoreUserRepository>()));
+  gh.lazySingleton<_i875.FCMCubit>(
+      () => _i875.FCMCubit(gh<_i894.FCMService>()));
   return getIt;
 }
 

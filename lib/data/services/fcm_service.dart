@@ -1,10 +1,10 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:injectable/injectable.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/user_notification.dart';
 import 'package:joplate/presentation/routes/router.dart';
@@ -14,6 +14,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:joplate/firebase_options.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+@lazySingleton
 class FCMService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
