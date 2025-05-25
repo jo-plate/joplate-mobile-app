@@ -14,7 +14,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:joplate/firebase_options.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-@lazySingleton
 class FCMService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
