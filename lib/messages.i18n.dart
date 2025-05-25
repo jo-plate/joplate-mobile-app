@@ -2344,9 +2344,9 @@ class PromoteMessages {
   const PromoteMessages(this._parent);
 
   /// ```dart
-  /// "✨ Free Promotion"
+  /// "✨ Promote Ad"
   /// ```
-  String get title_free => """✨ Free Promotion""";
+  String get title_free => """✨ Promote Ad""";
 
   /// ```dart
   /// "Sell Faster!"
@@ -2354,10 +2354,10 @@ class PromoteMessages {
   String get title_paid => """Sell Faster!""";
 
   /// ```dart
-  /// "Get 30 days of featuring for one golden ticket."
+  /// "Feature your ad for 14 days with one golden ticket."
   /// ```
   String get description_free =>
-      """Get 30 days of featuring for one golden ticket.""";
+      """Feature your ad for 14 days with one golden ticket.""";
 
   /// ```dart
   /// "Increase your listing visibility by 10x."
@@ -2816,10 +2816,10 @@ Map<String, String> get messagesMap => {
   """userprofile.unfollow_success""": """Unfollowed user successfully""",
   """userprofile.login_required""": """You must be logged in to follow users""",
   """userprofile.error""": """Error: """,
-  """promote.title_free""": """✨ Free Promotion""",
+  """promote.title_free""": """✨ Promote Ad""",
   """promote.title_paid""": """Sell Faster!""",
   """promote.description_free""":
-      """Get 30 days of featuring for one golden ticket.""",
+      """Feature your ad for 14 days with one golden ticket.""",
   """promote.description_paid""":
       """Increase your listing visibility by 10x.""",
   """promote.promote_button""": """Promote""",

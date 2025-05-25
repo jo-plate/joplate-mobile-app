@@ -472,9 +472,9 @@ userprofile:
   error: "خطأ: "
 
 promote:
-  title_free: "✨ ترقية مجانية"
+  title_free: "✨ ترقية الإعلان"
   title_paid: "بيع أسرع!"
-  description_free: "احصل على 30 يوم من التمييز مقابل تذكرة ذهبية واحدة."
+  description_free: "ميز إعلانك لمدة 14 يوم بتذكرة ذهبية."
   description_paid: "زد ظهور إعلانك 10 مرات."
   promote_button: "ترقية"
   make_featured: "اجعلها مميزة"

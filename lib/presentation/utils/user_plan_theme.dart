@@ -64,7 +64,7 @@ class UserPlanTheme {
       case PlanType.gold_plan:
         return isDarkMode ? const Color(0xFFDAA520) : const Color(0xFF403301);
       case PlanType.diamond_plan:
-        return Colors.white;
+        return isDarkMode ? Colors.white : const Color(0xFF403301);
       case PlanType.admin_plan:
         return Colors.white;
       default:

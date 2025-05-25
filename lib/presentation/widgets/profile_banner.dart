@@ -235,18 +235,21 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      FittedBox(
-                                        fit: BoxFit.fitWidth,
-                                        // fit: BoxFit.scaleDown,
-                                        // alignment: Alignment.centerLeft,
+                                      Expanded(
                                         child: Row(
                                           children: [
-                                            Text(
-                                              profile?.displayName ?? 'Guest',
-                                              style: TextStyle(
-                                                fontSize: 22,
-                                                fontWeight: FontWeight.w600,
-                                                color: textColor,
+                                            Expanded(
+                                              child: FittedBox(
+                                                fit: BoxFit.scaleDown,
+                                                alignment: Alignment.centerLeft,
+                                                child: Text(
+                                                  profile?.displayName ?? 'Guest',
+                                                  style: TextStyle(
+                                                    fontSize: 22,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: textColor,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                             const SizedBox(width: 6),

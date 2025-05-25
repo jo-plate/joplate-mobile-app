@@ -472,9 +472,9 @@ userprofile:
   error: "Error: "
 
 promote:
-  title_free: "✨ Free Promotion"
+  title_free: "✨ Promote Ad"
   title_paid: "Sell Faster!"
-  description_free: "Get 30 days of featuring for one golden ticket."
+  description_free: "Feature your ad for 14 days with one golden ticket."
   description_paid: "Increase your listing visibility by 10x."
   promote_button: "Promote"
   make_featured: "Make Featured"

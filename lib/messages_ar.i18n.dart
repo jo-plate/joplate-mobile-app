@@ -2346,9 +2346,9 @@ class PromoteMessagesAr extends PromoteMessages {
   const PromoteMessagesAr(this._parent) : super(_parent);
 
   /// ```dart
-  /// "✨ ترقية مجانية"
+  /// "✨ ترقية الإعلان"
   /// ```
-  String get title_free => """✨ ترقية مجانية""";
+  String get title_free => """✨ ترقية الإعلان""";
 
   /// ```dart
   /// "بيع أسرع!"
@@ -2356,10 +2356,9 @@ class PromoteMessagesAr extends PromoteMessages {
   String get title_paid => """بيع أسرع!""";
 
   /// ```dart
-  /// "احصل على 30 يوم من التمييز مقابل تذكرة ذهبية واحدة."
+  /// "ميز إعلانك لمدة 14 يوم بتذكرة ذهبية."
   /// ```
-  String get description_free =>
-      """احصل على 30 يوم من التمييز مقابل تذكرة ذهبية واحدة.""";
+  String get description_free => """ميز إعلانك لمدة 14 يوم بتذكرة ذهبية.""";
 
   /// ```dart
   /// "زد ظهور إعلانك 10 مرات."
@@ -2820,10 +2819,9 @@ Map<String, String> get messagesArMap => {
   """userprofile.unfollow_success""": """تم إلغاء المتابعة بنجاح""",
   """userprofile.login_required""": """يجب تسجيل الدخول لمتابعة المستخدمين""",
   """userprofile.error""": """خطأ: """,
-  """promote.title_free""": """✨ ترقية مجانية""",
+  """promote.title_free""": """✨ ترقية الإعلان""",
   """promote.title_paid""": """بيع أسرع!""",
-  """promote.description_free""":
-      """احصل على 30 يوم من التمييز مقابل تذكرة ذهبية واحدة.""",
+  """promote.description_free""": """ميز إعلانك لمدة 14 يوم بتذكرة ذهبية.""",
   """promote.description_paid""": """زد ظهور إعلانك 10 مرات.""",
   """promote.promote_button""": """ترقية""",
   """promote.make_featured""": """اجعلها مميزة""",

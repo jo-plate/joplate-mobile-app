@@ -49,7 +49,6 @@ Future<_i174.GetIt> $initGetIt(
       () => _i832.FirestoreUserRepository());
   gh.singleton<_i762.IAPCubit>(() => _i762.IAPCubit());
   gh.singleton<_i985.AppSnackbar>(() => _i985.AppSnackbar());
-  gh.lazySingleton<_i894.FCMService>(() => _i894.FCMService());
   gh.lazySingleton<_i871.FirestoreListingRepository>(
       () => _i871.FirestoreListingRepository());
   gh.lazySingleton<_i340.LocalizationCubit>(() => _i340.LocalizationCubit());
