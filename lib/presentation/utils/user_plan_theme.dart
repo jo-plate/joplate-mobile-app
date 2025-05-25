@@ -51,7 +51,7 @@ class UserPlanTheme {
       case PlanType.gold_plan:
         return isDarkMode ? const Color(0xFF2D2A1F) : const Color.fromARGB(255, 255, 227, 116);
       case PlanType.diamond_plan:
-        return true ? const Color(0xFF1E274E) : const Color(0xFF87ceeb);
+        return isDarkMode ? const Color(0xFF1E274E) : const Color(0xFFCACBF8);
       case PlanType.admin_plan:
         return isDarkMode ? const Color(0xFF1A1A1A) : const Color(0xFF2D2D2D);
       default:
@@ -114,7 +114,7 @@ class UserPlanTheme {
         final adminShadowColor = Colors.grey.withOpacity(0.2);
         const adminTextColor = Colors.white;
         return PlanBadgeStyle(
-          backgroundColor: isDarkMode ? const Color(0xFF1A1A1A) : const Color(0xFF2D2D2D).withOpacity(0.15),
+          backgroundColor: const Color(0xFF1A1A1A),
           borderColor: adminColor,
           textColor: adminTextColor,
           iconColor: adminIconColor,

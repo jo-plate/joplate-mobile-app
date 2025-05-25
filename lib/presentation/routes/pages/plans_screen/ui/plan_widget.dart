@@ -171,12 +171,12 @@ class PlanWidget extends StatelessWidget {
                           ),
                           children: const [
                             TextSpan(
-                              text: " / JOD",
+                              text: " / \$",
                               style: TextStyle(
                                 fontFamily: 'Mandatory',
                                 fontWeight: FontWeight.w700,
                                 color: Colors.black,
-                                fontSize: 12.0,
+                                fontSize: 14.0,
                               ),
                             )
                           ],
@@ -289,12 +289,12 @@ class PlanWidget extends StatelessWidget {
                             ),
                             children: const [
                               TextSpan(
-                                text: " JOD",
+                                text: " \$",
                                 style: TextStyle(
                                   fontFamily: 'Mandatory',
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white,
-                                  fontSize: 14.0,
+                                  fontSize: 16.0,
                                 ),
                               )
                             ],

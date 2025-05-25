@@ -236,8 +236,9 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       FittedBox(
-                                        fit: BoxFit.scaleDown,
-                                        alignment: Alignment.centerLeft,
+                                        fit: BoxFit.fitWidth,
+                                        // fit: BoxFit.scaleDown,
+                                        // alignment: Alignment.centerLeft,
                                         child: Row(
                                           children: [
                                             Text(

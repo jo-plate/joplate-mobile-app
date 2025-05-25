@@ -83,12 +83,9 @@ class _UserProfileViewState extends State<_UserProfileView> {
                   _buildFeaturesSection(),
                   const SizedBox(height: 8),
                   MenuItem(
-                    title: m.profile.promo_code,
-                    icon: Icons.card_giftcard_outlined,
-                    onTap: () => showDialog(
-                      context: context,
-                      builder: (context) => const PromoCodeDialog(),
-                    ),
+                    title: m.profile.packages,
+                    icon: Icons.wallet_giftcard_outlined,
+                    onTap: () => AutoRouter.of(context).push(const PlansRoute()),
                   ),
                 ] else
                   const AnonUserView(),
@@ -177,9 +174,12 @@ class _UserProfileViewState extends State<_UserProfileView> {
         const SizedBox(width: 8),
         Expanded(
           child: _buildFeatureCard(
-            icon: Icons.wallet_giftcard_outlined,
-            label: m.profile.packages,
-            onTap: () => AutoRouter.of(context).push(const PlansRoute()),
+            icon: Icons.card_giftcard_outlined,
+            label: m.profile.promo_code,
+            onTap: () => showDialog(
+              context: context,
+              builder: (context) => const PromoCodeDialog(),
+            ),
           ),
         ),
       ],
