@@ -1,0 +1,41 @@
+{
+  "identifier" : "test_configuration",
+  "products" : [
+    {
+      "id" : "three_normal_tickets",
+      "type" : "consumable",
+      "displayName" : "3 Tickets",
+      "description" : "Add 3 listings to showcase your numbers or plates",
+      "price" : 17.99,
+      "locale" : "en_US"
+    },
+    {
+      "id" : "five_normal_tickets",
+      "type" : "consumable",
+      "displayName" : "5 Tickets",
+      "description" : "Add 5 listings to showcase your numbers or plates",
+      "price" : 24.99,
+      "locale" : "en_US"
+    },
+    {
+      "id" : "ten_normal_tickets",
+      "type" : "consumable",
+      "displayName" : "10 Tickets",
+      "description" : "Add 10 listings to showcase your numbers or plates",
+      "price" : 39.99,
+      "locale" : "en_US"
+    }
+  ],
+  "settings": {
+    "simulator": {
+      "content": {
+        "products": [
+          {
+            "id": "three_normal_tickets",
+            "type": "consumable"
+          }
+        ]
+      }
+    }
+  }
+} 

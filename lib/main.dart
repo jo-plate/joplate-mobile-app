@@ -25,6 +25,7 @@ import 'package:joplate/presentation/routes/router.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:joplate/presentation/theme.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
+import 'dart:developer' as developer;
 import 'firebase_options.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -32,14 +33,25 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Configure logging
+  developer.log('App starting...', name: 'main');
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await DependencyManager.inject();
+  developer.log('Firebase initialized', name: 'main');
 
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  await DependencyManager.inject();
+  developer.log('Dependencies injected', name: 'main');
+
+  FlutterError.onError = (FlutterErrorDetails details) {
+    developer.log('Flutter error: ${details.exception}',
+        name: 'main', error: details.exception, stackTrace: details.stack);
+    FirebaseCrashlytics.instance.recordFlutterError(details);
+  };
 
   PlatformDispatcher.instance.onError = (error, stack) {
+    developer.log('Platform error: $error', name: 'main', error: error, stackTrace: stack);
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
@@ -53,11 +65,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    developer.log('Building MyApp', name: 'main');
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => injector<AuthCubit>()),
         BlocProvider(create: (context) => injector<LocalizationCubit>()),
-        BlocProvider(create: (context) => injector<IAPCubit>()..initialize()),
+        BlocProvider(create: (context) {
+          developer.log('Creating IAPCubit', name: 'main');
+          final cubit = injector<IAPCubit>();
+          developer.log('Initializing IAPCubit', name: 'main');
+          cubit.initialize();
+          return cubit;
+        }),
         BlocProvider(create: (context) => injector<ThemeCubit>()..loadTheme()),
         BlocProvider(create: (context) => injector<FCMCubit>()..initialize()),
         BlocProvider(create: (context) => injector<ATPPCubit>()..requestTrackingPermission()),

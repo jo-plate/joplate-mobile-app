@@ -5,7 +5,7 @@ class DurationAgoWidget extends StatelessWidget {
   const DurationAgoWidget({
     super.key,
     required this.createdAt,
-    this.fontSize = 14,
+    this.fontSize = 12,
   });
 
   final DateTime createdAt;

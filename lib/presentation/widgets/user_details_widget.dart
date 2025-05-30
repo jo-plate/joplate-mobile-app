@@ -2,20 +2,17 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
 import 'package:joplate/domain/entities/user_plans.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
-import 'package:joplate/presentation/utils/strings.dart';
 import 'package:joplate/presentation/utils/user_plan_theme.dart';
 import 'package:joplate/presentation/widgets/contact_buttons_row.dart';
 import 'package:joplate/presentation/widgets/disclaimer_widget.dart';
 import 'package:joplate/presentation/widgets/profile_picture_widget.dart';
 import 'package:joplate/presentation/widgets/user_plan_badge.dart';
 import 'package:joplate/presentation/widgets/verified_badge.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class UserDetailsWidget extends StatefulWidget {
   const UserDetailsWidget({

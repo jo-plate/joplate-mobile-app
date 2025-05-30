@@ -106,7 +106,7 @@ class PlateNumberListingWidget extends StatelessWidget {
                   ),
                 ),
               ),
-            if (item.isFeatured) FeaturedRibbon(),
+            if (item.isFeatured) const FeaturedRibbon(),
             if (item.isSold)
               TopRibbon(text: m.home.sold, backgroundColor: const Color(0xFF981C1E), textColor: Colors.white),
             if (item.isExpired) TopRibbon(text: m.home.expired),

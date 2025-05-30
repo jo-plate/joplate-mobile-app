@@ -10,6 +10,7 @@ import 'package:joplate/presentation/cubits/iap_state.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
 import 'package:joplate/presentation/widgets/buy_tickets_dialog.dart';
+import 'dart:developer' as developer;
 
 const kAccent = Color(0xFF981C1E);
 const kGold = Color(0xFFFFC107);
@@ -155,6 +156,12 @@ class _FeaturePlanDialogState extends State<FeaturePlanDialog> {
                                 AppSnackbar.showError(m.common.missing_product_id);
                                 return;
                               }
+
+                              developer.log('IAP: Initiating purchase from FeaturePlanDialog',
+                                  name: 'FeaturePlanDialog');
+                              developer.log('IAP: Product ID: $productId', name: 'FeaturePlanDialog');
+                              developer.log('IAP: Listing ID: ${widget.listingId}', name: 'FeaturePlanDialog');
+                              developer.log('IAP: Item Type: ${widget.itemType}', name: 'FeaturePlanDialog');
 
                               context.read<IAPCubit>()
                                 ..setPromotionContext(

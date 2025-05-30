@@ -1,13 +1,17 @@
 import 'dart:io' show Platform;
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:joplate/domain/entities/plan.dart';
 import 'package:joplate/injection/injector.dart';
+import 'package:joplate/presentation/cubits/iap_cubit.dart';
+import 'package:joplate/presentation/cubits/iap_state.dart';
 import 'package:joplate/presentation/cubits/localization/localization_cubit.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
 import 'package:joplate/presentation/widgets/icons/plan_icon.dart';
+import 'dart:developer' as developer;
 
 class PlanWidget extends StatelessWidget {
   PlanWidget({
@@ -59,7 +63,10 @@ class PlanWidget extends StatelessWidget {
     );
   }
 
-  void _buyProduct() async {
+  void _buyProduct(BuildContext context) {
+    developer.log('IAP: Starting purchase from PlanWidget', name: 'PlanWidget');
+    developer.log('IAP: Product ID: ${plan.productId}', name: 'PlanWidget');
+    
     _logPurchaseAttempt();
 
     if (plan.productId.trim().isEmpty) {
@@ -67,31 +74,8 @@ class PlanWidget extends StatelessWidget {
       AppSnackbar.showError("No product ID available for this platform.");
       return;
     }
-    try {
-      final isAvailable = await InAppPurchase.instance.isAvailable();
-      if (!isAvailable) {
-        _logPurchaseError('IAP not available');
-        AppSnackbar.showError("In-app purchases not available.");
-        return;
-      }
-    } catch (e) {
-      _logPurchaseError('IAP availability check failed: $e');
-      debugPrint("❌ IAP Error: $e");
-      AppSnackbar.showError("Error checking IAP availability: $e");
-      return;
-    }
 
-    final response = await InAppPurchase.instance.queryProductDetails({plan.productId});
-    if (response.notFoundIDs.isNotEmpty || response.productDetails.isEmpty) {
-      _logPurchaseError('Product not found');
-      AppSnackbar.showError("Product not found.");
-      return;
-    }
-
-    final productDetails = response.productDetails.first;
-    final purchaseParam = PurchaseParam(productDetails: productDetails);
-
-    InAppPurchase.instance.buyConsumable(purchaseParam: purchaseParam);
+    context.read<IAPCubit>().purchaseProduct(plan.productId, context);
   }
 
   @override
@@ -104,125 +88,125 @@ class PlanWidget extends StatelessWidget {
   }
 
   Widget _buildSmallCard(BuildContext context, bool isEn, dynamic m) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            blurRadius: 8,
-            spreadRadius: 2,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Container(
-            height: 80,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [plan.color.withAlpha(170), plan.color.withAlpha(130), plan.color.withAlpha(255)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+    return BlocBuilder<IAPCubit, IAPState>(
+      builder: (context, state) {
+        final isPurchasing = state.isPurchasing;
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                blurRadius: 8,
+                spreadRadius: 2,
+                offset: const Offset(0, 4),
               ),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(12),
-                topRight: Radius.circular(12),
-              ),
-            ),
-            child: Center(
-              child: PlanIcon(size: 40, color: plan.color),
-            ),
+            ],
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(
-                    child: Text(
-                      plan.displayName,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18.0,
-                      ),
-                    ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                height: 80,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [plan.color.withAlpha(170), plan.color.withAlpha(130), plan.color.withAlpha(255)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
-                  const SizedBox(height: 4),
-                  if (plan.price > 0)
-                    Expanded(
-                      child: RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                          text: plan.price.toDouble().toString(),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
+                  ),
+                ),
+                child: Center(
+                  child: PlanIcon(size: 40, color: plan.color),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          plan.displayName,
+                          textAlign: TextAlign.center,
                           style: const TextStyle(
-                            fontFamily: 'Mandatory',
+                            color: Colors.black,
                             fontWeight: FontWeight.w700,
-                            color: Color(0xFF981C1E),
                             fontSize: 18.0,
                           ),
-                          children: const [
-                            TextSpan(
-                              text: " / \$",
-                              style: TextStyle(
-                                fontFamily: 'Mandatory',
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black,
-                                fontSize: 14.0,
-                              ),
-                            )
-                          ],
                         ),
                       ),
-                    )
-                  else
-                    const Text(
-                      "Free",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16.0,
+                      const SizedBox(height: 4),
+                      if (plan.price > 0)
+                        Expanded(
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              text: plan.price.toDouble().toString(),
+                              style: const TextStyle(
+                                fontFamily: 'Mandatory',
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFF981C1E),
+                                fontSize: 18.0,
+                              ),
+                              children: const [
+                                TextSpan(
+                                  text: " / \$",
+                                  style: TextStyle(
+                                    fontFamily: 'Mandatory',
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black,
+                                    fontSize: 14.0,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      else
+                        const Text(
+                          "Free",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      Divider(
+                        color: Colors.grey[400],
+                        thickness: 1,
                       ),
-                    ),
-                  Divider(
-                    color: Colors.grey[400],
-                    thickness: 1,
-                  ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // Show only the first 2 active perks in small card
-                          if (isEn)
-                            ...plan.activePerks.take(2).map((perk) => _buildSmallPerk(perk, true))
-                          else
-                            ...plan.activePerksAr.take(2).map((perk) => _buildSmallPerk(perk, true)),
-                        ],
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: isPurchasing ? null : () => _buyProduct(context),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: plan.color,
+                            disabledBackgroundColor: plan.color.withOpacity(0.5),
+                          ),
+                          child: isPurchasing
+                              ? const CircularProgressIndicator()
+                              : Text(
+                                  isEn ? "Buy Now" : "اشترِ الآن",
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                  const SizedBox(height: 4),
-                  FilledButton(
-                    onPressed: () => _buyProduct(),
-                    child: Text(m.iap.purchase),
-                  )
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -323,7 +307,7 @@ class PlanWidget extends StatelessWidget {
                   _buildDisabledPerks(isEn),
                   const SizedBox(height: 16),
                   FilledButton(
-                    onPressed: () => _buyProduct(),
+                    onPressed: () => _buyProduct(context),
                     child: Text(m.iap.purchase),
                   )
                 ],
