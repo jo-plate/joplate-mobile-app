@@ -15,7 +15,6 @@ _$UserNotificationImpl _$$UserNotificationImplFromJson(
       read: json['read'] as bool? ?? false,
       type: json['type'] as String? ?? 'default',
       targetId: json['targetId'] as String?,
-      fcmToken: json['fcmToken'] as String?,
       timestamp: _$JsonConverterFromJson<Timestamp, DateTime>(
           json['timestamp'], const TimestampConverter().fromJson),
     );
@@ -29,7 +28,6 @@ Map<String, dynamic> _$$UserNotificationImplToJson(
       'read': instance.read,
       'type': instance.type,
       'targetId': instance.targetId,
-      'fcmToken': instance.fcmToken,
       'timestamp': _$JsonConverterToJson<Timestamp, DateTime>(
           instance.timestamp, const TimestampConverter().toJson),
     };

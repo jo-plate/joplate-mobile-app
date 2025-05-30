@@ -29,8 +29,6 @@ import 'dart:developer' as developer;
 import 'firebase_options.dart';
 import 'package:joplate/presentation/widgets/notification_overlay.dart';
 
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
 // This handler must be a top-level function
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -60,12 +58,9 @@ void main() async {
   );
   developer.log('Firebase initialized', name: 'main');
 
-  // Initialize FCM
-  await _initializeFCM();
-  developer.log('FCM initialized', name: 'main');
-
-  // Set up background message handler
+  // Set up background message handler before initializing FCM
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  developer.log('Background message handler set up', name: 'main');
 
   await DependencyManager.inject();
   developer.log('Dependencies injected', name: 'main');
@@ -85,65 +80,6 @@ void main() async {
   runApp(MyApp());
 }
 
-Future<void> _initializeFCM() async {
-  try {
-    final messaging = FirebaseMessaging.instance;
-
-    // Request permission for iOS
-    if (Platform.isIOS) {
-      final settings = await messaging.requestPermission(
-        alert: true,
-        badge: true,
-        sound: true,
-        provisional: false,
-      );
-
-      developer.log('FCM permission status: ${settings.authorizationStatus}', name: 'FCM');
-
-      if (settings.authorizationStatus != AuthorizationStatus.authorized) {
-        developer.log('FCM permission not granted', name: 'FCM');
-        return;
-      }
-    }
-
-    // Get FCM token
-    final token = await messaging.getToken();
-    if (token != null) {
-      developer.log('FCM token obtained: ${token.substring(0, 10)}...', name: 'FCM');
-    } else {
-      developer.log('Failed to get FCM token', name: 'FCM');
-    }
-
-    // Configure FCM settings
-    await messaging.setForegroundNotificationPresentationOptions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
-
-    // Handle token refresh
-    messaging.onTokenRefresh.listen((newToken) {
-      developer.log('FCM token refreshed: ${newToken.substring(0, 10)}...', name: 'FCM');
-      // The FCMCubit will handle updating the token in the backend
-    });
-
-    // Set up foreground message handler
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      developer.log('Received foreground message: ${message.messageId}', name: 'FCM');
-      developer.log('Message data: ${message.data}', name: 'FCM');
-      developer.log('Message notification: ${message.notification?.title}', name: 'FCM');
-    });
-
-    // Handle message open events
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      developer.log('App opened from notification: ${message.messageId}', name: 'FCM');
-      developer.log('Message data: ${message.data}', name: 'FCM');
-    });
-  } catch (e, stack) {
-    developer.log('Error initializing FCM: $e', name: 'FCM', error: e, stackTrace: stack);
-    FirebaseCrashlytics.instance.recordError(e, stack, reason: 'FCM initialization failed');
-  }
-}
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});

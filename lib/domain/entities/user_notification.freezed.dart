@@ -26,7 +26,6 @@ mixin _$UserNotification {
   bool get read => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   String? get targetId => throw _privateConstructorUsedError;
-  String? get fcmToken => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime? get timestamp => throw _privateConstructorUsedError;
 
@@ -53,7 +52,6 @@ abstract class $UserNotificationCopyWith<$Res> {
       bool read,
       String type,
       String? targetId,
-      String? fcmToken,
       @TimestampConverter() DateTime? timestamp});
 }
 
@@ -78,7 +76,6 @@ class _$UserNotificationCopyWithImpl<$Res, $Val extends UserNotification>
     Object? read = null,
     Object? type = null,
     Object? targetId = freezed,
-    Object? fcmToken = freezed,
     Object? timestamp = freezed,
   }) {
     return _then(_value.copyWith(
@@ -106,10 +103,6 @@ class _$UserNotificationCopyWithImpl<$Res, $Val extends UserNotification>
           ? _value.targetId
           : targetId // ignore: cast_nullable_to_non_nullable
               as String?,
-      fcmToken: freezed == fcmToken
-          ? _value.fcmToken
-          : fcmToken // ignore: cast_nullable_to_non_nullable
-              as String?,
       timestamp: freezed == timestamp
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
@@ -133,7 +126,6 @@ abstract class _$$UserNotificationImplCopyWith<$Res>
       bool read,
       String type,
       String? targetId,
-      String? fcmToken,
       @TimestampConverter() DateTime? timestamp});
 }
 
@@ -156,7 +148,6 @@ class __$$UserNotificationImplCopyWithImpl<$Res>
     Object? read = null,
     Object? type = null,
     Object? targetId = freezed,
-    Object? fcmToken = freezed,
     Object? timestamp = freezed,
   }) {
     return _then(_$UserNotificationImpl(
@@ -184,10 +175,6 @@ class __$$UserNotificationImplCopyWithImpl<$Res>
           ? _value.targetId
           : targetId // ignore: cast_nullable_to_non_nullable
               as String?,
-      fcmToken: freezed == fcmToken
-          ? _value.fcmToken
-          : fcmToken // ignore: cast_nullable_to_non_nullable
-              as String?,
       timestamp: freezed == timestamp
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
@@ -206,7 +193,6 @@ class _$UserNotificationImpl extends _UserNotification {
       this.read = false,
       this.type = 'default',
       this.targetId,
-      this.fcmToken,
       @TimestampConverter() this.timestamp})
       : super._();
 
@@ -230,14 +216,12 @@ class _$UserNotificationImpl extends _UserNotification {
   @override
   final String? targetId;
   @override
-  final String? fcmToken;
-  @override
   @TimestampConverter()
   final DateTime? timestamp;
 
   @override
   String toString() {
-    return 'UserNotification(notificationId: $notificationId, title: $title, body: $body, read: $read, type: $type, targetId: $targetId, fcmToken: $fcmToken, timestamp: $timestamp)';
+    return 'UserNotification(notificationId: $notificationId, title: $title, body: $body, read: $read, type: $type, targetId: $targetId, timestamp: $timestamp)';
   }
 
   @override
@@ -253,8 +237,6 @@ class _$UserNotificationImpl extends _UserNotification {
             (identical(other.type, type) || other.type == type) &&
             (identical(other.targetId, targetId) ||
                 other.targetId == targetId) &&
-            (identical(other.fcmToken, fcmToken) ||
-                other.fcmToken == fcmToken) &&
             (identical(other.timestamp, timestamp) ||
                 other.timestamp == timestamp));
   }
@@ -262,7 +244,7 @@ class _$UserNotificationImpl extends _UserNotification {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, notificationId, title, body,
-      read, type, targetId, fcmToken, timestamp);
+      read, type, targetId, timestamp);
 
   /// Create a copy of UserNotification
   /// with the given fields replaced by the non-null parameter values.
@@ -289,7 +271,6 @@ abstract class _UserNotification extends UserNotification {
           final bool read,
           final String type,
           final String? targetId,
-          final String? fcmToken,
           @TimestampConverter() final DateTime? timestamp}) =
       _$UserNotificationImpl;
   const _UserNotification._() : super._();
@@ -309,8 +290,6 @@ abstract class _UserNotification extends UserNotification {
   String get type;
   @override
   String? get targetId;
-  @override
-  String? get fcmToken;
   @override
   @TimestampConverter()
   DateTime? get timestamp;

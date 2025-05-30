@@ -65,8 +65,24 @@ class _MyRequestsPageState extends State<MyRequestsPage> with SingleTickerProvid
       body: TabBarView(
         controller: tabController,
         children: [
-          PlateRequestsByUserId(userId: FirebaseAuth.instance.currentUser?.uid ?? ''),
-          PhoneRequestsByUserId(userId: FirebaseAuth.instance.currentUser?.uid ?? ''),
+          SingleChildScrollView(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height -
+                  kToolbarHeight -
+                  kBottomNavigationBarHeight -
+                  48, // Adjust for AppBar, TabBar, and bottom nav
+              child: PlateRequestsByUserId(userId: FirebaseAuth.instance.currentUser?.uid ?? ''),
+            ),
+          ),
+          SingleChildScrollView(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height -
+                  kToolbarHeight -
+                  kBottomNavigationBarHeight -
+                  48, // Adjust for AppBar, TabBar, and bottom nav
+              child: PhoneRequestsByUserId(userId: FirebaseAuth.instance.currentUser?.uid ?? ''),
+            ),
+          ),
         ],
       ),
     );

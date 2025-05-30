@@ -65,8 +65,24 @@ class _MyNumbersPageState extends State<MyNumbersPage> with SingleTickerProvider
       body: TabBarView(
         controller: tabController,
         children: [
-          PlateListingsByUserId(userId: FirebaseAuth.instance.currentUser?.uid ?? ''),
-          PhoneListingsByUserId(userId: FirebaseAuth.instance.currentUser?.uid ?? ''),
+          SingleChildScrollView(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height -
+                  kToolbarHeight -
+                  kBottomNavigationBarHeight -
+                  48, // Adjust for AppBar, TabBar, and bottom nav
+              child: PlateListingsByUserId(userId: FirebaseAuth.instance.currentUser?.uid ?? ''),
+            ),
+          ),
+          SingleChildScrollView(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height -
+                  kToolbarHeight -
+                  kBottomNavigationBarHeight -
+                  48, // Adjust for AppBar, TabBar, and bottom nav
+              child: PhoneListingsByUserId(userId: FirebaseAuth.instance.currentUser?.uid ?? ''),
+            ),
+          ),
         ],
       ),
     );

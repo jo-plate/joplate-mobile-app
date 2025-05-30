@@ -1,13 +1,8 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:joplate/data/services/fcm_service.dart';
-import 'package:joplate/domain/entities/user_notification.dart';
-import 'package:joplate/firebase_options.dart';
 import 'package:joplate/presentation/cubits/fcm/fcm_state.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 @lazySingleton
 class FCMCubit extends Cubit<FCMState> {
@@ -17,29 +12,6 @@ class FCMCubit extends Cubit<FCMState> {
 
   Future<void> initialize() async {
     try {
-      // Initialize Firebase if not already initialized
-      if (Firebase.apps.isEmpty) {
-        await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-      }
-
-      // Store FCM token for anonymous users if needed
-      try {
-        final fcmToken = await FirebaseMessaging.instance.getToken();
-        if (fcmToken != null) {
-          final prefs = await SharedPreferences.getInstance();
-          // Save the current token
-          await prefs.setString('fcm_token', fcmToken);
-
-          // If this is the first time, also save as previous_fcm_token to initialize the migration chain
-          if (!prefs.containsKey('previous_fcm_token')) {
-            await prefs.setString('previous_fcm_token', fcmToken);
-          }
-        }
-      } catch (e) {
-        debugPrint('Error getting FCM token: $e');
-      }
-
-      // Initialize FCM service
       await _fcmService.initialize();
       emit(const FCMState.initialized());
     } catch (e) {

@@ -16,7 +16,6 @@ class UserNotification with _$UserNotification {
     @Default(false) bool read,
     @Default('default') String type,
     String? targetId,
-    String? fcmToken,
     @TimestampConverter() DateTime? timestamp,
   }) = _UserNotification;
 
