@@ -15,10 +15,40 @@ class ContactButtonsRow extends StatelessWidget {
     required this.phoneNumber,
   });
 
+  String _normalizePhoneNumber(String number) {
+    // Remove any spaces or special characters
+    String cleanNumber = number.replaceAll(RegExp(r'[^\d+]'), '');
+
+    // Handle different cases
+    if (cleanNumber.startsWith('+')) {
+      // Already has country code, keep as is
+      return cleanNumber;
+    } else if (cleanNumber.startsWith('962')) {
+      // Has Jordan country code without +, add it
+      return '+$cleanNumber';
+    } else if (cleanNumber.startsWith('07') && cleanNumber.length == 10) {
+      // Jordan mobile number with leading 0
+      return '+962${cleanNumber.substring(1)}';
+    } else if (cleanNumber.length == 8) {
+      // 8-digit number, assume it's a Jordan mobile number
+      return '+9627$cleanNumber';
+    }
+
+    // Default case: assume it's a Jordan number and add the country code
+    return '+962$cleanNumber';
+  }
+
+  String _getWhatsAppNumber(String normalizedNumber) {
+    // Remove the + for WhatsApp
+    return normalizedNumber.substring(1);
+  }
+
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
     final isSignedIn = FirebaseAuth.instance.currentUser != null;
+    final normalizedNumber = _normalizePhoneNumber(phoneNumber);
+    final whatsappNumber = _getWhatsAppNumber(normalizedNumber);
 
     return Directionality(
       textDirection: TextDirection.ltr,
@@ -38,7 +68,7 @@ class ContactButtonsRow extends StatelessWidget {
                     onTap: isSignedIn
                         ? () {
                             launchUrlString(
-                              "https://wa.me/962${phoneNumber.substring(1)}",
+                              "https://wa.me/$whatsappNumber",
                               mode: LaunchMode.externalApplication,
                             );
                           }
@@ -77,7 +107,7 @@ class ContactButtonsRow extends StatelessWidget {
                   child: InkWell(
                     onTap: isSignedIn
                         ? () async {
-                            final uri = 'tel:+962${phoneNumber.substring(1)}';
+                            final uri = 'tel:$normalizedNumber';
                             if (await canLaunchUrlString(uri)) {
                               await launchUrlString(uri);
                             } else {
@@ -96,7 +126,7 @@ class ContactButtonsRow extends StatelessWidget {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          obfuscatePhoneNumber(phoneNumber),
+                          obfuscatePhoneNumber(normalizedNumber),
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 16,

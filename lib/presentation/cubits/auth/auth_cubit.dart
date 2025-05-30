@@ -56,12 +56,11 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> signUpWithEmailAndPassword(SignupInput input) async {
     try {
       emit(state.copyWith(isLoading: true, errorMessage: null));
-      print("signup");
+
       // Call Cloud Function to create user profile
       final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(signupCF);
       final result = await callable.call(input.toJson());
-      print(result);
-      print(result.data);
+
       if (result.data != null && result.data['success'] == true) {
         await loginWithEmailAndPassword(input.toLoginInput());
         emit(state.copyWith(user: FirebaseAuth.instance.currentUser, isLoading: false));

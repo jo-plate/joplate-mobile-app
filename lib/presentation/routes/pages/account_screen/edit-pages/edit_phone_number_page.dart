@@ -98,7 +98,7 @@ class _EditPhoneNumberPageState extends State<EditPhoneNumberPage> {
       await FirebaseFirestore.instance
           .collection(userProfileCollectionId)
           .doc(user.uid)
-          .set({'phonenumber': phoneNumber}, SetOptions(merge: true));
+          .set({'phonenumber': '+962$phoneNumber'}, SetOptions(merge: true));
       if (context.mounted) Navigator.pop(context, phoneNumber);
     } catch (e) {
       if (context.mounted) {

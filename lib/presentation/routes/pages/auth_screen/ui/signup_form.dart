@@ -166,7 +166,7 @@ class _SignupFormState extends State<SignupForm> {
         email: emailController.text.trim(),
         password: passwordController.text,
         displayName: displayNameController.text.trim(),
-        phonenumber: phoneNumberController.text.trim(),
+        phonenumber: '+962${phoneNumberController.text.trim()}',
       );
       widget.onPressed?.call(input);
     }

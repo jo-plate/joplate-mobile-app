@@ -28,11 +28,31 @@ String formatCreatedAt(DateTime createdAt, BuildContext context) {
 String obfuscatePhoneNumber(String phoneNumber) {
   if (phoneNumber.length <= 5) return phoneNumber;
 
-  final visibleStart = phoneNumber.substring(0, 2);
-  final visibleEnd = phoneNumber.substring(phoneNumber.length - 3);
+  // Remove any existing spaces
+  final cleanNumber = phoneNumber.replaceAll(' ', '');
+
+  // Handle international format
+  final hasPlus = cleanNumber.startsWith('+');
+  final startIndex = hasPlus ? 1 : 0;
+
+  // Get the visible parts
+  final visibleStart = cleanNumber.substring(startIndex, startIndex + 3);
+  final visibleStart2 = cleanNumber.substring(startIndex + 3, startIndex + 5);
+  final visibleEnd = cleanNumber.substring(cleanNumber.length - 2);
   const hidden = "*****";
 
-  return "+962 $visibleStart$hidden$visibleEnd";
+  // Format with spaces
+  final buffer = StringBuffer();
+  if (hasPlus) buffer.write('+');
+  buffer.write(visibleStart);
+  buffer.write(' ');
+  buffer.write(visibleStart2);
+  buffer.write(' ');
+  buffer.write(hidden);
+  buffer.write(' ');
+  buffer.write(visibleEnd);
+
+  return buffer.toString();
 }
 
 /// Validates and formats a car number with support for masking.
