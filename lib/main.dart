@@ -28,6 +28,10 @@ import 'package:joplate/presentation/widgets/app_snackbar.dart';
 import 'dart:developer' as developer;
 import 'firebase_options.dart';
 import 'package:joplate/presentation/widgets/notification_overlay.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:joplate/domain/entities/user_notification.dart';
+import 'package:joplate/domain/entities/user_notifications.dart';
 
 // This handler must be a top-level function
 @pragma('vm:entry-point')
@@ -41,6 +45,37 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     developer.log('Handling a background message: ${message.messageId}', name: 'FCM');
     developer.log('Message data: ${message.data}', name: 'FCM');
     developer.log('Message notification: ${message.notification?.title}', name: 'FCM');
+
+    // Update notification count in Firestore if user is logged in
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null && message.notification != null) {
+      final firestore = FirebaseFirestore.instance;
+      final userNotificationsRef = firestore.collection(userNotificationsCollectionId).doc(user.uid);
+
+      // Get current notifications
+      final snapshot = await userNotificationsRef.get();
+      if (snapshot.exists) {
+        final userNotifications = UserNotifications.fromSnapshot(snapshot);
+
+        // Add new notification
+        final newNotification = UserNotification(
+          notificationId: message.messageId ?? DateTime.now().millisecondsSinceEpoch.toString(),
+          title: message.notification?.title ?? '',
+          body: message.notification?.body ?? '',
+          type: message.data['type'] ?? 'default',
+          targetId: message.data['targetId'],
+          timestamp: DateTime.now(),
+          read: false,
+        );
+
+        final updatedNotifications = [newNotification, ...userNotifications.notificationsList];
+
+        // Update Firestore
+        await userNotificationsRef.update({
+          'notificationsList': updatedNotifications.map((n) => n.toJson()).toList(),
+        });
+      }
+    }
   } catch (e, stack) {
     developer.log('Error in background handler: $e', name: 'FCM', error: e, stackTrace: stack);
     FirebaseCrashlytics.instance.recordError(e, stack, reason: 'FCM background handler failed');
@@ -65,6 +100,11 @@ void main() async {
   await DependencyManager.inject();
   developer.log('Dependencies injected', name: 'main');
 
+  // Initialize FCM service
+  final fcmService = injector<FCMService>();
+  await fcmService.initialize();
+  developer.log('FCM service initialized', name: 'main');
+
   FlutterError.onError = (FlutterErrorDetails details) {
     developer.log('Flutter error: ${details.exception}',
         name: 'main', error: details.exception, stackTrace: details.stack);
@@ -84,6 +124,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
   final _appRouter = AppRouter();
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +182,7 @@ class MyApp extends StatelessWidget {
                     child: LocalizationProvider(
                       messages: messages,
                       child: Navigator(
-                        key: NotificationOverlay.navigatorKey,
+                        key: navigatorKey,
                         onGenerateRoute: (settings) => MaterialPageRoute(
                           builder: (context) => widget!,
                         ),

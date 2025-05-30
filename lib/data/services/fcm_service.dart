@@ -23,7 +23,6 @@ class FCMService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final AppRouter _router = AppRouter();
-  String? _cachedFcmToken;
   OverlayEntry? _currentToast;
 
   Future<void> initialize() async {
@@ -55,11 +54,11 @@ class FCMService {
         developer.log('FCM permission status: ${settings.authorizationStatus}', name: 'FCM');
       }
 
-      // Configure FCM settings to suppress notifications in foreground
+      // Configure FCM settings for both foreground and background
       await _firebaseMessaging.setForegroundNotificationPresentationOptions(
-        alert: false, // Disable system notification in foreground
+        alert: true, // Show notification in foreground
         badge: true,
-        sound: false, // Disable sound in foreground
+        sound: true,
       );
 
       // Force token refresh and save immediately
@@ -100,8 +99,7 @@ class FCMService {
         return;
       }
 
-      // Cache the token
-      _cachedFcmToken = newToken;
+      developer.log('New FCM token to be saved: $newToken', name: 'FCM');
 
       // Save to SharedPreferences
       final prefs = await SharedPreferences.getInstance();
@@ -112,17 +110,35 @@ class FCMService {
       final user = _auth.currentUser;
       if (user != null) {
         try {
-          // First, remove the old token if it exists
-          if (oldToken != null) {
-            await _firestore.collection(userProfileCollectionId).doc(user.uid).update({
-              'fcmTokens': FieldValue.arrayRemove([oldToken])
-            });
+          final userRef = _firestore.collection(userProfileCollectionId).doc(user.uid);
+
+          // Get current tokens
+          final doc = await userRef.get();
+          List<String> currentTokens = [];
+
+          if (doc.exists) {
+            final data = doc.data();
+            if (data != null && data['fcmTokens'] != null) {
+              currentTokens = List<String>.from(data['fcmTokens']);
+            }
           }
 
-          // Then add the new token
-          await _firestore.collection(userProfileCollectionId).doc(user.uid).update({
-            'fcmTokens': FieldValue.arrayUnion([newToken])
-          });
+          // Remove old token if it exists
+          if (oldToken != null) {
+            currentTokens.remove(oldToken);
+          }
+
+          // Add new token if not already present
+          if (!currentTokens.contains(newToken)) {
+            currentTokens.add(newToken);
+          }
+
+          developer.log('Current FCM tokens in Firestore: $currentTokens', name: 'FCM');
+
+          // Update with merge option
+          await userRef.set({
+            'fcmTokens': currentTokens,
+          }, SetOptions(merge: true));
 
           developer.log('FCM Token refreshed and saved to user profile: ${newToken.substring(0, 10)}...', name: 'FCM');
         } catch (error) {
@@ -137,9 +153,7 @@ class FCMService {
   void _setupTokenRefreshListener() {
     FirebaseMessaging.instance.onTokenRefresh.listen((newToken) async {
       developer.log('FCM token refreshed: ${newToken.substring(0, 10)}...', name: 'FCM');
-
-      // Update cached token
-      _cachedFcmToken = newToken;
+      developer.log('Full new FCM token: $newToken', name: 'FCM');
 
       // Save to SharedPreferences
       final prefs = await SharedPreferences.getInstance();
@@ -150,17 +164,35 @@ class FCMService {
       final user = _auth.currentUser;
       if (user != null) {
         try {
-          // First, remove the old token if it exists
-          if (oldToken != null) {
-            await _firestore.collection(userProfileCollectionId).doc(user.uid).update({
-              'fcmTokens': FieldValue.arrayRemove([oldToken])
-            });
+          final userRef = _firestore.collection(userProfileCollectionId).doc(user.uid);
+
+          // Get current tokens
+          final doc = await userRef.get();
+          List<String> currentTokens = [];
+
+          if (doc.exists) {
+            final data = doc.data();
+            if (data != null && data['fcmTokens'] != null) {
+              currentTokens = List<String>.from(data['fcmTokens']);
+            }
           }
 
-          // Then add the new token
-          await _firestore.collection(userProfileCollectionId).doc(user.uid).update({
-            'fcmTokens': FieldValue.arrayUnion([newToken])
-          });
+          // Remove old token if it exists
+          if (oldToken != null) {
+            currentTokens.remove(oldToken);
+          }
+
+          // Add new token if not already present
+          if (!currentTokens.contains(newToken)) {
+            currentTokens.add(newToken);
+          }
+
+          developer.log('Current FCM tokens in Firestore: $currentTokens', name: 'FCM');
+
+          // Update with merge option
+          await userRef.set({
+            'fcmTokens': currentTokens,
+          }, SetOptions(merge: true));
 
           developer.log('FCM token updated in user profile', name: 'FCM');
         } catch (error) {
@@ -172,54 +204,7 @@ class FCMService {
     });
   }
 
-  Future<void> _saveFCMToken() async {
-    try {
-      User? user = _auth.currentUser;
-      String? token = await _firebaseMessaging.getToken();
-      if (token == null) return;
 
-      // Cache the token
-      _cachedFcmToken = token;
-
-      // Always save to shared preferences
-      final prefs = await SharedPreferences.getInstance();
-      final oldToken = prefs.getString('fcm_token');
-      await prefs.setString('fcm_token', token);
-      
-      // If user is logged in, update their profile
-      if (user != null) {
-        // First remove the old token if it exists
-        if (oldToken != null) {
-          await _firestore.collection(userProfileCollectionId).doc(user.uid).update({
-            'fcmTokens': FieldValue.arrayRemove([oldToken])
-          });
-        }
-
-        // Then add the new token
-        await _firestore.collection(userProfileCollectionId).doc(user.uid).update({
-          'fcmTokens': FieldValue.arrayUnion(
-            [token],
-          )
-        });
-
-        developer.log('FCM Token saved to user profile: ${token.substring(0, 10)}...', name: 'FCM');
-      }
-    } catch (e) {
-      developer.log('Error saving FCM token: $e', name: 'FCM');
-    }
-  }
-
-  Future<String?> _getFCMToken() async {
-    if (_cachedFcmToken != null) return _cachedFcmToken;
-    
-    // Try to get from FirebaseMessaging
-    _cachedFcmToken = await _firebaseMessaging.getToken();
-    if (_cachedFcmToken != null) return _cachedFcmToken;
-    
-    // Fall back to stored preference
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('fcm_token');
-  }
 
   void _showNotificationToast(BuildContext context, UserNotification notification) {
     // Remove any existing toast
@@ -274,10 +259,15 @@ class FCMService {
         read: false,
       );
 
-      // Show the notification toast
-      if (_router.navigatorKey.currentContext != null) {
-        _showNotificationToast(_router.navigatorKey.currentContext!, notification);
-      }
+      // Show the notification overlay
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (_router.navigatorKey.currentContext != null) {
+          NotificationOverlay.show(
+            notification: notification,
+            onTap: () => handleNotificationTap(_router.navigatorKey.currentContext!, message.data),
+          );
+        }
+      });
     }
   }
 
@@ -285,15 +275,15 @@ class FCMService {
     developer.log('App opened from notification: ${message.messageId}', name: 'FCM');
     developer.log('Message data: ${message.data}', name: 'FCM');
 
-    if (message.notification != null) {
-      // Navigation will be handled by the UI that receives this callback
+    if (message.notification != null && _router.navigatorKey.currentContext != null) {
+      handleNotificationTap(_router.navigatorKey.currentContext!, message.data);
     }
   }
 
   void _showNotificationOverlay(UserNotification notification) {
     NotificationOverlay.show(
       notification: notification,
-      onMarkAsRead: () {
+      onTap: () {
         // Mark the notification as read in Firestore
         final user = _auth.currentUser;
         if (user != null) {
@@ -321,38 +311,26 @@ class FCMService {
     final notification = message.notification;
     if (notification == null) return;
 
-    final notificationData = message.data;
-    final title = notification.title ?? '';
-    final body = notification.body ?? '';
-
-    AppSnackbar.key.currentState?.hideCurrentSnackBar();
-    AppSnackbar.key.currentState?.showSnackBar(
-      SnackBar(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (title.isNotEmpty)
-              Text(
-                title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-            if (body.isNotEmpty) Text(body),
-          ],
-        ),
-        action: SnackBarAction(
-          label: 'View',
-          onPressed: () {
-            handleNotificationTap(context, notificationData);
-          },
-        ),
-        duration: const Duration(seconds: 5),
-        behavior: SnackBarBehavior.floating,
-      ),
+    // Create a UserNotification from the message
+    final userNotification = UserNotification(
+      notificationId: message.messageId ?? DateTime.now().millisecondsSinceEpoch.toString(),
+      title: notification.title ?? '',
+      body: notification.body ?? '',
+      type: message.data['type'] ?? 'default',
+      targetId: message.data['targetId'],
+      timestamp: DateTime.now(),
+      read: false,
     );
+
+    // Show the notification overlay
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (context.mounted) {
+        NotificationOverlay.show(
+          notification: userNotification,
+          onTap: () => handleNotificationTap(context, message.data),
+        );
+      }
+    });
   }
 
   void handleNotificationTap(BuildContext context, Map<String, dynamic> data) {
@@ -400,9 +378,11 @@ class FCMService {
   Future<void> _checkInitialMessage() async {
     final RemoteMessage? initialMessage = await _firebaseMessaging.getInitialMessage();
 
-    if (initialMessage != null) {
+    if (initialMessage != null && _router.navigatorKey.currentContext != null) {
       developer.log('App opened from terminated state by notification', name: 'FCM');
       developer.log('Initial message data: ${initialMessage.data}', name: 'FCM');
+      
+      handleNotificationTap(_router.navigatorKey.currentContext!, initialMessage.data);
     }
   }
   
