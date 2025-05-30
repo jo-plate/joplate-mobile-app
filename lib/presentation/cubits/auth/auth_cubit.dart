@@ -134,7 +134,7 @@ class AuthCubit extends Cubit<AuthState> {
           handleCodeInApp: true,
           url: 'https://joplate.page.link/reset',
           androidPackageName: 'com.joplate.app',
-          iOSBundleId: 'com.joplate.app',
+          iOSBundleId: 'com.joplate.joplate',
         ),
       );
 

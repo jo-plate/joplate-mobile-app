@@ -27,6 +27,7 @@ import 'package:joplate/presentation/theme.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
 import 'dart:developer' as developer;
 import 'firebase_options.dart';
+import 'package:joplate/presentation/widgets/notification_overlay.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -118,7 +119,12 @@ class MyApp extends StatelessWidget {
                     textDirection: isEnglish ? TextDirection.ltr : TextDirection.rtl,
                     child: LocalizationProvider(
                       messages: messages,
-                      child: widget!,
+                      child: Navigator(
+                        key: NotificationOverlay.navigatorKey,
+                        onGenerateRoute: (settings) => MaterialPageRoute(
+                          builder: (context) => widget!,
+                        ),
+                      ),
                     ),
                   );
                 },

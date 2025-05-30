@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/user_notification.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
-import 'package:joplate/presentation/routes/router.dart';
+import 'package:joplate/presentation/widgets/notification_item.dart';
 import 'package:joplate/injection/injector.dart';
 import 'package:joplate/data/services/fcm_service.dart';
-import 'package:joplate/presentation/utils/strings.dart';
 
 @RoutePage()
 class NotificationsPage extends StatefulWidget {
@@ -35,8 +34,23 @@ class _NotificationsPageState extends State<NotificationsPage> {
   Future<void> _initializeNotificationsStream() async {
     setState(() => _isLoading = true);
     try {
-      _notificationsStream = await _fcmService.getNotificationsStream();
-      _markAllAsRead();
+      final currentUser = _auth.currentUser;
+      if (currentUser != null) {
+        _notificationsStream =
+            _firestore.collection(userNotificationsCollectionId).doc(currentUser.uid).snapshots().map((snapshot) {
+          if (!snapshot.exists) return [];
+          final data = snapshot.data();
+          if (data == null) return [];
+
+          final notificationsList = (data['notificationsList'] as List<dynamic>?) ?? [];
+          return notificationsList
+              .map((notification) => UserNotification.fromJson({
+                    'notificationId': notification['notificationId'],
+                    ...notification,
+                  }))
+              .toList();
+        });
+      }
     } catch (e) {
       debugPrint('Error initializing notifications stream: $e');
       _notificationsStream = Stream.value([]); // Empty stream on error
@@ -47,39 +61,83 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   Future<void> _markAsRead(String notificationId) async {
     try {
-      await _fcmService.markNotificationAsRead(notificationId);
-    } catch (e) {
-      // Fallback method if FCM service method fails
       final currentUser = _auth.currentUser;
       if (currentUser != null) {
-        await _firestore
-            .collection(userProfileCollectionId)
-            .doc(currentUser.uid)
+        final userNotificationsRef = _firestore
             .collection(userNotificationsCollectionId)
-            .doc(notificationId)
-            .update({'read': true});
+            .doc(currentUser.uid);
+
+        // Get current notifications
+        final snapshot = await userNotificationsRef.get();
+        if (!snapshot.exists) return;
+
+        final data = snapshot.data();
+        if (data == null) return;
+
+        final notificationsList = (data['notificationsList'] as List<dynamic>?) ?? [];
+
+        // Find and update the notification
+        final updatedNotifications = notificationsList.map((notification) {
+          if (notification['notificationId'] == notificationId) {
+            return {...notification, 'read': true};
+          }
+          return notification;
+        }).toList();
+
+        // Update the document
+        await userNotificationsRef.update({
+          'notificationsList': updatedNotifications,
+        });
       }
+    } catch (e) {
+      debugPrint('Error marking notification as read: $e');
     }
   }
 
   Future<void> _markAllAsRead() async {
     try {
-      await _fcmService.markAllNotificationsAsRead();
-      setState(() {});
+      final currentUser = _auth.currentUser;
+      if (currentUser != null) {
+        final userNotificationsRef = _firestore.collection(userNotificationsCollectionId).doc(currentUser.uid);
+
+        // Get current notifications
+        final snapshot = await userNotificationsRef.get();
+        if (!snapshot.exists) return;
+
+        final data = snapshot.data();
+        if (data == null) return;
+
+        final notificationsList = (data['notificationsList'] as List<dynamic>?) ?? [];
+
+        // Mark all notifications as read
+        final updatedNotifications = notificationsList.map((notification) {
+          return {...notification, 'read': true};
+        }).toList();
+
+        // Update the document
+        await userNotificationsRef.update({
+          'notificationsList': updatedNotifications,
+        });
+      }
     } catch (e) {
-      print('Error marking all notifications as read: $e');
+      debugPrint('Error marking all notifications as read: $e');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final m = Localization.of(context);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notifications'),
         centerTitle: true,
         elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.done_all),
+            onPressed: _markAllAsRead,
+            tooltip: 'Mark all as read',
+          ),
+        ],
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -121,88 +179,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
                   itemCount: notifications.length,
                   itemBuilder: (context, index) {
                     final notification = notifications[index];
-
-                    return Card(
-                      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      elevation: notification.read ? 1 : 3,
-                      color: notification.read ? null : Theme.of(context).colorScheme.surface,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        side: notification.read
-                            ? BorderSide.none
-                            : BorderSide(
-                                color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
-                                width: 1,
-                              ),
-                      ),
-                      child: InkWell(
-                        onTap: () async {
-                          _markAsRead(notification.notificationId);
-
-                          // Navigate based on notification type
-                          if (notification.type == 'plate_listing' && notification.targetId != null) {
-                            AutoRouter.of(context).push(PlatesDetailsRoute(listingId: notification.targetId!));
-                          } else if (notification.type == 'phone_listing' && notification.targetId != null) {
-                            AutoRouter.of(context).push(PhoneDetailsRoute(listingId: notification.targetId!));
-                          } else if (notification.type == 'user_profile' && notification.targetId != null) {
-                            AutoRouter.of(context).push(UserProfileRoute(userId: notification.targetId!));
-                          } else if (notification.type == 'plate_request' && notification.targetId != null) {
-                            AutoRouter.of(context).push(PlateRequestDetailsRoute(requestId: notification.targetId!));
-                          } else if (notification.type == 'phone_request' && notification.targetId != null) {
-                            AutoRouter.of(context)
-                                .push(PhoneRequestDetailsRoute(phoneNumberRequestId: notification.targetId!));
-                          }
-                        },
-                        borderRadius: BorderRadius.circular(12),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  if (!notification.read)
-                                    Container(
-                                      width: 12,
-                                      height: 12,
-                                      margin: const EdgeInsets.only(right: 8),
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context).colorScheme.primary,
-                                        shape: BoxShape.circle,
-                                      ),
-                                    ),
-                                  Expanded(
-                                    child: Text(
-                                      notification.title,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: notification.read ? FontWeight.normal : FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    notification.timestamp != null
-                                        ? formatCreatedAt(notification.timestamp!, context)
-                                        : '',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.grey[600],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              if (notification.body.isNotEmpty)
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8),
-                                  child: Text(
-                                    notification.body,
-                                    style: const TextStyle(fontSize: 16),
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
-                      ),
+                    return NotificationItem(
+                      notification: notification,
+                      onMarkAsRead: () => _markAsRead(notification.notificationId),
                     );
                   },
                 );

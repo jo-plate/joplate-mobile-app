@@ -3,13 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:injectable/injectable.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/user_notification.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
+import 'package:joplate/presentation/widgets/notification_overlay.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:joplate/firebase_options.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -111,60 +111,9 @@ class FCMService {
           debugPrint('Error updating FCM token in user profile: $error');
         });
       }
-      
-      // Check if we need to migrate notifications from old token to new token
-      _migrateNotificationsIfNeeded(newToken);
     }, onError: (error) {
       debugPrint('FCM token refresh error: $error');
     });
-  }
-  
-  Future<void> _migrateNotificationsIfNeeded(String newToken) async {
-    // Get old token from SharedPreferences
-    final prefs = await SharedPreferences.getInstance();
-    final oldToken = prefs.getString('previous_fcm_token');
-
-    // If we have an old token that's different from the new one
-    if (oldToken != null && oldToken != newToken) {
-      try {
-        // Check if there are notifications under the old token
-        final oldNotificationsSnapshot = await _firestore
-            .collection(anonymousNotificationsCollectionId)
-            .doc(oldToken)
-            .collection(userNotificationsCollectionId)
-            .get();
-
-        if (oldNotificationsSnapshot.docs.isNotEmpty) {
-          debugPrint('Migrating ${oldNotificationsSnapshot.docs.length} notifications from old token to new token');
-
-          // Get batch for more efficient writes
-          final batch = _firestore.batch();
-
-          // Create a reference to the new token's collection
-          final newTokenRef = _firestore
-              .collection(anonymousNotificationsCollectionId)
-              .doc(newToken)
-              .collection(userNotificationsCollectionId);
-
-          // Copy each notification to the new location
-          for (final doc in oldNotificationsSnapshot.docs) {
-            final data = doc.data();
-            data['fcmToken'] = newToken; // Update token in the notification data
-            batch.set(newTokenRef.doc(doc.id), data);
-          }
-
-          // Commit all writes
-          await batch.commit();
-
-          debugPrint('Notifications successfully migrated to new token');
-        }
-      } catch (e) {
-        debugPrint('Error migrating notifications: $e');
-      }
-    }
-
-    // Save current token as previous token for future migrations
-    await prefs.setString('previous_fcm_token', newToken);
   }
 
   Future<void> _saveFCMToken() async {
@@ -207,11 +156,19 @@ class FCMService {
     if (message.notification != null) {
       debugPrint('Message also contained a notification: ${message.notification}');
 
-      // Save notification to Firestore
-      _saveNotificationToFirestore(message);
+      // Create a UserNotification from the message
+      final notification = UserNotification(
+        notificationId: message.messageId ?? DateTime.now().millisecondsSinceEpoch.toString(),
+        title: message.notification?.title ?? '',
+        body: message.notification?.body ?? '',
+        type: message.data['type'] ?? 'default',
+        targetId: message.data['targetId'],
+        timestamp: DateTime.now(),
+        read: false,
+      );
 
-      // Show toast notification
-      _showToastNotification(message);
+      // Show the notification overlay
+      _showNotificationOverlay(notification);
     }
   }
 
@@ -220,112 +177,40 @@ class FCMService {
     debugPrint('Message data: ${message.data}');
 
     if (message.notification != null) {
-      // Mark notification as read in Firestore
-      _markNotificationAsRead(message.data['notificationId']);
-
       // Navigation will be handled by the UI that receives this callback
     }
   }
 
-  Future<void> _saveNotificationToFirestore(RemoteMessage message) async {
-    User? user = _auth.currentUser;
-    String? fcmToken = await _getFCMToken();
-    
-    if (fcmToken == null) {
-      debugPrint('No FCM token available to save notification');
-      return;
-    }
+  void _showNotificationOverlay(UserNotification notification) {
+    // Show the notification overlay
+    NotificationOverlay.show(
+      notification: notification,
+      onMarkAsRead: () {
+        // Mark the notification as read in Firestore
+        final user = _auth.currentUser;
+        if (user != null) {
+          _firestore.collection(userNotificationsCollectionId).doc(user.uid)
+              .get().then((snapshot) {
+            if (snapshot.exists) {
+              final data = snapshot.data();
+              if (data != null) {
+                final notificationsList = (data['notificationsList'] as List<dynamic>?) ?? [];
+                final updatedNotifications = notificationsList.map((n) {
+                  if (n['notificationId'] == notification.notificationId) {
+                    return {...n, 'read': true};
+                  }
+                  return n;
+                }).toList();
 
-    try {
-      DocumentReference notificationRef;
-      
-      // If user is signed in, store in their collection
-      if (user != null) {
-        notificationRef = _firestore
-            .collection(userProfileCollectionId)
-            .doc(user.uid)
-            .collection(userNotificationsCollectionId)
-            .doc();
-      } else {
-        // For anonymous users, store in a separate collection using FCM token
-        notificationRef = _firestore
-            .collection(anonymousNotificationsCollectionId)
-            .doc(fcmToken)
-            .collection(userNotificationsCollectionId)
-            .doc();
-      }
-
-      // Create UserNotification object
-      final UserNotification notification = UserNotification(
-        notificationId: notificationRef.id,
-        title: message.notification?.title ?? 'Notification',
-        body: message.notification?.body ?? '',
-        timestamp: DateTime.now(),
-        read: false,
-        type: message.data['type'] ?? 'default',
-        targetId: message.data['targetId'],
-        fcmToken: fcmToken,
-      );
-
-      // Save to Firestore
-      await notificationRef.set(notification.toJson());
-      debugPrint('Notification saved to Firestore with ID: ${notification.notificationId}');
-    } catch (e) {
-      debugPrint('Error saving notification to Firestore: $e');
-    }
-  }
-
-  Future<void> _markNotificationAsRead(String? notificationId) async {
-    if (notificationId == null) return;
-
-    User? user = _auth.currentUser;
-    String? fcmToken = await _getFCMToken();
-    
-    if (fcmToken == null) return;
-
-    try {
-      // Try to mark as read in user's collection if signed in
-      if (user != null) {
-        await _firestore
-            .collection(userProfileCollectionId)
-            .doc(user.uid)
-            .collection(userNotificationsCollectionId)
-            .doc(notificationId)
-            .update({'read': true});
-      } else {
-        // Try to mark as read in anonymous collection
-        await _firestore
-            .collection(anonymousNotificationsCollectionId)
-            .doc(fcmToken)
-            .collection(userNotificationsCollectionId)
-            .doc(notificationId)
-            .update({'read': true});
-      }
-
-      debugPrint('Notification marked as read: $notificationId');
-    } catch (e) {
-      debugPrint('Error marking notification as read: $e');
-    }
-  }
-  
-  // Public method for use by the UI
-  Future<void> markNotificationAsRead(String notificationId) async {
-    await _markNotificationAsRead(notificationId);
-  }
-
-  void _showToastNotification(RemoteMessage message) {
-    final notification = message.notification;
-    if (notification == null) return;
-
-    // Show toast notification
-    Fluttertoast.showToast(
-        msg: "${notification.title ?? ''}\n${notification.body ?? ''}",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.TOP,
-        timeInSecForIosWeb: 5,
-        backgroundColor: Colors.black87,
-        textColor: Colors.white,
-        fontSize: 16.0);
+                snapshot.reference.update({
+                  'notificationsList': updatedNotifications,
+                });
+              }
+            }
+          });
+        }
+      },
+    );
   }
 
   // Show a snackbar notification with action - now takes context as a parameter
@@ -422,81 +307,57 @@ class FCMService {
 
     if (initialMessage != null) {
       debugPrint('App opened from terminated state by notification');
-      // If the message contains a notification, store it in Firestore
-      if (initialMessage.notification != null) {
-        // Save notification to Firestore
-        await _saveNotificationToFirestore(initialMessage);
-
-        // Handle notification tap will be managed by the UI that checks the initial route
-      }
+      // Handle notification tap will be managed by the UI that checks the initial route
     }
   }
   
   Future<Stream<List<UserNotification>>> getNotificationsStream() async {
     User? user = _auth.currentUser;
-    String? fcmToken = await _getFCMToken();
     
-    // Return empty stream if no token (this will be handled the same way as empty notifications)
-    if (fcmToken == null) {
-      debugPrint('No FCM token available for notifications stream');
+    if (user == null) {
+      debugPrint('No user logged in for notifications stream');
       return Stream.value([]);
     }
     
-    if (user != null) {
-      // User is signed in, get from user collection
-      return _firestore
-          .collection(userProfileCollectionId)
-          .doc(user.uid)
-          .collection(userNotificationsCollectionId)
-          .orderBy('timestamp', descending: true)
-          .limit(100)
-          .snapshots()
-          .map((snapshot) => snapshot.docs.map((doc) => UserNotification.fromSnapshot(doc)).toList());
-    } else {
-      // User is signed out, get from anonymous collection
-      return _firestore
-          .collection(anonymousNotificationsCollectionId)
-          .doc(fcmToken)
-          .collection(userNotificationsCollectionId)
-          .orderBy('timestamp', descending: true)
-          .limit(100)
-          .snapshots()
-          .map((snapshot) => snapshot.docs.map((doc) => UserNotification.fromSnapshot(doc)).toList());
-    }
+    return _firestore
+        .collection(userNotificationsCollectionId)
+        .doc(user.uid).snapshots().map((snapshot) {
+      if (!snapshot.exists) return [];
+      final data = snapshot.data();
+      if (data == null) return [];
+
+      final notificationsList = (data['notificationsList'] as List<dynamic>?) ?? [];
+      return notificationsList
+          .map((notification) => UserNotification.fromJson({
+                'notificationId': notification['notificationId'],
+                ...notification,
+              }))
+          .toList();
+    });
   }
   
   Future<void> markAllNotificationsAsRead() async {
     User? user = _auth.currentUser;
-    String? fcmToken = await _getFCMToken();
+    if (user == null) return;
+
+    final userNotificationsRef = _firestore.collection(userNotificationsCollectionId).doc(user.uid);
+        
+    final snapshot = await userNotificationsRef.get();
+    if (!snapshot.exists) return;
     
-    if (fcmToken == null) return;
+    final data = snapshot.data();
+    if (data == null) return;
+
+    final notificationsList = (data['notificationsList'] as List<dynamic>?) ?? [];
     
-    final batch = _firestore.batch();
-    QuerySnapshot notifications;
+    // Mark all notifications as read
+    final updatedNotifications = notificationsList.map((notification) {
+      return {...notification, 'read': true};
+    }).toList();
     
-    if (user != null) {
-      // User is signed in
-      notifications = await _firestore
-          .collection(userProfileCollectionId)
-          .doc(user.uid)
-          .collection(userNotificationsCollectionId)
-          .where('read', isEqualTo: false)
-          .get();
-    } else {
-      // User is signed out
-      notifications = await _firestore
-          .collection(anonymousNotificationsCollectionId)
-          .doc(fcmToken)
-          .collection(userNotificationsCollectionId)
-          .where('read', isEqualTo: false)
-          .get();
-    }
-    
-    for (var doc in notifications.docs) {
-      batch.update(doc.reference, {'read': true});
-    }
-    
-    await batch.commit();
+    await userNotificationsRef.update({
+      'notificationsList': updatedNotifications,
+    });
   }
 }
 
@@ -507,56 +368,4 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   debugPrint('Handling a background message: ${message.messageId}');
-
-  // Store notification in Firestore
-  try {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    
-    // Get FCM token
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? fcmToken = prefs.getString('fcm_token') ?? await FirebaseMessaging.instance.getToken();
-    
-    if (fcmToken == null) {
-      debugPrint('No FCM token available in background handler');
-      return;
-    }
-
-    DocumentReference notificationRef;
-    
-    // Check if user is signed in
-    if (auth.currentUser != null) {
-      // User is signed in
-      notificationRef = firestore
-          .collection(userProfileCollectionId)
-          .doc(auth.currentUser!.uid)
-          .collection(userNotificationsCollectionId)
-          .doc();
-    } else {
-      // User is signed out, use FCM token
-      notificationRef = firestore
-          .collection(anonymousNotificationsCollectionId)
-          .doc(fcmToken)
-          .collection(userNotificationsCollectionId)
-          .doc();
-    }
-
-    // Create UserNotification object
-    final UserNotification notification = UserNotification(
-      notificationId: notificationRef.id,
-      title: message.notification?.title ?? 'Notification',
-      body: message.notification?.body ?? '',
-      timestamp: DateTime.now(),
-      read: false,
-      type: message.data['type'] ?? 'default',
-      targetId: message.data['targetId'],
-      fcmToken: fcmToken,
-    );
-
-    // Save to Firestore
-    await notificationRef.set(notification.toJson());
-    debugPrint('Background notification saved to Firestore with ID: ${notification.notificationId}');
-  } catch (e) {
-    debugPrint('Error saving background notification to Firestore: $e');
-  }
 }
