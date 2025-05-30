@@ -56,6 +56,36 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
     return null;
   }
 
+  void _formatPhoneNumber(String value) {
+    // Remove any non-digit characters
+    final digits = value.replaceAll(RegExp(r'[^\d]'), '');
+
+    // If empty, just update the controller
+    if (digits.isEmpty) {
+      widget.controller.text = '';
+      if (widget.onChanged != null) {
+        widget.onChanged!('');
+      }
+      return;
+    }
+
+    // Ensure the number starts with 7
+    if (!digits.startsWith('7')) {
+      return;
+    }
+
+    // Format the number as +962 XXXX XXXX
+    final formattedNumber = '+962 ${digits.substring(0, 2)} ${digits.substring(2, 5)} ${digits.substring(5)}';
+
+    // Update the controller with the formatted number
+    widget.controller.text = formattedNumber;
+
+    // Call onChanged with the formatted number
+    if (widget.onChanged != null) {
+      widget.onChanged!(formattedNumber);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -73,7 +103,7 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
       ),
       validator: widget.validator ?? _validatePhoneNumber,
       autovalidateMode: widget.autoValidateMode,
-      onChanged: widget.onChanged,
+      onChanged: _formatPhoneNumber,
       textInputAction: widget.textInputAction,
       enabled: widget.enabled,
     );

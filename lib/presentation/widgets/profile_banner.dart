@@ -253,21 +253,31 @@ class _ProfileBannerState extends State<ProfileBanner> {
                                               ),
                                             ),
                                             const SizedBox(width: 6),
-                                            VerifiedBadge(
-                                              profile: profile,
-                                              size: 22,
-                                            ),
-                                            if (widget.showBadge && followButton == null) UserPlanBadge(plan: plan)
+                                            if (widget.showBadge && followButton == null)
+                                              Row(
+                                                children: [
+                                                  VerifiedBadge(
+                                                    profile: profile,
+                                                    size: 22,
+                                                  ),
+                                                  UserPlanBadge(plan: plan),
+                                                ],
+                                              )
                                           ],
                                         ),
                                       ),
                                       const SizedBox(width: 4),
                                     ],
                                   ),
-                                  if (widget.showBadge && followButton != null) ...[
-                                    const SizedBox(height: 6),
-                                    UserPlanBadge(plan: plan)
-                                  ],
+                                  if (widget.showBadge && followButton != null)
+                                    Row(children: [
+                                      VerifiedBadge(
+                                        profile: profile,
+                                        size: 22,
+                                      ),
+                                      const SizedBox(width: 6),
+                                      UserPlanBadge(plan: plan),
+                                    ]),
                                   const SizedBox(height: 10),
                                   if (widget.showTicketCount)
                                     Row(
