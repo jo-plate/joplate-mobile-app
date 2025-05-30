@@ -32,7 +32,20 @@ class _NotificationsPageState extends State<NotificationsPage> {
           .collection(userNotificationsCollectionId)
           .doc(currentUser.uid)
           .snapshots()
-          .map((snapshot) => UserNotifications.fromSnapshot(snapshot));
+          .map((snapshot) {
+        // Mark all notifications as read when first loaded
+        if (snapshot.exists) {
+          final userNotifications = UserNotifications.fromSnapshot(snapshot);
+          if (userNotifications.notificationsList.any((n) => !n.read)) {
+            // Update Firestore to mark all as read
+            snapshot.reference.update({
+              'notificationsList':
+                  userNotifications.notificationsList.map((n) => n.copyWith(read: true).toJson()).toList(),
+            });
+          }
+        }
+        return UserNotifications.fromSnapshot(snapshot);
+      });
     }
   }
 

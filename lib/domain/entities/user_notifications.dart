@@ -25,7 +25,8 @@ class UserNotifications with _$UserNotifications {
     final notificationsList = (data['notificationsList'] as List<dynamic>?) ?? [];
     return UserNotifications(
       userId: snapshot.id,
-      notificationsList: notificationsList.map((e) => UserNotification.fromJson(e)).toList(),
+      notificationsList: notificationsList.map((e) => UserNotification.fromJson(e)).toList()
+        ..sort((a, b) => a.timestamp!.compareTo(b.timestamp!)),
     );
   }
 
