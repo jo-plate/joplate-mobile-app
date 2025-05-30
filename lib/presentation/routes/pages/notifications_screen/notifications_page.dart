@@ -3,8 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
+import 'package:joplate/domain/entities/user_notification.dart';
 import 'package:joplate/domain/entities/user_notifications.dart';
 import 'package:joplate/presentation/widgets/notification_item.dart';
+import 'package:rxdart/rxdart.dart';
 
 @RoutePage()
 class NotificationsPage extends StatefulWidget {
@@ -17,7 +19,7 @@ class NotificationsPage extends StatefulWidget {
 class _NotificationsPageState extends State<NotificationsPage> {
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
-  Stream<UserNotifications>? _notificationsStream;
+  Stream<List<UserNotification>>? _notificationsStream;
 
   @override
   void initState() {
@@ -28,24 +30,40 @@ class _NotificationsPageState extends State<NotificationsPage> {
   void _initializeNotificationsStream() {
     final currentUser = _auth.currentUser;
     if (currentUser != null) {
-      _notificationsStream = _firestore
-          .collection(userNotificationsCollectionId)
-          .doc(currentUser.uid)
-          .snapshots()
-          .map((snapshot) {
-        // Mark all notifications as read when first loaded
-        if (snapshot.exists) {
-          final userNotifications = UserNotifications.fromSnapshot(snapshot);
-          if (userNotifications.notificationsList.any((n) => !n.read)) {
-            // Update Firestore to mark all as read
-            snapshot.reference.update({
-              'notificationsList':
-                  userNotifications.notificationsList.map((n) => n.copyWith(read: true).toJson()).toList(),
-            });
+      // Combine streams from both collections
+      _notificationsStream = Rx.combineLatest2(
+        // User notifications stream
+        _firestore.collection(userNotificationsCollectionId).doc(currentUser.uid).snapshots().map((snapshot) {
+          if (snapshot.exists) {
+            final userNotifications = UserNotifications.fromSnapshot(snapshot);
+            // Mark all notifications as read when first loaded
+            if (userNotifications.notificationsList.any((n) => !n.read)) {
+              snapshot.reference.update({
+                'notificationsList':
+                    userNotifications.notificationsList.map((n) => n.copyWith(read: true).toJson()).toList(),
+              });
+            }
+            return userNotifications.notificationsList;
           }
-        }
-        return UserNotifications.fromSnapshot(snapshot);
-      });
+          return <UserNotification>[];
+        }),
+        // Anonymous notifications stream
+        _firestore
+            .collection(anonymousNotificationsCollectionId)
+            .snapshots()
+            .map((snapshot) => snapshot.docs.map((doc) => UserNotification.fromSnapshot(doc)).toList()),
+        // Combine and sort both lists
+        (List<UserNotification> userNotifications, List<UserNotification> anonymousNotifications) {
+          final allNotifications = [...userNotifications, ...anonymousNotifications];
+          // Sort by timestamp in descending order
+          allNotifications.sort((a, b) {
+            final aTime = a.timestamp ?? DateTime(1970);
+            final bTime = b.timestamp ?? DateTime(1970);
+            return bTime.compareTo(aTime);
+          });
+          return allNotifications;
+        },
+      );
     }
   }
 
@@ -53,26 +71,23 @@ class _NotificationsPageState extends State<NotificationsPage> {
     try {
       final currentUser = _auth.currentUser;
       if (currentUser != null) {
-        final userNotificationsRef = _firestore
-            .collection(userNotificationsCollectionId)
-            .doc(currentUser.uid);
+        // Check user notifications collection
+        final userNotificationsRef = _firestore.collection(userNotificationsCollectionId).doc(currentUser.uid);
 
-        // Get current notifications
-        final snapshot = await userNotificationsRef.get();
-        if (!snapshot.exists) return;
+        final userSnapshot = await userNotificationsRef.get();
+        if (userSnapshot.exists) {
+          final userNotifications = UserNotifications.fromSnapshot(userSnapshot);
+          final updatedNotifications = userNotifications.notificationsList.map((notification) {
+            if (notification.notificationId == notificationId) {
+              return notification.copyWith(read: true);
+            }
+            return notification;
+          }).toList();
 
-        final userNotifications = UserNotifications.fromSnapshot(snapshot);
-        final updatedNotifications = userNotifications.notificationsList.map((notification) {
-          if (notification.notificationId == notificationId) {
-            return notification.copyWith(read: true);
-          }
-          return notification;
-        }).toList();
-
-        // Update the document
-        await userNotificationsRef.update({
-          'notificationsList': updatedNotifications.map((n) => n.toJson()).toList(),
-        });
+          await userNotificationsRef.update({
+            'notificationsList': updatedNotifications.map((n) => n.toJson()).toList(),
+          });
+        }
       }
     } catch (e) {
       debugPrint('Error marking notification as read: $e');
@@ -83,20 +98,19 @@ class _NotificationsPageState extends State<NotificationsPage> {
     try {
       final currentUser = _auth.currentUser;
       if (currentUser != null) {
+        // Mark all user notifications as read
         final userNotificationsRef = _firestore.collection(userNotificationsCollectionId).doc(currentUser.uid);
 
-        // Get current notifications
-        final snapshot = await userNotificationsRef.get();
-        if (!snapshot.exists) return;
+        final userSnapshot = await userNotificationsRef.get();
+        if (userSnapshot.exists) {
+          final userNotifications = UserNotifications.fromSnapshot(userSnapshot);
+          final updatedNotifications =
+              userNotifications.notificationsList.map((notification) => notification.copyWith(read: true)).toList();
 
-        final userNotifications = UserNotifications.fromSnapshot(snapshot);
-        final updatedNotifications =
-            userNotifications.notificationsList.map((notification) => notification.copyWith(read: true)).toList();
-
-        // Update the document
-        await userNotificationsRef.update({
-          'notificationsList': updatedNotifications.map((n) => n.toJson()).toList(),
-        });
+          await userNotificationsRef.update({
+            'notificationsList': updatedNotifications.map((n) => n.toJson()).toList(),
+          });
+        }
       }
     } catch (e) {
       debugPrint('Error marking all notifications as read: $e');
@@ -105,15 +119,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = _auth.currentUser;
-    if (currentUser == null) {
-      return const Scaffold(
-        body: Center(
-          child: Text('Please sign in to view notifications'),
-        ),
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notifications'),
@@ -127,7 +132,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
           ),
         ],
       ),
-      body: StreamBuilder<UserNotifications>(
+      body: StreamBuilder<List<UserNotification>>(
         stream: _notificationsStream,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -138,8 +143,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
             return Center(child: Text('Error loading notifications: ${snapshot.error}'));
           }
 
-          final userNotifications = snapshot.data ?? UserNotifications.empty();
-          final notifications = userNotifications.notificationsList;
+          final notifications = snapshot.data ?? [];
 
           if (notifications.isEmpty) {
             return const Center(

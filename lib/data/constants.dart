@@ -10,7 +10,7 @@ const phoneNumbersCollectionId = 'phoneNumbers';
 const quicksaleProfilesCollectionId = 'quicksaleProfiles';
 const normalTicketsPackagesCollectionId = 'normalTicketsPackages';
 const featuredPlansCollectionId = 'featuredPlans';
-const userNotificationsCollectionId = 'userNotifications';
+const userNotificationsCollectionId = 'user_notifications';
 const anonymousNotificationsCollectionId = 'anonymousNotifications';
 const socialLinksCollectionId = 'socialLinks';
 

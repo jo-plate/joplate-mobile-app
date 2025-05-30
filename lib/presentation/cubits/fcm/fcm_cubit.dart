@@ -22,9 +22,6 @@ class FCMCubit extends Cubit<FCMState> {
         await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
       }
 
-      // Set up background message handler
-      FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
       // Store FCM token for anonymous users if needed
       try {
         final fcmToken = await FirebaseMessaging.instance.getToken();
@@ -55,13 +52,4 @@ class FCMCubit extends Cubit<FCMState> {
   Future<void> subscribeToTopic(String topic) => _fcmService.subscribeToTopic(topic);
   Future<void> unsubscribeFromTopic(String topic) => _fcmService.unsubscribeFromTopic(topic);
   Future<void> markAllNotificationsAsRead() => _fcmService.markAllNotificationsAsRead();
-}
-
-// This handler must be a top-level function
-@pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  debugPrint('Handling a background message: ${message.messageId}');
 }

@@ -31,6 +31,19 @@ import 'package:joplate/presentation/widgets/notification_overlay.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
+// This handler must be a top-level function
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Log the message details for debugging
+  developer.log('Handling a background message: ${message.messageId}', name: 'FCM');
+  developer.log('Message data: ${message.data}', name: 'FCM');
+  developer.log('Message notification: ${message.notification?.title}', name: 'FCM');
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -41,6 +54,9 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   developer.log('Firebase initialized', name: 'main');
+
+  // Set up background message handler
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await DependencyManager.inject();
   developer.log('Dependencies injected', name: 'main');
