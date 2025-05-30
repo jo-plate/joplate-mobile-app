@@ -55,7 +55,6 @@ class FCMCubit extends Cubit<FCMState> {
   Future<void> subscribeToTopic(String topic) => _fcmService.subscribeToTopic(topic);
   Future<void> unsubscribeFromTopic(String topic) => _fcmService.unsubscribeFromTopic(topic);
   Future<void> markAllNotificationsAsRead() => _fcmService.markAllNotificationsAsRead();
-  Future<Stream<List<UserNotification>>> getNotificationsStream() => _fcmService.getNotificationsStream();
 }
 
 // This handler must be a top-level function

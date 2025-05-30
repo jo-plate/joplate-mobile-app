@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/entities/user_notification.dart';
+import 'package:joplate/domain/entities/user_notifications.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
@@ -189,23 +190,19 @@ class FCMService {
         // Mark the notification as read in Firestore
         final user = _auth.currentUser;
         if (user != null) {
-          _firestore.collection(userNotificationsCollectionId).doc(user.uid)
-              .get().then((snapshot) {
+          _firestore.collection(userNotificationsCollectionId).doc(user.uid).get().then((snapshot) {
             if (snapshot.exists) {
-              final data = snapshot.data();
-              if (data != null) {
-                final notificationsList = (data['notificationsList'] as List<dynamic>?) ?? [];
-                final updatedNotifications = notificationsList.map((n) {
-                  if (n['notificationId'] == notification.notificationId) {
-                    return {...n, 'read': true};
-                  }
-                  return n;
-                }).toList();
+              final userNotifications = UserNotifications.fromJson(snapshot.data() as Map<String, dynamic>);
+              final updatedNotifications = userNotifications.notificationsList.map((n) {
+                if (n.notificationId == notification.notificationId) {
+                  return n.copyWith(read: true);
+                }
+                return n;
+              }).toList();
 
-                snapshot.reference.update({
-                  'notificationsList': updatedNotifications,
-                });
-              }
+              snapshot.reference.update({
+                'notificationsList': updatedNotifications.map((n) => n.toJson()).toList(),
+              });
             }
           });
         }
@@ -311,29 +308,19 @@ class FCMService {
     }
   }
   
-  Future<Stream<List<UserNotification>>> getNotificationsStream() async {
+  Future<Stream<UserNotifications>> getNotificationsStream() async {
     User? user = _auth.currentUser;
     
     if (user == null) {
       debugPrint('No user logged in for notifications stream');
-      return Stream.value([]);
+      return Stream.value(UserNotifications.empty());
     }
     
     return _firestore
         .collection(userNotificationsCollectionId)
-        .doc(user.uid).snapshots().map((snapshot) {
-      if (!snapshot.exists) return [];
-      final data = snapshot.data();
-      if (data == null) return [];
-
-      final notificationsList = (data['notificationsList'] as List<dynamic>?) ?? [];
-      return notificationsList
-          .map((notification) => UserNotification.fromJson({
-                'notificationId': notification['notificationId'],
-                ...notification,
-              }))
-          .toList();
-    });
+        .doc(user.uid)
+        .snapshots()
+        .map((snapshot) => UserNotifications.fromSnapshot(snapshot));
   }
   
   Future<void> markAllNotificationsAsRead() async {
@@ -345,18 +332,12 @@ class FCMService {
     final snapshot = await userNotificationsRef.get();
     if (!snapshot.exists) return;
     
-    final data = snapshot.data();
-    if (data == null) return;
-
-    final notificationsList = (data['notificationsList'] as List<dynamic>?) ?? [];
-    
-    // Mark all notifications as read
-    final updatedNotifications = notificationsList.map((notification) {
-      return {...notification, 'read': true};
-    }).toList();
+    final userNotifications = UserNotifications.fromSnapshot(snapshot);
+    final updatedNotifications =
+        userNotifications.notificationsList.map((notification) => notification.copyWith(read: true)).toList();
     
     await userNotificationsRef.update({
-      'notificationsList': updatedNotifications,
+      'notificationsList': updatedNotifications.map((n) => n.toJson()).toList(),
     });
   }
 }
