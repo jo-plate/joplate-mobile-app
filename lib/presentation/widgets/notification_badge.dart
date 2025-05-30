@@ -45,13 +45,13 @@ class _NotificationBadgeState extends State<NotificationBadge> {
       builder: (context, snapshot) {
         final count =
             snapshot.hasData ? snapshot.data?.notificationsList.where((notification) => !notification.read).length : 0;
-
+        final isDarkMode = Theme.of(context).brightness == Brightness.dark;
         return Stack(
           alignment: Alignment.center,
           children: [
             IconButton(
               icon: Icon(count != null && count > 0 ? Icons.notifications_active : Icons.notifications_outlined,
-                  size: widget.iconSize),
+                  size: widget.iconSize, color: isDarkMode ? Colors.white : const Color(0xFF981C1E)),
               onPressed: widget.onPressed ?? () => AutoRouter.of(context).push(const NotificationsRoute()),
               tooltip: 'Notifications',
             ),
