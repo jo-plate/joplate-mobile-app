@@ -162,7 +162,7 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
                     (FirebaseAuth.instance.currentUser?.uid ?? '') == snapshot.data!.userId &&
                     !snapshot.data!.isSold) ...[
                   const SizedBox(height: 8),
-                  PromoteListingButton(listingId: snapshot.data!.id, itemType: ItemType.plateNumber),
+                  PromoteListingButton(listingId: snapshot.data!.id, itemType: ItemType.phoneNumber),
                 ],
                 const SizedBox(
                   height: 16,
