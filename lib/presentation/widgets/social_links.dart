@@ -71,6 +71,8 @@ class SocialLinks extends StatelessWidget {
         return const FaIcon(FontAwesomeIcons.youtube);
       case 'whatsapp':
         return const FaIcon(FontAwesomeIcons.whatsapp);
+      case 'tiktok':
+        return const FaIcon(FontAwesomeIcons.tiktok);
       case 'telegram':
         return const FaIcon(FontAwesomeIcons.telegram);
       case 'email':
