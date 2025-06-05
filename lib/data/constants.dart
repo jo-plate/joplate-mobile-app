@@ -13,6 +13,7 @@ const featuredPlansCollectionId = 'featuredPlans';
 const userNotificationsCollectionId = 'user_notifications';
 const anonymousNotificationsCollectionId = 'anonymousNotifications';
 const socialLinksCollectionId = 'socialLinks';
+const remoteSettingsCollectionId = 'settings';
 
 // cloud functions
 const signupCF = 'signUpUser';

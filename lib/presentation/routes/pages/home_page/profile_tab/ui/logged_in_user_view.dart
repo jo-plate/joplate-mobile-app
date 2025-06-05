@@ -1,8 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:joplate/data/constants.dart';
+import 'package:joplate/domain/entities/remote_settings.dart';
 import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/cubits/auth/auth_cubit.dart';
 import 'package:joplate/presentation/cubits/localization/localization_cubit.dart';
@@ -59,11 +62,18 @@ class _UserProfileView extends StatefulWidget {
 
 class _UserProfileViewState extends State<_UserProfileView> {
   late final Stream<User?> _authStateStream;
+  late final Stream<RemoteSettings> _remoteSettingsStream;
 
   @override
   void initState() {
     super.initState();
+
     _authStateStream = FirebaseAuth.instance.authStateChanges();
+    _remoteSettingsStream = FirebaseFirestore.instance
+        .collection(remoteSettingsCollectionId)
+        .doc(remoteSettingsCollectionId)
+        .snapshots()
+        .map((event) => RemoteSettings.fromJson(event.data() ?? {}));
   }
 
   @override
@@ -172,15 +182,23 @@ class _UserProfileViewState extends State<_UserProfileView> {
           ),
         ),
         const SizedBox(width: 8),
-        Expanded(
-          child: _buildFeatureCard(
-            icon: Icons.card_giftcard_outlined,
-            label: m.profile.promo_code,
-            onTap: () => showDialog(
-              context: context,
-              builder: (context) => const PromoCodeDialog(),
-            ),
-          ),
+        StreamBuilder<RemoteSettings>(
+          stream: _remoteSettingsStream,
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data!.promocode) {
+              return Expanded(
+                child: _buildFeatureCard(
+                  icon: Icons.card_giftcard_outlined,
+                  label: m.profile.promo_code,
+                  onTap: () => showDialog(
+                    context: context,
+                    builder: (context) => const PromoCodeDialog(),
+                  ),
+                ),
+              );
+            }
+            return const SizedBox.shrink();
+          },
         ),
       ],
     );
