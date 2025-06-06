@@ -74,5 +74,25 @@
 		<key>Configuration</key>
 		<string>Configuration</string>
 	</dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>joplates.com</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>https</string>
+				<string>http</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>joplates</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>joplates</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

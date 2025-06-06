@@ -2,7 +2,6 @@ import 'dart:io' show Platform;
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:joplate/domain/entities/plan.dart';
 import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/cubits/iap_cubit.dart';

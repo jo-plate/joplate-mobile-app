@@ -16,7 +16,6 @@ import 'package:joplate/presentation/widgets/description_widget.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
 import 'package:joplate/presentation/widgets/user_details_widget.dart';
 import 'package:joplate/utils/log_visit.dart';
-import 'package:joplate/presentation/widgets/disclaimer_widget.dart';
 
 @RoutePage()
 class PhoneDetailsPage extends StatefulWidget {

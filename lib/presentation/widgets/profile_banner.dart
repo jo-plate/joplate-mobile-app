@@ -150,7 +150,7 @@ class _ProfileBannerState extends State<ProfileBanner> {
         stream: userStream,
         builder: (context, snapshot) {
           final profile = snapshot.data;
-          print("+++++++" + (profile?.id ?? "null"));
+          print("+++++++${profile?.id ?? "null"}");
           return GestureDetector(
             onTap: () {
               if (widget.clickable) {

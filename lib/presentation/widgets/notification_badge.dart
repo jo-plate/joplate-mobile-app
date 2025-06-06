@@ -3,10 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
-import 'package:joplate/data/services/fcm_service.dart';
-import 'package:joplate/domain/entities/user_notification.dart';
 import 'package:joplate/domain/entities/user_notifications.dart';
-import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/routes/router.dart';
 
 class NotificationBadge extends StatefulWidget {

@@ -52,52 +52,70 @@ class AppRouter extends RootStackRouter {
 
   @override
   List<AutoRoute> get routes => [
+        // Dashboard with nested routes
         AutoRoute(
           path: '/',
           page: DashboardRoute.page,
           children: [
-            AutoRoute(path: 'home', page: HomeRoute.page, initial: true),
-            AutoRoute(path: 'profile', page: ProfileRoute.page),
-            AutoRoute(path: 'feed', page: FeedRoute.page)
+            AutoRoute(path: '/home', page: HomeRoute.page, initial: true),
+            AutoRoute(path: '/profile', page: ProfileRoute.page),
+            AutoRoute(path: '/feed', page: FeedRoute.page)
           ],
         ),
-        AutoRoute(page: AuthRoute.page),
-        AutoRoute(page: AccountRoute.page),
-        AutoRoute(page: EditFullNameRoute.page),
-        AutoRoute(page: EditEmailRoute.page),
-        AutoRoute(page: EditPhoneNumberRoute.page),
-        AutoRoute(page: ChangePasswordRoute.page),
-        AutoRoute(page: PlatesDetailsRoute.page),
-        AutoRoute(page: PhoneDetailsRoute.page),
-        AutoRoute(page: PhoneRequestDetailsRoute.page),
-        AutoRoute(page: PlateRequestDetailsRoute.page),
-        AutoRoute(page: MyPlanRoute.page, path: '/myplan'),
-        AutoRoute(page: PlansRoute.page, path: '/plans'),
-        AutoRoute(page: AddPlateNumberRoute.page),
-        AutoRoute(page: AddPhoneNumberRoute.page),
-        AutoRoute(page: AddPhoneRequestRoute.page),
-        AutoRoute(page: AddPlateRequestRoute.page),
-        AutoRoute(page: PrivacyPolicyRoute.page, path: '/privacy-policy'),
-        AutoRoute(page: TermsAndConditionsRoute.page, path: '/terms-and-conditions'),
+        
+        // Authentication routes
+        AutoRoute(page: AuthRoute.page, path: '/auth'),
+        AutoRoute(page: ForgotPasswordRoute.page, path: "/forgot-password"),
+        AutoRoute(page: ResetPasswordRoute.page, path: "/reset-password"),
+        AutoRoute(page: VerificationCodeRoute.page, path: "/verification-code"),
+
+        // Account management routes
+        AutoRoute(page: AccountRoute.page, path: '/account'),
+        AutoRoute(page: EditFullNameRoute.page, path: '/account/edit-name'),
+        AutoRoute(page: EditEmailRoute.page, path: '/account/edit-email'),
+        AutoRoute(page: EditPhoneNumberRoute.page, path: '/account/edit-phone'),
+        AutoRoute(page: ChangePasswordRoute.page, path: '/account/change-password'),
+
+        // Details pages with parameters
+        AutoRoute(page: PlatesDetailsRoute.page, path: "/plates/:listingId"),
+        AutoRoute(page: PhoneDetailsRoute.page, path: "/phones/:listingId"),
+        AutoRoute(page: PlateRequestDetailsRoute.page, path: "/plate-requests/:requestId"),
+        AutoRoute(page: PhoneRequestDetailsRoute.page, path: "/phone-requests/:phoneNumberRequestId"),
+
+        // Listing pages
         AutoRoute(page: PlatesListingsRoute.page, path: "/plates"),
         AutoRoute(page: PhoneListingsRoute.page, path: "/phones"),
         AutoRoute(page: RequestsRoute.page, path: "/requests"),
-        AutoRoute(page: MyNumbersRoute.page, path: "/my_numbers"),
-        AutoRoute(page: MyRequestsRoute.page, path: "/my_requests"),
-        AutoRoute(page: EditPlateListingRoute.page, path: "/edit_plate_listing"),
-        AutoRoute(page: EditPhoneListingRoute.page, path: "/edit_phone_listing"),
         AutoRoute(page: QuicksaleRoute.page, path: "/quicksale"),
-        AutoRoute(page: EditPlateRequestRoute.page, path: "/edit_plate_request"),
-        AutoRoute(page: EditPhoneRequestRoute.page, path: "/edit_phone_request"),
+        
+        // User management
+        AutoRoute(page: MyNumbersRoute.page, path: "/my-numbers"),
+        AutoRoute(page: MyRequestsRoute.page, path: "/my-requests"),
         AutoRoute(page: UserProfileRoute.page, path: "/user/:userId"),
         AutoRoute(page: FollowersRoute.page, path: "/followers/:userId"),
         AutoRoute(page: FollowingRoute.page, path: "/following/:userId"),
         AutoRoute(page: FavoritesRoute.page, path: "/favorites"),
-        AutoRoute(page: FeedRoute.page, path: "/feed"),
         AutoRoute(page: NotificationsRoute.page, path: "/notifications"),
-        AutoRoute(page: ForgotPasswordRoute.page, path: "/forgot-password"),
-        AutoRoute(page: ResetPasswordRoute.page, path: "/reset-password"),
-        AutoRoute(page: VerificationCodeRoute.page, path: "/verification-code"),
+        
+        // Plans and subscription
+        AutoRoute(page: MyPlanRoute.page, path: '/my-plan'),
+        AutoRoute(page: PlansRoute.page, path: '/plans'),
+
+        // Add new item routes
+        AutoRoute(page: AddPlateNumberRoute.page, path: '/add/plate-number'),
+        AutoRoute(page: AddPhoneNumberRoute.page, path: '/add/phone-number'),
+        AutoRoute(page: AddPlateRequestRoute.page, path: '/add/plate-request'),
+        AutoRoute(page: AddPhoneRequestRoute.page, path: '/add/phone-request'),
+
+        // Edit routes with parameters
+        AutoRoute(page: EditPlateListingRoute.page, path: "/edit/plate-listing/:listingId"),
+        AutoRoute(page: EditPhoneListingRoute.page, path: "/edit/phone-listing/:listingId"),
+        AutoRoute(page: EditPlateRequestRoute.page, path: "/edit/plate-request/:requestId"),
+        AutoRoute(page: EditPhoneRequestRoute.page, path: "/edit/phone-request/:requestId"),
+
+        // Static pages
+        AutoRoute(page: PrivacyPolicyRoute.page, path: '/privacy-policy'),
+        AutoRoute(page: TermsAndConditionsRoute.page, path: '/terms-and-conditions'),
       ];
 
   bool get preserveState => true;

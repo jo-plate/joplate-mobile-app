@@ -9,9 +9,7 @@ import 'package:joplate/domain/entities/user_notification.dart';
 import 'package:joplate/domain/entities/user_notifications.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:joplate/presentation/widgets/app_snackbar.dart';
 import 'package:joplate/presentation/widgets/notification_overlay.dart';
-import 'package:joplate/presentation/widgets/notification_toast.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:joplate/firebase_options.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,7 +21,6 @@ class FCMService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final AppRouter _router = AppRouter();
-  OverlayEntry? _currentToast;
 
   Future<void> initialize() async {
     try {
@@ -206,40 +203,7 @@ class FCMService {
 
 
 
-  void _showNotificationToast(BuildContext context, UserNotification notification) {
-    // Remove any existing toast
-    _removeCurrentToast();
 
-    // Create overlay entry
-    _currentToast = OverlayEntry(
-      builder: (context) => NotificationToast(
-        notification: notification,
-        onTap: () {
-          _removeCurrentToast();
-          handleNotificationTap(context, {
-            'type': notification.type,
-            'targetId': notification.targetId,
-          });
-        },
-        onDismiss: () {
-          _removeCurrentToast();
-        },
-      ),
-    );
-
-    // Insert the toast
-    Overlay.of(context).insert(_currentToast!);
-
-    // Auto dismiss after 5 seconds
-    Future.delayed(const Duration(seconds: 5), () {
-      _removeCurrentToast();
-    });
-  }
-
-  void _removeCurrentToast() {
-    _currentToast?.remove();
-    _currentToast = null;
-  }
 
   void _handleForegroundMessage(RemoteMessage message) {
     developer.log('Got a message whilst in the foreground!', name: 'FCM');
@@ -280,32 +244,6 @@ class FCMService {
     }
   }
 
-  void _showNotificationOverlay(UserNotification notification) {
-    NotificationOverlay.show(
-      notification: notification,
-      onTap: () {
-        // Mark the notification as read in Firestore
-        final user = _auth.currentUser;
-        if (user != null) {
-          _firestore.collection(userNotificationsCollectionId).doc(user.uid).get().then((snapshot) {
-            if (snapshot.exists) {
-              final userNotifications = UserNotifications.fromJson(snapshot.data() as Map<String, dynamic>);
-              final updatedNotifications = userNotifications.notificationsList.map((n) {
-                if (n.notificationId == notification.notificationId) {
-                  return n.copyWith(read: true);
-                }
-                return n;
-              }).toList();
-
-              snapshot.reference.update({
-                'notificationsList': updatedNotifications.map((n) => n.toJson()).toList(),
-              });
-            }
-          });
-        }
-      },
-    );
-  }
 
   void showNotificationSnackbar(BuildContext context, RemoteMessage message) {
     final notification = message.notification;

@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/data/services/fcm_service.dart';
+
 import 'package:joplate/domain/dto/feature_listing_dto.dart';
 import 'package:joplate/injection/dependencies.dart';
 import 'package:joplate/injection/injector.dart';
@@ -27,7 +28,6 @@ import 'package:joplate/presentation/theme.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
 import 'dart:developer' as developer;
 import 'firebase_options.dart';
-import 'package:joplate/presentation/widgets/notification_overlay.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:joplate/domain/entities/user_notification.dart';
@@ -105,6 +105,8 @@ void main() async {
   await fcmService.initialize();
   developer.log('FCM service initialized', name: 'main');
 
+
+
   FlutterError.onError = (FlutterErrorDetails details) {
     developer.log('Flutter error: ${details.exception}',
         name: 'main', error: details.exception, stackTrace: details.stack);
@@ -129,6 +131,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     developer.log('Building MyApp', name: 'main');
+    
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => injector<AuthCubit>()),

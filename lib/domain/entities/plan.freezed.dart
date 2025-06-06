@@ -68,7 +68,7 @@ class _$PlanCopyWithImpl<$Res, $Val extends Plan>
     Object? price = null,
     Object? activePerks = null,
     Object? disabledPerks = null,
-    Object? color = freezed,
+    Object? color = null,
     Object? productIds = null,
     Object? activePerksAr = null,
     Object? disabledPerksAr = null,
@@ -91,7 +91,7 @@ class _$PlanCopyWithImpl<$Res, $Val extends Plan>
           ? _value.disabledPerks
           : disabledPerks // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      color: freezed == color
+      color: null == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as Color,
@@ -150,7 +150,7 @@ class __$$PlanImplCopyWithImpl<$Res>
     Object? price = null,
     Object? activePerks = null,
     Object? disabledPerks = null,
-    Object? color = freezed,
+    Object? color = null,
     Object? productIds = null,
     Object? activePerksAr = null,
     Object? disabledPerksAr = null,
@@ -173,7 +173,7 @@ class __$$PlanImplCopyWithImpl<$Res>
           ? _value._disabledPerks
           : disabledPerks // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      color: freezed == color
+      color: null == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as Color,
@@ -308,7 +308,7 @@ class _$PlanImpl extends _Plan with DiagnosticableTreeMixin {
                 .equals(other._activePerks, _activePerks) &&
             const DeepCollectionEquality()
                 .equals(other._disabledPerks, _disabledPerks) &&
-            const DeepCollectionEquality().equals(other.color, color) &&
+            (identical(other.color, color) || other.color == color) &&
             const DeepCollectionEquality()
                 .equals(other._productIds, _productIds) &&
             const DeepCollectionEquality()
@@ -326,7 +326,7 @@ class _$PlanImpl extends _Plan with DiagnosticableTreeMixin {
       price,
       const DeepCollectionEquality().hash(_activePerks),
       const DeepCollectionEquality().hash(_disabledPerks),
-      const DeepCollectionEquality().hash(color),
+      color,
       const DeepCollectionEquality().hash(_productIds),
       const DeepCollectionEquality().hash(_activePerksAr),
       const DeepCollectionEquality().hash(_disabledPerksAr),

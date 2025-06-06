@@ -1,8 +1,5 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/user_notification.dart';
-import 'package:joplate/presentation/routes/router.dart';
-import 'package:joplate/presentation/widgets/notification_item.dart';
 import 'package:joplate/main.dart';
 
 class NotificationOverlay {
@@ -41,16 +38,12 @@ class NotificationOverlay {
 
     try {
       final overlay = Overlay.of(context);
-      if (overlay != null) {
-        overlay.insert(_currentOverlay!);
+      overlay.insert(_currentOverlay!);
 
-        // Auto dismiss after 5 seconds
-        Future.delayed(const Duration(seconds: 5), () {
-          _removeCurrentOverlay();
-        });
-      } else {
-        debugPrint('Cannot show notification: No Overlay widget found');
-      }
+      // Auto dismiss after 5 seconds
+      Future.delayed(const Duration(seconds: 5), () {
+        _removeCurrentOverlay();
+      });
     } catch (e) {
       debugPrint('Error showing notification overlay: $e');
       _currentOverlay = null;

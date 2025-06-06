@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:joplate/domain/entities/user_notification.dart';
-import 'package:joplate/presentation/utils/strings.dart';
 
 class NotificationToast extends StatelessWidget {
   final UserNotification notification;
