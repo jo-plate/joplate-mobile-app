@@ -13,7 +13,6 @@ import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_request_w
 import 'package:joplate/presentation/widgets/delete_item_popup.dart';
 import 'package:joplate/presentation/widgets/description_widget.dart';
 import 'package:joplate/utils/log_visit.dart';
-import 'package:joplate/presentation/widgets/disclaimer_widget.dart';
 import 'package:joplate/presentation/widgets/user_details_widget.dart';
 
 @RoutePage()
@@ -139,7 +138,7 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
                         )
                       else
                         Text(
-                          m.listingdetails.expires_on(snapshot.data!.expiresAt!.toLocal()),
+                          m.listingdetails.expires_on(snapshot.data!.expiresAt!.toLocal().toString()),
                           style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                         ),
                     ],
@@ -164,12 +163,6 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            m.platesdetails.important_note,
-                            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(height: 10),
-                          const DisclaimerWidget(),
                           const SizedBox(height: 8),
                           Row(
                             children: [
@@ -189,8 +182,6 @@ class _PlateRequestDetailsPageState extends State<PlateRequestDetailsPage> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    const DisclaimerWidget(),
                     const SizedBox(height: 16),
                   ],
                 ),

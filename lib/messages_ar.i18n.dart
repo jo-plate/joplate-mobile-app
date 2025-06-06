@@ -1072,7 +1072,12 @@ class ListingdetailsMessagesAr extends ListingdetailsMessages {
   /// ```dart
   /// "تنتهي صلاحية الاعلان في $date"
   /// ```
-  String expires_on(DateTime date) => """تنتهي صلاحية الاعلان في $date""";
+  String expires_on(String date) => """تنتهي صلاحية الاعلان في $date""";
+
+  /// ```dart
+  /// "مميز حتى $date"
+  /// ```
+  String featured_until(String date) => """مميز حتى $date""";
 }
 
 class PhonedetailsMessagesAr extends PhonedetailsMessages {

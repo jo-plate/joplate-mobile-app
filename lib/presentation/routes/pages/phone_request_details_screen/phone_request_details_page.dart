@@ -14,7 +14,6 @@ import 'package:joplate/presentation/widgets/delete_item_popup.dart';
 import 'package:joplate/presentation/widgets/description_widget.dart';
 import 'package:joplate/presentation/widgets/user_details_widget.dart';
 import 'package:joplate/utils/log_visit.dart';
-import 'package:joplate/presentation/widgets/disclaimer_widget.dart';
 
 @RoutePage()
 class PhoneRequestDetailsPage extends StatefulWidget {
@@ -122,7 +121,7 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
                       )
                     else
                       Text(
-                        m.listingdetails.expires_on(snapshot.data!.expiresAt!.toLocal()),
+                        m.listingdetails.expires_on(snapshot.data!.expiresAt!.toLocal().toString()),
                         style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                       ),
                   ],
@@ -139,9 +138,6 @@ class _PhoneRequestDetailsPageState extends State<PhoneRequestDetailsPage> {
                     showDisclaimer: true,
                   ),
                   const SizedBox(height: 16),
-                  const SizedBox(height: 20),
-                  const DisclaimerWidget(),
-                  const SizedBox(height: 20),
                 ],
               ),
             ),

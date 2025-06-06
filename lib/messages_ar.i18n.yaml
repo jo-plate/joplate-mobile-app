@@ -206,7 +206,8 @@ addplaterequest:
   optional_price: "السعر اختياري"
 
 listingdetails:
-  expires_on(DateTime date): "تنتهي صلاحية الاعلان في $date"
+  expires_on(String date): "تنتهي صلاحية الاعلان في $date"
+  featured_until(String date): "مميز حتى $date"
 
 phonedetails:
   title: "تفاصيل رقم الهاتف"

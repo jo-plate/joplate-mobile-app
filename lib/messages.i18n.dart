@@ -1069,7 +1069,12 @@ class ListingdetailsMessages {
   /// ```dart
   /// "Expires on $date"
   /// ```
-  String expires_on(DateTime date) => """Expires on $date""";
+  String expires_on(String date) => """Expires on $date""";
+
+  /// ```dart
+  /// "Featured until $date"
+  /// ```
+  String featured_until(String date) => """Featured until $date""";
 }
 
 class PhonedetailsMessages {

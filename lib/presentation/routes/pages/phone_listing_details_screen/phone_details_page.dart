@@ -154,7 +154,12 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
                     )
                   else
                     Text(
-                      m.listingdetails.expires_on(snapshot.data!.expiresAt!.toLocal()),
+                      m.listingdetails.expires_on(snapshot.data!.expiresAt!.toLocal().toString()),
+                      style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                    ),
+                  if (snapshot.data!.isFeatured)
+                    Text(
+                      m.listingdetails.featured_until(snapshot.data!.featuredUntil!.toLocal().toString()),
                       style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                     ),
                 ],
@@ -180,10 +185,6 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
                   showVisits: FirebaseAuth.instance.currentUser?.uid == phone.userId,
                   showDisclaimer: true,
                 ),
-                const SizedBox(
-                  height: 16,
-                ),
-                const DisclaimerWidget(),
                 const SizedBox(
                   height: 16,
                 ),

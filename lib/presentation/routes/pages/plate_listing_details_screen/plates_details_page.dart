@@ -143,11 +143,17 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                           m.home.expired,
                           style: const TextStyle(fontSize: 14, color: Colors.red),
                         )
-                      else
+                      else ...[
                         Text(
-                          m.listingdetails.expires_on(snapshot.data!.expiresAt!.toLocal()),
+                          m.listingdetails.expires_on(snapshot.data!.expiresAt!.toLocal().toString()),
                           style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                         ),
+                        if (snapshot.data!.isFeatured)
+                          Text(
+                            m.listingdetails.featured_until(snapshot.data!.featuredUntil!.toLocal().toString()),
+                            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                          ),
+                      ]
                     ],
                     if (!(snapshot.data?.isFeatured ?? false) &&
                         (FirebaseAuth.instance.currentUser?.uid ?? '') == snapshot.data!.userId &&
@@ -179,4 +185,3 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
         });
   }
 }
-

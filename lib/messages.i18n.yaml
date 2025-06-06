@@ -206,7 +206,8 @@ addplaterequest:
   optional_price: "Optional Price"
 
 listingdetails:
-  expires_on(DateTime date): "Expires on $date"
+  expires_on(String date): "Expires on $date"
+  featured_until(String date): "Featured until $date"
 
 phonedetails:
   title: "Phone Number Details"
