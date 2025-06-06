@@ -57,12 +57,12 @@ class AppRouter extends RootStackRouter {
           path: '/',
           page: DashboardRoute.page,
           children: [
-            AutoRoute(path: '/home', page: HomeRoute.page, initial: true),
-            AutoRoute(path: '/profile', page: ProfileRoute.page),
-            AutoRoute(path: '/feed', page: FeedRoute.page)
+            AutoRoute(page: HomeRoute.page, initial: true),
+            AutoRoute(page: ProfileRoute.page),
+            AutoRoute(page: FeedRoute.page)
           ],
         ),
-        
+
         // Authentication routes
         AutoRoute(page: AuthRoute.page, path: '/auth'),
         AutoRoute(page: ForgotPasswordRoute.page, path: "/forgot-password"),
@@ -87,7 +87,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: PhoneListingsRoute.page, path: "/phones"),
         AutoRoute(page: RequestsRoute.page, path: "/requests"),
         AutoRoute(page: QuicksaleRoute.page, path: "/quicksale"),
-        
+
         // User management
         AutoRoute(page: MyNumbersRoute.page, path: "/my-numbers"),
         AutoRoute(page: MyRequestsRoute.page, path: "/my-requests"),
@@ -96,7 +96,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: FollowingRoute.page, path: "/following/:userId"),
         AutoRoute(page: FavoritesRoute.page, path: "/favorites"),
         AutoRoute(page: NotificationsRoute.page, path: "/notifications"),
-        
+
         // Plans and subscription
         AutoRoute(page: MyPlanRoute.page, path: '/my-plan'),
         AutoRoute(page: PlansRoute.page, path: '/plans'),
