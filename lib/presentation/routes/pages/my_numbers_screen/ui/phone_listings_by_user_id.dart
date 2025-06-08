@@ -81,7 +81,7 @@ class _PhoneListingsByUserIdState extends State<PhoneListingsByUserId> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               }
-        
+
               final listings = snapshot.data ?? [];
               final filteredListings = _filterListings(listings);
 
@@ -89,6 +89,7 @@ class _PhoneListingsByUserIdState extends State<PhoneListingsByUserId> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: PhonesListingGrid(
                   itemList: filteredListings,
+                  scrollable: true,
                   shrinkWrap: false,
                 ),
               );

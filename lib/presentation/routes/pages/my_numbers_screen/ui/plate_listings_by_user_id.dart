@@ -85,7 +85,7 @@ class _PlateListingsByUserIdState extends State<PlateListingsByUserId> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               }
-        
+
               final listings = snapshot.data ?? [];
               final filteredListings = _filterListings(listings);
 
@@ -94,6 +94,7 @@ class _PlateListingsByUserIdState extends State<PlateListingsByUserId> {
                 child: PlatesListingsGrid(
                   itemList: filteredListings,
                   shrinkWrap: false,
+                  scrollable: true,
                 ),
               );
             },

@@ -10,16 +10,16 @@ class PlatesListingsGrid extends StatelessWidget {
     super.key,
     required this.itemList,
     this.shrinkWrap = true,
-    
+    this.scrollable = false,
   });
 
   final List<PlateListing> itemList;
   final bool shrinkWrap;
-
+  final bool scrollable;
   @override
   Widget build(BuildContext context) {
     final m = Localization.of(context);
-    
+
     if (itemList.isEmpty) {
       return Center(
         child: Text(m.common.no_items_found),
@@ -32,7 +32,7 @@ class PlatesListingsGrid extends StatelessWidget {
         mainAxisSpacing: 10,
         crossAxisSpacing: 10,
         shrinkWrap: shrinkWrap,
-        physics: const NeverScrollableScrollPhysics(),
+        physics: scrollable ? const AlwaysScrollableScrollPhysics() : const NeverScrollableScrollPhysics(),
         itemCount: itemList.length,
         itemBuilder: (context, index) {
           return PlateNumberListingWidget(
