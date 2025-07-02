@@ -33,31 +33,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:joplate/domain/entities/user_notification.dart';
 import 'package:joplate/domain/entities/user_notifications.dart';
 
-// This handler must be a top-level function
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   try {
-    // If you're going to use other Firebase services in the background, such as Firestore,
-    // make sure you call `initializeApp` before using other Firebase services.
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-    // Log the message details for debugging
     developer.log('Handling a background message: ${message.messageId}', name: 'FCM');
     developer.log('Message data: ${message.data}', name: 'FCM');
     developer.log('Message notification: ${message.notification?.title}', name: 'FCM');
 
-    // Update notification count in Firestore if user is logged in
     final user = FirebaseAuth.instance.currentUser;
     if (user != null && message.notification != null) {
       final firestore = FirebaseFirestore.instance;
       final userNotificationsRef = firestore.collection(userNotificationsCollectionId).doc(user.uid);
 
-      // Get current notifications
       final snapshot = await userNotificationsRef.get();
       if (snapshot.exists) {
         final userNotifications = UserNotifications.fromSnapshot(snapshot);
 
-        // Add new notification
         final newNotification = UserNotification(
           notificationId: message.messageId ?? DateTime.now().millisecondsSinceEpoch.toString(),
           title: message.notification?.title ?? '',
@@ -70,7 +63,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
         final updatedNotifications = [newNotification, ...userNotifications.notificationsList];
 
-        // Update Firestore
         await userNotificationsRef.update({
           'notificationsList': updatedNotifications.map((n) => n.toJson()).toList(),
         });
@@ -85,7 +77,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Configure logging
   developer.log('App starting...', name: 'main');
 
   await Firebase.initializeApp(
@@ -93,19 +84,15 @@ void main() async {
   );
   developer.log('Firebase initialized', name: 'main');
 
-  // Set up background message handler before initializing FCM
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   developer.log('Background message handler set up', name: 'main');
 
   await DependencyManager.inject();
   developer.log('Dependencies injected', name: 'main');
 
-  // Initialize FCM service
   final fcmService = injector<FCMService>();
   await fcmService.initialize();
   developer.log('FCM service initialized', name: 'main');
-
-
 
   FlutterError.onError = (FlutterErrorDetails details) {
     developer.log('Flutter error: ${details.exception}',
@@ -122,7 +109,6 @@ void main() async {
   runApp(MyApp());
 }
 
-
 class MyApp extends StatelessWidget {
   MyApp({super.key});
   final _appRouter = AppRouter();
@@ -131,7 +117,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     developer.log('Building MyApp', name: 'main');
-    
 
     return MultiBlocProvider(
       providers: [
@@ -162,20 +147,15 @@ class MyApp extends StatelessWidget {
                 themeMode: themeState.themeMode,
                 scaffoldMessengerKey: AppSnackbar.key,
                 builder: (ctx, widget) {
-                  // Set up a listener for foreground FCM messages that need context
                   WidgetsBinding.instance.addPostFrameCallback((_) {
-                    // Set up FCM message listener to show snackbars
                     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
                       if (message.notification != null) {
-                        // Show a snackbar for the notification
                         injector<FCMService>().showNotificationSnackbar(ctx, message);
                       }
                     });
 
-                    // Check for initial message from a terminated state
                     FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
                       if (message != null && message.notification != null) {
-                        // Handle notification that opened the app
                         injector<FCMService>().handleNotificationTap(ctx, message.data);
                       }
                     });

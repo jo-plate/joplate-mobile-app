@@ -46,6 +46,18 @@ class CategorySection extends StatelessWidget {
     });
   }
 
+  Stream<int> _getPhoneRequestsCount() {
+    return FirebaseFirestore.instance
+        .collection(phonesRequestsCollectionId)
+        .where('isDisabled', isEqualTo: false)
+        .where('expiresAt', isGreaterThan: Timestamp.now())
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.length;
+    });
+  }
+
   Stream<int> _getCategoryCount(ItemType? itemType) {
     switch (itemType) {
       case ItemType.plateNumber:
@@ -81,7 +93,7 @@ class CategorySection extends StatelessWidget {
               itemType: ItemType.phoneNumber,
               onTap: () => AutoRouter.of(context).push(const PhoneListingsRoute()),
             ),
-            _buildCategoryCard(
+            _buildRequestsCategoryCard(
               icon: Image.asset(isDark ? 'assets/images/requests_dark.png' : 'assets/images/requests.png', width: 60),
               title: m.home.requests,
               onTap: () => AutoRouter.of(context).push(const RequestsRoute()),
@@ -141,6 +153,33 @@ class CategorySection extends StatelessWidget {
           title: title,
           count: count.toString(),
           onTap: onTap,
+        );
+      },
+    );
+  }
+
+  Widget _buildRequestsCategoryCard({
+    required Widget icon,
+    required String title,
+    Function()? onTap,
+  }) {
+    return StreamBuilder<int>(
+      stream: _getPlatesRequestsCount(),
+      builder: (context, platesSnapshot) {
+        return StreamBuilder<int>(
+          stream: _getPhoneRequestsCount(),
+          builder: (context, phoneSnapshot) {
+            final platesCount = platesSnapshot.data ?? 0;
+            final phoneCount = phoneSnapshot.data ?? 0;
+            final totalCount = platesCount + phoneCount;
+
+            return CategoryCard(
+              iconWidget: icon,
+              title: title,
+              count: totalCount.toString(),
+              onTap: onTap,
+            );
+          },
         );
       },
     );

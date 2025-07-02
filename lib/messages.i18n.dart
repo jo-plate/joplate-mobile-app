@@ -1861,10 +1861,10 @@ class PrivacyMessages {
   String get contact => """Contact Us""";
 
   /// ```dart
-  /// "If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at support@joplate.com"
+  /// "If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at jo1plates@outlook.com"
   /// ```
   String get contact_text =>
-      """If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at support@joplate.com""";
+      """If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at jo1plates@outlook.com""";
 }
 
 class TermsMessages {
@@ -2015,10 +2015,10 @@ class TermsMessages {
   String get contact => """Contact Us""";
 
   /// ```dart
-  /// "If you have any questions about these Terms, please contact us at legal@joplate.com"
+  /// "If you have any questions about these Terms, please contact us at jo1plates@outlook.com"
   /// ```
   String get contact_text =>
-      """If you have any questions about these Terms, please contact us at legal@joplate.com""";
+      """If you have any questions about these Terms, please contact us at jo1plates@outlook.com""";
 }
 
 class CommonMessages {
@@ -2712,7 +2712,7 @@ Map<String, String> get messagesMap => {
       """We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Privacy Policy on this page. These changes are effective immediately after they are posted on this page.""",
   """privacy.contact""": """Contact Us""",
   """privacy.contact_text""":
-      """If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at support@joplate.com""",
+          """If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at jo1plates@outlook.com""",
   """terms.title""": """Terms & Conditions""",
   """terms.effective_date""": """Effective Date: January 1, 2023""",
   """terms.intro""":
@@ -2753,7 +2753,7 @@ Map<String, String> get messagesMap => {
       """We reserve the right to modify or replace these Terms at any time. We will provide notice of significant changes. Your continued use of the service after such changes constitutes your acceptance of the new Terms.""",
   """terms.contact""": """Contact Us""",
   """terms.contact_text""":
-      """If you have any questions about these Terms, please contact us at legal@joplate.com""",
+          """If you have any questions about these Terms, please contact us at jo1plates@outlook.com""",
   """common.no_items_found""": """No items found""",
   """common.no_results_found""": """No results found""",
   """common.no_data_found""": """No data found""",

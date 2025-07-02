@@ -1866,10 +1866,10 @@ class PrivacyMessagesAr extends PrivacyMessages {
   String get contact => """اتصل بنا""";
 
   /// ```dart
-  /// "إذا كان لديك أي أسئلة أو اقتراحات حول سياسة الخصوصية، فلا تتردد في الاتصال بنا على support@joplate.com"
+  /// "إذا كان لديك أي أسئلة أو اقتراحات حول سياسة الخصوصية، فلا تتردد في الاتصال بنا على jo1plates@outlook.com"
   /// ```
   String get contact_text =>
-      """إذا كان لديك أي أسئلة أو اقتراحات حول سياسة الخصوصية، فلا تتردد في الاتصال بنا على support@joplate.com""";
+      """إذا كان لديك أي أسئلة أو اقتراحات حول سياسة الخصوصية، فلا تتردد في الاتصال بنا على jo1plates@outlook.com""";
 }
 
 class TermsMessagesAr extends TermsMessages {
@@ -2018,10 +2018,10 @@ class TermsMessagesAr extends TermsMessages {
   String get contact => """اتصل بنا""";
 
   /// ```dart
-  /// "إذا كان لديك أي أسئلة حول هذه الشروط، يرجى الاتصال بنا على legal@joplate.com"
+  /// "إذا كان لديك أي أسئلة حول هذه الشروط، يرجى الاتصال بنا على jo1plates@outlook.com"
   /// ```
   String get contact_text =>
-      """إذا كان لديك أي أسئلة حول هذه الشروط، يرجى الاتصال بنا على legal@joplate.com""";
+      """إذا كان لديك أي أسئلة حول هذه الشروط، يرجى الاتصال بنا على jo1plates@outlook.com""";
 }
 
 class CommonMessagesAr extends CommonMessages {
@@ -2716,7 +2716,7 @@ Map<String, String> get messagesArMap => {
       """قد نقوم بتحديث سياسة الخصوصية من وقت لآخر. لذلك، يُنصح بمراجعة هذه الصفحة بشكل دوري لأي تغييرات. سنخطرك بأي تغييرات عن طريق نشر سياسة الخصوصية الجديدة على هذه الصفحة. هذه التغييرات سارية المفعول فور نشرها على هذه الصفحة.""",
   """privacy.contact""": """اتصل بنا""",
   """privacy.contact_text""":
-      """إذا كان لديك أي أسئلة أو اقتراحات حول سياسة الخصوصية، فلا تتردد في الاتصال بنا على support@joplate.com""",
+          """إذا كان لديك أي أسئلة أو اقتراحات حول سياسة الخصوصية، فلا تتردد في الاتصال بنا على jo1plates@outlook.com""",
   """terms.title""": """الشروط والأحكام""",
   """terms.effective_date""": """تاريخ النفاذ: 1 يناير 2023""",
   """terms.intro""":
@@ -2755,7 +2755,7 @@ Map<String, String> get messagesArMap => {
       """نحتفظ بالحق في تعديل أو استبدال هذه الشروط في أي وقت. سنقدم إشعاراً بالتغييرات المهمة. استمرارك في استخدام الخدمة بعد هذه التغييرات يشكل قبولك للشروط الجديدة.""",
   """terms.contact""": """اتصل بنا""",
   """terms.contact_text""":
-      """إذا كان لديك أي أسئلة حول هذه الشروط، يرجى الاتصال بنا على legal@joplate.com""",
+      """إذا كان لديك أي أسئلة حول هذه الشروط، يرجى الاتصال بنا على jo1plates@outlook.com""",
   """common.no_items_found""": """لا توجد عناصر""",
   """common.no_results_found""": """لا توجد نتائج""",
   """common.no_data_found""": """لا توجد بيانات""",

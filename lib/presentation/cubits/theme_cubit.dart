@@ -38,8 +38,8 @@ class ThemeCubit extends Cubit<ThemeState> {
 
   ThemeCubit(this._prefs)
       : super(ThemeState(
-          themeMode: ThemeMode.dark,
-          isDarkMode: true,
+          themeMode: ThemeMode.light,
+          isDarkMode: false,
         ));
 
   Future<void> toggleTheme() async {
@@ -57,7 +57,7 @@ class ThemeCubit extends Cubit<ThemeState> {
     if (savedTheme != null) {
       final themeMode = ThemeMode.values.firstWhere(
         (mode) => mode.toString() == savedTheme,
-        orElse: () => ThemeMode.dark,
+        orElse: () => ThemeMode.light,
       );
 
       emit(state.copyWith(
@@ -65,11 +65,11 @@ class ThemeCubit extends Cubit<ThemeState> {
         isDarkMode: themeMode == ThemeMode.dark,
       ));
     } else {
-      // If no theme was previously set, use dark theme
-      await _prefs.setString(_themeKey, ThemeMode.dark.toString());
+      // If no theme was previously set, use light theme
+      await _prefs.setString(_themeKey, ThemeMode.light.toString());
       emit(state.copyWith(
-        themeMode: ThemeMode.dark,
-        isDarkMode: true,
+        themeMode: ThemeMode.light,
+        isDarkMode: false,
       ));
     }
   }
