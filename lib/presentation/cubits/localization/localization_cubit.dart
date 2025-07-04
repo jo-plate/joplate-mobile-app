@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class LocalizationCubit extends Cubit<Locale> {
-  LocalizationCubit() : super(const Locale('en')); // default to English
+  LocalizationCubit() : super(const Locale('ar')); // default to English
 
   void setLocale(Locale locale) => emit(locale);
 }

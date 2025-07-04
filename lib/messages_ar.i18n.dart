@@ -102,6 +102,7 @@ class MessagesAr extends Messages {
   AccountMessagesAr get account => AccountMessagesAr(this);
   UserprofileMessagesAr get userprofile => UserprofileMessagesAr(this);
   PromoteMessagesAr get promote => PromoteMessagesAr(this);
+  DeletelistingMessagesAr get deletelisting => DeletelistingMessagesAr(this);
 }
 
 class AppMessagesAr extends AppMessages {
@@ -2391,6 +2392,37 @@ class PromoteMessagesAr extends PromoteMessages {
   String get purchasing => """جاري الشراء...""";
 }
 
+class DeletelistingMessagesAr extends DeletelistingMessages {
+  final MessagesAr _parent;
+  const DeletelistingMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "حذف الإعلان؟"
+  /// ```
+  String get title => """حذف الإعلان؟""";
+
+  /// ```dart
+  /// "هذا الإجراء لا يمكن التراجع عنه. هل تريد حقاً حذف هذا الإعلان؟"
+  /// ```
+  String get description =>
+      """هذا الإجراء لا يمكن التراجع عنه. هل تريد حقاً حذف هذا الإعلان؟""";
+
+  /// ```dart
+  /// "تحديد كـ مُباع"
+  /// ```
+  String get mark_as_sold => """تحديد كـ مُباع""";
+
+  /// ```dart
+  /// "حذف"
+  /// ```
+  String get delete => """حذف""";
+
+  /// ```dart
+  /// "تم حذف الإعلان بنجاح"
+  /// ```
+  String get success_message => """تم حذف الإعلان بنجاح""";
+}
+
 Map<String, String> get messagesArMap => {
   """app.title""": """Joplate""",
   """home.welcome""": """مرحبًا بك في Joplate!""",
@@ -2716,7 +2748,7 @@ Map<String, String> get messagesArMap => {
       """قد نقوم بتحديث سياسة الخصوصية من وقت لآخر. لذلك، يُنصح بمراجعة هذه الصفحة بشكل دوري لأي تغييرات. سنخطرك بأي تغييرات عن طريق نشر سياسة الخصوصية الجديدة على هذه الصفحة. هذه التغييرات سارية المفعول فور نشرها على هذه الصفحة.""",
   """privacy.contact""": """اتصل بنا""",
   """privacy.contact_text""":
-          """إذا كان لديك أي أسئلة أو اقتراحات حول سياسة الخصوصية، فلا تتردد في الاتصال بنا على jo1plates@outlook.com""",
+      """إذا كان لديك أي أسئلة أو اقتراحات حول سياسة الخصوصية، فلا تتردد في الاتصال بنا على jo1plates@outlook.com""",
   """terms.title""": """الشروط والأحكام""",
   """terms.effective_date""": """تاريخ النفاذ: 1 يناير 2023""",
   """terms.intro""":
@@ -2832,4 +2864,10 @@ Map<String, String> get messagesArMap => {
   """promote.make_featured""": """اجعلها مميزة""",
   """promote.loading""": """جاري التحميل...""",
   """promote.purchasing""": """جاري الشراء...""",
+  """deletelisting.title""": """حذف الإعلان؟""",
+  """deletelisting.description""":
+      """هذا الإجراء لا يمكن التراجع عنه. هل تريد حقاً حذف هذا الإعلان؟""",
+  """deletelisting.mark_as_sold""": """تحديد كـ مُباع""",
+  """deletelisting.delete""": """حذف""",
+  """deletelisting.success_message""": """تم حذف الإعلان بنجاح""",
 };

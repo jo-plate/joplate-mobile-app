@@ -481,3 +481,10 @@ promote:
   make_featured: "Make Featured"
   loading: "Loading..."
   purchasing: "Purchasing..."
+
+deletelisting:
+  title: "Delete listing?"
+  description: "This action is irreversible. Do you really want to delete this listing?"
+  mark_as_sold: "Mark as sold"
+  delete: "Delete"
+  success_message: "Listing deleted successfully"

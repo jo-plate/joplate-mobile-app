@@ -481,3 +481,10 @@ promote:
   make_featured: "اجعلها مميزة"
   loading: "جاري التحميل..."
   purchasing: "جاري الشراء..."
+
+deletelisting:
+  title: "حذف الإعلان؟"
+  description: "هذا الإجراء لا يمكن التراجع عنه. هل تريد حقاً حذف هذا الإعلان؟"
+  mark_as_sold: "تحديد كـ مُباع"
+  delete: "حذف"
+  success_message: "تم حذف الإعلان بنجاح"

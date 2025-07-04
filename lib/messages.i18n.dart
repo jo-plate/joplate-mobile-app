@@ -99,6 +99,7 @@ class Messages {
   AccountMessages get account => AccountMessages(this);
   UserprofileMessages get userprofile => UserprofileMessages(this);
   PromoteMessages get promote => PromoteMessages(this);
+  DeletelistingMessages get deletelisting => DeletelistingMessages(this);
 }
 
 class AppMessages {
@@ -2390,6 +2391,37 @@ class PromoteMessages {
   String get purchasing => """Purchasing...""";
 }
 
+class DeletelistingMessages {
+  final Messages _parent;
+  const DeletelistingMessages(this._parent);
+
+  /// ```dart
+  /// "Delete listing?"
+  /// ```
+  String get title => """Delete listing?""";
+
+  /// ```dart
+  /// "This action is irreversible. Do you really want to delete this listing?"
+  /// ```
+  String get description =>
+      """This action is irreversible. Do you really want to delete this listing?""";
+
+  /// ```dart
+  /// "Mark as sold"
+  /// ```
+  String get mark_as_sold => """Mark as sold""";
+
+  /// ```dart
+  /// "Delete"
+  /// ```
+  String get delete => """Delete""";
+
+  /// ```dart
+  /// "Listing deleted successfully"
+  /// ```
+  String get success_message => """Listing deleted successfully""";
+}
+
 Map<String, String> get messagesMap => {
   """app.title""": """Joplate""",
   """home.welcome""": """Welcome to Joplate!""",
@@ -2712,7 +2744,7 @@ Map<String, String> get messagesMap => {
       """We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Privacy Policy on this page. These changes are effective immediately after they are posted on this page.""",
   """privacy.contact""": """Contact Us""",
   """privacy.contact_text""":
-          """If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at jo1plates@outlook.com""",
+      """If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at jo1plates@outlook.com""",
   """terms.title""": """Terms & Conditions""",
   """terms.effective_date""": """Effective Date: January 1, 2023""",
   """terms.intro""":
@@ -2753,7 +2785,7 @@ Map<String, String> get messagesMap => {
       """We reserve the right to modify or replace these Terms at any time. We will provide notice of significant changes. Your continued use of the service after such changes constitutes your acceptance of the new Terms.""",
   """terms.contact""": """Contact Us""",
   """terms.contact_text""":
-          """If you have any questions about these Terms, please contact us at jo1plates@outlook.com""",
+      """If you have any questions about these Terms, please contact us at jo1plates@outlook.com""",
   """common.no_items_found""": """No items found""",
   """common.no_results_found""": """No results found""",
   """common.no_data_found""": """No data found""",
@@ -2831,4 +2863,10 @@ Map<String, String> get messagesMap => {
   """promote.make_featured""": """Make Featured""",
   """promote.loading""": """Loading...""",
   """promote.purchasing""": """Purchasing...""",
+  """deletelisting.title""": """Delete listing?""",
+  """deletelisting.description""":
+      """This action is irreversible. Do you really want to delete this listing?""",
+  """deletelisting.mark_as_sold""": """Mark as sold""",
+  """deletelisting.delete""": """Delete""",
+  """deletelisting.success_message""": """Listing deleted successfully""",
 };

@@ -8,6 +8,7 @@ import 'package:joplate/domain/entities/phone_number.dart';
 import 'package:joplate/domain/entities/plate_number.dart';
 import 'package:joplate/injection/injector.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 
 class DeleteListingDialog extends StatefulWidget {
   const DeleteListingDialog({
@@ -74,7 +75,8 @@ class _DeleteListingDialogState extends State<DeleteListingDialog> {
       }
       if (context.mounted) {
         Navigator.of(context).pop(); // close dialog
-        AppSnackbar.showSuccess('Listing deleted successfully');
+        final l10n = Localization.of(context);
+        AppSnackbar.showSuccess(l10n.deletelisting.success_message);
       }
     } on FirebaseFunctionsException catch (e) {
       AppSnackbar.showError(
@@ -87,20 +89,20 @@ class _DeleteListingDialogState extends State<DeleteListingDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = Localization.of(context);
     return AlertDialog(
-      title: const Text('Delete listing?'),
+      title: Text(l10n.deletelisting.title),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
-              'This action is irreversible. Do you really want to delete this listing?'),
+          Text(l10n.deletelisting.description),
           const SizedBox(height: 12),
           CheckboxListTile(
             dense: true,
             contentPadding: EdgeInsets.zero,
             value: markAsSold,
             onChanged: (val) => setState(() => markAsSold = val ?? false),
-            title: const Text('Mark as sold'),
+            title: Text(l10n.deletelisting.mark_as_sold),
             controlAffinity: ListTileControlAffinity.leading,
           ),
         ],
@@ -108,7 +110,7 @@ class _DeleteListingDialogState extends State<DeleteListingDialog> {
       actions: [
         TextButton(
           onPressed: submitting ? null : () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: Text(l10n.common.cancel),
         ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
@@ -117,7 +119,7 @@ class _DeleteListingDialogState extends State<DeleteListingDialog> {
           onPressed: submitting ? null : _submit,
           child: submitting
               ? const CircularProgressIndicator()
-              : const Text('Delete', style: TextStyle(color: Colors.white)),
+              : Text(l10n.deletelisting.delete, style: const TextStyle(color: Colors.white)),
         ),
       ],
     );

@@ -25,6 +25,7 @@ import '../presentation/cubits/iap_cubit.dart' as _i762;
 import '../presentation/cubits/localization/localization_cubit.dart' as _i340;
 import '../presentation/cubits/theme_cubit.dart' as _i203;
 import '../presentation/widgets/app_snackbar.dart' as _i985;
+import '../services/rate_app_service.dart' as _i58;
 import 'modules/shared_prefs_module.dart' as _i913;
 
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -55,6 +56,8 @@ Future<_i174.GetIt> $initGetIt(
   gh.lazySingleton<_i340.LocalizationCubit>(() => _i340.LocalizationCubit());
   gh.singleton<_i203.ThemeCubit>(
       () => _i203.ThemeCubit(gh<_i460.SharedPreferences>()));
+  gh.lazySingleton<_i58.RateAppService>(
+      () => _i58.RateAppService(gh<_i460.SharedPreferences>()));
   gh.singleton<_i352.AuthCubit>(
       () => _i352.AuthCubit(gh<_i832.FirestoreUserRepository>()));
   gh.lazySingleton<_i63.ATPPCubit>(
