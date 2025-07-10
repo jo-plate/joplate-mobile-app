@@ -132,7 +132,7 @@ class AuthCubit extends Cubit<AuthState> {
         actionCodeSettings: ActionCodeSettings(
           handleCodeInApp: true,
           url: 'https://joplate.page.link/reset',
-          androidPackageName: 'com.joplate.app',
+          androidPackageName: 'com.joplate.joplate',
           iOSBundleId: 'com.joplate.joplate',
         ),
       );
