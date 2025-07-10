@@ -7,6 +7,8 @@ import 'package:joplate/presentation/routes/pages/add_plate_number_screen/cubit/
 import 'package:joplate/presentation/routes/pages/add_plate_number_screen/ui/single_plate_form.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
+import 'package:joplate/services/rate_app_service.dart';
+import 'package:get_it/get_it.dart';
 
 @RoutePage()
 class AddPlateNumberPage extends StatefulWidget {
@@ -72,6 +74,9 @@ class _AddPlateNumberPageState extends State<AddPlateNumberPage> {
                             onPressed: () async {
                               await cubit.submitAllForms(
                                 onSuccess: (listingId) {
+                                  final rateAppService = GetIt.instance<RateAppService>();
+                                  rateAppService.onListingPosted(context);
+                                  
                                   AutoRouter.of(context).replace(PlatesDetailsRoute(listingId: listingId));
                                 },
                                 onError: (msg) {

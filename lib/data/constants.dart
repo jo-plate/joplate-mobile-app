@@ -22,6 +22,7 @@ const postRequestCF = 'postRequest';
 const updateListingCF = 'updateListing';
 const updateRequestCF = 'updateRequest';
 const deleteItemCF = 'deleteItem';
+const republishItemCF = 'republishItem';
 const featureListingCF = 'featureListing';
 const redeemPurchaseCF = 'redeemPurchase';
 const logVisitCF = 'logVisit';

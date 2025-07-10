@@ -1,11 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:joplate/data/constants.dart';
 import 'package:joplate/domain/dto/add_listing_dto.dart';
 import 'package:joplate/domain/entities/user_plans.dart';
 import 'package:joplate/presentation/widgets/icons/plan_icon.dart';
 import 'package:joplate/presentation/widgets/promote_prompt_dialog.dart';
+import 'package:joplate/presentation/i18n/localization_provider.dart';
 
 class PromoteListingButton extends StatefulWidget {
   const PromoteListingButton({super.key, required this.listingId, required this.itemType});
@@ -26,17 +27,13 @@ class _PromoteListingButtonState extends State<PromoteListingButton> {
         .collection(userPlansCollectionId)
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .snapshots()
-        .map((snapshot) {
-      if (snapshot.exists) {
-        return UserPlans.fromJson(snapshot.data()!);
-      } else {
-        return UserPlans.freePlan();
-      }
-    });
+        .map((snapshot) => UserPlans.fromJson(snapshot.data()!));
   }
 
   @override
   Widget build(BuildContext context) {
+    final m = Localization.of(context);
+    
     return StreamBuilder<UserPlans>(
         stream: _userPlansStream,
         builder: (context, snapshot) {
@@ -60,9 +57,9 @@ class _PromoteListingButtonState extends State<PromoteListingButton> {
                 builder: (_) => PromotePromptDialog(listingId: widget.listingId, itemType: widget.itemType),
               );
             },
-            label: const Text(
-              'Promote Listing',
-              style: TextStyle(color: Colors.white),
+            label: Text(
+              m.promote.promote_button,
+              style: const TextStyle(color: Colors.white),
             ),
             icon: (snapshot.data?.goldenTickets ?? 0) == 0
                 ? const Icon(

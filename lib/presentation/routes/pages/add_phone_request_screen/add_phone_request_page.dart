@@ -9,6 +9,8 @@ import 'package:joplate/presentation/routes/pages/add_phone_request_screen/cubit
 import 'package:joplate/presentation/routes/pages/add_phone_request_screen/ui/single_phone_request_form.dart';
 
 import 'package:joplate/presentation/routes/router.dart';
+import 'package:joplate/services/rate_app_service.dart';
+import 'package:get_it/get_it.dart';
 
 @RoutePage()
 class AddPhoneRequestPage extends StatelessWidget {
@@ -48,6 +50,10 @@ class AddPhoneRequestPage extends StatelessWidget {
                                   !cubit.state.isSubmitting &&
                                   cubit.state.phoneNumber.isEmpty &&
                                   (cubit.state.price ?? '').isEmpty) {
+                                // Call rate app service after successful request creation
+                                final rateAppService = GetIt.instance<RateAppService>();
+                                rateAppService.onListingPosted(context);
+                                
                                 // e.g., navigate away
                                 AutoRouter.of(context).replace(const MyRequestsRoute());
                               }

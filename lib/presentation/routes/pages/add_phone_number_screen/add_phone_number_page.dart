@@ -7,6 +7,8 @@ import 'package:joplate/presentation/routes/pages/add_phone_number_screen/cubit/
 import 'package:joplate/presentation/routes/pages/add_phone_number_screen/ui/single_phone_form.dart';
 import 'package:joplate/presentation/routes/router.dart'; // import your router
 import 'package:joplate/presentation/widgets/app_snackbar.dart';
+import 'package:joplate/services/rate_app_service.dart';
+import 'package:get_it/get_it.dart';
 
 @RoutePage()
 class AddPhoneNumberPage extends StatelessWidget {
@@ -66,6 +68,10 @@ class AddPhoneNumberPage extends StatelessWidget {
                             onPressed: () async {
                               await cubit.submitAllForms(
                                 onSuccess: (listingId) {
+                                  // Call rate app service after successful listing creation
+                                  final rateAppService = GetIt.instance<RateAppService>();
+                                  rateAppService.onListingPosted(context);
+                                  
                                   AutoRouter.of(context).replace(PhoneDetailsRoute(listingId: listingId));
                                 },
                                 onError: (msg) {

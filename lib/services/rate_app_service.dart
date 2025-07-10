@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:get_it/get_it.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 @lazySingleton
 class RateAppService {
@@ -17,34 +18,76 @@ class RateAppService {
 
   RateAppService(this._prefs);
 
+  // Get user-specific keys
+  String get _userListingCountKey => '${_listingCountKey}_${_getCurrentUserId()}';
+  String get _userHasRatedKey => '${_hasRatedKey}_${_getCurrentUserId()}';
+  String get _userNeverShowAgainKey => '${_neverShowAgainKey}_${_getCurrentUserId()}';
+  String get _userLastShownKey => '${_lastShownKey}_${_getCurrentUserId()}';
+
+  String _getCurrentUserId() {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    return currentUser?.uid ?? 'anonymous';
+  }
+
   Future<void> incrementListingCount() async {
-    final currentCount = _prefs.getInt(_listingCountKey) ?? 0;
-    await _prefs.setInt(_listingCountKey, currentCount + 1);
+    final currentCount = _prefs.getInt(_userListingCountKey) ?? 0;
+    final newCount = currentCount + 1;
+    await _prefs.setInt(_userListingCountKey, newCount);
+    print('🔢 RateAppService: Incremented listing count to $newCount for user ${_getCurrentUserId()}');
   }
 
   Future<bool> shouldShowRateModal() async {
     // Don't show if user has already rated or selected never show again
-    if (_prefs.getBool(_hasRatedKey) ?? false) return false;
-    if (_prefs.getBool(_neverShowAgainKey) ?? false) return false;
+    final hasRated = _prefs.getBool(_userHasRatedKey) ?? false;
+    final neverShowAgain = _prefs.getBool(_userNeverShowAgainKey) ?? false;
+    
+    print('🔍 RateAppService: hasRated=$hasRated, neverShowAgain=$neverShowAgain for user ${_getCurrentUserId()}');
 
-    final currentCount = _prefs.getInt(_listingCountKey) ?? 0;
-    final lastShown = _prefs.getInt(_lastShownKey) ?? 0;
+    if (hasRated) {
+      print('❌ RateAppService: Not showing modal - user already rated');
+      return false;
+    }
+    if (neverShowAgain) {
+      print('❌ RateAppService: Not showing modal - user selected never show again');
+      return false;
+    }
 
-    // Show every 5 listings, but not if we've already shown it for this interval
-    return currentCount >= _showEveryNListings && currentCount - lastShown >= _showEveryNListings;
+    final currentCount = _prefs.getInt(_userListingCountKey) ?? 0;
+    final lastShown = _prefs.getInt(_userLastShownKey) ?? 0;
+
+    print('🔍 RateAppService: currentCount=$currentCount, lastShown=$lastShown');
+
+    // Show after the first listing
+    if (currentCount == 1 && lastShown == 0) {
+      print('✅ RateAppService: Should show modal - first listing');
+      return true;
+    }
+
+    // Show every 5 listings after the first one, but not if we've already shown it for this interval
+    if (currentCount > 1) {
+      final shouldShow = currentCount - lastShown >= _showEveryNListings;
+      print('✅ RateAppService: Should show modal after ${currentCount} listings: $shouldShow');
+      return shouldShow;
+    }
+
+    print('❌ RateAppService: Not showing modal - conditions not met');
+    return false;
   }
 
   Future<void> markRateModalShown() async {
-    final currentCount = _prefs.getInt(_listingCountKey) ?? 0;
-    await _prefs.setInt(_lastShownKey, currentCount);
+    final currentCount = _prefs.getInt(_userListingCountKey) ?? 0;
+    await _prefs.setInt(_userLastShownKey, currentCount);
+    print('✅ RateAppService: Marked modal as shown at count $currentCount for user ${_getCurrentUserId()}');
   }
 
   Future<void> markUserRated() async {
-    await _prefs.setBool(_hasRatedKey, true);
+    await _prefs.setBool(_userHasRatedKey, true);
+    print('✅ RateAppService: Marked user as rated: ${_getCurrentUserId()}');
   }
 
   Future<void> markNeverShowAgain() async {
-    await _prefs.setBool(_neverShowAgainKey, true);
+    await _prefs.setBool(_userNeverShowAgainKey, true);
+    print('✅ RateAppService: Marked never show again for user: ${_getCurrentUserId()}');
   }
 
   Future<bool> isAvailable() async {
@@ -61,135 +104,37 @@ class RateAppService {
 
   // Method to be called after successful listing/request posting
   Future<void> onListingPosted(BuildContext context) async {
+    print('🚀 RateAppService: onListingPosted called');
+    
     await incrementListingCount();
 
     if (await shouldShowRateModal()) {
+      print('🎉 RateAppService: Showing rate modal');
       await markRateModalShown();
 
-      // Show the rate modal
-      if (context.mounted) {
-        _showRateModal(context);
-      }
+      // Show the native rate modal directly
+      await _showNativeRateModal();
+    } else {
+      print('❌ RateAppService: Not showing rate modal');
     }
   }
 
-  void _showRateModal(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (context) => const RateAppModal(),
-    );
-  }
-}
-
-class RateAppModal extends StatelessWidget {
-  const RateAppModal({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      contentPadding: const EdgeInsets.all(24),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(
-            Icons.star_rounded,
-            size: 48,
-            color: Colors.amber,
-          ),
-          const SizedBox(height: 16),
-          const Text(
-            'Enjoying Joplate?',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            'Your feedback helps us improve! A 5-star rating would mean the world to us 🌟',
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 24),
-          Row(
-            children: [
-              Expanded(
-                child: TextButton(
-                  onPressed: () async {
-                    final service = GetIt.instance<RateAppService>();
-                    await service.markNeverShowAgain();
-                    if (context.mounted) {
-                      Navigator.of(context).pop();
-                    }
-                  },
-                  child: const Text(
-                    'Never ask again',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: const Text('Maybe later'),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () async {
-                    final service = GetIt.instance<RateAppService>();
-                    await service.markUserRated();
-
-                    if (await service.isAvailable()) {
-                      await service.requestReview();
-                    } else {
-                      await service.openStoreListing();
-                    }
-
-                    if (context.mounted) {
-                      Navigator.of(context).pop();
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF981C1E),
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: const Text('Rate 5 stars ⭐'),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+  Future<void> _showNativeRateModal() async {
+    print('📱 RateAppService: Displaying native rate modal directly');
+    
+    try {
+      if (await isAvailable()) {
+        print('✅ RateAppService: In-app review available, requesting review');
+        await requestReview();
+      } else {
+        print('❌ RateAppService: In-app review not available, opening store listing');
+        await openStoreListing();
+      }
+      
+      // Mark user as rated since they interacted with the native modal
+      await markUserRated();
+    } catch (e) {
+      print('❌ RateAppService: Error showing native modal: $e');
+    }
   }
 }

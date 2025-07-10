@@ -53,9 +53,10 @@ Future<_i174.GetIt> $initGetIt(
   gh.lazySingleton<_i894.FCMService>(() => _i894.FCMService());
   gh.lazySingleton<_i871.FirestoreListingRepository>(
       () => _i871.FirestoreListingRepository());
-  gh.lazySingleton<_i340.LocalizationCubit>(() => _i340.LocalizationCubit());
   gh.singleton<_i203.ThemeCubit>(
       () => _i203.ThemeCubit(gh<_i460.SharedPreferences>()));
+  gh.singleton<_i340.LocalizationCubit>(
+      () => _i340.LocalizationCubit(gh<_i460.SharedPreferences>()));
   gh.lazySingleton<_i58.RateAppService>(
       () => _i58.RateAppService(gh<_i460.SharedPreferences>()));
   gh.singleton<_i352.AuthCubit>(

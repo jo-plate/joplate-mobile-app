@@ -10,8 +10,9 @@ import 'package:joplate/domain/entities/plate_listing.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/plate_number_listing_widget.dart';
-import 'package:joplate/presentation/widgets/app_bar.dart/promote_listing_button.dart';
+import 'package:joplate/presentation/widgets/app_bar.dart/republish_listing_button.dart';
 import 'package:joplate/presentation/widgets/delete_item_popup.dart';
+import 'package:joplate/presentation/widgets/republish_item_popup.dart';
 import 'package:joplate/presentation/widgets/description_widget.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
 import 'package:joplate/presentation/widgets/other_sellers_table.dart';
@@ -86,6 +87,10 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
           print(snapshot.data);
           return Scaffold(
               appBar: AppBar(
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
                 title: Text(m.platesdetails.title),
                 actions: [
                   FavoriteButton.plate(listingId: widget.listingId),
@@ -100,6 +105,22 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                       },
                     ),
                     const SizedBox(width: 16),
+                    if (snapshot.data!.isExpired)
+                      GestureDetector(
+                        child: const Icon(Icons.refresh),
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (_) => RepublishItemDialog(
+                              listingId: widget.listingId,
+                              itemType: ItemType.plateNumber,
+                              listingType: ListingType.ad,
+                              plateNumber: snapshot.data!.item,
+                            ),
+                          );
+                        },
+                      ),
+                    if (snapshot.data!.isExpired) const SizedBox(width: 16),
                     GestureDetector(
                       child: const Icon(Icons.delete_outline),
                       onTap: () {
@@ -155,11 +176,13 @@ class _PlatesDetailsPageState extends State<PlatesDetailsPage> {
                           ),
                       ]
                     ],
-                    if (!(snapshot.data?.isFeatured ?? false) &&
-                        (FirebaseAuth.instance.currentUser?.uid ?? '') == snapshot.data!.userId &&
-                        !snapshot.data!.isSold) ...[
+                    // Show republish button for expired listings owned by current user
+                    if (snapshot.data!.isExpired &&
+                        snapshot.data!.userId == FirebaseAuth.instance.currentUser?.uid &&
+                        !snapshot.data!.isSold &&
+                        !snapshot.data!.isDisabled) ...[
                       const SizedBox(height: 8),
-                      PromoteListingButton(listingId: snapshot.data!.id, itemType: ItemType.plateNumber),
+                      RepublishListingButton.plate(plateListing: snapshot.data!),
                     ],
                     const SizedBox(height: 16),
                     if (snapshot.data!.description.isNotEmpty) ...[

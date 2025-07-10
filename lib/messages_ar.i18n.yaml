@@ -442,6 +442,13 @@ common:
   activation_success: "✅ تم تفعيل التذكرة بنجاح"
   activation_failed: "❌ فشل التفعيل: "
   unknown_error: "خطأ غير معروف"
+  republish: "إعادة نشر"
+  republish_success: "تم إعادة نشر الإعلان بنجاح!"
+  republish_failed: "فشل في إعادة نشر الإعلان"
+  upgrade_app: "تحديث التطبيق؟"
+  upgrade_app_content: "يتوفر إصدار جديد من التطبيق. يرجى التحديث للحصول على أحدث الميزات والتحسينات."
+  upgrade_later: "لاحقاً"
+  upgrade_update: "تحديث"
 
 listingstatus:
   featured: "مميز"
@@ -488,3 +495,10 @@ deletelisting:
   mark_as_sold: "تحديد كـ مُباع"
   delete: "حذف"
   success_message: "تم حذف الإعلان بنجاح"
+
+republish:
+  title: "إعادة نشر الإعلان؟"
+  description: "سيتم تمديد تاريخ انتهاء الإعلان لـ 30 يوم إضافي."
+  extend_one_week: "سيتم تمديد تاريخ الانتهاء لـ 30 يوم من اليوم"
+  confirm: "إعادة نشر"
+  success_message: "تم إعادة نشر الإعلان بنجاح"

@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:joplate/data/constants.dart';
+import 'package:joplate/data/services/fcm_service.dart';
 import 'package:joplate/domain/dto/login_input.dart';
 import 'package:joplate/domain/dto/signup_input.dart';
 import 'package:joplate/domain/entities/user_profile.dart';
@@ -45,6 +46,14 @@ class AuthCubit extends Cubit<AuthState> {
         await _analytics.setUserProperty(name: 'email', value: user.email);
         await _analytics.setUserProperty(name: 'name', value: userProfile.displayName);
         await _analytics.setUserProperty(name: 'phone', value: userProfile.phonenumber);
+
+        // Update FCM token on login or app reopen
+        try {
+          final fcmService = injector.get<FCMService>();
+          await fcmService.updateFCMTokenOnLoginOrAppReopen();
+        } catch (e) {
+          print('Error updating FCM token in auth listener: $e');
+        }
 
         emit(state.copyWith(user: user, userProfile: userProfile));
       } else {
