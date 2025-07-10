@@ -16,6 +16,31 @@
       "api_key": [
         {
           "current_key": "AIzaSyD9CU6-A8fkmsdLk5051EmvEjAwFFGuEbk"
+        },
+        {
+          "current_key": "AIzaSyCOJ89yhqRJJ1GMBjhw3pPOWmtDM_RTFRc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:907242765194:android:4b5393c9c9d5ca2da7e673",
+        "android_client_info": {
+          "package_name": "com.joplate.joplate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9CU6-A8fkmsdLk5051EmvEjAwFFGuEbk"
+        },
+        {
+          "current_key": "AIzaSyCOJ89yhqRJJ1GMBjhw3pPOWmtDM_RTFRc"
         }
       ],
       "services": {

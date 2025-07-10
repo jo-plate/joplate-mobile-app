@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyD9CU6-A8fkmsdLk5051EmvEjAwFFGuEbk',
-    appId: '1:907242765194:android:4d4b09700f84bebea7e673',
+    appId: '1:907242765194:android:4b5393c9c9d5ca2da7e673',
     messagingSenderId: '907242765194',
     projectId: 'joplate',
     storageBucket: 'joplate.firebasestorage.app',
