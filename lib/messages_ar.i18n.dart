@@ -103,6 +103,7 @@ class MessagesAr extends Messages {
   UserprofileMessagesAr get userprofile => UserprofileMessagesAr(this);
   PromoteMessagesAr get promote => PromoteMessagesAr(this);
   DeletelistingMessagesAr get deletelisting => DeletelistingMessagesAr(this);
+  RepublishMessagesAr get republish => RepublishMessagesAr(this);
 }
 
 class AppMessagesAr extends AppMessages {
@@ -2215,6 +2216,42 @@ class CommonMessagesAr extends CommonMessages {
   /// "خطأ غير معروف"
   /// ```
   String get unknown_error => """خطأ غير معروف""";
+
+  /// ```dart
+  /// "إعادة نشر"
+  /// ```
+  String get republish => """إعادة نشر""";
+
+  /// ```dart
+  /// "تم إعادة نشر الإعلان بنجاح!"
+  /// ```
+  String get republish_success => """تم إعادة نشر الإعلان بنجاح!""";
+
+  /// ```dart
+  /// "فشل في إعادة نشر الإعلان"
+  /// ```
+  String get republish_failed => """فشل في إعادة نشر الإعلان""";
+
+  /// ```dart
+  /// "تحديث التطبيق؟"
+  /// ```
+  String get upgrade_app => """تحديث التطبيق؟""";
+
+  /// ```dart
+  /// "يتوفر إصدار جديد من التطبيق. يرجى التحديث للحصول على أحدث الميزات والتحسينات."
+  /// ```
+  String get upgrade_app_content =>
+      """يتوفر إصدار جديد من التطبيق. يرجى التحديث للحصول على أحدث الميزات والتحسينات.""";
+
+  /// ```dart
+  /// "لاحقاً"
+  /// ```
+  String get upgrade_later => """لاحقاً""";
+
+  /// ```dart
+  /// "تحديث"
+  /// ```
+  String get upgrade_update => """تحديث""";
 }
 
 class ListingstatusMessagesAr extends ListingstatusMessages {
@@ -2421,6 +2458,38 @@ class DeletelistingMessagesAr extends DeletelistingMessages {
   /// "تم حذف الإعلان بنجاح"
   /// ```
   String get success_message => """تم حذف الإعلان بنجاح""";
+}
+
+class RepublishMessagesAr extends RepublishMessages {
+  final MessagesAr _parent;
+  const RepublishMessagesAr(this._parent) : super(_parent);
+
+  /// ```dart
+  /// "إعادة نشر الإعلان؟"
+  /// ```
+  String get title => """إعادة نشر الإعلان؟""";
+
+  /// ```dart
+  /// "سيتم تمديد تاريخ انتهاء الإعلان لـ 30 يوم إضافي."
+  /// ```
+  String get description =>
+      """سيتم تمديد تاريخ انتهاء الإعلان لـ 30 يوم إضافي.""";
+
+  /// ```dart
+  /// "سيتم تمديد تاريخ الانتهاء لـ 30 يوم من اليوم"
+  /// ```
+  String get extend_one_week =>
+      """سيتم تمديد تاريخ الانتهاء لـ 30 يوم من اليوم""";
+
+  /// ```dart
+  /// "إعادة نشر"
+  /// ```
+  String get confirm => """إعادة نشر""";
+
+  /// ```dart
+  /// "تم إعادة نشر الإعلان بنجاح"
+  /// ```
+  String get success_message => """تم إعادة نشر الإعلان بنجاح""";
 }
 
 Map<String, String> get messagesArMap => {
@@ -2831,6 +2900,14 @@ Map<String, String> get messagesArMap => {
   """common.activation_success""": """✅ تم تفعيل التذكرة بنجاح""",
   """common.activation_failed""": """❌ فشل التفعيل: """,
   """common.unknown_error""": """خطأ غير معروف""",
+  """common.republish""": """إعادة نشر""",
+  """common.republish_success""": """تم إعادة نشر الإعلان بنجاح!""",
+  """common.republish_failed""": """فشل في إعادة نشر الإعلان""",
+  """common.upgrade_app""": """تحديث التطبيق؟""",
+  """common.upgrade_app_content""":
+      """يتوفر إصدار جديد من التطبيق. يرجى التحديث للحصول على أحدث الميزات والتحسينات.""",
+  """common.upgrade_later""": """لاحقاً""",
+  """common.upgrade_update""": """تحديث""",
   """listingstatus.featured""": """مميز""",
   """listingstatus.active""": """نشط""",
   """listingstatus.inactive""": """غير نشط""",
@@ -2870,4 +2947,11 @@ Map<String, String> get messagesArMap => {
   """deletelisting.mark_as_sold""": """تحديد كـ مُباع""",
   """deletelisting.delete""": """حذف""",
   """deletelisting.success_message""": """تم حذف الإعلان بنجاح""",
+  """republish.title""": """إعادة نشر الإعلان؟""",
+  """republish.description""":
+      """سيتم تمديد تاريخ انتهاء الإعلان لـ 30 يوم إضافي.""",
+  """republish.extend_one_week""":
+      """سيتم تمديد تاريخ الانتهاء لـ 30 يوم من اليوم""",
+  """republish.confirm""": """إعادة نشر""",
+  """republish.success_message""": """تم إعادة نشر الإعلان بنجاح""",
 };

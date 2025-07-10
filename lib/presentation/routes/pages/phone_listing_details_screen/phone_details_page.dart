@@ -10,8 +10,9 @@ import 'package:joplate/domain/entities/phone_listing.dart';
 import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/router.dart';
 import 'package:joplate/presentation/widgets/app_bar.dart/phone_number_listing_widget.dart';
-import 'package:joplate/presentation/widgets/app_bar.dart/promote_listing_button.dart';
+import 'package:joplate/presentation/widgets/app_bar.dart/republish_listing_button.dart';
 import 'package:joplate/presentation/widgets/delete_item_popup.dart';
+import 'package:joplate/presentation/widgets/republish_item_popup.dart';
 import 'package:joplate/presentation/widgets/description_widget.dart';
 import 'package:joplate/presentation/widgets/favorite_button.dart';
 import 'package:joplate/presentation/widgets/user_details_widget.dart';
@@ -105,6 +106,22 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
                   },
                 ),
                 const SizedBox(width: 16),
+                if (phone.isExpired)
+                  GestureDetector(
+                    child: const Icon(Icons.refresh),
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (_) => RepublishItemDialog(
+                          listingId: widget.listingId,
+                          itemType: ItemType.phoneNumber,
+                          listingType: ListingType.ad,
+                          phoneNumber: phone.item,
+                        ),
+                      );
+                    },
+                  ),
+                if (phone.isExpired) const SizedBox(width: 16),
                 GestureDetector(
                   child: const Icon(Icons.delete_outline),
                   onTap: () {
@@ -162,11 +179,13 @@ class _PhoneDetailsPageState extends State<PhoneDetailsPage> {
                       style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                     ),
                 ],
-                if (!(snapshot.data?.isFeatured ?? false) &&
-                    (FirebaseAuth.instance.currentUser?.uid ?? '') == snapshot.data!.userId &&
-                    !snapshot.data!.isSold) ...[
+                // Show republish button for expired listings owned by current user
+                if (phone.isExpired &&
+                    phone.userId == FirebaseAuth.instance.currentUser?.uid &&
+                    !phone.isSold &&
+                    !phone.isDisabled) ...[
                   const SizedBox(height: 8),
-                  PromoteListingButton(listingId: snapshot.data!.id, itemType: ItemType.phoneNumber),
+                  RepublishListingButton.phone(phoneListing: phone),
                 ],
                 const SizedBox(
                   height: 16,

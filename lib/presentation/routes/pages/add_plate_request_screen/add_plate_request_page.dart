@@ -7,6 +7,8 @@ import 'package:joplate/presentation/i18n/localization_provider.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_request_screen/cubit/add_plate_request_cubit.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_request_screen/cubit/add_plate_request_state.dart';
 import 'package:joplate/presentation/routes/pages/add_plate_request_screen/ui/single_plate_request_form.dart';
+import 'package:joplate/services/rate_app_service.dart';
+import 'package:get_it/get_it.dart';
 
 @RoutePage()
 class AddPlateRequestPage extends StatelessWidget {
@@ -40,6 +42,10 @@ class AddPlateRequestPage extends StatelessWidget {
                             : () async {
                                 await cubit.submitRequest();
                                 if (context.mounted && cubit.state.errorMessage == null && !cubit.state.isSubmitting) {
+                                  // Call rate app service after successful request creation
+                                  final rateAppService = GetIt.instance<RateAppService>();
+                                  rateAppService.onListingPosted(context);
+                                  
                                   AutoRouter.of(context).maybePop();
                                 }
                               },

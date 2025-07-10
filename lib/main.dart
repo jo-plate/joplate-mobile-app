@@ -32,6 +32,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:joplate/domain/entities/user_notification.dart';
 import 'package:joplate/domain/entities/user_notifications.dart';
+import 'package:upgrader/upgrader.dart';
+import 'package:joplate/presentation/widgets/delayed_upgrade_alert.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -94,6 +96,9 @@ void main() async {
   await fcmService.initialize();
   developer.log('FCM service initialized', name: 'main');
 
+  // Note: FCM token will be updated automatically when user is authenticated
+  // via AuthCubit auth state listener - no need to call here
+
   FlutterError.onError = (FlutterErrorDetails details) {
     developer.log('Flutter error: ${details.exception}',
         name: 'main', error: details.exception, stackTrace: details.stack);
@@ -121,7 +126,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => injector<AuthCubit>()),
-        BlocProvider(create: (context) => injector<LocalizationCubit>()),
+        BlocProvider(create: (context) => injector<LocalizationCubit>()..loadLanguage()),
         BlocProvider(create: (context) {
           developer.log('Creating IAPCubit', name: 'main');
           final cubit = injector<IAPCubit>();
@@ -168,7 +173,18 @@ class MyApp extends StatelessWidget {
                       child: Navigator(
                         key: navigatorKey,
                         onGenerateRoute: (settings) => MaterialPageRoute(
-                          builder: (context) => widget!,
+                          builder: (context) => DelayedUpgradeAlert(
+                            navigatorKey: navigatorKey,
+                            upgrader: Upgrader(
+                              debugDisplayAlways: false, // Set to true for testing
+                              debugDisplayOnce: false, // Allow multiple shows
+                              debugLogging: true, // Enable debug logging
+                              durationUntilAlertAgain: const Duration(seconds: 1), // Show immediately for testing
+                              minAppVersion: '0.0.1', // Force update check
+                              countryCode: 'JO', // Jordan App Store
+                            ),
+                            child: widget!,
+                          ),
                         ),
                       ),
                     ),

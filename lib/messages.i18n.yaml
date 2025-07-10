@@ -442,6 +442,13 @@ common:
   activation_success: "✅ Ticket activated successfully"
   activation_failed: "❌ Activation failed: "
   unknown_error: "Unknown error"
+  republish: "Republish"
+  republish_success: "Listing republished successfully!"
+  republish_failed: "Failed to republish listing"
+  upgrade_app: "Update App?"
+  upgrade_app_content: "A new version of the app is available. Please update to get the latest features and improvements."
+  upgrade_later: "Later"
+  upgrade_update: "Update"
 
 listingstatus:
   featured: "Featured"
@@ -488,3 +495,10 @@ deletelisting:
   mark_as_sold: "Mark as sold"
   delete: "Delete"
   success_message: "Listing deleted successfully"
+
+republish:
+  title: "Republish listing?"
+  description: "This will extend your listing's expiry date by 30 days."
+  extend_one_week: "Expiry date will be extended by 30 days from today"
+  confirm: "Republish"
+  success_message: "Listing republished successfully"

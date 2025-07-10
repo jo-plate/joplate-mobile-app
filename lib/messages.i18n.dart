@@ -100,6 +100,7 @@ class Messages {
   UserprofileMessages get userprofile => UserprofileMessages(this);
   PromoteMessages get promote => PromoteMessages(this);
   DeletelistingMessages get deletelisting => DeletelistingMessages(this);
+  RepublishMessages get republish => RepublishMessages(this);
 }
 
 class AppMessages {
@@ -2211,6 +2212,42 @@ class CommonMessages {
   /// "Unknown error"
   /// ```
   String get unknown_error => """Unknown error""";
+
+  /// ```dart
+  /// "Republish"
+  /// ```
+  String get republish => """Republish""";
+
+  /// ```dart
+  /// "Listing republished successfully!"
+  /// ```
+  String get republish_success => """Listing republished successfully!""";
+
+  /// ```dart
+  /// "Failed to republish listing"
+  /// ```
+  String get republish_failed => """Failed to republish listing""";
+
+  /// ```dart
+  /// "Update App?"
+  /// ```
+  String get upgrade_app => """Update App?""";
+
+  /// ```dart
+  /// "A new version of the app is available. Please update to get the latest features and improvements."
+  /// ```
+  String get upgrade_app_content =>
+      """A new version of the app is available. Please update to get the latest features and improvements.""";
+
+  /// ```dart
+  /// "Later"
+  /// ```
+  String get upgrade_later => """Later""";
+
+  /// ```dart
+  /// "Update"
+  /// ```
+  String get upgrade_update => """Update""";
 }
 
 class ListingstatusMessages {
@@ -2420,6 +2457,38 @@ class DeletelistingMessages {
   /// "Listing deleted successfully"
   /// ```
   String get success_message => """Listing deleted successfully""";
+}
+
+class RepublishMessages {
+  final Messages _parent;
+  const RepublishMessages(this._parent);
+
+  /// ```dart
+  /// "Republish listing?"
+  /// ```
+  String get title => """Republish listing?""";
+
+  /// ```dart
+  /// "This will extend your listing's expiry date by 30 days."
+  /// ```
+  String get description =>
+      """This will extend your listing's expiry date by 30 days.""";
+
+  /// ```dart
+  /// "Expiry date will be extended by 30 days from today"
+  /// ```
+  String get extend_one_week =>
+      """Expiry date will be extended by 30 days from today""";
+
+  /// ```dart
+  /// "Republish"
+  /// ```
+  String get confirm => """Republish""";
+
+  /// ```dart
+  /// "Listing republished successfully"
+  /// ```
+  String get success_message => """Listing republished successfully""";
 }
 
 Map<String, String> get messagesMap => {
@@ -2828,6 +2897,14 @@ Map<String, String> get messagesMap => {
   """common.activation_success""": """✅ Ticket activated successfully""",
   """common.activation_failed""": """❌ Activation failed: """,
   """common.unknown_error""": """Unknown error""",
+  """common.republish""": """Republish""",
+  """common.republish_success""": """Listing republished successfully!""",
+  """common.republish_failed""": """Failed to republish listing""",
+  """common.upgrade_app""": """Update App?""",
+  """common.upgrade_app_content""":
+      """A new version of the app is available. Please update to get the latest features and improvements.""",
+  """common.upgrade_later""": """Later""",
+  """common.upgrade_update""": """Update""",
   """listingstatus.featured""": """Featured""",
   """listingstatus.active""": """Active""",
   """listingstatus.inactive""": """Inactive""",
@@ -2869,4 +2946,11 @@ Map<String, String> get messagesMap => {
   """deletelisting.mark_as_sold""": """Mark as sold""",
   """deletelisting.delete""": """Delete""",
   """deletelisting.success_message""": """Listing deleted successfully""",
+  """republish.title""": """Republish listing?""",
+  """republish.description""":
+      """This will extend your listing's expiry date by 30 days.""",
+  """republish.extend_one_week""":
+      """Expiry date will be extended by 30 days from today""",
+  """republish.confirm""": """Republish""",
+  """republish.success_message""": """Listing republished successfully""",
 };

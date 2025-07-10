@@ -21,6 +21,9 @@ class FCMService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final AppRouter _router = AppRouter();
+  
+  // Prevent concurrent token updates
+  bool _isUpdatingToken = false;
 
   Future<void> initialize() async {
     try {
@@ -58,9 +61,6 @@ class FCMService {
         sound: true,
       );
 
-      // Force token refresh and save immediately
-      await _forceTokenRefresh();
-
       // Set up token refresh listener
       _setupTokenRefreshListener();
 
@@ -71,131 +71,116 @@ class FCMService {
       // Check if app was opened from a notification when it was terminated
       await _checkInitialMessage();
 
-      // Listen for user sign-in/sign-out to update token
-      _auth.authStateChanges().listen((User? user) async {
-        if (user != null) {
-          await _forceTokenRefresh();
-        }
-      });
-
       developer.log('FCM initialization completed successfully', name: 'FCM');
     } catch (e, stack) {
       developer.log('FCM initialization error: $e', name: 'FCM', error: e, stackTrace: stack);
     }
   }
 
-  Future<void> _forceTokenRefresh() async {
-    try {
-      // Delete the current token to force a refresh
-      await _firebaseMessaging.deleteToken();
+  /// Updates FCM token on login or app reopen
+  /// Checks if current token exists and updates accordingly:
+  /// - If same token exists: keep it
+  /// - If different token exists: update to new one
+  /// - If no token exists: add new one
+  Future<void> updateFCMTokenOnLoginOrAppReopen() async {
+    // Prevent concurrent executions
+    if (_isUpdatingToken) {
+      developer.log('FCM token update already in progress, skipping', name: 'FCM');
+      return;
+    }
 
-      // Get the new token
-      final newToken = await _firebaseMessaging.getToken();
-      if (newToken == null) {
-        developer.log('Failed to get new FCM token after refresh', name: 'FCM');
+    _isUpdatingToken = true;
+    
+    try {
+      developer.log('Starting FCM token update on login/app reopen', name: 'FCM');
+
+      final user = _auth.currentUser;
+      if (user == null) {
+        developer.log('No user signed in, skipping FCM token update', name: 'FCM');
         return;
       }
 
-      developer.log('New FCM token to be saved: $newToken', name: 'FCM');
+      // Get current FCM token
+      final currentToken = await _firebaseMessaging.getToken();
+      if (currentToken == null) {
+        developer.log('Failed to get current FCM token', name: 'FCM');
+        return;
+      }
 
-      // Save to SharedPreferences
+      developer.log('Current FCM token: ${currentToken.substring(0, 10)}...', name: 'FCM');
+
+      // Get stored token from SharedPreferences
       final prefs = await SharedPreferences.getInstance();
-      final oldToken = prefs.getString('fcm_token');
-      await prefs.setString('fcm_token', newToken);
+      final storedToken = prefs.getString('fcm_token');
 
-      // Update token in Firestore for signed-in user
-      final user = _auth.currentUser;
-      if (user != null) {
-        try {
-          final userRef = _firestore.collection(userProfileCollectionId).doc(user.uid);
+      // Get tokens from Firestore
+      final userRef = _firestore.collection(userProfileCollectionId).doc(user.uid);
+      final doc = await userRef.get();
+      List<String> firestoreTokens = [];
 
-          // Get current tokens
-          final doc = await userRef.get();
-          List<String> currentTokens = [];
-
-          if (doc.exists) {
-            final data = doc.data();
-            if (data != null && data['fcmTokens'] != null) {
-              currentTokens = List<String>.from(data['fcmTokens']);
-            }
-          }
-
-          // Remove old token if it exists
-          if (oldToken != null) {
-            currentTokens.remove(oldToken);
-          }
-
-          // Add new token if not already present
-          if (!currentTokens.contains(newToken)) {
-            currentTokens.add(newToken);
-          }
-
-          developer.log('Current FCM tokens in Firestore: $currentTokens', name: 'FCM');
-
-          // Update with merge option
-          await userRef.set({
-            'fcmTokens': currentTokens,
-          }, SetOptions(merge: true));
-
-          developer.log('FCM Token refreshed and saved to user profile: ${newToken.substring(0, 10)}...', name: 'FCM');
-        } catch (error) {
-          developer.log('Error updating FCM token in user profile: $error', name: 'FCM');
+      if (doc.exists) {
+        final data = doc.data();
+        if (data != null && data['fcmTokens'] != null) {
+          firestoreTokens = List<String>.from(data['fcmTokens']);
         }
       }
+
+      developer.log('Stored token in SharedPrefs: ${storedToken?.substring(0, 10) ?? 'null'}', name: 'FCM');
+      developer.log('Firestore tokens count: ${firestoreTokens.length}', name: 'FCM');
+
+      bool needsUpdate = false;
+
+      // Check if current token is already in Firestore
+      if (firestoreTokens.contains(currentToken)) {
+        developer.log('Current token already exists in Firestore, no update needed', name: 'FCM');
+      } else {
+        developer.log('Current token not found in Firestore, needs update', name: 'FCM');
+        needsUpdate = true;
+
+        // Remove old stored token if it exists and is different
+        if (storedToken != null && storedToken != currentToken) {
+          firestoreTokens.remove(storedToken);
+          developer.log('Removed old token from list', name: 'FCM');
+        }
+
+        // Add current token if not already present
+        if (!firestoreTokens.contains(currentToken)) {
+          firestoreTokens.add(currentToken);
+          developer.log('Added new token to list', name: 'FCM');
+        }
+      }
+
+      // Update SharedPreferences with current token
+      await prefs.setString('fcm_token', currentToken);
+
+      // Update Firestore if needed
+      if (needsUpdate) {
+        await userRef.set({
+          'fcmTokens': firestoreTokens,
+        }, SetOptions(merge: true));
+
+        developer.log('Updated FCM tokens in Firestore: ${firestoreTokens.length} tokens', name: 'FCM');
+      }
+
+      developer.log('FCM token update completed successfully', name: 'FCM');
     } catch (e) {
-      developer.log('Error forcing token refresh: $e', name: 'FCM');
+      developer.log('Error updating FCM token on login/app reopen: $e', name: 'FCM');
+    } finally {
+      _isUpdatingToken = false;
     }
   }
 
+
+
   void _setupTokenRefreshListener() {
     FirebaseMessaging.instance.onTokenRefresh.listen((newToken) async {
-      developer.log('FCM token refreshed: ${newToken.substring(0, 10)}...', name: 'FCM');
-      developer.log('Full new FCM token: $newToken', name: 'FCM');
-
-      // Save to SharedPreferences
-      final prefs = await SharedPreferences.getInstance();
-      final oldToken = prefs.getString('fcm_token');
-      await prefs.setString('fcm_token', newToken);
-
-      // Update token in Firestore for signed-in user
-      final user = _auth.currentUser;
-      if (user != null) {
-        try {
-          final userRef = _firestore.collection(userProfileCollectionId).doc(user.uid);
-
-          // Get current tokens
-          final doc = await userRef.get();
-          List<String> currentTokens = [];
-
-          if (doc.exists) {
-            final data = doc.data();
-            if (data != null && data['fcmTokens'] != null) {
-              currentTokens = List<String>.from(data['fcmTokens']);
-            }
-          }
-
-          // Remove old token if it exists
-          if (oldToken != null) {
-            currentTokens.remove(oldToken);
-          }
-
-          // Add new token if not already present
-          if (!currentTokens.contains(newToken)) {
-            currentTokens.add(newToken);
-          }
-
-          developer.log('Current FCM tokens in Firestore: $currentTokens', name: 'FCM');
-
-          // Update with merge option
-          await userRef.set({
-            'fcmTokens': currentTokens,
-          }, SetOptions(merge: true));
-
-          developer.log('FCM token updated in user profile', name: 'FCM');
-        } catch (error) {
-          developer.log('Error updating FCM token in user profile: $error', name: 'FCM');
-        }
-      }
+      developer.log('FCM token automatically refreshed by system: ${newToken.substring(0, 10)}...', name: 'FCM');
+      
+      // Add small delay to avoid conflicts with other token updates
+      await Future.delayed(const Duration(milliseconds: 500));
+      
+      // Use our unified token update method to avoid conflicts
+      await updateFCMTokenOnLoginOrAppReopen();
     }, onError: (error) {
       developer.log('FCM token refresh error: $error', name: 'FCM');
     });
